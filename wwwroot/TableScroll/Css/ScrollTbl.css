@@ -1,0 +1,26 @@
+#tblItemDetails {
+    border-collapse: collapse;
+    width: 100%;
+    overflow-x: scroll;
+    display: block;
+}
+
+.ScrollThead,
+.ScrollTbody {
+    display: block;
+}
+
+.ScrollTbody {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 300px;
+}
+
+    .ScrollTbody td, .ScrollThead
+    th {
+        min-width: 200px;
+        max-width: 200px;
+        height: 50px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
