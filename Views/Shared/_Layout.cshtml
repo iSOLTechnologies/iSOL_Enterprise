@@ -1,0 +1,2910 @@
+﻿ 
+    @using Microsoft.AspNetCore.Http;
+
+    @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+
+
+    @{
+        string username = "";
+        string UserId = "";
+        string Gender = "";
+        string UserPic = "";
+        string isnav = "";
+        string Contact = "";
+        string CompanyName = "";
+        string Name = "";
+        string Email = "";
+        string CompanyContact = "";
+        string Website = "";
+        string ConmpanyLogo1 = "";
+        string SessionId = "";
+        try
+        {
+
+            username = HttpContextAccessor.HttpContext.Session.GetString("username");
+            UserId = HttpContextAccessor.HttpContext.Session.GetString("UserId");
+            // userName = HttpContextAccessor.HttpContext.Session.GetString("UserName");
+            Gender = HttpContextAccessor.HttpContext.Session.GetString("Gender");
+            UserPic = HttpContextAccessor.HttpContext.Session.GetString("UserPic");
+            isnav = HttpContextAccessor.HttpContext.Session.GetString("isnav");
+            Contact = HttpContextAccessor.HttpContext.Session.GetString("Contact");
+            CompanyName = HttpContextAccessor.HttpContext.Session.GetString("CompanyName");
+            Name = HttpContextAccessor.HttpContext.Session.GetString("Name");
+            Email = HttpContextAccessor.HttpContext.Session.GetString("Email");
+            CompanyContact = HttpContextAccessor.HttpContext.Session.GetString("CompanyContact");
+            Website = HttpContextAccessor.HttpContext.Session.GetString("Website");
+            SessionId = HttpContextAccessor.HttpContext.Session.GetString("SessionId");
+
+            ConmpanyLogo1 = HttpContextAccessor.HttpContext.Session.GetString("CompnayLogo");
+            //int newURL1 = ConmpanyLogo1.IndexOf("wwwroot") + 7;
+            //string x1 = ConmpanyLogo1.Remove(0, newURL1);
+            //string z1 = @"\";
+            //x1 = x1.Replace(z1, "/");
+            //string ConmpanyLogo = x1;
+        }
+        catch (Exception ex)
+        {
+            Html.ActionLink("Home", "Index");
+        }
+    }
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <title>iSOL-SAP System</title>
+        <meta name="description" content="Aside light skin example">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+        @*@Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")*@
+
+        <link href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+        <!--begin::Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700">
+        <link href="~/Assets/Content/JsTree/jstree.bundle.css" rel="stylesheet" />
+        <link href="~/Assets/Content/jstree.bundle.css" rel="stylesheet" />
+        @*  <link href="~/Content/jstree.bundle.css" rel="stylesheet" />*@
+
+        <link href="~/Assets/Content/uppy/uppy.bundle.css" rel="stylesheet" />
+        <link href="~/Assets/Content/jquery-ui.bundle.css" rel="stylesheet" />
+        <!--end::Fonts -->
+        <!--begin::Page Vendors Styles(used by this page) -->
+        @*<link href="../../../../themes/metronic/theme/default/demo1/dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />*@
+        <link href="~/Content/Theme_mtrnc/fullcalendar.bundle.css" rel="stylesheet" />
+        <!--end::Page Vendors Styles -->
+        <!--begin::Global Theme Styles(used by all pages) -->
+        @*<link href="../../../../themes/metronic/theme/default/demo1/dist/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />*@
+        <link href="~/Content/Theme_mtrnc/plugins.bundle.css" rel="stylesheet" type="text/css" />
+        @*<link href="../../../../themes/metronic/theme/default/demo1/dist/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />*@
+        <link href="~/Content/Theme_mtrnc/style.bundle.css" rel="stylesheet" type="text/css" />
+        <!--end::Global Theme Styles -->
+        <!--begin::Layout Skins(used by all pages) -->
+        @*<link href="../../../../themes/metronic/theme/default/demo1/dist/assets/css/skins/header/base/light.css" rel="stylesheet" type="text/css" />*@
+
+        <link href="~/Content/Theme_mtrnc/skins/header/base/light.css" rel="stylesheet" />
+
+
+        @*<link href="../../../../themes/metronic/theme/default/demo1/dist/assets/css/skins/header/menu/light.css" rel="stylesheet" type="text/css" />*@
+        <link href="~/Content/Theme_mtrnc/skins/header/menu/light.css" rel="stylesheet" />
+        @*<link href="../../../../themes/metronic/theme/default/demo1/dist/assets/css/skins/brand/light.css" rel="stylesheet" type="text/css" />*@
+        <link href="~/Content/Theme_mtrnc/skins/brand/light.css" rel="stylesheet" />
+        @*<link href="../../../../themes/metronic/theme/default/demo1/dist/assets/css/skins/aside/light.css" rel="stylesheet" type="text/css" />*@
+        <link href="~/Content/Theme_mtrnc/skins/aside/light.css" rel="stylesheet" />
+
+
+        <!-- default styles -->
+        <!--end::Layout Skins -->
+        @*<link href="../../../../../themes/metronic/theme/default/demo1/dist/assets/css/pages/wizard/wizard-1.css" rel="stylesheet" type="text/css" />*@
+        <link href="~/Content/Theme_mtrnc/pages/wizard-1.css" rel="stylesheet" />
+        <link href="~/Content/Theme_mtrnc/pages/wizard-4.css" rel="stylesheet" />
+        <link rel="shortcut icon" href="~/Image/Theme_mtrnc/FavIcon.png" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <script src="~/Scripts/Theme_mtrnc/PageScripts/SCMApp.js"></script>
+        @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>*@
+        <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+
+        @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />*@
+
+        <!-- default styles -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/css/star-rating.min.css" media="all" rel="stylesheet" />
+
+        <!-- optionally if you need to use a theme, then include the theme CSS file as mentioned below -->
+        @*<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-star-rating/4.0.6/themes/krajee-svg/theme.css" media="all" rel="stylesheet" type="text/css" />*@
+        @*<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">*@
+        @*    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />*@
+        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>*@
+
+        @*<link rel="stylesheet" href="hierarchical-checkboxes.css" />*@
+
+        <link href="~/Content/speedometer.css" rel="stylesheet" />
+
+    <style>
+
+
+        StopActionRow {
+            background-color: #fd397a !important;
+            color: #fff !important;
+        }
+
+        ._advance_search {
+            background-color: #fff !important;
+        }
+    </style>
+    <style>
+        .bl {
+            display: block !important;
+        }
+
+        .itmSpan {
+            color: #5d78ff;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            color: white !important;
+            border: 1px solid #fff;
+            background-color: #ffffff;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #111));
+            background: -webkit-linear-gradient(top, #ffffff 0%, #fff 100%);
+            background: -moz-linear-gradient(top, #585858 0%, #111 100%);
+            background: -ms-linear-gradient(top, #585858 0%, #111 100%);
+            background: -o-linear-gradient(top, #585858 0%, #111 100%);
+            background: linear-gradient(to bottom, #ffffff 0%, #fff 100%);
+        }
+
+        .modal-open .modal {
+            opacity: 1;
+        }
+
+        table.dataTable thead th, table.dataTable thead td {
+            border-bottom: 1px solid #e7eaf9 !important
+        }
+
+        table.dataTable.no-footer {
+            border-bottom: 1px solid #e7eaf9 !important
+        }
+        /*user profile*/
+        .kt-notification__item-time.right {
+            margin: 0px 0px 0px 0px;
+            font-size: 1rem;
+            font-weight: 300;
+            color: #74788d;
+        }
+
+        .kt-notification_item-details.right {
+            margin: 0px 0px -16px 0px;
+        }
+
+        .kt-notification__item-time.left {
+            margin: 4px 0px 4px 0px;
+        }
+
+        .kt-notification__item-time.right {
+            margin: 8px 11px 5px 0px;
+        }
+
+        .kt-notification_item-details.right.to {
+            margin: 0px 9px -18px 0px;
+        }
+
+        /*user profile*/
+
+        /*for Label Alignment*/
+
+        h3#clr {
+            color: black;
+        }
+
+        a#clr {
+            color: black;
+        }
+
+        a.kt-notification__item.to {
+            padding: 0.70rem 0.50rem;
+        }
+
+        .my-custom-scrollbar {
+            position: relative;
+            height: 438px;
+            overflow: auto;
+        }
+
+        .table-wrapper-scroll-y {
+            display: block;
+        }
+
+        h3#clrs {
+            color: black;
+            font-size: large;
+            font-weight: bold;
+            /* color: #0abb87; */
+            border-bottom: 6px solid #0abb87;
+        }
+
+        h6#Show-All {
+            color: black;
+            /*font-size: large;
+            font-weight: bold;*/
+            /* color: #0abb87; */
+            /*border-bottom: 6px solid #0abb87;*/
+            text-align: center;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        span.badge.to {
+            position: absolute;
+            top: 21px;
+            right: -1px;
+            padding: 2px 5px;
+            border-radius: 50%;
+            background-color: red;
+            color: white;
+        }
+
+        a.btn.btn-label.btn-label-brand.btn-sm.btn-bold {
+            margin-left: auto;
+            /* background-color: #fc6c0f4a; */
+            background-color: rgba(253, 160, 62, 0.25);
+            color: #fc6c0f;
+        }
+
+
+        .ratingStar {
+            unicode-bidi: bidi-override;
+            direction: rtl;
+            font-size: 30px;
+        }
+
+        .Stars {
+            font-family: FontAwesome;
+            font-weight: normal;
+            font-style: normal;
+            display: inline-block;
+        }
+
+        .rating-container .filled-stars {
+            color: #5867dd !important;
+        }
+    </style>
+    <script>
+
+        //$(document).ready(function () {
+        //    $('#example').DataTable();
+        //});
+
+
+        $('#next').click(function () {
+            var $next = $('.progress ul li.current').removeClass('current').addClass('complete').next('li');
+            if ($next.length) {
+                $next.removeClass('complete').addClass('current');
+                //console.log('Prev');
+            } else {
+                $(".progress ul li:first").removeClass('complete').addClass('current');
+                if (".progress ul li:last") {
+                    $('.progress ul li').removeClass('current').removeClass('complete').removeAttr('class');
+                    $(".progress ul li:first").addClass('current');
+                }
+                //console.log('Next');
+            }
+        });
+        $('#prev').click(function () {
+            var $prev = $('.progress ul li.current').removeClass('current').removeClass('complete').removeAttr('class').prev('li');
+            if ($prev.length) {
+                $prev.removeClass('complete').addClass('current');
+                //console.log('Prev');
+            } else {
+                $(".progress ul li:first").removeClass('complete').addClass('current');
+                $(".progress ul li:last").removeClass('current').removeClass('complete').removeAttr('class');
+                //console.log('Prev');
+            }
+        });
+    </script>
+
+</head>
+
+
+<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--fixed kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading ">
+
+
+    <input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetInt32("UserId")" id="_UserId" />
+
+    <!-- begin:: Page -->
+    <!-- begin:: Header Mobile -->
+
+    <div id="kt_header_mobile" class="kt-header-mobile  kt-header-mobile--fixed ">
+        <div class="kt-header-mobile__logo">
+            <a href="../../index.html">
+                <img src="~/Assets/img/smallLogo.png" />
+
+            </a>
+        </div>
+        <div class="kt-header-mobile__toolbar">
+            <button class="kt-header-mobile__toggler kt-header-mobile__toggler--left" id="kt_aside_mobile_toggler"><span></span></button>
+
+            @*<button class="kt-header-mobile__toggler" id="kt_header_mobile_toggler"><span></span></button>*@
+
+            @*<button class="kt-header-mobile__topbar-toggler" id="kt_header_mobile_topbar_toggler"><i class="flaticon-more"></i></button>*@
+        </div>
+    </div>
+
+    <!-- end:: Header Mobile -->
+
+    <div class="kt-grid kt-grid--hor kt-grid--root">
+        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+            <!-- begin:: Aside -->
+            <!-- Uncomment this to display the close button of the panel
+            <button class="kt-aside-close " id="kt_aside_close_btn"><i class="la la-close"></i></button>
+            -->
+
+            <div class="kt-aside  kt-aside--fixed  kt-grid__item kt-grid kt-grid--desktop kt-grid--hor-desktop" id="kt_aside">
+                <!-- begin:: Aside -->
+                <div class="kt-aside__brand kt-grid__item " id="kt_aside_brand">
+                    <div class="kt-aside__brand-logo">
+                        <a asp-action="Index" asp-controller="Dashboard">
+                            <img class="img-fluid p-3" src="~/Assets/images/logo1.png" />
+
+                        </a>
+                    </div>
+
+                    <div class="kt-aside__brand-tools">
+                        <button class="kt-aside__brand-aside-toggler" id="kt_aside_toggler">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                        <path d="M5.29288961,6.70710318 C4.90236532,6.31657888 4.90236532,5.68341391 5.29288961,5.29288961 C5.68341391,4.90236532 6.31657888,4.90236532 6.70710318,5.29288961 L12.7071032,11.2928896 C13.0856821,11.6714686 13.0989277,12.281055 12.7371505,12.675721 L7.23715054,18.675721 C6.86395813,19.08284 6.23139076,19.1103429 5.82427177,18.7371505 C5.41715278,18.3639581 5.38964985,17.7313908 5.76284226,17.3242718 L10.6158586,12.0300721 L5.29288961,6.70710318 Z" fill="#000000" fill-rule="nonzero" transform="translate(8.999997, 11.999999) scale(-1, 1) translate(-8.999997, -11.999999) "></path>
+                                        <path d="M10.7071009,15.7071068 C10.3165766,16.0976311 9.68341162,16.0976311 9.29288733,15.7071068 C8.90236304,15.3165825 8.90236304,14.6834175 9.29288733,14.2928932 L15.2928873,8.29289322 C15.6714663,7.91431428 16.2810527,7.90106866 16.6757187,8.26284586 L22.6757187,13.7628459 C23.0828377,14.1360383 23.1103407,14.7686056 22.7371482,15.1757246 C22.3639558,15.5828436 21.7313885,15.6103465 21.3242695,15.2371541 L16.0300699,10.3841378 L10.7071009,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(15.999997, 11.999999) scale(-1, 1) rotate(-270.000000) translate(-15.999997, -11.999999) "></path>
+                                    </g>
+                                </svg>
+                            </span>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                        <path d="M12.2928955,6.70710318 C11.9023712,6.31657888 11.9023712,5.68341391 12.2928955,5.29288961 C12.6834198,4.90236532 13.3165848,4.90236532 13.7071091,5.29288961 L19.7071091,11.2928896 C20.085688,11.6714686 20.0989336,12.281055 19.7371564,12.675721 L14.2371564,18.675721 C13.863964,19.08284 13.2313966,19.1103429 12.8242777,18.7371505 C12.4171587,18.3639581 12.3896557,17.7313908 12.7628481,17.3242718 L17.6158645,12.0300721 L12.2928955,6.70710318 Z" fill="#000000" fill-rule="nonzero"></path>
+                                        <path d="M3.70710678,15.7071068 C3.31658249,16.0976311 2.68341751,16.0976311 2.29289322,15.7071068 C1.90236893,15.3165825 1.90236893,14.6834175 2.29289322,14.2928932 L8.29289322,8.29289322 C8.67147216,7.91431428 9.28105859,7.90106866 9.67572463,8.26284586 L15.6757246,13.7628459 C16.0828436,14.1360383 16.1103465,14.7686056 15.7371541,15.1757246 C15.3639617,15.5828436 14.7313944,15.6103465 14.3242754,15.2371541 L9.03007575,10.3841378 L3.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(9.000003, 11.999999) rotate(-270.000000) translate(-9.000003, -11.999999) "></path>
+                                    </g>
+                                </svg>
+                            </span>
+                        </button>
+                        <!--
+                        <button class="kt-aside__brand-aside-toggler kt-aside__brand-aside-toggler--left" id="kt_aside_toggler"><span></span></button>
+                        -->
+                    </div>
+                </div>
+
+                <div class="kt-quick-search kt-quick-search--result-compact searchBarShaheer" id="kt_quick_search_dropdown" style="padding:5px">
+                    <form method="get" class="kt-quick-search__form">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i style="color:#5d78ff" class="flaticon2-search-1"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control kt-quick-search__input" placeholder="Search..." id="tbSearchNav">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i id="closeButtonSearch_Shaheer" class="la la-close kt-quick-search__close" style="display: none;"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- end:: Aside -->
+                <!-- begin:: Aside Menu -->
+                @*<div class="kt-aside-menu-wrapper kt-grid__item kt-grid__item--fluid" id="kt_aside_menu_wrapper">
+
+                    <div id="kt_aside_menu" class="mt-5 kt-aside-menu " data-ktmenu-vertical="1" data-ktmenu-scroll="1" data-ktmenu-dropdown-timeout="500">
+
+                        <ul id="SideNav" class="pt-0 kt-menu__nav ">
+                            <li>
+                              Sale Quotation                                
+                            </li> 
+                            <div class="kt-quick-search kt-quick-search--result-compact searchBarShaheer" id="kt_quick_search_dropdown" style="padding:5px">
+                                    <form method="get" class="kt-quick-search__form">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend"><span class="input-group-text"><i class="flaticon2-search-1"></i></span></div>
+                                            <input type="text" class="form-control kt-quick-search__input" placeholder="Search..." id="tbSearchNav">
+                                            <div class="input-group-append"><span class="input-group-text"><i id="closeButtonSearch_Shaheer" class="la la-close kt-quick-search__close" style="display: none;"></i></span></div>
+                                        </div>
+                                    </form>
+                                </div> 
+
+                        </ul>
+                    </div>
+                </div>*@
+                
+                 <div class="kt-quick-search kt-quick-search--result-compact searchBarShaheer " id="kt_quick_search_dropdown" style="padding:5px">
+                   
+      <hr style="border-top: 1px solid #8c8b8b49;">
+                         
+                          <a class="nav-link collapsed" asp-action="Index" asp-controller="Dashboard">
+                            <i style="font-size:17px;" class="bi-grid"></i>
+                            <span class="p-1" style="font-size:15px;">Dashboard</span>
+                         </a>
+                          <a class="nav-link collapsed" asp-action="Index" asp-controller="SaleQuotation">
+                            <i style="font-size:17px;" class="bi bi-menu-button-wide"></i>
+                            <span class="p-1" style="font-size:15px;">Sale Quotation</span>
+                         </a> 
+                          <a class="nav-link collapsed" asp-action="Index" asp-controller="SaleOrder">
+                            <i style="font-size:17px;" class="bi bi-menu-button-wide"></i>
+                            <span class="p-1" style="font-size:15px;">Sale Order</span>
+                         </a> 
+                          <a class="nav-link collapsed" asp-action="Index" asp-controller="Delivery">
+                            <i style="font-size:17px;" class="bi bi-menu-button-wide"></i>
+                            <span class="p-1" style="font-size:15px;">Delivery</span>
+                         </a> 
+                       
+                </div> 
+
+
+
+             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <!-- end:: Aside Menu -->
+            </div>
+
+            <!-- end:: Aside -->
+
+            <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+                <!-- begin:: Header -->
+                <div id="kt_header" class="kt-header kt-grid__item  kt-header--fixed ">
+
+                    <!-- begin:: Header Menu -->
+                    <!-- Uncomment this to display the close button of the panel
+                    <button class="kt-header-menu-wrapper-close" id="kt_header_menu_mobile_close_btn"><i class="la la-close"></i></button>
+                    -->
+                    <div class="kt-header-menu-wrapper" id="kt_header_menu_wrapper">
+                        <h3 style="margin-top: 20px; margin-left:22px">iSOL-SAP System</h3>
+                    </div>
+                    <!-- end:: Header Menu -->
+                    <!-- begin:: Header Topbar -->
+                    <div class="kt-header__topbar">
+                        <!--begin: Quick Actions -->
+
+                        <div data-ktmenu-vertical="1" data-ktmenu-scroll="1" class="kt-header__topbar-item dropdown" id="">
+
+                            <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="30px,0px" aria-expanded="true">
+                                <span hidden id="FeedbackBadge" style="margin:8px -45px 0px 0px" class="kt-badge kt-badge--brand"></span>
+                                <a id="btnFeedback" class="kt-header__topbar-icon kt-pulse kt-pulse--brand">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"></rect>
+                                            <path d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z" fill="#000000" opacity="0.3"></path>
+                                            <path d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z" fill="#000000"></path>
+                                        </g>
+                                    </svg>
+
+                                    <span class="kt-pulse__ring"></span>
+                                </a>
+
+                            </div>
+                            <div style="width:1000px;" class="kt-scroll dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-xl">
+                                <form>
+                                    <!--begin: Head -->
+                                    <div class="kt-head kt-head--skin-dark" style="background-image: url(/Assets/img/bg-1.jpg)">
+                                        @*<img scr="~/Assets/img/bg-1.jpg" />*@
+                                        <h3 class="kt-head__title">
+                                            Feedbacks
+                                            <span class="kt-space-15"></span>
+                                            <span id="TotalFeedbacks" class="btn btn-success btn-sm btn-bold btn-font-md"></span>
+                                        </h3>
+                                    </div>
+                                    <!--end: Head -->
+                                    <!--begin: Grid Nav -->
+                                    <div data-ktmenu-vertical="1" data-ktmenu-scroll="1" data-ktmenu-dropdown-timeout="500" style="height:500px; overflow:auto; margin:10px 0px 0px 15px" class="kt-scroll kt-grid-nav__row">
+                                        <div class="kt-grid-nav kt-grid-nav--skin-light">
+                                            <div class="col-xl-12">
+                                                <div id="kt_repeater_3">
+
+                                                    <div class="form-group form-group-last row" id="kt_repeater_3 ">
+
+
+                                                        <label class="col-sm-2">Ticket Code</label>
+                                                        <label class="col-sm-2">Task</label>
+                                                        <label class="col-sm-4">Feedback</label>
+                                                        <label class="col-sm-2">Rating</label>
+
+
+
+                                                        <div id="feedbacklist" data-repeater-list="" class="col-xl-12">
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                                            <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;">
+                                            </div>
+                                        </div>
+                                        <div class="ps__rail-y" style="top: 0px; right: 3px;">
+                                            <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!--end: Grid Nav -->
+                                </form>
+                            </div>
+                        </div>
+
+
+
+
+                        <!--end: Quick Actions -->
+                        @*<div class="kt-header__topbar-item">
+                                <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="30px,0px" aria-expanded="true">
+                                    <a id="btnFeedback" class="kt-header__topbar-icon kt-pulse kt-pulse--brand">
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24"></rect>
+                                                <path d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z" fill="#000000" opacity="0.3"></path>
+                                                <path d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z" fill="#000000"></path>
+                                            </g>
+                                        </svg>
+                                        <span class="kt-pulse__ring"></span>
+                                    </a>
+                                </div>
+
+                            </div>*@
+                        @*<!--begin: Notifications -->
+
+                            <div class="kt-header__topbar-item dropdown">
+                                <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="30px,0px" aria-expanded="false">
+                                    <span class="kt-header__topbar-icon kt-pulse kt-pulse--brand">
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <path d="M17,12 L18.5,12 C19.3284271,12 20,12.6715729 20,13.5 C20,14.3284271 19.3284271,15 18.5,15 L5.5,15 C4.67157288,15 4,14.3284271 4,13.5 C4,12.6715729 4.67157288,12 5.5,12 L7,12 L7.5582739,6.97553494 C7.80974924,4.71225688 9.72279394,3 12,3 C14.2772061,3 16.1902508,4.71225688 16.4417261,6.97553494 L17,12 Z" fill="#000000" />
+                                                <rect fill="#000000" opacity="0.3" x="10" y="16" width="4" height="4" rx="2" />
+                                            </g>
+                                        </svg>
+                                        <span class="kt-pulse__ring"></span>
+                                    </span>
+                                    <!--
+                                        Use dot badge instead of animated pulse effect:
+                                        <span class="kt-badge kt-badge--dot kt-badge--notify kt-badge--sm kt-badge--brand"></span>
+                                    -->
+                                </div>
+                                <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-lg" x-placement="top-end" style="position: absolute; transform: translate3d(-246px, 5px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                    <form>
+                                        <!--begin: Head -->
+                                        <div class="kt-head kt-head--skin-dark kt-head--fit-x kt-head--fit-b" style="background-image: url(/Assets/img/bg-1.jpg)">
+                                            <h3 class="kt-head__title">
+                                                User Notifications
+                                                &nbsp;
+                                                <span class="btn btn-success btn-sm btn-bold btn-font-md">23 new</span>
+                                            </h3>
+
+                                            <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-success kt-notification-item-padding-x" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active show" data-toggle="tab" href="#topbar_notifications_notifications" role="tab" aria-selected="true">Alerts</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" data-toggle="tab" href="#topbar_notifications_events" role="tab" aria-selected="false">Events</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" data-toggle="tab" href="#topbar_notifications_logs" role="tab" aria-selected="false">Logs</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!--end: Head -->
+
+                                        <div class="tab-content">
+                                            <div class="tab-pane active show" id="topbar_notifications_notifications" role="tabpanel">
+                                                <div class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll ps ps--active-y" data-scroll="true" data-height="300" data-mobile-height="200" style="height: 300px; overflow: hidden;">
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-line-chart kt-font-success"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New order has been received
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                2 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-box-1 kt-font-brand"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New customer is registered
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                3 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-chart2 kt-font-danger"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                Application has been approved
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                3 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-image-file kt-font-warning"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New file has been uploaded
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                5 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-drop kt-font-info"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New user feedback received
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                8 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-pie-chart-2 kt-font-success"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                System reboot has been successfully completed
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                12 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-favourite kt-font-danger"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New order has been placed
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                15 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item kt-notification__item--read">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-safe kt-font-primary"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                Company meeting canceled
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                19 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-psd kt-font-success"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New report has been received
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                23 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon-download-1 kt-font-danger"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                Finance report has been generated
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                25 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon-security kt-font-warning"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New customer comment recieved
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                2 days ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-pie-chart kt-font-success"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New customer is registered
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                3 days ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                                                        <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                                                    </div>
+                                                    <div class="ps__rail-y" style="top: 0px; right: 0px; height: 300px;">
+                                                        <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 108px;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="topbar_notifications_events" role="tabpanel">
+                                                <div class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll ps" data-scroll="true" data-height="300" data-mobile-height="200" style="height: 300px; overflow: hidden;">
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-psd kt-font-success"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New report has been received
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                23 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon-download-1 kt-font-danger"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                Finance report has been generated
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                25 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-line-chart kt-font-success"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New order has been received
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                2 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-box-1 kt-font-brand"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New customer is registered
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                3 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-chart2 kt-font-danger"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                Application has been approved
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                3 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-image-file kt-font-warning"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New file has been uploaded
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                5 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-drop kt-font-info"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New user feedback received
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                8 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-pie-chart-2 kt-font-success"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                System reboot has been successfully completed
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                12 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-favourite kt-font-brand"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New order has been placed
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                15 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item kt-notification__item--read">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-safe kt-font-primary"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                Company meeting canceled
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                19 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-psd kt-font-success"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New report has been received
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                23 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon-download-1 kt-font-danger"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                Finance report has been generated
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                25 hrs ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon-security kt-font-warning"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New customer comment recieved
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                2 days ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="kt-notification__item">
+                                                        <div class="kt-notification__item-icon">
+                                                            <i class="flaticon2-pie-chart kt-font-success"></i>
+                                                        </div>
+                                                        <div class="kt-notification__item-details">
+                                                            <div class="kt-notification__item-title">
+                                                                New customer is registered
+                                                            </div>
+                                                            <div class="kt-notification__item-time">
+                                                                3 days ago
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="topbar_notifications_logs" role="tabpanel">
+                                                <div class="kt-grid kt-grid--ver" style="min-height: 200px;">
+                                                    <div class="kt-grid kt-grid--hor kt-grid__item kt-grid__item--fluid kt-grid__item--middle">
+                                                        <div class="kt-grid__item kt-grid__item--middle kt-align-center">
+                                                            All caught up!
+                                                            <br>No new notifications.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!--end: Notifications -->*@
+
+                        @*<!--begin: Quick Actions -->
+
+                            <div class="kt-header__topbar-item dropdown">
+                                <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="30px,0px" aria-expanded="true">
+                                    <span class="kt-header__topbar-icon">
+                                        <i class="fa fa-file"></i>
+                                    </span>
+                                </div>
+                                <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-xl">
+                                    <form>
+                                        <!--begin: Head -->
+                                        <div class="kt-head kt-head--skin-dark" style="background-image: url(/Assets/img/bg-1.jpg)">
+                                            <img scr="~/assets/img/bg-1.jpg" />
+                                            <h3 class="kt-head__title">
+                                                User Quick Actions
+                                                <span class="kt-space-15"></span>
+                                                <span class="btn btn-success btn-sm btn-bold btn-font-md">23 tasks pending</span>
+                                            </h3>
+                                        </div>
+                                        <!--end: Head -->
+                                        <!--begin: Grid Nav -->
+                                        <div class="kt-grid-nav kt-grid-nav--skin-light">
+                                            <div class="kt-grid-nav__row">
+                                                <a href="#" class="kt-grid-nav__item">
+                                                    <span class="kt-grid-nav__icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--success kt-svg-icon--lg">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <rect x="0" y="0" width="24" height="24" />
+                                                                <path d="M4.3618034,10.2763932 L4.8618034,9.2763932 C4.94649941,9.10700119 5.11963097,9 5.30901699,9 L15.190983,9 C15.4671254,9 15.690983,9.22385763 15.690983,9.5 C15.690983,9.57762255 15.6729105,9.65417908 15.6381966,9.7236068 L15.1381966,10.7236068 C15.0535006,10.8929988 14.880369,11 14.690983,11 L4.80901699,11 C4.53287462,11 4.30901699,10.7761424 4.30901699,10.5 C4.30901699,10.4223775 4.32708954,10.3458209 4.3618034,10.2763932 Z M14.6381966,13.7236068 L14.1381966,14.7236068 C14.0535006,14.8929988 13.880369,15 13.690983,15 L4.80901699,15 C4.53287462,15 4.30901699,14.7761424 4.30901699,14.5 C4.30901699,14.4223775 4.32708954,14.3458209 4.3618034,14.2763932 L4.8618034,13.2763932 C4.94649941,13.1070012 5.11963097,13 5.30901699,13 L14.190983,13 C14.4671254,13 14.690983,13.2238576 14.690983,13.5 C14.690983,13.5776225 14.6729105,13.6541791 14.6381966,13.7236068 Z" fill="#000000" opacity="0.3" />
+                                                                <path d="M17.369,7.618 C16.976998,7.08599734 16.4660031,6.69750122 15.836,6.4525 C15.2059968,6.20749878 14.590003,6.085 13.988,6.085 C13.2179962,6.085 12.5180032,6.2249986 11.888,6.505 C11.2579969,6.7850014 10.7155023,7.16999755 10.2605,7.66 C9.80549773,8.15000245 9.45550123,8.72399671 9.2105,9.382 C8.96549878,10.0400033 8.843,10.7539961 8.843,11.524 C8.843,12.3360041 8.96199881,13.0779966 9.2,13.75 C9.43800119,14.4220034 9.7774978,14.9994976 10.2185,15.4825 C10.6595022,15.9655024 11.1879969,16.3399987 11.804,16.606 C12.4200031,16.8720013 13.1129962,17.005 13.883,17.005 C14.681004,17.005 15.3879969,16.8475016 16.004,16.5325 C16.6200031,16.2174984 17.1169981,15.8010026 17.495,15.283 L19.616,16.774 C18.9579967,17.6000041 18.1530048,18.2404977 17.201,18.6955 C16.2489952,19.1505023 15.1360064,19.378 13.862,19.378 C12.6999942,19.378 11.6325049,19.1855019 10.6595,18.8005 C9.68649514,18.4154981 8.8500035,17.8765035 8.15,17.1835 C7.4499965,16.4904965 6.90400196,15.6645048 6.512,14.7055 C6.11999804,13.7464952 5.924,12.6860058 5.924,11.524 C5.924,10.333994 6.13049794,9.25950479 6.5435,8.3005 C6.95650207,7.34149521 7.5234964,6.52600336 8.2445,5.854 C8.96550361,5.18199664 9.8159951,4.66400182 10.796,4.3 C11.7760049,3.93599818 12.8399943,3.754 13.988,3.754 C14.4640024,3.754 14.9609974,3.79949954 15.479,3.8905 C15.9970026,3.98150045 16.4939976,4.12149906 16.97,4.3105 C17.4460024,4.49950095 17.8939979,4.7339986 18.314,5.014 C18.7340021,5.2940014 19.0909985,5.62999804 19.385,6.022 L17.369,7.618 Z" fill="#000000" />
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <span class="kt-grid-nav__title">Accounting</span>
+                                                    <span class="kt-grid-nav__desc">eCommerce</span>
+                                                </a>
+                                                <a href="#" class="kt-grid-nav__item">
+                                                    <span class="kt-grid-nav__icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--success kt-svg-icon--lg">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <rect x="0" y="0" width="24" height="24" />
+                                                                <path d="M14.8571499,13 C14.9499122,12.7223297 15,12.4263059 15,12.1190476 L15,6.88095238 C15,5.28984632 13.6568542,4 12,4 L11.7272727,4 C10.2210416,4 9,5.17258756 9,6.61904762 L10.0909091,6.61904762 C10.0909091,5.75117158 10.823534,5.04761905 11.7272727,5.04761905 L12,5.04761905 C13.0543618,5.04761905 13.9090909,5.86843034 13.9090909,6.88095238 L13.9090909,12.1190476 C13.9090909,12.4383379 13.8240964,12.7385644 13.6746497,13 L10.3253503,13 C10.1759036,12.7385644 10.0909091,12.4383379 10.0909091,12.1190476 L10.0909091,9.5 C10.0909091,9.06606198 10.4572216,8.71428571 10.9090909,8.71428571 C11.3609602,8.71428571 11.7272727,9.06606198 11.7272727,9.5 L11.7272727,11.3333333 L12.8181818,11.3333333 L12.8181818,9.5 C12.8181818,8.48747796 11.9634527,7.66666667 10.9090909,7.66666667 C9.85472911,7.66666667 9,8.48747796 9,9.5 L9,12.1190476 C9,12.4263059 9.0500878,12.7223297 9.14285008,13 L6,13 C5.44771525,13 5,12.5522847 5,12 L5,3 C5,2.44771525 5.44771525,2 6,2 L18,2 C18.5522847,2 19,2.44771525 19,3 L19,12 C19,12.5522847 18.5522847,13 18,13 L14.8571499,13 Z" fill="#000000" opacity="0.3" />
+                                                                <path d="M9,10.3333333 L9,12.1190476 C9,13.7101537 10.3431458,15 12,15 C13.6568542,15 15,13.7101537 15,12.1190476 L15,10.3333333 L20.2072547,6.57253826 C20.4311176,6.4108595 20.7436609,6.46126971 20.9053396,6.68513259 C20.9668779,6.77033951 21,6.87277228 21,6.97787787 L21,17 C21,18.1045695 20.1045695,19 19,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,6.97787787 C3,6.70173549 3.22385763,6.47787787 3.5,6.47787787 C3.60510559,6.47787787 3.70753836,6.51099993 3.79274528,6.57253826 L9,10.3333333 Z M10.0909091,11.1212121 L12,12.5 L13.9090909,11.1212121 L13.9090909,12.1190476 C13.9090909,13.1315697 13.0543618,13.952381 12,13.952381 C10.9456382,13.952381 10.0909091,13.1315697 10.0909091,12.1190476 L10.0909091,11.1212121 Z" fill="#000000" />
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <span class="kt-grid-nav__title">Administration</span>
+                                                    <span class="kt-grid-nav__desc">Console</span>
+                                                </a>
+                                            </div>
+                                            <div class="kt-grid-nav__row">
+                                                <a href="#" class="kt-grid-nav__item">
+                                                    <span class="kt-grid-nav__icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--success kt-svg-icon--lg">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <rect x="0" y="0" width="24" height="24" />
+                                                                <path d="M4,9.67471899 L10.880262,13.6470401 C10.9543486,13.689814 11.0320333,13.7207107 11.1111111,13.740321 L11.1111111,21.4444444 L4.49070127,17.526473 C4.18655139,17.3464765 4,17.0193034 4,16.6658832 L4,9.67471899 Z M20,9.56911707 L20,16.6658832 C20,17.0193034 19.8134486,17.3464765 19.5092987,17.526473 L12.8888889,21.4444444 L12.8888889,13.6728275 C12.9050191,13.6647696 12.9210067,13.6561758 12.9368301,13.6470401 L20,9.56911707 Z" fill="#000000" />
+                                                                <path d="M4.21611835,7.74669402 C4.30015839,7.64056877 4.40623188,7.55087574 4.5299008,7.48500698 L11.5299008,3.75665466 C11.8237589,3.60013944 12.1762411,3.60013944 12.4700992,3.75665466 L19.4700992,7.48500698 C19.5654307,7.53578262 19.6503066,7.60071528 19.7226939,7.67641889 L12.0479413,12.1074394 C11.9974761,12.1365754 11.9509488,12.1699127 11.9085461,12.2067543 C11.8661433,12.1699127 11.819616,12.1365754 11.7691509,12.1074394 L4.21611835,7.74669402 Z" fill="#000000" opacity="0.3" />
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <span class="kt-grid-nav__title">Projects</span>
+                                                    <span class="kt-grid-nav__desc">Pending Tasks</span>
+                                                </a>
+                                                <a href="#" class="kt-grid-nav__item">
+                                                    <span class="kt-grid-nav__icon">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon kt-svg-icon--success kt-svg-icon--lg">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <polygon points="0 0 24 0 24 24 0 24" />
+                                                                <path d="M18,14 C16.3431458,14 15,12.6568542 15,11 C15,9.34314575 16.3431458,8 18,8 C19.6568542,8 21,9.34314575 21,11 C21,12.6568542 19.6568542,14 18,14 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                                                <path d="M17.6011961,15.0006174 C21.0077043,15.0378534 23.7891749,16.7601418 23.9984937,20.4 C24.0069246,20.5466056 23.9984937,21 23.4559499,21 L19.6,21 C19.6,18.7490654 18.8562935,16.6718327 17.6011961,15.0006174 Z M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                    <span class="kt-grid-nav__title">Customers</span>
+                                                    <span class="kt-grid-nav__desc">Latest cases</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <!--end: Grid Nav -->
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!--end: Quick Actions -->*@
+
+                        <!--begin: Quick panel toggler -->
+                        @*<div class="kt-header__topbar-item kt-header__topbar-item--quick-panel" data-toggle="kt-tooltip" title="" data-placement="right">
+                                <span class="kt-header__topbar-icon" id="kt_quick_panedfl_toggler_btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24" />
+                                            <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5" />
+                                            <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z" fill="#000000" opacity="0.3" />
+                                        </g>
+                                    </svg>
+                                </span>
+                            </div>*@
+                        <!--end: Quick panel toggler -->
+                        <!--begin: Language bar -->
+                        <div class="kt-header__topbar-item kt-header__topbar-item--langs">
+                            <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,0px">
+                                <span class="kt-header__topbar-icon">
+                                    <img src="~/Image/Theme_mtrnc/pk.ico" title="" />
+                                </span>
+                            </div>
+                            <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround">
+                                <ul class="kt-nav kt-margin-t-10 kt-margin-b-10">
+                                    <li class="kt-nav__item kt-nav__item--active">
+                                        <a href="#" class="kt-nav__link">
+                                            <span class="kt-nav__link-icon">@*<img src="https://keenthemes.com/metronic/themes/metronic/theme/default/demo1/dist/assets/media/flags/020-flag.svg" alt="" />*@</span>
+                                            <span class="kt-nav__link-text">English</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <!--end: Language bar -->
+                        <!--begin: User Bar -->
+                        <div class="kt-header__topbar-item kt-header__topbar-item--user">
+                            <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="0px,0px">
+                                <div class="kt-header__topbar-user">
+                                    <span class="kt-header__topbar-welcome kt-hidden-mobile">Hello,</span>
+                                    <span class="kt-header__topbar-username kt-hidden-mobile">@Name </span>
+                                    @*<img class="kt-hidden" alt="Pic" src="../../../../themes/metronic/theme/default/demo1/dist/assets/media/users/300_25.jpg" />*@
+                                    <img class="kt-hidden" src="~/Image/Theme_mtrnc/300_25.jpg" />
+                                    <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
+                                    <span class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold">
+                                        @{
+                                            if (!string.IsNullOrEmpty(UserPic))
+                                            {
+                                                    <img class="kt-show" alt="Pic" src="@UserPic" />
+                                            }
+                                            else
+                                            {
+                                                    <img class="kt-show" alt="Pic" src="\Assets\img\img.png" />
+                                            }
+                                        }
+
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-xl">
+                                <!--begin: Head -->
+                                <div class="kt-user-card kt-user-card--skin-dark kt-notification-item-padding-x" style="height:125px;background-image: url(/Assets/img/bg-1.jpg)">
+                                    <div class="kt-user-card__avatar">
+                                        @{
+                                            if (!string.IsNullOrEmpty(UserPic))
+                                            {
+                                                    <img class="kt-show" alt="Pic" src="@UserPic" />
+                                            }
+                                            else
+                                            {
+                                                    <img class="kt-show" alt="Pic" src="\Assets\img\defaultDP.png" />
+                                            }
+                                        }
+
+                                        <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
+                                        @*<span class="kt-badge kt-badge--lg kt-badge--rounded kt-badge--bold kt-font-success">S</span>*@
+                                    </div>
+                                    <div2 class="kt-user-card__name">
+                                        @Name
+                                    </div2>
+                                    @*<div class="kt-user-card__badge">
+                                            <span class="btn btn-success btn-sm btn-bold btn-font-md">23 messages</span>
+                                        </div>*@
+                                </div>
+                                <!--end: Head -->
+                                <!--begin: Navigation -->
+                                <div class="kt-notification">
+                                    <a href="" class="kt-notification__item">
+                                        @*<a href="../../custom/apps/user/profile-1/personal-VIEW.html" class="kt-notification__item">*@
+                                        <div class="kt-notification__item-icon">
+                                            <i class="flaticon2-calendar-3 kt-font-success"></i>
+                                        </div>
+                                        <div class="kt-notification__item-details">
+                                            <div class="kt-notification__item-title kt-font-bold">
+                                                User Profile
+                                            </div>
+                                            <div class="kt-notification__item-time left">
+                                                User Name:
+                                            </div>
+                                            <div class="kt-notification__item-time left">
+                                                Religion:
+                                            </div>
+                                            <div class="kt-notification__item-time left">
+                                                Language:
+                                            </div>
+                                            <div class="kt-notification__item-time left">
+                                                Contact No:
+                                            </div>
+
+                                        </div>
+                                        <div class="kt-notification_item-details right to">
+                                            <div class="kt-notification__item-time right">
+                                                @username
+                                            </div>
+                                            <div class="kt-notification__item-time right">
+                                                Islam
+                                            </div>
+
+                                            <div class="kt-notification__item-time right">
+                                                EN
+                                            </div>
+                                            <div class="kt-notification__item-time right">
+                                                @Contact
+                                            </div>
+                                            @*<div class="kt-notification__item-title kt-font-bold">
+                                                    @Session["PhoneNumber"]
+                                                </div>*@
+                                        </div>
+                                    </a>
+                                    @*<a href="../../custom/apps/user/profile-3.html" class="kt-notification__item">*@
+
+
+                                    @*<a href="" class="kt-notification__item">
+                                            <a href="../../custom/apps/user/profile-2.html" class="kt-notification__item">
+                                            <div class="kt-notification__item-icon">
+                                                <i class="flaticon2-rocket-1 kt-font-danger"></i>
+                                            </div>
+                                            <div class="kt-notification__item-details">
+                                                <div class="kt-notification__item-title kt-font-bold">
+                                                    My Activities
+                                                </div>
+                                                <div class="kt-notification__item-time">
+                                                    Logs and notifications
+                                                </div>
+                                            </div>
+                                        </a>*@
+                                    @*<a href="" class="kt-notification__item">
+                                            <a href="../../custom/apps/user/profile-3.html" class="kt-notification__item">
+                                            <div class="kt-notification__item-icon">
+                                                <i class="flaticon2-hourglass kt-font-brand"></i>
+                                            </div>
+                                            <div class="kt-notification__item-details">
+                                                <div class="kt-notification__item-title kt-font-bold">
+                                                    My Tasks
+                                                </div>
+                                                <div class="kt-notification__item-time">
+                                                    latest tasks and projects
+                                                </div>
+                                            </div>
+                                        </a>*@
+
+                                    @*<a href="../../custom/apps/user/profile-1/overview.html" class="kt-notification__item">*@
+                                    @*<a href="" class="kt-notification__item">
+                                            <div class="kt-notification__item-icon">
+                                                <i class="flaticon2-cardiogram kt-font-warning"></i>
+                                            </div>
+                                            <div class="kt-notification__item-details">
+                                                <div class="kt-notification__item-title kt-font-bold">
+                                                    Billing
+                                                </div>
+                                                <div class="kt-notification__item-time">
+                                                    billing & statements <span class="kt-badge kt-badge--danger kt-badge--inline kt-badge--pill kt-badge--rounded">2 pending</span>
+                                                </div>
+                                            </div>
+                                        </a>*@
+                                    <div class="kt-notification__custom kt-space-between">
+                                        @*../../custom/user/login-v2.html*@
+                                        <button id="ChanePasswordBTN" class="btn btn-label btn-label-brand btn-sm btn-bold"><i class="flaticon-safe-shield-protection"></i>Change Password</button>
+
+                                        <a id="btnSignout" class="btn btn-label btn-label-brand btn-sm btn-bold">Sign Out</a>
+                                        @*../../custom/user/login-v2.html*@
+                                    </div>
+                                </div>
+                                <!--end: Navigation -->
+                            </div>
+                        </div>
+                        <!--end: User Bar -->
+                    </div>
+                    <!-- end:: Header Topbar -->
+                </div>
+                <!-- end:: Header -->
+                <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
+                     
+                        @RenderBody()
+                 
+                </div>
+                <!-- begin:: Footer -->
+                <div class="kt-footer  kt-grid__item kt-grid kt-grid--desktop kt-grid--ver-desktop" id="kt_footer">
+                    <div class="kt-container  kt-container--fluid ">
+                        <div class="kt-footer__copyright">
+                            •	All rights reserved  @DateTime.Now.ToString("yyyy") © &nbsp;<a href="http://www.inspiredsolutionsprovider.co" target="_blank" class="kt-link"> Inspired Solution Provider </a>
+                        </div>
+                        <div class="kt-footer__menu">
+                            @*<a href="http://keenthemes.com/metronic" target="_blank" class="kt-footer__menu-link kt-link">About</a>
+                                <a href="http://keenthemes.com/metronic" target="_blank" class="kt-footer__menu-link kt-link">Team</a>
+                                <a href="http://keenthemes.com/metronic" target="_blank" class="kt-footer__menu-link kt-link">Contact</a>*@
+                        </div>
+                    </div>
+                </div>
+                <!-- end:: Footer -->
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- end::Quick Panel -->
+    <!-- begin::Scrolltop -->
+
+    <div id="kt_scrolltop" class="kt-scrolltop">
+        <i class="fa fa-arrow-up"></i>
+    </div>
+
+    <!-- end::Scrolltop -->
+    <!-- begin::Sticky Toolbar -->
+    <!-- end::Sticky Toolbar -->
+    <!-- begin::Demo Panel -->
+    <!-- end::Demo Panel -->
+    <!--Begin:: Chat-->
+    <div class="modal fade- modal-sticky-bottom-right" id="kt_chat_modal" role="dialog" data-backdrop="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="kt-chat">
+                    <div class="kt-portlet kt-portlet--last">
+                        <div class="kt-portlet__head">
+                            <div class="kt-chat__head ">
+                                <div class="kt-chat__left">
+                                    <div class="kt-chat__label">
+                                        <a href="#" class="kt-chat__title">Jason Muller</a>
+                                        <span class="kt-chat__status">
+                                            <span class="kt-badge kt-badge--dot kt-badge--success"></span> Active
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="kt-chat__right">
+                                    <div class="dropdown dropdown-inline">
+                                        <button type="button" class="btn btn-clean btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="flaticon-more-1"></i>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-md">
+                                            <!--begin::Nav-->
+                                            <ul class="kt-nav">
+                                                <li class="kt-nav__head">
+                                                    Messaging
+                                                    <i class="flaticon2-VIEW" data-toggle="kt-tooltip" data-placement="right" title="Click to learn more..."></i>
+                                                </li>
+                                                <li class="kt-nav__separator"></li>
+                                                <li class="kt-nav__item">
+                                                    <a href="#" class="kt-nav__link">
+                                                        <i class="kt-nav__link-icon flaticon2-group"></i>
+                                                        <span class="kt-nav__link-text">New Group</span>
+                                                    </a>
+                                                </li>
+                                                <li class="kt-nav__item">
+                                                    <a href="#" class="kt-nav__link">
+                                                        <i class="kt-nav__link-icon flaticon2-open-text-book"></i>
+                                                        <span class="kt-nav__link-text">Contacts</span>
+                                                        <span class="kt-nav__link-badge">
+                                                            <span class="kt-badge kt-badge--brand  kt-badge--rounded-">5</span>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li class="kt-nav__item">
+                                                    <a href="#" class="kt-nav__link">
+                                                        <i class="kt-nav__link-icon flaticon2-bell-2"></i>
+                                                        <span class="kt-nav__link-text">Calls</span>
+                                                    </a>
+                                                </li>
+                                                <li class="kt-nav__item">
+                                                    <a href="#" class="kt-nav__link">
+                                                        <i class="kt-nav__link-icon flaticon2-dashboard"></i>
+                                                        <span class="kt-nav__link-text">Settings</span>
+                                                    </a>
+                                                </li>
+                                                <li class="kt-nav__item">
+                                                    <a href="#" class="kt-nav__link">
+                                                        <i class="kt-nav__link-icon flaticon2-protected"></i>
+                                                        <span class="kt-nav__link-text">Help</span>
+                                                    </a>
+                                                </li>
+                                                <li class="kt-nav__separator"></li>
+                                                <li class="kt-nav__foot">
+                                                    <a class="btn btn-label-brand btn-bold btn-sm" href="#">Upgrade plan</a>
+                                                    <a class="btn btn-clean btn-bold btn-sm" href="#" data-toggle="kt-tooltip" data-placement="right" title="Click to learn more...">Learn more</a>
+                                                </li>
+                                            </ul>
+                                            <!--end::Nav-->
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn btn-clean btn-sm btn-icon" data-dismiss="modal">
+                                        <i class="flaticon2-cross"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__body">
+                            <div class="kt-scroll kt-scroll--pull" data-height="410" data-mobile-height="300">
+                                <div class="kt-chat__messages kt-chat__messages--solid">
+                                    <div class="kt-chat__message kt-chat__message--success">
+                                        <div class="kt-chat__user">
+                                            <span class="kt-media kt-media--circle kt-media--sm">
+                                                <img src="~/Image/Theme_mtrnc/100_12.jpg" alt="image" />
+                                            </span>
+                                            <a href="#" class="kt-chat__username">Jason Muller</a>
+                                            <span class="kt-chat__datetime">2 Hours</span>
+                                        </div>
+                                        <div class="kt-chat__text">
+                                            How likely are you to recommend our company<br> to your friends and family?
+                                        </div>
+                                    </div>
+                                    <div class="kt-chat__message kt-chat__message--right kt-chat__message--brand">
+                                        <div class="kt-chat__user">
+                                            <span class="kt-chat__datetime">30 Seconds</span>
+                                            <a href="#" class="kt-chat__username">You</span></a>
+                                            <span class="kt-media kt-media--circle kt-media--sm">
+                                                <img src="~/Image/Theme_mtrnc/100_12.jpg" alt="image" />
+                                            </span>
+                                        </div>
+                                        <div class="kt-chat__text">
+                                            Hey there, we’re just writing to let you know that you’ve<br> been subscribed to a repository on GitHub.
+                                        </div>
+                                    </div>
+                                    <div class="kt-chat__message kt-chat__message--success">
+                                        <div class="kt-chat__user">
+                                            <span class="kt-media kt-media--circle kt-media--sm">
+                                                <img src="~/Image/Theme_mtrnc/100_12.jpg" alt="image" />
+
+                                            </span>
+                                            <a href="#" class="kt-chat__username">Jason Muller</span></a>
+                                            <span class="kt-chat__datetime">30 Seconds</span>
+                                        </div>
+                                        <div class="kt-chat__text">
+                                            Ok, Understood!
+                                        </div>
+                                    </div>
+                                    <div class="kt-chat__message kt-chat__message--right kt-chat__message--brand">
+                                        <div class="kt-chat__user">
+                                            <span class="kt-chat__datetime">Just Now</span>
+                                            <a href="#" class="kt-chat__username">You</span></a>
+                                            <span class="kt-media kt-media--circle kt-media--sm">
+                                                <img src="~/Image/Theme_mtrnc/100_12.jpg" alt="image" />
+
+                                            </span>
+                                        </div>
+                                        <div class="kt-chat__text">
+                                            You’ll receive notifications for all issues, pull requests!
+                                        </div>
+                                    </div>
+                                    <div class="kt-chat__message kt-chat__message--success">
+                                        <div class="kt-chat__user">
+                                            <span class="kt-media kt-media--circle kt-media--sm">
+                                                @*<img src="../../../../themes/metronic/theme/default/demo1/dist/assets/media/users/100_12.jpg" alt="image">*@
+                                                <img src="~/Image/Theme_mtrnc/100_12.jpg" alt="image" />
+                                            </span>
+                                            <a href="#" class="kt-chat__username">Jason Muller</span></a>
+                                            <span class="kt-chat__datetime">2 Hours</span>
+                                        </div>
+                                        <div class="kt-chat__text">
+                                            You were automatically <b class="kt-font-brand">subscribed</b> <br>because you’ve been given access to the repository
+                                        </div>
+                                    </div>
+                                    <div class="kt-chat__message kt-chat__message--right kt-chat__message--brand">
+                                        <div class="kt-chat__user">
+                                            <span class="kt-chat__datetime">30 Seconds</span>
+                                            <a href="#" class="kt-chat__username">You</span></a>
+                                            <span class="kt-media kt-media--circle kt-media--sm">
+                                                @*<img src="../../../../themes/metronic/theme/default/demo1/dist/assets/media/users/300_21.jpg" alt="image">*@
+                                                <img src="~/Image/Theme_mtrnc/100_12.jpg" alt="image" />
+                                            </span>
+                                        </div>
+
+                                        <div class="kt-chat__text">
+                                            You can unwatch this repository immediately <br>by clicking here:
+                                            <a href="#" class="kt-font-bold kt-link"></a>
+                                        </div>
+                                    </div>
+                                    <div class="kt-chat__message kt-chat__message--success">
+                                        <div class="kt-chat__user">
+                                            <span class="kt-media kt-media--circle kt-media--sm">
+                                                @*<img src="../../../../themes/metronic/theme/default/demo1/dist/assets/media/users/100_12.jpg" alt="image">*@
+                                                <img src="~/Image/Theme_mtrnc/100_12.jpg" alt="image" />
+                                            </span>
+                                            <a href="#" class="kt-chat__username">Jason Muller</span></a>
+                                            <span class="kt-chat__datetime">30 Seconds</span>
+                                        </div>
+                                        <div class="kt-chat__text">
+                                            Discover what students who viewed Learn <br>Figma - UI/UX Design Essential Training also viewed
+                                        </div>
+                                    </div>
+                                    <div class="kt-chat__message kt-chat__message--right kt-chat__message--brand">
+                                        <div class="kt-chat__user">
+                                            <span class="kt-chat__datetime">Just Now</span>
+                                            <a href="#" class="kt-chat__username">You</span></a>
+                                            <span class="kt-media kt-media--circle kt-media--sm">
+                                                @*<img src="../../../../themes/metronic/theme/default/demo1/dist/assets/media/users/300_21.jpg" alt="image">*@
+                                                <img src="~/Image/Theme_mtrnc/100_12.jpg" alt="image" />
+                                            </span>
+                                        </div>
+                                        <div class="kt-chat__text">
+                                            Most purchased Business courses during this sale!
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__foot">
+                            <div class="kt-chat__input">
+                                <div class="kt-chat__editor">
+                                    <textarea placeholder="Type here..." style="height: 50px"></textarea>
+                                </div>
+                                <div class="kt-chat__toolbar">
+                                    <div class="kt_chat__tools">
+                                        <a href="#"><i class="flaticon2-link"></i></a>
+                                        <a href="#"><i class="flaticon2-photograph"></i></a>
+                                        <a href="#"><i class="flaticon2-photo-camera"></i></a>
+                                    </div>
+                                    <div class="kt_chat__actions">
+                                        <button type="button" class="btn btn-brand btn-md  btn-font-sm btn-upper btn-bold kt-chat__reply">reply</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--ENd:: Chat-->
+    <!-- begin::Global Config(global config for global JS sciprts) -->
+    <!-- end::Global Config -->
+    <!--begin::Global Theme Bundle(used by all pages) -->
+    @*<script src="../../../../themes/metronic/theme/default/demo1/dist/assets/plugins/global/plugins.bundle.js" type="text/javascript"></script>*@
+    <script src="~/Scripts/Theme_mtrnc/plugins.bundle.js" type="text/javascript"></script>
+    @*<script src="../../../../themes/metronic/theme/default/demo1/dist/assets/js/scripts.bundle.js" type="text/javascript"></script>*@
+    <script src="~/Scripts/Theme_mtrnc/scripts.bundle.js" type="text/javascript"></script>
+    <script src="~/lib/file-upload/uppy.bundle.js"></script>
+    @*<script src="~/lib/file-upload/uppy.js"></script>*@
+    <script src="~/lib/jquery/dist/jquery-ui.bundle.js"></script>
+    @*<script src="~/Scripts/dashboard.js"></script>*@
+    <!--end::Global Theme Bundle -->
+    <!--begin::Page Vendors(used by this page) -->
+    @*<script src="../../../../themes/metronic/theme/default/demo1/dist/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js" type="text/javascript"></script>*@
+    <script src="~/Scripts/Theme_mtrnc/fullcalendar.bundle.js"></script>
+    <script src="~/Scripts/Theme_mtrnc/gmaps.js"></script>
+    <!--end::Page Vendors -->
+    <!--begin::Page Scripts(used by this page) -->
+    @*<script src="../../../../themes/metronic/theme/default/demo1/dist/assets/js/pages/dashboard.js" type="text/javascript"></script>*@
+    <script src="~/Scripts/Theme_mtrnc/dashboard.js"></script>
+    @*<script src="../../../../../themes/metronic/theme/default/demo1/dist/assets/js/pages/custom/contacts/add-contact.js" type="text/javascript"></script>*@
+    <script src="~/Scripts/Theme_mtrnc/pages/add-contact.js" type="text/javascript"></script>
+    @*<script src="~/Scripts/Theme_mtrnc/pages/add-user.js" type="text/javascript"></script>*@
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    @*  <script src="~/lib/SignalR/signalr.js"></script>*@
+    <script src="~/lib/signalr/signalr.js"></script>
+    @*<script src="~/lib/signalr/dist/browser/signalr.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.3/signalr.min.js"></script>
+    @*<script src="~/Osama/Script/jquery.signalR-2.2.2.min.js"></script>*@
+    @*<script src="~/signalr/Hubs/"></script>*@
+    <script src="~/lib/jquery/dist/PageScripts/Common.js"></script>
+    <script src="~/Scripts/Theme_mtrnc/PageScripts/validation.js"></script>
+    <script src="~/Scripts/Theme_mtrnc/bootstrap-timepicker.js"></script>
+    <script src="~/Scripts/datatables.bundle.js"></script>
+    @*<script src="~/Scripts/treeview.js"></script>*@
+    <script src="~/Scripts/jstree.bundle.js"></script>
+
+
+    <script src="~/Scripts/speedometer.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.flot/0.8.3/jquery.flot.min.js"></script>
+
+
+    @*<script src="~/lib/jquery/dist/PageScripts/Dashboard.js"></script>*@
+    @*<script src="~/Scripts/Theme_mtrnc/PageScripts/_Layout.js"></script>*@
+    <style>
+        .imgSize {
+            height: 50px;
+            width: 39px;
+        }
+
+        .userimg {
+            height: 50px;
+            width: 39px;
+        }
+
+
+        /*Notif*/
+
+        .ActiveNotif {
+            -webkit-transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            background-color: #D7D1D0;
+            color: #5d78ff;
+        }
+
+
+
+        .svg_fill {
+            color: #5D78FF !important;
+        }
+    </style>
+
+    <div class="modal fade" id="ChangePasswordModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog model-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="exampleModalLabel">   <i class="flaticon-safe-shield-protection"></i>  Change Passsword</h5>
+
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label id="">Current Password<span style="color:red">*</span></label>
+
+                                <input type="password" id="CurrentPassword" name="CurrentPassword" class="form-control" placeholder="Current Password">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label id="">New Password<span style="color:red">*</span></label>
+
+                                <input type="password" id="NewPassword" name="NewPassword" class="form-control" placeholder="New Password">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label id="LProject">Cofirm Password<span style="color:red">*</span></label>
+
+                                <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" placeholder="Confirm Password">
+
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-footer">
+                    <button style="float:left" id="ChangePasswordBtn" type="button" class="btn btn-brand kt-margin-r-10 " data-style="expand-left" data-spinner-color="#333">
+                        <i class="la la-check"></i>
+                        <span id="SpanBtnSave" class="ladda-label">Save</span>
+                        <span class="ladda-spinner"></span>
+                    </button>
+                    <button type="button" style="float:left" class=" btn btn-secondary " id="closeChangePasswordBtn">
+                        <i class="la la-close"></i>
+                        <span id="SpanBtnSave" class="ladda-label">Cancel</span>
+
+                    </button>
+                </div>
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="AttendanceModel" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="exampleModalLabel">   <i class="flaticon2-rhombus"></i> Mark My Attendance</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group row">
+                                <label class="col-xl-2 col-lg-2 col-form-label">Today</label>
+                                <div class="col-lg-10 col-xl-10">
+                                    <input type="text" id="TodayDate" name="TodayDate" class="form-control" disabled placeholder="TodayDate">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-8">
+                            <button style="float:left" id="btnDayIn" type="button" class="btn btn-brand kt-margin-r-10 " data-style="expand-left" data-spinner-color="#333">
+                                <i class="la la-check"></i>
+                                <span id="SpanBtnSave" class="ladda-label">IN</span>
+                                <span class="ladda-spinner"></span>
+                            </button>
+                            <button style="float:left" id="btnDayOut" type="button" class="btn btn-danger kt-margin-r-10 " data-style="expand-left" data-spinner-color="#333">
+                                <i class="la la-circle"></i>
+                                <span id="SpanBtnSave" class="ladda-label">OUT</span>
+                                <span class="ladda-spinner"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:10px" class="row">
+                        <div style="height:500px;" id="kt_calendar"></div>
+                    </div>
+
+
+                </div>
+                @*<div class="modal-footer">
+                        <button style="float:left" id="ChangePasswordBtn" type="button" class="btn btn-brand kt-margin-r-10 " data-style="expand-left" data-spinner-color="#333">
+                            <i class="la la-check"></i>
+                            <span id="SpanBtnSave" class="ladda-label">Save</span>
+                            <span class="ladda-spinner"></span>
+                        </button>
+                        <button type="button" style="float:left" class=" btn btn-secondary " id="closeChangePasswordBtn">
+                            <i class="la la-close"></i>
+                            <span id="SpanBtnSave" class="ladda-label">Cancel</span>
+
+                        </button>
+                    </div>*@
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>*@
+
+    <!--end::Page Scripts -->
+    <script>
+        function GetAttendance() {
+
+
+            $.ajax({
+                url: "/Attendance/GetData",//_Administrator/GetRoleDtl
+                type: "Get",
+                data: { UserId: $('#_UserId').val()},
+                dataType: 'json',
+                success: function (resp) {
+                    return resp;
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+
+                }
+            }).done(function (result) {
+                console.log(result.data);
+                LoadAttendanceCalender(result.data);
+            });
+        }
+        function LoadAttendanceCalender(data) {
+           var attArray = [];
+            
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].msg == 'Late In') {
+
+                    var formdata = {
+                        title: "Late Im", 
+                        start: moment(data[i].datetime).format("YYYY-MM-DD"),
+                        description: "Late In " + moment(data[i].in).format(" hh:mm:ss "),
+                        className:"fc-event-danger fc-event-solid-warning"
+                    };
+                }
+                if (data[i].msg == 'Present') {
+                    var formdata = {
+                        title: "Present",
+                        start: moment(data[i].datetime).format("YYYY-MM-DD"),
+                        description: "Present " + moment(data[i].in).format(" hh:mm:ss "),
+                        className: "fc-event-light fc-event-solid-primary"
+                    };
+                }
+               
+                attArray.push(formdata);
+            }
+            console.log(attArray);
+            
+            var todayDate = moment().startOf('day');
+            var YM = todayDate.format('YYYY-MM');
+            var asd = YM + '-01';
+            var YESTERDAY = todayDate.clone().subtract(1, 'day').format('YYYY-MM-DD');
+            var TODAY = todayDate.format('YYYY-MM-DD');
+            var TOMORROW = todayDate.clone().add(1, 'day').format('YYYY-MM-DD');
+
+            var calendarEl = document.getElementById('kt_calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['interaction', 'dayGrid', 'timeGrid', 'list'],
+
+                isRTL: KTUtil.isRTL(),
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+
+                height: 800,
+                contentHeight: 780,
+                aspectRatio: 3,  // see: https://fullcalendar.io/docs/aspectRatio
+
+                nowIndicator: true,
+                now: TODAY + 'T09:25:00', // just for demo
+
+                views: {
+                    dayGridMonth: { buttonText: 'month' },
+                    timeGridWeek: { buttonText: 'week' },
+                    timeGridDay: { buttonText: 'day' }
+                },
+
+                defaultView: 'dayGridMonth',
+                defaultDate: TODAY,
+               
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                navLinks: true,
+                events: attArray,
+                //events: [
+                //    {
+                //        title: 'Late',
+                //        start: YM + '-03',
+                //        className: "fc-event-danger fc-event-solid-warning"
+                //    },
+                //    //{
+                //    //    title: 'Reporting',
+                //    //    start: YM + '-14T13:30:00',
+                //    //    description: 'Lorem ipsum dolor incid idunt ut labore',
+                //    //    end: YM + '-14',
+                //    //    className: "fc-event-success"
+                //    //},
+                //    {
+                //        title: 'Present',
+                //        start: YM + '-01',
+                //        className: "fc-event-light fc-event-solid-primary"
+                //    },
+                //    //{
+                //    //    title: 'Leave',
+                //    //    start: YM + '-04',
+                //    //    className: "fc-event-danger"
+                //    //},
+                //    //{
+                //    //    title: 'Absent',
+                //    //    start: YM + '-02',
+                //    //    className: "fc-event-solid-danger fc-event-light",
+
+                //    //}
+                //    //{
+                //    //    id: 999,
+                //    //    title: 'Repeating Event',
+                //    //    start: YM + '-09T16:00:00',
+                //    //    description: 'Lorem ipsum dolor sit ncididunt ut labore',
+                //    //    className: "fc-event-danger"
+                //    //},
+                //    //{
+                //    //    id: 1000,
+                //    //    title: 'Repeating Event',
+                //    //    description: 'Lorem ipsum dolor sit amet, labore',
+                //    //    start: YM + '-16T16:00:00'
+                //    //},
+                //    //{
+                //    //    title: 'Conference',
+                //    //    start: YESTERDAY,
+                //    //    end: TOMORROW,
+                //    //    description: 'Lorem ipsum dolor eius mod tempor labore',
+                //    //    className: "fc-event-brand"
+                //    //},
+                //    //{
+                //    //    title: 'Meeting',
+                //    //    start: TODAY + 'T10:30:00',
+                //    //    end: TODAY + 'T12:30:00',
+                //    //    description: 'Lorem ipsum dolor eiu idunt ut labore'
+                //    //},
+                //    //{
+                //    //    title: 'Lunch',
+                //    //    start: TODAY + 'T12:00:00',
+                //    //    className: "fc-event-info",
+                //    //    description: 'Lorem ipsum dolor sit amet, ut labore'
+                //    //},
+                //    //{
+                //    //    title: 'Meeting',
+                //    //    start: TODAY + 'T14:30:00',
+                //    //    className: "fc-event-warning",
+                //    //    description: 'Lorem ipsum conse ctetur adipi scing'
+                //    //},
+                //    //{
+                //    //    title: 'Happy Hour',
+                //    //    start: TODAY + 'T17:30:00',
+                //    //    className: "fc-event-info",
+                //    //    description: 'Lorem ipsum dolor sit amet, conse ctetur'
+                //    //},
+                //    //{
+                //    //    title: 'Dinner',
+                //    //    start: TOMORROW + 'T05:00:00',
+                //    //    className: "fc-event-solid-danger fc-event-light",
+                //    //    description: 'Lorem ipsum dolor sit ctetur adipi scing'
+                //    //},
+                //    //{
+                //    //    title: 'Birthday Party',
+                //    //    start: TOMORROW + 'T07:00:00',
+                //    //    className: "fc-event-primary",
+                //    //    description: 'Lorem ipsum dolor sit amet, scing'
+                //    //},
+                //    //{
+                //    //    title: 'Click for Google',
+                //    //    url: 'http://google.com/',
+                //    //    start: YM + '-28',
+                //    //    className: "fc-event-solid-info fc-event-light",
+                //    //    description: 'Lorem ipsum dolor sit amet, labore'
+                //    //}
+                //],
+
+                eventRender: function (info) {
+                    var element = $(info.el);
+
+                    if (info.event.extendedProps && info.event.extendedProps.description) {
+                        if (element.hasClass('fc-day-grid-event')) {
+                            element.data('content', info.event.extendedProps.description);
+                            element.data('placement', 'top');
+                            KTApp.initPopover(element);
+                        } else if (element.hasClass('fc-time-grid-event')) {
+                            element.find('.fc-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                        } else if (element.find('.fc-list-item-title').lenght !== 0) {
+                            element.find('.fc-list-item-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                        }
+                    }
+                }
+            });
+
+            calendar.render();
+        }
+
+        function RecordLogs(controllerName,msg) {
+            var jqxhr = $.getJSON('https://json.geoiplookup.io/?callback=?', function () {
+
+            }).done(function (data) {
+                
+               // console.log(JSON.stringify(data, null, 2));
+                var formData = {
+
+                    ControllerName: controllerName,
+                    MsgLog: msg,
+                    IpAddress: data.ip,
+                    CountryCode: data.country_code,
+                    CountryName: data.country_name,
+                    Location: data.city
+
+                };
+                //if (data != null && data != '' && data != undefined) {
+
+                $.ajax({
+                    url: '/SystemLogs/RecordLogs',
+                    dataType: 'json',
+                    type: 'Post',
+                    data: formData,
+                    async: true,
+                    success: function (result) {
+
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                        console.log(errorMessage);
+                    }
+
+                }).done(function (result) {
+                  //  window.location.href = "/Dashboard";
+
+                });
+                // }
+
+            });
+
+        }
+
+        function MarkAttendance(Type,obj) {
+
+            var AttendanceFormData = {
+
+                Type: Type,
+                UserId:$('#_UserId').val()
+            };
+
+            $.ajax({
+                url: "/Attendance/MarkAttendance",//_Administrator/GetRoleDtl
+                type: "Get",
+                data: AttendanceFormData,
+                dataType: 'json',
+                success: function (resp) {
+                    return resp;
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+
+                }
+            }).done(function (result) {
+                if (result.isInserted) {
+
+                    toastr.success(result.message);
+                    // ClearForm();
+                    setTimeout(function () {
+                        $(obj).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    }, 500);
+                    $(obj).attr('disabled', false);
+                    RecordLogs('Attendance', 'Mark Attendance ' + Type);
+
+                }
+                if (result.isError) {
+                    toastr.error(result.message);
+                    $(obj).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $(obj).attr('disabled', false);
+
+                }
+            });
+        }
+      
+
+        $(document).on('click', '#btnDayIn', function () {
+            $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+            $(this).attr('disabled', true);
+            MarkAttendance("In", this);
+
+        })
+
+        $(document).on('click', '#btnDayOut', function () {
+            $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+            $(this).attr('disabled', true);
+            MarkAttendance("Out",this);
+
+        })
+
+        $(document).on('click', '#btnSignout', function () {
+            UserSignOut();
+        })
+
+
+        $(document).on('click', '#btnAttendance', function () {
+
+            $('#TodayDate').val(moment().format("DD/MM/YYYY").toString());
+            $('#AttendanceModel').modal('show');
+            GetAttendance();
+        })
+
+        function UserSignOut() {
+
+            $.ajax({
+                url: '/Home/Logout',
+                dataType: 'json',
+                type: 'Get',
+                cache: false,
+                async: false,
+                success: function (result) {
+                    window.location.href = '/Home/';
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+                    console.log(errorMessage);
+                }
+
+            }).done(function (result) {
+
+
+            });
+        }
+
+
+        $(document).on('click', '#ChanePasswordBTN', function () {
+
+
+            $("#ChangePasswordModal").modal('show');
+        })
+
+
+        $(document).on('click', '#closeChangePasswordBtn', function () {
+
+
+            $("#ChangePasswordModal").modal('hide');
+        })
+
+        $(document).on('click', '#ChangePasswordBtn', function () {
+
+            if ($('#ConfirmPassword').val() == $('#NewPassword').val()) {
+                ChangePasswordValidation();
+            }
+            else {
+                toastr.error("New password and Confirm Password are not same!");
+            }
+        })
+
+
+
+        $('#kt_aside_toggler').click(function () {
+            if ($('#kt_aside_toggler').hasClass('kt-aside__brand-aside-toggler--active')) {
+                $('.searchBarShaheer').css('display', 'none')
+            } else {
+                $('.searchBarShaheer').css('display', 'block')
+            }
+        })
+
+        $(document).ready(function () {
+          //  LoadAttendanceCalender();
+
+
+
+
+            setInterval(LoginCheck, 120000);
+            var checkTimeout;
+            checkTimeout = setTimeout(checkSession, 11000);
+            $("body").mouseup(function () {
+                renewSession();
+            });
+
+            $("input").blur(function () {
+                renewSession();
+            });
+
+            $("input").focus(function () {
+                renewSession();
+            });
+
+            function checkSession() {
+                $.ajax({
+                    url: "/Home/CheckIfSessionValid",
+                    type: "POST",
+                    success: function (result) {
+                        if (result == "False") {
+                            LoginCheck();
+                            window.location = "/Home/";
+                        }
+                    },
+                    complete: function () {
+                        setupSessionTimeoutCheck();
+                    }, error: function (jqXhr, textStatus, errorMessage) { // error callback
+                        window.location = "/Error/";
+                    }
+                });
+            }
+
+            function setupSessionTimeoutCheck() {
+                clearTimeout(checkTimeout);
+                checkTimeout = setTimeout(checkSession, 11000);
+
+            }
+            function renewSession() {
+                //$.ajax({
+                //    url: "/Home/RenewSession",
+                //    type: "POST",
+                //    data: {
+
+                //    }
+                //});
+            }
+            $.ajax({
+                url: "/Dashboard/GetNavAjax",
+                type: "GET",
+                async:'false',
+                dataType: 'json',
+                success: function (data) {
+                    $('#SideNav').empty();
+
+                    var html = '';
+                    
+
+                    for (var k = 0; k < data.listPages.length; k++) {
+                        var icon;
+                        icon = data.listPages[k].icon.replace(/(\r\n|\n|\r)/gm, "");
+                        html += '<li class="kt-menu__item " aria-haspopup="true" id="' + data.listPages[k].guid + '">';
+                        html += ' <a href="/' + data.listPages[k].controller + '/' + data.listPages[k].actionName + '?Source=' + data.listPages[k].guid + '"';
+                        html += ' class="kt-menu__link ">';
+                        html += '<i style="margin-top:5px; font-size:20px" class="' + icon + '"></i>';
+
+                        //html += ' <div class="LBor" style=" width:4px; background-color: #959cb6; margin-right: 15px"></div>';
+                        html += '  <span style="margin:0px 0px 0px 10px" class="kt-menu__link-text"> ' + data.listPages[k].pageName + ' </span>';
+                        html += '   </a>';
+                        html += '   </li>';
+                    }
+
+                    document.getElementById('SideNav').innerHTML += html;
+                },
+                error: function (jqXhr, textStatus, errorMessage) { // error callback
+
+                }
+            }).done(function (result) {
+
+                activateNavigationPages();
+            });
+
+
+
+
+
+            function activateNavigationPages() {
+
+                let pageId = '@Context.Request.Query["Source"]';
+
+                let element = $('#' + pageId);
+                let moduleId = $('#' + pageId).parents('li').parents('li').attr('id');
+                let SubModuleId = $('#' + pageId).parents('li').attr('id');
+
+                let ModuleElement = $('#' + moduleId);
+                let SubModuleElement = $('#' + SubModuleId);
+                
+                let elementId = $('#' + pageId).attr('id')
+                let elementITagClass = $('#' + pageId).children('a').children('i').attr('class');
+
+
+            //    element.parents('li').parents('li').addClass('kt-menu__item kt-menu__item--submenu kt-menu__item--here kt-menu__item--open')
+                //element.parents('li').parents('li').parents('li').addClass('kt-menu__item--open')
+                //element.parents('li').parents('li').addClass('kt-menu__item--open')
+                element.find('i').css('color', '#fff')
+                element.addClass('kt-menu__item--active')
+
+                if (pageId == elementId) {
+                  //  ModuleElement.css('background-color', '#f8f8fb')
+                    //ModuleElement.find('span').css('color', '#5d78ff');
+
+                    // SubModuleElement.css('background-color', '#f8f8fb')
+                    //SubModuleElement.find('span').css('color', '#5d78ff');
+
+                  //  element.css('background-color', '#5d78ff')
+                 //   element.find('span').css('color', '#fff')
+                }
+
+                let module = $('#' + pageId).parents('li').parents('li').children('a').children('span').html()
+                let submodule = $('#' + pageId).parents('li').children('a').children('span').html()
+                //let page = $('#' + pageId).children('a').children('span').html()
+                const page = $('#' + pageId).children('a').children('span').html()
+                if (page != null && page != '' && page != undefined) {
+                    
+                    $(document).attr("title", page);
+                }
+                else {
+
+                    page = '';
+                    $(document).attr("title", 'iSOL-SAP System');
+                }
+          
+                $('#heading').text(page);
+                $('#heading').parents('div').children('span').children('i').removeClass();
+                $('#heading').parents('div').children('span').children('i').addClass(elementITagClass);
+                var BreadCrum = '<h3 class="kt-subheader__title">';
+                BreadCrum += 'Izak';
+                BreadCrum += ' </h3>';
+                BreadCrum += '  <a style="margin-top:2px" href="/Dashboard" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>';
+                BreadCrum += '     <div class="kt-subheader__breadcrumbs" style="margin-top:2px; margin-left:5px">';
+                BreadCrum += '      <span class="kt-subheader__breadcrumbs-separator"></span>';
+                BreadCrum += '     <a href="#" class="kt-subheader__breadcrumbs-link"> ' + page + ' </a>';
+                BreadCrum += '</div>';
+                BreadCrum += '</div>';
+
+
+
+               $('.kt-subheader__main').html(BreadCrum);
+            }
+        });
+
+
+        function ChangePasswordValidation() {
+
+            xflag = [];
+            isvalid = null
+
+            toastr.remove();
+            xflag.push(mandatoryValidate('#CurrentPassword', 'Current Password'));
+            xflag.push(mandatoryValidate('#NewPassword', 'New Password'));
+            xflag.push(mandatoryValidate('#ConfirmPassword', 'Confirm Password'));
+
+
+            for (var i = 0; i < xflag.length; i++) {
+                if (xflag[i] == true) {
+                    isvalid = false;
+                }
+            }
+            if (isvalid != false) {
+
+                ChangePassword();
+
+            }
+        }
+
+        function PasswordFormData() {
+
+            formdata = {
+                Id: $('#_UserId').val(),
+                CurrentPassword: $('#CurrentPassword').val(),
+                Password: $('#NewPassword').val()
+            };
+
+            return formdata;
+        }
+        function ChangePassword() {
+            var data = PasswordFormData();
+            return $.ajax({
+                url: "/Home/ChangePassword",
+                type: "POST",
+                dataType: 'json',
+                data: data,
+                success: function (resp) {
+
+                    if (resp.isInserted) {
+
+                        toastr.success("Password has been Changed");
+                        $("#ChangePasswordModal").modal('hide');
+                        $('#CurrentPassword').val('');
+                        $('#NewPassword').val('');
+                        $('#ConfirmPassword').val('');
+
+                    }
+                    else if (!resp.isInserted) {
+
+                        toastr.warning('Current Password Not Match');
+
+                    } else if (resp.isError) {
+                        toastr.error('Something went wrong!');
+                    }
+
+                }
+            }).done(function (result) {
+
+                return result;
+            });
+        }
+
+        function AjaxGet(route, activity) {
+
+            $.ajax({
+                url: route,//_Administrator/GetRoleDtl
+                type: "GET",
+                dataType: 'json',
+                data: { activity: activity },
+                success: function (resp) {
+                    return resp;
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+
+                }
+            });
+        }
+
+
+        function LoginCheck() {
+
+            $.ajax({
+                url: "/Home/LoginCheck",
+                type: "GET",
+                dataType: 'json',
+                success: function (data) {
+
+                    if (data.isLogOut == true) {
+                        window.location.href = "/Home/";
+                        var dfsfv = data.isLogOut;
+                    }
+                },
+                error: function (jqXhr, textStatus, errorMessage) { // error callback
+                    // $('p').append('Error: ' + errorMessage);
+                }
+            });
+        }
+
+        //Active();
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+        //            Abdul waris work
+        /////////////////////////////////////////////////////////////////////////////////////////////////
+
+        var NumberOnlyReg = "^[0-9]+$";
+        var AlphaNumericSpaceReg = "^[A-Za-z0-9 ]+$";
+        var AlphaNumericSpaceDashReg = "^[A-Za-z0-9 -]+$";
+        var CnicReg = "^[0-9-]+$";
+
+        $.validator.addMethod(
+            "regex",
+            function (value, element, regexp) {
+                var re = new RegExp(regexp);
+                return this.optional(element) || re.test(value);
+            },
+            "Please check your input."
+        );
+        //search
+        $("input[type=number]").keydown(function (e) {
+            if (e.which == 8 || e.which == 9 || (e.which >= 37 && e.which <= 40) || e.which == 190) {
+                return true;
+            }
+            if (e.which == 96) {
+                return true;
+            }
+            let key = Number(e.key)
+            if (isNaN(key)) {
+                return false;
+            }
+            else {
+
+                return true;
+            }
+            /*
+            if ((e.which >= 48 && e.which <= 57)) {
+                return true;
+            } else {
+                return false;
+            }*/
+        });
+        //$("input[type=text]").keydown(function (e) {
+        //    return checkKeyPreventSpecialChars(e);
+        //});
+        //$("input[type=search]").keydown(function (e) {
+        //    return checkKeyPreventSpecialChars(e);
+        //});
+        //   alert('key');
+        function checkKeyPreventSpecialChars(e) {
+            if (e.which == 9) {
+                return true;
+            }
+            if (e.which == 96) {
+                return true;
+            }
+            if (e.which == 8 || (e.which >= 37 && e.which <= 40)) {
+                return true;
+            }
+            if (e.which >= 186 || e.which == 59) {
+                // alert('key prevented');
+                return false;
+            } if (event.shiftKey && (e.which >= 186 || e.which == 59 || (e.which >= 48 && e.which <= 57))) {
+                return false;
+            }
+            if (!String.fromCharCode(e.keyCode).match("^[A-Za-z0-9 ]+")) {
+                // alert("masd");
+                return false;
+            }
+        }
+
+
+
+        var cls = {
+            main: 'ps',
+            element: {
+                thumb: function (x) { return ("ps__thumb-" + x); },
+                rail: function (x) { return ("ps__rail-" + x); },
+                consuming: 'ps__child--consume',
+            },
+            state: {
+                focus: 'ps--focus',
+                clicking: 'ps--clicking',
+                active: function (x) { return ("ps--active-" + x); },
+                scrolling: function (x) { return ("ps--scrolling-" + x); },
+            },
+        };
+
+        /*
+         * Helper methods
+         */
+        var scrollingClassTimeout = { x: null, y: null };
+
+        function addScrollingClass(i, x) {
+            var classList = i.element.classList;
+            var className = cls.state.scrolling(x);
+
+            if (classList.contains(className)) {
+                clearTimeout(scrollingClassTimeout[x]);
+            } else {
+                classList.add(className);
+            }
+        }
+
+        function removeScrollingClass(i, x) {
+            scrollingClassTimeout[x] = setTimeout(
+                function () { return i.isAlive && i.element.classList.remove(cls.state.scrolling(x)); },
+                i.settings.scrollingThreshold
+            );
+        }
+
+        function setScrollingClassInstantly(i, x) {
+            addScrollingClass(i, x);
+            removeScrollingClass(i, x);
+        }
+
+
+    </script>
+
+
+
+
+    <script src="https://unpkg.com/@@aspnet/signalr@@1.0.0-rc1-final/dist/browser/signalr.js"></script>
+
+
+    @*<script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>*@
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="/js/flot/excanvas.min.js"></script><![endif]-->
+
+    <script src="~/Assets/global/plugins/flot/jquery.flot.js"></script>
+
+    <script src="~/Assets/global/plugins/flot/jquery.flot.min.js"></script>
+    <script src="~/Assets/global/plugins/flot/jquery.flot.time.js"></script>
+
+    <script src="~/Assets/global/plugins/flot/jquery.flot.axislabels.js"></script>
+    @*<script src="//code.jquery.com/jquery-3.1.0.min.js"></script>*@
+
+    <script src="~/Scripts/easyNotify.js"></script>
+    <script src="~/lib/jquery/dist/PageScripts/ratingStar.js"></script>
+
+    <div class="modal fade" id="kt_modal_6" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Snooze Timer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label>Time</label>
+                    <div class=" form-group row">
+
+                        <select class="form-control">
+                            <option value="30s">30 sec</option>
+                            <option value="1">1 Mint</option>
+                            <option value="5">5 Mint</option>
+                            <option value="10">10 Mint</option>
+                            <option value="30">30 Mint</option>
+                            <option value="60">30 Mint</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"><i class="fas fa-clock"></i>Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        $(document).on('click', '#PushNotif', function () {
+            PushNotification();
+        })
+
+        $(document).on('click', '#BtnSnooze', function () {
+
+            $('#kt_modal_6').show();
+        })
+
+        var myImg = window.location.origin + "/Assets/img/Alert-PNG-Pic.png";
+        function PushNotification() {
+            var options = {
+                title: 'Speed Alert',
+                options: {
+                    body: 'Line 1',
+                    icon: myImg,
+                    lang: 'en-US',
+                    //  onClick: myFunction
+                }
+            };
+            $("#easyNotify").easyNotify(options);
+        }
+
+        //Loader
+        var myLoader;
+
+        function Loader() {
+            myLoader = setTimeout(showPage, 5000);
+        }
+
+        function showPage() {
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("myDiv").style.display = "block";
+        }
+
+        //for Short Text...
+        function ShortTxt(field) {
+            var transportername;
+            if (field.length > 10) {
+                //transportername = result.data[i].transportername.slice(0, -10) + '...';
+                transportername = field.substring(0, 10) + '...'
+            } else {
+                transportername = field;
+            }
+            return transportername;
+        }
+
+
+        function GetNavId(id, ParentNav) {
+
+            sessionStorage.setItem('act', id);
+            sessionStorage.setItem('ParentNav', ParentNav);
+
+        }
+
+
+        function Active() {
+
+
+            var ac = sessionStorage.getItem('act');
+            var ParentNav = sessionStorage.getItem('ParentNav');
+            document.getElementById(ac).classList.add('kt-menu__item--open');
+            document.getElementById(ParentNav).classList.add('kt-menu__item--open');
+        }
+
+        function NotifHtml(uid, msg, date, Caseclass, iconClr) {
+
+            var html = '<a id="UpdateNotifStatus" class="' + Caseclass + '" data-uid="' + uid + '">';
+            html += '   <div class="kt-notification__item-icon">';
+            html += '     <i class="flaticon2-line-chart kt-font-' + iconClr + '"></i>';
+            html += '   </div>';
+            html += '   <div class="kt-notification__item-details">';
+            html += '       <div class="kt-notification__item-title">' + msg + '</div>';
+            html += '       <div class="kt-notification__item-time">' + date + ' </div>';
+            html += '   </div>';
+            html += '</a>';
+
+            return html;
+        }
+
+
+        function UpdateNotifStatus(id) {
+            $.ajax({
+                url: "/Home/UpdateNotifStatus",
+                dataType: 'json',
+                type: "POST",
+                data: { id: id },
+                success: function (result) {
+
+                    if (result.isSuccess) {
+
+                        window.location.href = "/_Driver/index?Data=" + id;
+                    }
+                    else {
+                        toastr.error(result.msg);
+                    }
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+                    console.log(errorMessage);
+                }
+            });
+        }
+        var res = [];
+        var res2 = [];
+
+
+
+
+        $(document).ready(function myfunction() {
+
+
+
+
+
+
+            //const messageForm = document.getElementById('message-form');
+            //const messageBox = document.getElementById('message-box');
+            //const messages = document.getElementById('messages');
+
+            //const connection = new signalR.HubConnectionBuilder()
+            //    .withUrl("/MyHub")
+            //    .configureLogging(signalR.LogLevel.Information)
+            //    .build();
+
+            //connection.on('newMessage', (sender, messageText) => {
+            //    console.log(`${sender}:${messageText}`);
+
+            //    const newMessage = document.createElement('li');
+            //    newMessage.appendChild(document.createTextNode(`${sender}:${messageText}`));
+            //    messages.appendChild(newMessage);
+            //});
+
+            //connection.start()
+            //    .then(() => console.log('connected!'))
+            //    .catch(console.error);
+
+            //messageForm.addEventListener('submit', ev => {
+            //    ev.preventDefault();
+            //    const message = messageBox.value;
+            //    connection.invoke('SendMessage', message);
+            //    messageBox.value = '';
+            //});
+            //   SalesStats();
+            ///////////////////Signal R Core Begin/////////////////////////////////////////////////////////////////////////////////////////////
+            // const connection = new signalR.HubConnectionBuilder().withUrl("/MyHub").build();
+
+            //connection.on("ReceiveMessage", function (user, message) {
+            //    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+            //    console.log(user, message);
+
+            //});
+
+
+
+            //connection.on('newMessage', (sender, messageText) => {
+            //    debugger
+            //    console.log(`${sender}:${messageText}`);
+            //    getData();
+
+            //});
+
+            //connection.invoke("newMessage").catch(function (err) {
+            //    return console.error(err.toString());
+            //});
+
+
+            //connection.start().then(function () {
+            //    console.log('connected')
+            //}).catch(function (err) {
+            //    return console.error(err.toString());
+            //});
+
+
+
+            //document.getElementById("sendButton").addEventListener("click", function (event) {
+            //    var user = document.getElementById("userInput").value;
+            //    var message = document.getElementById("messageInput").value;
+
+            //    event.preventDefault();
+            //});
+
+            ////////////////////Close//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+            // getData();
+
+            function getData() {
+                $.ajax({
+                    url: '/Home/GetNotification',
+                    type: 'GET',
+                    datatype: 'application/json',
+                    //data: { id: id },
+                    success: function (data) {
+
+                        //  data = $.parseJSON(data);
+                        if (data.length > 0) {
+                            var count;
+                            $('#Notif').empty();
+                            for (var i = 0; i < 10; i++) {
+
+                                //document.getElementById('Notif').innerHTML += NotifHtml(data[i].Uid, '/_Driver/DetailView?driverno=' + data[i].Uid, data[i].Message, data[i].CreatedOn);
+
+                                //if (data[i].IsRead == false) {
+                                //    document.getElementById('Notif').innerHTML += NotifHtml(data[i].Uid, data[i].Message, data[i].CreatedOn, 'kt-notification__item to', 'success');
+                                //}
+                                //if (data[i].IsRead == true) {
+                                //    count = i + 1;
+                                //    document.getElementById('Notif').innerHTML += NotifHtml(data[i].Uid, data[i].Message, data[i].CreatedOn + ' (Unread)', 'kt-notification__item to ActiveNotif', 'warning');
+                                //}
+                            }
+                            $('#NotifCount').text(count);
+                            //    divNotificaion.empty();
+                            //    //// set Count
+                            //    //$('#ntCnt').text(data.length);
+
+                            //    /////Make notification html
+                            //    //for (var i = 0; i < data.length; i++) {
+                            //    //    var notification = '<div class="alert alert-danger alert-dismissable">' +
+                            //    //        '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'
+                            //    //        + data[i].Message +
+                            //    //        '</div>'
+                            //    //    divNotificaion.append(notification);
+                            //    //}
+
+                        }
+                    }, error: function (r, e, w) {
+
+                    }
+                });
+            }
+
+
+            //$(document).on('click', '#UpdateNotifStatus', function (e) {
+            //    var SelectedNotif = $(this).data("uid");
+            //    console.log(SelectedNotif);
+            //    UpdateNotifStatus(SelectedNotif);
+            //});
+
+
+
+            $('.accc').addClass('kt-menu__item--open');
+
+            if (sessionStorage.getItem("act") != '' && sessionStorage.getItem("act") != null) {
+                Active();
+            }
+
+            var val = 0;
+            $('.ArrrowCssi').click(function () {
+                SearchToggle();
+            });
+            $('.ArrrowCssa').click(function () {
+                SearchToggle();
+            });
+
+            function SearchToggle() {
+                if (val == 0) {
+
+                    $('.ArrrowCssi').removeClass('fas fa-angle-down');
+                    $('.ArrrowCssi').addClass('fas fa-angle-up');
+                    val = 1;
+                }
+                else {
+                    $('.ArrrowCssi').removeClass('fas fa-angle-up');
+                    $('.ArrrowCssi').addClass('fas fa-angle-down');
+                    val = 0;
+                }
+            }
+
+            $("#tbSearchNav").on("keyup", function () {
+
+                var value = $(this).val().toLowerCase();
+                $(".kt-menu__item").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    //console.clear()
+                    //console.log(this)
+                    $(this).addClass('kt-menu__item--open');
+                    if ($("#tbSearchNav").val() == "" || $("#tbSearchNav").val() == null) {
+                        $(this).removeClass('kt-menu__item--open');
+
+                    }
+                });
+            });
+            $('#closeButtonSearch_Shaheer').click(function () {
+                $("#tbSearchNav").val('')
+                var value = $(this).val().toLowerCase();
+                $(".kt-menu__item").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+
+                    $(this).addClass('kt-menu__item--open');
+                    if ($("#tbSearchNav").val() == "" || $("#tbSearchNav").val() == null) {
+                        $(this).removeClass('kt-menu__item--open');
+
+                    }
+                });
+            })
+
+        });
+
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+
+        //$('.2ndtimepicker').timepicker({
+        //    minuteStep: 1,
+        //    showSeconds: true,
+        //    showMeridian: false,
+        //    snapToStep: true
+        //});
+        $('.2ndtimepicker').timepicker();
+
+
+    </script>
+
+    <script src="~/Scripts/select2.js"></script>
+    <script src="~/Scripts/Theme_mtrnc/select2.min.js"></script>
+
+
+
+    <div class="modal fade" id="DeleteModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h3 class="modal-title">Delete</h3>
+                </div>
+                <div class="modal-body">
+                    <h4>Are you sure ? You want to delete this. </h4>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+                    <button id="BtnDeleteConfirm" type="button" class="btn btn-default">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/tools.js"></script>
+
+    <script src="~/lib/jquery/dist/PageScripts/ratingStar.js"></script>
+
+    @*<script src="/path/to/cdn/jquery.min.js"></script>*@
+
+    @*<script src="hierarchical-checkboxes.js"></script>*@
+    @*<script src="~/lib/jquery/dist/PageScripts/Dashboard.js"></script>*@
+    @*<script src="~/Scripts/Theme_mtrnc/dashboard.js"></script>*@
+    <script src="~/Scripts/form-repeater.js"></script>
+
+    <script src="https://www.google.com/jsapi" type="text/javascript"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script src="~/Scripts/fullcalendar.bundle.js"></script>
+    @*<script src="~/Scripts/basic.js"></script>*@
+    @*<script src="~/Assets/js/typeahead.js"></script>*@
+
+    @*<script src="~/Scripts/morris-charts.js"></script>*@
+    @*<script src="~/Scripts/flotcharts.js"></script>*@
+
+
+</body>
+
+
+
+@*<body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
+        </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>*@
+
+</html>

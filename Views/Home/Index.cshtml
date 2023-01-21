@@ -1,0 +1,555 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+
+    <title>Izak System</title>
+    <meta name="description" content="Login page example">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--begin::Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Roboto:300,400,500,600,700">
+    <!--end::Fonts -->
+    <!--begin::Page Custom Styles(used by this page) -->
+    @*<link href="../../../../../themes/metronic/theme/default/demo1/dist/assets/css/pages/login/login-3.css" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/Theme_mtrnc/login-3.css" rel="stylesheet" />
+    <!--end::Page Custom Styles -->
+    <!--begin::Global Theme Styles(used by all pages) -->
+    @*<link href="../../../../../themes/metronic/theme/default/demo1/dist/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/Theme_mtrnc/plugins.bundle.css" rel="stylesheet" type="text/css" />
+
+    @*<link href="../../../../../themes/metronic/theme/default/demo1/dist/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/Theme_mtrnc/style.bundle.css" rel="stylesheet" />
+
+    <!--end::Global Theme Styles -->
+    <!--begin::Layout Skins(used by all pages) -->
+    @*<link href="../../../../../themes/metronic/theme/default/demo1/dist/assets/css/skins/header/base/light.css" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/Theme_mtrnc/skins/header/base/light.css" rel="stylesheet" />
+    @*<link href="../../../../../themes/metronic/theme/default/demo1/dist/assets/css/skins/header/menu/light.css" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/Theme_mtrnc/skins/header/menu/light.css" rel="stylesheet" />
+    @*<link href="../../../../../themes/metronic/theme/default/demo1/dist/assets/css/skins/brand/dark.css" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/Theme_mtrnc/skins/brand/dark.css" rel="stylesheet" />
+    @*<link href="../../../../../themes/metronic/theme/default/demo1/dist/assets/css/skins/aside/dark.css" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/Theme_mtrnc/skins/aside/dark.css" rel="stylesheet" />
+
+    <!--end::Layout Skins -->
+
+    <link rel="shortcut icon" href="~/Assets/img/s.png" />
+
+
+
+
+    <style>
+        .bs-example {
+            margin: 20px;
+        }
+
+
+        .input-group.to {
+            position: relative;
+            background-clip: padding-box;
+            border: 1px solid #e2e5ec;
+            border-radius: 4px;
+            -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+        }
+
+        button.btn.btn-default.reveal {
+            border: 0;
+            /*background: #e8f0fe;*/
+            color: #FC8436;
+            /*border: 1px solid #e8ecfa;*/
+        }
+
+        .form-control.to {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 1.3rem + 2px);
+            padding: 0.65rem 1rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #e2e5ec;
+            border-radius: 4px;
+            -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+        }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            height: calc(1.5em + 1.3rem + 2px);
+            padding: 0.65rem 1rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 0px solid #e2e5ec;
+            border-radius: 4px;
+            -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+        }
+
+        span.input-group-btn {
+        }
+
+        .input-group.to span.input-group-btn {
+            /*position: absolute;*/
+            right: 0;
+        }
+
+
+        button#dropdownbtn {
+            margin: 35px 0px -0px -320px;
+            width: 430px;
+            background-color: #e8f0fe;
+            text-align: justify;
+        }
+
+
+        .col.kt-align-right.to {
+            margin: 16px -0px 30px 0px;
+        }
+
+        .kt-login__account.to {
+            margin: -57px 0px 0px -63px;
+            font-size: 15px;
+        }
+
+        a.kt-login__account-msg.to {
+            margin: 0px 0px 0px 202px;
+            /*color: #5867dd;*/
+        }
+
+        a#txtclr {
+            color: #5867dd;
+        }
+
+        .kt-align-left {
+            text-align: left;
+        }
+
+        button.btn.btn-brand.btn-elevate.kt-login__btn-primary.to {
+            padding: 11px 190px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 2px 0px;
+            cursor: pointer;
+            background-color: #5D78FF;
+            border-color: #5D78FF;
+        }
+
+        .kt-login__account.to {
+            margin: -62px 0 0 0;
+            margin-top: -2rem;
+            font-size: 15px;
+        }
+
+        /*.kt-login__account {
+            margin: -62px 0 0 0;
+            margin-top: -2rem;
+        }*/
+
+        div#top {
+            margin-top: -2rem;
+        }
+
+        a#kt_login_forgot {
+            margin: 0px -54px 0px 15px;
+        }
+
+        .kt-login__actions {
+            margin: 0px 1px 0px 0px;
+        }
+
+        button#kt_login_forgot_submit {
+            color: #fffcfc;
+            background-color: rgba(253, 160, 62, 0.27);
+            border-color: #FC8436;
+            color: #010101;
+        }
+    </style>
+
+</head>
+<!-- END HEAD -->
+
+<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--fixed kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading">
+
+
+    <!-- begin:: Page -->
+    <div class="kt-grid kt-grid--ver kt-grid--root">
+        <div class="kt-grid kt-grid--hor kt-grid--root  kt-login kt-login--v3 kt-login--signin" id="kt_login">
+            <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" style="background-image: url('Assets/images/background.png')">
+                <div class="kt-grid__item kt-grid__item--fluid kt-login__wrapper">
+                    <div class="kt-login__container">
+                        <div class="kt-login__logo">
+                            <a href="#">
+                                @*<img src="../../../../../themes/metronic/theme/default/demo1/dist/assets/media/logos/logo-5.png">*@
+                                <img src="Assets/images/loginlogo.png" class="img-fluid"/>
+                            </a>
+                        </div>
+
+                        <div class="kt-login__signin">
+                            <div class="kt-login__head">
+                                <h3 class="kt-login__title">Welcome to SAP</h3>
+                            </div>
+
+                            <div class="input-group to">
+                                <input class="form-control" type="text" placeholder="Email" name="Username" id="Username" autocomplete="off">
+                            </div>
+                            <br />
+
+                            <div class="input-group to eyes-slash" style="color: #495057;background-color: #fff;outline: 0;-webkit-box-shadow: 0 0 0 0.2rem rgba(88, 103, 221, 0.25);box-shadow: 0 0 0 0.2rem rgba(234, 234, 234, 0.25);">
+                                <input class="form-control" type="password" placeholder="Password" name="password" id="password">
+                                <span class="input-group-btn">
+                                    <button id="slasheyes" onclick="showPassword()" class="btn  reveal" style="top: 10px;position: relative;" type="button">
+                                        <i id="showeyes" class=" fa fa-eye-slash"></i>
+                                    </button>
+                                </span>
+
+                            </div>
+
+
+
+
+                            <div class="row kt-login__extra">
+
+
+                                <div class="col kt-align-right to">
+                                    <div class="kt-login__actions">
+                                        <button id="btnLogin" class="btn btn-brand btn-elevate kt-login__btn-primary to ">Sign In</button>
+                                    </div>
+                                </div>
+                                <div class="kt-login__account text-primary" id="top">
+                                    <a id="kt_login_forgot" style="float:right" href="#" class="kt-login__link" onclick="removeValMsg()">Forget Password ?</a>
+
+                                </div>
+
+                            </div>
+                            <br />
+
+
+
+                        </div>
+                        <div class="kt-login__signup">
+                            <div class="kt-login__head">
+                                <h3 class="kt-login__title">Sign Up</h3>
+                                <div class="kt-login__desc">Enter your details to create your account:</div>
+                            </div>
+                            <form class="kt-form" action="#">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" placeholder="Fullname" name="fullname">
+                                </div>
+                                <div class="input-group">
+                                    <input class="form-control" type="text" placeholder="Email" name="email" autocomplete="off">
+                                </div>
+                                <div class="input-group">
+                                    <input class="form-control" type="password" placeholder="Password" name="password">
+                                </div>
+                                <div class="input-group">
+                                    <input class="form-control" type="password" placeholder="Confirm Password" name="rpassword">
+                                </div>
+                                <div class="row kt-login__extra">
+                                    <div class="col kt-align-left">
+                                        <label class="kt-checkbox">
+                                            <input type="checkbox" name="agree">I Agree the <a href="#" class="kt-link kt-login__link kt-font-bold">terms and conditions</a>.
+                                            <span></span>
+                                        </label>
+                                        <span class="form-text text-muted"></span>
+                                    </div>
+                                </div>
+                                <div class="kt-login__actions">
+                                    <button id="kt_login_signup_submit" class="btn btn-brand btn-elevate kt-login__btn-primary to">Sign Up</button>&nbsp;&nbsp;
+
+
+
+                                    <button id="kt_login_signup_cancel" class="btn btn-light btn-elevate kt-login__btn-secondary">Cancel</button>
+
+                                </div>
+
+
+
+                            </form>
+                        </div>
+                        <div class="kt-login__forgot">
+                            <div class="kt-login__head">
+                                <h3 class="kt-login__title">Forgotten Password ?</h3>
+                                <div class="kt-login__desc">Enter your email to reset your password:</div>
+                            </div>
+                            <form class="kt-form" action="#">
+                                <div class="input-group">
+                                    <input id="res" class="form-control" type="text" placeholder="User ID" autocomplete="off">
+                                </div>
+                                <div class="kt-login__actions">
+                                    <button id="kt_login_forgot_submit" class="btn btn-brand btn-elevate kt-login__btn-primary">Request</button>&nbsp;&nbsp;
+                                    <button id="kt_login_forgot_cancel" class="btn btn-light btn-elevate kt-login__btn-secondary">Cancel</button>
+
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                    <br />
+
+                    @*<div class="kt-login__account">
+                              <a id="kt_login_forgot" class="kt-login__link" onclick="removeValMsg()">Forget Password ?</a>
+                              <a href="@Url.Action("Index","SignUp")" class="kt-login__account-msg to">
+                                  Sign up as a transporter
+                              </a>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @*<div id="LoginModal" class="modal fade">
+        <div class="modal-dialog" style="width:900px;">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Caution</h4>
+                </div>
+                <div class="modal-body"> This User Already Login. Are You Want to Contine? </div>
+                <div class="modal-footer">
+                    <button type="button" id="ConfirmLogin" class="btn dark btn-outline" data-dismiss="modal">Yes</button>
+                    <button type="button" id="closeLogin" class="btn green">No</button>
+                </div>
+               
+            </div>
+        </div>
+    </div>*@
+
+
+    <div class="modal fade show" id="LoginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-modal="true" style="display: none; padding-right: 17px;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle"><i class="flaticon-warning-sign"> </i>Caution</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        This User already Login.
+                    </p>
+
+                    <p>
+                        Are you sure you want to continue?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="ConfirmLogin" data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn btn-primary" id="closeLogin" >No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end:: Page -->
+    <!-- begin::Global Config(global config for global JS sciprts) -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('#kt_login_forgot_submit').click(function () {
+                validate();
+
+            });
+
+
+            var val = 0;
+            $('#slasheyes').click(function () {
+                SearchToggle();
+            });
+
+
+
+
+            function SearchToggle() {
+                if (val == 0) {
+
+                    $('#showeyes').removeClass('fa fa-eye-slash');
+                    $('#showeyes').addClass('fa fa-eye');
+                    val = 1;
+                }
+                else {
+                    $('#showeyes').removeClass('fa fa-eye');
+                    $('#showeyes').addClass('fa fa-eye-slash');
+                    val = 0;
+                }
+            }
+
+
+
+
+            function validate() {
+
+                if ($('#res').val == null || $('#res').val == "") {
+                    var flag = false;
+                    setInterval(function () {
+                        if (!flag) {
+                            flag = true;//store this to compare later
+                            toastr.warning("Email no is mendatory");
+                        }
+                    }, 1);
+                }
+                else {
+                    debugger
+                    reset();
+                }
+
+
+            }
+
+            function clearFields() {
+                $('#res').val() = null;
+
+            }
+            function reset() {
+                debugger
+                var username = null;
+                username = $('#res').val();
+                $.ajax({
+                    url: "/Login/ResetPassword",
+                    dataType: 'json',
+                    type: "POST",
+                    data: {
+                        "username": username
+                    },
+                    success: function (result) {
+                        debugger
+                        if (result.isSuccess) {
+
+                            //clearFields();
+                            //  toastr.success(result.msg);
+                        }
+                        else {
+                            debugger
+                            toastr.error(result.msg);
+                            return false;
+                        }
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                        console.log(errorMessage);
+                    }
+                });
+            }
+
+            function FieldsData() {
+
+                var ToEmail = $('#res').val();
+
+                return ToEmail;
+            }
+        });
+
+
+        function removeValMsg() {
+            if ($('#valMsg').length) {
+
+                $("#valMsg").remove();
+            }
+        }
+        function showPassword() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+
+
+
+
+
+
+        var KTAppOptions = {
+            "colors": {
+                "state": {
+                    "brand": "#5d78ff",
+                    "dark": "#282a3c",
+                    "light": "#ffffff",
+                    "primary": "#5867dd",
+                    "success": "#34bfa3",
+                    "info": "#36a3f7",
+                    "warning": "#ffb822",
+                    "danger": "#fd3995"
+                },
+                "base": {
+                    "label": [
+                        "#c5cbe3",
+                        "#a1a8c3",
+                        "#3d4465",
+                        "#3e4466"
+                    ],
+                    "shape": [
+                        "#f0f3ff",
+                        "#d9dffa",
+                        "#afb4d4",
+                        "#646c9a"
+                    ]
+                }
+            }
+        }
+    </script>
+    <!-- end::Global Config -->
+    <!--begin::Global Theme Bundle(used by all pages) -->
+    @*<script src="../../../../../themes/metronic/theme/default/demo1/dist/assets/plugins/global/plugins.bundle.js" type="text/javascript"></script>*@
+    <script src="~/Scripts/Theme_mtrnc/plugins.bundle.js"></script>
+    @*<script src="../../../../../themes/metronic/theme/default/demo1/dist/assets/js/scripts.bundle.js" type="text/javascript"></script>*@
+    <script src="~/Scripts/Theme_mtrnc/scripts.bundle.js"></script>
+
+    <!--end::Global Theme Bundle -->
+    <!--begin::Page Scripts(used by this page) -->
+    @*<script src="../../../../../themes/metronic/theme/default/demo1/dist/assets/js/pages/custom/login/login-general.js" type="text/javascript"></script>*@
+    <script src="~/Scripts/Theme_mtrnc/login-general.js"></script>
+    <script type="text/javascript" src="~/lib/jquery/dist/PageScripts/Login.js" asp-append-version="true"></script>
+    <!--end::Page Scripts -->
+</body>
+<!-- end::Body -->
+<!-- Mirrored from keenthemes.com/metronic/preview/demo1/custom/pages/user/login-3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 Sep 2019 06:48:50 GMT -->
+</html>
+<style>
+    div#ForgotPassword {
+        text-align: left;
+        margin: 15px 0 -8px 0;
+    }
+</style>
+<script>
+
+
+    var input = document.getElementById("password");
+    input.addEventListener("keyup", function (event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            document.getElementById("btnLogin").click();
+        }
+    });
+
+    function onsuccess() {
+        alert("calling onsucceess method")
+    }
+
+</script>

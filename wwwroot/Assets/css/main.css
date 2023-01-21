@@ -1,0 +1,223 @@
+
+/* ==========================================================================
+    Yasir styles
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap');
+
+  #reportsx { font-family: 'Open Sans', sans-serif;
+color: #000 }
+
+
+  #reportsx h1, #reportsx h3 {
+    margin: 20px 0 0;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-align: center;
+}
+h1 {font-size: 30px}
+#reportsx h3 {
+    text-decoration: underline;
+    font-size: 19px;
+    margin: 0;
+}
+
+section#reportsx {
+    margin: 50px 0;
+}
+
+.heighTtbcontnt{
+    height:400px;
+}
+
+.boxed {
+    border: 4px solid #000;
+    padding: 4px 10px;
+}
+
+.boxed p {
+    margin: 0 0 4px;
+}
+span.chk-box {
+  border: 2px solid #000 ;
+  height: 18px;
+  width: 30px;
+  display: inline-block;
+  position: relative;
+  top: 4px;
+}
+
+.tbl-report {
+  padding: 4px;
+  border: 1px solid #ccc;
+  text-align: left;
+  height: 42px !important;
+}
+/* 
+Generic Styling, for Desktops/Laptops 
+*/
+/* 
+Generic Styling, for Desktops/Laptops 
+*/
+.valign
+{vertical-align: top;}
+.movex {
+  -moz-transform: rotate(90.0deg);
+  -o-transform: rotate(90.0deg);
+  -webkit-transform: rotate(90.0deg);
+  transform: rotate(90.0deg);
+  text-align: center;
+  font-size: 20px;
+}
+
+
+table { 
+    /*width: 100%;*/ 
+    border-collapse: collapse; 
+  }
+  /* Zebra striping */
+  tr:nth-of-type(odd) { 
+    background: #fff; 
+  }
+tr {
+    border-bottom: 1px solid #e2d7d7;
+}
+/*Table Scroll*/
+.tableScroll {
+    overflow: auto !important;
+    height: 350px !important;
+}
+th {
+    background: #232b35;
+    color: white;
+    font-weight: bold;
+}
+  td, th { 
+    padding: 6px; 
+    border: 1px solid #ccc; 
+    text-align: left; 
+  }
+/* 
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	/* Force table to not be like tables anymore */
+    table, thead, tbody, th, td, tr {
+        /*display: block;*/
+    }
+
+
+    #tab_New table, #tab_New thead, #tab_New tbody, #tab_New th, #tab_New td, #tab_New tr {
+        display: block;
+    }
+
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
+        /*position: absolute;*/
+        top: -9999px;
+        left: -9999px;
+    }
+	
+	tr { border: 1px solid #ccc; }
+	
+	td { 
+		/* Behave  like a "row" */
+		border-right: 1px solid #000;
+		border-bottom: 1px solid #000; 
+		position: relative;
+		padding-left: 50%; 
+	}
+	
+	td:before { 
+		/* Now like a table header */
+		/*position: absolute;*/
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+	
+	/*
+	Label the data
+	*/
+	.firstx td:nth-of-type(1):before { content: "Product"; }
+	.firstx td:nth-of-type(2):before { content: "Batch No"; }
+	.firstx td:nth-of-type(3):before { content: "Pack Size"; }
+    
+
+
+  .secondx td:nth-of-type(1):before { content: "Product"; }
+  .secondx td:nth-of-type(2):before { content: "Batch No"; }
+  .secondx td:nth-of-type(3):before { content: "Pack Size"; }
+  .secondx td:nth-of-type(4):before { content: "Favorite Color"; }
+
+  .thrid td:nth-of-type(1):before { content: "Commence On"; }
+  .thrid td:nth-of-type(2):before { content: "Mfg Started On"; }
+  .thrid td:nth-of-type(3):before { content: "Mfg Completed On"; }
+
+
+
+
+
+
+}
+
+.txt-cnt{
+    text-align: center;
+}
+
+.txt-cnt.m{
+    text-align: center !important;
+    /* padding-top: 40px !important; */
+    width: 50%;
+}
+
+
+table {
+  margin-bottom: 7px;
+}
+
+
+
+
+
+
+@media print{
+h1 {font-size: 20px;}
+h3 {font-size: 15px}
+
+h1, h3 {
+  text-align: center;
+}
+h3 {
+  text-decoration: underline;
+}
+table { 
+  /*width: 100%;*/ 
+  border-collapse: collapse; 
+}
+/* Zebra striping */
+tr:nth-of-type(odd) {
+   background: #fff;
+   }
+th { 
+  background: grey; 
+  color: white; 
+  font-weight: bold; 
+}
+td, th { 
+  padding: 6px; 
+  border: 1px solid #ccc; 
+  text-align: left; 
+}
+
+
+}

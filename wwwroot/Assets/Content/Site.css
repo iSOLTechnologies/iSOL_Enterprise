@@ -1,0 +1,120 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.kt-wizard-v4__nav-items.nav.to {
+    display: none !important;
+}
+
+
+@media screen and (max-width: 400px) {
+    .tableScroll {
+        overflow: auto
+    }
+}
+
+.switch {
+    opacity: 0;
+    position: absolute;
+    z-index: 1;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+    .switch + .switch-body {
+        position: relative;
+        display: inline-block;
+        margin: 0;
+        cursor: pointer;
+        float: left;
+        margin-right: 10px;
+    }
+
+        .switch + .switch-body:before {
+            content: "";
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            border-radius: 100px;
+            top: auto;
+        }
+
+        .switch + .switch-body + .switch-text {
+            display: inline-block;
+            padding-top: 5px;
+        }
+
+    .switch.switch-bootstrap + .switch-body:before {
+        background-color: #d2d9e1;
+        width: 45px;
+        height: 25px;
+        -webkit-transition: background 0.1s ease;
+        -o-transition: background 0.1s ease;
+        transition: background 0.1s ease;
+    }
+
+    .switch.switch-bootstrap + .switch-body:after {
+        content: '';
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        border-radius: 50%;
+        width: 23px;
+        height: 23px;
+        background-color: #fff;
+        border: 4px solid #fff;
+        -webkit-transition: left 0.2s ease;
+        -o-transition: left 0.2s ease;
+        transition: left 0.2s ease;
+    }
+
+
+
+.switch-primary.sx {
+    position: relative;
+    top: 6px;
+    left: 12px;
+}
+
+
+    .switch.switch-bootstrap:checked + .switch-body:after {
+        left: 21px;
+        background-color: #FFF;
+        border: 4px solid #FFF;
+        text-shadow: 0 -1px 0 rgba(0, 200, 0, 0.25);
+    }
+/* CSS3 on/off switches */
+.switch-primary > .switch.switch-bootstrap:checked + .switch-body::before {
+    background-color: #FC6C06;
+}
+
+.switch-success > .switch.switch-bootstrap:checked + .switch-body::before {
+    background-color: #5cb85c;
+}
+
+.switch-danger > .switch.switch-bootstrap:checked + .switch-body::before {
+    background-color: #d9534f;
+}
+
+.switch-info > .switch.switch-bootstrap:checked + .switch-body::before {
+    background-color: #5bc0de;
+}
+
+.switch-warning > .switch.switch-bootstrap:checked + .switch-body::before {
+    background-color: #f0ad4e;
+}
