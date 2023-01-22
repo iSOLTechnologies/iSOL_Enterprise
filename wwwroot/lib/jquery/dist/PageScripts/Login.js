@@ -17,7 +17,7 @@ Login.prototype.Events = function () {
 
 
     $(document).on('click', '#btnLogin', function () {
-        debugger
+        //debugger
         //SCMApp.StartSpinner($(this));  
         $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
         $(this).attr('disabled', true);
@@ -26,39 +26,39 @@ Login.prototype.Events = function () {
     })
 
     $(document).on('click', '#BtnforgetPassword', function () {
-        debugger
+        //debugger
         //SCMApp.StartSpinner($(this));  
         $('#LoginForm').hide();
         $('#ForgetForm').show();
     })
 
     $(document).on('click', '#back-btn', function () {
-        debugger
+        //debugger
         //SCMApp.StartSpinner($(this));  
         $('#ForgetForm').hide();
         $('#LoginForm').show();
     })
 
     $(document).on('click', '#btnSendMail', function () {
-        debugger
+        //debugger
         //SCMApp.StartSpinner($(this));  
         self.SendEmail($('#forgetPassword').val());
     })
 
     $(document).on('click', '#BtnUpdate', function () {
-        debugger
+        //debugger
         self.resetpassword();
 
     })
 
     //$(document).on('keyup', '#password', function () {
-    //    debugger
+    //    //debugger
     //    self.LoginUser();
 
     //})
 
     $(document).on('keyup', '#password', function () {
-        debugger
+        //debugger
         if (event.keyCode === 13) {
             self.LoginUser();
         }
@@ -66,7 +66,7 @@ Login.prototype.Events = function () {
     })
 
     $(document).on('keyup', '#Username', function () {
-        debugger
+        //debugger
 
         if (event.keyCode === 13) {
             self.LoginUser();
@@ -79,12 +79,12 @@ Login.prototype.Events = function () {
 
     Login.prototype.RecordLogs = function (controllerName, msg) {
         var self = this;
-        debugger
+        //debugger
 
     var jqxhr =  $.getJSON('https://json.geoiplookup.io/?callback=?', function () {
            
         }).done(function (data) {
-            debugger
+            //debugger
             console.log(JSON.stringify(data, null, 2));
             var formData = {
 
@@ -137,7 +137,7 @@ Login.prototype.Events = function () {
         //    }
 
         //}).done(function (data) {
-        //    debugger
+        //    //debugger
         //    var formData = {
 
         //        ControllerName: controllerName,
@@ -213,7 +213,7 @@ Login.prototype.SendEmail = function (email) {
 
     Login.prototype.resetpassword = function () {
         var self = this;
-        debugger
+        //debugger
         var req = $.ajax({
             url: "/Home/UpdatePassword",
             type: "POST",
@@ -256,7 +256,7 @@ Login.prototype.SendEmail = function (email) {
             dataType: 'json',
             data: formData,
             success: function (resp) {
-                debugger
+                //debugger
                 if (resp.data == true) {
                     //  SCMApp.StopSpinner('btnLogin');
                    // self.RecordLogs("Users", "User Login");
