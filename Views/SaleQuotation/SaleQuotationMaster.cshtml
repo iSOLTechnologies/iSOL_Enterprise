@@ -348,16 +348,16 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input class="form-control form-control-sm" id="QTY" onkeyup="GetPrice()" type="number">
+                                                                                        <input class="form-control form-control-sm" id="QTY"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
 
                                                                                     <td>
-                                                                                        <input class="form-control form-control-sm" id="UPrc" onkeyup="GetPrice()" type="text">
+                                                                                        <input class="form-control form-control-sm" id="UPrc"  type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input class="form-control form-control-sm" id="DicPrc" onkeyup="GetPrice()" type="number">
+                                                                                        <input class="form-control form-control-sm" id="DicPrc"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
@@ -794,19 +794,19 @@
 
 
 
-                                                        <div class="container">
+                                                        <div class="container" id="FooterData">
                                                             <br />
                                                             <br />
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <label for="inputPassword4" class="form-label">Sales Employee</label>
+                                                                    <label for="" class="form-label" >Sales Employee</label>
                                                                     <select id="SlpCode" asp-items="@ViewBag.SalesEmployee" class="form-control form-control-sm">
                                                                     </select>
                                                                 </div>
 
                                                                 <div class="col-md-6">
                                                                     <label for="inputEmail4" class="form-label">Total Before Discount</label>
-                                                                    <input name="TotalBeforeDiscount" type="text" class="form-control" id="inputPassword4">
+                                                                    <input name="TotalBeforeDiscount" readonly type="text" class="form-control" id="TotalBeforeDiscount">
 
                                                                 </div>
 
@@ -814,8 +814,8 @@
                                                             <br />
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <label id="OwnerCode" for="inputPassword4" class="form-label">Owner</label>
-                                                                    <input name="OwnerCode" type="text" class="form-control" id="inputPassword4">
+                                                                    <label  for="inputPassword4" class="form-label">Owner</label>
+                                                                    <input name="OwnerCode" type="text" class="form-control" id="OwnerCode">
 
                                                                 </div>
 
@@ -823,7 +823,7 @@
                                                                 <div class="col-md-6">
                                                                     <label for="inputEmail4" class="form-label">Discount</label>
                                                                     <!-- @*@Html.EditorFor(m => m.OQUT_obj.DiscPrcnt, new { htmlAttributes = new { @class = "form-control", type = "number" } })*@ -->
-                                                                    <input name="Discount" type="number" class="form-control">
+                                                                    <input name="Discount" type="number" class="form-control" id="Discount">
 
                                                                 </div>
 
@@ -834,19 +834,19 @@
 
                                                                 <div class="col-md-6">
                                                                     <div class="form-check">
-                                                                        <input class="form-check-input" type="checkbox" value="" id="Rounding">
+                                                                        <input class="form-check-input" type="checkbox" value="" id="RoundingChkBox">
                                                                         <label class="form-check-label" for="flexCheckDefault">
                                                                             Rounding
                                                                         </label>
                                                                     </div>
                                                                     <!-- @*  @Html.EditorFor(m => m.OQUT_obj.Rounding, new { htmlAttributes = new { @class = "form-control", type = "number" } })*@ -->
-                                                                    <input type="number" class="form-control">
+                                                                    <input type="number" class="form-control " readonly id="Rounding">
 
                                                                 </div>
 
                                                                 <div class="col-md-6">
-                                                                    <label for="inputEmail4" class="form-label">Tax</label>
-                                                                    <input name="Tax" type="text" class="form-control">
+                                                                    <label for="inputEmail4" class="form-label" id="">Tax</label>
+                                                                    <input name="Tax" type="text" class="form-control" id="Tax">
 
                                                                 </div>
                                                             </div>
@@ -856,13 +856,13 @@
 
                                                                 <div class="col-md-6">
                                                                     <label for="inputEmail4" class="form-label">Total</label>
-                                                                    <input name="Total" type="text" class="form-control">
+                                                                    <input name="Total" type="text" class="form-control" id="Total">
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="inputRemarks" class="form-label">Remarks</label>
 
                                                                     <!-- @*<textarea class = "form-control" rows="3" asp-for="OQUT_obj.Comments"></textarea>*@ -->
-                                                                    <textarea id="Comments" class="form-control" rows="3"></textarea>
+                                                                    <textarea id="Comments" class="form-control" rows="3" id="Remarks"></textarea>
 
 
 
@@ -1054,11 +1054,7 @@
            // });
         });
     }
-    $(document).on('change', '#VatGroup', function (e) 
-    {
-       GetPrice();
-
-    });
+    
     $(document).on('click', '#Itemno', function (e) {
         IsHeader = false;
         ObjItemCode = $(this).closest('tr').find("#ItemCode");
@@ -1079,34 +1075,30 @@
     //     document.getElementById("myCustomerbtn").click();
     //}
 
-      $(document).on('keyup', '#QTY,#UPrc,#DicPrc,#VatGroup', function (e) {
-
-var Qty = $(this).closest('#ListParameters .itm').find('#QTY');
+      $(document).on('keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount', function (e) 
+      {
+         
+    var Qty = $(this).closest('#ListParameters .itm').find('#QTY');
 var UPrc = $(this).closest('#ListParameters .itm').find('#UPrc');
 var DicPrc = $(this).closest('#ListParameters .itm').find('#DicPrc');
 var TtlPrc = $(this).closest('#ListParameters .itm').find('#TtlPrc');
 var VatGroup = $(this).closest('#ListParameters .itm').find('#VatGroup');
 
-//if ($(Qty).val() != null && $(Qty).val() != undefined && $(Qty).val() != '') {
-//    $(TtlPrc).val(parseFloat($(Qty).val()) * parseFloat($(UPrc).val()));
 
-//}
-//if ($(DicPrc).val() != null && $(DicPrc).val() != undefined && $(DicPrc).val() != '') {
-//    var dsc = parseFloat($(Qty).val()) * parseFloat($(UPrc).val())
-//    dsc = dsc / $(DicPrc).val();
-//    $(TtlPrc).val(parseFloat(dsc).toFixed(2));
-//}
-if ($(DicPrc).val() == "") {
+if ($(DicPrc).val() == "") 
+{
     var Onepercent = parseFloat($(TtlPrc).val() / 100); 
     var Tax = parseFloat(Onepercent * $(VatGroup).val())
     if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
         $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val()))+parseFloat(Tax)).toFixed(2)));
+        GetPrice();
         //document.getElementById("TtlPrc").value = parseFloat(TtlPrc).toFixed(2);
         //console.log(TtlPrc)
     }
 }
 
-if (DicPrc != "") {
+if (DicPrc != "") 
+{
     $(TtlPrc).val((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())).toFixed(2));
     var Onepercent = parseFloat($(TtlPrc).val() / 100);
     var discountPrice = parseFloat(Onepercent * $(DicPrc).val());
@@ -1114,12 +1106,97 @@ if (DicPrc != "") {
     console.log("discountPrice:", discountPrice)
     if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
         $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) - (parseFloat(discountPrice)))+(Tax)).toFixed(2));
+                GetPrice();
         //document.getElementById("TtlPrc").value = parseFloat(TtlPrc).toFixed(2);
         //console.log(Tax)
     }
 }
 
 });
+    //$(document).on('keyup', '#Discount', function (e) 
+    //{
+       
+    //    var TotalPrice = $("#Total").val();
+    //    if(TotalPrice != null)
+    //    var DiscountedPrice = TotalPrice * ($(this).val()/100 );
+    //    $("#Total").val(TotalPrice - DiscountedPrice);
+
+    //});
+    $(document).on('click', '#RoundingChkBox', function (e) 
+    {
+
+       if($(this).is(":checked"))
+      {
+        $('#Rounding').removeAttr('readonly', 'readonly');
+      }
+      else
+        {
+         $('#Rounding').attr('readonly', 'readonly');
+        }
+    });
+
+    //$(document).on('keyup', '#Rounding', function (e) 
+    //{
+        
+      
+    //  if($('#RoundingChkBox').is(":checked"))
+    //  {
+          
+    //    var TotalPrice = $("#Total").val();
+    //    var RoundingValue = parseFloat($('#Rounding').val());
+    //    if(TotalPrice != "")
+    //        if(RoundingValue != "")
+    //            $("#Total").val( Number(TotalPrice) +  RoundingValue);
+    //        else 
+    //        $("#Total").val( Number(TotalPrice));
+    //  }
+    //});
+function GetPrice() 
+{
+
+    $("#Total").val( 0 );
+    var totalBeforeDiscount = 0;
+    var RoundingValue = 0;
+    var Discount = parseFloat($("#Discount").val()/100 );
+    $('#ListParameters .itm').each(function (index, item) 
+    {
+            var dt1 = $(this).closest('#ListParameters .itm').find("#TtlPrc");
+           if(dt1.val() != null)
+            totalBeforeDiscount = Number(totalBeforeDiscount) + Number(dt1.val());
+    })
+    if(totalBeforeDiscount != 0)
+    $("#TotalBeforeDiscount").val(totalBeforeDiscount);
+
+     if($('#RoundingChkBox').is(":checked"))
+      {
+          
+         
+         RoundingValue = parseFloat($('#Rounding').val());
+       
+      }
+    if(Discount != "" && RoundingValue != "")
+    {
+     
+        $("#Total").val( totalBeforeDiscount - ((totalBeforeDiscount  + RoundingValue ) * Discount ));
+
+    }
+    else if(Discount == "" && RoundingValue != "" ) 
+    {  
+        $("#Total").val( ( totalBeforeDiscount  + RoundingValue ) );
+    }
+    else if(Discount != "" && RoundingValue == "" ) 
+    {
+   
+        $("#Total").val( parseFloat(totalBeforeDiscount - (totalBeforeDiscount * Discount) ));
+    }
+    else if(Discount == "" && RoundingValue == "" ) 
+    {
+      
+        $("#Total").val( totalBeforeDiscount );
+    }
+
+}
+
     //function GetPrice() {
     //    var QTY = document.getElementById("QTY").value;
     //    var UPrc = document.getElementById("UPrc").value;
@@ -2063,13 +2140,14 @@ if (DicPrc != "") {
         ListItems: getJsonObjList("ListParameters .itm"),
         ListService: getJsonObjList("ListParameters2 .itm"),
         ListAttachment: getJsonObjList("ListParameters3 .itm"),
-        FooterData : [],
+        FooterData : getJsonObj("FooterData")
+      
         }
        //console.log(getJsonObjList("ListParameters .itm"));
     //    data.ListItems.push(getJsonObjList("ListParameters .itm"));
                 //data.ListService.push(getJsonObjList("ListParameters2 .itm"));
                        // data.ListAttachment.push(getJsonObjList("ListParameters3 .itm"));
-        data.FooterData.push(getJsonObj("HeaderForm"));
+      
        console.log(data);
        // return data;
     }
