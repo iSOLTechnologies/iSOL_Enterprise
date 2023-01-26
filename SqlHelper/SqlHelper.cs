@@ -41,8 +41,9 @@ namespace SqlHelperExtensions
     /// </summary>
     public static class SqlHelper
     {
-        public static string defaultDB = String.Empty;
         public static string default2ndDB = String.Empty;
+        public static string defaultDB = String.Empty;
+        public static string defaultSapDB = String.Empty;
 
 
         //public static void Initialize()

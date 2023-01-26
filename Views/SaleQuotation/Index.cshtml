@@ -1,252 +1,177 @@
-﻿
-
-@using Microsoft.AspNetCore.Http
+﻿@using Microsoft.AspNetCore.Http
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="https://code.jquery.com/jquery-3.6.3.slim.js" integrity="sha256-DKU1CmJ8kBuEwumaLuh9Tl/6ZB6jzGOBV/5YpNE2BWc=" crossorigin="anonymous"></script>
+<!-- Render Body <Start> -->
+<!--begin::Subheader-->
+<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+        <!--begin::Info-->
+        <div class="d-flex align-items-center flex-wrap mr-2">
+            <!--begin::Page Title-->
+            <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">iSOl</h5>
+            <!--end::Page Title-->
+            <!--begin::Actions-->
+            <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200">
+            </div>
+            <span class="text-muted font-weight-bold mr-2">Dashboard</span>
+            <span class="font-weight-bolder">/ Sale Quotation</span>
+            <!--end::Actions-->
+        </div>
+        <!--end::Info-->
 
-         <!-- Render Body <Start> -->
-			  
+    </div>
+</div>
+<!--end::Subheader-->
+<!--begin::Entry-->
+<div class="container mt-5">
 
-		
+    <!--begin::Card-->
+    <div class="card card-custom">
+        <div class="card-header">
+            <div class="card-title">
+                <span class="card-icon">
+                    <i class="flaticon-notepad text-primary"></i>
+                </span>
+                <h3 class="card-label">Sale Quotation</h3>
+            </div>
+           @* <div class="card-toolbar">
+                <button class="bt btn-brand"  type="button">
+                    Add
+                </button>
+            
+                <!--end::Button-->
+            </div>*@
+            <div class="card-toolbar">
+            <div class="btn-group">
+                <button type="button" id="btnAdd" class="btn btn-primary font-weight-bolder">
+                  + Add Record
+                </button>
+            </div>
+            </div> 
+        </div>
+        <div class="card-body">
+            <!--begin: Datatable-->
+            <table class="table table-striped- table-bordered table-hover table-checkable " id="AttTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
 
 
-
-
-					<!--begin::Subheader-->
-				<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
-						<div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-							<!--begin::Info-->
-							<div class="d-flex align-items-center flex-wrap mr-2">
-								<!--begin::Page Title-->
-								<h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">iSOl</h5>
-								<!--end::Page Title-->
-								<!--begin::Actions-->
-								<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200">
-								</div>
-								<span class="text-muted font-weight-bold mr-2">Dashboard</span>
-								<span class="font-weight-bolder">/ Sale Quotation</span>
-								<!--end::Actions-->
-							</div>
-							<!--end::Info-->
-
-						</div>
-					</div>
-					<!--end::Subheader-->
-
-
-
-
-
-
-
-
-
-
-
-					<!--begin::Entry-->
-					<div class="container mt-5">
-
-						<!--begin::Card-->
-						<div class="card card-custom">
-							<div class="card-header">
-								<div class="card-title">
-									<span class="card-icon">
-										<i class="flaticon-notepad text-primary"></i>
-									</span>
-									<h3 class="card-label">Sale Quotation</h3>
-								</div>
-								<div class="card-toolbar">
-									<!--begin::Dropdown-->
-									<!-- <div class="dropdown dropdown-inline mr-2">
-						<button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<span class="svg-icon svg-icon-md">
-							begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg
-							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-									<rect x="0" y="0" width="24" height="24"></rect>
-									<path d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z" fill="#000000" opacity="0.3"></path>
-									<path d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z" fill="#000000"></path>
-								</g>
-							</svg>
-							end::Svg Icon
-						</span>Export</button>
-						begin::Dropdown Menu
-						<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-							begin::Navigation
-							<ul class="navi flex-column navi-hover py-2">
-								<li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">Choose an option:</li>
-								<li class="navi-item">
-									<a href="#" class="navi-link">
-										<span class="navi-icon">
-											<i class="la la-print"></i>
-										</span>
-										<span class="navi-text">Print</span>
-									</a>
-								</li>
-								<li class="navi-item">
-									<a href="#" class="navi-link">
-										<span class="navi-icon">
-											<i class="la la-copy"></i>
-										</span>
-										<span class="navi-text">Copy</span>
-									</a>
-								</li>
-								<li class="navi-item">
-									<a href="#" class="navi-link">
-										<span class="navi-icon">
-											<i class="la la-file-excel-o"></i>
-										</span>
-										<span class="navi-text">Excel</span>
-									</a>
-								</li>
-								<li class="navi-item">
-									<a href="#" class="navi-link">
-										<span class="navi-icon">
-											<i class="la la-file-text-o"></i>
-										</span>
-										<span class="navi-text">CSV</span>
-									</a>
-								</li>
-								<li class="navi-item">
-									<a href="#" class="navi-link">
-										<span class="navi-icon">
-											<i class="la la-file-pdf-o"></i>
-										</span>
-										<span class="navi-text">PDF</span>
-									</a>
-								</li>
-							</ul>
-							end::Navigation
-						</div>
-						end::Dropdown Menu
-					</div> -->
-									<!--end::Dropdown-->
-									<!--begin::Button-->
-									<a href="#" class="btn btn-primary font-weight-bolder">
-										<span class="svg-icon svg-icon-md">
-											<!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
-											<i class="icon-1x flaticon2-plus"></i>
-											<!--end::Svg Icon-->
-										</span>Add Record</a>
-									<!--end::Button-->
-								</div>
-							</div>
-							<div class="card-body">
-								<!--begin: Datatable-->
-								<div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-									<div class="row">
-										<div class="col-sm-12">
-											<table
-												class="table table-bordered table-hover table-checkable dataTable no-footer dtr-inline collapsed"
-												id="kt_datatable" style="margin-top: 13px !important; width: 976px;"
-												role="grid" aria-describedby="kt_datatable_info">
-												<thead>
-													<tr role="row">
-														<th class="sorting_asc" tabindex="0"
-															aria-controls="kt_datatable" rowspan="1" colspan="1"
-															style="width: 48px;" aria-sort="ascending"
-															aria-label="Record ID: activate to sort column descending">
-															Record ID</th>
-														<th class="sorting" tabindex="0" aria-controls="kt_datatable"
-															rowspan="1" colspan="1" style="width: 39px;"
-															aria-label="Order ID: activate to sort column ascending">
-															Order ID</th>
-														<th class="sorting" tabindex="0" aria-controls="kt_datatable"
-															rowspan="1" colspan="1" style="width: 53px;"
-															aria-label="Country: activate to sort column ascending">
-															Country</th>
-														<th class="sorting" tabindex="0" aria-controls="kt_datatable"
-															rowspan="1" colspan="1" style="width: 46px;"
-															aria-label="Ship City: activate to sort column ascending">
-															Ship City</th>
-														<th class="sorting" tabindex="0" aria-controls="kt_datatable"
-															rowspan="1" colspan="1" style="width: 64px;"
-															aria-label="Ship Name: activate to sort column ascending">
-															Ship Name</th>
-														<th class="sorting" tabindex="0" aria-controls="kt_datatable"
-															rowspan="1" colspan="1" style="width: 62px;"
-															aria-label="Ship Address: activate to sort column ascending">
-															Ship Address</th>
-														<th class="sorting" tabindex="0" aria-controls="kt_datatable"
-															rowspan="1" colspan="1" style="width: 232px;"
-															aria-label="Company Email: activate to sort column ascending">
-															Company Email</th>
-														<th class="sorting" tabindex="0" aria-controls="kt_datatable"
-															rowspan="1" colspan="1" style="width: 80px;"
-															aria-label="Company Agent: activate to sort column ascending">
-															Company Agent</th>
-														<th class="sorting_disabled" rowspan="1" colspan="1"
-															style="width: 0px; display: none;" aria-label="Actions">
-															Actions</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr role="row">
-														<td class="dtr-control sorting_1" tabindex="0">1</td>
-														<td>54473-251</td>
-														<td>GT</td>
-														<td>San Pedro Ayampuc</td>
-														<td>Sanford-Halvorson</td>
-														<td>897 Magdeline Park</td>
-														<td>sgormally0@dot.gov</td>
-														<td>Shandra Gormally</td>
-														<td style="display: none;">
-															<div class="d-flex align-items-center">
-																<div class="dropdown dropdown-inline mr-1"> <a
-																		href="javascript:;"
-																		class="btn btn-sm btn-clean btn-icon"
-																		data-toggle="dropdown"> <i
-																			class="la la-cog"></i> </a>
-																	<div
-																		class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-																		<ul class="nav nav-hoverable flex-column">
-																			<li class="nav-item"><a class="nav-link"
-																					href="#"><i
-																						class="nav-icon la la-edit"></i><span
-																						class="nav-text">Edit
-																						Details</span></a></li>
-																			<li class="nav-item"><a class="nav-link"
-																					href="#"><i
-																						class="nav-icon la la-leaf"></i><span
-																						class="nav-text">Update
-																						Status</span></a></li>
-																			<li class="nav-item"><a class="nav-link"
-																					href="#"><i
-																						class="nav-icon la la-print"></i><span
-																						class="nav-text">Print</span></a>
-																			</li>
-																		</ul>
-																	</div>
-																</div> <a href="javascript:;"
-																	class="btn btn-sm btn-clean btn-icon mr-1"
-																	title="Edit details"> <i class="la la-edit"></i>
-																</a> <a href="javascript:;"
-																	class="btn btn-sm btn-clean btn-icon"
-																	title="Delete"> <i class="la la-trash"></i> </a>
-															</div>
-														</td>
-													</tr>
-
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
+                    </tr>
+                </thead>
+            </table>
 
 
 
 
+            <!--end: Datatable-->
+        </div>
+    </div>
+
+</div>
+<!--end::Entry-->
+<!-- Render Body <End> -->
+
+<script>
+    $(document).on('click', '#btnAdd', function () {
+
+        //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
+        window.location.href = '/SaleQuotation/SaleQuotationMaster';
+    })
+
+   
+    function generateTable() {
+
+        datatable = $('#AttTable').DataTable({
+            responsive: true,
+            searching: true,
+            ordering: false,
+            //   order: [[2, 'asc']],
+            ordering: false,
+            "ajax": {
+
+                // url: '/HrAdmin/GetAttendanceList_MainLines?Date=' + $('#FilterDate').val(),
+                url: '/SaleQuotation/GetData',
+            },
+
+            layout: {
+                scroll: false, // enable/disable datatable scroll both horizontal and vertical when needed.
+                // height: 450, // datatable's body's fixed height
+                footer: false, // display/hide footer
+            },
+
+            // column sorting
+            sortable: true,
+
+            pagination: true,
+            destroy: true,
+            //   async: false,
+            search: {
+                input: $('#generalSearch'),
+            },
+            columns: [
+
+                //{
+                //    data: '',
+                //    width: 20,
 
 
+                //}, {
+                {
+                    data: 'docDate', title: 'Doc Date', render: function (data, type, row) {
+                        if (data != undefined && data != '') {
 
-								<!--end: Datatable-->
-							</div>
-						</div>
-						 
-					</div>
-			 <!--end::Entry-->
-				</div>
-					<!-- Render Body <End> -->
+                            return moment(data).format('DD-MM-YYYY')
+
+                        } else {
+                            // return data;
+                            return '';
+                        }
+                    }
+                },
+                {
+                    data: 'postingDate', title: 'Posting Date', render: function (data, type, row) {
+                        if (data != undefined && data != '') {
+
+                            return moment(data).format('DD-MM-YYYY')
+
+                        } else {
+                            // return data;
+                            return '';
+                        }
+                    }
+                },
+                {
+                    data: 'docNum', title: 'DocNum',
+
+                }, {
+                    data: 'cardCode', title: 'Card Code'
+
+                }, {
+                    data: 'cardName', title: 'Card Name'
+
+                }, {
+                    data: 'guid', title: 'Action', render: function (data, type, row) {
+                        var href = '/hradmin/attendancewizard?Source=9245fe4ad502471cb9ed9d1a0424748211012021054645346543145245AdusMkS6F12424456kajdhnGaiIulfkhInLPsHreia23afa&AType=M&Id=' + data;
+                        return '<a href="' + href + '" class="btn btn-outline-brand btn-elevate "><i class="fa fa-pencil"></i></a>';
+                    }
+
+                },],
+        });
+
+    }
+
+    $(document).ready(function () {
+    
+        generateTable();
+    });
+</script>

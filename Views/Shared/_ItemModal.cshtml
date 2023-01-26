@@ -1,0 +1,91 @@
+﻿@using iSOL_Enterprise.Models.sale
+@model IEnumerable<tbl_item>
+
+<!-- Item Modal --> 
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="card-title">Select Item</h5>
+                <button type="button" class="close text-danger" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- General Form Elements -->
+           
+				   <div class="container">
+ 
+							<div class="card-body">
+								<!--begin: Datatable-->
+								<div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+									<div class="row">
+										<div class="col-sm-12">
+											<table
+												class="table table-bordered table-hover table-checkable dataTable no-footer dtr-inline collapsed"
+												id="kt_datatable" style="margin-top: 13px !important; width: 976px;"
+												role="grid" aria-describedby="kt_datatable_info">
+												<thead>
+													<tr role="row">
+														<th class="sorting_asc" tabindex="0"
+															aria-controls="kt_datatable" rowspan="1" colspan="1"
+															style="width: 48px;" aria-sort="ascending"
+															aria-label="Record ID: activate to sort column descending">
+															Serial No.</th>
+														<th class="sorting" tabindex="0" aria-controls="kt_datatable"
+															rowspan="1" colspan="1" style="width: 39px;"
+															aria-label="Order ID: activate to sort column ascending">
+															Item No.</th>
+														<th class="sorting" tabindex="0" aria-controls="kt_datatable"
+															rowspan="1" colspan="1" style="width: 53px;"
+															aria-label="Country: activate to sort column ascending">
+															Item Description</th>
+														<th class="sorting" tabindex="0" aria-controls="kt_datatable"
+															rowspan="1" colspan="1" style="width: 46px;"
+															aria-label="Ship City: activate to sort column ascending">
+															In Stock</th>
+														 
+													</tr>
+												</thead>
+												<tbody>
+											@{
+												var j = 1;
+											}
+											@foreach (tbl_item i in (List<tbl_item>)ViewData["ItemList"])
+											{
+												<tr role="row">
+														 <td class="dtr-control sorting_1" tabindex="0"> @j </td>
+														 <td>@i.ItemCode</td>
+														 <td>@i.ItemName</td>
+														 <td>@i.OnHand</td>
+													</tr>
+												j++;
+											}
+
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+
+
+
+
+
+
+
+								<!--end: Datatable-->
+							</div>
+						</div>
+
+					</div>	
+					   <div class="modal-footer">
+				<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button> 
+			</div>
+            </div>
+          
+        </div>
+
+    </div>
+
+<!-- Modal End -->

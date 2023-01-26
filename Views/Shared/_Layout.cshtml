@@ -35,7 +35,23 @@
 
 
 
+<style>
 
+	tr.row_selected td {
+		background-color: #00e4ff !important;
+	}
+
+
+
+	tr.Mainrow_selected td {
+		background-color: #1A99C8 !important;
+		color: white !important;
+	}
+
+	  .dataTables_wrapper .dataTable th, .dataTables_wrapper .dataTable td {
+        padding: 0.2rem 0.5rem !important;
+    }
+</style>
 
 
 
@@ -51,7 +67,7 @@
 	<!--begin::Header Mobile-->
 	<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
 		<!--begin::Logo-->
-		<a href="index.html" class="brand-logo">
+		<a asp-action="Index" asp-controller="Dashboard" class="brand-logo">
 			<img alt="Logo" class="img-fluid" height="90" width="120" src="~/gallery/logo1.png" />
 		</a>
 		<!--end::Logo-->
@@ -99,7 +115,7 @@
 				<!--begin::Brand-->
 				<div class="brand flex-column-auto" id="kt_brand">
 					<!--begin::Logo-->
-					<a href="index.html" class="brand-logo">
+					<a asp-action="Index" asp-controller="Dashboard" class="brand-logo">
 						<img alt="Logo" class="img-fluid" src="~/gallery/logo1.png" />
 					</a>
 					<!--end::Logo-->
@@ -135,7 +151,7 @@
 						<!--begin::Menu Nav-->
 						<ul class="menu-nav">
 							<li class="menu-item" aria-haspopup="true">
-								<a href="index.html" class="menu-link">
+								<a asp-action="Index" asp-controller="Dashboard" class="menu-link">
 									<span class="svg-icon menu-icon">
 										<!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
 										<svg xmlns="http://www.w3.org/2000/svg"
@@ -180,7 +196,7 @@
 										</li>
 
 										<li class="menu-item" aria-haspopup="true">
-											<a href="custom/apps/inbox.html" class="menu-link">
+											<a asp-action="Index" asp-controller="SaleQuotation" class="menu-link">
 												<i class="menu-bullet menu-bullet-dot">
 													<span></span>
 												</i>
@@ -224,7 +240,7 @@
 											</span>
 										</li>
 										<li class="menu-item" aria-haspopup="true">
-											<a href="layout/subheader/toolbar.html" class="menu-link">
+											<a href="#" class="menu-link">
 												<i class="menu-bullet menu-bullet-dot">
 													<span></span>
 												</i>
@@ -2230,7 +2246,13 @@
 	<!-- begin::Global Theme Bundle(used by all pages) -->
 	<script src="~/Assets/plugins/global/plugins.bundle.js"></script>
 	<script src="~/Assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
-	<script src="~/Assets/js/scripts.bundle.js"></script>
+
+@*<script src="~/Assets/js/scripts.bundle.js"></script>*@
+
+
+<script src="~/assets/js/scripts.bundle.min.js"></script>
+<script src="~/assets/js/scripts.bundle.js"></script>
+
 	<!--end::Global Theme Bundle-->
 	<!--begin::Page Vendors(used by this page)-->
 	<script src="~/Assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
@@ -2273,9 +2295,7 @@
 									</a>\
 									<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">\
 										<ul class="nav nav-hoverable flex-column">\
-											<li class="nav-item"><a class="nav-link" href="#"><i class="nav-icon la la-edit"></i><span class="nav-text">Edit Details</span></a></li>\
-											<li class="nav-item"><a class="nav-link" href="#"><i class="nav-icon la la-leaf"></i><span class="nav-text">Update Status</span></a></li>\
-											<li class="nav-item"><a class="nav-link" href="#"><i class="nav-icon la la-print"></i><span class="nav-text">Print</span></a></li>\
+											<li class="nav-item"><a class="nav-link" href="#"><i class="nav-icon la la-check"></i><span class="nav-text">Edit Details</span></a></li>\
 										</ul>\
 									</div>\
 								</div>\
@@ -2352,6 +2372,483 @@
 		}
 	// ]]>
 	</script>
+
+
+
+<!--=============================== Modal Work Start===================================-->
+<!-- Item Modal --> 
+<button type="button" style="display:none;" id="myItembtn" onclick="generateItemTable()" data-toggle="modal" data-target="#myItemModal"></button>
+<div class="modal fade" id="myItemModal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="card-title">Select Item</h5>
+                <button type="button" class="close text-danger" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- General Form Elements -->
+           
+				   <div class="container">
+ 
+							<div class="card-body">
+								<!--begin: Datatable-->
+								<div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+									<div class="row">
+										<div class="col-sm-12">
+											 <!--begin: Datatable-->
+					<table class="table table-striped- table-bordered table-hover table-checkable " id="MyyyyItemmTable">
+						<thead>
+							<tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th> 
+
+
+                    </tr>
+                </thead>
+            </table>
+
+
+										</div>
+									</div>
+								</div>
+								<!--end: Datatable-->
+							</div>
+						</div>
+
+					</div>	
+					   <div class="modal-footer">
+				<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button> 
+			</div>
+            </div>
+          
+        </div>
+
+    </div>
+<!-- Item Modal End -->
+<!-- Customer Modal --> 
+<button type="button" style="display:none;" id="myCustomerbtn" onclick="generateCustomerTable()" data-toggle="modal" data-target="#myCustModal"></button>
+<div class="modal fade" id="myCustModal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="card-title">Select Customer</h5>
+                <button type="button" class="close text-danger" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- General Form Elements -->
+           
+				   <div class="container">
+ 
+							<div class="card-body">
+								<!--begin: Datatable-->
+								<div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+									<div class="row">
+										<div class="col-sm-12">
+											 <!--begin: Datatable-->
+					<table class="table table-striped- table-bordered table-hover table-checkable " id="MyyyyCustomerTable">
+						<thead>
+							<tr>
+                        <th></th>
+                        <th></th>
+                        <th></th> 
+                        <th></th> 
+
+
+                    </tr>
+                </thead>
+            </table>
+
+
+										</div>
+									</div>
+								</div>
+								<!--end: Datatable-->
+							</div>
+						</div>
+
+					</div>	
+					   <div class="modal-footer">
+				<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button> 
+			</div>
+            </div>
+          
+        </div>
+
+    </div>
+<!-- Customer Modal End -->
+
+<!-- Account Modal --> 
+<button type="button" style="display:none;" id="myAccountbtn" onclick="generateAccountTable()" data-toggle="modal" data-target="#myaccountModal"></button>
+<div class="modal fade" id="myaccountModal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="card-title">Select Account</h5>
+                <button type="button" class="close text-danger" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- General Form Elements -->
+           
+				   <div class="container">
+ 
+							<div class="card-body">
+								<!--begin: Datatable-->
+								<div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+									<div class="row">
+										<div class="col-sm-12">
+											 <!--begin: Datatable-->
+					<table class="table table-striped- table-bordered table-hover table-checkable " id="MyyyyAccountTable">
+						<thead>
+							<tr>
+                        <th></th>
+                        <th></th>
+                        <th></th> 
+                        <th></th> 
+
+
+                    </tr>
+                </thead>
+            </table>
+
+
+										</div>
+									</div>
+								</div>
+								<!--end: Datatable-->
+							</div>
+						</div>
+
+					</div>	
+					   <div class="modal-footer">
+				<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button> 
+			</div>
+            </div>
+          
+        </div>
+
+    </div>
+<!-- Customer Modal End -->
+	
+<script>
+	var isHeader;
+	var ObjItemCode;
+	var ObjAcctCode;
+	var ObjCardCode;
+    function generateItemTable() {
+
+        datatable = $('#MyyyyItemmTable').DataTable({
+            responsive: true,
+            searching: true,
+            ordering: false,
+            ordering: false,
+            "ajax": {
+                url: '/SaleQuotation/GetItems',
+            },
+            layout: {
+                scroll: false,
+                footer: false,
+            },
+            // column sorting
+            sortable: true,
+
+            pagination: true,
+            destroy: true,
+            //   async: false,
+            search: {
+                input: $('#generalSearch'),
+            },
+            columns: [  
+                {
+                    data: 'itemCode', title: 'Item No.',
+                }, {
+                    data: 'itemName', title: 'Item Name'
+                }, {
+                    data: 'onHand', title: 'In Stock'
+                },{
+                    data: "itemCode", 'title': 'Action', render: function (data, type, row) {
+                        var html = '<a guid=' + data + ' id="btnFetchItemCode" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+                        html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
+                        html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
+                        html += '       <rect x="0" y="0" width="24" height="24" />';
+                        html += '      <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953) " />';
+                        html += '      <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />';
+                        html += '   </g>';
+                        html += '</svg><!--end:: Svg Icon--></span> ';
+                        html += '               </a>';
+
+                        return html;
+                    }
+                },],
+        });
+
+    }
+
+	function generateCustomerTable() {
+
+        datatable = $('#MyyyyCustomerTable').DataTable({
+            responsive: true,
+            searching: true,
+            ordering: false,
+            ordering: false,
+            "ajax": {
+                url: '/SaleQuotation/GetCustomers',
+            },
+            layout: {
+                scroll: false,
+                footer: false,
+            },
+            // column sorting
+            sortable: true,
+
+            pagination: true,
+            destroy: true,
+            //   async: false,
+            search: {
+                input: $('#generalSearch'),
+            },
+            columns: [  
+                {
+                    data: 'cardCode', title: 'Card Code',
+
+                }, {
+                    data: 'cardName', title: 'Card Name'
+
+                }, {
+                    data: 'balance', title: 'Account Balance'
+
+                },{
+                    data: "cardCode", 'title': 'Action', render: function (data, type, row) {
+                        var html = '<a guid=' + data + ' id="btnFetchCardCode" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+                        html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
+                        html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
+                        html += '       <rect x="0" y="0" width="24" height="24" />';
+                        html += '      <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953) " />';
+                        html += '      <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />';
+                        html += '   </g>';
+                        html += '</svg><!--end:: Svg Icon--></span> ';
+                        html += '               </a>';
+
+                        return html;
+                    }
+                },],
+        });
+
+    }  
+	
+	function generateAccountTable() {
+
+        datatable = $('#MyyyyAccountTable').DataTable({
+            responsive: true,
+            searching: true,
+            ordering: false,
+            ordering: false,
+            "ajax": {
+                url: '/SaleQuotation/GetAccounts',
+            },
+            layout: {
+                scroll: false,
+                footer: false,
+            },
+            // column sorting
+            sortable: true,
+
+            pagination: true,
+            destroy: true,
+            //   async: false,
+            search: {
+                input: $('#generalSearch'),
+            },
+            columns: [  
+                {
+                    data: 'acctCode', title: 'Account Code',
+
+                }, {
+                    data: 'acctName', title: 'Account Name'
+
+                }, {
+                    data: 'currTotal', title: 'Account Balance'
+
+                },{
+                    data: "acctCode", 'title': 'Action', render: function (data, type, row) {
+                        var html = '<a guid=' + data + ' id="btnFetchAcctCode" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+                        html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
+                        html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
+                        html += '       <rect x="0" y="0" width="24" height="24" />';
+                        html += '      <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953) " />';
+                        html += '      <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />';
+                        html += '   </g>';
+                        html += '</svg><!--end:: Svg Icon--></span> ';
+                        html += '               </a>';
+
+                        return html;
+                    }
+                },],
+        });
+
+    }
+	
+
+	$(document).on('click', '#btnFetchCardCode', function (e) {
+		  //debugger
+
+        var LookTable = $('#MyyyyCustomerTable').DataTable();;
+
+        var selectedRow = $(this).closest('tr');
+        var rowData = LookTable.row(selectedRow).data();
+
+        $('#MyyyyCustomerTable tr').removeClass("Mainrow_selected");
+        $(selectedRow).addClass('Mainrow_selected');
+        //$('.OperationBtns').attr("data-id", SelectedVal);
+
+        RowDataPrint = rowData;
+			 $("#CardCode").val(rowData['cardCode']);
+			 $("#CardName").val(rowData['cardName']);
+			 $("#Currency").val(rowData['currency']); 
+			//$(ObjCardCode).closest('#ListParameters .itm').find("#ItemName").val(rowData['itemName']);
+		$('#myCustModal').modal('hide');
+		//$(ObjItemCode)
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+	$(document).on('click', '#btnFetchItemCode', function (e) {
+		  // debugger
+
+        var LookTable = $('#MyyyyItemmTable').DataTable();;
+
+        var selectedRow = $(this).closest('tr');
+        var rowData = LookTable.row(selectedRow).data();
+
+        $('#MyyyyItemmTable tr').removeClass("Mainrow_selected");
+        $(selectedRow).addClass('Mainrow_selected');
+        //$('.OperationBtns').attr("data-id", SelectedVal);
+
+        RowDataPrint = rowData;
+			$(ObjItemCode).closest('#ListParameters .itm').find("#ItemCode").val(rowData['itemCode']);
+			$(ObjItemCode).closest('#ListParameters .itm').find("#ItemName").val(rowData['itemName']);
+		$('#myItemModal').modal('hide');
+		//$(ObjItemCode)
+    });
+
+
+		$(document).on('click', '#btnFetchAcctCode', function (e) {
+		  debugger
+		  console.log("abc")
+        var LookTable = $('#MyyyyAccountTable').DataTable();;
+
+        var selectedRow = $(this).closest('tr');
+        var rowData = LookTable.row(selectedRow).data();
+
+			$('#MyyyyAccountTable tr').removeClass("Mainrow_selected");
+        $(selectedRow).addClass('Mainrow_selected');
+        //$('.OperationBtns').attr("data-id", SelectedVal);
+
+        RowDataPrint = rowData;
+			$(ObjAcctCode).closest('#ListParameters2 .itm').find("#AcctCode").val(rowData['acctCode']);
+			$(ObjAcctCode).closest('#ListParameters2 .itm').find("#AcctName").val(rowData['acctName']);
+		$('#myaccountModal').modal('hide');
+		//$(ObjItemCode)
+    });
+
+
+
+
+	//$(document).on('click', '#MyyyyItemmTable tr', function (e) {
+ //       rowdata = null;
+ //       RowDataPrint = null;
+ //       debugger
+ //       var LookTable = $('#MyyyyItemmTable').DataTable();;
+
+ //       var selectedRow = $(this).closest('tr');
+ //       var rowData = LookTable.row(selectedRow).data();
+ //       var SelectedVal = rowData['guid'];
+ //       rowdata = rowData['guid'];
+
+ //       var asd = '#MyyyyItemmTable tr';
+ //       $('#MyyyyItemmTable tr').removeClass("Mainrow_selected");
+ //       $(selectedRow).addClass('Mainrow_selected');
+ //       $('.OperationBtns').attr("data-id", SelectedVal);
+
+ //       RowDataPrint = rowData;
+ //   });
+
+	$(document).on('click', '#MyyyyCustomerTable tr', function (e) {
+        rowdata = null;
+        RowDataPrint = null;
+        //debugger
+        var LookTable = $('#MyyyyCustomerTable').DataTable();;
+
+        var selectedRow = $(this).closest('tr');
+        var rowData = LookTable.row(selectedRow).data();
+        var SelectedVal = rowData['guid'];
+        rowdata = rowData['guid'];
+
+        var asd = '#MyyyyCustomerTable tr';
+        $('#MyyyyCustomerTable tr').removeClass("Mainrow_selected");
+        $(selectedRow).addClass('Mainrow_selected');
+        $('.OperationBtns').attr("data-id", SelectedVal);
+
+        RowDataPrint = rowData;
+    });
+
+	$(document).on('click', '#MyyyyAccountTable tr', function (e) {
+        rowdata = null;
+        RowDataPrint = null;
+        debugger
+        var LookTable = $('#MyyyyAccountTable').DataTable();;
+
+        var selectedRow = $(this).closest('tr');
+        var rowData = LookTable.row(selectedRow).data();
+        var SelectedVal = rowData['guid'];
+        rowdata = rowData['guid'];
+
+        var asd = '#MyyyyAccountTable tr';
+        $('#MyyyyAccountTable tr').removeClass("Mainrow_selected");
+        $(selectedRow).addClass('Mainrow_selected');
+        $('.OperationBtns').attr("data-id", SelectedVal);
+
+        RowDataPrint = rowData;
+    });
+
+</script>
+<!--=============================== Modal Work End ===================================-->
+ 
+
+
+
 </body>
 <!--end::Body-->
 

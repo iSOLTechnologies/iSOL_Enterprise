@@ -47,6 +47,7 @@ values(@Id,@Guid,@CompanyCode,@CompanyName,@ContactPerson,@ContactNo,@InterestRa
                     tran.Commit();
                 }
 
+
             }
             catch (Exception ex)
             {
