@@ -751,6 +751,7 @@
                                                                                 <th>FileName</th>
                                                                                 <th>AttachmentDate</th>
                                                                                 <th></th>
+                                                                                <th></th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody id="ListParameters3" data-repeater-list="" class="ScrollTbody2">
@@ -779,7 +780,17 @@
                                                                         </tbody>
                                                                     </table>
 
+                                                                    <div style="margin-top:1%" class="form-group form-group-last row">
+                                                                        <div class="col-md-6">
+                                                                            <button type="button" id="ListBtnAddFile" data-repeater-create="" class="btn btn-light-primary font-weight-bold btn-sm">
+                                                                                <i class="la la-plus"></i> Add
+                                                                            </button>
 
+                                                                            <!-- <button type="button" class="btn btn-light-primary font-weight-bold btn-sm">Setup login verification</button> -->
+
+
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
 
                                                             </div>
@@ -969,7 +980,7 @@
             selectedrow.find("#selectedFilePath").val(SelectedFile);
             selectedrow.find("#selectedFileName").val(SelectedFile.replace(/^.*[\\\/]/, ''));
 
-            AddRowInFileTable();
+           // AddRowInFileTable();
 
         });
 
@@ -1160,39 +1171,39 @@
 
 
     // ------------------ Row add in lists -----------------//
- function AddRowInFileTable() {
+    $(document).on('click', '#ListBtnAddFile', function (e) {
 
 
 
-	var html = `  <tr class="rowItemDetail align-items-center itm">
+        var html = `  <tr class="rowItemDetail align-items-center itm">
 
-                                                                                                        <td>
-                                                                                                            <input readonly  type="file" id="selectedFile" class="position-absolute d-none form-control form-control-sm">
-                                                                                                            <input id="selectedFilePath" class="form-control form-control-sm">
-                                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                        </td>
-                                                                                                         <td>
-                                                                                                            <input readonly id="selectedFileName" class="form-control form-control-sm">
-                                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                        </td>
-                                                                                                         <td>
-                                                                                                            <input readonly id="selectedFileDate" type="date" class="form-control form-control-sm">
-                                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                        </td>
-                                                                                                         <td>
-                                                                                                       <button id="btnbrowseFile" type="button" class="btn btn-light-primary font-weight-bold btn-sm"> <i class="la la-plus"></i> Browse </button>
+                                                                                    <td>
+                                                                                        <input readonly type="file" id="selectedFile" class="position-absolute d-none form-control form-control-sm">
+                                                                                        <input id="selectedFilePath" class="form-control form-control-sm">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input readonly id="selectedFileName" class="form-control form-control-sm">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input readonly id="selectedFileDate" type="date" class="form-control form-control-sm">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <button id="btnbrowseFile" type="button" class="btn btn-light-primary font-weight-bold btn-sm"> <i class="la la-plus"></i> Browse </button>
 
-                                                                                                         </td>
-
+                                                                                    </td>
+                                                                                   <td>
                                                                             <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
                                                                             <i class="la la-trash"></i> X
                                                                            </a>
                                                                            </td>
 
-                                                                                                    </tr> `;
+                                                                                </tr> `;
 
-	$('#kt_repeater_3 tbody').append(html);
-}
+        $('#kt_repeater_3 tbody').append(html);
+    });
 
 $(document).on('click', '#ListBtnAddd', function(e) {
 	var html = `   <tr class="rowItemDetail align-items-center itm">
@@ -1605,7 +1616,9 @@ $(document).on('click', '#ListBtnAddRM', function(e) {
         // console.log($('#' + element + ' input,' + '#' + element + ' select'))
 
         $('#' + element + ' input,' + '#' + element + ' select').each(function (index, data) {
-            jsonobj[$(this).attr("id")] = $(this).val();
+
+            if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')
+                jsonobj[$(this).attr("id")] = $(this).val();
 
         });
         return jsonobj;
@@ -1618,7 +1631,8 @@ $(document).on('click', '#ListBtnAddRM', function(e) {
             var jsonobj = new Object();
             $(this).find('input , select').each(function (index, data) {
 
-                jsonobj[$(this).attr("id")] = $(this).val();
+                if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')
+                    jsonobj[$(this).attr("id")] = $(this).val();
 
             });
 
@@ -1629,6 +1643,7 @@ $(document).on('click', '#ListBtnAddRM', function(e) {
         })
         return listObj;
     }
+        //==================== End Post Data Working===========================//
     //==================== End Post Data Working===========================//
 
 

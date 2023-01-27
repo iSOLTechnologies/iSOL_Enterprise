@@ -3,6 +3,7 @@ using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Models.sale;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -203,27 +204,26 @@ namespace iSOL_Enterprise.Controllers.Sales
 
 
         }
+        [HttpPost]
+        public IActionResult SaveForm(string data)
+        {
+            try
+            {
 
-        //public IActionResult GetSaleEmployee()
-        //{
-        //    ResponseModels response = new ResponseModels();
-        //    try
-        //    {
+            
+            var model = JsonConvert.DeserializeObject<dynamic>(data);
+            return Json("");
+            }
+            catch (Exception)
+            {
 
-        //        SalesQuotationDal dal = new SalesQuotationDal();
-        //        response.Data = dal.GetPaymentTerms();
+                throw;
+            }
 
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        return Json(response);
-        //    }
+        }
 
 
-        //    return Json(response);
-        //}
+        
 
 
     }

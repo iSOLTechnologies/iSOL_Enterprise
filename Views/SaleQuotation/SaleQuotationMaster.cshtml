@@ -752,6 +752,7 @@
                                                                                 <th>FileName</th>
                                                                                 <th>AttachmentDate</th>
                                                                                 <th></th>
+                                                                                <th></th>   
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody id="ListParameters3" data-repeater-list="" class="ScrollTbody2">
@@ -780,7 +781,17 @@
                                                                         </tbody>
                                                                     </table>
 
+                                                                     <div style="margin-top:1%" class="form-group form-group-last row">
+                                                                            <div class="col-md-6">
+                                                                                <button type="button" id="ListBtnAddFile" data-repeater-create="" class="btn btn-light-primary font-weight-bold btn-sm">
+                                                                                    <i class="la la-plus"></i> Add
+                                                                                </button>
 
+                                                                                <!-- <button type="button" class="btn btn-light-primary font-weight-bold btn-sm">Setup login verification</button> -->
+
+
+                                                                            </div>
+                                                                        </div>
 
 
 
@@ -1013,7 +1024,7 @@
             selectedrow.find("#selectedFilePath").val(SelectedFile);
             selectedrow.find("#selectedFileName").val(SelectedFile.replace(/^.*[\\\/]/, ''));
 
-            AddRowInFileTable();
+           // AddRowInFileTable();
 
         });
 
@@ -1402,39 +1413,39 @@ function GetPrice()
         $(this).closest('tr').remove();
     })
 
-    function AddRowInFileTable() {
+    $(document).on('click', '#ListBtnAddFile', function (e) {
 
 
 
         var html = `  <tr class="rowItemDetail align-items-center itm">
 
-                                                                                                    <td>
-                                                                                                        <input readonly  type="file" id="selectedFile" class="position-absolute d-none form-control form-control-sm">
-                                                                                                        <input id="selectedFilePath" class="form-control form-control-sm">
-                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                    </td>
-                                                                                                     <td>
-                                                                                                        <input readonly id="selectedFileName" class="form-control form-control-sm">
-                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                    </td>
-                                                                                                     <td>
-                                                                                                        <input readonly id="selectedFileDate" type="date" class="form-control form-control-sm">
-                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                    </td>
-                                                                                                     <td>
-                                                                                                   <button id="btnbrowseFile" type="button" class="btn btn-light-primary font-weight-bold btn-sm"> <i class="la la-plus"></i> Browse </button>
+                                                                                <td>
+                                                                                    <input readonly type="file" id="selectedFile" class="position-absolute d-none form-control form-control-sm">
+                                                                                    <input id="selectedFilePath" class="form-control form-control-sm">
+                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input readonly id="selectedFileName" class="form-control form-control-sm">
+                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input readonly id="selectedFileDate" type="date" class="form-control form-control-sm">
+                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <button id="btnbrowseFile" type="button" class="btn btn-light-primary font-weight-bold btn-sm"> <i class="la la-plus"></i> Browse </button>
 
-                                                                                                     </td>
-
+                                                                                </td>
+                                                                               <td>
                                                                         <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
                                                                         <i class="la la-trash"></i> X
                                                                        </a>
                                                                        </td>
 
-                                                                                                </tr> `;
+                                                                            </tr> `;
 
         $('#kt_repeater_3 tbody').append(html);
-    }
+    });
 
 
 
@@ -2124,7 +2135,8 @@ function GetPrice()
     //================== Post Data Working =====================
 
 
-    $(document).on('click', '#btnSaveData', function (e) {
+    $(document).on('click', '#btnSaveData', function (e) 
+    {
         FormData();
     });
 
@@ -2148,10 +2160,55 @@ function GetPrice()
                 //data.ListService.push(getJsonObjList("ListParameters2 .itm"));
                        // data.ListAttachment.push(getJsonObjList("ListParameters3 .itm"));
       
-       console.log(data);
+       
+       PostData(data);
+
        // return data;
     }
+    function PostData(formData) 
+    {
+        console.log(formData);
+        return $.ajax({
+            url: '/SaleQuotation/SaveForm',
+            dataType: 'json',
+            type: 'POST',
+            contentType: 'application/json',
+            data: { data: JSON.stringify(formData) },
+            success: function (result) {
+                console.log(result);
+                if (result.isInserted) {
+                    toastr.success(result.message);
 
+                    setTimeout(
+                        function () {
+
+                            $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                            $('#btnSave').attr('disabled', false);
+
+                        }, 800);
+                    setTimeout(function () {
+                        window.history.back();
+                    }, 800);
+
+
+                }
+
+                if (result.isError) {
+                    toastr.error(result.message);
+                    $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $('#btnSave').attr('disabled', false);
+
+                }
+
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+
+        }).done(function (result) {
+
+        });
+    }
 
     function getJsonObj(element) {
 
