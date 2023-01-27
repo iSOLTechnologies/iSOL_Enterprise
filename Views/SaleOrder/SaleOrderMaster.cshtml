@@ -790,7 +790,7 @@
 
 
                                                                             </div>
-                                                                        </div>
+                                                                       </div>
 
                                                                 </div>
 
@@ -1172,36 +1172,36 @@
 
 
     // ------------------ Row add in lists -----------------//
-$(document).on('click', '#ListBtnAddFile', function (e) {
+    $(document).on('click', '#ListBtnAddFile', function (e) {
 
 
 
         var html = `  <tr class="rowItemDetail align-items-center itm">
 
-                                                                                <td>
-                                                                                    <input readonly type="file" id="selectedFile" class="position-absolute d-none form-control form-control-sm">
-                                                                                    <input id="selectedFilePath" class="form-control form-control-sm">
-                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input readonly id="selectedFileName" class="form-control form-control-sm">
-                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input readonly id="selectedFileDate" type="date" class="form-control form-control-sm">
-                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <button id="btnbrowseFile" type="button" class="btn btn-light-primary font-weight-bold btn-sm"> <i class="la la-plus"></i> Browse </button>
+                                                                                    <td>
+                                                                                        <input readonly type="file" id="selectedFile" class="position-absolute d-none form-control form-control-sm">
+                                                                                        <input id="selectedFilePath" class="form-control form-control-sm">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input readonly id="selectedFileName" class="form-control form-control-sm">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input readonly id="selectedFileDate" type="date" class="form-control form-control-sm">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <button id="btnbrowseFile" type="button" class="btn btn-light-primary font-weight-bold btn-sm"> <i class="la la-plus"></i> Browse </button>
 
-                                                                                </td>
-                                                                               <td>
-                                                                        <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
-                                                                        <i class="la la-trash"></i> X
-                                                                       </a>
-                                                                       </td>
+                                                                                    </td>
+                                                                                   <td>
+                                                                            <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
+                                                                            <i class="la la-trash"></i> X
+                                                                           </a>
+                                                                           </td>
 
-                                                                            </tr> `;
+                                                                                </tr> `;
 
         $('#kt_repeater_3 tbody').append(html);
     });
