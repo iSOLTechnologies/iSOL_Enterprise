@@ -1,4 +1,5 @@
-﻿using iSOL_Enterprise.Dal;
+﻿using iSOL_Enterprise.Common;
+using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Models.sale;
 using Microsoft.AspNetCore.Mvc;
@@ -205,14 +206,15 @@ namespace iSOL_Enterprise.Controllers.Sales
 
         }
         [HttpPost]
-        public IActionResult SaveForm(string data)
+        public IActionResult AddSalesQoutation(string formData)
         {
             try
             {
 
-            
-            var model = JsonConvert.DeserializeObject<dynamic>(data);
-            return Json("");
+
+                SalesQuotationDal dal = new SalesQuotationDal();
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddSalesQoutation(formData) == true ? Json(new { isInserted = true , message = "Sale Qoutation Added Successfully !" }) : Json(new { isInserted = false , message = "An Error occured !" });
+
             }
             catch (Exception)
             {

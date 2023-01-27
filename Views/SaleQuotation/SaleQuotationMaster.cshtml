@@ -2143,6 +2143,7 @@ function GetPrice()
 
     function FormData() 
     {
+ 
          var data =
         {
 
@@ -2159,7 +2160,7 @@ function GetPrice()
     //    data.ListItems.push(getJsonObjList("ListParameters .itm"));
                 //data.ListService.push(getJsonObjList("ListParameters2 .itm"));
                        // data.ListAttachment.push(getJsonObjList("ListParameters3 .itm"));
-      
+     // console.log(data);
        
        PostData(data);
 
@@ -2167,14 +2168,18 @@ function GetPrice()
     }
     function PostData(formData) 
     {
-        console.log(formData);
+        //console.log(formData);
+        console.log(JSON.stringify(formData));
+        //console.log( data: JSON.stringify(formData));
         return $.ajax({
             url: '/SaleQuotation/SaveForm',
             dataType: 'json',
             type: 'POST',
-            contentType: 'application/json',
-            data: { data: JSON.stringify(formData) },
-            success: function (result) {
+            
+             data: { formData: JSON.stringify(formData)},
+
+            success: function (result) 
+            {
                 console.log(result);
                 if (result.isInserted) {
                     toastr.success(result.message);

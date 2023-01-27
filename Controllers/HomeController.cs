@@ -22,13 +22,13 @@ namespace iSOL_Enterprise.Controllers
             _logger = logger;
             _configuration = configuration;
             //_accessor = accessor;
-            SqlHelperExtensions.SqlHelper.defaultDB = configuration["ConnectionStrings:ConStr"].ToString();
+            SqlHelperExtensions.SqlHelper.defaultDB = configuration["ConnectionStrings:iSolConStr"].ToString();
             SqlHelperExtensions.SqlHelper.defaultSapDB = configuration["ConnectionStrings:SapConStr"].ToString();
         }
 
         public IActionResult Index()
         {
-            SqlHelperExtensions.SqlHelper.defaultDB = _configuration["ConnectionStrings:ConStr"].ToString();
+            SqlHelperExtensions.SqlHelper.defaultDB = _configuration["ConnectionStrings:iSolConStr"].ToString();
             SqlHelperExtensions.SqlHelper.defaultSapDB = _configuration["ConnectionStrings:SapConStr"].ToString();
             return View();
         }
