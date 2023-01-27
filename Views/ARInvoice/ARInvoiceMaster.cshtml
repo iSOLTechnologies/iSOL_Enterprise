@@ -24,7 +24,7 @@
                 <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200">
                 </div>
                 <span class="text-muted font-weight-bold mr-2">Dashboard</span>
-                <span class="font-weight-bolder">/ Add  Sale Order</span>
+                <span class="font-weight-bolder">/ Add  ARInvoice </span>
                 <!--end::Actions-->
             </div>
             <!--end::Info-->
@@ -788,9 +788,8 @@
 
 
 
-                                                        <div class="container" id="FooterData">
-                                                            <br />
-                                                            <br />
+                                                        <div class="container mt-3" id="FooterData">
+                                                            
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="" class="form-label">Sales Employee</label>
@@ -805,8 +804,8 @@
                                                                 </div>
 
                                                             </div>
-                                                            <br />
-                                                            <div class="row">
+                                                            
+                                                            <div class="row mt-1">
                                                                 <div class="col-md-6">
                                                                     <label for="inputPassword4" class="form-label">Owner</label>
                                                                     <input name="OwnerCode" type="text" class="form-control" id="OwnerCode">
@@ -822,8 +821,8 @@
                                                                 </div>
 
                                                             </div>
-                                                            </br>
-                                                            <div class="row">
+                                                            
+                                                            <div class="row mt-1">
 
 
                                                                 <div class="col-md-6">
@@ -845,22 +844,34 @@
                                                                 </div>
                                                             </div>
                                                             <br />
-                                                            <div class="row">
+                                                            <div class="row mt-1">
 
 
                                                                 <div class="col-md-6">
                                                                     <label for="inputEmail4" class="form-label">Total</label>
                                                                     <input name="Total" type="text" class="form-control" id="Total">
                                                                 </div>
+
                                                                 <div class="col-md-6">
+                                                                    <label for="inputEmail4" class="form-label">Applied Ammount</label>
+                                                                    <input disabled name="Total" type="text" class="form-control" id="AppliedAmmount">
+                                                                </div>
+
+
+                                                               
+                                                            </div>
+                                                            <div class="row mt-1">
+                                                                <div class="col-md-6">
+                                                                    <label for="inputEmail4" class="form-label">Balance Due</label>
+                                                                    <input disabled name="Total" type="text" class="form-control" id="BalanceDue">
+                                                                </div>
+
+                                                                 <div class="col-md-6">
                                                                     <label for="inputRemarks" class="form-label">Remarks</label>
 
-                                                                    <!-- @*<textarea class = "form-control" rows="3" asp-for="OQUT_obj.Comments"></textarea>*@ -->
+
                                                                     <textarea id="Comments" class="form-control" rows="3" id="Remarks"></textarea>
 
-
-
-                                                                    <!-- @*<textarea name="Comments" class="form-control" id="inputRemarks" rows="3"></textarea>*@ -->
 
                                                                 </div>
                                                             </div>
@@ -1632,7 +1643,6 @@ $(document).on('click', '#ListBtnAddRM', function(e) {
         })
         return listObj;
     }
-    //==================== End Post Data Working===========================//
     //==================== End Post Data Working===========================//
 
 

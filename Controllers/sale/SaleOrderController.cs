@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using iSOL_Enterprise.Dal;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace iSOL_Enterprise.Controllers
 {
@@ -10,6 +12,9 @@ namespace iSOL_Enterprise.Controllers
         }
         public IActionResult SaleOrderMaster()
         {
+            SalesQuotationDal dal = new SalesQuotationDal();
+
+            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
             return View();
         }
     }

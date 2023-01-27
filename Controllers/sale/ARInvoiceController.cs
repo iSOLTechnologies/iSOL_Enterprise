@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace iSOL_Enterprise.Controllers
 {
-    public class DeliveryController : Controller
+    public class ARInvoiceController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult DeliveryMaster()
+        public IActionResult ARInvoiceMaster()
         {
             SalesQuotationDal dal = new SalesQuotationDal();
 

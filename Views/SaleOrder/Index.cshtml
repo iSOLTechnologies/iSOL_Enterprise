@@ -4,236 +4,174 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div class="kt-subheader   kt-grid__item" id="kt_subheader">
-    <div class="kt-container  kt-container--fluid ">
-        <div class="kt-subheader__main">
-            <h3 class="kt-subheader__title">
-                iSOL
-            </h3>
-
-            <span class="kt-subheader__separator kt-hidden"></span>
-            <div class="kt-subheader__breadcrumbs">
-                <a href="#" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
-                <span class="kt-subheader__breadcrumbs-separator"></span>
-                <a href="#" class="kt-subheader__breadcrumbs-link">
-                    Sale Order
-                </a>
-
+<script src="https://code.jquery.com/jquery-3.6.3.slim.js" integrity="sha256-DKU1CmJ8kBuEwumaLuh9Tl/6ZB6jzGOBV/5YpNE2BWc=" crossorigin="anonymous"></script>
+<!-- Render Body <Start> -->
+<!--begin::Subheader-->
+<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+        <!--begin::Info-->
+        <div class="d-flex align-items-center flex-wrap mr-2">
+            <!--begin::Page Title-->
+            <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">iSOl</h5>
+            <!--end::Page Title-->
+            <!--begin::Actions-->
+            <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200">
             </div>
-
+            <span class="text-muted font-weight-bold mr-2">Dashboard</span>
+            <span class="font-weight-bolder">/ Sale Order</span>
+            <!--end::Actions-->
         </div>
-        <button style="margin-top:10px" id="btnAttendance" class="btn btn-label btn-label-brand btn-sm btn-bold"><i class=" flaticon2-rhombus"></i>Mark Attendance</button>
+        <!--end::Info-->
+
     </div>
 </div>
+<!--end::Subheader-->
+<!--begin::Entry-->
+<div class="container mt-5">
 
-<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid _rendering">
-
-
-    @*===============================================*@
-
-
-    <input type="hidden" id="Id" name="Id" />
-
-    <input type="hidden" id="PageGuid" value="@Context.Request.Query["Source"]" />
-    <input type="hidden" id="Guid" value="@Context.Request.Query["Id"]" />
-    <input type="hidden" value="@Context.Session.GetString("RoleCode")" id="UserRoleCode" />
-
-    <div class="kt-portlet kt-portlet--mobile">
-        <div class="kt-portlet__head kt-portlet__head--lg">
-            <div class="kt-portlet__head-label">
-                <span class="kt-portlet__head-icon">
-                    <i class="fa-ticket-alt"></i>
+    <!--begin::Card-->
+    <div class="card card-custom">
+        <div class="card-header">
+            <div class="card-title">
+                <span class="card-icon">
+                    <i class="flaticon-notepad text-primary"></i>
                 </span>
-                <h3 class="kt-portlet__head-title">
-                    Sale Order List
-                </h3>
-
+                <h3 class="card-label">Sale Order</h3>
             </div>
-            <div class="kt-portlet__head-toolbar">
-                <div class="kt-portlet__head-wrapper">
-                    <div class="kt-portlet__head-actions">
+            @* <div class="card-toolbar">
+            <button class="bt btn-brand"  type="button">
+            Add
+            </button>
 
-                        &nbsp;
-                        <a asp-action="SaleOrderMaster" asp-controller="SaleOrder" id="BtnAdd" class="btn btn-brand btn-elevate btn-icon-sm">
-                            <i class="la la-plus"></i>
-                            Add
-                        </a>
-
-                    </div>
+            <!--end::Button-->
+            </div>*@
+            <div class="card-toolbar">
+                <div class="btn-group">
+                    <button type="button" id="btnAdd" class="btn btn-primary font-weight-bolder">
+                        + Add Record
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="kt-portlet__body">
-            <form autocomplete="off">
+        <div class="card-body">
+            <!--begin: Datatable-->
+            <table class="table table-striped- table-bordered table-hover table-checkable " id="AttTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
 
 
-                <!--begin: Datatable -->
-                <table class="table table-striped- table-bordered table-hover table-checkable">
-                    <thead id="LookupThead">
-
-                        <tr>
-                            <td>Doc Date</td>
-                            <td>Doc Num</td>
-                            <td>Item Code</td>
-                            <td>Item Name</td>
-                            <td>Effective Date</td>
-                            <td>Action</td>
-                        </tr>
-
-                    </thead>
-                    <tbody id="LookupTbody"></tbody>
+                    </tr>
+                </thead>
+            </table>
 
 
-                </table>
-                <!--end: Datatable -->
-            </form>
+
+
+            <!--end: Datatable-->
         </div>
     </div>
 
+</div>
+<!--end::Entry-->
+<!-- Render Body <End> -->
 
-    <script>
+<script>
+    $(document).on('click', '#btnAdd', function () {
 
-        var table;
-
-        $(document).ready(function () {
-            this.table = null;
-            var self = this;
-            var RowDataPrint = null;
-            var rowdata;
-            LoadDataTable();
-            var Guid = $('#PageGuid').val();
+        //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
+        window.location.href = '/SaleOrder/SaleOrderMaster';
+    })
 
 
-            //AllListViews(Guid);
-            //$(document).on('click', '#btnBlock', function (e) {
-            //    var rowdata = $(this).attr('guid');
+    function generateTable() {
 
-            //    window.open('/QualityControl/InventoryTransfer?Source=9245fe4ad502471cb9ed9d1a0424748211012021054645346543145245AI6VF1T2424456kajdhnaiulfkh239eia23afa&DOM=S&DocType=BLK&Id=' + rowdata, '_blank');
-            //    // window.location.href = '/QualityControl/InventoryTransfer?Source=9245fe4ad502471cb9ed9d1a0424748211012021054645346543145245AI6VF1T2424456kajdhnaiulfkh239eia23afa&DocType=BLK&Id=' + rowdata;
+        datatable = $('#AttTable').DataTable({
+            responsive: true,
+            searching: true,
+            ordering: false,
+            //   order: [[2, 'asc']],
+            ordering: false,
+            "ajax": {
 
-            //});
+                // url: '/HrAdmin/GetAttendanceList_MainLines?Date=' + $('#FilterDate').val(),
+                url: '/SaleQuotation/GetData',
+            },
 
-            //$(document).on('click', '#btnView', function (e) {
-            //   // var rowdata = $('#Guid').val();
-            //    var rowdata = $(this).attr('guid');
+            layout: {
+                scroll: false, // enable/disable datatable scroll both horizontal and vertical when needed.
+                // height: 450, // datatable's body's fixed height
+                footer: false, // display/hide footer
+            },
 
-            //    window.open('/QualityControl/InventoryTransferView?Source=9245fe4ad502471cghTjb9ed9d1a04Q24c748I21T10M12021V054645346543A14524&DOM=S&DocType=BLK&Id=' + rowdata, '_blank');
+            // column sorting
+            sortable: true,
 
-            //    //  window.location.href = '/QualityControl/InventoryTransfer?Source=9245fe4ad502471cb9ed9d1a0424748211012021054645346543145245AI6VF1T2424456kajdhnaiulfkh239eia23afa&DocType=RLS&Id=' + rowdata;
+            pagination: true,
+            destroy: true,
+            //   async: false,
+            search: {
+                input: $('#generalSearch'),
+            },
+            columns: [
 
-            //});
+                //{
+                //    data: '',
+                //    width: 20,
 
-            $(document).on('click', '#BtnAdd', function () {
-                window.location.href = '/LabTemplate/LabTemplateMaster?Source=240904003O5yxb6723O5ybJZBly50100401202210';
-            })
 
-            $('#LookupThead tbody tr').each(function (index, item) {
+                //}, {
+                {
+                    data: 'docDate', title: 'Doc Date', render: function (data, type, row) {
+                        if (data != undefined && data != '') {
 
-                var data = table.row($(this).parents('tr')).data();
-            })
+                            return moment(data).format('DD-MM-YYYY')
 
-            $(document).on('click', '#kt_table1 tr', function (e) {
-                rowdata = null;
-                RowDataPrint = null;
-                debugger
-                var LookTable = $('#kt_table1').DataTable();;
+                        } else {
+                            // return data;
+                            return '';
+                        }
+                    }
+                },
+                {
+                    data: 'postingDate', title: 'Posting Date', render: function (data, type, row) {
+                        if (data != undefined && data != '') {
 
-                var selectedRow = $(this).closest('tr');
-                var rowData = LookTable.row(selectedRow).data();
-                var SelectedVal = rowData['guid'];
-                rowdata = rowData['guid'];
+                            return moment(data).format('DD-MM-YYYY')
 
-                var asd = '#kt_table1 tr';
-                $('#kt_table1 tr').removeClass("Mainrow_selected");
-                $(selectedRow).addClass('Mainrow_selected');
-                $('.OperationBtns').attr("data-id", SelectedVal);
+                        } else {
+                            // return data;
+                            return '';
+                        }
+                    }
+                },
+                {
+                    data: 'docNum', title: 'DocNum',
 
-                RowDataPrint = rowData;
-            });
+                }, {
+                    data: 'cardCode', title: 'Card Code'
 
+                }, {
+                    data: 'cardName', title: 'Card Name'
+
+                }, {
+                    data: 'guid', title: 'Action', render: function (data, type, row) {
+                        var href = '/hradmin/attendancewizard?Source=9245fe4ad502471cb9ed9d1a0424748211012021054645346543145245AdusMkS6F12424456kajdhnGaiIulfkhInLPsHreia23afa&AType=M&Id=' + data;
+                        return '<a href="' + href + '" class="btn btn-outline-brand btn-elevate "><i class="fa fa-pencil"></i></a>';
+                    }
+
+                },],
         });
 
-        function LoadDataTable() {
-            table = $('#kt_table1').DataTable({
-                responsive: true,
-                searching: true,
-                //  ordering: true,
-                paging: true,
-                responsive: true,
-                //dom: 'Bfrtip',
-                //buttons: [
-                //    'copy', 'csv', 'excel', 'pdf', 'print'
-                //],
-                pageLength: 500,
-                order: [[1, 'desc']],
-                language: {
-                    "decimal": ",",
-                    "thousands": "."
+    }
 
-                },
+    $(document).ready(function () {
 
-                "ajax": {
-
-                    url: '/LabTemplate/GetTemplateList',
-                },
-                "columns": [
-
-
-
-                    {
-                        data: 'docDate', title: 'Doc Date', render: function (data, type, row) {
-                            if (data != undefined && data != '') {
-
-                                return moment(data).format('DD-MMM-YYYY');
-
-                            } else {
-
-                                return data
-                            }
-                        }
-                    },
-                    { data: 'docNum', title: 'DocNum' },
-                    {
-                        data: 'itemCode', title: 'Item Code'
-                    }, {
-                        data: 'itemName', title: 'Item Name'
-                    },
-                    {
-                        data: 'effectiveDate', title: 'Effective Date', render: function (data, type, row) {
-                            if (data != undefined && data != '') {
-
-                                return moment(data).format('DD-MMM-YYYY');
-
-                            } else {
-
-                                return data
-                            }
-                        }
-                    },
-                    {
-                        data: 'guid', title: 'Action', render: function (data, type, row) {
-                            var href = '/LabTemplate/LabTemplateMaster?Source=240904003O5yxb6723O5ybJZBly50100401202210&Id=' + data;
-                            return '<a href="' + href + '" class="btn btn-outline-brand btn-elevate "><i class="fa fa-pencil"></i></a>';
-                        }
-
-                    },
-
-                ],
-
-
-            });
-        };
-    </script>
-
-
-
-
-    @*===============================================*@
-
-
-
-
-
-
-</div>
+        generateTable();
+    });
+</script>
