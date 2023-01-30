@@ -202,51 +202,77 @@ namespace iSOL_Enterprise.Dal
                     if (model.HeaderData != null)
                     {
 
-                        string HeadQuery = @"insert into OQUT(Id,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
-                                           values(@Id,@Guid,@CardCode,@DocNum,@CardName,@CntctCode,@DocDate,@NumAtCard,@DocDueDate,@DocCur,@TaxDate,@GroupNum ,@SlpCode ,@Comments)";
-
                         int Id = CommonDal.getPrimaryKey(tran, "OQUT");
 
-                        List<SqlParameter> param = new List<SqlParameter>   
-                                {
-                                    new SqlParameter("@id",Id),
-                                    new SqlParameter("@Guid", CommonDal.generatedGuid()),
-                                    new SqlParameter("@CardCode",model.HeaderData.CardCode.ToString()),
-                                    new SqlParameter("@DocNum",model.HeaderData.DocNum.ToString()),
-                                    new SqlParameter("@CardName",model.HeaderData.CardName.ToString()),
-                                    new SqlParameter("@CntctCode",model.HeaderData.CntctCode == null ? null : model.HeaderData.CntctCode.ToInt()),
-                                    new SqlParameter("@DocDate",Convert.ToDateTime( model.HeaderData.DocDate)),
-                                    new SqlParameter("@NumAtCard",model.HeaderData.NumAtCard.ToString()),
-                                    new SqlParameter("@DocDueDate",Convert.ToDateTime(model.HeaderData.DocDueDate)),
-                                    new SqlParameter("@DocCur",model.HeaderData.DocCur.ToString()),
-                                    new SqlParameter("@TaxDate",Convert.ToDateTime(model.HeaderData.TaxDate)),
-                                    new SqlParameter("@GroupNum",model.ListAccouting.GroupNum == null ?  "" : Convert.ToInt32(model.ListAccouting.GroupNum)),
-                                    new SqlParameter("@SlpCode",Convert.ToInt32(model.FooterData.SlpCode)),
-                                    new SqlParameter("@Comments",model.FooterData.Comments == null ? "" : model.FooterData.Comments.ToString()),
-                                };
+                        string HeadQuery = @"insert into OQUT(Id,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
+                                           values(" + Id + ",'"
+                                                + CommonDal.generatedGuid() + "','"
+                                                + model.HeaderData.CardCode + "','"
+                                                + model.HeaderData.DocNum + "','"
+                                                + model.HeaderData.CardName + "','"
+                                                + model.HeaderData.CntctCode + "','"
+                                                + Convert.ToDateTime(model.HeaderData.DocDate) + "','"
+                                                + model.HeaderData.NumAtCard + "','"
+                                                + Convert.ToDateTime(model.HeaderData.DocDueDate) + "','"
+                                                + model.HeaderData.DocCur + "','"
+                                                + Convert.ToDateTime(model.HeaderData.TaxDate) + "','"
+                                                + model.ListAccouting.GroupNum + "',"
+                                                + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
+                                                + model.FooterData.Comments + "')";
 
-                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery, param.ToArray()).ToInt();
+
+
+                        #region SqlParameters
+                        //List<SqlParameter> param = new List<SqlParameter>   
+                        //        {
+                        //            new SqlParameter("@id",Id),
+                        //            new SqlParameter("@Guid", CommonDal.generatedGuid()),
+                        //            new SqlParameter("@CardCode",model.HeaderData.CardCode.ToString()),
+                        //            new SqlParameter("@DocNum",model.HeaderData.DocNum.ToString()),
+                        //            new SqlParameter("@CardName",model.HeaderData.CardName.ToString()),
+                        //            new SqlParameter("@CntctCode",model.HeaderData.CntctCode == null ? null : model.HeaderData.CntctCode.ToInt()),
+                        //            new SqlParameter("@DocDate",Convert.ToDateTime( model.HeaderData.DocDate)),
+                        //            new SqlParameter("@NumAtCard",model.HeaderData.NumAtCard.ToString()),
+                        //            new SqlParameter("@DocDueDate",Convert.ToDateTime(model.HeaderData.DocDueDate)),
+                        //            new SqlParameter("@DocCur",model.HeaderData.DocCur.ToString()),
+                        //            new SqlParameter("@TaxDate",Convert.ToDateTime(model.HeaderData.TaxDate)),
+                        //            new SqlParameter("@GroupNum",model.ListAccouting.GroupNum == null ?  "" : Convert.ToInt32(model.ListAccouting.GroupNum)),
+                        //            new SqlParameter("@SlpCode",Convert.ToInt32(model.FooterData.SlpCode)),
+                        //            new SqlParameter("@Comments",model.FooterData.Comments == null ? "" : model.FooterData.Comments.ToString()),
+                        //        };
+                        #endregion
+                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
                     }
                     if (model.ListItems != null)
                     {
-                        string RowQueryItem = @"insert into QUT1(Id,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
-                                            values(@Id,@ItemCode,@Quantity,@DiscPrcnt,@VatGroup, @UomCode, @CountryOrg)";
-
                         foreach (var item in model.ListItems)
                         {
                             int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            List<SqlParameter> param2 = new List<SqlParameter>
-                                    {
-                                        new SqlParameter("@id",QUT1Id),
-                                        new SqlParameter("@ItemCode",item.ItemCode),
-                                        new SqlParameter("@Quantity",item.Quantity),
-                                        new SqlParameter("@DiscPrcnt",item.DiscPrcnt),
-                                        new SqlParameter("@VatGroup",item.VatGroup),
-                                        new SqlParameter("@UomCode",item.UomCode),
-                                        new SqlParameter("@CountryOrg",item.CountryOrg),
 
-                                    };
-                            int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem, param2.ToArray()).ToInt();
+                            string RowQueryItem = @"insert into QUT1(Id,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                                              values(" + QUT1Id + ",'"
+                                                + item.ItemCode + "',"
+                                                + item.QTY + ","
+                                                + item.DicPrc + ",'"
+                                                + item.VatGroup + "','"
+                                                + item.UomCode + "','"
+                                                + item.CountryOrg + "')";
+
+                            #region sqlparam
+                            //List<SqlParameter> param2 = new List<SqlParameter>
+                            //        {
+                            //            new SqlParameter("@id",QUT1Id),
+                            //            new SqlParameter("@ItemCode",item.ItemCode),
+                            //            new SqlParameter("@Quantity",item.Quantity),
+                            //            new SqlParameter("@DiscPrcnt",item.DiscPrcnt),
+                            //            new SqlParameter("@VatGroup",item.VatGroup),
+                            //            new SqlParameter("@UomCode",item.UomCode),
+                            //            new SqlParameter("@CountryOrg",item.CountryOrg),
+
+                            //        };
+                            #endregion
+
+                            int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
                             if (res2 <= 0)
                             {
                                 tran.Rollback();
@@ -261,23 +287,30 @@ namespace iSOL_Enterprise.Dal
                     else if (model.ListService != null)
                     {
 
-                        string RowQueryService = @"insert into QUT1(Id,Dscription,AcctCode,VatGroup)
-                                                  values(@Id,@Dscription,@AcctCode,@VatGroup)";
                         foreach (var item in model.ListService)
                         {
                             int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
 
-                            List<SqlParameter> param3 = new List<SqlParameter>
-                                        {
-                                            new SqlParameter("@id",QUT1Id),
-                                            new SqlParameter("@Dscription",item.Dscription),
-                                            new SqlParameter("@AcctCode",item.AcctCode),
-                                            new SqlParameter("@VatGroup",item.VatGroup),
+                            string RowQueryService = @"insert into QUT1(Id,Dscription,AcctCode,VatGroup)
+                                                  values(" + QUT1Id + ",'"
+                                                    + item.Dscription + "','"
+                                                    + item.AcctCode + "','"
+                                                    + item.DicPrc + ",'"
+                                                    + item.VatGroup + "')";
+
+                            #region sqlparam
+                            //List<SqlParameter> param3 = new List<SqlParameter>
+                            //            {
+                            //                new SqlParameter("@id",QUT1Id),
+                            //                new SqlParameter("@Dscription",item.Dscription),
+                            //                new SqlParameter("@AcctCode",item.AcctCode),
+                            //                new SqlParameter("@VatGroup",item.VatGroup),
 
 
-                                        };
+                            //            };
+                            #endregion
 
-                            int res3 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryService, param3.ToArray()).ToInt();
+                            int res3 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryService).ToInt();
                             if (res3 <= 0)
                             {
                                 tran.Rollback();
@@ -293,32 +326,38 @@ namespace iSOL_Enterprise.Dal
                     if (model.ListAttachment != null)
                     {
 
-                        string RowQueryAttachment = @"insert into ATC1(AbsEntry,Line,trgtPath,FileName,Date)
-                                                  values(@AbsEntry,@Line,@trgtPath,@FileName,@Date)";
+
+                        int ATC1Id = CommonDal.getPrimaryKey(tran, "AbsEntry", "ATC1");
                         foreach (var item in model.ListAttachment)
                         {
-                            int ATC1Id = CommonDal.getPrimaryKey(tran, "ATC1");
-                            int ATC1Line = CommonDal.getPrimaryKey(tran, "ATC1");
+                            int LineNo = 1;
 
-                            List<SqlParameter> param3 = new List<SqlParameter>
-                                        {
-                                            new SqlParameter("@AbsEntry",ATC1Id),
-                                            new SqlParameter("@Line",ATC1Line),
-                                            new SqlParameter("@trgtPath",item.trgtPath),
-                                            new SqlParameter("@FileName",item.FileName),
-                                            new SqlParameter("@Date",item.Date),
+                            string RowQueryAttachment = @"insert into ATC1(AbsEntry,Line,trgtPath,FileName,Date)
+                                                  values(" + ATC1Id + ","
+                                                    + LineNo + ",'"
+                                                    + item.selectedFilePath + "','"
+                                                    + item.selectedFileName + "','"
+                                                    + Convert.ToDateTime(item.selectedFileDate) + "')";
+                            #region sqlparam
+                            //List<SqlParameter> param3 = new List<SqlParameter>
+                            //            {
+                            //                new SqlParameter("@AbsEntry",ATC1Id),
+                            //                new SqlParameter("@Line",ATC1Line),
+                            //                new SqlParameter("@trgtPath",item.trgtPath),
+                            //                new SqlParameter("@FileName",item.FileName),
+                            //                new SqlParameter("@Date",item.Date),
 
 
-                                        };
-
-                            int res4 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryAttachment, param3.ToArray()).ToInt();
+                            //            };
+                            #endregion
+                            int res4 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryAttachment).ToInt();
                             if (res4 <= 0)
                             {
                                 tran.Rollback();
                                 return false;
 
                             }
-
+                            LineNo += 1;
                         }
 
 
@@ -337,15 +376,16 @@ namespace iSOL_Enterprise.Dal
                     tran.Rollback();
                     return false;
                 }
-                
+
                 return res1 > 0 ? true : false;
 
             }
             catch (Exception)
             {
-               
+
                 return false;
             }
         }
+
     }
 }

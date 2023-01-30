@@ -2494,7 +2494,7 @@ function GetPrice()
 
                 }
 
-                if (result.isError) {
+                if (result.isInserted) {
                     toastr.error(result.message);
                     $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                     $('#btnSave').attr('disabled', false);
@@ -2513,11 +2513,13 @@ function GetPrice()
 
     function getJsonObj(element) {
 
+        console.log("Hi")
+        debugger
         var jsonobj = new Object();
 
         // console.log($('#' + element + ' input,' + '#' + element + ' select'))
 
-        $('#' + element + ' input,' + '#' + element + ' select').each(function (index, data) {
+        $('#' + element + ' input,' + '#' + element + ' select,' + '#' + element + 'textarea').each(function (index, data) {
             
             if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')     
                 jsonobj[$(this).attr("id")] = $(this).val();
@@ -2531,7 +2533,7 @@ function GetPrice()
 
         $('#' + element).each(function (index, item) {
             var jsonobj = new Object();
-            $(this).find('input , select').each(function (index, data) {
+            $(this).find('input , select , textarea').each(function (index, data) {
 
                 if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') 
                     jsonobj[$(this).attr("id")] = $(this).val();

@@ -261,7 +261,13 @@ where s.Status=1 and p.Guid=@Guid";
             id = id + 1;
             return id;
         }
-
+        public static int getPrimaryKey(SqlTransaction tran,string tblid, string tblName)
+        {
+            string query = "select max("+ tblid + ") from " + tblName + " (TABLOCKX)";
+            int id = SqlHelper.ExecuteScalar(tran, CommandType.Text, query).ToInt();
+            id = id + 1;
+            return id;
+        }
         public static int GetTicketCode(SqlTransaction tran)
         {
             string query = "select max(ticketCode) from Tickets_Master (TABLOCKX)";
