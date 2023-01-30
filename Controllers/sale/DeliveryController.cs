@@ -56,6 +56,24 @@ namespace iSOL_Enterprise.Controllers
 
             return Json(response);
         }
+        [HttpPost]
+        public IActionResult AddDelivery(string formData)
+        {
+            try
+            {
+
+
+                DeliveryDal dal = new DeliveryDal();
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddDelivery(formData) == true ? Json(new { isInserted = true, message = "Sale Qoutation Added Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
 
     }
 }

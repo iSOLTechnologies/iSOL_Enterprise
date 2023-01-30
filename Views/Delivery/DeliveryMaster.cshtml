@@ -937,6 +937,7 @@
 <script src="~/ViewJS/OldJS.js"></script>
 <script src="~/ViewJS/Calculations.js"></script>
 <script>
+    var ItemServiceType = '1';
     const boxes = document.querySelectorAll('.d');
 
     for (const box of boxes) {
@@ -990,7 +991,7 @@
     $(document).on('change', '#ItemServiceType', function (e) {
         var val = $("#ItemServiceType option:selected").val();
         var value = $('#ItemServiceType').val();
-
+        ItemServiceType = value;
         if (value == '1') {
             $("#kt_tabs_5_1").removeClass("d-none");
             $("#kt_tabs_5_2").addClass("d-none");
@@ -1586,27 +1587,76 @@ $(document).on('click', '#ListBtnAddRM', function(e) {
     });
 
 
-    function FormData() {
+     function FormData() 
+    {
+            
+        
         var data =
-        {
-
-
-            HeaderData: getJsonObj("HeaderForm"),
-            PaymentTerms: getJsonObj("kt_tabs_acct"),
-            ListItems: getJsonObjList("ListParameters .itm"),
-            ListService: getJsonObjList("ListParameters2 .itm"),
-            ListAttachment: getJsonObjList("ListParameters3 .itm"),
-            FooterData: getJsonObj("FooterData")
-
+        { 
+        HeaderData : getJsonObj("HeaderForm"),
+        ListAccouting : getJsonObj("kt_tabs_acct"),
+        ListItems: ItemServiceType == '1' ?  getJsonObjList("ListParameters .itm") : null,
+        ListService: ItemServiceType == '2' ? getJsonObjList("ListParameters2 .itm") : null,
+        ListAttachment: getJsonObjList("ListParameters3 .itm"),
+        FooterData : getJsonObj("FooterData")
+      
         }
-        //console.log(getJsonObjList("ListParameters .itm"));
-        //    data.ListItems.push(getJsonObjList("ListParameters .itm"));
-        //data.ListService.push(getJsonObjList("ListParameters2 .itm"));
-        // data.ListAttachment.push(getJsonObjList("ListParameters3 .itm"));
+      
+       
+       PostData(data);
 
-        console.log(data);
-        // return data;
+    
     }
+    function PostData(formData) 
+    {
+      
+        console.log(JSON.stringify(formData));
+      
+        return $.ajax({
+            url: '/SaleQuotation/AddDelivery',
+            dataType: 'json',
+            type: 'POST',
+            
+             data: { formData: JSON.stringify(formData)},
+
+            success: function (result) 
+            {
+                console.log(result);
+                if (result.isInserted) {
+                    toastr.success(result.message);
+
+                    setTimeout(
+                        function () 
+                        {
+
+                            $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                            $('#btnSave').attr('disabled', false);
+
+                        }, 800);
+                    setTimeout(function () {
+                        window.history.back();
+                    }, 800);
+
+
+                }
+
+                if (result.isInserted) {
+                    toastr.error(result.message);
+                    $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $('#btnSave').attr('disabled', false);
+
+                }
+
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+
+        }).done(function (result) {
+
+        });
+    }
+
 
 
     function getJsonObj(element) {
