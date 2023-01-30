@@ -60,12 +60,9 @@ namespace iSOL_Enterprise.Controllers
         public IActionResult AddSaleOrder(string formData)
         {
             try
-            {
-
-
+            { 
                 SalesOrderDal dal = new SalesOrderDal();
                 return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddSaleOrder(formData) == true ? Json(new { isInserted = true, message = "Sale Qoutation Added Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
-
             }
             catch (Exception)
             {

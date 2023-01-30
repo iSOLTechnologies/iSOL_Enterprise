@@ -64,7 +64,7 @@ namespace iSOL_Enterprise.Controllers
 
 
                 ARInvoiceDal dal = new ARInvoiceDal();
-                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddDelivery(formData) == true ? Json(new { isInserted = true, message = "Sale Qoutation Added Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddARInvoice(formData) == true ? Json(new { isInserted = true, message = "Sale Qoutation Added Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
 
             }
             catch (Exception)
