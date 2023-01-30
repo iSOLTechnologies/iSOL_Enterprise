@@ -473,26 +473,5 @@ function PopulateData() {
     });
 }
 
-function DocNumOnLoad() {
-
-    return $.ajax({
-        url: '/LabTemplate/GetUpdateDocumentNumberOnLoad',
-        dataType: 'json',
-        type: 'Get',
-        success: function (result) {
 
 
-        },
-        error: function (jqXhr, textStatus, errorMessage) {
-            console.log(errorMessage);
-        }
-
-    }).done(function (result) {
-
-        result = result.data;
-        console.log(result)
-        $('#DocNum').val(result);
-
-
-    });
-}

@@ -198,7 +198,7 @@
 
                                                                     <div class="col-md-6">
                                                                         <label>No.</label>
-                                                                        <input id="DocNum" type="number" class="form-control form-control-sm" placeholder="No.">
+                                                                        <input id="DocNum" readonly type="text" class="form-control form-control-sm" placeholder="No.">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
 
@@ -1622,13 +1622,15 @@ $(document).on('click', '#ListBtnAddRM', function(e) {
 
     function getJsonObj(element) {
 
+
+
         var jsonobj = new Object();
 
         // console.log($('#' + element + ' input,' + '#' + element + ' select'))
 
-        $('#' + element + ' input,' + '#' + element + ' select').each(function (index, data) {
-            
-            if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')     
+        $('#' + element + ' input,' + '#' + element + ' select,' + '#' + element + 'textarea').each(function (index, data) {
+
+            if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')
                 jsonobj[$(this).attr("id")] = $(this).val();
 
         });
@@ -1640,9 +1642,9 @@ $(document).on('click', '#ListBtnAddRM', function(e) {
 
         $('#' + element).each(function (index, item) {
             var jsonobj = new Object();
-            $(this).find('input , select').each(function (index, data) {
+            $(this).find('input , select , textarea').each(function (index, data) {
 
-                if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') 
+                if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')
                     jsonobj[$(this).attr("id")] = $(this).val();
 
             });
@@ -1655,6 +1657,14 @@ $(document).on('click', '#ListBtnAddRM', function(e) {
         return listObj;
     }
     //==================== End Post Data Working===========================//
+    function DocNumOnLoad() 
+    {
 
+    $.get('/ARInvoice/getUpdatedDocumentNumberOnLoad', function (data, status) {
+     
+        $('#DocNum').val(data);
+    });
+    
+        }
 
 </script>

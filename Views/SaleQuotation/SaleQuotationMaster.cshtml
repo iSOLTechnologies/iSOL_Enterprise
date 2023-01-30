@@ -2533,11 +2533,12 @@ function GetPrice()
 
         $('#' + element).each(function (index, item) {
             var jsonobj = new Object();
-            $(this).find('input , select , textarea').each(function (index, data) {
+            $(this).find('input , select , textarea').each(function (index, data) 
+            {
 
                 if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') 
                     jsonobj[$(this).attr("id")] = $(this).val();
-
+                  
             });
 
             listObj.push(jsonobj);
