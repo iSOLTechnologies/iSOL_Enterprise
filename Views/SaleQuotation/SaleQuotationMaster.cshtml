@@ -200,10 +200,10 @@
 
                                                                     <div class="col-md-6">
                                                                         <label>No.</label>
-                                                                        <input id="DocNum" type="number" class="form-control form-control-sm" placeholder="No.">
+                                                                        <input id="DocNum" readonly type="text" class="form-control form-control-sm" placeholder="No.">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
-
+    
                                                                 </div>
 
                                                                 <div class="form-group row">
@@ -2805,26 +2805,31 @@ function GetPrice()
 
     function DocNumOnLoad() {
 
-        return $.ajax({
-            url: '/LabTemplate/GetUpdateDocumentNumberOnLoad',
-            dataType: 'json',
-            type: 'Get',
-            success: function (result) {
+        $.get('/SaleQuotation/getUpdatedDocumentNumberOnLoad', function(data, status)
+            { console.log(data)
+                $('#DocNum').val( data );
+          });
+        //return $.ajax({
+        //    url: '/SaleQuotation/getUpdatedDocumentNumberOnLoad',
+        //    dataType: 'json',
+        //    type: 'Get',
+        //    success: function (result) 
+        //    {
 
 
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                console.log(errorMessage);
-            }
+        //    },
+        //    error: function (jqXhr, textStatus, errorMessage) {
+        //        console.log(errorMessage);
+        //    }
 
-        }).done(function (result) {
+        //}).done(function (result) {
 
-            result = result.data;
-            console.log(result)
-            $('#DocNum').val(result);
+        //   // result = result.data;
+        //    console.log(result)
+        //    $('#DocNum').val(result);
 
 
-        });
+        //});
     }
 
 </script>

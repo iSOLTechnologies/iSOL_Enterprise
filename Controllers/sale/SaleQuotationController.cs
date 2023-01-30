@@ -5,6 +5,7 @@ using iSOL_Enterprise.Models.sale;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using SqlHelperExtensions;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -77,7 +78,27 @@ namespace iSOL_Enterprise.Controllers.Sales
 
             return View();
         }
-      
+
+
+
+        public string getUpdatedDocumentNumberOnLoad()
+        {
+            DataTable dt = SqlHelper.GetData("select top 1 DocNum From OQUT  order by Id desc");
+            if (dt.Rows.Count <= 0)
+            {
+                return "SQ-0001";
+            }
+            string UpdateCode = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, @"select top 1 DocNum From OQUT  order by Id desc").ToString();
+            // DataTable dt1 = SqlHelper.GetData("select top 1 ItemCode From[dbo].[Item_Master]  order by Id desc");
+            //   string data = dt.Rows[1]["ItemCode"].ToString();
+            string[] str = UpdateCode.Split('-');
+            string lastItem = str[str.Length - 1];
+            int no = int.Parse(lastItem);
+            no = no + 1;
+            string code = str[0];
+            string a = string.Format("{0:D" + lastItem.Length + "}", no);
+            return code + "-" + a;
+        }
         public IActionResult GetData()
         {
             ResponseModels response = new ResponseModels();
