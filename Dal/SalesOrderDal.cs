@@ -43,10 +43,10 @@ namespace iSOL_Enterprise.Dal
                 try
                 {
 
+                        int Id = CommonDal.getPrimaryKey(tran, "ORDR");
                     if (model.HeaderData != null)
                     {
 
-                        int Id = CommonDal.getPrimaryKey(tran, "ORDR");
 
                         string HeadQuery = @"insert into ORDR(Id,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
                                            values(" + Id + ",'"
@@ -72,10 +72,12 @@ namespace iSOL_Enterprise.Dal
                     {
                         foreach (var item in model.ListItems)
                         {
-                            int QUT1Id = CommonDal.getPrimaryKey(tran, "RDR1");
+                            int LineNo = 1;
+                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "RDR1");
 
-                            string RowQueryItem = @"insert into RDR1(Id,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
-                                              values(" + QUT1Id + ",'"
+                            string RowQueryItem = @"insert into RDR1(Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                                              values(" + Id + ","
+                                                + LineNo + ",'"
                                                 + item.ItemCode + "',"
                                                 + item.QTY + ","
                                                 + item.DicPrc + ",'"
@@ -91,7 +93,7 @@ namespace iSOL_Enterprise.Dal
                                 tran.Rollback();
                                 return false;
                             }
-
+                            LineNo += 1;
                         }
 
 
@@ -102,10 +104,12 @@ namespace iSOL_Enterprise.Dal
 
                         foreach (var item in model.ListService)
                         {
-                            int QUT1Id = CommonDal.getPrimaryKey(tran, "RDR1");
+                            int LineNo = 1;
+                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "RDR1");
 
-                            string RowQueryService = @"insert into RDR1(Id,Dscription,AcctCode,VatGroup)
-                                                  values(" + QUT1Id + ",'"
+                            string RowQueryService = @"insert into RDR1(Id,LineNum,Dscription,AcctCode,VatGroup)
+                                                  values(" + Id + ","
+                                                    + LineNo + ",'"
                                                     + item.Dscription + "','"
                                                     + item.AcctCode + "','"
                                                     + item.DicPrc + ",'"
@@ -120,7 +124,7 @@ namespace iSOL_Enterprise.Dal
                                 return false;
 
                             }
-
+                            LineNo += 1;
                         }
 
 
