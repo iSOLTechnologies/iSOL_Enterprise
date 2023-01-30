@@ -216,7 +216,7 @@ namespace iSOL_Enterprise.Dal
                                                 + Convert.ToDateTime(model.HeaderData.DocDueDate) + "','"
                                                 + model.HeaderData.DocCur + "','"
                                                 + Convert.ToDateTime(model.HeaderData.TaxDate) + "','"
-                                                + model.ListAccouting.GroupNum + "',"
+                                                + model.ListAccouting.GroupNum == null ? "" : model.ListAccouting.GroupNum + "',"
                                                 + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
                                                 + model.FooterData.Comments + "')";
 
@@ -331,13 +331,16 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListAttachment)
                         {
                             int LineNo = 1;
+                            if (item.selectedFilePath != null && item.selectedFileName != null && item.selectedFileDate != null)
+                            {
 
+                           
                             string RowQueryAttachment = @"insert into ATC1(AbsEntry,Line,trgtPath,FileName,Date)
                                                   values(" + ATC1Id + ","
                                                     + LineNo + ",'"
                                                     + item.selectedFilePath + "','"
                                                     + item.selectedFileName + "','"
-                                                    + Convert.ToDateTime(item.selectedFileDate) + "')";
+                                                    +  Convert.ToDateTime(item.selectedFileDate) + "')";
                             #region sqlparam
                             //List<SqlParameter> param3 = new List<SqlParameter>
                             //            {
@@ -358,6 +361,7 @@ namespace iSOL_Enterprise.Dal
 
                             }
                             LineNo += 1;
+                            }
                         }
 
 

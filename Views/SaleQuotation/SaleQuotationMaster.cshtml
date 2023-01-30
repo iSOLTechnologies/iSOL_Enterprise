@@ -49,9 +49,7 @@
                         <i class="ki ki-long-arrow-back icon-sm"></i>Back
                     </a>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary font-weight-bolder" id="btnAddData">
-                            <i class="ki ki-check icon-sm"></i>addData
-                        </button>
+                        
                         <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
                             <i class="ki ki-check icon-sm"></i>Save
                         </button>
@@ -966,7 +964,7 @@
 
 <script>
     var vatGroupData = "";
-
+    var ItemServiceType = '1';
     const boxes = document.querySelectorAll('.d');
 
     for (const box of boxes) {
@@ -1018,13 +1016,14 @@
 
         //$(ObjItemCode)
     });
-    $(document).on('change', '#ItemServiceType', function (e) {
+    $(document).on('change', '#ItemServiceType', function (e) 
+    {
         var val = $("#ItemServiceType option:selected").val();
         var value = $('#ItemServiceType').val();
-
+        ItemServiceType = value;
         if (value == '1') {
 
-
+            
             const srs = document.querySelectorAll('#kt_tabs_5_2 #ListParameters2 .itm');
             
              for (const s of srs) { 
@@ -2442,15 +2441,14 @@ function GetPrice()
     });
     function FormData() 
     {
- 
-         var data =
-        {
-
-         
+            
+        
+        var data =
+        { 
         HeaderData : getJsonObj("HeaderForm"),
         ListAccouting : getJsonObj("kt_tabs_acct"),
-        ListItems: getJsonObjList("ListParameters .itm"),
-        ListService: getJsonObjList("ListParameters2 .itm"),
+        ListItems: ItemServiceType == '1' ?  getJsonObjList("ListParameters .itm") : null,
+        ListService: ItemServiceType == '2' ? getJsonObjList("ListParameters2 .itm") : null,
         ListAttachment: getJsonObjList("ListParameters3 .itm"),
         FooterData : getJsonObj("FooterData")
       
@@ -2528,6 +2526,26 @@ function GetPrice()
         return jsonobj;
     }
 
+    function getJsonObjList(element) {
+        let listObj = [];
+
+        $('#' + element).each(function (index, item) {
+            var jsonobj = new Object();
+            $(this).find('input , select , textarea').each(function (index, data) 
+            {
+
+                if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') 
+                    jsonobj[$(this).attr("id")] = $(this).val();
+                  
+            });
+
+            listObj.push(jsonobj);
+
+
+
+        })
+        return listObj;
+    }
     function getJsonObjList(element) {
         let listObj = [];
 
