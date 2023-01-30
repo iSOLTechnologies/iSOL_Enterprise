@@ -201,26 +201,26 @@ namespace iSOL_Enterprise.Dal
                     {
 
                         string HeadQuery = @"insert into OQUT(Id,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
-                                           values(@Id,@Guid,@CardCode,@DocNum,@CardName,@CntctCode,@DocDate,@NumAtCard,@DocDueDate,@DocCur,@TaxDate,@GroupNum @SlpCode ,@Comments)";
+                                           values(@Id,@Guid,@CardCode,@DocNum,@CardName,@CntctCode,@DocDate,@NumAtCard,@DocDueDate,@DocCur,@TaxDate,@GroupNum ,@SlpCode ,@Comments)";
 
                         int Id = CommonDal.getPrimaryKey(tran, "OQUT");
 
-                        List<SqlParameter> param = new List<SqlParameter>
+                        List<SqlParameter> param = new List<SqlParameter>   
                                 {
                                     new SqlParameter("@id",Id),
                                     new SqlParameter("@Guid", CommonDal.generatedGuid()),
-                                    new SqlParameter("@CardCode",model.HeaderData.CardCode),
-                                    new SqlParameter("@DocNum",model.HeaderData.DocNum),
-                                    new SqlParameter("@CardName",model.HeaderData.CardName),
-                                    new SqlParameter("@CntctCode",model.HeaderData.CntctCode),
-                                    new SqlParameter("@DocDate",model.HeaderData.DocDate),
-                                    new SqlParameter("@NumAtCard",model.HeaderData.NumAtCard),
-                                    new SqlParameter("@DocDueDate",model.HeaderData.DocDueDate),
-                                    new SqlParameter("@DocCur",model.HeaderData.DocCur),
-                                    new SqlParameter("@TaxDate",model.HeaderData.TaxDate),
-                                    new SqlParameter("@GroupNum",model.PaymentTerms.GroupNum),
-                                    new SqlParameter("@SlpCode",model.FooterData.SlpCode),
-                                    new SqlParameter("@Comments",model.FooterData.Comments == null ? "" : model.FooterData.Comments),
+                                    new SqlParameter("@CardCode",model.HeaderData.CardCode.ToString()),
+                                    new SqlParameter("@DocNum",model.HeaderData.DocNum.ToString()),
+                                    new SqlParameter("@CardName",model.HeaderData.CardName.ToString()),
+                                    new SqlParameter("@CntctCode",model.HeaderData.CntctCode == null ? null : model.HeaderData.CntctCode.ToInt()),
+                                    new SqlParameter("@DocDate",Convert.ToDateTime( model.HeaderData.DocDate)),
+                                    new SqlParameter("@NumAtCard",model.HeaderData.NumAtCard.ToString()),
+                                    new SqlParameter("@DocDueDate",Convert.ToDateTime(model.HeaderData.DocDueDate)),
+                                    new SqlParameter("@DocCur",model.HeaderData.DocCur.ToString()),
+                                    new SqlParameter("@TaxDate",Convert.ToDateTime(model.HeaderData.TaxDate)),
+                                    new SqlParameter("@GroupNum",model.ListAccouting.GroupNum == null ?  "" : Convert.ToInt32(model.ListAccouting.GroupNum)),
+                                    new SqlParameter("@SlpCode",Convert.ToInt32(model.FooterData.SlpCode)),
+                                    new SqlParameter("@Comments",model.FooterData.Comments == null ? "" : model.FooterData.Comments.ToString()),
                                 };
 
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery, param.ToArray()).ToInt();
@@ -263,7 +263,7 @@ namespace iSOL_Enterprise.Dal
                                                   values(@Id,@Dscription,@AcctCode,@VatGroup)";
                         foreach (var item in model.ListService)
                         {
-                            int QUT1Id = CommonDal.getPrimaryKey(tran, "UserRolePageActivity");
+                            int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
 
                             List<SqlParameter> param3 = new List<SqlParameter>
                                         {
@@ -291,15 +291,17 @@ namespace iSOL_Enterprise.Dal
                     if (model.ListAttachment != null)
                     {
 
-                        string RowQueryAttachment = @"insert into ATC1(Id,trgtPath,FileName,Date)
-                                                  values(@Id,@trgtPath,@FileName,@Date)";
+                        string RowQueryAttachment = @"insert into ATC1(AbsEntry,Line,trgtPath,FileName,Date)
+                                                  values(@AbsEntry,@Line,@trgtPath,@FileName,@Date)";
                         foreach (var item in model.ListAttachment)
                         {
-                            int ATC1Id = CommonDal.getPrimaryKey(tran, "UserRolePageActivity");
+                            int ATC1Id = CommonDal.getPrimaryKey(tran, "ATC1");
+                            int ATC1Line = CommonDal.getPrimaryKey(tran, "ATC1");
 
                             List<SqlParameter> param3 = new List<SqlParameter>
                                         {
-                                            new SqlParameter("@id",ATC1Id),
+                                            new SqlParameter("@AbsEntry",ATC1Id),
+                                            new SqlParameter("@Line",ATC1Line),
                                             new SqlParameter("@trgtPath",item.trgtPath),
                                             new SqlParameter("@FileName",item.FileName),
                                             new SqlParameter("@Date",item.Date),
