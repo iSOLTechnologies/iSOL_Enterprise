@@ -11,6 +11,9 @@ namespace iSOL_Enterprise.Dal
 {
     public class SalesQuotationDal
     {
+       
+
+
         public List<SalesQuotation_MasterModels> GetData()
         {
             string GetQuery = "select * from OQUT";
@@ -30,7 +33,6 @@ namespace iSOL_Enterprise.Dal
                     list.Add(models);
                 }
             }
-
             return list;
         }
 

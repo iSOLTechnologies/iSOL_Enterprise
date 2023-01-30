@@ -77,6 +77,7 @@ namespace iSOL_Enterprise.Controllers.Sales
 
             return View();
         }
+      
         public IActionResult GetData()
         {
             ResponseModels response = new ResponseModels();
