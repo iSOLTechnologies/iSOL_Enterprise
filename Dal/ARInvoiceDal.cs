@@ -62,7 +62,7 @@ namespace iSOL_Enterprise.Dal
                                                 + Convert.ToDateTime(model.HeaderData.DocDueDate) + "','"
                                                 + model.HeaderData.DocCur + "','"
                                                 + Convert.ToDateTime(model.HeaderData.TaxDate) + "','"
-                                                + model.ListAccouting.GroupNum == null ? "" : model.ListAccouting.GroupNum + "',"
+                                                + model.ListAccouting.GroupNum + "',"
                                                 + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
                                                 + model.FooterData.Comments + "')";
 

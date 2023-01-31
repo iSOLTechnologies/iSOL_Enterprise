@@ -20,7 +20,7 @@ namespace iSOL_Enterprise.Dal
 
 
             List<SalesQuotation_MasterModels> list =  new List<SalesQuotation_MasterModels>();
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {
                 while (rdr.Read())
                 {
@@ -29,6 +29,7 @@ namespace iSOL_Enterprise.Dal
                     models.PostingDate = rdr["DocDate"].ToDateTime();
                     models.DocNum = rdr["DocNum"].ToString();
                     models.CardCode = rdr["CardCode"].ToString();
+                    models.Guid = rdr["Guid"].ToString();
                     models.CardName = rdr["CardName"].ToString();
                     list.Add(models);
                 }
@@ -216,7 +217,7 @@ namespace iSOL_Enterprise.Dal
                                                 + Convert.ToDateTime(model.HeaderData.DocDueDate) + "','"
                                                 + model.HeaderData.DocCur + "','"
                                                 + Convert.ToDateTime(model.HeaderData.TaxDate) + "','"
-                                                + model.ListAccouting.GroupNum == null ? "" : model.ListAccouting.GroupNum + "',"
+                                                + model.ListAccouting.GroupNum + "',"
                                                 + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
                                                 + model.FooterData.Comments + "')";
 
