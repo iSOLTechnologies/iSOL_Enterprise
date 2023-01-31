@@ -227,6 +227,25 @@ namespace iSOL_Enterprise.Controllers.Sales
 
 
         }
+        public IActionResult GetContactPersons(int cardCode)
+        {
+            //ResponseModels response = new ResponseModels();
+            try
+            {
+
+                SalesQuotationDal dal = new SalesQuotationDal();
+
+                return Json(dal.GetContactPersons(cardCode));
+            }
+            catch (Exception ex)
+            {
+
+                return Json(ex.Message);
+            }
+
+
+
+        }
         [HttpPost]
         public IActionResult AddSalesQoutation(string formData)
         {

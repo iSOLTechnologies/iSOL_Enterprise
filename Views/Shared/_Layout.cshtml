@@ -2742,12 +2742,37 @@
 			 $("#CardCode").val(rowData['cardCode']);
 			 $("#CardName").val(rowData['cardName']);
 			 $("#Currency").val(rowData['currency']); 
-			//$(ObjCardCode).closest('#ListParameters .itm').find("#ItemName").val(rowData['itemName']);
+
+			 GetContactPersons(rowData['cardCode']);
+
+		
 		$('#myCustModal').modal('hide');
 		//$(ObjItemCode)
     });
 
+	function GetContactPersons(cardCode) 
+	{
+		$.get("SaleQuotation/GetContactPersons", { cardCode: cardCode }, function (data) 
+        {
+           vatGroupData = data;
+          // addDataInVatGroup();
+            $("#CntcCode").html("");
+            
+            $.each(data, function () {
 
+                $("#CntcCode").append($("<option />").val(this.value).text(this.text));
+                
+            });
+			$('#CntcCode').select2({
+            placeholder: "Select an option"
+
+			});
+            //$("#VatGroup").select2();
+            //$("#VatGroup2").select2();
+
+        });
+
+	}
 
 
 

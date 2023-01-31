@@ -184,7 +184,29 @@ namespace iSOL_Enterprise.Dal
 
             return list;
         }
+        public List<ListModel> GetContactPersons(int cardCode)
+        {
+            string GetQuery = "select OCRD.CardCode,OCPR.Name from ocrd join ocpr on ocrd.CardCode = OCPR.CardCode where ocrd.CardCode = '" + cardCode+"'";
 
+
+            List<ListModel> list = new List<ListModel>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    list.Add(
+                        new ListModel()
+                        {
+                            Value = rdr["CardCode"].ToInt(),
+                            Text = rdr["Name"].ToString()
+                        });
+
+                }
+            }
+
+            return list;
+        }
         public bool AddSalesQoutation(string formData)
         {
             try
@@ -246,10 +268,10 @@ namespace iSOL_Enterprise.Dal
                     }
                     if (model.ListItems != null)
                     {
+                            int LineNo = 1;
                         foreach (var item in model.ListItems)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            int LineNo = 1;
                             string RowQueryItem = @"insert into QUT1(Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
                                                 + LineNo +",'"
@@ -288,11 +310,11 @@ namespace iSOL_Enterprise.Dal
                     }
                     else if (model.ListService != null)
                     {
+                            int LineNo = 1;
 
                         foreach (var item in model.ListService)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            int LineNo = 1;
                             string RowQueryService = @"insert into QUT1(Id,LineNum,Dscription,AcctCode,VatGroup)
                                                   values(" + Id + ","
                                                     + LineNo + ",'" 
@@ -330,10 +352,10 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
+                            int LineNo = 1;
                         int ATC1Id = CommonDal.getPrimaryKey(tran, "AbsEntry", "ATC1");
                         foreach (var item in model.ListAttachment)
                         {
-                            int LineNo = 1;
                             if (item.selectedFilePath != null && item.selectedFileName != null && item.selectedFileDate != null)
                             {
 

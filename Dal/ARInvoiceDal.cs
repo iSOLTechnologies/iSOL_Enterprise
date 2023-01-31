@@ -73,9 +73,9 @@ namespace iSOL_Enterprise.Dal
                     }
                     if (model.ListItems != null)
                     {
+                            int LineNo = 1;
                         foreach (var item in model.ListItems)
                         {
-                            int LineNo = 1;
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
 
                             string RowQueryItem = @"insert into INV1(Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
@@ -106,9 +106,9 @@ namespace iSOL_Enterprise.Dal
                     else if (model.ListService != null)
                     {
 
+                            int LineNo = 1;
                         foreach (var item in model.ListService)
                         {
-                            int LineNo = 1;
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
 
                             string RowQueryService = @"insert into INV1(Id,LineNum,Dscription,AcctCode,VatGroup)
@@ -138,10 +138,10 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
+                            int LineNo = 1;
                         int ATC1Id = CommonDal.getPrimaryKey(tran, "AbsEntry", "ATC1");
                         foreach (var item in model.ListAttachment)
                         {
-                            int LineNo = 1;
                             if (item.selectedFilePath != null && item.selectedFileName != null && item.selectedFileDate != null)
                             {
 
