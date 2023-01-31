@@ -9,14 +9,14 @@ using static iSOL_Enterprise.Dal.DashboardDal;
 
 namespace iSOL_Enterprise.Dal
 {
-    public class SalesQuotationDal
+    public class PurchaseQuotationDal
     {
        
 
 
         public List<SalesQuotation_MasterModels> GetData()
         {
-            string GetQuery = "select * from OQUT";
+            string GetQuery = "select * from OPQT";
 
 
             List<SalesQuotation_MasterModels> list =  new List<SalesQuotation_MasterModels>();
@@ -212,7 +212,7 @@ namespace iSOL_Enterprise.Dal
             try
             {
                 var model = JsonConvert.DeserializeObject<dynamic>(formData);
-               
+
 
 
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
@@ -221,7 +221,6 @@ namespace iSOL_Enterprise.Dal
                 int res1 = 0;
                 try
                 {
-
                         int Id = CommonDal.getPrimaryKey(tran, "OQUT");
 
                     if (model.HeaderData != null)
