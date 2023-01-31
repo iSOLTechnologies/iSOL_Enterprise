@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "SalesOrderMaster";
+    ViewData["Title"] = "SalesQuotationMaster";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -24,7 +24,7 @@
                 <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200">
                 </div>
                 <span class="text-muted font-weight-bold mr-2">Dashboard</span>
-                <span class="font-weight-bolder">/ Add Sale Order</span>
+                <span class="font-weight-bolder">/ Update  Sale Quotation</span>
                 <!--end::Actions-->
             </div>
             <!--end::Info-->
@@ -51,7 +51,7 @@
                     <div class="btn-group">
                         
                         <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
-                            <i class="ki ki-check icon-sm"></i>Save
+                            <i class="ki ki-check icon-sm"></i>Update
                         </button>
                         @*<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>*@
                         @*   <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
@@ -249,8 +249,8 @@
                                                                     </div>
 
                                                                     <div class="col-md-6">
-                                                                        <label>Delivery Date</label>
-                                                                        <input id="DocDueDate" type="date" class="d form-control form-control-sm" placeholder="Delivery Date">
+                                                                        <label>Valid Until</label>
+                                                                        <input id="DocDueDate" type="date" class="d form-control form-control-sm" placeholder="Valid until">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                 </div>
@@ -2463,7 +2463,7 @@ function GetPrice()
         console.log(JSON.stringify(formData));
       
         return $.ajax({
-            url: '/SaleOrder/AddSaleOrder',
+            url: '/SaleQuotation/AddSalesQoutation',
             dataType: 'json',
             type: 'POST',
             
@@ -2515,7 +2515,7 @@ function GetPrice()
 
         // console.log($('#' + element + ' input,' + '#' + element + ' select'))
 
-        $('#' + element + ' input,' + '#' + element + ' select, ' + '#' + element + ' textarea').each(function (index, data) {
+        $('#' + element + ' input,' + '#' + element + ' select,' + '#' + element + 'textarea').each(function (index, data) {
             
             if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')     
                 jsonobj[$(this).attr("id")] = $(this).val();
@@ -2822,7 +2822,7 @@ function GetPrice()
 
     function DocNumOnLoad() {
 
-        $.get('/SaleOrder/getUpdatedDocumentNumberOnLoad', function(data, status)
+        $.get('/SaleQuotation/getUpdatedDocumentNumberOnLoad', function(data, status)
             { console.log(data)
                 $('#DocNum').val( data );
           });

@@ -2515,7 +2515,7 @@ function GetPrice()
 
         // console.log($('#' + element + ' input,' + '#' + element + ' select'))
 
-        $('#' + element + ' input,' + '#' + element + ' select,' + '#' + element + 'textarea').each(function (index, data) {
+        $('#' + element + ' input,' + '#' + element + ' select, ' + '#' + element + ' textarea').each(function (index, data) {
             
             if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')     
                 jsonobj[$(this).attr("id")] = $(this).val();
