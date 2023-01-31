@@ -207,7 +207,7 @@ namespace iSOL_Enterprise.Dal
 
             return list;
         }
-        public bool AddSalesQoutation(string formData)
+        public bool AddPurchaseQoutation(string formData)
         {
             try
             {

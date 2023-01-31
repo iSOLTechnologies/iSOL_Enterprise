@@ -197,14 +197,14 @@ namespace iSOL_Enterprise.Controllers.Sales
 
         }
         [HttpPost]
-        public IActionResult AddSalesQoutation(string formData)
+        public IActionResult AddPurchaseQoutation(string formData)
         {
             try
             {
 
 
-                SalesQuotationDal dal = new SalesQuotationDal();
-                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddSalesQoutation(formData) == true ? Json(new { isInserted = true , message = "Sale Qoutation Added Successfully !" }) : Json(new { isInserted = false , message = "An Error occured !" });
+                PurchaseQuotationDal dal = new PurchaseQuotationDal();
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddPurchaseQoutation(formData) == true ? Json(new { isInserted = true , message = "Sale Qoutation Added Successfully !" }) : Json(new { isInserted = false , message = "An Error occured !" });
 
             }
             catch (Exception)

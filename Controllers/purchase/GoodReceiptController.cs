@@ -67,144 +67,16 @@ namespace iSOL_Enterprise.Controllers.Sales
 
             return Json(response);
         }
-        public IActionResult GetItems()
-        {
-            ResponseModels response = new ResponseModels();
-            try
-            {
-
-                SalesQuotationDal dal = new SalesQuotationDal();
-                response.Data = dal.GetItemsData();
-            }
-            catch (Exception ex)
-            {
-
-                return Json(response);
-            }
-
-
-            return Json(response);
-        }
-        public IActionResult GetCustomers()
-        {
-            ResponseModels response = new ResponseModels();
-            try
-            {
-
-                SalesQuotationDal dal = new SalesQuotationDal();
-                response.Data = dal.GetCustomerData();
-            }
-            catch (Exception ex)
-            {
-
-                return Json(response);
-            }
-
-
-            return Json(response);
-        }
-        public IActionResult GetAccounts()
-        {
-            ResponseModels response = new ResponseModels();
-            try
-            {
-
-                SalesQuotationDal dal = new SalesQuotationDal();
-                response.Data = dal.GetGLAccountData();
-            }
-            catch (Exception ex)
-            {
-
-                return Json(response);
-            }
-
-
-            return Json(response);
-        }
-
-
-
-        public IActionResult GetPayments()
-        {
-            //ResponseModels response = new ResponseModels();
-            try
-            {
-
-                SalesQuotationDal dal = new SalesQuotationDal();
-                
-                return Json(dal.GetPaymentTerms());
-            }
-            catch (Exception ex)
-            {
-
-                return Json(ex.Message);
-            }
-
-
-            
-        }
-        public IActionResult GetVatGroupData()
-        {
-            try
-            {
-
-                SalesQuotationDal dal = new SalesQuotationDal();
-
-                return Json(dal.GetVatGroupData());
-            }
-            catch (Exception ex)
-            {
-
-                return Json(ex.Message);
-            }
-        }
-        public IActionResult GetSaleEmployee()
-        {
-            //ResponseModels response = new ResponseModels();
-            try
-            {
-
-                SalesQuotationDal dal = new SalesQuotationDal();
-
-                return Json(dal.GetSalesEmployee());
-            }
-            catch (Exception ex)
-            {
-
-                return Json(ex.Message);
-            }
-
-
-
-        }
-        public IActionResult GetContactPersons(int cardCode)
-        {
-            //ResponseModels response = new ResponseModels();
-            try
-            {
-
-                SalesQuotationDal dal = new SalesQuotationDal();
-
-                return Json(dal.GetContactPersons(cardCode));
-            }
-            catch (Exception ex)
-            {
-
-                return Json(ex.Message);
-            }
-
-
-
-        }
+        
         [HttpPost]
-        public IActionResult AddSalesQoutation(string formData)
+        public IActionResult AddGoodReceipt(string formData)
         {
             try
             {
 
 
-                SalesQuotationDal dal = new SalesQuotationDal();
-                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddSalesQoutation(formData) == true ? Json(new { isInserted = true , message = "Sale Qoutation Added Successfully !" }) : Json(new { isInserted = false , message = "An Error occured !" });
+                GoodReceiptDal dal = new GoodReceiptDal();
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddGoodReceipt(formData) == true ? Json(new { isInserted = true , message = "Sale Qoutation Added Successfully !" }) : Json(new { isInserted = false , message = "An Error occured !" });
 
             }
             catch (Exception)
