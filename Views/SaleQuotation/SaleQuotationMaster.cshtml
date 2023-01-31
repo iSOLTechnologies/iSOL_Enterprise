@@ -184,7 +184,7 @@
                                                                         @*<input disabled type="text" class="form-control form-control-sm" >*@
 
                                                                         <div class="input-group">
-                                                                            <input type="text" id="CardCode" class="form-control form-control-sm" placeholder="Customer" aria-describedby="basic-addon2">
+                                                                            <input type="text" id="CardCode" class="form-control form-control-sm " placeholder="Customer" aria-describedby="basic-addon2">
                                                                             <div id="CustomerNo" class="input-group-append">
                                                                                 <span class="input-group-text">
                                                                                     <i class="la la-search"></i>
@@ -1591,7 +1591,7 @@ function GetPrice()
         GetListValueType();
         GetListValueMethod();
         GetLisRmCodes();
-
+    
 
         if (Guid != undefined && Guid != '' && Guid != null) {
             PopulateData();
@@ -1725,7 +1725,11 @@ function GetPrice()
 
         $('#kt_repeater_3 tbody').append(html);
     });
-
+     $(document).on('keypress', '#CardCode,#DocNum,#CardName,#DocDate,#NumAtCard,#DocDue,#TaxDate,#ItemCode,#VatGroup,#GroupNum', function (e) 
+    {
+       
+        $(this).removeClass('is-invalid');
+    });
     $(document).on('click', '#ListBtnAddd', function (e) {
         var html = `    <tr class="rowItemDetail align-items-center itm">
                                                                                     <td>
@@ -2095,16 +2099,6 @@ function GetPrice()
         //addDataInVatGroup();
     });
 
-    $(document).on('keypress', '#Duration,#EffectiveDate', function (e) {
-
-        $(this).removeClass('is-invalid');
-    });
-
-    $(document).on('change', '#DocDate,#DocNum', function (e) {
-
-        $(this).removeClass('is-invalid');
-    });
-
     $(document).on('click', '#btnSave', function (e) {
 
         $('#btnSave').addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
@@ -2266,177 +2260,83 @@ function GetPrice()
         });
     }
 
-    function ValidateData(Id) {
-
-        if ($("#" + Id).val() == null || $("#" + Id).val() == '' || $("#" + Id).val() == undefined) {
-            $("#" + Id).addClass('is-invalid');
-            return false;
-        }
-        else {
-            $("#" + Id).removeClass('is-invalid');
-            return true;
-        }
-
-    }
-
-    $(document).on('keypress', '#QcMethod,#MinValue,#MaxValue,#Desc1,#Desc2,#Duration,#IncrementalDuation,#Counter', function (e) {
-
-        $(this).removeClass('is-invalid');
-    });
-
-    function ValidateListData(obj) {
-        debugger
-        var val = obj.val();
-        if (val == null || val == '' || val == undefined) {
-            $(obj).addClass('is-invalid');
-            return false;
-        }
-        else {
-
-            $(obj).removeClass('is-invalid');
-            return true;
-        }
-
-    }
-
-
-
-
-    function ValidateForm() {
-        debugger
-        var isValid = true;
-        var array = [];
-
-        array.push(ValidateData('DocDate'));
-        array.push(ValidateData('DocNum'));
-        array.push(ValidateData('EffectiveDate'));
-        array.push(ValidateData('ItemCode option:selected'));
-
-        $('#ListParameters .itm').each(function (index, item) {
-            var dt1 = $(this).closest('#ListParameters .itm').find("#ParamCode");
-            var dt2 = $(this).closest('#ListParameters .itm').find("#QcMethod");
-            var dt3 = $(this).closest('#ListParameters .itm').find("#ValueTypeCode");
-            var dt4 = $(this).closest('#ListParameters .itm').find("#StandardValue");
-            var dt5 = $(this).closest('#ListParameters .itm').find("#MinValue");
-            var MaxValue = $(this).closest('#ListParameters .itm').find("#MaxValue");
-            var dt7 = $(this).closest('#ListParameters .itm').find("#ValueMethodCode");
-            var dt8 = $(this).closest('#ListParameters .itm').find("#Desc1");
-            var dt9 = $(this).closest('#ListParameters .itm').find("#Desc2");
-            var dt10 = $(this).closest('#ListParameters .itm').find("#DurationTypeCode");
-            var dt11 = $(this).closest('#ListParameters .itm').find("#Duration");
-            var dt12 = $(this).closest('#ListParameters .itm').find("#Counter");
-            //  var dt13 = $(this).closest('#ListParameters .itm').find("#IncrementalDuation");
-
-            array.push(ValidateListData(dt1));
-            array.push(ValidateListData(dt2));
-            array.push(ValidateListData(dt3));
-
-            if (dt3.val() != '' && dt3.val() != null && dt3.val() != undefined) {
-                if (dt3.val() == 'PM') {
-                    array.push(ValidateListData(dt4));
-                    array.push(ValidateListData(dt5));
-                    array.push(ValidateListData(MaxValue));
-                }
-                else if (dt3.val() == 'RN') {
-                    array.push(ValidateListData(dt5));
-                    array.push(ValidateListData(MaxValue));
-                } else if (dt3.val() == 'DS' || dt3.val() == 'GT' || dt3.val() == 'LT') {
-                    array.push(ValidateListData(dt4));
-                }
-
-            } else {
-                array.push(ValidateListData(dt4));
-                array.push(ValidateListData(dt5));
-                array.push(ValidateListData(MaxValue));
-            }
-
-
-
-            isValid = ValidateListData(dt7);
-            if (dt7.val() != '' && dt7.val() != null && dt7.val() != undefined) {
-                if (dt7.val() != 'SN') {
-                    array.push(ValidateListData(dt8));
-                    array.push(ValidateListData(dt9));
-                }
-
-            }
-            else {
-                array.push(ValidateListData(dt8));
-                array.push(ValidateListData(dt9));
-            }
-
-            //isValid = ValidateListData(dt8);
-            //isValid = ValidateListData(dt9);
-            array.push(ValidateListData(dt10));
-            if (dt10.val() != '' && dt10.val() != null && dt10.val() != undefined) {
-                if (dt10.val() != 'ONT') {
-                    array.push(ValidateListData(dt11));
-                    array.push(ValidateListData(dt12));
-                    //  isValid = ValidateListData(dt13);
-                }
-
-            }
-            else {
-                array.push(ValidateListData(dt11));
-                array.push(ValidateListData(dt12));
-                // isValid = ValidateListData(dt13);
-            }
-
-        });
-
-        $('#ListParameters2 .itm').each(function (index, item) {
-            var RmCode = $(this).closest('#ListParameters .itm').find("#RmCode");
-            var LengthValueType = $(this).closest('#ListParameters .itm').find("#LengthValueType");
-            var StandardLength = $(this).closest('#ListParameters .itm').find("#StandardLength");
-            var MinLength = $(this).closest('#ListParameters .itm').find("#MinLength");
-            var MaxLength = $(this).closest('#ListParameters .itm').find("#MaxLength");
-            var WidthValueType = $(this).closest('#ListParameters .itm').find("#WidthValueType");
-            var StandardWidth = $(this).closest('#ListParameters .itm').find("#StandardWidth");
-            var MinWidth = $(this).closest('#ListParameters .itm').find("#MinWidth");
-            var MaxWidth = $(this).closest('#ListParameters .itm').find("#MaxWidth");
-
-        });
-
-        for (var i = 0; i < array.length; i++) {
-            if (array[i] == false) {
-                isValid = false;
-            }
-        }
-
-
-
-        if (isValid != false) {
-            if (Guid != undefined && Guid != '' && Guid != null && isDuplicate == false) {
-                Edit();
-            }
-            else {
-                Add();
-            }
-
-        }
-        else {
-
-            setTimeout(
-                function () {
-
-                    $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                    $('#btnSave').attr('disabled', false);
-
-                }, 500);
-        }
-    }
-    //================== Post Data Working =====================
-
-
     $(document).on('click', '#btnSaveData', function (e) 
     {
-        FormData();
-    });
 
-    $(document).on('click', '#btnAddData', function (e) 
-    {
-        addDataInVatGroup();
+          if(
+               ValidateData("HeaderForm") 
+            && ValidateData("kt_tabs_acct") 
+            && ItemServiceType == '1' ?  ValidateListData("ListParameters .itm") : ValidateListData("ListParameters2 .itm")
+            ) 
+          FormData();
     });
+    
+    
+    function ValidateData(element) 
+    {
+
+        let isValid = [];
+
+        $('#' + element + ' input,' + '#' + element + ' select, ' + '#' + element + ' textarea').each(function (index, data) 
+        {
+            
+            if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')     
+            {
+                    if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) 
+                    {
+                            $(this).addClass('is-invalid');
+                            isValid.push(false);
+                    }
+                    else 
+                    {
+                        $(this).removeClass('is-invalid');
+                         isValid.push(true);
+                    }
+                  
+            }
+        });
+
+        if(isValid.includes(false))
+            return false;
+            else
+            return true;
+
+    }
+
+    function ValidateListData(element) 
+    {
+        let isValid = [];
+            
+            $('#' + element).each(function (index, item) {
+           
+                $(this).find('input , select , textarea').each(function (index, data) 
+                {
+
+                if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') 
+                    {
+                         if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) 
+                        {
+                            $(this).addClass('is-invalid');
+                            isValid.push(false);
+                        }
+                        else 
+                        {
+                        $(this).removeClass('is-invalid');
+                         isValid.push(true);
+                        }
+                    }
+                  
+                });
+
+            }); 
+
+
+        if(isValid.includes(false))
+            return false;
+            else
+            return true;
+    }
+
     function FormData() 
     {
             
@@ -2457,6 +2357,7 @@ function GetPrice()
 
     
     }
+
     function PostData(formData) 
     {
       
@@ -2509,11 +2410,9 @@ function GetPrice()
 
     function getJsonObj(element) {
 
-       
-      
         var jsonobj = new Object();
 
-        // console.log($('#' + element + ' input,' + '#' + element + ' select'))
+        
 
         $('#' + element + ' input,' + '#' + element + ' select, ' + '#' + element + ' textarea').each(function (index, data) {
             
@@ -2544,26 +2443,7 @@ function GetPrice()
         })
         return listObj;
     }
-    function getJsonObjList(element) {
-        let listObj = [];
 
-        $('#' + element).each(function (index, item) {
-            var jsonobj = new Object();
-            $(this).find('input , select , textarea').each(function (index, data) 
-            {
-
-                if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') 
-                    jsonobj[$(this).attr("id")] = $(this).val();
-                  
-            });
-
-            listObj.push(jsonobj);
-
-
-
-        })
-        return listObj;
-    }
     //==================== End Post Data Working===========================//
     //===============================================
 
@@ -2823,9 +2703,9 @@ function GetPrice()
     function DocNumOnLoad() {
 
         $.get('/SaleQuotation/getUpdatedDocumentNumberOnLoad', function(data, status)
-            { console.log(data)
+            {
                 $('#DocNum').val( data );
-          });
+            });
         //return $.ajax({
         //    url: '/SaleQuotation/getUpdatedDocumentNumberOnLoad',
         //    dataType: 'json',
