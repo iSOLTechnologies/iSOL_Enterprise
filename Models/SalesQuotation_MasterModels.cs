@@ -2,6 +2,7 @@
 {
     public class SalesQuotation_MasterModels : BaseModels
     {
+
         public string? Guid { get; set; }
         public string? DocNum { get; set; }
         public DateTime? DocDate { get; set; }

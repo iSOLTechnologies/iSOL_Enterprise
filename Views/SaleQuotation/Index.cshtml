@@ -63,7 +63,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th></th>
+                        <th></th> 
 
 
                     </tr>
@@ -119,13 +119,7 @@
                 input: $('#generalSearch'),
             },
             columns: [
-
-                //{
-                //    data: '',
-                //    width: 20,
-
-
-                //}, {
+                 
                 {
                     data: 'docDate', title: 'Doc Date', render: function (data, type, row) {
                         if (data != undefined && data != '') {
@@ -159,8 +153,8 @@
                 }, {
                     data: 'cardName', title: 'Card Name'
 
-                },{
-                    data: "guid", 'title': 'Action', render: function (data, type, row) {
+                } ,{
+                    data: "id", 'title': 'Action', render: function (data, type, row) {
                         var html = '<a guid=' + data + ' id="btnFetchSaleQuotation" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
                         html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
                         html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
@@ -187,8 +181,8 @@
     {
 
         var guid = $(this).attr("guid");
-        
-        console.log(guid);
+
+        window.location.href = '/SaleQuotation/EditSaleQuotationMaster/' + guid + '';
 
     });
 </script>

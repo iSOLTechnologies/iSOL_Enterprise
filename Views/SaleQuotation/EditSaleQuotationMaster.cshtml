@@ -1,9 +1,14 @@
-﻿@{
+﻿
+@*@model DataSet
+@using System.Data*@
+
+@{
     ViewData["Title"] = "SalesQuotationMaster";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model iSOL_Enterprise.Models.RoleModels
+@using System.Data
+@model DataSet
 
 @using Microsoft.AspNetCore.Http
 
@@ -24,7 +29,7 @@
                 <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200">
                 </div>
                 <span class="text-muted font-weight-bold mr-2">Dashboard</span>
-                <span class="font-weight-bolder">/ Update  Sale Quotation</span>
+                <span class="font-weight-bolder">/ Add  Sale Quotation</span>
                 <!--end::Actions-->
             </div>
             <!--end::Info-->
@@ -51,7 +56,7 @@
                     <div class="btn-group">
                         
                         <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
-                            <i class="ki ki-check icon-sm"></i>Update
+                            <i class="ki ki-check icon-sm"></i>Save
                         </button>
                         @*<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>*@
                         @*   <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
@@ -176,6 +181,8 @@
 
 
                                                             @* ----------   Header -----------*@
+                                                            @foreach(DataRow row in Model.Tables[0].Rows){
+                                                                 
                                                             <div id="HeaderForm">
                                                                 <div class="form-group row">
 
@@ -184,7 +191,7 @@
                                                                         @*<input disabled type="text" class="form-control form-control-sm" >*@
 
                                                                         <div class="input-group">
-                                                                            <input type="text" id="CardCode" class="form-control form-control-sm" placeholder="Customer" aria-describedby="basic-addon2">
+                                                                            <input value="@row["CardCode"]" type="text" id="CardCode" class="form-control form-control-sm" placeholder="Customer" aria-describedby="basic-addon2">
                                                                             <div id="CustomerNo" class="input-group-append">
                                                                                 <span class="input-group-text">
                                                                                     <i class="la la-search"></i>
@@ -198,7 +205,7 @@
 
                                                                     <div class="col-md-6">
                                                                         <label>No.</label>
-                                                                        <input id="DocNum" readonly type="text" class="form-control form-control-sm" placeholder="No.">
+                                                                        <input id="DocNum" value="@row["DocNum"]" readonly type="text" class="form-control form-control-sm" placeholder="No.">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
     
@@ -207,7 +214,7 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
                                                                         <label>Name</label>
-                                                                        <input type="text" id="CardName" class="form-control form-control-sm" placeholder="Name">
+                                                                        <input value="@row["CardName"]" type="text" id="CardName" class="form-control form-control-sm" placeholder="Name">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
 
@@ -234,7 +241,7 @@
 
                                                                     <div class="col-md-6">
                                                                         <label>Posting Date</label>
-                                                                        <input id="DocDate" type="date" class="d form-control form-control-sm" placeholder="Posting Date">
+                                                                        <input id="DocDate" value="@row["DocDate"].ToString()" type="datetime" class=" form-control form-control-sm" placeholder="Posting Date">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
 
@@ -250,7 +257,7 @@
 
                                                                     <div class="col-md-6">
                                                                         <label>Valid Until</label>
-                                                                        <input id="DocDueDate" type="date" class="d form-control form-control-sm" placeholder="Valid until">
+                                                                        <input id="DocDueDate" value="@row["DocDueDate"]" type="date" class="form-control form-control-sm" placeholder="Valid until">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                 </div>
@@ -260,18 +267,19 @@
 
                                                                     <div class="col-md-6">
                                                                         <label>Currency</label>
-                                                                        <input id="DocCur" type="text" class="form-control form-control-sm">
+                                                                        <input id="DocCur" value="@row["DocCur"]" type="text" class="form-control form-control-sm">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <label>Document Date</label>
-                                                                        <input id="TaxDate" type="date" class="d form-control form-control-sm" placeholder="Date">
+                                                                        <input id="TaxDate" value="@row["TaxDate"]" type="date" class="d form-control form-control-sm" placeholder="Date">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-
+                                                             
                                                             <div class="kt-separator kt-separator--space-md kt-separator--border-dashed"></div>
+                                                            
 
 
 
@@ -312,11 +320,82 @@
 
 
 
-
-
-
-                                                                    <div id="kt_tabs_5_1">
+                                                                     
+                                                                 <div id="kt_tabs_5_1">
+                                                                @if(row["DocType"].Equals("I")){
                                                                         <table id="kt_repeater_1" style="overflow:auto">
+                                                                            <thead class="ScrollThead">
+                                                                                <tr>
+                                                                                    <th>Item No.</th>
+                                                                                    <th>Item Name</th>
+                                                                                    <th>Quantity</th>
+                                                                                    <th>Unit Price</th>
+                                                                                    <th>Discount %</th>
+                                                                                    <th>Tax Code</th>
+                                                                                    <th>Total (LC)</th>
+                                                                                    <th>UMO Code</th>
+                                                                                    <th>Country / Region of origin</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody id="ListParameters" data-repeater-list="" class="ScrollTbody">
+                                                                              @foreach(DataRow row1 in Model.Tables[1].Rows){
+                                                                                   <tr class="rowItemDetail align-items-center itm">
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <input id="ItemCode" value="@row1["ItemCode"]" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
+                                                                                            <div id="Itemno" class="input-group-append">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-search"></i>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                     
+                                                                                    <td>
+                                                                                        <input id="ItemName"  value="@row1["ItemName"]" class="form-control form-control-sm"  type="text">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input  value="@row1["Quantity"]" class="form-control form-control-sm" id="QTY"  type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input  value="@row1["price"]" class="form-control form-control-sm" id="UPrc"  type="text">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input  value="@row1["DiscPrcnt"]" class="form-control form-control-sm" id="DicPrc"  type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td> 
+                                                                                       @*<input class="form-control form-control-sm" value="@row1["VatGroup"]" type='number' disabled>*@
+                                                                                         
+                                                                                       <select  value="@row1["VatGroup"]" class="form-control vtGroup" id="VatGroup">
+                                                                                        </select>                                                                                        
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div> 
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        
+                                                                                        <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input class="form-control id="UmoCode"  value="@row1["UomCode"]" form-control-sm" id="UomCode">
+                                                                                      
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                          <input class="form-control  value="@row1["CountryOrg"]" form-control-sm" id="Country">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                }
+                                                                                 </tbody>
+                                                                        </table>
+                                                                         }else{
+                                                                              <table id="kt_repeater_1" style="overflow:auto">
                                                                             <thead class="ScrollThead">
                                                                                 <tr>
                                                                                     <th>Item No.</th>
@@ -642,17 +721,83 @@
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
-                                                                        <div style="margin-top:1%" class="form-group form-group-last row">
+                                                                         }
+                                                                          
+                                                                         <div style="margin-top:1%" class="form-group form-group-last row">
                                                                             <div class="col-md-6">
                                                                                 <button type="button" id="ListBtnAddd" data-repeater-create="" class="btn btn-light-primary font-weight-bold btn-sm">
                                                                                     <i class="la la-plus"></i> Add
                                                                                 </button>
                                                                             </div>
+                                                                        </div> 
+ 
                                                                         </div>
+                                                                    
+                                                                       
+                                                                            <div class="d-none" id="kt_tabs_5_2">
+                                                                                 @if (row["DocType"].Equals("S"))
+                                                                        {
+                                                                                <table id="kt_repeater_2" style="overflow:auto">
+                                                                                    <thead class="ScrollThead2">
+                                                                                        <tr>
+                                                                                            <th>Description</th>
+                                                                                            <th>Gl Account</th>
+                                                                                            <th>Gl Account Name</th>
+                                                                                            <th>Tax Code</th>
+                                                                                            <th>Total LC</th>
+                                                                                            <th>Blanket Agreement No.</th>
 
-                                                                    </div>
-                                                                    <div class="d-none" id="kt_tabs_5_2">
-                                                                        <table id="kt_repeater_2" style="overflow:auto">
+                                                                                            <!-- @*<th>Supplier </th>
+                                                                                        <th>Lot Number</th>
+                                                                                        <th>GSM</th>*@ -->
+                                                                                            <th></th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody id="ListParameters2" data-repeater-list="" class="ScrollTbody2">
+                                                                                       
+                                                                                         @foreach(DataRow row2 in Model.Tables[1].Rows){
+                                                                                        
+                                                                                        <tr class="rowItemDetail align-items-center itm">
+
+                                                                                            <td>
+                                                                                                <input id="Dscription" value="@row2["Dscription"]" class="form-control form-control-sm">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div class="input-group">
+                                                                                                    <input type="text" value="@row2["AcctCode"]" id="AcctCode" class="form-control form-control-sm" placeholder="GL Account" aria-describedby="basic-addon2">
+                                                                                                    <div id="GLAccountNo" class="input-group-append">
+                                                                                                        <span class="input-group-text">
+                                                                                                            <i class="la la-search"></i>
+                                                                                                        </span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input id="AcctName" class="form-control form-control-sm">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input value="@row2["VatGroup"]" class="form-control form-control-sm">
+                                                                                               @* <select class="form-control" id="VatGroup2">
+                                                                                                </select>*@
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input class="form-control form-control-sm" id="TotalLC">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input class="form-control form-control-sm" id="BlanketAgreementNo">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        }
+                                                                                    </tbody>
+                                                                                </table>
+                                                                                }else{
+                                                                                       <table id="kt_repeater_2" style="overflow:auto">
                                                                             <thead class="ScrollThead2">
                                                                                 <tr>
                                                                                     <th>Description</th>
@@ -691,7 +836,7 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <select class="form-control" id="VatGroup2">
+                                                                                                <select value="@row1["VatGroup"]" class="form-control" id="VatGroup2">
                                                                                         </select>
 
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -707,21 +852,22 @@
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
-                                                                        <div style="margin-top:1%" class="form-group form-group-last row">
-                                                                            <div class="col-md-6">
-                                                                                <button type="button" id="ListBtnAddRM" data-repeater-create="" class="btn btn-light-primary font-weight-bold btn-sm">
-                                                                                    <i class="la la-plus"></i> Add
-                                                                                </button>
+                                                                                }
+                                                                                <div style="margin-top:1%" class="form-group form-group-last row">
+                                                                                    <div class="col-md-6">
+                                                                                        <button type="button" id="ListBtnAddRM" data-repeater-create="" class="btn btn-light-primary font-weight-bold btn-sm">
+                                                                                            <i class="la la-plus"></i> Add
+                                                                                        </button>
 
-                                                                                <!-- <button type="button" class="btn btn-light-primary font-weight-bold btn-sm">Setup login verification</button> -->
+                                                                                        <!-- <button type="button" class="btn btn-light-primary font-weight-bold btn-sm">Setup login verification</button> -->
 
+
+                                                                                    </div>
+                                                                                </div>
 
                                                                             </div>
-                                                                        </div>
-
+                                                                        
                                                                     </div>
-
-                                                                </div>
 
                                                                 <div class="tab-pane" id="kt_tabs_acct" role="tabpanel">
 
@@ -800,6 +946,11 @@
                                                                 </div>
 
                                                             </div>
+                                                    
+                                                        
+                                                        }
+                                                        
+                                                        
                                                         </div>
 
 
@@ -1448,9 +1599,7 @@
         $('#myCustModal').modal('show');
 
     });
-    //function clckme(){
-    //     document.getElementById("myCustomerbtn").click();
-    //}
+   
 
     $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount,#VatGroup', function (e) {
 
@@ -1501,22 +1650,7 @@
         }
     });
 
-    //$(document).on('keyup', '#Rounding', function (e) 
-    //{
-        
-      
-    //  if($('#RoundingChkBox').is(":checked"))
-    //  {
-          
-    //    var TotalPrice = $("#Total").val();
-    //    var RoundingValue = parseFloat($('#Rounding').val());
-    //    if(TotalPrice != "")
-    //        if(RoundingValue != "")
-    //            $("#Total").val( Number(TotalPrice) +  RoundingValue);
-    //        else 
-    //        $("#Total").val( Number(TotalPrice));
-    //  }
-    //});
+  
 function GetPrice() 
 {
 
@@ -1576,10 +1710,7 @@ function GetPrice()
     
     $(document).ready(function () {
 
-        $('#CntcCode').select2({
-            placeholder: "Select an option"
-
-        });
+        
         GetVatGroupData();
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
@@ -1591,7 +1722,7 @@ function GetPrice()
         GetListValueType();
         GetListValueMethod();
         GetLisRmCodes();
-
+    
 
         if (Guid != undefined && Guid != '' && Guid != null) {
             PopulateData();
@@ -1725,7 +1856,11 @@ function GetPrice()
 
         $('#kt_repeater_3 tbody').append(html);
     });
-
+     $(document).on('keypress', '#CardCode,#DocNum,#CardName,#DocDate,#NumAtCard,#DocDue,#TaxDate,#ItemCode,#VatGroup,#GroupNum,#DocCur', function (e) 
+    {
+       
+        $(this).removeClass('is-invalid');
+    });
     $(document).on('click', '#ListBtnAddd', function (e) {
         var html = `    <tr class="rowItemDetail align-items-center itm">
                                                                                     <td>
@@ -2095,16 +2230,6 @@ function GetPrice()
         //addDataInVatGroup();
     });
 
-    $(document).on('keypress', '#Duration,#EffectiveDate', function (e) {
-
-        $(this).removeClass('is-invalid');
-    });
-
-    $(document).on('change', '#DocDate,#DocNum', function (e) {
-
-        $(this).removeClass('is-invalid');
-    });
-
     $(document).on('click', '#btnSave', function (e) {
 
         $('#btnSave').addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
@@ -2266,177 +2391,90 @@ function GetPrice()
         });
     }
 
-    function ValidateData(Id) {
-
-        if ($("#" + Id).val() == null || $("#" + Id).val() == '' || $("#" + Id).val() == undefined) {
-            $("#" + Id).addClass('is-invalid');
-            return false;
-        }
-        else {
-            $("#" + Id).removeClass('is-invalid');
-            return true;
-        }
-
-    }
-
-    $(document).on('keypress', '#QcMethod,#MinValue,#MaxValue,#Desc1,#Desc2,#Duration,#IncrementalDuation,#Counter', function (e) {
-
-        $(this).removeClass('is-invalid');
-    });
-
-    function ValidateListData(obj) {
-        debugger
-        var val = obj.val();
-        if (val == null || val == '' || val == undefined) {
-            $(obj).addClass('is-invalid');
-            return false;
-        }
-        else {
-
-            $(obj).removeClass('is-invalid');
-            return true;
-        }
-
-    }
-
-
-
-
-    function ValidateForm() {
-        debugger
-        var isValid = true;
-        var array = [];
-
-        array.push(ValidateData('DocDate'));
-        array.push(ValidateData('DocNum'));
-        array.push(ValidateData('EffectiveDate'));
-        array.push(ValidateData('ItemCode option:selected'));
-
-        $('#ListParameters .itm').each(function (index, item) {
-            var dt1 = $(this).closest('#ListParameters .itm').find("#ParamCode");
-            var dt2 = $(this).closest('#ListParameters .itm').find("#QcMethod");
-            var dt3 = $(this).closest('#ListParameters .itm').find("#ValueTypeCode");
-            var dt4 = $(this).closest('#ListParameters .itm').find("#StandardValue");
-            var dt5 = $(this).closest('#ListParameters .itm').find("#MinValue");
-            var MaxValue = $(this).closest('#ListParameters .itm').find("#MaxValue");
-            var dt7 = $(this).closest('#ListParameters .itm').find("#ValueMethodCode");
-            var dt8 = $(this).closest('#ListParameters .itm').find("#Desc1");
-            var dt9 = $(this).closest('#ListParameters .itm').find("#Desc2");
-            var dt10 = $(this).closest('#ListParameters .itm').find("#DurationTypeCode");
-            var dt11 = $(this).closest('#ListParameters .itm').find("#Duration");
-            var dt12 = $(this).closest('#ListParameters .itm').find("#Counter");
-            //  var dt13 = $(this).closest('#ListParameters .itm').find("#IncrementalDuation");
-
-            array.push(ValidateListData(dt1));
-            array.push(ValidateListData(dt2));
-            array.push(ValidateListData(dt3));
-
-            if (dt3.val() != '' && dt3.val() != null && dt3.val() != undefined) {
-                if (dt3.val() == 'PM') {
-                    array.push(ValidateListData(dt4));
-                    array.push(ValidateListData(dt5));
-                    array.push(ValidateListData(MaxValue));
-                }
-                else if (dt3.val() == 'RN') {
-                    array.push(ValidateListData(dt5));
-                    array.push(ValidateListData(MaxValue));
-                } else if (dt3.val() == 'DS' || dt3.val() == 'GT' || dt3.val() == 'LT') {
-                    array.push(ValidateListData(dt4));
-                }
-
-            } else {
-                array.push(ValidateListData(dt4));
-                array.push(ValidateListData(dt5));
-                array.push(ValidateListData(MaxValue));
-            }
-
-
-
-            isValid = ValidateListData(dt7);
-            if (dt7.val() != '' && dt7.val() != null && dt7.val() != undefined) {
-                if (dt7.val() != 'SN') {
-                    array.push(ValidateListData(dt8));
-                    array.push(ValidateListData(dt9));
-                }
-
-            }
-            else {
-                array.push(ValidateListData(dt8));
-                array.push(ValidateListData(dt9));
-            }
-
-            //isValid = ValidateListData(dt8);
-            //isValid = ValidateListData(dt9);
-            array.push(ValidateListData(dt10));
-            if (dt10.val() != '' && dt10.val() != null && dt10.val() != undefined) {
-                if (dt10.val() != 'ONT') {
-                    array.push(ValidateListData(dt11));
-                    array.push(ValidateListData(dt12));
-                    //  isValid = ValidateListData(dt13);
-                }
-
-            }
-            else {
-                array.push(ValidateListData(dt11));
-                array.push(ValidateListData(dt12));
-                // isValid = ValidateListData(dt13);
-            }
-
-        });
-
-        $('#ListParameters2 .itm').each(function (index, item) {
-            var RmCode = $(this).closest('#ListParameters .itm').find("#RmCode");
-            var LengthValueType = $(this).closest('#ListParameters .itm').find("#LengthValueType");
-            var StandardLength = $(this).closest('#ListParameters .itm').find("#StandardLength");
-            var MinLength = $(this).closest('#ListParameters .itm').find("#MinLength");
-            var MaxLength = $(this).closest('#ListParameters .itm').find("#MaxLength");
-            var WidthValueType = $(this).closest('#ListParameters .itm').find("#WidthValueType");
-            var StandardWidth = $(this).closest('#ListParameters .itm').find("#StandardWidth");
-            var MinWidth = $(this).closest('#ListParameters .itm').find("#MinWidth");
-            var MaxWidth = $(this).closest('#ListParameters .itm').find("#MaxWidth");
-
-        });
-
-        for (var i = 0; i < array.length; i++) {
-            if (array[i] == false) {
-                isValid = false;
-            }
-        }
-
-
-
-        if (isValid != false) {
-            if (Guid != undefined && Guid != '' && Guid != null && isDuplicate == false) {
-                Edit();
-            }
-            else {
-                Add();
-            }
-
-        }
-        else {
-
-            setTimeout(
-                function () {
-
-                    $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                    $('#btnSave').attr('disabled', false);
-
-                }, 500);
-        }
-    }
-    //================== Post Data Working =====================
-
-
     $(document).on('click', '#btnSaveData', function (e) 
     {
-        FormData();
+          $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+          $(this).attr('disabled', true);
+          if(
+               ValidateData("HeaderForm") 
+            && ItemServiceType == '1' ?  ValidateListData("ListParameters .itm") : ValidateListData("ListParameters2 .itm")
+            && ValidateData("kt_tabs_acct")
+            ) 
+          FormData();
+          else
+          {
+            $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+            $(this).attr('disabled', false);
+          }
     });
-
-    $(document).on('click', '#btnAddData', function (e) 
+    
+    
+    function ValidateData(element) 
     {
-        addDataInVatGroup();
-    });
+
+        let isValid = [];
+
+        $('#' + element + ' input,' + '#' + element + ' select, ' + '#' + element + ' textarea').each(function (index, data) 
+        {
+            
+            if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')     
+            {
+                    if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) 
+                    {
+                            $(this).addClass('is-invalid');
+                            isValid.push(false);
+                    }
+                    else 
+                    {
+                        $(this).removeClass('is-invalid');
+                         isValid.push(true);
+                    }
+                  
+            }
+        });
+
+        if(isValid.includes(false))
+            return false;
+            else
+            return true;
+
+    }
+
+    function ValidateListData(element) 
+    {
+        let isValid = [];
+            
+            debugger
+            $('#' + element).each(function (index, item) {
+           
+                $(this).find('input , select , textarea').each(function (index, data) 
+                {
+
+                if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') 
+                    {
+                         if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) 
+                        {
+                            $(this).addClass('is-invalid');
+                            isValid.push(false);
+                        }
+                        else 
+                        {
+                        $(this).removeClass('is-invalid');
+                         isValid.push(true);
+                        }
+                    }
+                  
+                });
+
+            }); 
+
+
+        if(isValid.includes(false))
+            return false;
+            else
+            return true;
+    }
+
     function FormData() 
     {
             
@@ -2457,6 +2495,7 @@ function GetPrice()
 
     
     }
+
     function PostData(formData) 
     {
       
@@ -2509,13 +2548,11 @@ function GetPrice()
 
     function getJsonObj(element) {
 
-       
-      
         var jsonobj = new Object();
 
-        // console.log($('#' + element + ' input,' + '#' + element + ' select'))
+        
 
-        $('#' + element + ' input,' + '#' + element + ' select,' + '#' + element + 'textarea').each(function (index, data) {
+        $('#' + element + ' input,' + '#' + element + ' select, ' + '#' + element + ' textarea').each(function (index, data) {
             
             if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')     
                 jsonobj[$(this).attr("id")] = $(this).val();
@@ -2544,26 +2581,7 @@ function GetPrice()
         })
         return listObj;
     }
-    function getJsonObjList(element) {
-        let listObj = [];
 
-        $('#' + element).each(function (index, item) {
-            var jsonobj = new Object();
-            $(this).find('input , select , textarea').each(function (index, data) 
-            {
-
-                if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') 
-                    jsonobj[$(this).attr("id")] = $(this).val();
-                  
-            });
-
-            listObj.push(jsonobj);
-
-
-
-        })
-        return listObj;
-    }
     //==================== End Post Data Working===========================//
     //===============================================
 
@@ -2823,9 +2841,15 @@ function GetPrice()
     function DocNumOnLoad() {
 
         $.get('/SaleQuotation/getUpdatedDocumentNumberOnLoad', function(data, status)
-            { console.log(data)
-                $('#DocNum').val( data );
-          });
+            {
+               @* $('#DocNum').val( data );*@
+            }
+            
+            
+            
+            
+            
+            );
         //return $.ajax({
         //    url: '/SaleQuotation/getUpdatedDocumentNumberOnLoad',
         //    dataType: 'json',

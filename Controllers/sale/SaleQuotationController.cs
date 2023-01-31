@@ -80,6 +80,13 @@ namespace iSOL_Enterprise.Controllers.Sales
         }
 
 
+        public IActionResult EditSaleQuotationMaster(int id)
+        {
+            SalesQuotationDal dal = new SalesQuotationDal();
+
+            return View(dal.GetSaleQuotationEditDetails(id));
+        }
+
 
         public string getUpdatedDocumentNumberOnLoad()
         {
