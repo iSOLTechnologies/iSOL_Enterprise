@@ -1448,9 +1448,7 @@
         $('#myCustModal').modal('show');
 
     });
-    //function clckme(){
-    //     document.getElementById("myCustomerbtn").click();
-    //}
+   
 
     $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount,#VatGroup', function (e) {
 
@@ -1501,22 +1499,7 @@
         }
     });
 
-    //$(document).on('keyup', '#Rounding', function (e) 
-    //{
-        
-      
-    //  if($('#RoundingChkBox').is(":checked"))
-    //  {
-          
-    //    var TotalPrice = $("#Total").val();
-    //    var RoundingValue = parseFloat($('#Rounding').val());
-    //    if(TotalPrice != "")
-    //        if(RoundingValue != "")
-    //            $("#Total").val( Number(TotalPrice) +  RoundingValue);
-    //        else 
-    //        $("#Total").val( Number(TotalPrice));
-    //  }
-    //});
+  
 function GetPrice() 
 {
 
@@ -1725,7 +1708,7 @@ function GetPrice()
 
         $('#kt_repeater_3 tbody').append(html);
     });
-     $(document).on('keypress', '#CardCode,#DocNum,#CardName,#DocDate,#NumAtCard,#DocDue,#TaxDate,#ItemCode,#VatGroup,#GroupNum', function (e) 
+     $(document).on('keypress', '#CardCode,#DocNum,#CardName,#DocDate,#NumAtCard,#DocDue,#TaxDate,#ItemCode,#VatGroup,#GroupNum,#DocCur', function (e) 
     {
        
         $(this).removeClass('is-invalid');
@@ -2262,13 +2245,19 @@ function GetPrice()
 
     $(document).on('click', '#btnSaveData', function (e) 
     {
-
+          $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+          $(this).attr('disabled', true);
           if(
                ValidateData("HeaderForm") 
-            && ValidateData("kt_tabs_acct") 
             && ItemServiceType == '1' ?  ValidateListData("ListParameters .itm") : ValidateListData("ListParameters2 .itm")
+            && ValidateData("kt_tabs_acct")
             ) 
           FormData();
+          else
+          {
+            $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+            $(this).attr('disabled', false);
+          }
     });
     
     
@@ -2307,6 +2296,7 @@ function GetPrice()
     {
         let isValid = [];
             
+            debugger
             $('#' + element).each(function (index, item) {
            
                 $(this).find('input , select , textarea').each(function (index, data) 
