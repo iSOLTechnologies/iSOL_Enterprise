@@ -221,13 +221,13 @@ namespace iSOL_Enterprise.Dal
                 int res1 = 0;
                 try
                 {
-                        int Id = CommonDal.getPrimaryKey(tran, "OQUT");
+                        int Id = CommonDal.getPrimaryKey(tran, "OPQT");
 
                     if (model.HeaderData != null)
                     {
 
 
-                        string HeadQuery = @"insert into OQUT(Id,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
+                        string HeadQuery = @"insert into OPQT(Id,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
                                            values(" + Id + ",'"
                                                 + CommonDal.generatedGuid() + "','"
                                                 + model.HeaderData.CardCode + "','"
