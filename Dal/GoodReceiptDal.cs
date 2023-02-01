@@ -212,7 +212,7 @@ namespace iSOL_Enterprise.Dal
             try
             {
                 var model = JsonConvert.DeserializeObject<dynamic>(formData);
-
+                string DocType = model.ListItems == null ? "S" : "I";
 
 
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
@@ -221,14 +221,15 @@ namespace iSOL_Enterprise.Dal
                 int res1 = 0;
                 try
                 {
-                        int Id = CommonDal.getPrimaryKey(tran, "OQUT");
+                        int Id = CommonDal.getPrimaryKey(tran, "OPDN");
 
                     if (model.HeaderData != null)
                     {
 
 
-                        string HeadQuery = @"insert into OQUT(Id,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
+                        string HeadQuery = @"insert into OPDN(Id,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
                                            values(" + Id + ",'"
+                                                + DocType + "','"
                                                 + CommonDal.generatedGuid() + "','"
                                                 + model.HeaderData.CardCode + "','"
                                                 + model.HeaderData.DocNum + "','"
@@ -272,7 +273,7 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListItems)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            string RowQueryItem = @"insert into QUT1(Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            string RowQueryItem = @"insert into PDN1(Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
                                                 + LineNo +",'"
                                                 + item.ItemCode + "',"
@@ -315,7 +316,7 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListService)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            string RowQueryService = @"insert into QUT1(Id,LineNum,Dscription,AcctCode,VatGroup)
+                            string RowQueryService = @"insert into PDN1(Id,LineNum,Dscription,AcctCode,VatGroup)
                                                   values(" + Id + ","
                                                     + LineNo + ",'" 
                                                     + item.Dscription + "','"

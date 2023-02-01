@@ -184,7 +184,7 @@
                                                                         @*<input disabled type="text" class="form-control form-control-sm" >*@
 
                                                                         <div class="input-group">
-                                                                            <input type="text" id="CardCode" class="form-control form-control-sm " placeholder="Customer" aria-describedby="basic-addon2">
+                                                                            <input type="text" id="CardCode" class="form-control form-control-sm " placeholder="Vendor" aria-describedby="basic-addon2">
                                                                             <div id="CustomerNo" class="input-group-append">
                                                                                 <span class="input-group-text">
                                                                                     <i class="la la-search"></i>
@@ -243,13 +243,13 @@
 
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
-                                                                        <label>Customer Ref. No.</label>
+                                                                        <label>Vendor Ref. No.</label>
                                                                         <input type="text" id="NumAtCard" class="form-control form-control-sm" placeholder="Ref no.">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
 
                                                                     <div class="col-md-6">
-                                                                        <label>Valid Until</label>
+                                                                        <label>Due Date</label>
                                                                         <input id="DocDueDate" type="date" class="d form-control form-control-sm" placeholder="Valid until">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
@@ -810,7 +810,7 @@
                                                             <br />
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <label for="" class="form-label" >Sales Employee</label>
+                                                                    <label for="" class="form-label" >Buyer</label>
                                                                     <select id="SlpCode" asp-items="@ViewBag.SalesEmployee" class="form-control form-control-sm">
                                                                     </select>
                                                                 </div>

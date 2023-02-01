@@ -175,7 +175,7 @@
 																</div>
 																<div class="form-group row">
 																	<div class="col-md-6">
-																		<label>Customer Ref. No.</label>
+																		<label>Vendor Ref. No.</label>
 																		<input type="text" id="NumAtCard" class="form-control form-control-sm" placeholder="Ref no.">
 																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																	</div>
@@ -688,7 +688,7 @@
 															<br />
 															<div class="row">
 																<div class="col-md-6">
-																	<label for="" class="form-label">Sales Employee</label>
+																	<label for="" class="form-label">Buyer</label>
 																	<select id="SlpCode" asp-items="@ViewBag.SalesEmployee" class="form-control form-control-sm"> </select>
 																</div>
 																<div class="col-md-6">
@@ -1353,7 +1353,7 @@ $(document).on('click', '#ListBtnAddFile', function(e) {
 	$('#kt_repeater_3 tbody').append(html);
 });
 
-$(document).on('keypress', '#CardCode,#DocNum,#CardName,#DocDate,#NumAtCard,#DocDue,#TaxDate,#ItemCode,#VatGroup,#GroupNum,#DocCur', function(e) {
+$(document).on('keypress', '#CardCode,#DocNum,#CardName,#DocDate,#NumAtCard,#DocDue,#TaxDate,#ItemCode,#VatGroup,#GroupNum,#DocCur,#PQTGrpNum,#ReqDate', function(e) {
 	$(this).removeClass('is-invalid');
 });
 $(document).on('click', '#ListBtnAddd', function(e) {
