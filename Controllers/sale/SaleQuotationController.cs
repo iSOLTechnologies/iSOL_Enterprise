@@ -83,7 +83,9 @@ namespace iSOL_Enterprise.Controllers.Sales
         public IActionResult EditSaleQuotationMaster(int id)
         {
             SalesQuotationDal dal = new SalesQuotationDal();
-
+            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            ViewBag.Taxes = dal.GetVatGroupData();
+            ViewBag.Countries = dal.GetCountries();
             return View(dal.GetSaleQuotationEditDetails(id));
         }
 

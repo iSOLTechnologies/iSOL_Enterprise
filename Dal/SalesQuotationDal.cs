@@ -1,6 +1,7 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Models.sale;
+using iSOL_Enterprise.Models.Sale;
 using Newtonsoft.Json;
 using SqlHelperExtensions;
 using System.Data;
@@ -162,10 +163,33 @@ namespace iSOL_Enterprise.Dal
 
             return list;
         }
+        public List<tbl_country> GetCountries()
+        {
+            string GetQuery = "select * from tbl_country ";
+
+
+            List<tbl_country> list = new List<tbl_country>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    list.Add(
+                        new tbl_country()
+                        {
+                             country_code = rdr["country_code"].ToString(),
+                             country_name = rdr["country_name"].ToString()
+                        });
+
+                }
+            }
+
+            return list;
+        }
 
         public List<tbl_OVTG> GetVatGroupData()
         {
-            string GetQuery = "select vatName = Code+' - ' +Name , Rate from OVTG ";
+            string GetQuery = "select code = Code, vatName = Code+' - ' +Name , Rate from OVTG ";
 
 
             List<tbl_OVTG> list = new List<tbl_OVTG>();
@@ -177,6 +201,7 @@ namespace iSOL_Enterprise.Dal
                     list.Add(
                         new tbl_OVTG()
                         {
+                            code= rdr["code"].ToString(),
                             vatName = rdr["vatName"].ToString(),
                             Rate = (decimal)rdr["Rate"]
                         });
