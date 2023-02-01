@@ -229,6 +229,9 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
                                                                         <label>Contact Person</label>
+                                                                        <script>
+                                                                        var CntctPerson = @row["CardCode"]    
+                                                                        </script>
                                                                         <select class=" form-control kt-select2 ItemCode" id="CntcCode" name="param">
                                                                             <option value="" disabled selected>Select</option>
                                                                             <!-- @* @foreach (var item in Model.ListItemMaster)
@@ -1513,7 +1516,7 @@ function GetPrice()
         GetListValueType();
         GetListValueMethod();
         GetLisRmCodes();
-    
+        GetContactPersons(CntctPerson);
 
         if (Guid != undefined && Guid != '' && Guid != null) {
             PopulateData();
