@@ -241,7 +241,7 @@
 
                                                                     <div class="col-md-6">
                                                                         <label>Posting Date</label>
-                                                                         <input id="DocDate" value="@row["DocDate"].ToString()" type="datetime" class="form-control form-control-sm" placeholder="Posting Date"> 
+                                                                            <input id="DocDate" value="@(((DateTime)row["DocDate"]).ToString("yyyy-MM-dd"))"  type="date" class="form-control form-control-sm" placeholder="Posting Date">
                                                                         @*<input id="DocDate" type="date" class="form-control " >*@
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
@@ -258,7 +258,7 @@
 
                                                                     <div class="col-md-6">
                                                                         <label>Valid Until</label>
-                                                                        <input id="DocDueDate" value="@row["DocDueDate"]" type="datetime" class="form-control form-control-sm" placeholder="Valid until">
+                                                                        <input id="DocDueDate" value="@(((DateTime)row["DocDueDate"]).ToString("yyyy-MM-dd"))" type="date" class="form-control form-control-sm" placeholder="Valid until">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                 </div>
@@ -273,7 +273,7 @@
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <label>Document Date</label>
-                                                                        <input id="TaxDate" value="@row["TaxDate"]" type="datetime" class="form-control form-control-sm" placeholder="Date">
+                                                                        <input id="TaxDate" value="@(((DateTime)row["TaxDate"]).ToString("yyyy-MM-dd"))" type="date" class="form-control form-control-sm" placeholder="Date">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                 </div>
