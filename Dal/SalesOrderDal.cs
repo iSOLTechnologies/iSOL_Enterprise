@@ -139,7 +139,7 @@ namespace iSOL_Enterprise.Dal
                         int ATC1Id = CommonDal.getPrimaryKey(tran, "AbsEntry", "ATC1");
                         foreach (var item in model.ListAttachment)
                         {
-                            if (item.selectedFilePath != null && item.selectedFileName != null && item.selectedFileDate != null)
+                            if (item.selectedFilePath != "" && item.selectedFileName != "" && item.selectedFileDate != "")
                             {
 
 
