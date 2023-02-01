@@ -2242,21 +2242,35 @@ function GetPrice()
         });
     }
 
-    $(document).on('click', '#btnSaveData', function (e) 
-    {
-          $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-          $(this).attr('disabled', true);
-          if(
-               ValidateData("HeaderForm") 
-            && ItemServiceType == '1' ?  ValidateListData("ListParameters .itm") : ValidateListData("ListParameters2 .itm")
-            && ValidateData("kt_tabs_acct")
-            ) 
-          FormData();
-          else
-          {
+    $(document).on('click', '#btnSaveData', function (e) {
+
+        $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+        $(this).attr('disabled', true);
+        if (
+            ValidateData("HeaderForm")
+
+        ) {
+            if (ItemServiceType == '1') {
+                if (ValidateListData("ListParameters .itm") && ValidateData("kt_tabs_acct"))
+                    FormData();
+                else {
+                    $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $(this).attr('disabled', false);
+                }
+            }
+            else {
+                if (ValidateListData("ListParameters2 .itm") && ValidateData("kt_tabs_acct"))
+                    FormData();
+                else {
+                    $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $(this).attr('disabled', false);
+                }
+            }
+        }
+        else {
             $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
             $(this).attr('disabled', false);
-          }
+        }
     });
     
     
