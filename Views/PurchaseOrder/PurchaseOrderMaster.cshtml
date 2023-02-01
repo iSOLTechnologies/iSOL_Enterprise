@@ -1415,24 +1415,32 @@
 
 
     function GetVatGroupData() 
-    {
-        $.get("SaleQuotation/GetVatGroupData", function (data) 
-        {
-           vatGroupData = data;
-          // addDataInVatGroup();
-            $("#VatGroup").html("");
-            $("#VatGroup2").html("");
-            $.each(data, function () {
-
-                $("#VatGroup").append($("<option />").val(this.rate).text(this.vatName));
-                $("#VatGroup2").append($("<option />").val(this.rate).text(this.vatName));
-                vatGroupData = vatGroupData + "<option value="+this.rate +">"+this.vatName +"</option>";
-            });
-            //$("#VatGroup").select2();
-            //$("#VatGroup2").select2();
-
-        });
-    }
+{
+	
+	$.get("SaleQuotation/GetVatGroupData", function(data) {
+		vatGroupData = data;
+		// addDataInVatGroup();
+		$("#VatGroup").html("");
+		$("#VatGroup2").html("");
+		$.each(data, function() {
+			console.log();
+			$("#VatGroup").append($('<option>', {
+									value: this.code,
+									text: this.vatName,
+									guid: this.rate
+								}));
+			$("#VatGroup2").append($('<option>', {
+									value: this.code,
+									text: this.vatName,
+									guid : this.rate
+								}));
+			
+				vatGroupData = vatGroupData + "<option guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>";
+		});
+		//$("#VatGroup").select2();
+		//$("#VatGroup2").select2();
+	});
+}
     
     $(document).on('click', '#Itemno', function (e) {
         IsHeader = false;
@@ -1452,18 +1460,19 @@
     });
    
 
-    $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount,#VatGroup', function (e) {
+    $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount,#VatGroup,.VT_Option', function (e) {
 
         var Qty = $(this).closest('#ListParameters .itm').find('#QTY');
         var UPrc = $(this).closest('#ListParameters .itm').find('#UPrc');
         var DicPrc = $(this).closest('#ListParameters .itm').find('#DicPrc');
         var TtlPrc = $(this).closest('#ListParameters .itm').find('#TtlPrc');
         var VatGroup = $(this).closest('#ListParameters .itm').find('#VatGroup');
-
+        var VatGuid =  $('option:selected',VatGroup).attr("guid"); 
+        console.log("My Vallllllll is ", VatGuid)
 
         if ($(DicPrc).val() == "") {
             var Onepercent = parseFloat($(TtlPrc).val() / 100);
-            var Tax = parseFloat(Onepercent * $(VatGroup).val())
+            var Tax = parseFloat(Onepercent * parseFloat(VatGuid))
             if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
                 $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) + parseFloat(Tax)).toFixed(2)));
                 GetPrice();
@@ -1476,7 +1485,7 @@
             $(TtlPrc).val((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())).toFixed(2));
             var Onepercent = parseFloat($(TtlPrc).val() / 100);
             var discountPrice = parseFloat(Onepercent * $(DicPrc).val());
-            var Tax = parseFloat(Onepercent * $(VatGroup).val())
+            var Tax = parseFloat(Onepercent * parseFloat(VatGuid))
             console.log("discountPrice:", discountPrice)
             if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
                 $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) - (parseFloat(discountPrice))) + (Tax)).toFixed(2));
