@@ -2308,7 +2308,7 @@ function GetPrice()
     function PostData(formData) 
     {
       
-        console.log(JSON.stringify(formData));
+        
       
         return $.ajax({
             url: '/SaleQuotation/AddSalesQoutation',
@@ -2319,7 +2319,7 @@ function GetPrice()
 
             success: function (result) 
             {
-                console.log(result);
+               
                 if (result.isInserted) {
                     toastr.success(result.message);
 
