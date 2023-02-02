@@ -318,11 +318,10 @@ namespace iSOL_Enterprise.Dal
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
                             string RowQueryService = @"insert into PDN1(Id,LineNum,Dscription,AcctCode,VatGroup)
                                                   values(" + Id + ","
-                                                    + LineNo + ",'" 
+                                                    + LineNo + ",'"
                                                     + item.Dscription + "','"
                                                     + item.AcctCode + "','"
-                                                    + item.DicPrc + ",'"
-                                                    + item.VatGroup + "')";
+                                                    + item.VatGroup2 + "')";
 
                             #region sqlparam
                             //List<SqlParameter> param3 = new List<SqlParameter>

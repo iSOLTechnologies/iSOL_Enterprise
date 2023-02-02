@@ -135,15 +135,12 @@
                 },
                 {
                     data: 'docNum', title: 'DocNum',
-
                 }, {
                     data: 'cardCode', title: 'Card Code'
-
                 }, {
                     data: 'cardName', title: 'Card Name'
-
                 }, {
-                    data: "guid", 'title': 'Action', render: function (data, type, row) {
+                    data: "id", 'title': 'Action', render: function (data, type, row) {
                         var html = '<a guid=' + data + ' id="btnFetchSaleOrder" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
                         html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
                         html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
@@ -153,12 +150,10 @@
                         html += '   </g>';
                         html += '</svg><!--end:: Svg Icon--></span> ';
                         html += '               </a>';
-
                         return html;
                     }
                 },],
         });
-
     }
 
     $(document).ready(function () {
@@ -168,7 +163,7 @@
     $(document).on('click', '#btnFetchSaleOrder', function (e) {
 
         var guid = $(this).attr("guid");
-        //var GLAccount = $(this).closest('#ListParameters2 .itm').find('#GLAccountNo');
+        window.location.href = '/SaleOrder/EditSaleOrderMaster/' + guid + '';
         console.log(guid);
 
     });

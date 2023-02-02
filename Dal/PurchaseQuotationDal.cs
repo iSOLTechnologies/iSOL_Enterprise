@@ -328,8 +328,8 @@ namespace iSOL_Enterprise.Dal
 													+ Convert.ToDateTime(item.PQTReqDate) + "','"
 													+ Convert.ToDateTime(item.ShipDate) + "','"
 													+ item.AcctCode + "','"
-													+ item.DicPrc + ",'"
-													+ item.VatGroup + "')";
+													 
+													+ item.VatGroup2 + "')";
 
 							#region sqlparam
 							//List<SqlParameter> param3 = new List<SqlParameter>

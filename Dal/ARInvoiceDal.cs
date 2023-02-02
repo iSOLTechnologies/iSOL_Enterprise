@@ -113,11 +113,10 @@ namespace iSOL_Enterprise.Dal
 
                             string RowQueryService = @"insert into INV1(Id,LineNum,Dscription,AcctCode,VatGroup)
                                                   values(" + Id + ","
-                                                + LineNo + ",'"
+                                                    + LineNo + ",'"
                                                     + item.Dscription + "','"
                                                     + item.AcctCode + "','"
-                                                    + item.DicPrc + ",'"
-                                                    + item.VatGroup + "')";
+                                                    + item.VatGroup2 + "')";
 
 
 

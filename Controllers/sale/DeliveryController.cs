@@ -18,6 +18,7 @@ namespace iSOL_Enterprise.Controllers
             SalesQuotationDal dal = new SalesQuotationDal();
 
             ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            //ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
             return View();
         }
         public string getUpdatedDocumentNumberOnLoad()

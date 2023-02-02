@@ -115,10 +115,9 @@ namespace iSOL_Enterprise.Dal
                                                     + LineNo + ",'"
                                                     + item.Dscription + "','"
                                                     + item.AcctCode + "','"
-                                                    + item.DicPrc + ",'"
-                                                    + item.VatGroup + "')";
+                                                    + item.VatGroup2 + "')";
 
-                           
+
 
                             int res3 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryService).ToInt();
                             if (res3 <= 0)

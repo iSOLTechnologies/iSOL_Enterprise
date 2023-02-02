@@ -18,6 +18,7 @@ namespace iSOL_Enterprise.Dal
                 while (rdr.Read())
                 {
                     SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
+                    models.Id = rdr["Id"].ToInt();
                     models.DocDate = rdr["DocDueDate"].ToDateTime();
                     models.PostingDate = rdr["DocDate"].ToDateTime();
                     models.DocNum = rdr["DocNum"].ToString();
@@ -29,6 +30,21 @@ namespace iSOL_Enterprise.Dal
             }
             return list;
         }
+
+
+
+        public dynamic GetSaleOrderEditDetails(int id)
+        {
+            DataSet ds = new DataSet();
+            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+            SqlDataAdapter sda = new SqlDataAdapter("select * from ORDR where id = " + id + ";select * from RDR1 where id = " + id + "", conn);
+            sda.Fill(ds);
+            return ds;
+        }
+
+
+
+
         public bool AddSaleOrder(string formData)
         {
             try
@@ -45,12 +61,18 @@ namespace iSOL_Enterprise.Dal
                 {
 
                         int Id = CommonDal.getPrimaryKey(tran, "ORDR");
+
+                    string DocType = model.ListItems == null ? "S" : "I";
+
+
+
                     if (model.HeaderData != null)
                     {
 
 
-                        string HeadQuery = @"insert into ORDR(Id,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
+                        string HeadQuery = @"insert into ORDR(Id,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
                                            values(" + Id + ",'"
+                                                + DocType + "','"
                                                 + CommonDal.generatedGuid() + "','"
                                                 + model.HeaderData.CardCode + "','"
                                                 + model.HeaderData.DocNum + "','"
@@ -112,9 +134,8 @@ namespace iSOL_Enterprise.Dal
                                                   values(" + Id + ","
                                                     + LineNo + ",'"
                                                     + item.Dscription + "','"
-                                                    + item.AcctCode + "','"
-                                                    + item.DicPrc + ",'"
-                                                    + item.VatGroup + "')";
+                                                    + item.AcctCode + "','" 
+                                                    + item.VatGroup2 + "')";
 
 
 
