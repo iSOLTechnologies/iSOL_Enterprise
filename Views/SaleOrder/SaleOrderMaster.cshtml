@@ -969,11 +969,13 @@
         $.get("SaleOrder/GetQuotationItemService", { DocId: $(this).attr('guid') }, function(data) 
         {
             console.log("Data Loaded: " + data.type);
-            $.each(JSON.parse(data.list), function () 
+            var list = JSON.parse(data.list);  
+            console.log(list);
+            $.each(list[0], function () 
             {
                 
-                console.log("Data Loaded: " + this.id);
-                console.log("Data Loaded: " + this.lineNum);
+                console.log("Data Loaded: " + this.Id);
+                console.log("Data Loaded: " + this.LineNum);
             });
             
         });
