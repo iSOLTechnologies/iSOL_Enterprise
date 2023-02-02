@@ -71,21 +71,21 @@ namespace iSOL_Enterprise.Controllers
                 input.MachineName = MachineName;
                 input.IpAddress = input.IpAddress;
                 input.Guid = guid;
-                //UsersModels user = new LoginDal().Get(input); //For easy <commented byAnnas>  
-                UsersModels user = new UsersModels()
-                {
-                    Id = 101,
-                    FirstName = "Muhammad Annas",
-                    LastName = "Raza",
-                    RoleCode = "",
-                    Guid = guid,
-                    UserPic = "Assets/images/img.png",
-                    Gender = "Male",
-                    ContactNumber = "0123",
-                    Email="annas@gmail.com",
-                    IsSession =true
+                UsersModels user = new LoginDal().Get(input); //For easy <commented byAnnas>  
+                //UsersModels user = new UsersModels()
+                //{
+                //    Id = 101,
+                //    FirstName = "Muhammad Annas",
+                //    LastName = "Raza",
+                //    RoleCode = "",
+                //    Guid = guid,
+                //    UserPic = "Assets/images/img.png",
+                //    Gender = "Male",
+                //    ContactNumber = "0123",
+                //    Email="annas@gmail.com",
+                //    IsSession =true
 
-                };
+                //};
 
                 if ((user != null) && (user.Id > 0))
                 {
@@ -137,7 +137,7 @@ namespace iSOL_Enterprise.Controllers
             _usersModels model = new _usersModels();
 
 
-            model.ListPages = new NavDal().getMenu(user.RoleCode);
+            model.listModules = new NavDal().getMenu(user.RoleCode);
 
             HttpContext.Session.SetObjectAsJson("SessNav", model);
             // HttpContext.Session.SetObjectAsJson("SessNav", user.ListPages);

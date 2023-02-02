@@ -125,7 +125,7 @@ namespace iSOL_Enterprise.Dal
                     rdr.Close();
                     bool result = new LoginDal().GenerateSession(tran, model);
                     bool GenerateLogs = new LoginDal().GenerateSessionLogs(tran, model);
-                    model.ListPages = new NavDal().getMenu(model.RoleCode);
+              //      model.listModules = new NavDal().getMenu(model.RoleCode);
                     if (result == true && GenerateLogs == true)
                     {
                         // CommonDal.SessionGUID = input.Guid;

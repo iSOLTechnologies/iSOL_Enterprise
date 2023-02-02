@@ -58,6 +58,7 @@ namespace iSOL_Enterprise.Models
         public string Contents { get; set; }
         public byte[] Image { get; set; }
         public List<PagesModels> ListPages { get; set; }
+        public List<ModulesModels> listModules { get; set; }
         public List<ModulesModels> Modules { get; set; }
         public List<_usersModels> ListItems { get; set; }
         public List<Setup_DepartmentsModels> ListDepartments { get; set; }
