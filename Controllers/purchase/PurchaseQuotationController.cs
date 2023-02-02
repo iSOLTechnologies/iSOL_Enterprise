@@ -31,6 +31,23 @@ namespace iSOL_Enterprise.Controllers.Sales
 
 
 
+
+        public IActionResult EditPurchaseQuotationMaster(int id)
+        {
+            PurchaseQuotationDal dal1 = new PurchaseQuotationDal();
+            SalesQuotationDal dal = new SalesQuotationDal();
+            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            ViewBag.Taxes = dal.GetVatGroupData();
+            ViewBag.Countries = dal.GetCountries();
+            return View(dal1.GetPurchaseQuotationDetails(id));
+        }
+
+
+
+
+
+
+
         public string getUpdatedDocumentNumberOnLoad()
         {
             DataTable dt = SqlHelper.GetData("select top 1 DocNum From OPQT  order by Id desc");

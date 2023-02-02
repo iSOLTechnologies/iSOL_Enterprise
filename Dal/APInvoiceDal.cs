@@ -12,6 +12,7 @@ namespace iSOL_Enterprise.Dal
 
         public List<SalesQuotation_MasterModels> GetData()
         {
+
             string GetQuery = "select * from OPCH";
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))

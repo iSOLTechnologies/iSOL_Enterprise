@@ -1,9 +1,11 @@
-﻿@{
-    ViewData["Title"] = "SalesOrderMaster";
+﻿ 
+@{
+    ViewData["Title"] = "EditSaleOrderMaster";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model iSOL_Enterprise.Models.RoleModels
+@using System.Data
+@model DataSet
 
 @using Microsoft.AspNetCore.Http
 
@@ -13,24 +15,7 @@
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Subheader-->
-    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
-        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-            <!--begin::Info-->
-            <div class="d-flex align-items-center flex-wrap mr-2">
-                <!--begin::Page Title-->
-                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">iSOl</h5>
-                <!--end::Page Title-->
-                <!--begin::Actions-->
-                <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200">
-                </div>
-                <span class="text-muted font-weight-bold mr-2">Dashboard</span>
-                <span class="font-weight-bolder">/ Add AR Invoice</span>
-                <!--end::Actions-->
-            </div>
-            <!--end::Info-->
-
-        </div>
-    </div>
+   
     <!--end::Subheader-->
     <!--begin::Entry-->
     <div class="container">
@@ -39,19 +24,19 @@
             <div class="card-header">
                 <div class="card-title">
                     <h3 class="card-label">
-                        Add Details
+                        Edit Sale Order
                         <i class="mr-2"></i>
                         <!-- <small class="">try to scroll the page</small> -->
                     </h3>
                 </div>
                 <div class="card-toolbar">
-                    <a asp-action="Index" asp-controller="ARInvoice" class="btn btn-light-primary font-weight-bolder mr-2">
+                    <a asp-action="Index" asp-controller="SaleOrder" class="btn btn-light-primary font-weight-bolder mr-2">
                         <i class="ki ki-long-arrow-back icon-sm"></i>Back
                     </a>
                     <div class="btn-group">
                         
                         <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
-                            <i class="ki ki-check icon-sm"></i>Save
+                            <i class="ki ki-check icon-sm"></i>Update
                         </button>
                         @*<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>*@
                         @*   <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
@@ -176,6 +161,8 @@
 
 
                                                             @* ----------   Header -----------*@
+                                                            @foreach(DataRow row in Model.Tables[0].Rows){
+                                                                 
                                                             <div id="HeaderForm">
                                                                 <div class="form-group row">
 
@@ -184,7 +171,7 @@
                                                                         @*<input disabled type="text" class="form-control form-control-sm" >*@
 
                                                                         <div class="input-group">
-                                                                            <input type="text" id="CardCode" class="form-control form-control-sm" placeholder="Customer" aria-describedby="basic-addon2">
+                                                                            <input value="@row["CardCode"]" type="text" id="CardCode" class="form-control form-control-sm" placeholder="Customer" aria-describedby="basic-addon2">
                                                                             <div id="CustomerNo" class="input-group-append">
                                                                                 <span class="input-group-text">
                                                                                     <i class="la la-search"></i>
@@ -198,7 +185,7 @@
 
                                                                     <div class="col-md-6">
                                                                         <label>No.</label>
-                                                                        <input id="DocNum" readonly type="text" class="form-control form-control-sm" placeholder="No.">
+                                                                        <input id="DocNum" value="@row["DocNum"]" readonly type="text" class="form-control form-control-sm" placeholder="No.">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
     
@@ -207,7 +194,7 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
                                                                         <label>Name</label>
-                                                                        <input type="text" id="CardName" class="form-control form-control-sm" placeholder="Name">
+                                                                        <input value="@row["CardName"]" type="text" id="CardName" class="form-control form-control-sm" placeholder="Name">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
 
@@ -222,6 +209,9 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
                                                                         <label>Contact Person</label>
+                                                                        <script>
+                                                                        var CntctPerson = @row["CardCode"]    
+                                                                        </script>
                                                                         <select class=" form-control kt-select2 ItemCode" id="CntcCode" name="param">
                                                                             <option value="" disabled selected>Select</option>
                                                                             <!-- @* @foreach (var item in Model.ListItemMaster)
@@ -234,7 +224,8 @@
 
                                                                     <div class="col-md-6">
                                                                         <label>Posting Date</label>
-                                                                        <input id="DocDate" type="date" class="d form-control form-control-sm" placeholder="Posting Date">
+                                                                            <input id="DocDate" value="@(((DateTime)row["DocDate"]).ToString("yyyy-MM-dd"))"  type="date" class="form-control form-control-sm" placeholder="Posting Date">
+                                                                        @*<input id="DocDate" type="date" class="form-control " >*@
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
 
@@ -249,8 +240,8 @@
                                                                     </div>
 
                                                                     <div class="col-md-6">
-                                                                        <label>Delivery Date</label>
-                                                                        <input id="DocDueDate" type="date" class="d form-control form-control-sm" placeholder="Delivery Date">
+                                                                        <label>Valid Until</label>
+                                                                        <input id="DocDueDate" value="@(((DateTime)row["DocDueDate"]).ToString("yyyy-MM-dd"))" type="date" class="form-control form-control-sm" placeholder="Valid until">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                 </div>
@@ -260,18 +251,19 @@
 
                                                                     <div class="col-md-6">
                                                                         <label>Currency</label>
-                                                                        <input id="DocCur" type="text" class="form-control form-control-sm">
+                                                                        <input id="DocCur" value="@row["DocCur"]" type="text" class="form-control form-control-sm">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <label>Document Date</label>
-                                                                        <input id="TaxDate" type="date" class="d form-control form-control-sm" placeholder="Date">
+                                                                        <input id="TaxDate" value="@(((DateTime)row["TaxDate"]).ToString("yyyy-MM-dd"))" type="date" class="form-control form-control-sm" placeholder="Date">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-
+                                                             
                                                             <div class="kt-separator kt-separator--space-md kt-separator--border-dashed"></div>
+                                                            
 
 
 
@@ -300,11 +292,30 @@
                                                                     <div class="form-group row col-md-4 mt-3">
                                                                         <label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold"> Item/Service Type</label>
                                                                         <div class="col-sm-6">
+                                                                               
+                                                                             
+                                                                           @if(row["DocType"].Equals("I"))
+                                                                           {
                                                                             <select id="ItemServiceType" class="form-control">
+                                                                                <option selected value="1">Item</option>                                                                                                                                                           
+                                                                                <option value="2">Service</option>                                                                            
+                                                                            </select>        
+                                                                            <script>
 
-                                                                                <option selected value="1">Item</option>
-                                                                                <option value="2">Service</option>
+                                                                                var Doctype = "1";
+                                                                            </script>
+                                                                           }else if(row["DocType"].Equals("S")){
+                                                                            <select id="ItemServiceType" class="form-control">                                                                            
+                                                                                <option value="1">Item</option>                                                                                                                                                          
+                                                                                <option selected value="2">Service</option>                                                                            
                                                                             </select>
+                                                                             <script>
+
+                                                                                var Doctype = "2";
+                                                                            </script>
+                                                                           } 
+                                                                   
+                                                                              
                                                                         </div>
                                                                     </div>
 
@@ -312,10 +323,8 @@
 
 
 
-
-
-
-                                                                    <div id="kt_tabs_5_1">
+                                                           <div id="kt_tabs_5_1">  
+                                                              
                                                                         <table id="kt_repeater_1" style="overflow:auto">
                                                                             <thead class="ScrollThead">
                                                                                 <tr>
@@ -331,8 +340,93 @@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody id="ListParameters" data-repeater-list="" class="ScrollTbody">
-                                                                                <!-- @*<tr class="rowItemDetail">*@ -->
-                                                                                <tr class="rowItemDetail align-items-center itm">
+                                                                             @if(row["DocType"].Equals("I")){
+                                                                              @foreach(DataRow row1 in Model.Tables[1].Rows){
+                                                                                   <tr class="rowItemDetail align-items-center itm">
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <input id="ItemCode" value="@row1["ItemCode"]" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
+                                                                                            <div id="Itemno" class="input-group-append">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-search"></i>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                     
+                                                                                    <td>
+                                                                                        <input id="ItemName"  value="@row1["ItemName"]" class="form-control form-control-sm"  type="text">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input  value="@row1["Quantity"]" class="form-control form-control-sm" id="QTY"  type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <input  value="@row1["price"]" class="form-control form-control-sm" id="UPrc"  type="text">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input  value="@row1["DiscPrcnt"]" class="form-control form-control-sm" id="DicPrc"  type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td> 
+                                                                                       @*<input class="form-control form-control-sm" value="@row1["VatGroup"]" type='number' disabled>*@
+                                                                                         
+                                                                                       <select class="form-control vtGroup" id="VatGroup">
+                                                                                       
+                                                                                        @foreach (var ii in ViewBag.Taxes)
+                                                                             {
+                                                                                 if(row1["VatGroup"].Equals(ii.code))
+                                                                                 {
+                                                                                    <option class="VT_Option" selected guid="@ii.Rate" value="@ii.code">@ii.vatName </option>
+                                                                                 }else{
+                                                                                    <option class="VT_Option" guid="@ii.Rate" value="@ii.code">@ii.vatName </option>
+                                                                                 }
+                                                                             
+                                                                                       
+                                                                             }
+                                                                                       </select>                                                                                        
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div> 
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        
+                                                                                        <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input class="form-control id="UmoCode"  value="@row1["UomCode"]" form-control-sm" id="UomCode">
+                                                                                      
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                          @*<input class="form-control  value="@row1["CountryOrg"]" form-control-sm" id="Country">*@
+
+
+                                                                                            
+                                                                                        <select class="form-control vtGroup" id="VatGroup">
+                                                                                        
+                                                                                        
+                                                                                 @foreach (var j in ViewBag.Countries)
+                                                                             {
+                                                                                 if(row1["CountryOrg"].Equals(j.country_code))
+                                                                                 {
+                                                                                    <option selected  value="@j.country_code">@j.country_name </option>
+                                                                                 }else{
+                                                                                                                <option value="@j.country_code">@j.country_name </option>
+                                                                                 }
+                                                                             
+                                                                                       
+                                                                             }
+                                                                                       </select>  
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                }  
+                                                                                }else{  
+                                                                                    <tr class="rowItemDetail align-items-center itm">
                                                                                     <td>
                                                                                         <div class="input-group">
                                                                                             <input id="ItemCode" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
@@ -366,7 +460,14 @@
                                                                                          
                                                                                         <select class="form-control vtGroup" id="VatGroup">
                                                                                         
-                                                                                        </select>
+                                                                                        
+                                                                              @foreach (var ii in ViewBag.Taxes)
+                                                                             {
+                                                                               
+                                                                                    <option guid="@ii.Rate" value="@ii.code">@ii.vatName </option>
+                                                                                 
+                                                                             }
+                                                                                       </select>  
                                                                        
                                                                    
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -383,295 +484,109 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         <select class="form-control form-control-sm" id="CountryOrg" name="DurationTypeCode">
-                                                                                            <option value="0" disabled selected>Select Country</option>
-                                                                                            <option value="AF">Afghanistan</option>
-                                                                                            <option value="AX">Åland Islands</option>
-                                                                                            <option value="AL">Albania</option>
-                                                                                            <option value="DZ">Algeria</option>
-                                                                                            <option value="AS">American Samoa</option>
-                                                                                            <option value="AD">Andorra</option>
-                                                                                            <option value="AO">Angola</option>
-                                                                                            <option value="AI">Anguilla</option>
-                                                                                            <option value="AQ">Antarctica</option>
-                                                                                            <option value="AG">Antigua & Barbuda</option>
-                                                                                            <option value="AR">Argentina</option>
-                                                                                            <option value="AM">Armenia</option>
-                                                                                            <option value="AW">Aruba</option>
-                                                                                            <option value="AU">Australia</option>
-                                                                                            <option value="AT">Austria</option>
-                                                                                            <option value="AZ">Azerbaijan</option>
-                                                                                            <option value="BS">Bahamas</option>
-                                                                                            <option value="BH">Bahrain</option>
-                                                                                            <option value="BD">Bangladesh</option>
-                                                                                            <option value="BB">Barbados</option>
-                                                                                            <option value="BY">Belarus</option>
-                                                                                            <option value="BE">Belgium</option>
-                                                                                            <option value="BZ">Belize</option>
-                                                                                            <option value="BJ">Benin</option>
-                                                                                            <option value="BM">Bermuda</option>
-                                                                                            <option value="BT">Bhutan</option>
-                                                                                            <option value="BO">Bolivia</option>
-                                                                                            <option value="BQ">Caribbean Netherlands</option>
-                                                                                            <option value="BA">Bosnia & Herzegovina</option>
-                                                                                            <option value="BW">Botswana</option>
-                                                                                            <option value="BV">Bouvet Island</option>
-                                                                                            <option value="BR">Brazil</option>
-                                                                                            <option value="IO">British Indian Ocean Territory</option>
-                                                                                            <option value="BN">Brunei</option>
-                                                                                            <option value="BG">Bulgaria</option>
-                                                                                            <option value="BF">Burkina Faso</option>
-                                                                                            <option value="BI">Burundi</option>
-                                                                                            <option value="KH">Cambodia</option>
-                                                                                            <option value="CM">Cameroon</option>
-                                                                                            <option value="CA">Canada</option>
-                                                                                            <option value="CV">Cape Verde</option>
-                                                                                            <option value="KY">Cayman Islands</option>
-                                                                                            <option value="CF">Central African Republic</option>
-                                                                                            <option value="TD">Chad</option>
-                                                                                            <option value="CL">Chile</option>
-                                                                                            <option value="CN">China</option>
-                                                                                            <option value="CX">Christmas Island</option>
-                                                                                            <option value="CC">Cocos (Keeling) Islands</option>
-                                                                                            <option value="CO">Colombia</option>
-                                                                                            <option value="KM">Comoros</option>
-                                                                                            <option value="CG">Congo - Brazzaville</option>
-                                                                                            <option value="CD">Congo - Kinshasa</option>
-                                                                                            <option value="CK">Cook Islands</option>
-                                                                                            <option value="CR">Costa Rica</option>
-                                                                                            <option value="CI">Côte d’Ivoire</option>
-                                                                                            <option value="HR">Croatia</option>
-                                                                                            <option value="CU">Cuba</option>
-                                                                                            <option value="CW">Curaçao</option>
-                                                                                            <option value="CY">Cyprus</option>
-                                                                                            <option value="CZ">Czechia</option>
-                                                                                            <option value="DK">Denmark</option>
-                                                                                            <option value="DJ">Djibouti</option>
-                                                                                            <option value="DM">Dominica</option>
-                                                                                            <option value="DO">Dominican Republic</option>
-                                                                                            <option value="EC">Ecuador</option>
-                                                                                            <option value="EG">Egypt</option>
-                                                                                            <option value="SV">El Salvador</option>
-                                                                                            <option value="GQ">Equatorial Guinea</option>
-                                                                                            <option value="ER">Eritrea</option>
-                                                                                            <option value="EE">Estonia</option>
-                                                                                            <option value="ET">Ethiopia</option>
-                                                                                            <option value="FK">Falkland Islands (Islas Malvinas)</option>
-                                                                                            <option value="FO">Faroe Islands</option>
-                                                                                            <option value="FJ">Fiji</option>
-                                                                                            <option value="FI">Finland</option>
-                                                                                            <option value="FR">France</option>
-                                                                                            <option value="GF">French Guiana</option>
-                                                                                            <option value="PF">French Polynesia</option>
-                                                                                            <option value="TF">French Southern Territories</option>
-                                                                                            <option value="GA">Gabon</option>
-                                                                                            <option value="GM">Gambia</option>
-                                                                                            <option value="GE">Georgia</option>
-                                                                                            <option value="DE">Germany</option>
-                                                                                            <option value="GH">Ghana</option>
-                                                                                            <option value="GI">Gibraltar</option>
-                                                                                            <option value="GR">Greece</option>
-                                                                                            <option value="GL">Greenland</option>
-                                                                                            <option value="GD">Grenada</option>
-                                                                                            <option value="GP">Guadeloupe</option>
-                                                                                            <option value="GU">Guam</option>
-                                                                                            <option value="GT">Guatemala</option>
-                                                                                            <option value="GG">Guernsey</option>
-                                                                                            <option value="GN">Guinea</option>
-                                                                                            <option value="GW">Guinea-Bissau</option>
-                                                                                            <option value="GY">Guyana</option>
-                                                                                            <option value="HT">Haiti</option>
-                                                                                            <option value="HM">Heard & McDonald Islands</option>
-                                                                                            <option value="VA">Vatican City</option>
-                                                                                            <option value="HN">Honduras</option>
-                                                                                            <option value="HK">Hong Kong</option>
-                                                                                            <option value="HU">Hungary</option>
-                                                                                            <option value="IS">Iceland</option>
-                                                                                            <option value="IN">India</option>
-                                                                                            <option value="ID">Indonesia</option>
-                                                                                            <option value="IR">Iran</option>
-                                                                                            <option value="IQ">Iraq</option>
-                                                                                            <option value="IE">Ireland</option>
-                                                                                            <option value="IM">Isle of Man</option>
-                                                                                            <option value="IL">Israel</option>
-                                                                                            <option value="IT">Italy</option>
-                                                                                            <option value="JM">Jamaica</option>
-                                                                                            <option value="JP">Japan</option>
-                                                                                            <option value="JE">Jersey</option>
-                                                                                            <option value="JO">Jordan</option>
-                                                                                            <option value="KZ">Kazakhstan</option>
-                                                                                            <option value="KE">Kenya</option>
-                                                                                            <option value="KI">Kiribati</option>
-                                                                                            <option value="KP">North Korea</option>
-                                                                                            <option value="KR">South Korea</option>
-                                                                                            <option value="XK">Kosovo</option>
-                                                                                            <option value="KW">Kuwait</option>
-                                                                                            <option value="KG">Kyrgyzstan</option>
-                                                                                            <option value="LA">Laos</option>
-                                                                                            <option value="LV">Latvia</option>
-                                                                                            <option value="LB">Lebanon</option>
-                                                                                            <option value="LS">Lesotho</option>
-                                                                                            <option value="LR">Liberia</option>
-                                                                                            <option value="LY">Libya</option>
-                                                                                            <option value="LI">Liechtenstein</option>
-                                                                                            <option value="LT">Lithuania</option>
-                                                                                            <option value="LU">Luxembourg</option>
-                                                                                            <option value="MO">Macao</option>
-                                                                                            <option value="MK">North Macedonia</option>
-                                                                                            <option value="MG">Madagascar</option>
-                                                                                            <option value="MW">Malawi</option>
-                                                                                            <option value="MY">Malaysia</option>
-                                                                                            <option value="MV">Maldives</option>
-                                                                                            <option value="ML">Mali</option>
-                                                                                            <option value="MT">Malta</option>
-                                                                                            <option value="MH">Marshall Islands</option>
-                                                                                            <option value="MQ">Martinique</option>
-                                                                                            <option value="MR">Mauritania</option>
-                                                                                            <option value="MU">Mauritius</option>
-                                                                                            <option value="YT">Mayotte</option>
-                                                                                            <option value="MX">Mexico</option>
-                                                                                            <option value="FM">Micronesia</option>
-                                                                                            <option value="MD">Moldova</option>
-                                                                                            <option value="MC">Monaco</option>
-                                                                                            <option value="MN">Mongolia</option>
-                                                                                            <option value="ME">Montenegro</option>
-                                                                                            <option value="MS">Montserrat</option>
-                                                                                            <option value="MA">Morocco</option>
-                                                                                            <option value="MZ">Mozambique</option>
-                                                                                            <option value="MM">Myanmar (Burma)</option>
-                                                                                            <option value="NA">Namibia</option>
-                                                                                            <option value="NR">Nauru</option>
-                                                                                            <option value="NP">Nepal</option>
-                                                                                            <option value="NL">Netherlands</option>
-                                                                                            <option value="AN">Curaçao</option>
-                                                                                            <option value="NC">New Caledonia</option>
-                                                                                            <option value="NZ">New Zealand</option>
-                                                                                            <option value="NI">Nicaragua</option>
-                                                                                            <option value="NE">Niger</option>
-                                                                                            <option value="NG">Nigeria</option>
-                                                                                            <option value="NU">Niue</option>
-                                                                                            <option value="NF">Norfolk Island</option>
-                                                                                            <option value="MP">Northern Mariana Islands</option>
-                                                                                            <option value="NO">Norway</option>
-                                                                                            <option value="OM">Oman</option>
-                                                                                            <option value="PK">Pakistan</option>
-                                                                                            <option value="PW">Palau</option>
-                                                                                            <option value="PS">Palestine</option>
-                                                                                            <option value="PA">Panama</option>
-                                                                                            <option value="PG">Papua New Guinea</option>
-                                                                                            <option value="PY">Paraguay</option>
-                                                                                            <option value="PE">Peru</option>
-                                                                                            <option value="PH">Philippines</option>
-                                                                                            <option value="PN">Pitcairn Islands</option>
-                                                                                            <option value="PL">Poland</option>
-                                                                                            <option value="PT">Portugal</option>
-                                                                                            <option value="PR">Puerto Rico</option>
-                                                                                            <option value="QA">Qatar</option>
-                                                                                            <option value="RE">Réunion</option>
-                                                                                            <option value="RO">Romania</option>
-                                                                                            <option value="RU">Russia</option>
-                                                                                            <option value="RW">Rwanda</option>
-                                                                                            <option value="BL">St. Barthélemy</option>
-                                                                                            <option value="SH">St. Helena</option>
-                                                                                            <option value="KN">St. Kitts & Nevis</option>
-                                                                                            <option value="LC">St. Lucia</option>
-                                                                                            <option value="MF">St. Martin</option>
-                                                                                            <option value="PM">St. Pierre & Miquelon</option>
-                                                                                            <option value="VC">St. Vincent & Grenadines</option>
-                                                                                            <option value="WS">Samoa</option>
-                                                                                            <option value="SM">San Marino</option>
-                                                                                            <option value="ST">São Tomé & Príncipe</option>
-                                                                                            <option value="SA">Saudi Arabia</option>
-                                                                                            <option value="SN">Senegal</option>
-                                                                                            <option value="RS">Serbia</option>
-                                                                                            <option value="CS">Serbia</option>
-                                                                                            <option value="SC">Seychelles</option>
-                                                                                            <option value="SL">Sierra Leone</option>
-                                                                                            <option value="SG">Singapore</option>
-                                                                                            <option value="SX">Sint Maarten</option>
-                                                                                            <option value="SK">Slovakia</option>
-                                                                                            <option value="SI">Slovenia</option>
-                                                                                            <option value="SB">Solomon Islands</option>
-                                                                                            <option value="SO">Somalia</option>
-                                                                                            <option value="ZA">South Africa</option>
-                                                                                            <option value="GS">South Georgia & South Sandwich Islands</option>
-                                                                                            <option value="SS">South Sudan</option>
-                                                                                            <option value="ES">Spain</option>
-                                                                                            <option value="LK">Sri Lanka</option>
-                                                                                            <option value="SD">Sudan</option>
-                                                                                            <option value="SR">Suriname</option>
-                                                                                            <option value="SJ">Svalbard & Jan Mayen</option>
-                                                                                            <option value="SZ">Eswatini</option>
-                                                                                            <option value="SE">Sweden</option>
-                                                                                            <option value="CH">Switzerland</option>
-                                                                                            <option value="SY">Syria</option>
-                                                                                            <option value="TW">Taiwan</option>
-                                                                                            <option value="TJ">Tajikistan</option>
-                                                                                            <option value="TZ">Tanzania</option>
-                                                                                            <option value="TH">Thailand</option>
-                                                                                            <option value="TL">Timor-Leste</option>
-                                                                                            <option value="TG">Togo</option>
-                                                                                            <option value="TK">Tokelau</option>
-                                                                                            <option value="TO">Tonga</option>
-                                                                                            <option value="TT">Trinidad & Tobago</option>
-                                                                                            <option value="TN">Tunisia</option>
-                                                                                            <option value="TR">Turkey</option>
-                                                                                            <option value="TM">Turkmenistan</option>
-                                                                                            <option value="TC">Turks & Caicos Islands</option>
-                                                                                            <option value="TV">Tuvalu</option>
-                                                                                            <option value="UG">Uganda</option>
-                                                                                            <option value="UA">Ukraine</option>
-                                                                                            <option value="AE">United Arab Emirates</option>
-                                                                                            <option value="GB">United Kingdom</option>
-                                                                                            <option value="US">United States</option>
-                                                                                            <option value="UM">U.S. Outlying Islands</option>
-                                                                                            <option value="UY">Uruguay</option>
-                                                                                            <option value="UZ">Uzbekistan</option>
-                                                                                            <option value="VU">Vanuatu</option>
-                                                                                            <option value="VE">Venezuela</option>
-                                                                                            <option value="VN">Vietnam</option>
-                                                                                            <option value="VG">British Virgin Islands</option>
-                                                                                            <option value="VI">U.S. Virgin Islands</option>
-                                                                                            <option value="WF">Wallis & Futuna</option>
-                                                                                            <option value="EH">Western Sahara</option>
-                                                                                            <option value="YE">Yemen</option>
-                                                                                            <option value="ZM">Zambia</option>
-                                                                                            <option value="ZW">Zimbabwe</option>
+                                                                                                @foreach (var j in ViewBag.Countries)
+                                                                             {
+                                                                                  
+                                                                                    <option value="@j.country_code">@j.country_name</option>
+                                                                                    
+                                                                             }
+                                                                                        
                                                                                         </select>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                 </tr>
-                                                                            </tbody>
+                                                                         }
+                                                                                 </tbody>
                                                                         </table>
-                                                                        <div style="margin-top:1%" class="form-group form-group-last row">
+                                                                       
+                                                                          
+                                                                         <div style="margin-top:1%" class="form-group form-group-last row">
                                                                             <div class="col-md-6">
                                                                                 <button type="button" id="ListBtnAddd" data-repeater-create="" class="btn btn-light-primary font-weight-bold btn-sm">
                                                                                     <i class="la la-plus"></i> Add
                                                                                 </button>
                                                                             </div>
+                                                                        </div> 
+ 
                                                                         </div>
+                                                                    
+                                                                       
+                                                                           <div id="kt_tabs_5_2"> 
+                                                                            
+                                                                                <table id="kt_repeater_2" style="overflow:auto">
+                                                                                    <thead class="ScrollThead2">
+                                                                                        <tr>
+                                                                                            <th>Description</th>
+                                                                                            <th>Gl Account</th>
+                                                                                            <th>Gl Account Name</th>
+                                                                                            <th>Tax Code</th>
+                                                                                            <th>Total LC</th>
+                                                                                            <th>Blanket Agreement No.</th>
 
-                                                                    </div>
-                                                                    <div class="d-none" id="kt_tabs_5_2">
-                                                                        <table id="kt_repeater_2" style="overflow:auto">
-                                                                            <thead class="ScrollThead2">
-                                                                                <tr>
-                                                                                    <th>Description</th>
-                                                                                    <th>Gl Account</th>
-                                                                                    <th>Gl Account Name</th>
-                                                                                    <th>Tax Code</th>
-                                                                                    <th>Total LC</th>
-                                                                                    <th>Blanket Agreement No.</th>
-
-                                                                                    <!-- @*<th>Supplier </th>
+                                                                                            <!-- @*<th>Supplier </th>
                                                                                         <th>Lot Number</th>
                                                                                         <th>GSM</th>*@ -->
-                                                                                    <th></th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody id="ListParameters2" data-repeater-list="" class="ScrollTbody2">
-                                                                                <tr class="rowItemDetail align-items-center itm">
+                                                                                            <th></th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody id="ListParameters2" data-repeater-list="" class="ScrollTbody2">
+                                                                                            @if (row["DocType"].Equals("S"))
+                                                                        {
+                                                                                         @foreach(DataRow row2 in Model.Tables[1].Rows){
+                                                                                        
+                                                                                        <tr class="rowItemDetail align-items-center itm">
 
-                                                                                    <td>
+                                                                                            <td>
+                                                                                                <input id="Dscription" value="@row2["Dscription"]" class="form-control form-control-sm">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div class="input-group">
+                                                                                                    <input type="text" value="@row2["AcctCode"]" id="AcctCode" class="form-control form-control-sm" placeholder="GL Account" aria-describedby="basic-addon2">
+                                                                                                    <div id="GLAccountNo" class="input-group-append">
+                                                                                                        <span class="input-group-text">
+                                                                                                            <i class="la la-search"></i>
+                                                                                                        </span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input id="AcctName" class="form-control form-control-sm">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                @*<input value="@row2["VatGroup"]" class="form-control form-control-sm">*@
+                                                                                              <select class="form-control" id="VatGroup2">
+                                                                                                
+                                                                                @foreach (var ii in ViewBag.Taxes)
+                                                                             {
+                                                                                 if(row2["VatGroup"].Equals(ii.code))
+                                                                                 {
+                                                                                    <option selected guid="@ii.Rate" value="@ii.code">@ii.vatName </option>
+                                                                                 }else{
+                                                                                    <option guid="@ii.Rate" value="@ii.code">@ii.vatName </option>
+                                                                                 }
+                                                                             
+                                                                                       
+                                                                             }
+                                                                                       </select>  
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input class="form-control form-control-sm" id="TotalLC">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input class="form-control form-control-sm" id="BlanketAgreementNo">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        }
+                                                                                        
+                                                                                        }else{ 
+                                                                                            <tr class="rowItemDetail align-items-center itm">
+                                                                                                  <td>
                                                                                         <input id="Dscription" class="form-control form-control-sm">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -691,8 +606,17 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <select class="form-control" id="VatGroup2">
-                                                                                        </select>
+                                                                                                <select class="form-control" id="VatGroup2">
+                                                                                        
+                                                                                    @foreach (var ii in ViewBag.Taxes)
+                                                                             {
+                                                                                 
+                                                                                    <option guid="@ii.Rate" value="@ii.code">@ii.vatName </option>
+                                                                                 
+                                                                             
+                                                                                       
+                                                                             }
+                                                                                       </select>  
 
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -705,23 +629,24 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                 </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                        <div style="margin-top:1%" class="form-group form-group-last row">
-                                                                            <div class="col-md-6">
-                                                                                <button type="button" id="ListBtnAddRM" data-repeater-create="" class="btn btn-light-primary font-weight-bold btn-sm">
-                                                                                    <i class="la la-plus"></i> Add
-                                                                                </button>
+                                                                                        }
+                                                                                    </tbody>
+                                                                                </table>
+                                                                                <div style="margin-top:1%" class="form-group form-group-last row">
+                                                                                    <div class="col-md-6">
+                                                                                        <button type="button" id="ListBtnAddRM" data-repeater-create="" class="btn btn-light-primary font-weight-bold btn-sm">
+                                                                                            <i class="la la-plus"></i> Add
+                                                                                        </button>
 
-                                                                                <!-- <button type="button" class="btn btn-light-primary font-weight-bold btn-sm">Setup login verification</button> -->
+                                                                                        <!-- <button type="button" class="btn btn-light-primary font-weight-bold btn-sm">Setup login verification</button> -->
 
+
+                                                                                    </div>
+                                                                                </div>
 
                                                                             </div>
-                                                                        </div>
-
+                                                                        
                                                                     </div>
-
-                                                                </div>
 
                                                                 <div class="tab-pane" id="kt_tabs_acct" role="tabpanel">
 
@@ -800,6 +725,11 @@
                                                                 </div>
 
                                                             </div>
+                                                    
+                                                        
+                                                        }
+                                                        
+                                                        
                                                         </div>
 
 
@@ -964,9 +894,10 @@
 
 <script>
     var vatGroupData = "";
-    var ItemServiceType = '1';
-    const boxes = document.querySelectorAll('.d');
+    var ItemServiceType = Doctype; 
 
+
+    const boxes = document.querySelectorAll('.d');
     for (const box of boxes) {
         box.value = new Date().toJSON().slice(0, 10);
     }
@@ -1016,8 +947,7 @@
 
         //$(ObjItemCode)
     });
-    $(document).on('change', '#ItemServiceType', function (e) 
-    {
+    $(document).on('change', '#ItemServiceType', function (e) {
         var val = $("#ItemServiceType option:selected").val();
         var value = $('#ItemServiceType').val();
         ItemServiceType = value;
@@ -1411,34 +1341,20 @@
 
 
 
+   function GetVatGroupData() 
+    {
+        $.get("SaleQuotation/GetVatGroupData", function (data) 
+        {
+           vatGroupData = data; 
+            $.each(data, function () {
+                 
+                vatGroupData = vatGroupData + "<option guid="+this.rate+" value="+this.code +">"+this.vatName +"</option>";
+            });
+            //$("#VatGroup").select2();
+            //$("#VatGroup2").select2();
 
-  function GetVatGroupData() 
-{
-	
-	$.get("SaleQuotation/GetVatGroupData", function(data) {
-		vatGroupData = data;
-		// addDataInVatGroup();
-		$("#VatGroup").html("");
-		$("#VatGroup2").html("");
-		$.each(data, function() {
-			console.log();
-			$("#VatGroup").append($('<option>', {
-									value: this.code,
-									text: this.vatName,
-									guid: this.rate
-								}));
-			$("#VatGroup2").append($('<option>', {
-									value: this.code,
-									text: this.vatName,
-									guid : this.rate
-								}));
-			
-				vatGroupData = vatGroupData + "<option guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>";
-		});
-		//$("#VatGroup").select2();
-		//$("#VatGroup2").select2();
-	});
-}
+        });
+    } 
     
     $(document).on('click', '#Itemno', function (e) {
         IsHeader = false;
@@ -1456,11 +1372,9 @@
         $('#myCustModal').modal('show');
 
     });
-    //function clckme(){
-    //     document.getElementById("myCustomerbtn").click();
-    //}
+   
 
-     $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount,#VatGroup,.VT_Option', function (e) {
+    $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount,#VatGroup,.VT_Option', function (e) {
 
         var Qty = $(this).closest('#ListParameters .itm').find('#QTY');
         var UPrc = $(this).closest('#ListParameters .itm').find('#UPrc');
@@ -1510,22 +1424,7 @@
         }
     });
 
-    //$(document).on('keyup', '#Rounding', function (e) 
-    //{
-        
-      
-    //  if($('#RoundingChkBox').is(":checked"))
-    //  {
-          
-    //    var TotalPrice = $("#Total").val();
-    //    var RoundingValue = parseFloat($('#Rounding').val());
-    //    if(TotalPrice != "")
-    //        if(RoundingValue != "")
-    //            $("#Total").val( Number(TotalPrice) +  RoundingValue);
-    //        else 
-    //        $("#Total").val( Number(TotalPrice));
-    //  }
-    //});
+  
 function GetPrice() 
 {
 
@@ -1585,10 +1484,10 @@ function GetPrice()
     
     $(document).ready(function () {
 
-       
-        GetVatGroupData();
+        display_ItemOrService();
+        GetVatGroupData(); 
         var date = new Date;
-        $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
+        @*$('#DocDate').val(moment(date).format('YYYY-MM-DD'));*@
         Guid = $("#Guid").val();
         $('#IncrementalDuration').prop('checked', true);
         DocNumOnLoad();
@@ -1597,7 +1496,7 @@ function GetPrice()
         GetListValueType();
         GetListValueMethod();
         GetLisRmCodes();
-
+        GetContactPersons(CntctPerson);
 
         if (Guid != undefined && Guid != '' && Guid != null) {
             PopulateData();
@@ -1673,6 +1572,21 @@ function GetPrice()
         });
     });
 
+
+
+
+
+    function display_ItemOrService(){
+        if(Doctype == "1"){
+            $("#kt_tabs_5_2").addClass("d-none")
+        }else{
+             $("#kt_tabs_5_1").addClass("d-none")
+        }
+        
+    }
+
+
+
     $(document).on('change', '#ParamCode, #DurationTypeCode, #Duration,#EffectiveDate', function (e) {
 
         $(this).removeClass('is-invalid');
@@ -1731,7 +1645,11 @@ function GetPrice()
 
         $('#kt_repeater_3 tbody').append(html);
     });
-
+     $(document).on('keypress', '#CardCode,#DocNum,#CardName,#DocDate,#NumAtCard,#DocDue,#TaxDate,#ItemCode,#VatGroup,#GroupNum,#DocCur', function (e) 
+    {
+       
+        $(this).removeClass('is-invalid');
+    });
     $(document).on('click', '#ListBtnAddd', function (e) {
         var html = `    <tr class="rowItemDetail align-items-center itm">
                                                                                     <td>
@@ -2101,16 +2019,6 @@ function GetPrice()
         //addDataInVatGroup();
     });
 
-    $(document).on('keypress', '#Duration,#EffectiveDate', function (e) {
-
-        $(this).removeClass('is-invalid');
-    });
-
-    $(document).on('change', '#DocDate,#DocNum', function (e) {
-
-        $(this).removeClass('is-invalid');
-    });
-
     $(document).on('click', '#btnSave', function (e) {
 
         $('#btnSave').addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
@@ -2272,44 +2180,21 @@ function GetPrice()
         });
     }
 
-    
-    
-    $(document).on('keypress', '#CardCode,#DocNum,#CardName,#DocDate,#NumAtCard,#DocDue,#TaxDate,#ItemCode,#VatGroup,#GroupNum,#DocCur', function (e) {
-
-        $(this).removeClass('is-invalid');
-    });
-    //================== Post Data Working =====================
-
-
-    $(document).on('click', '#btnSaveData', function (e) {
-
-        $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-        $(this).attr('disabled', true);
-        if (
-            ValidateData("HeaderForm")
-
-        ) {
-            if (ItemServiceType == '1') {
-                if (ValidateListData("ListParameters .itm") && ValidateData("kt_tabs_acct"))
-                    FormData();
-                else {
-                    $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                    $(this).attr('disabled', false);
-                }
-            }
-            else {
-                if (ValidateListData("ListParameters2 .itm") && ValidateData("kt_tabs_acct"))
-                    FormData();
-                else {
-                    $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                    $(this).attr('disabled', false);
-                }
-            }
-        }
-        else {
+    $(document).on('click', '#btnSaveData', function (e) 
+    {
+          $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+          $(this).attr('disabled', true);
+          if(
+               ValidateData("HeaderForm") 
+            && ItemServiceType == '1' ?  ValidateListData("ListParameters .itm") : ValidateListData("ListParameters2 .itm")
+            && ValidateData("kt_tabs_acct")
+            ) 
+          FormData();
+          else
+          {
             $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
             $(this).attr('disabled', false);
-        }
+          }
     });
     
     
@@ -2348,6 +2233,7 @@ function GetPrice()
     {
         let isValid = [];
             
+            debugger
             $('#' + element).each(function (index, item) {
            
                 $(this).find('input , select , textarea').each(function (index, data) 
@@ -2398,13 +2284,14 @@ function GetPrice()
 
     
     }
+
     function PostData(formData) 
     {
       
-      
+        
       
         return $.ajax({
-            url: '/ARInvoice/AddARInvoice',
+            url: '/SaleQuotation/AddSalesQoutation',
             dataType: 'json',
             type: 'POST',
             
@@ -2412,7 +2299,7 @@ function GetPrice()
 
             success: function (result) 
             {
-                console.log(result);
+               
                 if (result.isInserted) {
                     toastr.success(result.message);
 
@@ -2450,11 +2337,9 @@ function GetPrice()
 
     function getJsonObj(element) {
 
-       
-      
         var jsonobj = new Object();
 
-        // console.log($('#' + element + ' input,' + '#' + element + ' select'))
+        
 
         $('#' + element + ' input,' + '#' + element + ' select, ' + '#' + element + ' textarea').each(function (index, data) {
             
@@ -2485,26 +2370,7 @@ function GetPrice()
         })
         return listObj;
     }
-    function getJsonObjList(element) {
-        let listObj = [];
 
-        $('#' + element).each(function (index, item) {
-            var jsonobj = new Object();
-            $(this).find('input , select , textarea').each(function (index, data) 
-            {
-
-                if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') 
-                    jsonobj[$(this).attr("id")] = $(this).val();
-                  
-            });
-
-            listObj.push(jsonobj);
-
-
-
-        })
-        return listObj;
-    }
     //==================== End Post Data Working===========================//
     //===============================================
 
@@ -2763,10 +2629,16 @@ function GetPrice()
 
     function DocNumOnLoad() {
 
-        $.get('/ARInvoice/getUpdatedDocumentNumberOnLoad', function(data, status)
-            { console.log(data)
-                $('#DocNum').val( data );
-          });
+        $.get('/SaleQuotation/getUpdatedDocumentNumberOnLoad', function(data, status)
+            {
+               @* $('#DocNum').val( data );*@
+            }
+            
+            
+            
+            
+            
+            );
         //return $.ajax({
         //    url: '/SaleQuotation/getUpdatedDocumentNumberOnLoad',
         //    dataType: 'json',

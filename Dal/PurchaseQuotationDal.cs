@@ -25,6 +25,7 @@ namespace iSOL_Enterprise.Dal
 				while (rdr.Read())
 				{
 					SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
+					models.Id = rdr["Id"].ToInt();
 					models.DocDate = rdr["DocDueDate"].ToDateTime();
 					models.PostingDate = rdr["DocDate"].ToDateTime();
 					models.DocNum = rdr["DocNum"].ToString();
@@ -36,8 +37,25 @@ namespace iSOL_Enterprise.Dal
 			}
 			return list;
 		}
+        public dynamic GetPurchaseQuotationDetails(int id)
+        {
+            DataSet ds = new DataSet();
+            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+            SqlDataAdapter sda = new SqlDataAdapter("select * from OPQT where id = " + id + ";select * from PQT1 where id = " + id + "", conn);
+            sda.Fill(ds);
+            return ds;
+        }
 
-		public List<tbl_item> GetItemsData()
+
+
+
+
+
+
+
+
+
+        public List<tbl_item> GetItemsData()
 		{
 			string GetQuery = "select * from OITM";
 

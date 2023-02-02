@@ -20,6 +20,7 @@ namespace iSOL_Enterprise.Dal
                 while (rdr.Read())
                 {
                     SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
+                    models.Id = rdr["Id"].ToInt();
                     models.DocDate = rdr["DocDueDate"].ToDateTime();
                     models.PostingDate = rdr["DocDate"].ToDateTime();
                     models.DocNum = rdr["DocNum"].ToString();
@@ -31,12 +32,23 @@ namespace iSOL_Enterprise.Dal
             }
             return list;
         }
+
+        public dynamic GetDeliveryDetails(int id)
+        {
+            DataSet ds = new DataSet();
+            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+            SqlDataAdapter sda = new SqlDataAdapter("select * from ODLN where id = " + id + ";select * from DLN1 where id = " + id + "", conn);
+            sda.Fill(ds);
+            return ds;
+        }
+
+
         public bool AddDelivery(string formData)
         {
             try
             {
                 var model = JsonConvert.DeserializeObject<dynamic>(formData);
-
+                string DocType = model.ListItems == null ? "S" : "I";
 
 
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
@@ -51,8 +63,9 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
-                        string HeadQuery = @"insert into ODLN(Id,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
+                        string HeadQuery = @"insert into ODLN(Id,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
                                            values(" + Id + ",'"
+                                               + DocType + "','"
                                                 + CommonDal.generatedGuid() + "','"
                                                 + model.HeaderData.CardCode + "','"
                                                 + model.HeaderData.DocNum + "','"

@@ -21,6 +21,16 @@ namespace iSOL_Enterprise.Controllers
             //ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
             return View();
         }
+
+        public IActionResult EditDeliveryMaster(int id)
+        {
+            DeliveryDal dal1 = new DeliveryDal();
+            SalesQuotationDal dal = new SalesQuotationDal();
+            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            ViewBag.Taxes = dal.GetVatGroupData();
+            ViewBag.Countries = dal.GetCountries();
+            return View(dal1.GetDeliveryDetails(id));
+        }
         public string getUpdatedDocumentNumberOnLoad()
         {
             DataTable dt = SqlHelper.GetData("select top 1 DocNum From ODLN  order by Id desc");
