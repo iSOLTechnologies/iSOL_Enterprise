@@ -1,5 +1,6 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
+
 using Newtonsoft.Json;
 using SqlHelperExtensions;
 using System.Data;
@@ -42,7 +43,57 @@ namespace iSOL_Enterprise.Dal
             return ds;
         }
 
+        public List<SalesQuotation_MasterModels> GetSalesQuotationData(int cardcode)
+        {
+            string GetQuery = "select * from OQUT where CardCode =" + cardcode;
 
+
+            List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+                    SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
+
+                    models.Id = rdr["Id"].ToInt();
+                    models.DocDate = rdr["DocDueDate"].ToDateTime();
+                    models.PostingDate = rdr["DocDate"].ToDateTime();
+                    models.DocNum = rdr["DocNum"].ToString();
+                    models.CardCode = rdr["CardCode"].ToString();
+                    models.Guid = rdr["Guid"].ToString();
+                    models.CardName = rdr["CardName"].ToString();
+                    list.Add(models);
+                }
+            }
+            return list;
+        }
+        public string GetQuotationType(int DocId)
+        {
+            string GetQuery = "select DocType from OQUT where id = " + DocId;
+            string doctype = "";
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+
+                    doctype = rdr["DocType"].ToString();
+
+                }
+            }
+            return doctype;
+        }
+        public dynamic GetQuotationItemServiceList(int DocId)
+        {
+            DataSet ds = new DataSet();
+            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+            SqlDataAdapter sda = new SqlDataAdapter("select Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg from QUT1 where id = " + DocId + "", conn);
+            sda.Fill(ds);
+            string JSONString = string.Empty;
+            JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
+            return JSONString;
+            
+        }
 
 
         public bool AddSaleOrder(string formData)

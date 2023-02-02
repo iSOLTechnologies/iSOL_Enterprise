@@ -30,7 +30,41 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Countries = dal.GetCountries();
             return View(dal1.GetSaleOrderEditDetails(id));
         }
+        public IActionResult GetSalesQuotationData(int cardcode)
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
 
+                SalesOrderDal dal = new SalesOrderDal();
+                response.Data = dal.GetSalesQuotationData(cardcode);
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+        }
+        [HttpGet]
+
+        public IActionResult GetQuotationItemService(int DocId)
+        {
+            try
+            {
+                SalesOrderDal dal = new SalesOrderDal();
+
+                return Json(new { type = dal.GetQuotationType(DocId), list = dal.GetQuotationItemServiceList(DocId) });
+            }
+            catch (Exception)
+            {
+                return Json("");
+                throw;
+            }
+
+        }
 
 
         public string getUpdatedDocumentNumberOnLoad()
