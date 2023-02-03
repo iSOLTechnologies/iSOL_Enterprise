@@ -50,7 +50,7 @@ namespace iSOL_Enterprise.Controllers
         }
         [HttpGet]
 
-        public IActionResult GetQuotationItemService(int DocId)
+        public  IActionResult GetQuotationItemService(int DocId)
         {
             try
             {

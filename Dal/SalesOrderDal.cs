@@ -59,7 +59,8 @@ namespace iSOL_Enterprise.Dal
                     models.DocDate = rdr["DocDueDate"].ToDateTime();
                     models.PostingDate = rdr["DocDate"].ToDateTime();
                     models.DocNum = rdr["DocNum"].ToString();
-                    models.CardCode = rdr["CardCode"].ToString();
+                    models.DocType = rdr["DocType"].ToString();
+					models.CardCode = rdr["CardCode"].ToString();
                     models.Guid = rdr["Guid"].ToString();
                     models.CardName = rdr["CardName"].ToString();
                     list.Add(models);
