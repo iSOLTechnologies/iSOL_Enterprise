@@ -211,7 +211,7 @@ namespace iSOL_Enterprise.Dal
 
             return list;
         }
-        public List<ListModel> GetContactPersons(int cardCode)
+        public List<ListModel> GetContactPersons(string cardCode)
         {
             string GetQuery = "select OCRD.CardCode,OCPR.Name from ocrd join ocpr on ocrd.CardCode = OCPR.CardCode where ocrd.CardCode = '" + cardCode + "'";
 

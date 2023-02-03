@@ -194,7 +194,7 @@ namespace iSOL_Enterprise.Controllers.Sales
 
 
         }
-        public IActionResult GetContactPersons(int cardCode)
+        public IActionResult GetContactPersons(string cardCode)
         {
             //ResponseModels response = new ResponseModels();
             try
