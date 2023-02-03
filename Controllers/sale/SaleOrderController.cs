@@ -56,7 +56,7 @@ namespace iSOL_Enterprise.Controllers
             {
                 SalesOrderDal dal = new SalesOrderDal();
 
-                return Json(new { type = dal.GetQuotationType(DocId), list = dal.GetQuotationItemServiceList(DocId) });
+                return Json(new { baseDoc = dal.GetQuotationType(DocId), list = dal.GetQuotationItemServiceList(DocId) });
             }
             catch (Exception)
             {

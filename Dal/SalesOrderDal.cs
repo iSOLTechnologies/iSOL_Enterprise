@@ -67,27 +67,29 @@ namespace iSOL_Enterprise.Dal
             }
             return list;
         }
-        public string GetQuotationType(int DocId)
+        public List<SalesQuotation_MasterModels> GetQuotationType(int DocId)
         {
-            string GetQuery = "select DocType from OQUT where id = " + DocId;
-            string doctype = "";
+            string GetQuery = "select DocType,DocNum from OQUT where Id = " + DocId;
+            List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {
                 while (rdr.Read())
                 {
+                    SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
 
-
-                    doctype = rdr["DocType"].ToString();
-
+                    
+                    models.DocType = rdr["DocType"].ToString();
+                    models.DocNum = rdr["DocNum"].ToString();
+                    list.Add(models);
                 }
             }
-            return doctype;
+            return list;
         }
         public dynamic GetQuotationItemServiceList(int DocId)
         {
             DataSet ds = new DataSet();
             SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-            SqlDataAdapter sda = new SqlDataAdapter("select Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg from QUT1 where id = " + DocId + "", conn);
+            SqlDataAdapter sda = new SqlDataAdapter("select Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup ,UomCode,CountryOrg,Dscription,AcctCode from QUT1 where id = " + DocId + "", conn);
             sda.Fill(ds);
             string JSONString = string.Empty;
             JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);

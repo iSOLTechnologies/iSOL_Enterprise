@@ -5,6 +5,7 @@
 
         public string? Guid { get; set; }
         public string? DocNum { get; set; }
+        public string? DocType { get; set; }
         public DateTime? DocDate { get; set; }
         public DateTime? PostingDate { get; set; }
         public string? CardCode { get; set; }
