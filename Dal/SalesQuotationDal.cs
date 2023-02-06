@@ -472,17 +472,10 @@ namespace iSOL_Enterprise.Dal
                 {
 
                     #region Deleting Items/List
-
-
-                    //string myQueryy = "select * From QUT1 Where Id = " + model.ID  + "";
-                    //DataTable dt = new DataTable();
-                    //SqlConnection connn = new SqlConnection(SqlHelper.defaultDB);
-                    //SqlDataAdapter sda = new SqlDataAdapter(myQueryy, connn);
-                    //sda.Fill(dt);
                      
                         string DeleteI_Or_SQuery = "Delete from QUT1 Where id = "+model.ID;
-                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
-                        if (res1 <= 0)
+                       int res5 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
+                        if (res5 <= 0)
                         {
                             tran.Rollback();
                             return false;
@@ -496,7 +489,7 @@ namespace iSOL_Enterprise.Dal
 
 
 
-                    res1 = 0;
+                    
                     //int Id = model.ID.ToInt();
 
                     if (model.HeaderData != null)
@@ -517,6 +510,11 @@ namespace iSOL_Enterprise.Dal
  
                        
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                        if (res1 <= 0)
+                        {
+                            tran.Rollback();
+                            return false;
+                        }
                     }
                     if (model.ListItems != null)
                     {
