@@ -32,6 +32,60 @@ namespace iSOL_Enterprise.Dal
             return list;
         }
 
+        public List<SalesQuotation_MasterModels> GetDeliveryData(int cardcode)
+        {
+            string GetQuery = "select * from ODLN where CardCode =" + cardcode;
+
+
+            List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+                    SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
+
+                    models.Id = rdr["Id"].ToInt();
+                    models.DocDate = rdr["DocDueDate"].ToDateTime();
+                    models.PostingDate = rdr["DocDate"].ToDateTime();
+                    models.DocNum = rdr["DocNum"].ToString();
+                    models.DocType = rdr["DocType"].ToString();
+                    models.CardCode = rdr["CardCode"].ToString();
+                    models.Guid = rdr["Guid"].ToString();
+                    models.CardName = rdr["CardName"].ToString();
+                    list.Add(models);
+                }
+            }
+            return list;
+        }
+        public List<SalesQuotation_MasterModels> GetDeliveryType(int DocId)
+        {
+            string GetQuery = "select DocType,DocNum from ODLN where Id = " + DocId;
+            List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+                    SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
+
+
+                    models.DocType = rdr["DocType"].ToString();
+                    models.DocNum = rdr["DocNum"].ToString();
+                    list.Add(models);
+                }
+            }
+            return list;
+        }
+        public dynamic GetDeliveryItemServiceList(int DocId)
+        {
+            DataSet ds = new DataSet();
+            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+            SqlDataAdapter sda = new SqlDataAdapter("select Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup ,UomCode,CountryOrg,Dscription,AcctCode from DLN1 where id = " + DocId + "", conn);
+            sda.Fill(ds);
+            string JSONString = string.Empty;
+            JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
+            return JSONString;
+
+        }
 
         public dynamic GetARInvoiceDetails(int id)
         {

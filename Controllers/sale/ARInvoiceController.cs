@@ -31,8 +31,41 @@ namespace iSOL_Enterprise.Controllers
             return View(dal1.GetARInvoiceDetails(id));
         }
 
+        public IActionResult GetDeliveryData(int cardcode)
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
+
+                ARInvoiceDal dal = new ARInvoiceDal();
+                response.Data = dal.GetDeliveryData(cardcode);
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
 
 
+            return Json(response);
+        }
+        [HttpGet]
+
+        public IActionResult GetDeliveryItemService(int DocId)
+        {
+            try
+            {
+                ARInvoiceDal dal = new ARInvoiceDal();
+
+                return Json(new { baseDoc = dal.GetDeliveryType(DocId), list = dal.GetDeliveryItemServiceList(DocId) });
+            }
+            catch (Exception)
+            {
+                return Json("");
+                throw;
+            }
+
+        }
         public string getUpdatedDocumentNumberOnLoad()
         {
             DataTable dt = SqlHelper.GetData("select top 1 DocNum From OINV  order by Id desc");

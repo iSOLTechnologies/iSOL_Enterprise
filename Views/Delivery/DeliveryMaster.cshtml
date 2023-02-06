@@ -1139,9 +1139,8 @@
                     //For the Entry of Other Doc numbers except 1st
                     else 
                     {
-                        
-                        $.get("SaleOrder/GetOrderItemService", { DocId: DocID }, function(data) 
-                        {
+
+                    $.get("Delivery/GetOrderItemService", { DocId: DocID }, function (data) {
                         let list = JSON.parse(data.list);  
             
             
