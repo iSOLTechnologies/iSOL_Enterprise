@@ -165,7 +165,8 @@
 
                                                             @* ----------   Header -----------*@
                                                             @foreach(DataRow row in Model.Tables[0].Rows){
-                                                                 
+                                                                <input value="@row["Guid"]" type="text" hidden id="my_guid" > 
+                                                                <input value="@row["Id"]" type="text" hidden id="my_id" > 
                                                             <div id="HeaderForm">
                                                                 <div class="form-group row">
 
@@ -396,7 +397,7 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         
-                                                                                        <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
+                                                                                        <input value="@row1["LineTotal"]"  class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
@@ -407,8 +408,6 @@
                                                                                     <td>
                                                                                           @*<input class="form-control  value="@row1["CountryOrg"]" form-control-sm" id="Country">*@
 
-
-                                                                                            
                                                                                         <select class="form-control vtGroup" id="VatGroup">
                                                                                         
                                                                                         
@@ -423,7 +422,7 @@
                                                                              
                                                                                        
                                                                              }
-                                                                                       </select>  
+                                                                                         </select>  
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                 </tr>
@@ -471,18 +470,17 @@
                                                                                  
                                                                              }
                                                                                        </select>  
-                                                                       
-                                                                   
+                                                                                                                                         
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         @*<input class="form-control form-control-sm" id="VatGroup" onkeyup="GetPrice()" type="number">
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>*@
+                                                                                        @*@*@*<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>*@*@*@*@
                                                                                     </td>
                                                                                     <td>
                                                                                         <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input class="form-control id=" UmoCode" form-control-sm" id="UomCode">
+                                                                                        <input class="form-control id="UmoCode" form-control-sm" id="UomCode">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
@@ -2273,6 +2271,8 @@ function GetPrice()
         
         var data =
         { 
+        ID : $("#my_id").val(),
+        GUID : $("#my_guid").val(),
         HeaderData : getJsonObj("HeaderForm"),
         ListAccouting : getJsonObj("kt_tabs_acct"),
         ListItems: ItemServiceType == '1' ?  getJsonObjList("ListParameters .itm") : null,
@@ -2283,7 +2283,7 @@ function GetPrice()
         }
       
        
-       @*PostData(data);*@
+        PostData(data); 
 
     console.log("-------------- my Edit Data ===============")
     console.log(data)
@@ -2295,7 +2295,7 @@ function GetPrice()
         
       
         return $.ajax({
-            url: '/SaleQuotation/AddSalesQoutation',
+            url: '/SaleQuotation/EditSalesQoutation',
             dataType: 'json',
             type: 'POST',
             
