@@ -165,7 +165,7 @@
 
                                                             @* ----------   Header -----------*@
                                                             @foreach(DataRow row in Model.Tables[0].Rows){
-                                                                <input value="@row["Guid"]" type="text" hidden id="my_guid" > 
+                                                                @*<input value="@row["Guid"]" type="text" hidden id="my_guid" > *@
                                                                 <input value="@row["Id"]" type="text" hidden id="my_id" > 
                                                             <div id="HeaderForm">
                                                                 <div class="form-group row">
@@ -2289,7 +2289,7 @@ function GetPrice()
         var data =
         { 
         ID : $("#my_id").val(),
-        GUID : $("#my_guid").val(),
+        @*GUID : $("#my_guid").val(),*@
         HeaderData : getJsonObj("HeaderForm"),
         ListAccouting : getJsonObj("kt_tabs_acct"),
         ListItems: ItemServiceType == '1' ?  getJsonObjList("ListParameters .itm") : null,

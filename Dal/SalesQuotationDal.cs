@@ -472,21 +472,22 @@ namespace iSOL_Enterprise.Dal
                 {
 
                     #region Deleting Items/List
-                    string myQueryy = "select * From QUT1 Where Id = " + model.ID  + "";
-                    DataTable dt = new DataTable();
-                    SqlConnection connn = new SqlConnection(SqlHelper.defaultDB);
-                    SqlDataAdapter sda = new SqlDataAdapter(myQueryy, connn);
-                    sda.Fill(dt);
-                    foreach (DataRow i in dt.Rows)
-                    {
-                        string DeleteI_Or_SQuery = "Delete from QUT1 Where id = " + i["id"] + " AND LineNum = " + i["LineNum"] + "";
+
+
+                    //string myQueryy = "select * From QUT1 Where Id = " + model.ID  + "";
+                    //DataTable dt = new DataTable();
+                    //SqlConnection connn = new SqlConnection(SqlHelper.defaultDB);
+                    //SqlDataAdapter sda = new SqlDataAdapter(myQueryy, connn);
+                    //sda.Fill(dt);
+                     
+                        string DeleteI_Or_SQuery = "Delete from QUT1 Where id = "+model.ID;
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
                         if (res1 <= 0)
                         {
                             tran.Rollback();
                             return false;
                         }
-                    }
+                     
 
                     #endregion
 
@@ -512,27 +513,8 @@ namespace iSOL_Enterprise.Dal
                                                         ",GroupNum = '" + model.ListAccouting.GroupNum + "'" +
                                                         ",SlpCode = " + model.FooterData.SlpCode + "" +
                                                         ",Comments = '" + model.FooterData.Comments + "' " +
-                                                        "WHERE Guid = '" + model.GUID + "'";
-
-                        //string HeadQuery1 = @"insert into OQUT(Id,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
-                        //                   values(" + Id + ",'"
-                        //                        + DocType + "','"
-                        //                        + CommonDal.generatedGuid() + "','"
-                        //                        + model.HeaderData.CardCode + "','"
-                        //                        + model.HeaderData.DocNum + "','"
-                        //                        + model.HeaderData.CardName + "','"
-                        //                        + model.HeaderData.CntctCode + "','"
-                        //                        + Convert.ToDateTime(model.HeaderData.DocDate) + "','"
-                        //                        + model.HeaderData.NumAtCard + "','"
-                        //                        + Convert.ToDateTime(model.HeaderData.DocDueDate) + "','"
-                        //                        + model.HeaderData.DocCur + "','"
-                        //                        + Convert.ToDateTime(model.HeaderData.TaxDate) + "','"
-
-
-                        //                        + model.ListAccouting.GroupNum + "',"
-                        //                        + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
-                        //                        + model.FooterData.Comments + "')";
-
+                                                        "WHERE Id = '" + model.ID + "'";
+ 
                        
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
                     }
