@@ -265,5 +265,178 @@ namespace iSOL_Enterprise.Dal
             }
         }
 
+
+        public bool EditSaleOrder(string formData)
+        {
+            try
+            {
+                var model = JsonConvert.DeserializeObject<dynamic>(formData);
+                string DocType = model.ListItems == null ? "S" : "I";
+
+
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                conn.Open();
+                SqlTransaction tran = conn.BeginTransaction();
+                int res1 = 0;
+                try
+                {
+
+                    #region Deleting Items/List
+
+                    string DeleteI_Or_SQuery = "Delete from RDR1 Where id = " + model.ID;
+                    int res5 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
+                    if (res5 <= 0)
+                    {
+                        tran.Rollback();
+                        return false;
+                    }
+
+
+                    #endregion
+
+                    //int Id = model.ID.ToInt();
+
+                    if (model.HeaderData != null)
+                    {
+                        string HeadQuery = @" Update ORDR set 
+                                                          DocType = '" + DocType + "'" +
+                                                        ",CardName = '" + model.HeaderData.CardName + "'" +
+                                                        ",CntctCode = '" + model.HeaderData.CntcCode + "'" +
+                                                        ",DocDate = '" + Convert.ToDateTime(model.HeaderData.DocDate) + "'" +
+                                                        ",DocDueDate = '" + Convert.ToDateTime(model.HeaderData.DocDueDate) + "'" +
+                                                        ",TaxDate = '" + Convert.ToDateTime(model.HeaderData.TaxDate) + "'" +
+                                                        ",NumAtCard = '" + model.HeaderData.NumAtCard + "'" +
+                                                        ",DocCur = '" + model.HeaderData.DocCur + "'" +
+                                                        ",GroupNum = '" + model.ListAccouting.GroupNum + "'" +
+                                                        ",SlpCode = " + model.FooterData.SlpCode + "" +
+                                                        ",Comments = '" + model.FooterData.Comments + "' " +
+                                                        "WHERE Id = '" + model.ID + "'";
+
+
+                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                        if (res1 <= 0)
+                        {
+                            tran.Rollback();
+                            return false;
+                        }
+                    }
+                    if (model.ListItems != null)
+                    {
+                        int LineNo = 1;
+                        foreach (var item in model.ListItems)
+                        {
+                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
+                            string RowQueryItem = @"insert into RDR1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                                              values(" + model.ID + ","
+                                              + LineNo + ",'"
+                                              + item.ItemName + "',"
+                                              + item.UPrc + ","
+                                              + item.TtlPrc + ",'"
+                                              + item.ItemCode + "',"
+                                              + item.QTY + ","
+                                              + item.DicPrc + ",'"
+                                              + item.VatGroup + "','"
+                                              + item.UomCode + "','"
+                                              + item.CountryOrg + "')";
+
+                            
+
+                            int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
+                            if (res2 <= 0)
+                            {
+                                tran.Rollback();
+                                return false;
+                            }
+                            LineNo += 1;
+                        }
+
+
+
+                    }
+                    else if (model.ListService != null)
+                    {
+                        int LineNo = 1;
+
+                        foreach (var item in model.ListService)
+                        {
+                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
+                            string RowQueryService = @"insert into RDR1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
+                                                   values(" + model.ID + ","
+                                                   + LineNo + ","
+                                                    + item.TtlPrc + ",'"
+                                                   + item.Dscription + "','"
+                                                   + item.AcctCode + "','"
+                                                   + item.VatGroup2 + "')";
+
+                            
+
+                            int res3 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryService).ToInt();
+                            if (res3 <= 0)
+                            {
+                                tran.Rollback();
+                                return false;
+
+                            }
+                            LineNo += 1;
+                        }
+
+
+
+                    }
+                    if (model.ListAttachment != null)
+                    {
+
+
+                        int LineNo = 1;
+                        int ATC1Id = CommonDal.getPrimaryKey(tran, "AbsEntry", "ATC1");
+                        foreach (var item in model.ListAttachment)
+                        {
+                            if (item.selectedFilePath != "" && item.selectedFileName != "" && item.selectedFileDate != "")
+                            {
+
+
+                                string RowQueryAttachment = @"insert into ATC1(AbsEntry,Line,trgtPath,FileName,Date)
+                                                  values(" + ATC1Id + ","
+                                                        + LineNo + ",'"
+                                                        + item.selectedFilePath + "','"
+                                                        + item.selectedFileName + "','"
+                                                        + Convert.ToDateTime(item.selectedFileDate) + "')";
+                               
+                                int res4 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryAttachment).ToInt();
+                                if (res4 <= 0)
+                                {
+                                    tran.Rollback();
+                                    return false;
+
+                                }
+                                LineNo += 1;
+                            }
+                        }
+
+
+
+                    }
+                    if (res1 > 0)
+                    {
+                        tran.Commit();
+                    }
+
+                }
+                catch (Exception)
+                {
+                    tran.Rollback();
+                    return false;
+                }
+
+                return res1 > 0 ? true : false;
+
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
     }
 }

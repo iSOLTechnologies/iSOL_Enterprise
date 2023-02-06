@@ -28,6 +28,7 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
             ViewBag.Taxes = dal.GetVatGroupData();
             ViewBag.Countries = dal.GetCountries();
+            ViewBag.Payments = dal.GetPaymentTerms();
             return View(dal1.GetSaleOrderEditDetails(id));
         }
         public IActionResult GetSalesQuotationData(int cardcode)
@@ -110,6 +111,24 @@ namespace iSOL_Enterprise.Controllers
             { 
                 SalesOrderDal dal = new SalesOrderDal();
                 return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddSaleOrder(formData) == true ? Json(new { isInserted = true, message = "Sale Qoutation Added Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        [HttpPost]
+        public IActionResult EditSaleOrder(string formData)
+        {
+            try
+            {
+
+
+                SalesOrderDal dal = new SalesOrderDal();
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.EditSaleOrder(formData) == true ? Json(new { isInserted = true, message = "Sale Order Updated Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
+
             }
             catch (Exception)
             {

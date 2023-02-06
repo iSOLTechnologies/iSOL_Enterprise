@@ -162,6 +162,7 @@
 
                                                             @* ----------   Header -----------*@
                                                             @foreach(DataRow row in Model.Tables[0].Rows){
+                                                            <input value="@row["Id"]" type="text" hidden id="my_id" > 
                                                                  
                                                             <div id="HeaderForm">
                                                                 <div class="form-group row">
@@ -654,8 +655,22 @@
                                                                     <div class="form-group row col-md-4 mt-3">
                                                                         <label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold">Payment Terms</label>
                                                                         <div class="col-sm-6">
-                                                                            <select class="form-control" id="GroupNum">
+                                                                             @foreach(DataRow row11 in Model.Tables[0].Rows){
+                                                                              <select class="form-control" id="GroupNum">
+
+                                                                                   @foreach (var k in ViewBag.Payments)
+                                                                             {
+                                                                                            if (row11["GroupNum"].ToString() == k.GroupNum.ToString())
+                                                                                 {
+                                                                                    <option selected  value="@k.GroupNum">@k.PymntGroup</option>
+                                                                                 }else{
+                                                                                    <option value="@k.GroupNum">@k.PymntGroup </option>
+                                                                                 }
+                                                                             
+                                                                                       
+                                                                             } 
                                                                             </select>
+                                                                             }
                                                                         </div>
                                                                     </div>
 
@@ -2270,6 +2285,7 @@ function GetPrice()
         
         var data =
         { 
+        ID : $("#my_id").val(),
         HeaderData : getJsonObj("HeaderForm"),
         ListAccouting : getJsonObj("kt_tabs_acct"),
         ListItems: ItemServiceType == '1' ?  getJsonObjList("ListParameters .itm") : null,
