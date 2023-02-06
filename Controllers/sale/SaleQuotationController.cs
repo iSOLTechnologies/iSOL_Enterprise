@@ -217,6 +217,21 @@ namespace iSOL_Enterprise.Controllers.Sales
                 return Json(ex.Message);
             }
         }
+        public IActionResult GetCountries()
+        {
+            try
+            {
+
+                SalesQuotationDal dal = new SalesQuotationDal();
+
+                return Json(dal.GetCountries());
+            }
+            catch (Exception ex)
+            {
+
+                return Json(ex.Message);
+            }
+        }
         public IActionResult GetSaleEmployee()
         {
             //ResponseModels response = new ResponseModels();
