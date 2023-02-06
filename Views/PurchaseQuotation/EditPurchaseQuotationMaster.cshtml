@@ -164,24 +164,22 @@
                                                             @foreach(DataRow row in Model.Tables[0].Rows){
                                                                  
                                                             <div id="HeaderForm">
-                                                                <div class="form-group row">
+                                                                
 
-                                                                    <div class="col-md-6">
-                                                                        <label>Customer</label>
-                                                                        @*<input disabled type="text" class="form-control form-control-sm" >*@
-
-                                                                        <div class="input-group">
-                                                                            <input value="@row["CardCode"]" type="text" id="CardCode" class="form-control form-control-sm" placeholder="Customer" aria-describedby="basic-addon2">
-                                                                            <div id="CustomerNo" class="input-group-append">
-                                                                                <span class="input-group-text">
+                                                                 <div class="form-group row">
+																	<div class="col-md-6">
+																		<label>Vendor</label> @*<input disabled type="text" class="form-control form-control-sm">*@
+																		<div class="input-group">
+																			<input value="@row["CardCode"]" type="text" id="CardCode" class="form-control form-control-sm " placeholder="Vendor" aria-describedby="basic-addon2">
+																			<div id="CustomerNo" class="input-group-append"> 
+																				<span class="input-group-text">
                                                                                     <i class="la la-search"></i>
-                                                                                </span>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-
-                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                    </div>
+                                                                                </span> 
+																			</div>
+																		</div>
+																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																	</div>
 
                                                                     <div class="col-md-6">
                                                                         <label>No.</label>
@@ -189,7 +187,20 @@
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
     
-                                                                </div>
+                                                                </div> 
+
+
+                                                               
+
+
+
+
+
+
+
+
+
+
 
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
@@ -210,7 +221,7 @@
                                                                     <div class="col-md-6">
                                                                         <label>Contact Person</label>
                                                                         <script>
-                                                                        var CntctPerson = @row["CardCode"]    
+                                                                        var CntctPerson = `@row["CardCode"]`  
                                                                         </script>
                                                                         <select class=" form-control kt-select2 ItemCode" id="CntcCode" name="param">
                                                                             <option value="" disabled selected>Select</option>
@@ -235,7 +246,7 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
                                                                         <label>Customer Ref. No.</label>
-                                                                        <input type="text" id="NumAtCard" class="form-control form-control-sm" placeholder="Ref no.">
+                                                                        <input type="text" value="@row["NumAtCard"]" id="NumAtCard" value="@row["NumAtCard"]" class="form-control form-control-sm" placeholder="Ref no.">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
 
@@ -260,6 +271,24 @@
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                 </div>
+
+
+                                                                    <div class="form-group row">
+
+
+                                                                        <div class="col-md-6">
+                                                                            <label>Group Number</label>
+                                                                            <input id="GroupNum" value="@row["GroupNum"]" type="text" class="form-control form-control-sm">
+                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <label>Required Date</label>
+                                                                            <input id="ReqDate" value="@(((DateTime)row["ReqDate"]).ToString("yyyy-MM-dd"))" type="date" class="form-control form-control-sm" placeholder="Date">
+                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                     
                                                             </div>
                                                              
                                                             <div class="kt-separator kt-separator--space-md kt-separator--border-dashed"></div>
@@ -330,6 +359,9 @@
                                                                                 <tr>
                                                                                     <th>Item No.</th>
                                                                                     <th>Item Name</th>
+                                                                                    <th>Required Date</th>
+																					<th>Quoted Date</th>
+																					<th>Required Qty</th>
                                                                                     <th>Quantity</th>
                                                                                     <th>Unit Price</th>
                                                                                     <th>Discount %</th>
@@ -359,6 +391,19 @@
                                                                                         <input id="ItemName"  value="@row1["ItemName"]" class="form-control form-control-sm"  type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
+                                                                                    <td>
+																						<input value="@(((DateTime)row1["PQTReqDate"]).ToString("yyyy-MM-dd"))" id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<input value="@(((DateTime)row1["ShipDate"]).ToString("yyyy-MM-dd"))" id="ShipDate" type="date" class="form-control form-control-sm" placeholder="Quoted Date">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+                                                                                                    <input value="@row1["PQTReqQty"]" class="form-control form-control-sm" id="PQTReqQty" type="number">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+
                                                                                     <td>
                                                                                         <input  value="@row1["Quantity"]" class="form-control form-control-sm" id="QTY"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -443,6 +488,18 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
+																						<input id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<input id="ShipDate" type="date" class="form-control form-control-sm" placeholder="Quoted Date">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<input class="form-control form-control-sm" id="PQTReqQty" type="number">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+                                                                                    <td>
                                                                                         <input class="form-control form-control-sm" id="QTY"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -517,6 +574,8 @@
                                                                                     <thead class="ScrollThead2">
                                                                                         <tr>
                                                                                             <th>Description</th>
+                                                                                            <th>Required Date</th>
+																					        <th>Quoted Date</th> 
                                                                                             <th>Gl Account</th>
                                                                                             <th>Gl Account Name</th>
                                                                                             <th>Tax Code</th>
@@ -540,6 +599,14 @@
                                                                                                 <input id="Dscription" value="@row2["Dscription"]" class="form-control form-control-sm">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
+                                                                                            <td>
+																						<input value="@(((DateTime)row2["PQTReqDate"]).ToString("yyyy-MM-dd"))" id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<input value="@(((DateTime)row2["ShipDate"]).ToString("yyyy-MM-dd"))" id="ShipDate" type="date" class="form-control form-control-sm" placeholder="Quoted Date">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td> 
                                                                                             <td>
                                                                                                 <div class="input-group">
                                                                                                     <input type="text" value="@row2["AcctCode"]" id="AcctCode" class="form-control form-control-sm" placeholder="GL Account" aria-describedby="basic-addon2">
@@ -590,6 +657,14 @@
                                                                                         <input id="Dscription" class="form-control form-control-sm">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
+                                                                                    <td>
+																						<input id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<input id="ShipDate" type="date" class="form-control form-control-sm" placeholder="Quoted Date">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td> 
                                                                                     <td>
                                                                                         <div class="input-group">
                                                                                             <input type="text" id="AcctCode" class="form-control form-control-sm" placeholder="GL Account" aria-describedby="basic-addon2">
@@ -1365,13 +1440,11 @@
     });
 
 
-    $(document).on('click', '#CustomerNo', function (e) {
-        ObjCardCode = $(this);
-
-        generateCustomerTable();
-        $('#myCustModal').modal('show');
-
-    });
+   $(document).on('click', '#CustomerNo', function(e) {
+	ObjCardCode = $(this);
+	generateVendorTable();
+	$('#myVendorModal').modal('show');
+});
    
 
     $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount,#VatGroup,.VT_Option', function (e) {

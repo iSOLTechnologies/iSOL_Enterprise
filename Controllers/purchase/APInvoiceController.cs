@@ -29,6 +29,15 @@ namespace iSOL_Enterprise.Controllers.Sales
             return View();
         }
 
+        public IActionResult EditAPInvoiceMaster(int id)
+        {
+            SalesQuotationDal dal = new SalesQuotationDal();
+            APInvoiceDal dal1 = new APInvoiceDal();
+            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            ViewBag.Taxes = dal.GetVatGroupData();
+            ViewBag.Countries = dal.GetCountries();
+            return View(dal1.GetAPInvoiceEditDetails(id));
+        }
 
 
         public string getUpdatedDocumentNumberOnLoad()

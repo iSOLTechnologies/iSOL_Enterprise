@@ -11,10 +11,18 @@ namespace iSOL_Enterprise.Dal
 {
 	public class PurchaseQuotationDal
 	{
+        public dynamic GetPurchaseOrderEditDetails(int id)
+        {
+            DataSet ds = new DataSet();
+            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+            SqlDataAdapter sda = new SqlDataAdapter("select * from OPQT where id = " + id + ";select * from PQT1 where id = " + id + "", conn);
+            sda.Fill(ds);
+            return ds;
+        }
 
 
 
-		public List<SalesQuotation_MasterModels> GetData()
+        public List<SalesQuotation_MasterModels> GetData()
 		{
 			string GetQuery = "select * from OPQT";
 

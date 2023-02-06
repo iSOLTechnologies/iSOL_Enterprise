@@ -177,8 +177,8 @@ namespace iSOL_Enterprise.Dal
                     list.Add(
                         new tbl_country()
                         {
-                             country_code = rdr["country_code"].ToString(),
-                             country_name = rdr["country_name"].ToString()
+                            country_code = rdr["country_code"].ToString(),
+                            country_name = rdr["country_name"].ToString()
                         });
 
                 }
@@ -201,7 +201,7 @@ namespace iSOL_Enterprise.Dal
                     list.Add(
                         new tbl_OVTG()
                         {
-                            code= rdr["code"].ToString(),
+                            code = rdr["code"].ToString(),
                             vatName = rdr["vatName"].ToString(),
                             Rate = (decimal)rdr["Rate"]
                         });
@@ -245,17 +245,11 @@ namespace iSOL_Enterprise.Dal
             sda.Fill(ds);
             return ds;
         }
-
-
-
-
         public bool AddSalesQoutation(string formData)
         {
             try
             {
                 var model = JsonConvert.DeserializeObject<dynamic>(formData);
-
-
                 string DocType = model.ListItems == null ? "S" : "I";
 
 
@@ -288,8 +282,6 @@ namespace iSOL_Enterprise.Dal
                                                 + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
                                                 + model.FooterData.Comments + "')";
 
-
-
                         #region SqlParameters
                         //List<SqlParameter> param = new List<SqlParameter>   
                         //        {
@@ -317,9 +309,12 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListItems)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            string RowQueryItem = @"insert into QUT1(Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            string RowQueryItem = @"insert into QUT1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
                                                 + LineNo + ",'"
+                                                + item.ItemName + "',"
+                                                + item.UPrc + "',"
+                                                + item.TtlPrc + "',"
                                                 + item.ItemCode + "',"
                                                 + item.QTY + ","
                                                 + item.DicPrc + ",'"

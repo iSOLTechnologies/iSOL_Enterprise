@@ -29,7 +29,15 @@ namespace iSOL_Enterprise.Controllers.Sales
             return View();
         }
 
-
+        public IActionResult EditGoodReceiptMaster(int id)
+        {
+            SalesQuotationDal dal = new SalesQuotationDal();
+            GoodReceiptDal dal1 = new GoodReceiptDal();
+            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            ViewBag.Taxes = dal.GetVatGroupData();
+            ViewBag.Countries = dal.GetCountries();
+            return View(dal1.GetGoodReceiptEditDetails(id));
+        }
 
         public string getUpdatedDocumentNumberOnLoad()
         {

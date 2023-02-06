@@ -28,7 +28,15 @@ namespace iSOL_Enterprise.Controllers.Sales
 
             return View();
         }
-
+          public IActionResult EditPurchaseOrderMaster(int id)
+        {
+            SalesQuotationDal dal = new SalesQuotationDal();
+            PurchaseOrderDal dal1 = new PurchaseOrderDal();
+            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            ViewBag.Taxes = dal.GetVatGroupData();
+            ViewBag.Countries = dal.GetCountries();
+            return View(dal1.GetPurchaseOrderEditDetails(id));
+        }
 
 
         public string getUpdatedDocumentNumberOnLoad()
