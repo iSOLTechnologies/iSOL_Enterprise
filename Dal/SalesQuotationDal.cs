@@ -355,9 +355,10 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListService)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            string RowQueryService = @"insert into QUT1(Id,LineNum,Dscription,AcctCode,VatGroup)
+                            string RowQueryService = @"insert into QUT1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
                                                    values(" + Id + ","
-                                                    + LineNo + ",'"
+                                                    + LineNo + ","
+                                                     + item.TtlPrc + ",'"
                                                     + item.Dscription + "','"
                                                     + item.AcctCode + "','"
                                                     + item.VatGroup2 + "')";
@@ -500,7 +501,18 @@ namespace iSOL_Enterprise.Dal
                     if (model.HeaderData != null)
                     {
                         string HeadQuery = @" Update OQUT set 
-                                                        DocType = '" + DocType + "',CardName = '" + model.HeaderData.CardName + "' WHERE Guid = '" + model.GUID + "'";
+                                                          DocType = '" + DocType + "'" +
+                                                        ",CardName = '" + model.HeaderData.CardName + "'" +
+                                                        ",CntctCode = '" + model.HeaderData.CntcCode + "'" +
+                                                        ",DocDate = '" + Convert.ToDateTime(model.HeaderData.DocDate) + "'" +
+                                                        ",DocDueDate = '" + Convert.ToDateTime(model.HeaderData.DocDueDate) + "'" +
+                                                        ",TaxDate = '" + Convert.ToDateTime(model.HeaderData.TaxDate) + "'" +
+                                                        ",NumAtCard = '" + model.HeaderData.NumAtCard + "'" +
+                                                        ",DocCur = '" + model.HeaderData.DocCur + "'" +
+                                                        ",GroupNum = '" + model.ListAccouting.GroupNum + "'" +
+                                                        ",SlpCode = " + model.FooterData.SlpCode + "" +
+                                                        ",Comments = '" + model.FooterData.Comments + "' " +
+                                                        "WHERE Guid = '" + model.GUID + "'";
 
                         //string HeadQuery1 = @"insert into OQUT(Id,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
                         //                   values(" + Id + ",'"
@@ -515,6 +527,8 @@ namespace iSOL_Enterprise.Dal
                         //                        + Convert.ToDateTime(model.HeaderData.DocDueDate) + "','"
                         //                        + model.HeaderData.DocCur + "','"
                         //                        + Convert.ToDateTime(model.HeaderData.TaxDate) + "','"
+
+
                         //                        + model.ListAccouting.GroupNum + "',"
                         //                        + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
                         //                        + model.FooterData.Comments + "')";
@@ -574,12 +588,13 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListService)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            string RowQueryService = @"insert into QUT1(Id,LineNum,Dscription,AcctCode,VatGroup)
+                            string RowQueryService = @"insert into QUT1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
                                                    values(" + model.ID + ","
-                                                    + LineNo + ",'"
-                                                    + item.Dscription + "','"
-                                                    + item.AcctCode + "','"
-                                                    + item.VatGroup2 + "')";
+                                                   + LineNo + ","
+                                                    + item.TtlPrc + ",'"
+                                                   + item.Dscription + "','"
+                                                   + item.AcctCode + "','"
+                                                   + item.VatGroup2 + "')";
 
                             #region sqlparam
                             //List<SqlParameter> param3 = new List<SqlParameter>

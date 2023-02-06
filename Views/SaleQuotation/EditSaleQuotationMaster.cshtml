@@ -175,7 +175,7 @@
                                                                         @*<input disabled type="text" class="form-control form-control-sm" >*@
 
                                                                         <div class="input-group">
-                                                                            <input value="@row["CardCode"]" type="text" id="CardCode" class="form-control form-control-sm" placeholder="Customer" aria-describedby="basic-addon2">
+                                                                                <input value="@row["CardCode"]" readonly type="text" id="CardCode" class="form-control form-control-sm" placeholder="Customer" aria-describedby="basic-addon2">
                                                                             <div id="CustomerNo" class="input-group-append">
                                                                                 <span class="input-group-text">
                                                                                     <i class="la la-search"></i>
@@ -198,7 +198,7 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
                                                                         <label>Name</label>
-                                                                        <input value="@row["CardName"]" type="text" id="CardName" class="form-control form-control-sm" placeholder="Name">
+                                                                        <input value="@row["CardName"]" readonly type="text" id="CardName" class="form-control form-control-sm" placeholder="Name">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
 
@@ -575,7 +575,7 @@
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input class="form-control form-control-sm" id="TotalLC">
+                                                                                                    <input value="@row2["LineTotal"]" class="form-control form-control-sm" id="TtlPrc">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
@@ -655,8 +655,25 @@
                                                                     <div class="form-group row col-md-4 mt-3">
                                                                         <label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold">Payment Terms</label>
                                                                         <div class="col-sm-6">
-                                                                            <select class="form-control" id="GroupNum">
+
+
+                                                                             @foreach(DataRow row11 in Model.Tables[0].Rows){
+                                                                              <select class="form-control" id="GroupNum">
+
+                                                                                   @foreach (var k in ViewBag.Payments)
+                                                                             {
+                                                                                            if (row11["GroupNum"].ToString() == k.GroupNum.ToString())
+                                                                                 {
+                                                                                    <option selected  value="@k.GroupNum">@k.PymntGroup</option>
+                                                                                 }else{
+                                                                                    <option value="@k.GroupNum">@k.PymntGroup </option>
+                                                                                 }
+                                                                             
+                                                                                       
+                                                                             } 
                                                                             </select>
+                                                                             }
+
                                                                         </div>
                                                                     </div>
 
@@ -914,7 +931,7 @@
         console.log("Clickeddd")
 
     });
-    $(document).on('click', '#tabAccounting', function (e) {
+  @*  $(document).on('click', '#tabAccounting', function (e) {
 
         $.get("SaleQuotation/GetPayments", function (data) 
         {
@@ -926,7 +943,7 @@
 
         });
 
-    });
+    });*@
     $(document).on('click', '#btnbrowseFile', function (e) {
 
         console.log("brow");
