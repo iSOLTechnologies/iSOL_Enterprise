@@ -2055,7 +2055,7 @@ function GetPrice()
 
                 }
 
-                if (result.isInserted) {
+                if (!(result.isInserted)) {
                     toastr.error(result.message);
                     $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                     $('#btnSave').attr('disabled', false);
