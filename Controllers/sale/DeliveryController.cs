@@ -31,6 +31,41 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Countries = dal.GetCountries();
             return View(dal1.GetDeliveryDetails(id));
         }
+        public IActionResult GetSalesOrderData(int cardcode)
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
+
+                DeliveryDal dal = new DeliveryDal();
+                response.Data = dal.GetSalesOrderData(cardcode);
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+        }
+        [HttpGet]
+
+        public IActionResult GetOrderItemService(int DocId)
+        {
+            try
+            {
+                DeliveryDal dal = new DeliveryDal();
+
+                return Json(new { baseDoc = dal.GetOrderType(DocId), list = dal.GetOrderItemServiceList(DocId) });
+            }
+            catch (Exception)
+            {
+                return Json("");
+                throw;
+            }
+
+        }
         public string getUpdatedDocumentNumberOnLoad()
         {
             DataTable dt = SqlHelper.GetData("select top 1 DocNum From ODLN  order by Id desc");

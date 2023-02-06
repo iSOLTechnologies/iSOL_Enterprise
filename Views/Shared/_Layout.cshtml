@@ -2533,6 +2533,7 @@
 		
 		function FilterCopydataTable() {
 			CopydataTable.columns( 3 ).search($('#tblItemServiceType').val()).draw();
+			$('#MyyyyCopyDataTable tr').removeClass("Mainrow_selected");
 			CopyDocIDs = [];
 		}
 

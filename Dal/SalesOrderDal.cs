@@ -147,14 +147,16 @@ namespace iSOL_Enterprise.Dal
                     }
                     if (model.ListItems != null)
                     {
-                            int LineNo = 1;
+                        int LineNo = 1;
                         foreach (var item in model.ListItems)
                         {
-                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "RDR1");
-
-                            string RowQueryItem = @"insert into RDR1(Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
+                            string RowQueryItem = @"insert into RDR1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
                                                 + LineNo + ",'"
+                                                + item.ItemName + "',"
+                                                + item.UPrc + "',"
+                                                + item.TtlPrc + "',"
                                                 + item.ItemCode + "',"
                                                 + item.QTY + ","
                                                 + item.DicPrc + ",'"
@@ -162,7 +164,7 @@ namespace iSOL_Enterprise.Dal
                                                 + item.UomCode + "','"
                                                 + item.CountryOrg + "')";
 
-
+                            
 
                             int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
                             if (res2 <= 0)
