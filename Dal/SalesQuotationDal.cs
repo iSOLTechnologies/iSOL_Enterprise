@@ -322,7 +322,7 @@ namespace iSOL_Enterprise.Dal
                                               + item.VatGroup + "','"
                                               + item.UomCode + "','"
                                               + item.CountryOrg + "')";
-
+                            
                             #region sqlparam
                             //List<SqlParameter> param2 = new List<SqlParameter>
                             //        {
@@ -333,7 +333,6 @@ namespace iSOL_Enterprise.Dal
                             //            new SqlParameter("@VatGroup",item.VatGroup),
                             //            new SqlParameter("@UomCode",item.UomCode),
                             //            new SqlParameter("@CountryOrg",item.CountryOrg),
-
                             //        };
                             #endregion
 
@@ -363,6 +362,8 @@ namespace iSOL_Enterprise.Dal
                                                     + item.AcctCode + "','"
                                                     + item.VatGroup2 + "')";
 
+
+
                             #region sqlparam
                             //List<SqlParameter> param3 = new List<SqlParameter>
                             //            {
@@ -370,23 +371,18 @@ namespace iSOL_Enterprise.Dal
                             //                new SqlParameter("@Dscription",item.Dscription),
                             //                new SqlParameter("@AcctCode",item.AcctCode),
                             //                new SqlParameter("@VatGroup",item.VatGroup),
-
-
                             //            };
                             #endregion
+
 
                             int res3 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryService).ToInt();
                             if (res3 <= 0)
                             {
                                 tran.Rollback();
                                 return false;
-
                             }
                             LineNo += 1;
                         }
-
-
-
                     }
                     if (model.ListAttachment != null)
                     {
@@ -475,8 +471,6 @@ namespace iSOL_Enterprise.Dal
                 {
 
                     #region Deleting Items/List
-
-
                     string myQueryy = "select * From QUT1 Where Id = " + model.ID  + "";
                     DataTable dt = new DataTable();
                     SqlConnection connn = new SqlConnection(SqlHelper.defaultDB);

@@ -153,18 +153,18 @@ namespace iSOL_Enterprise.Dal
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
                             string RowQueryItem = @"insert into RDR1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
-                                                + LineNo + ",'"
-                                                + item.ItemName + "',"
-                                                + item.UPrc + "',"
-                                                + item.TtlPrc + "',"
-                                                + item.ItemCode + "',"
-                                                + item.QTY + ","
-                                                + item.DicPrc + ",'"
-                                                + item.VatGroup + "','"
-                                                + item.UomCode + "','"
-                                                + item.CountryOrg + "')";
+                                              + LineNo + ",'"
+                                              + item.ItemName + "',"
+                                              + item.UPrc + ","
+                                              + item.TtlPrc + ",'"
+                                              + item.ItemCode + "',"
+                                              + item.QTY + ","
+                                              + item.DicPrc + ",'"
+                                              + item.VatGroup + "','"
+                                              + item.UomCode + "','"
+                                              + item.CountryOrg + "')";
 
-                            
+
 
                             int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
                             if (res2 <= 0)
