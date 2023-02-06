@@ -38,7 +38,41 @@ namespace iSOL_Enterprise.Controllers.Sales
             return View(dal1.GetPurchaseOrderEditDetails(id));
         }
 
+        public IActionResult GetPurchaseQuotationData(int cardcode)
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
 
+                PurchaseOrderDal dal = new PurchaseOrderDal();
+                response.Data = dal.GetPurchaseQuotationData(cardcode);
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+        }
+        [HttpGet]
+
+        public IActionResult GetQuotationItemService(int DocId)
+        {
+            try
+            {
+                PurchaseOrderDal dal = new PurchaseOrderDal();
+
+                return Json(new { baseDoc = dal.GetQuotationType(DocId), list = dal.GetQuotationItemServiceList(DocId) });
+            }
+            catch (Exception)
+            {
+                return Json("");
+                throw;
+            }
+
+        }
         public string getUpdatedDocumentNumberOnLoad()
         {
             DataTable dt = SqlHelper.GetData("select top 1 DocNum From OPOR  order by Id desc");

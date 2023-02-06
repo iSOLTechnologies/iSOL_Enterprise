@@ -38,7 +38,41 @@ namespace iSOL_Enterprise.Controllers.Sales
             ViewBag.Countries = dal.GetCountries();
             return View(dal1.GetGoodReceiptEditDetails(id));
         }
+        public IActionResult GetPurchaseOrderData(int cardcode)
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
 
+                GoodReceiptDal dal = new GoodReceiptDal();
+                response.Data = dal.GetPurchaseOrderData(cardcode);
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+        }
+        [HttpGet]
+
+        public IActionResult GetOrderItemService(int DocId)
+        {
+            try
+            {
+                GoodReceiptDal dal = new GoodReceiptDal();
+
+                return Json(new { baseDoc = dal.GetOrderType(DocId), list = dal.GetOrderItemServiceList(DocId) });
+            }
+            catch (Exception)
+            {
+                return Json("");
+                throw;
+            }
+
+        }
         public string getUpdatedDocumentNumberOnLoad()
         {
             DataTable dt = SqlHelper.GetData("select top 1 DocNum From OPDN  order by Id desc");
