@@ -38,7 +38,7 @@ namespace iSOL_Enterprise.Controllers.Sales
             ViewBag.Countries = dal.GetCountries();
             return View(dal1.GetAPInvoiceEditDetails(id));
         }
-        public IActionResult GetGoodReceiptData(int cardcode)
+        public IActionResult GetGoodReceiptData(string cardcode)
         {
             ResponseModels response = new ResponseModels();
             try

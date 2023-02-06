@@ -38,7 +38,7 @@ namespace iSOL_Enterprise.Controllers.Sales
             return View(dal1.GetPurchaseOrderEditDetails(id));
         }
 
-        public IActionResult GetPurchaseQuotationData(int cardcode)
+        public IActionResult GetPurchaseQuotationData(string cardcode)
         {
             ResponseModels response = new ResponseModels();
             try

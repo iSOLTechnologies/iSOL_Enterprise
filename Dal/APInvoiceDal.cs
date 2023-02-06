@@ -33,9 +33,9 @@ namespace iSOL_Enterprise.Dal
             return list;
         }
 
-        public List<SalesQuotation_MasterModels> GetGoodReceiptData(int cardcode)
+        public List<SalesQuotation_MasterModels> GetGoodReceiptData(string cardcode)
         {
-            string GetQuery = "select * from OPDN where CardCode =" + cardcode;
+            string GetQuery = "select * from OPDN where CardCode =" + cardcode + "'";
 
 
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();

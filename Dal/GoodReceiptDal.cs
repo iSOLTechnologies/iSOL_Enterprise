@@ -37,9 +37,9 @@ namespace iSOL_Enterprise.Dal
             }
             return list;
         }
-        public List<SalesQuotation_MasterModels> GetPurchaseOrderData(int cardcode)
+        public List<SalesQuotation_MasterModels> GetPurchaseOrderData(string cardcode)
         {
-            string GetQuery = "select * from OPOR where CardCode =" + cardcode;
+            string GetQuery = "select * from OPOR where CardCode ='" + cardcode + "'";
 
 
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();

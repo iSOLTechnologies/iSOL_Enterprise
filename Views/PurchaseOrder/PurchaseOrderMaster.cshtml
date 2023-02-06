@@ -803,7 +803,7 @@
                     if(i == 0)
                     {
                     
-                        $.get("GoodReceipt/GetOrderItemService", { DocId: DocID }, function(data) 
+                        $.get("PurchaseOrder/GetQuotationItemService", { DocId: DocID }, function(data) 
                         {
                         let list = JSON.parse(data.list);  
             
@@ -890,7 +890,7 @@
                     else 
                     {
                         
-                        $.get("GoodReceipt/GetOrderItemService", { DocId: DocID }, function(data) 
+                        $.get("PurchaseOrder/GetQuotationItemService", { DocId: DocID }, function(data) 
                         {
                         let list = JSON.parse(data.list);  
             
