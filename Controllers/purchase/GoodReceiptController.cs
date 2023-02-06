@@ -118,7 +118,7 @@ namespace iSOL_Enterprise.Controllers.Sales
 
 
                 GoodReceiptDal dal = new GoodReceiptDal();
-                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddGoodReceipt(formData) == true ? Json(new { isInserted = true , message = "Sale Qoutation Added Successfully !" }) : Json(new { isInserted = false , message = "An Error occured !" });
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddGoodReceipt(formData) == true ? Json(new { isInserted = true , message = "Good Receipt Added Successfully !" }) : Json(new { isInserted = false , message = "An Error occured !" });
 
             }
             catch (Exception)

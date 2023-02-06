@@ -221,7 +221,7 @@ namespace iSOL_Enterprise.Controllers.Sales
 
 
                 PurchaseQuotationDal dal = new PurchaseQuotationDal();
-                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddPurchaseQoutation(formData) == true ? Json(new { isInserted = true , message = "Sale Qoutation Added Successfully !" }) : Json(new { isInserted = false , message = "An Error occured !" });
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddPurchaseQoutation(formData) == true ? Json(new { isInserted = true , message = "Purchase Qoutation Added Successfully !" }) : Json(new { isInserted = false , message = "An Error occured !" });
 
             }
             catch (Exception)
