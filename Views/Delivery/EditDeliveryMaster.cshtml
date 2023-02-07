@@ -163,7 +163,7 @@
 
                                                             @* ----------   Header -----------*@
                                                             @foreach(DataRow row in Model.Tables[0].Rows){
-                                                                 
+                                                           <input value="@row["Id"]" type="text" hidden id="my_id"> 
                                                             <div id="HeaderForm">
                                                                 <div class="form-group row">
 
@@ -407,7 +407,7 @@
 
 
                                                                                             
-                                                                                        <select class="form-control vtGroup" id="VatGroup">
+                                                                                        <select class="form-control vtGroup" id="CountryOrg">
                                                                                         
                                                                                         
                                                                                  @foreach (var j in ViewBag.Countries)
@@ -2288,6 +2288,8 @@ function GetPrice()
         
         var data =
         { 
+
+        ID: $("#my_id").val(),
         HeaderData : getJsonObj("HeaderForm"),
         ListAccouting : getJsonObj("kt_tabs_acct"),
         ListItems: ItemServiceType == '1' ?  getJsonObjList("ListParameters .itm") : null,
@@ -2309,7 +2311,7 @@ function GetPrice()
         
       
         return $.ajax({
-            url: '/SaleQuotation/AddSalesQoutation',
+            url: '/Delivery/EditDelivery',
             dataType: 'json',
             type: 'POST',
             
@@ -2336,7 +2338,7 @@ function GetPrice()
 
                 }
 
-                if (result.isInserted) {
+                if (!(result.isInserted)) {
                     toastr.error(result.message);
                     $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                     $('#btnSave').attr('disabled', false);
