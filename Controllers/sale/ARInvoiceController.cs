@@ -121,5 +121,24 @@ namespace iSOL_Enterprise.Controllers
             }
 
         }
+
+        [HttpPost]
+        public IActionResult EditARInvoice(string formData)
+        {
+            try
+            {
+
+
+                ARInvoiceDal dal = new ARInvoiceDal();
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.EditARInvoice(formData) == true ? Json(new { isInserted = true, message = "AR Invoice Updated Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
     }
 }

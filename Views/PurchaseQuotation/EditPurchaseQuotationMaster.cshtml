@@ -162,7 +162,7 @@
 
                                                             @* ----------   Header -----------*@
                                                             @foreach(DataRow row in Model.Tables[0].Rows){
-                                                                 
+                                                          <input value="@row["Id"]" type="text" hidden id="my_id">
                                                             <div id="HeaderForm">
                                                                 
 
@@ -278,7 +278,7 @@
 
                                                                         <div class="col-md-6">
                                                                             <label>Group Number</label>
-                                                                            <input id="GroupNum" value="@row["GroupNum"]" type="text" class="form-control form-control-sm">
+                                                                            <input id="PQTGrpNum" value="@row["GroupNum"]" type="text" class="form-control form-control-sm">
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </div>
                                                                         <div class="col-md-6">
@@ -451,7 +451,7 @@
 
 
                                                                                             
-                                                                                        <select class="form-control vtGroup" id="VatGroup">
+                                                                                        <select class="form-control vtGroup" id="CountryOrg">
                                                                                         
                                                                                         
                                                                                  @foreach (var j in ViewBag.Countries)
@@ -2371,6 +2371,7 @@ function GetPrice()
         
         var data =
         { 
+        ID: $("#my_id").val(),
         HeaderData : getJsonObj("HeaderForm"),
         ListAccouting : getJsonObj("kt_tabs_acct"),
         ListItems: ItemServiceType == '1' ?  getJsonObjList("ListParameters .itm") : null,
@@ -2392,7 +2393,7 @@ function GetPrice()
         
       
         return $.ajax({
-            url: '/SaleQuotation/AddSalesQoutation',
+            url: '/PurchaseQuotation/EditPurchaseQoutation',
             dataType: 'json',
             type: 'POST',
             
@@ -2419,7 +2420,7 @@ function GetPrice()
 
                 }
 
-                if (result.isInserted) {
+                if (!(result.isInserted)) {
                     toastr.error(result.message);
                     $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                     $('#btnSave').attr('disabled', false);

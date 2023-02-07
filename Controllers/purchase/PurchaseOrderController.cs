@@ -44,7 +44,6 @@ namespace iSOL_Enterprise.Controllers.Sales
             ResponseModels response = new ResponseModels();
             try
             {
-
                 PurchaseOrderDal dal = new PurchaseOrderDal();
                 response.Data = dal.GetPurchaseQuotationData(cardcode);
             }
@@ -64,7 +63,6 @@ namespace iSOL_Enterprise.Controllers.Sales
             try
             {
                 PurchaseOrderDal dal = new PurchaseOrderDal();
-
                 return Json(new { baseDoc = dal.GetQuotationType(DocId), list = dal.GetQuotationItemServiceList(DocId) });
             }
             catch (Exception)
@@ -130,8 +128,25 @@ namespace iSOL_Enterprise.Controllers.Sales
 
         }
 
+        [HttpPost]
+        public IActionResult EditPurchaseOrder(string formData)
+        {
+            try
+            {
 
-        
+
+                PurchaseOrderDal dal = new PurchaseOrderDal();
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.EditPurchaseOrder(formData) == true ? Json(new { isInserted = true, message = "Purchase Order Added Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
 
 
     }
