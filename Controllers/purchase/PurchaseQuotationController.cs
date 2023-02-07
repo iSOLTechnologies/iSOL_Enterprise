@@ -36,9 +36,10 @@ namespace iSOL_Enterprise.Controllers.Sales
         {
             PurchaseQuotationDal dal1 = new PurchaseQuotationDal();
             SalesQuotationDal dal = new SalesQuotationDal();
-            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData();
             ViewBag.Countries = dal.GetCountries();
+            ViewBag.Payments = dal.GetPaymentTerms();
             return View(dal1.GetPurchaseQuotationDetails(id));
         }
 

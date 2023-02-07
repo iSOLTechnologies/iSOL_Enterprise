@@ -18,57 +18,7 @@ namespace iSOL_Enterprise.Controllers.Sales
             return View();
         }
         public IActionResult SaleQuotationMaster()
-        {
-
-            //List<tbl_item> lst = new List<tbl_item>();
-            //SqlConnection connection = new SqlConnection("Data Source=DESKTOP-AJM6HM8\\SQLSERVER19;Initial Catalog=SAPDB;User ID=sa;Password=n5210567");
-            //SqlDataAdapter sda = new SqlDataAdapter("select ItemCode,ItemName,OnHand from OITM", connection);
-            //DataSet ds = new DataSet();
-            //sda.Fill(ds);
-            //foreach (DataRow row in ds.Tables[0].Rows)
-            //{
-            //    lst.Add(new tbl_item()
-            //    {
-            //        ItemCode = row[0].ToString(),
-            //        ItemName = row[1].ToString(),
-            //        OnHand   = (decimal)row[2]
-            //    });
-            //}
-            //ViewData["ItemList"] = lst;
-
-
-
-            //List<tbl_customer> lst1 = new List<tbl_customer>();
-            //SqlConnection connection1 = new SqlConnection("Data Source=DESKTOP-AJM6HM8\\SQLSERVER19;Initial Catalog=SAPDB;User ID=sa;Password=n5210567");
-            //SqlDataAdapter sda1 = new SqlDataAdapter("select CardCode,CardName,Balance from OCRD", connection);
-            //DataSet ds1 = new DataSet();
-            //sda1.Fill(ds1);
-            //foreach (DataRow row in ds1.Tables[0].Rows)
-            //{
-            //    lst1.Add(new tbl_customer()
-            //    {
-            //        CardCode = row[0].ToString(),
-            //        CardName = row[1].ToString(),
-            //        Balance = (decimal)row[2]
-            //    });
-            //}
-            //ViewData["CustomerList"] = lst1;
-
-            //List<tbl_account> lst2 = new List<tbl_account>();            
-            //SqlDataAdapter sda2 = new SqlDataAdapter("select AcctCode,AcctName,CurrTotal from OACT", connection);
-            //DataSet ds2 = new DataSet();
-            //sda2.Fill(ds2);
-            //foreach (DataRow row in ds2.Tables[0].Rows)
-            //{
-            //    lst2.Add(new tbl_account()
-            //    {
-            //        AcctCode = row[0].ToString(),
-            //        AcctName = row[1].ToString(),
-            //        CurrTotal = (decimal)row[2]
-            //    });
-            //}
-            //ViewData["AccountList"] = lst2;
-
+        { 
 
             SalesQuotationDal dal = new SalesQuotationDal();
 
@@ -83,7 +33,8 @@ namespace iSOL_Enterprise.Controllers.Sales
         public IActionResult EditSaleQuotationMaster(int id)
         {
             SalesQuotationDal dal = new SalesQuotationDal();
-            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            //ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData();
             ViewBag.Countries = dal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
@@ -180,9 +131,7 @@ namespace iSOL_Enterprise.Controllers.Sales
 
 
             return Json(response);
-        }
-
-
+        } 
 
         public IActionResult GetPayments()
         {

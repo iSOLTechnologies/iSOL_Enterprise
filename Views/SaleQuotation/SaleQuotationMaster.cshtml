@@ -27,7 +27,7 @@
                     </h3>
                 </div>
                 <div class="card-toolbar">
-                    <a asp-action="Index" asp-controller="SaleQuotation" class="btn btn-light-primary font-weight-bolder mr-2">
+                    <a onclick="Back_his()" class="btn btn-light-primary font-weight-bolder mr-2">
                         <i class="ki ki-long-arrow-back icon-sm"></i>Back
                     </a>
                     <div class="btn-group">
@@ -462,12 +462,7 @@
                                                                             <select class="form-control" id="GroupNum">
                                                                             </select>
                                                                         </div>
-                                                                    </div>
-
-
-
-
-
+                                                                    </div> 
                                                                 </div>
 
                                                                 <div class="tab-pane" id="kt_tabs_attachment" role="tabpanel">
@@ -503,7 +498,6 @@
                                                                                 </td>
                                                                                 <td>
                                                                                     <button id="btnbrowseFile" type="button" class="btn btn-light-primary font-weight-bold btn-sm"> <i class="la la-plus"></i> Browse </button>
-
                                                                                 </td>
 
 
@@ -1263,7 +1257,7 @@ function GetPrice()
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>*@
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
+                                                                                        <input class="form-control form-control-sm" id="TotalLC" name="TotalLC" type='number' disabled>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>

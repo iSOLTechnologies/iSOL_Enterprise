@@ -301,10 +301,13 @@ namespace iSOL_Enterprise.Dal
 						foreach (var item in model.ListItems)
 						{
 							//int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-							string RowQueryItem = @"insert into PQT1(Id,LineNum,ItemCode,PQTReqDate,ShipDate,PQTReqQty,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+							string RowQueryItem = @"insert into PQT1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,PQTReqDate,ShipDate,PQTReqQty,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
-												+ LineNo + ",'"
-												+ item.ItemCode + "','"
+                                                 + LineNo + ",'"
+                                              + item.ItemName + "',"
+                                              + item.UPrc + ","
+                                              + item.TtlPrc + ",'"
+                                                + item.ItemCode + "','"
 												+ Convert.ToDateTime(item.PQTReqDate) + "','"
 												+ Convert.ToDateTime(item.ShipDate) + "',"
 												+ item.PQTReqQty + ","
@@ -335,10 +338,7 @@ namespace iSOL_Enterprise.Dal
 								return false;
 							}
 							LineNo += 1;
-						}
-
-
-
+						} 
 					}
 					else if (model.ListService != null)
 					{
@@ -347,14 +347,14 @@ namespace iSOL_Enterprise.Dal
 						foreach (var item in model.ListService)
 						{
 							//int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-							string RowQueryService = @"insert into QUT1(Id,LineNum,Dscription,PQTReqDate,ShipDate,AcctCode,VatGroup)
+							string RowQueryService = @"insert into QUT1(Id,LineNum,LineTotal,Dscription,PQTReqDate,ShipDate,AcctCode,VatGroup)
                                                   values(" + Id + ","
-													+ LineNo + ",'"
-													+ item.Dscription + "','"
+                                                    + LineNo + ","
+                                                    + item.TotalLC + ",'"
+                                                    + item.Dscription + "','"
 													+ Convert.ToDateTime(item.PQTReqDate) + "','"
 													+ Convert.ToDateTime(item.ShipDate) + "','"
-													+ item.AcctCode + "','"
-													 
+													+ item.AcctCode + "','"													 
 													+ item.VatGroup2 + "')";
 
 							#region sqlparam

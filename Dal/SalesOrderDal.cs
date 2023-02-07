@@ -186,9 +186,10 @@ namespace iSOL_Enterprise.Dal
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "RDR1");
 
-                            string RowQueryService = @"insert into RDR1(Id,LineNum,Dscription,AcctCode,VatGroup)
+                            string RowQueryService = @"insert into RDR1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
                                                   values(" + Id + ","
-                                                    + LineNo + ",'"
+                                                    + LineNo + ","
+                                                    + item.TotalLC + ",'"
                                                     + item.Dscription + "','"
                                                     + item.AcctCode + "','" 
                                                     + item.VatGroup2 + "')";
@@ -360,13 +361,13 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListService)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            string RowQueryService = @"insert into RDR1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
-                                                   values(" + model.ID + ","
-                                                   + LineNo + ","
-                                                    + item.TtlPrc + ",'"
-                                                   + item.Dscription + "','"
-                                                   + item.AcctCode + "','"
-                                                   + item.VatGroup2 + "')";
+                             string RowQueryService = @"insert into RDR1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
+                                                  values(" + model.ID + ","
+                                                    + LineNo + ","
+                                                     + item.TotalLC + ",'"
+                                                    + item.Dscription + "','"
+                                                    + item.AcctCode + "','" 
+                                                    + item.VatGroup2 + "')";
 
                             
 

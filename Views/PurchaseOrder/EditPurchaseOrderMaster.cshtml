@@ -30,7 +30,7 @@
                     </h3>
                 </div>
                 <div class="card-toolbar">
-                    <a asp-action="Index" asp-controller="SaleOrder" class="btn btn-light-primary font-weight-bolder mr-2">
+                  <a onclick="Back_his()" class="btn btn-light-primary font-weight-bolder mr-2">
                         <i class="ki ki-long-arrow-back icon-sm"></i>Back
                     </a>
                     <div class="btn-group">
@@ -45,7 +45,7 @@
                         <a href="#" class="nav-link">
                         <i class="nav-icon flaticon2-reload"></i>
                         <span class="nav-text">Save &amp; continue</span>
-                        </a>
+                        </a> 
                         </li>
                         <li class="nav-item">
                         <a href="#" class="nav-link">
@@ -67,13 +67,10 @@
             <div class="card-body">
                 <!--begin::Form-->
                 <form class="form" id="kt_form">
-
-
                     <input type="hidden" value="@Context.Session.GetString("Name")" id="sessionName" />
                     <input type="hidden" value="@Context.Session.GetString("Email")" id="sessionEmail" />
                     <input type="hidden" value="@Context.Session.GetString("RoleCode")" id="UserRoleCode" />
                     <input type="hidden" value="@Context.Session.GetString("DepartmentCode")" id="_DepartmentCode" />
-
                     <input type="hidden" value="@Context.Request.Query["Id"]" id="Guid" />
                     <input type="hidden" value="@Context.Request.Query["Source"]" id="PageGuid" />
                     <input type="hidden" value="@Context.Request.Query["DocType"]" id="DocType" />
@@ -392,7 +389,7 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         
-                                                                                        <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
+                                                                                        <input value="@row1["LineTotal"]" class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
@@ -573,7 +570,7 @@
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input class="form-control form-control-sm" id="TotalLC">
+                                                                                                <input value="@row2["LineTotal"]" class="form-control form-control-sm" id="TotalLC">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
@@ -653,8 +650,22 @@
                                                                     <div class="form-group row col-md-4 mt-3">
                                                                         <label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold">Payment Terms</label>
                                                                         <div class="col-sm-6">
-                                                                            <select class="form-control" id="GroupNum">
+                                                                            @foreach(DataRow row11 in Model.Tables[0].Rows){
+                                                                              <select class="form-control" id="GroupNum">
+
+                                                                                   @foreach (var k in ViewBag.Payments)
+                                                                             {
+                                                                                            if (row11["GroupNum"].ToString() == k.GroupNum.ToString())
+                                                                                 {
+                                                                                    <option selected  value="@k.GroupNum">@k.PymntGroup</option>
+                                                                                 }else{
+                                                                                    <option value="@k.GroupNum">@k.PymntGroup </option>
+                                                                                 }
+                                                                             
+                                                                                       
+                                                                             } 
                                                                             </select>
+                                                                             }
                                                                         </div>
                                                                     </div>
 
@@ -740,8 +751,22 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="" class="form-label" >Sales Employee</label>
-                                                                    <select id="SlpCode" asp-items="@ViewBag.SalesEmployee" class="form-control form-control-sm">
-                                                                    </select>
+                                                                    @foreach(DataRow row11 in Model.Tables[0].Rows){
+                                                                               
+                                                                                <select id="SlpCode"  class="form-control form-control-sm">
+                                                                                   @foreach (var k in ViewBag.SalesEmployee)
+                                                                             {
+                                                                                            if (row11["SlpCode"].ToString() == k.SlpCode.ToString())
+                                                                                 {
+                                                                                    <option selected  value="@k.SlpCode">@k.SlpName</option>
+                                                                                 }else{
+                                                                                    <option value="@k.SlpCode">@k.SlpName </option>
+                                                                                 }
+                                                                             
+                                                                                       
+                                                                             } 
+                                                                            </select>
+                                                                             }
                                                                 </div>
 
                                                                 <div class="col-md-6">
@@ -912,7 +937,7 @@
         console.log("Clickeddd")
 
     });
-    $(document).on('click', '#tabAccounting', function (e) {
+    @*$(document).on('click', '#tabAccounting', function (e) {
 
         $.get("SaleQuotation/GetPayments", function (data) 
         {
@@ -924,7 +949,7 @@
 
         });
 
-    });
+    });*@
     $(document).on('click', '#btnbrowseFile', function (e) {
 
         console.log("brow");

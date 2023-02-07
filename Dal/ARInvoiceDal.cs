@@ -146,9 +146,12 @@ namespace iSOL_Enterprise.Dal
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
 
-                            string RowQueryItem = @"insert into INV1(Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            string RowQueryItem = @"insert into INV1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
                                                 + LineNo + ",'"
+                                              + item.ItemName + "',"
+                                              + item.UPrc + ","
+                                              + item.TtlPrc + ",'"
                                                 + item.ItemCode + "',"
                                                 + item.QTY + ","
                                                 + item.DicPrc + ",'"
@@ -179,9 +182,10 @@ namespace iSOL_Enterprise.Dal
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
 
-                            string RowQueryService = @"insert into INV1(Id,LineNum,Dscription,AcctCode,VatGroup)
+                            string RowQueryService = @"insert into INV1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
                                                   values(" + Id + ","
-                                                    + LineNo + ",'"
+                                                    + LineNo + ","
+                                                    + item.TotalLC + ",'"
                                                     + item.Dscription + "','"
                                                     + item.AcctCode + "','"
                                                     + item.VatGroup2 + "')";
@@ -193,13 +197,9 @@ namespace iSOL_Enterprise.Dal
                             {
                                 tran.Rollback();
                                 return false;
-
                             }
                             LineNo += 1;
                         }
-
-
-
                     }
                     if (model.ListAttachment != null)
                     {

@@ -32,9 +32,10 @@ namespace iSOL_Enterprise.Controllers.Sales
         {
             SalesQuotationDal dal = new SalesQuotationDal();
             PurchaseOrderDal dal1 = new PurchaseOrderDal();
-            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData();
             ViewBag.Countries = dal.GetCountries();
+            ViewBag.Payments = dal.GetPaymentTerms();
             return View(dal1.GetPurchaseOrderEditDetails(id));
         }
 

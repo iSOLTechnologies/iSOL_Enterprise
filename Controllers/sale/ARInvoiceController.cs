@@ -25,9 +25,10 @@ namespace iSOL_Enterprise.Controllers
         {
             ARInvoiceDal dal1 = new ARInvoiceDal();
             SalesQuotationDal dal = new SalesQuotationDal();
-            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData();
             ViewBag.Countries = dal.GetCountries();
+            ViewBag.Payments = dal.GetPaymentTerms();
             return View(dal1.GetARInvoiceDetails(id));
         }
 
@@ -110,7 +111,7 @@ namespace iSOL_Enterprise.Controllers
 
 
                 ARInvoiceDal dal = new ARInvoiceDal();
-                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddARInvoice(formData) == true ? Json(new { isInserted = true, message = "Sale Qoutation Added Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddARInvoice(formData) == true ? Json(new { isInserted = true, message = "AR Invoice Added Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
 
             }
             catch (Exception)

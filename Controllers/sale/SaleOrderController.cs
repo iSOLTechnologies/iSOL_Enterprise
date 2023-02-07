@@ -25,7 +25,7 @@ namespace iSOL_Enterprise.Controllers
         {
             SalesQuotationDal dal = new SalesQuotationDal();
             SalesOrderDal dal1 = new SalesOrderDal();
-            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData();
             ViewBag.Countries = dal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
@@ -110,7 +110,7 @@ namespace iSOL_Enterprise.Controllers
             try
             { 
                 SalesOrderDal dal = new SalesOrderDal();
-                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddSaleOrder(formData) == true ? Json(new { isInserted = true, message = "Sale Qoutation Added Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddSaleOrder(formData) == true ? Json(new { isInserted = true, message = "Sale Order Added Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
             }
             catch (Exception)
             {

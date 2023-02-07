@@ -33,9 +33,10 @@ namespace iSOL_Enterprise.Controllers.Sales
         {
             SalesQuotationDal dal = new SalesQuotationDal();
             APInvoiceDal dal1 = new APInvoiceDal();
-            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData();
             ViewBag.Countries = dal.GetCountries();
+            ViewBag.Payments = dal.GetPaymentTerms();
             return View(dal1.GetAPInvoiceEditDetails(id));
         }
         public IActionResult GetGoodReceiptData(string cardcode)

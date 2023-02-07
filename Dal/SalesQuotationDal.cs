@@ -358,7 +358,7 @@ namespace iSOL_Enterprise.Dal
                             string RowQueryService = @"insert into QUT1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
                                                    values(" + Id + ","
                                                     + LineNo + ","
-                                                     + item.TtlPrc + ",'"
+                                                     + item.TotalLC + ",'"
                                                     + item.Dscription + "','"
                                                     + item.AcctCode + "','"
                                                     + item.VatGroup2 + "')";
@@ -474,16 +474,14 @@ namespace iSOL_Enterprise.Dal
                     #region Deleting Items/List
                      
                         string DeleteI_Or_SQuery = "Delete from QUT1 Where id = "+model.ID;
-                       int res5 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
-                        if (res5 <= 0)
+                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
+                        if (res1 <= 0)
                         {
                             tran.Rollback();
                             return false;
-                        }
-                     
-
+                        }                  
                     #endregion
-
+                          
 
 
 
@@ -571,7 +569,7 @@ namespace iSOL_Enterprise.Dal
                             string RowQueryService = @"insert into QUT1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
                                                    values(" + model.ID + ","
                                                    + LineNo + ","
-                                                    + item.TtlPrc + ",'"
+                                                    + item.TotalLC + ",'"
                                                    + item.Dscription + "','"
                                                    + item.AcctCode + "','"
                                                    + item.VatGroup2 + "')";
