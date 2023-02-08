@@ -2348,6 +2348,7 @@
 													<th></th>
 													<th></th>
 													<th></th>
+													<th></th>
 												</tr>
 											</thead>
 										</table>
@@ -2429,6 +2430,14 @@
 					},
 					{
 						"targets": 4,
+						//visible: false,
+						"createdCell": function (td, cellData, rowData, row, col) 
+						{
+						$(td).attr('id', "SysNumber");
+						}
+					},
+					{
+						"targets": 5,
 						"createdCell": function (td, cellData, rowData, row, col) 
 						{
 						$(td).attr('id', "AbsEntry");
@@ -2481,7 +2490,10 @@
                         }
                     }
                 },
-                
+                {
+                    data: 'sysNumber', title: 'Sys Number',
+
+                },
 				{
                     data: "absEntry", 'title': 'Action', render: function (data, type, row) {
                         var html = '<a guid=' + data + ' id="btnSelectBatch" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
@@ -2490,7 +2502,8 @@
 
                         return html;
                     }
-                },],
+                },
+				],
 			});
 		}
 		$(document).on('click', '#btnSelectBatch', function (e) {
@@ -2576,6 +2589,8 @@
 				 $('#MyyyyBatchSelectTable tbody tr').each(function (index, item) 
 				 { 
 					 var jsonobj = new Object();
+
+					 if($(this).hasClass('Mainrow_selected')) {
 					 $(this).find('td').each(function (index, data) 
 					 {
 							
@@ -2584,12 +2599,15 @@
 							else
 							jsonobj[$(this).attr("id")] = $(this).text();
 					 });
-
+					 
 					 jsonobj['itemno'] =  $("#slItemno").val();
 					 jsonobj['whseno'] =  $("#slWarehouse").val();
 					 listObj.push(jsonobj);
+					 }
 				 });
 				 SelectedBatches.push(listObj);
+				 console.log(SelectedBatches);
+				 console.log(listObj);
 					
 				
 

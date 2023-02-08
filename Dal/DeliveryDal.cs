@@ -123,7 +123,7 @@ namespace iSOL_Enterprise.Dal
         }
         public List<tbl_OBTN> GetBatchList(string itemcode, string warehouse)
         {
-            string GetQuery = "select OBTN.DistNumber,OBTN.Quantity,OBTN.InDate,OBTN.AbsEntry  from OBTW Inner join OBTN on OBTN.ItemCode = OBTW.ItemCode and OBTW.SysNumber = OBTN.SysNumber where OBTW.ItemCode = '"+itemcode+"' and OBTW.WhsCode = "+warehouse+"";
+            string GetQuery = "select OBTN.DistNumber,OBTN.Quantity,OBTN.InDate,OBTN.AbsEntry,OBTN.SysNumber  from OBTW Inner join OBTN on OBTN.ItemCode = OBTW.ItemCode and OBTW.SysNumber = OBTN.SysNumber where OBTW.ItemCode = '" + itemcode+"' and OBTW.WhsCode = "+warehouse+"";
 
 
             List<tbl_OBTN> list = new List<tbl_OBTN>();
@@ -139,7 +139,7 @@ namespace iSOL_Enterprise.Dal
                             DistNumber = rdr["DistNumber"].ToString(),
                             Quantity = Convert.ToInt32( rdr["Quantity"]),
                             InDate = Convert.ToDateTime( rdr["InDate"]),
-
+                            SysNumber = Convert.ToInt32(rdr["SysNumber"])
                         });
 
                 }
