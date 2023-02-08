@@ -1,5 +1,6 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
+using iSOL_Enterprise.Models.sale;
 using Newtonsoft.Json;
 using SqlHelperExtensions;
 using System.Data;
@@ -96,7 +97,56 @@ namespace iSOL_Enterprise.Dal
             return ds;
         }
 
+        public List<tbl_OWHS> GetWareHouseData()
+        {
+            string GetQuery = "select WhsCode , WhsName = WhsName + ' (' + WhsCode + ')' from OWHS";
 
+
+            List<tbl_OWHS> list = new List<tbl_OWHS>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    list.Add(
+                        new tbl_OWHS()
+                        {
+                            whscode = rdr["WhsCode"].ToString(),
+                            whsname = rdr["WhsName"].ToString()
+                         
+                        });
+
+                }
+            }
+
+            return list;
+        }
+        public List<tbl_OBTN> GetBatchList(string itemcode, string warehouse)
+        {
+            string GetQuery = "select OBTN.DistNumber,OBTN.Quantity,OBTN.InDate,OBTN.AbsEntry  from OBTW Inner join OBTN on OBTN.ItemCode = OBTW.ItemCode and OBTW.SysNumber = OBTN.SysNumber where OBTW.ItemCode = '"+itemcode+"' and OBTW.WhsCode = "+warehouse+"";
+
+
+            List<tbl_OBTN> list = new List<tbl_OBTN>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    list.Add(
+                        new tbl_OBTN()
+                        {
+                            AbsEntry = Convert.ToInt32(rdr["AbsEntry"]),
+                            DistNumber = rdr["DistNumber"].ToString(),
+                            Quantity = Convert.ToInt32( rdr["Quantity"]),
+                            InDate = Convert.ToDateTime( rdr["InDate"]),
+
+                        });
+
+                }
+            }
+
+            return list;
+        }
         public bool AddDelivery(string formData)
         {
             try

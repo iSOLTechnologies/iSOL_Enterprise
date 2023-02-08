@@ -67,6 +67,36 @@ namespace iSOL_Enterprise.Controllers
             }
 
         }
+        [HttpGet]
+        public IActionResult GetBatchList(string itemcode , string warehouse)
+        {
+            try
+            {
+                DeliveryDal dal = new DeliveryDal();
+
+                return Json(new { data = dal.GetBatchList(itemcode , warehouse) });
+            }
+            catch (Exception)
+            {
+                return Json("");
+                throw;
+            }
+        }
+        public IActionResult GetWareHouseData()
+        {
+            try
+            {
+
+                DeliveryDal dal = new DeliveryDal();
+
+                return Json(dal.GetWareHouseData());
+            }
+            catch (Exception ex)
+            {
+
+                return Json(ex.Message);
+            }
+        }
         public string getUpdatedDocumentNumberOnLoad()
         {
             DataTable dt = SqlHelper.GetData("select top 1 DocNum From ODLN  order by Id desc");

@@ -308,6 +308,7 @@
                                                                                     <th>BaseLine</th>
                                                                                     <th>Item No.</th>
                                                                                     <th>Item Name</th>
+                                                                                    <th>Warehouse</th>
                                                                                     <th>Quantity</th>
                                                                                     <th>Unit Price</th>
                                                                                     <th>Discount %</th>
@@ -315,6 +316,7 @@
                                                                                     <th>Total (LC)</th>
                                                                                     <th>UMO Code</th>
                                                                                     <th>Country / Region of origin</th>
+                                                                                    <th></th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody id="ListParameters" data-repeater-list="" class="ScrollTbody">
@@ -348,6 +350,11 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
+                                                                                        <select class="form-control" id="Warehouse">
+
+                                                                                        </select>
+                                                                                    </td>
+                                                                                    <td>
                                                                                         <input class="form-control form-control-sm" id="QTY"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -369,8 +376,7 @@
                                                                        
                                                                    
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        @*<input class="form-control form-control-sm" id="VatGroup" onkeyup="GetPrice()" type="number">
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>*@
+                                                                                       
                                                                                     </td>
                                                                                     <td>
                                                                                         <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
@@ -386,6 +392,11 @@
                                                                                             
                                                                                         </select>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <a id = "ListbtnSelectBatch" class="form-control form-control-sm btn btn-bold btn-sm btn-light-primary">
+                                                                                        <i class="la la-info"></i>  Batch
+                                                                                        </a>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -727,6 +738,7 @@
 <script>
     var vatGroupData = "";
     var CountryData = "";
+    var WareHouseData = "";
     var ItemServiceType = '1';
     const boxes = document.querySelectorAll('.d');
 
@@ -786,7 +798,7 @@
 
         
     });
-        $(document).on('click', '#btnCopytableOk', function (e) 
+    $(document).on('click', '#btnCopytableOk', function (e) 
 		{
 			
            
@@ -962,6 +974,11 @@
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
+                                                                                        <select class="form-control" id="Warehouse">
+                                                                                            `+ WareHouseData + `
+                                                                                        </select>
+                                                                                        </td>
+                                                                                        <td>
                                                                                             <input class="form-control form-control-sm"  value=`+data.Quantity+` id="QTY"  type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
@@ -997,6 +1014,11 @@
                                                                                                `+CountryData+`
                                                                                             </select>
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                        <a id = "ListbtnSelectBatch" class="form-control form-control-sm btn btn-bold btn-sm btn-light-primary">
+                                                                                        <i class="la la-info"></i>  Batch
+                                                                                        </a>
                                                                                         </td>
                                                                                         <td>
                                                                             <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
@@ -1216,6 +1238,11 @@
                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                             </td>
                                                                             <td>
+                                                                                        <select class="form-control" id="Warehouse">
+                                                                                        `+WareHouseData+`
+                                                                                        </select>
+                                                                                        </td>
+                                                                            <td>
                                                                                 <input class="form-control form-control-sm" id = "QTY" onkeyup = "GetPrice()" type = "number">
                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                             </td>
@@ -1249,7 +1276,11 @@
                                                                                 </select>
                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                             </td>
-
+                                                                            <td>
+                                                                                        <a id = "ListbtnSelectBatch" class="form-control form-control-sm btn btn-bold btn-sm btn-light-primary">
+                                                                                        <i class="la la-info"></i>  Batch
+                                                                                        </a>
+                                                                            </td>
                                                                            </tr>`;
         $('#kt_repeater_1 tbody').append(html);
         // addDataInVatGroup();
@@ -1303,6 +1334,28 @@
 				    CountryData = CountryData + "<option  value=" + this.country_code + ">" + this.country_name + "</option>";
 		    });
 		
+	    });
+    }
+    function GetWareHouseData() 
+    {
+         $.get("Delivery/GetWareHouseData", function(data) 
+        {
+		
+		
+		    $("#Warehouse").html("");
+		
+		    $.each(data, function() {
+			
+			    $("#Warehouse").append($('<option>', {
+									    value: "'" + this.whscode + "'",
+									    text: this.whsname
+									
+								    }));
+			
+			
+				    WareHouseData = WareHouseData + "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
+		    });
+		   
 	    });
     }
     $(document).on('click', '#Itemno', function (e) {
@@ -1376,22 +1429,7 @@
         }
     });
 
-    //$(document).on('keyup', '#Rounding', function (e) 
-    //{
-        
-      
-    //  if($('#RoundingChkBox').is(":checked"))
-    //  {
-          
-    //    var TotalPrice = $("#Total").val();
-    //    var RoundingValue = parseFloat($('#Rounding').val());
-    //    if(TotalPrice != "")
-    //        if(RoundingValue != "")
-    //            $("#Total").val( Number(TotalPrice) +  RoundingValue);
-    //        else 
-    //        $("#Total").val( Number(TotalPrice));
-    //  }
-    //});
+    
 function GetPrice() 
 {
 
@@ -1455,6 +1493,7 @@ function GetPrice()
         DocNumOnLoad();
         GetVatGroupData();
         GetCountrydata();
+        GetWareHouseData();
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
         Guid = $("#Guid").val();
@@ -1560,7 +1599,36 @@ function GetPrice()
     $(document).on('click', '#ListBtnDelete', function () {
         $(this).closest('tr').remove();
     })
+    $(document).on('click', '#ListbtnSelectBatch', function () 
+    {
 
+        let selectedRow = $(this).closest('tr');
+
+       let selectedWareHouse =  selectedRow.find("#Warehouse").val();
+       let selectedItemCode =  selectedRow.find("#ItemCode").val();
+        if (( selectedWareHouse == null || selectedWareHouse == "" || selectedWareHouse == undefined) || (selectedItemCode == null || selectedItemCode == "" || selectedItemCode == undefined) ) 
+        {
+             toastr.error("Select Item & WareHouse");
+        }
+        else 
+        {
+            BatchSelectUrl = 'Delivery/GetBatchList';
+            generateBatchSelectTable(selectedItemCode,selectedWareHouse);
+            AddDataInRowsFromDocumentTable(selectedRow);
+            $('#myBatchSelectmodal').modal('show');
+        }
+    });
+    function AddDataInRowsFromDocumentTable(selectedRow) 
+    {
+        $("#slItemno").val(selectedRow.find("#ItemCode").val());
+        $("#slItemDesc").val(selectedRow.find("#ItemName").val());
+        $("#slWarehouse").val(selectedRow.find("#Warehouse").val());
+        $("#slQuantity").val(selectedRow.find("#QTY").val());
+        $("#slTotalNeeded").val(selectedRow.find("#QTY").val());
+        $("#slTotalSelected").val(0);
+        $("#slTotalBacthes").val(0);
+        $("#slDirection").val('Out');
+    }
     $(document).on('click', '#ListBtnDeleteRM', function () {
         $(this).closest('tr').remove();
     })
@@ -1629,6 +1697,11 @@ function GetPrice()
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
+                                                                                        <select class="form-control" id="Warehouse">
+                                                                                        `+WareHouseData+`
+                                                                                        </select>
+                                                                                        </td>
+                                                                                            <td>
                                                                                                 <input class="form-control form-control-sm" id="QTY"  type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
@@ -1665,6 +1738,11 @@ function GetPrice()
                                                                                                 </select>
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
+                                                                                            <td>
+                                                                                        <a id = "ListbtnSelectBatch" class="form-control form-control-sm btn btn-bold btn-sm btn-light-primary">
+                                                                                        <i class="la la-info"></i>  Batch
+                                                                                        </a>
+                                                                                    </td>
                                                                                             <td>
                                                                                 <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
                                                                                 <i class="la la-trash"></i> X
