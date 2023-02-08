@@ -28,9 +28,9 @@ namespace iSOL_Enterprise.Controllers.Sales
 
             return View();
         }
-
-
-        public IActionResult EditSaleQuotationMaster(int id)
+         
+            
+            public IActionResult EditSaleQuotationMaster(int id)
         {
             SalesQuotationDal dal = new SalesQuotationDal();
             //ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");

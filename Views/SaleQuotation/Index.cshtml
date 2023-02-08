@@ -47,6 +47,7 @@
                         <th></th>
                         <th></th>
                         <th></th> 
+                        <th></th> 
 
 
                     </tr>
@@ -65,6 +66,28 @@
 <!-- Render Body <End> -->
 
 <script>
+
+    function Mastercheck() {
+
+
+
+        if (document.getElementById('Mastercheck').checked == true) {
+
+            $("#AttTable tr").each(function () {
+                $(this).find("#chckbox").prop("checked", true);
+
+            });
+        } else {
+
+            $("#AttTable  tr").each(function () {
+                $(this).find("#chckbox").prop("checked", false);
+
+            });
+
+        }
+
+    }
+
     $(document).on('click', '#btnAdd', function () {
 
         //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
@@ -101,8 +124,14 @@
             search: {
                 input: $('#generalSearch'),
             },
-            columns: [
-                 
+            columns: [{
+                data: "id", 'title': '<span style="width: 30px;"><label class="checkbox checkbox-single checkbox-all"><input id="Mastercheck" onclick="Mastercheck()" type="checkbox">&nbsp;<span></span></label></span>', render: function (data, type, row) {
+                    var html = '';
+                    html += '<span style="width: 30px;"><label class="checkbox checkbox-single checkbox-all"><input id="chckbox" type="checkbox">&nbsp;<span></span></label></span>';
+
+                    return html;
+                }
+            },               
                 {
                     data: 'docDate', title: 'Doc Date', render: function (data, type, row) {
                         if (data != undefined && data != '') {
