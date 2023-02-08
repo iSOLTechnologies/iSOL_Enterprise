@@ -129,6 +129,21 @@ namespace iSOL_Enterprise.Controllers.Sales
             }
 
         }
+        [HttpPost]
+        public IActionResult EditAPInvoice(string formData)
+        {
+            try
+            {
+                APInvoiceDal dal = new APInvoiceDal();
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.EditAPInvoice(formData) == true ? Json(new { isInserted = true , message = "AP Invoice Updated Successfully !" }) : Json(new { isInserted = false , message = "An Error occured !" });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
 
 
         

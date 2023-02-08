@@ -129,11 +129,18 @@ namespace iSOL_Enterprise.Controllers.Sales
             }
 
         }
-
-
-        
-
-
+        [HttpPost]
+        public IActionResult EditGoodReceipt(string formData)
+        {
+            try
+            {
+                GoodReceiptDal dal = new GoodReceiptDal();
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.EditGoodReceipt(formData) == true ? Json(new { isInserted = true , message = "Good Receipt Updated Successfully !" }) : Json(new { isInserted = false , message = "An Error occured !" });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
-
 }

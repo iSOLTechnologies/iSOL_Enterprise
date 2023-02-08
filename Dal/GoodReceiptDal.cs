@@ -486,5 +486,242 @@ namespace iSOL_Enterprise.Dal
             }
         }
 
+
+
+
+        public bool EditGoodReceipt(string formData)
+        {
+            try
+            {
+                var model = JsonConvert.DeserializeObject<dynamic>(formData);
+                string DocType = model.ListItems == null ? "S" : "I";
+
+
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                conn.Open();
+                SqlTransaction tran = conn.BeginTransaction();
+                int res1 = 0;
+                try
+                {
+                    #region Deleting Items/List
+
+
+
+                    string DeleteI_Or_SQuery = "Delete from PDN1 Where id = " + model.ID;
+                    res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
+                    if (res1 <= 0)
+                    {
+                        tran.Rollback();
+                        return false;
+                    }
+
+
+                    #endregion
+                    //int Id = CommonDal.getPrimaryKey(tran, "OPDN");
+
+                    if (model.HeaderData != null)
+                    {
+                        //string HeadQuery = @"insert into OPDN(Id,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
+                        //                   values(" + Id + ",'"
+                        //                        + DocType + "','"
+                        //                        + CommonDal.generatedGuid() + "','"
+                        //                        + model.HeaderData.CardCode + "','"
+                        //                        + model.HeaderData.DocNum + "','"
+                        //                        + model.HeaderData.CardName + "','"
+                        //                        + model.HeaderData.CntctCode + "','"
+                        //                        + Convert.ToDateTime(model.HeaderData.DocDate) + "','"
+                        //                        + model.HeaderData.NumAtCard + "','"
+                        //                        + Convert.ToDateTime(model.HeaderData.DocDueDate) + "','"
+                        //                        + model.HeaderData.DocCur + "','"
+                        //                        + Convert.ToDateTime(model.HeaderData.TaxDate) + "','"
+                        //                        + model.ListAccouting.GroupNum + "',"
+                        //                        + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
+                        //                        + model.FooterData.Comments + "')";
+
+
+
+
+                        string HeadQuery = @" Update OPDN set 
+                                                          DocType = '" + DocType + "'" +                                                                              
+                                                                             ",CardName = '" + model.HeaderData.CardName + "'" +
+                                                                             ",CntctCode = '" + model.HeaderData.CntcCode + "'" +
+                                                                             ",DocDate = '" + Convert.ToDateTime(model.HeaderData.DocDate) + "'" +
+                                                                             ",DocDueDate = '" + Convert.ToDateTime(model.HeaderData.DocDueDate) + "'" +
+                                                                             ",TaxDate = '" + Convert.ToDateTime(model.HeaderData.TaxDate) + "'" +
+                                                                             ",NumAtCard = '" + model.HeaderData.NumAtCard + "'" +
+                                                                             ",DocCur = '" + model.HeaderData.DocCur + "'" +
+                                                                             ",GroupNum = '" + model.ListAccouting.GroupNum + "'" +
+                                                                             ",SlpCode = " + model.FooterData.SlpCode + "" +
+                                                                             ",Comments = '" + model.FooterData.Comments + "' " +
+                                                                             "WHERE Id = '" + model.ID + "'";
+
+
+
+
+
+
+
+
+                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                    }
+                    if (model.ListItems != null)
+                    {
+                        int LineNo = 1;
+                        foreach (var item in model.ListItems)
+                        {
+                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
+                            string RowQueryItem = @"insert into PDN1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                                              values(" + model.ID + ","
+                                                + LineNo + ",'"
+                                              + item.ItemName + "',"
+                                              + item.UPrc + ","
+                                              + item.TtlPrc + ",'"
+                                                + item.ItemCode + "',"
+                                                + item.QTY + ","
+                                                + item.DicPrc + ",'"
+                                                + item.VatGroup + "','"
+                                                + item.UomCode + "','"
+                                                + item.CountryOrg + "')";
+
+                            #region sqlparam
+                            //List<SqlParameter> param2 = new List<SqlParameter>
+                            //        {
+                            //            new SqlParameter("@id",QUT1Id),
+                            //            new SqlParameter("@ItemCode",item.ItemCode),
+                            //            new SqlParameter("@Quantity",item.Quantity),
+                            //            new SqlParameter("@DiscPrcnt",item.DiscPrcnt),
+                            //            new SqlParameter("@VatGroup",item.VatGroup),
+                            //            new SqlParameter("@UomCode",item.UomCode),
+                            //            new SqlParameter("@CountryOrg",item.CountryOrg),
+
+                            //        };
+                            #endregion
+
+                            int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
+                            if (res2 <= 0)
+                            {
+                                tran.Rollback();
+                                return false;
+                            }
+                            LineNo += 1;
+                        }
+
+
+
+                    }
+                    else if (model.ListService != null)
+                    {
+                        int LineNo = 1;
+
+                        foreach (var item in model.ListService)
+                        {
+                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
+                            string RowQueryService = @"insert into PDN1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
+                                                  values(" + model.ID + ","
+                                                    + LineNo + ","
+                                                     + item.TotalLC + ",'"
+                                                    + item.Dscription + "','"
+                                                    + item.AcctCode + "','"
+                                                    + item.VatGroup2 + "')";
+
+                            #region sqlparam
+                            //List<SqlParameter> param3 = new List<SqlParameter>
+                            //            {
+                            //                new SqlParameter("@id",QUT1Id),
+                            //                new SqlParameter("@Dscription",item.Dscription),
+                            //                new SqlParameter("@AcctCode",item.AcctCode),
+                            //                new SqlParameter("@VatGroup",item.VatGroup),
+
+
+                            //            };
+                            #endregion
+
+                            int res3 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryService).ToInt();
+                            if (res3 <= 0)
+                            {
+                                tran.Rollback();
+                                return false;
+
+                            }
+                            LineNo += 1;
+                        }
+
+
+
+                    }
+                    if (model.ListAttachment != null)
+                    {
+
+
+                        int LineNo = 1;
+                        int ATC1Id = CommonDal.getPrimaryKey(tran, "AbsEntry", "ATC1");
+                        foreach (var item in model.ListAttachment)
+                        {
+                            if (item.selectedFilePath != "" && item.selectedFileName != "" && item.selectedFileDate != "")
+                            {
+
+
+                                string RowQueryAttachment = @"insert into ATC1(AbsEntry,Line,trgtPath,FileName,Date)
+                                                  values(" + ATC1Id + ","
+                                                        + LineNo + ",'"
+                                                        + item.selectedFilePath + "','"
+                                                        + item.selectedFileName + "','"
+                                                        + Convert.ToDateTime(item.selectedFileDate) + "')";
+                                #region sqlparam
+                                //List<SqlParameter> param3 = new List<SqlParameter>
+                                //            {
+                                //                new SqlParameter("@AbsEntry",ATC1Id),
+                                //                new SqlParameter("@Line",ATC1Line),
+                                //                new SqlParameter("@trgtPath",item.trgtPath),
+                                //                new SqlParameter("@FileName",item.FileName),
+                                //                new SqlParameter("@Date",item.Date),
+
+
+                                //            };
+                                #endregion
+                                int res4 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryAttachment).ToInt();
+                                if (res4 <= 0)
+                                {
+                                    tran.Rollback();
+                                    return false;
+
+                                }
+                                LineNo += 1;
+                            }
+                        }
+
+
+
+                    }
+
+
+                    if (res1 > 0)
+                    {
+                        tran.Commit();
+                    }
+
+                }
+                catch (Exception)
+                {
+                    tran.Rollback();
+                    return false;
+                }
+
+                return res1 > 0 ? true : false;
+
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+
+
+
+
+
+
     }
 }
