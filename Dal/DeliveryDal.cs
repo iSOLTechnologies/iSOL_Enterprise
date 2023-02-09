@@ -193,7 +193,7 @@ namespace iSOL_Enterprise.Dal
                     if (model.ListItems != null)
                     {
                             int LineNo = 1;
-                        int LogEntry = CommonDal.getPrimaryKey(tran, "OITL");
+                        int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry","OITL");
                         foreach (var item in model.ListItems)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "DLN1");
@@ -201,16 +201,15 @@ namespace iSOL_Enterprise.Dal
 
 
                             #region OITLLog
-                            string LogQueryOITL = @"insert into OITL(LogEntry,DocType,CardCode,ItemCode,ItemName,CardName,CntctCode,DocQty,CreateTime,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
+                            string LogQueryOITL = @"insert into OITL(LogEntry,CardCode,ItemCode,ItemName,CardName,DocQty,DocDate) 
                                            values(" + LogEntry + ",'"
-                                              + DocType + "','"
+                                              //+ DocType + "','"
                                               + model.HeaderData.CardCode + "','"
                                               + item.ItemCode + "','"
                                               + item.ItemName + "','"
-                                              + model.HeaderData.CardName + "','"
-                                              + model.HeaderData.CntctCode + "',"
-                                              + -1 * (item.QTY).ToDecimal() + ",'"
-                                              + Convert.ToDateTime(DateTime.Now) + "','"
+                                              + model.HeaderData.CardName + "'," 
+                                              + -1 * ((Decimal)(item.QTY)) + ",'"
+                                             // + Convert.ToDateTime(DateTime.Now) + "','"
                                               + Convert.ToDateTime(model.HeaderData.DocDate) + "')";
 
                             res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryOITL).ToInt();
@@ -233,7 +232,7 @@ namespace iSOL_Enterprise.Dal
 
 
                                     string BatchQueryOBTN = @" Update OBTN set 
-                                                          Quantity = '" + ((batch.Quantity).ToDecimal() - (batch.selectqty).ToDecimal()) + "'" +
+                                                          Quantity = " + ((Decimal)(batch.Quantity) - (Decimal)(batch.selectqty)) + "" +
 
                                                                    "WHERE AbsEntry = " + batch.AbsEntry + "";
 
@@ -255,7 +254,7 @@ namespace iSOL_Enterprise.Dal
                                              + item.ItemCode + "','"
                                              + ii.SysNumber + "',"
                                              + ii.Quantity + ","
-                                             + -1 * (ii.selectqty).ToDecimal() + ","
+                                             + -1 * ((Decimal)(ii.selectqty)) + ","
                                              + ii.AbsEntry + "')";
 
 
@@ -277,14 +276,7 @@ namespace iSOL_Enterprise.Dal
 
                             #endregion
 
-
-
-
-
-
-
-
-
+                             
                             string RowQueryItem = @"insert into DLN1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
                                                  + LineNo + ",'"
@@ -298,8 +290,7 @@ namespace iSOL_Enterprise.Dal
                                                 + item.UomCode + "','"
                                                 + item.CountryOrg + "')";
 
-                           
-
+                            
                             int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
                             if (res2 <= 0)
                             {
