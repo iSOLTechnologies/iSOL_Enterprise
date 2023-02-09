@@ -2430,7 +2430,7 @@
 					},
 					{
 						"targets": 4,
-						//visible: false,
+						visible: false,
 						"createdCell": function (td, cellData, rowData, row, col) 
 						{
 						$(td).attr('id', "SysNumber");
@@ -2588,9 +2588,15 @@
 
 				 $('#MyyyyBatchSelectTable tbody tr').each(function (index, item) 
 				 { 
-					 var jsonobj = new Object();
+					 let jsonobj = new Object();
 
-					 if($(this).hasClass('Mainrow_selected')) {
+					 if($(this).hasClass('Mainrow_selected')) 
+					 {
+						  
+					 
+					 $('#MyyyyBatchSelectTable').DataTable().column(4).visible(true);
+							
+						
 					 $(this).find('td').each(function (index, data) 
 					 {
 							
@@ -2606,12 +2612,8 @@
 					 }
 				 });
 				 SelectedBatches.push(listObj);
-				 console.log(SelectedBatches);
-				 console.log(listObj);
-					
-				
-
-				$('#myBatchSelectmodal').modal('hide');
+				 
+				 $('#myBatchSelectmodal').modal('hide');
 			}
 			else 
 			{
