@@ -1598,9 +1598,12 @@ function GetPrice()
     $(document).on('click', '#ListBtnDelete', function () {
         $(this).closest('tr').remove();
     })
-    $(document).on('click', '#ListbtnSelectBatch', function () 
-    {
+    //$('#kt_repeater_1 tbody').on('click', 'a', function (e) 
+    //{
 
+    $('#ListbtnSelectBatch').on('click', function () 
+    {
+        //debugger
         let selectedRow = $(this).closest('tr');
 
        let selectedWareHouse =  selectedRow.find("#Warehouse").val();
@@ -1622,10 +1625,12 @@ function GetPrice()
             });
             console.log(SelectedBatches);
             }
+
+            //BatchSelectUrl = 'Delivery/GetBatchList?itemcode='+selectedItemCode+'&warehouse='+selectedWareHouse;
             BatchSelectUrl = 'Delivery/GetBatchList';
-            generateBatchSelectTable(selectedItemCode,selectedWareHouse);
             AddDataInRowsFromDocumentTable(selectedRow);
             $('#myBatchSelectmodal').modal('show');
+            generateBatchSelectTable(selectedItemCode,selectedWareHouse);
         }
     });
     function AddDataInRowsFromDocumentTable(selectedRow) 

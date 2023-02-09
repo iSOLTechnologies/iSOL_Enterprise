@@ -2370,6 +2370,7 @@
 	</div>
 	<!-- Customer Modal End -->
 	<script>
+		//$.ajaxSetup({ cache: false });
 		var isHeader;
 		var ObjItemCode;
 		var ObjAcctCode;
@@ -2402,119 +2403,163 @@
 			//Batchtable.destroy();
 			////$("#MyyyyBatchSelectTable thead").html('');
 			//}
-			datatable = $('#MyyyyBatchSelectTable').DataTable({
-				responsive: true,
-				searching: true,
-				ordering: false,
-				ordering: false,
-				"columnDefs": [ 
-					{
-						"targets": 0,
-						"createdCell": function (td, cellData, rowData, row, col) 
-						{
-						$(td).attr('id', "DistNumber");
-						}
-					},
-					{
-						"targets": 1,
-						"createdCell": function (td, cellData, rowData, row, col) 
-						{
-						$(td).attr('id', "Quantity");
-						}
-					},
-					{
-						"targets": 2,
-						"createdCell": function (td, cellData, rowData, row, col) 
-						{
-						$(td).attr('id', "selectqty");
-						}
-					},
-					{
-						"targets": 3,
-						"createdCell": function (td, cellData, rowData, row, col) 
-						{
-						$(td).attr('id', "CreateDate");
-						}
-					},
-					{
-						"targets": 4,
-						visible: false,
-						"createdCell": function (td, cellData, rowData, row, col) 
-						{
-						$(td).attr('id', "AbsEntry");
-						}
-					}
-					// ,
-					//{
-					//	"targets": 5,
-					//	"createdCell": function (td, cellData, rowData, row, col) 
-					//	{
-					//	$(td).attr('id', "AbsEntry");
-					//	}
-					//}
-				],
-				"ajax": {
-					url: BatchSelectUrl,
-					data : { itemcode : itemcode , warehouse : warehouse },
+			
+			//$.when($.ajax({ url: BatchSelectUrl, type: "Get" })).then(function (data, textStatus, jqXHR) {
+			//	console.log(data); // Alerts 200
+			//});
+
+			 //return $.ajax({
+    //        url: '/Hmi/GetMachineSpeed',
+    //        dataType: 'json',
+    //        data: { LineCode: $('#LineCode option:selected').val() },
+    //        type: 'Get',
+    //        success: function (result) {
+
+    //        },
+    //        error: function (jqXhr, textStatus, errorMessage) {
+    //            console.log(errorMessage);
+    //        }
+
+    //    }).done(function (result) {
+    //        var result = result.data;
+
+    //        $('#MachineSpeed').val(result);
+    //    });
+
+
+			 $.ajax({
+                type: "Get",
+                url: BatchSelectUrl,
+                data : {itemcode :itemcode , warehouse: warehouse },
+				dataType: "json",
+				cache: false,
+				// success: function (data)
+    //            {
+				//	$('#MyyyyBatchSelectTable').DataTable().clear().destroy();
 					
-				},
-				layout: {
-					scroll: false,
-					footer: false,
-				},
-				// column sorting
-				sortable: true,
-				pagination: true,
-				destroy: true,
-				//   async: false,
-				search: {
-					input: $('#generalSearch'),
-				},
-				columns: [
+				
+				//}
+			 
+			 
+			 
+			 }).done(function (data) 
+			 {
+				debugger
+				console.log("HI: " + data);
+
+			//	datatable = $('#MyyyyBatchSelectTable').DataTable({
+			//	responsive: true,
+			//	searching: true,
+			//	ordering: false,
+			//	ordering: false,
+			//	"columnDefs": [ 
+			//		{
+			//			"targets": 0,
+			//			"createdCell": function (td, cellData, rowData, row, col) 
+			//			{
+			//			$(td).attr('id', "DistNumber");
+			//			}
+			//		},
+			//		{
+			//			"targets": 1,
+			//			"createdCell": function (td, cellData, rowData, row, col) 
+			//			{
+			//			$(td).attr('id', "Quantity");
+			//			}
+			//		},
+			//		{
+			//			"targets": 2,
+			//			"createdCell": function (td, cellData, rowData, row, col) 
+			//			{
+			//			$(td).attr('id', "selectqty");
+			//			}
+			//		},
+			//		{
+			//			"targets": 3,
+			//			"createdCell": function (td, cellData, rowData, row, col) 
+			//			{
+			//			$(td).attr('id', "CreateDate");
+			//			}
+			//		},
+			//		{
+			//			"targets": 4,
+			//			visible: false,
+			//			"createdCell": function (td, cellData, rowData, row, col) 
+			//			{
+			//			$(td).attr('id', "AbsEntry");
+			//			}
+			//		}
+			//		// ,
+			//		//{
+			//		//	"targets": 5,
+			//		//	"createdCell": function (td, cellData, rowData, row, col) 
+			//		//	{
+			//		//	$(td).attr('id', "AbsEntry");
+			//		//	}
+			//		//}
+			//	],
+			//	"data": data.data,
+			//	layout: {
+			//		scroll: false,
+			//		footer: false,
+			//	},
+			//	// column sorting
+			//	sortable: true,
+			//	pagination: true,
+			//	destroy: true,
+			//	//   async: false,
+			//	search: {
+			//		input: $('#generalSearch'),
+			//	},
+			//	columns: [
                  
-                {
-                    data: 'distNumber', title: 'Batch',
+   //             {
+   //                 data: 'distNumber', title: 'Batch',
 
-                }, 
-				{
-                    data: 'quantity', title: 'Available Qty',
+   //             }, 
+			//	{
+   //                 data: 'quantity', title: 'Available Qty',
 
-                },
-				{
-                    data: function (row, type, set) 
-					{
-                        return '<input type="number" class="form-control form-control-sm"  id="batchquantity"/>';
+   //             },
+			//	{
+   //                 data: function (row, type, set) 
+			//		{
+   //                     return '<input type="number" class="form-control form-control-sm"  id="batchquantity"/>';
 
-                    },
-					title : 'Selected Qty',
-                },
-                {
-                    data: 'inDate', title: 'Creation Date', render: function (data, type, row) {
-                        if (data != undefined && data != '') {
+   //                 },
+			//		title : 'Selected Qty',
+   //             },
+   //             {
+   //                 data: 'inDate', title: 'Creation Date', render: function (data, type, row) {
+   //                     if (data != undefined && data != '') {
 
-                            return moment(data).format('DD-MM-YYYY')
+   //                         return moment(data).format('DD-MM-YYYY')
 
-                        } else {
-                            // return data;
-                            return '';
-                        }
-                    }
-                },
-                {
-                    data: 'absEntry', title: 'Abs Number',
+   //                     } else {
+   //                         // return data;
+   //                         return '';
+   //                     }
+   //                 }
+   //             },
+   //             {
+   //                 data: 'absEntry', title: 'Abs Number',
 
-                },
-				{
-                    data: "absEntry", 'title': 'Action', render: function (data, type, row) {
-                        var html = '<a guid=' + data + ' id="btnSelectBatch" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
-                        html += '<i class="la la-check-double"></i>';
-                        html += '</a>';
+   //             },
+			//	{
+   //                 data: "absEntry", 'title': 'Action', render: function (data, type, row) {
+   //                     var html = '<a guid=' + data + ' id="btnSelectBatch" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+   //                     html += '<i class="la la-check-double"></i>';
+   //                     html += '</a>';
 
-                        return html;
-                    }
-                },
-				],
+   //                     return html;
+   //                 }
+   //             },
+			//	],
+			//});
 			});
+
+
+			
 		}
 		$(document).on('click', '#btnSelectBatch', function (e) {
 			//debugger

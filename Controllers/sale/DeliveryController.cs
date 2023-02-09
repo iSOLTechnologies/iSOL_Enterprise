@@ -9,6 +9,7 @@ namespace iSOL_Enterprise.Controllers
 {
     public class DeliveryController : Controller
     {
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public IActionResult Index()
         {
             return View();
@@ -68,7 +69,7 @@ namespace iSOL_Enterprise.Controllers
 
         }
         [HttpGet]
-        public IActionResult GetBatchList(string itemcode , string warehouse)
+        public IActionResult GetBatchList(string itemcode , string warehouse , string rand)
         {
             try
             {
