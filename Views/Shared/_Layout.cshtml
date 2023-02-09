@@ -2379,7 +2379,7 @@
 		var CopydataTable;
 		var CopyDocIDs = [];
 		var SelectedBatches = [];
-
+		var Batchtable ="";
 		function removeItemFromArray(arr, value) {
 		  var i = 0;
 		  while (i < arr.length) {
@@ -2394,6 +2394,14 @@
 
 		function generateBatchSelectTable(itemcode,warehouse) 
 		{
+		
+			//if (Batchtable != "") 
+			//{
+			//	Batchtable.ajax.reload();
+			//Batchtable.clear().draw();
+			//Batchtable.destroy();
+			////$("#MyyyyBatchSelectTable thead").html('');
+			//}
 			datatable = $('#MyyyyBatchSelectTable').DataTable({
 				responsive: true,
 				searching: true,
@@ -2433,20 +2441,22 @@
 						visible: false,
 						"createdCell": function (td, cellData, rowData, row, col) 
 						{
-						$(td).attr('id', "SysNumber");
-						}
-					},
-					{
-						"targets": 5,
-						"createdCell": function (td, cellData, rowData, row, col) 
-						{
 						$(td).attr('id', "AbsEntry");
 						}
 					}
+					// ,
+					//{
+					//	"targets": 5,
+					//	"createdCell": function (td, cellData, rowData, row, col) 
+					//	{
+					//	$(td).attr('id', "AbsEntry");
+					//	}
+					//}
 				],
 				"ajax": {
 					url: BatchSelectUrl,
-					data : { itemcode : itemcode , warehouse : warehouse }
+					data : { itemcode : itemcode , warehouse : warehouse },
+					
 				},
 				layout: {
 					scroll: false,
@@ -2491,7 +2501,7 @@
                     }
                 },
                 {
-                    data: 'sysNumber', title: 'Sys Number',
+                    data: 'absEntry', title: 'Abs Number',
 
                 },
 				{
@@ -2612,8 +2622,11 @@
 					 }
 				 });
 				 SelectedBatches.push(listObj);
-				 
+				 console.log(SelectedBatches);
+				 //$('#MyyyyBatchSelectTable').find("tbody").remove();
 				 $('#myBatchSelectmodal').modal('hide');
+				//$('#MyyyyBatchSelectTable').DataTable().clear().destroy();
+				
 			}
 			else 
 			{
@@ -2760,6 +2773,7 @@
 				ordering: false,
 				"ajax": {
 					url: '/SaleQuotation/GetCustomers',
+
 				},
 				layout: {
 					scroll: false,

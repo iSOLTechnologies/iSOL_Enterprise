@@ -1611,6 +1611,17 @@ function GetPrice()
         }
         else 
         {
+            if(SelectedBatches.length > 0) {
+            $.each(SelectedBatches,function(index,item) 
+            {
+
+                if($(this).itemno == selectedItemCode) 
+                {
+                    SelectedBatches.splice(index, 1);
+                }
+            });
+            console.log(SelectedBatches);
+            }
             BatchSelectUrl = 'Delivery/GetBatchList';
             generateBatchSelectTable(selectedItemCode,selectedWareHouse);
             AddDataInRowsFromDocumentTable(selectedRow);
