@@ -127,7 +127,7 @@ namespace iSOL_Enterprise.Dal
 
 
             List<tbl_OBTN> list = new List<tbl_OBTN>();
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {
                 while (rdr.Read())
                 {
