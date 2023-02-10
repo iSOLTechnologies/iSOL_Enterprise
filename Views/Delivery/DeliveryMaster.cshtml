@@ -350,9 +350,18 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <select class="form-control" id="Warehouse">
+                                                                                        <div class="input-group">
+                                                                                            <select class="form-control" id="Warehouse">
 
-                                                                                        </select>
+                                                                                            </select>
+                                                                                            <div id="ListbtnSelectBatch" class="input-group-append">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-warehouse"></i>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        
                                                                                     </td>
                                                                                     <td>
                                                                                         <input class="form-control form-control-sm" id="QTY"  type="number">
@@ -393,11 +402,7 @@
                                                                                         </select>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
-                                                                                        <a id="ListbtnSelectBatch" class="form-control form-control-sm btn btn-bold btn-sm btn-light-primary">
-                                                                                        <i class="la la-info"></i>  Batch
-                                                                                        </a>
-                                                                                    </td>
+                                                                                    
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -974,10 +979,20 @@
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                        <select class="form-control" id="Warehouse">
-                                                                                            `+ WareHouseData + `
-                                                                                        </select>
-                                                                                        </td>
+                                                                                        <div class="input-group">
+                                                                                            <select class="form-control" id="Warehouse">
+                                                                                             `+ WareHouseData + `
+                                                                                            </select>
+                                                                                            <div id="ListbtnSelectBatch" class="input-group-append">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-warehouse"></i>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        
+                                                                                    </td>
+                                                                                        
                                                                                         <td>
                                                                                             <input class="form-control form-control-sm"  value=`+data.Quantity+` id="QTY"  type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -1015,11 +1030,7 @@
                                                                                             </select>
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
-                                                                                        <td>
-                                                                                        <a id="ListbtnSelectBatch" class="form-control form-control-sm btn btn-bold btn-sm btn-light-primary">
-                                                                                        <i class="la la-info"></i>  Batch
-                                                                                        </a>
-                                                                                        </td>
+                                                                                        
                                                                                         <td>
                                                                             <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
                                                                             <i class="la la-trash"></i> X
@@ -1237,12 +1248,21 @@
                                                                                 <input class="form-control form-control-sm" id="ItemName" type = "text">
                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                             </td>
-                                                                            <td>
-                                                                                        <select class="form-control" id="Warehouse">
-                                                                                        `+WareHouseData+`
-                                                                                        </select>
-                                                                                        </td>
-                                                                            <td>
+                                                                             <td>
+                                                                                        <div class="input-group">
+                                                                                            <select class="form-control" id="Warehouse">
+                                                                                            `+WareHouseData+`
+                                                                                            </select>
+                                                                                            <div id="ListbtnSelectBatch" class="input-group-append">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-warehouse"></i>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        
+                                                                                    </td>
+                                                                           
                                                                                 <input class="form-control form-control-sm" id = "QTY" onkeyup = "GetPrice()" type = "number">
                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                             </td>
@@ -1276,11 +1296,7 @@
                                                                                 </select>
                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                             </td>
-                                                                            <td>
-                                                                                        <a id = "ListbtnSelectBatch" class="form-control form-control-sm btn btn-bold btn-sm btn-light-primary">
-                                                                                        <i class="la la-info"></i>  Batch
-                                                                                        </a>
-                                                                            </td>
+                                                                            
                                                                            </tr>`;
         $('#kt_repeater_1 tbody').append(html);
         // addDataInVatGroup();
@@ -1803,10 +1819,20 @@ function GetPrice()
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                        <select class="form-control" id="Warehouse">
-                                                                                        `+WareHouseData+`
-                                                                                        </select>
-                                                                                        </td>
+                                                                                        <div class="input-group">
+                                                                                            <select class="form-control" id="Warehouse">
+                                                                                             `+ WareHouseData + `
+                                                                                            </select>
+                                                                                            <div id="ListbtnSelectBatch" class="input-group-append">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-warehouse"></i>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        
+                                                                                    </td>
+                                                                                            
                                                                                             <td>
                                                                                                 <input class="form-control form-control-sm" id="QTY"  type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -1844,11 +1870,7 @@ function GetPrice()
                                                                                                 </select>
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
-                                                                                            <td>
-                                                                                        <a id="ListbtnSelectBatch" class="form-control form-control-sm btn btn-bold btn-sm btn-light-primary">
-                                                                                        <i class="la la-info"></i>  Batch
-                                                                                        </a>
-                                                                                    </td>
+                                                                                           
                                                                                             <td>
                                                                                 <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
                                                                                 <i class="la la-trash"></i> X
