@@ -69,7 +69,7 @@ namespace iSOL_Enterprise.Controllers
 
         }
         [HttpGet]
-        public IActionResult GetBatchList(string itemcode , string warehouse , string rand)
+        public IActionResult GetBatchList(string itemcode  , string warehouse)
         {
             try
             {

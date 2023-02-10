@@ -394,7 +394,7 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <a id = "ListbtnSelectBatch" class="form-control form-control-sm btn btn-bold btn-sm btn-light-primary">
+                                                                                        <a id="ListbtnSelectBatch" class="form-control form-control-sm btn btn-bold btn-sm btn-light-primary">
                                                                                         <i class="la la-info"></i>  Batch
                                                                                         </a>
                                                                                     </td>
@@ -1016,7 +1016,7 @@
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                        <a id = "ListbtnSelectBatch" class="form-control form-control-sm btn btn-bold btn-sm btn-light-primary">
+                                                                                        <a id="ListbtnSelectBatch" class="form-control form-control-sm btn btn-bold btn-sm btn-light-primary">
                                                                                         <i class="la la-info"></i>  Batch
                                                                                         </a>
                                                                                         </td>
@@ -1347,7 +1347,7 @@
 		    $.each(data, function() {
 			
 			    $("#Warehouse").append($('<option>', {
-									    value: "'" + this.whscode + "'",
+									    value:  this.whscode,
 									    text: this.whsname
 									
 								    }));
@@ -1601,7 +1601,7 @@ function GetPrice()
     //$('#kt_repeater_1 tbody').on('click', 'a', function (e) 
     //{
 
-    $('#ListbtnSelectBatch').on('click', function () 
+    $(document).on('click', '#ListbtnSelectBatch', function () 
     {
         //debugger
         let selectedRow = $(this).closest('tr');
@@ -1614,25 +1614,103 @@ function GetPrice()
         }
         else 
         {
-            if(SelectedBatches.length > 0) {
-            $.each(SelectedBatches,function(index,item) 
+            debugger
+            if(SelectedBatches.length > 0) 
             {
-
-                if($(this).itemno == selectedItemCode) 
-                {
-                    SelectedBatches.splice(index, 1);
-                }
-            });
-            console.log(SelectedBatches);
+                ClearSelectedBatches(selectedItemCode,selectedWareHouse)();
+            
             }
 
             //BatchSelectUrl = 'Delivery/GetBatchList?itemcode='+selectedItemCode+'&warehouse='+selectedWareHouse;
             BatchSelectUrl = 'Delivery/GetBatchList';
             AddDataInRowsFromDocumentTable(selectedRow);
             $('#myBatchSelectmodal').modal('show');
+
+
+
+
+           //GetBatchData(selectedItemCode,selectedWareHouse);
+            
+            //loadJSON("Delivery/GetBatchList?itemcode="+selectedItemCode+"&warehouse="+selectedWareHouse, myData,'jsonp');
             generateBatchSelectTable(selectedItemCode,selectedWareHouse);
         }
     });
+
+    function ClearSelectedBatches(selectedItemCode,selectedWareHouse) 
+    {
+        $.each(SelectedBatches,function(index,item) 
+            {
+               
+                $.each(item,function(index,item) 
+                {
+                    
+                if(this.itemno == selectedItemCode && this.whseno == selectedWareHouse) 
+                {
+                    SelectedBatches.splice(index, 1);
+                }
+                })
+            });
+    }
+    function GetBatchData(itemcode,warehouse) 
+    {
+        debugger
+
+        //$.getJSON("Delivery/GetBatchList",{itemcode :itemcode , warehouse: warehouse }, function(result){
+        //    console.log("HI: " + result);
+        //});
+
+        $.ajax({
+                type: "Get",
+                url: 'Delivery/GetBatchList',
+                data : {itemcode :itemcode , warehouse: warehouse },
+				dataType: "json",
+                contentType: "application/json; charset=utf-8",
+			 }).done(function (data) 
+			 {				
+				console.log("HI: " + data);
+			});
+    }
+
+    //function loadJSON(path, success, error) {
+        //  var xhr = new XMLHttpRequest();
+        //  xhr.onreadystatechange = function () {
+        //    if (xhr.readyState === 4) {
+        //      if (xhr.status === 200) {
+        //        success(JSON.parse(xhr.responseText));
+        //      }
+        //      else {
+        //        error(xhr);
+        //      }
+        //    }
+        //  };
+        //  xhr.open('GET', path, true);
+        //  xhr.send();
+        //}
+
+        
+
+        //function myData(Data)
+        //{
+
+        //  // Output only the details on the first post
+        //  console.log(Data);
+
+        //  // output the details of first three posts
+        //  //console.log("First three posts");
+        //  //for(var i=0; i<3; i=i+1)
+        //  //{
+        //  //  console.log(Data[i]);
+        //  //} 
+        //  //// output the id field of first five elements. 
+        //  //console.log("First five ID");
+        //  //for(var i=0; i<5; i=i+1)
+        //  //{
+        //  //  console.log(Data[i].id);
+        //  //}
+        //}
+
+
+
     function AddDataInRowsFromDocumentTable(selectedRow) 
     {
         $("#slItemno").val(selectedRow.find("#ItemCode").val());
@@ -1644,8 +1722,21 @@ function GetPrice()
         $("#slTotalBacthes").val(0);
         $("#slDirection").val('Out');
     }
-    $(document).on('click', '#ListBtnDeleteRM', function () {
-        $(this).closest('tr').remove();
+    $(document).on('click', '#ListBtnDeleteRM', function () 
+    {
+       let selectedRow = $(this).closest('tr');
+       let selectedWareHouse =  selectedRow.find("#Warehouse").val();
+       let selectedItemCode =  selectedRow.find("#ItemCode").val();
+            
+       if(!(( selectedWareHouse == null || selectedWareHouse == "" || selectedWareHouse == undefined) || (selectedItemCode == null || selectedItemCode == "" || selectedItemCode == undefined)) ) {
+
+            if(SelectedBatches.length > 0) 
+            {
+             ClearSelectedBatches(selectedItemCode,selectedWareHouse)();
+            
+            }
+       }
+            $(this).closest('tr').remove();
     })
 
     $(document).on('click', '#ListBtnAddFile', function (e) {
@@ -1754,7 +1845,7 @@ function GetPrice()
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                        <a id = "ListbtnSelectBatch" class="form-control form-control-sm btn btn-bold btn-sm btn-light-primary">
+                                                                                        <a id="ListbtnSelectBatch" class="form-control form-control-sm btn btn-bold btn-sm btn-light-primary">
                                                                                         <i class="la la-info"></i>  Batch
                                                                                         </a>
                                                                                     </td>

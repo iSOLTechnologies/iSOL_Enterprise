@@ -124,7 +124,11 @@ namespace iSOL_Enterprise.Dal
         }
         public List<tbl_OBTN> GetBatchList(string itemcode, string warehouse)
         {
-            string GetQuery = "select OBTN.DistNumber,OBTN.Quantity,OBTN.InDate,OBTN.AbsEntry,OBTN.SysNumber  from OBTW Inner join OBTN on OBTN.AbsEntry = OBTW.AbsEntry where OBTW.ItemCode = '" + itemcode+"' and OBTW.WhsCode = "+warehouse+"";
+            try
+            {
+
+            
+            string GetQuery = "select OBTN.DistNumber,OBTN.Quantity,OBTN.InDate,OBTN.AbsEntry,OBTN.SysNumber  from OBTW Inner join OBTN on OBTN.AbsEntry = OBTW.AbsEntry where OBTW.ItemCode = '" + itemcode+"' and OBTW.WhsCode = '"+warehouse+"'";
 
 
             List<tbl_OBTN> list = new List<tbl_OBTN>();
@@ -147,6 +151,12 @@ namespace iSOL_Enterprise.Dal
             }
 
             return list;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
        
         public bool AddDelivery(string formData)
