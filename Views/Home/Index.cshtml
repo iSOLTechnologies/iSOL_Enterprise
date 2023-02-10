@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8" />
 
-    <title>Izak System</title>
+    <title>iSOL - SAP</title>
     <meta name="description" content="Login page example">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -571,14 +571,15 @@
                     },
                     success: function (result) {
                         debugger
-                        if (!(result.success)) 
+                         if ((result.success)) 
+                        {
+                            window.location.href = result.message;
+                        }
+                        else if (!(result.success)) 
                         {
                             toastr.error(result.message);
                             //clearFields();
                             //  toastr.success(result.msg);
-                        } if ((result.success)) 
-                        {
-                            window.location.href = result.message;
                         }
                         else {
                             debugger

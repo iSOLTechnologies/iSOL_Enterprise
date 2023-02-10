@@ -203,9 +203,9 @@ namespace iSOL_Enterprise.Dal
                     if (model.ListItems != null)
                     {
                         int LineNo = 1;
-                        int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");
                         foreach (var item in model.ListItems)
                         {
+                        int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "DLN1");
                             #region UpdateWarehouse&GenerateLog
 
@@ -228,6 +228,12 @@ namespace iSOL_Enterprise.Dal
                                 tran.Rollback();
                                 return false;
                             }
+
+                            if (res1 <= 0)
+                            {
+                                tran.Rollback();
+                                return false;
+                            }
                             #endregion
 
 
@@ -242,7 +248,7 @@ namespace iSOL_Enterprise.Dal
                                     foreach (var ii in batch)
                                     {
 
-                                        string BatchQueryOBTN = @" Update OBTN set Quantity = " + ((Decimal)(batch.Quantity) - (Decimal)(batch.selectqty)) + " WHERE AbsEntry = " + batch.AbsEntry + "";
+                                        string BatchQueryOBTN = @" Update OBTN set Quantity = " + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + " WHERE AbsEntry = " + ii.AbsEntry + "";
 
 
                                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
@@ -263,7 +269,7 @@ namespace iSOL_Enterprise.Dal
                                              + ii.SysNumber + "',"
                                              + ii.Quantity + ","
                                              + -1 * ((Decimal)(ii.selectqty)) + ","
-                                             + ii.AbsEntry + "')";
+                                             + ii.AbsEntry + ")";
 
 
                                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryITL1).ToInt();
@@ -451,6 +457,12 @@ namespace iSOL_Enterprise.Dal
 
 
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                        if (res1 <= 0)
+                        {
+                            tran.Rollback();
+                            return false;
+                        }
+
                     }
                     if (model.ListItems != null)
                     {
