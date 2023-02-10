@@ -2349,6 +2349,7 @@
 													<th></th>
 													<th></th>
 													<th></th>
+													<th></th>
 												</tr>
 											</thead>
 										</table>
@@ -2405,7 +2406,7 @@
 			 }).done(function (data) 
 			 {
 			
-				console.log("HI: " + data);
+				
 
 				datatable = $('#MyyyyBatchSelectTable').DataTable({
 				responsive: true,
@@ -2448,15 +2449,15 @@
 						{
 						$(td).attr('id', "AbsEntry");
 						}
+					},
+					{
+						"targets": 5,
+						visible: false,
+						"createdCell": function (td, cellData, rowData, row, col) 
+						{
+						$(td).attr('id', "SysNumber");
+						}
 					}
-					// ,
-					//{
-					//	"targets": 5,
-					//	"createdCell": function (td, cellData, rowData, row, col) 
-					//	{
-					//	$(td).attr('id', "AbsEntry");
-					//	}
-					//}
 				],
 				"data": data.data,
 				layout: {
@@ -2503,6 +2504,10 @@
                 },
                 {
                     data: 'absEntry', title: 'Abs Number',
+
+                },
+				{
+                    data: 'sysNumber', title: 'Abs Number',
 
                 },
 				{
@@ -2618,6 +2623,7 @@
 						  
 					 
 					 $('#MyyyyBatchSelectTable').DataTable().column(4).visible(true);
+					 $('#MyyyyBatchSelectTable').DataTable().column(5).visible(true);
 							
 						
 					 $(this).find('td').each(function (index, data) 
