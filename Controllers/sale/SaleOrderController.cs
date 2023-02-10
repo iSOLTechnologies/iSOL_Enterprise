@@ -9,6 +9,7 @@ using System.Data;
 namespace iSOL_Enterprise.Controllers
 {
     [Authorize]
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class SaleOrderController : Controller
     {
         public IActionResult Index()

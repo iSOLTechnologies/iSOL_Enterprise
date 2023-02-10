@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace iSOL_Enterprise.Controllers
 {
     [Authorize]
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class DashboardController : Controller
     {
         public IActionResult Index()

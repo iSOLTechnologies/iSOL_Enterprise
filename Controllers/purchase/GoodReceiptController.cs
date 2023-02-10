@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 namespace iSOL_Enterprise.Controllers.Sales
 {
     [Authorize]
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class GoodReceiptController : Controller
     {
         public IActionResult Index()

@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 namespace iSOL_Enterprise.Controllers.Sales
 {
     [Authorize]
+    [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class PurchaseQuotationController : Controller
     {
         public IActionResult Index()

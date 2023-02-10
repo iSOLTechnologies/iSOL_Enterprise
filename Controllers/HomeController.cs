@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace iSOL_Enterprise.Controllers
 {
     [Authorize]
+    [ResponseCache(Location = ResponseCacheLocation.None,NoStore = true)]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
