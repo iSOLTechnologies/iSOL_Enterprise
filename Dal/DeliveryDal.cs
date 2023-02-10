@@ -208,6 +208,7 @@ namespace iSOL_Enterprise.Dal
                     if (model.ListItems != null)
                     {
                         int LineNo = 1;
+                        
                         foreach (var item in model.ListItems)
                         {
                         int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");
@@ -251,39 +252,39 @@ namespace iSOL_Enterprise.Dal
                                 {
                                     foreach (var ii in batch)
                                     {
-
-                                        string BatchQueryOBTN = @" Update OBTN set Quantity = " + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + " WHERE AbsEntry = " + ii.AbsEntry + "";
-
-
-                                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
-                                        if (res1 <= 0)
+                                        if (ii.itemno == item.ItemCode)
                                         {
-                                            tran.Rollback();
-                                            return false;
+
+
+                                            string BatchQueryOBTN = @" Update OBTN set Quantity = " + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + " WHERE AbsEntry = " + ii.AbsEntry + "";
+
+
+                                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
+                                            if (res1 <= 0)
+                                            {
+                                                tran.Rollback();
+                                                return false;
+                                            }
+
+                                            string LogQueryITL1 = @"insert into ITL1(LogEntry,ItemCode,SysNumber,Quantity,AllocQty,MdAbsEntry) 
+                                                   values(" + LogEntry + ",'"
+                                                 + item.ItemCode + "','"
+                                                 + ii.SysNumber + "',"
+                                                 + ii.Quantity + ","
+                                                 + -1 * ((Decimal)(ii.selectqty)) + ","
+                                                 + ii.AbsEntry + ")";
+
+
+                                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryITL1).ToInt();
+                                            if (res1 <= 0)
+                                            {
+                                                tran.Rollback();
+                                                return false;
+                                            }
+
                                         }
-
-
-
-                                        //foreach (var ii in batch)
-                                        //{
-
-                                        string LogQueryITL1 = @"insert into ITL1(LogEntry,ItemCode,SysNumber,Quantity,AllocQty,MdAbsEntry) 
-                                               values(" + LogEntry + ",'"
-                                             + item.ItemCode + "','"
-                                             + ii.SysNumber + "',"
-                                             + ii.Quantity + ","
-                                             + -1 * ((Decimal)(ii.selectqty)) + ","
-                                             + ii.AbsEntry + ")";
-
-
-                                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryITL1).ToInt();
-                                        if (res1 <= 0)
-                                        {
-                                            tran.Rollback();
-                                            return false;
-                                        }
-
-
+                                        else
+                                            break;
 
                                     }
 
@@ -380,6 +381,8 @@ namespace iSOL_Enterprise.Dal
                                 }
                                 LineNo += 1;
                             }
+                            else
+                                break;
                         }
 
 
