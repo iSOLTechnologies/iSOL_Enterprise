@@ -199,6 +199,11 @@ namespace iSOL_Enterprise.Dal
 
 
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                            if (res1 <= 0)
+                            {
+                                tran.Rollback();
+                                return false;
+                            }
                     }
                     if (model.ListItems != null)
                     {
@@ -211,13 +216,17 @@ namespace iSOL_Enterprise.Dal
 
 
                             #region OITLLog
-                            string LogQueryOITL = @"insert into OITL(LogEntry,CardCode,ItemCode,ItemName,CardName,DocQty,DocDate) 
+                            string LogQueryOITL = @"insert into OITL(LogEntry,CardCode,ItemCode,ItemName,CardName,DocEntry,DocLine,DocType,DocNum,DocQty,DocDate) 
                                            values(" + LogEntry + ",'"
                                               //+ DocType + "','"
                                               + model.HeaderData.CardCode + "','"
                                               + item.ItemCode + "','"
                                               + item.ItemName + "','"
                                               + model.HeaderData.CardName + "',"
+                                              + Id + ","
+                                              + LineNo + ","
+                                              + 0 + ", "
+                                              + Id + " ,"
                                               + -1 * ((Decimal)(item.QTY)) + ",'"
                                               // + Convert.ToDateTime(DateTime.Now) + "','"
                                               + Convert.ToDateTime(model.HeaderData.DocDate) + "')";
@@ -229,11 +238,6 @@ namespace iSOL_Enterprise.Dal
                                 return false;
                             }
 
-                            if (res1 <= 0)
-                            {
-                                tran.Rollback();
-                                return false;
-                            }
                             #endregion
 
 
