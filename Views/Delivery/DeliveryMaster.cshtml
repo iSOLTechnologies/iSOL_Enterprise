@@ -1514,7 +1514,7 @@ function GetPrice()
         });
 
         $(document).on('change', '#ValueTypeCode', function (e) {
-            debugger
+      
             $(this).removeClass('is-invalid');
             $(this).closest('#ListParameters .itm').find("#StandardValue").removeClass('is-invalid');
             $(this).closest('#ListParameters .itm').find("#MinValue").removeClass('is-invalid');
@@ -1614,7 +1614,7 @@ function GetPrice()
         }
         else 
         {
-            debugger
+          
             if(SelectedBatches.length > 0) 
             {
                 ClearSelectedBatches(selectedItemCode,selectedWareHouse)();
@@ -1653,7 +1653,7 @@ function GetPrice()
     }
     function GetBatchData(itemcode,warehouse) 
     {
-        debugger
+  
 
         //$.getJSON("Delivery/GetBatchList",{itemcode :itemcode , warehouse: warehouse }, function(result){
         //    console.log("HI: " + result);
@@ -2524,7 +2524,7 @@ function GetPrice()
             }
 
         }).done(function (result) {
-            debugger
+            
             result = result.data;
             console.log(result)
 
