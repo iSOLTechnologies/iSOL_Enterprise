@@ -1,5 +1,6 @@
 ﻿using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SqlHelperExtensions;
@@ -7,6 +8,7 @@ using System.Data;
 
 namespace iSOL_Enterprise.Controllers
 {
+    [Authorize]
     public class DeliveryController : Controller
     {
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]

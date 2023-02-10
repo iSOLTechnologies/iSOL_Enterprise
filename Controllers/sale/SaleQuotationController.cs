@@ -2,6 +2,7 @@
 using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Models.sale;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -11,6 +12,7 @@ using System.Data.SqlClient;
 
 namespace iSOL_Enterprise.Controllers.Sales
 {
+    [Authorize]
     public class SaleQuotationController : Controller
     {
         public IActionResult Index()

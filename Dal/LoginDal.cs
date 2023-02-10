@@ -1,5 +1,6 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
+using Microsoft.Win32.SafeHandles;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SqlHelperExtensions;
@@ -10,13 +11,82 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace iSOL_Enterprise.Dal
 {
     public class LoginDal
     {
-        public UsersModels Get(UsersModels input)
+
+       dynamic Id;
+        public bool ChkCredentials(string name, string pwd)
+        {
+            try
+            {
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                conn.Open();
+                SqlTransaction tran = conn.BeginTransaction();
+                string LoginQuery = @"select * from users where UserName = '" + name + "' and Password = '" + pwd + "'";
+                //string LoginQuery = @"select * from users where UserName = '" + name + "' and Password = '" + pwd + "' and IsActive=0";
+
+
+                using (var rdr = SqlHelper.ExecuteReader(tran, CommandType.Text, LoginQuery))
+                {
+                    while (rdr.Read())
+                    {
+                        Id = rdr["Id"].ToInt();
+                        var FirstName = rdr["FirstName"].ToString();
+                        var LastName = rdr["LastName"].ToString();
+
+                    }
+                    rdr.Close();
+                    if (Id != null)
+                    {
+
+                        //string HeadQuery = @" Update users set IsActive = 1 where FirstName = '" + name + "' and Password = '" + pwd + "' ";
+
+
+
+                        //int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                        //if (res <= 0)
+                        //{
+                        //    tran.Rollback();
+                        //    return false;
+                        //}
+                        //else
+                        //{
+                            return Id != null ? true : false;
+                        //}
+                    }
+
+
+
+                    return false;
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+            public UsersModels Get(UsersModels input)
         {
             SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
             conn.Open();

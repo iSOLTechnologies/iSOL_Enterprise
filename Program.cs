@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,22 @@ builder.Services.AddSession(options => {
     options.IdleTimeout = TimeSpan.FromMinutes(10);//You can set Time   
 
 });
+
+
+
+
+builder.Services.AddAuthentication
+    (
+    CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(option =>
+    {
+        option.LoginPath = "/Home/Index";
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+    });
+
+
+
+
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -35,6 +52,8 @@ app.UseCookiePolicy();
 
 app.UseRouting();
 
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 

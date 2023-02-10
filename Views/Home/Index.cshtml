@@ -219,7 +219,7 @@
                             <br />
 
                             <div class="input-group to eyes-slash" style="color: #495057;background-color: #fff;outline: 0;-webkit-box-shadow: 0 0 0 0.2rem rgba(88, 103, 221, 0.25);box-shadow: 0 0 0 0.2rem rgba(234, 234, 234, 0.25);">
-                                <input class="form-control" type="password" placeholder="Password" name="password" id="password">
+                                <input class="form-control" type="password" placeholder="Password" name="password" id="Password">
                                 <span class="input-group-btn">
                                     <button id="slasheyes" onclick="showPassword()" class="btn  reveal" style="top: 10px;position: relative;" type="button">
                                         <i id="showeyes" class=" fa fa-eye-slash"></i>
@@ -236,7 +236,8 @@
 
                                 <div class="col kt-align-right to">
                                     <div class="kt-login__actions">
-                                        <button id="btnLogin" class="btn btn-brand btn-elevate kt-login__btn-primary to ">Sign In</button>
+                                        <button onclick="login()" id="btn_Login" class="btn btn-brand btn-elevate kt-login__btn-primary to ">Sign In</button>
+                                        @*<button id="btnLogin" onclick="login()" class="btn btn-brand btn-elevate kt-login__btn-primary to ">Sign In</button>*@
                                     </div>
                                 </div>
                                 <div class="kt-login__account text-primary" id="top">
@@ -255,7 +256,7 @@
                                 <h3 class="kt-login__title">Sign Up</h3>
                                 <div class="kt-login__desc">Enter your details to create your account:</div>
                             </div>
-                            <form class="kt-form" action="#">
+               
                                 <div class="input-group">
                                     <input class="form-control" type="text" placeholder="Fullname" name="fullname">
                                 </div>
@@ -278,24 +279,21 @@
                                     </div>
                                 </div>
                                 <div class="kt-login__actions">
-                                    <button id="kt_login_signup_submit" class="btn btn-brand btn-elevate kt-login__btn-primary to">Sign Up</button>&nbsp;&nbsp;
+                                    <button id="kt_login_signup_submit"  class="btn btn-brand btn-elevate kt-login__btn-primary to">Sign Up</button>&nbsp;&nbsp;
 
 
 
                                     <button id="kt_login_signup_cancel" class="btn btn-light btn-elevate kt-login__btn-secondary">Cancel</button>
 
                                 </div>
-
-
-
-                            </form>
+ 
                         </div>
                         <div class="kt-login__forgot">
                             <div class="kt-login__head">
                                 <h3 class="kt-login__title">Forgotten Password ?</h3>
                                 <div class="kt-login__desc">Enter your email to reset your password:</div>
                             </div>
-                            <form class="kt-form" action="#">
+                           @* <form class="kt-form" action="#">*@
                                 <div class="input-group">
                                     <input id="res" class="form-control" type="text" placeholder="User ID" autocomplete="off">
                                 </div>
@@ -304,7 +302,7 @@
                                     <button id="kt_login_forgot_cancel" class="btn btn-light btn-elevate kt-login__btn-secondary">Cancel</button>
 
                                 </div>
-                            </form>
+                            @*</form>*@
                         </div>
 
                     </div>
@@ -370,6 +368,22 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         $(document).ready(function () {
 
             $('#kt_login_forgot_submit').click(function () {
@@ -538,13 +552,53 @@
     }
 </style>
 <script>
+    
+
+       function login(){
+
+
+           console.log($("#Username").val())
+           console.log($("#Password").val())
+
+             $.ajax({
+                    url: "/Home/Login",
+                    dataType: 'json',
+                    type: "POST",
+                    data: {
+                        Username : $("#Username").val(),
+                        Password : $("#Password").val()
+
+                    },
+                    success: function (result) {
+                        debugger
+                        if (!(result.success)) 
+                        {
+                            toastr.error(result.message);
+                            //clearFields();
+                            //  toastr.success(result.msg);
+                        } if ((result.success)) 
+                        {
+                            window.location.href = result.message;
+                        }
+                        else {
+                            debugger
+                            toastr.error(result.message);
+                            return false;
+                        }
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                        console.log(errorMessage);
+                    }
+                });
+       }
+
 
 
     var input = document.getElementById("password");
     input.addEventListener("keyup", function (event) {
         if (event.keyCode === 13) {
             event.preventDefault();
-            document.getElementById("btnLogin").click();
+            document.getElementById("btn_Login").click();
         }
     });
 

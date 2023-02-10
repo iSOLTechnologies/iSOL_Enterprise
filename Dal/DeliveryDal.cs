@@ -158,7 +158,7 @@ namespace iSOL_Enterprise.Dal
                 throw;
             }
         }
-       
+
         public bool AddDelivery(string formData)
         {
             try
@@ -174,7 +174,7 @@ namespace iSOL_Enterprise.Dal
                 try
                 {
 
-                        int Id = CommonDal.getPrimaryKey(tran, "ODLN");
+                    int Id = CommonDal.getPrimaryKey(tran, "ODLN");
                     if (model.HeaderData != null)
                     {
 
@@ -202,8 +202,8 @@ namespace iSOL_Enterprise.Dal
                     }
                     if (model.ListItems != null)
                     {
-                            int LineNo = 1;
-                        int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry","OITL");
+                        int LineNo = 1;
+                        int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");
                         foreach (var item in model.ListItems)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "DLN1");
@@ -217,9 +217,9 @@ namespace iSOL_Enterprise.Dal
                                               + model.HeaderData.CardCode + "','"
                                               + item.ItemCode + "','"
                                               + item.ItemName + "','"
-                                              + model.HeaderData.CardName + "'," 
+                                              + model.HeaderData.CardName + "',"
                                               + -1 * ((Decimal)(item.QTY)) + ",'"
-                                             // + Convert.ToDateTime(DateTime.Now) + "','"
+                                              // + Convert.ToDateTime(DateTime.Now) + "','"
                                               + Convert.ToDateTime(model.HeaderData.DocDate) + "')";
 
                             res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryOITL).ToInt();
@@ -239,28 +239,26 @@ namespace iSOL_Enterprise.Dal
 
                                 foreach (var batch in model.Batches)
                                 {
-
-
-                                    string BatchQueryOBTN = @" Update OBTN set 
-                                                          Quantity = " + ((Decimal)(batch.Quantity) - (Decimal)(batch.selectqty)) + "" +
-
-                                                                   "WHERE AbsEntry = " + batch.AbsEntry + "";
-
-
-                                    res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
-                                    if (res1 <= 0)
-                                    {
-                                        tran.Rollback();
-                                        return false;
-                                    }
-
-
-
                                     foreach (var ii in batch)
                                     {
 
+                                        string BatchQueryOBTN = @" Update OBTN set Quantity = " + ((Decimal)(batch.Quantity) - (Decimal)(batch.selectqty)) + " WHERE AbsEntry = " + batch.AbsEntry + "";
+
+
+                                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
+                                        if (res1 <= 0)
+                                        {
+                                            tran.Rollback();
+                                            return false;
+                                        }
+
+
+
+                                        //foreach (var ii in batch)
+                                        //{
+
                                         string LogQueryITL1 = @"insert into ITL1(LogEntry,ItemCode,SysNumber,Quantity,AllocQty,MdAbsEntry) 
-                                           values(" + LogEntry + ",'"
+                                               values(" + LogEntry + ",'"
                                              + item.ItemCode + "','"
                                              + ii.SysNumber + "',"
                                              + ii.Quantity + ","
@@ -279,14 +277,14 @@ namespace iSOL_Enterprise.Dal
 
                                     }
 
-                                }
+                                    }
                             }
                             #endregion
 
 
                             #endregion
 
-                             
+
                             string RowQueryItem = @"insert into DLN1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
                                                  + LineNo + ",'"
@@ -300,7 +298,7 @@ namespace iSOL_Enterprise.Dal
                                                 + item.UomCode + "','"
                                                 + item.CountryOrg + "')";
 
-                            
+
                             int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
                             if (res2 <= 0)
                             {
@@ -316,7 +314,7 @@ namespace iSOL_Enterprise.Dal
                     else if (model.ListService != null)
                     {
 
-                            int LineNo = 1;
+                        int LineNo = 1;
                         foreach (var item in model.ListService)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "DLN1");
@@ -348,7 +346,7 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
-                            int LineNo = 1;
+                        int LineNo = 1;
                         int ATC1Id = CommonDal.getPrimaryKey(tran, "AbsEntry", "ATC1");
                         foreach (var item in model.ListAttachment)
                         {
@@ -362,7 +360,7 @@ namespace iSOL_Enterprise.Dal
                                                         + item.selectedFilePath + "','"
                                                         + item.selectedFileName + "','"
                                                         + Convert.ToDateTime(item.selectedFileDate) + "')";
-                               
+
                                 int res4 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryAttachment).ToInt();
                                 if (res4 <= 0)
                                 {
@@ -400,8 +398,6 @@ namespace iSOL_Enterprise.Dal
                 return false;
             }
         }
-
-
 
 
 
