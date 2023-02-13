@@ -15,7 +15,7 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 <!-- Render Body <Start> -->
-
+ 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Subheader-->
    
@@ -346,11 +346,15 @@
                                                                             <tbody id="ListParameters" data-repeater-list="" class="ScrollTbody">
                                                                              @if(row["DocType"].Equals("I")){
                                                                               @foreach(DataRow row1 in Model.Tables[1].Rows){
-                                                                                   <tr class="rowItemDetail align-items-center itm">
-                                                                                    <td>
+                                                                                 
+                                                                                            <tr class="rowItemDetail align-items-center itm">
+                                                                                                <td>
                                                                                         <div class="input-group">
-                                                                                            <input id="ItemCode" value="@row1["ItemCode"]" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
-                                                                                            <div id="Itemno" class="input-group-append">
+                                                                                            <input
+                                                                                                disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)"
+                                                                                                
+                                                                                                id="ItemCode" value="@row1["ItemCode"]" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
+                                                                                            <div id="Itemno" class="input-group-append" style="pointer-events: @(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? "none" : "") ;">
                                                                                                 <span class="input-group-text">
                                                                                                     <i class="la la-search"></i>
                                                                                                 </span>
@@ -360,26 +364,36 @@
                                                                                     </td>
                                                                                      
                                                                                     <td>
-                                                                                        <input id="ItemName"  value="@row1["ItemName"]" class="form-control form-control-sm"  type="text">
+                                                                                        <input 
+                                                                                            disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)"
+                                                                                            id="ItemName"  value="@row1["ItemName"]" class="form-control form-control-sm"  type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input  value="@row1["Quantity"]" class="form-control form-control-sm" id="QTY"  type="number">
+                                                                                        <input 
+                                                                                            disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)"
+                                                                                            value="@row1["Quantity"]" class="form-control form-control-sm" id="QTY"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
 
                                                                                     <td>
-                                                                                        <input  value="@row1["price"]" class="form-control form-control-sm" id="UPrc"  type="text">
+                                                                                        <input 
+                                                                                            disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)"
+                                                                                            value="@row1["price"]" class="form-control form-control-sm" id="UPrc"  type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input  value="@row1["DiscPrcnt"]" class="form-control form-control-sm" id="DicPrc"  type="number">
+                                                                                        <input 
+                                                                                            disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)"
+                                                                                            value="@row1["DiscPrcnt"]" class="form-control form-control-sm" id="DicPrc"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td> 
                                                                                        @*<input class="form-control form-control-sm" value="@row1["VatGroup"]" type='number' disabled>*@
                                                                                          
-                                                                                       <select class="form-control vtGroup" id="VatGroup">
+                                                                                       <select 
+                                                                                           disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)"
+                                                                                           class="form-control vtGroup" id="VatGroup">
                                                                                        
                                                                                         @foreach (var ii in ViewBag.Taxes)
                                                                              {
@@ -397,18 +411,24 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         
-                                                                                        <input value="@row1["LineTotal"]"  class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
+                                                                                        <input 
+                                                                                            disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)"
+                                                                                            value="@row1["LineTotal"]"  class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input class="form-control id="UmoCode"  value="@row1["UomCode"]" form-control-sm" id="UomCode">
+                                                                                        <input 
+                                                                                            disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)"
+                                                                                            class="form-control id="UmoCode"  value="@row1["UomCode"]" form-control-sm" id="UomCode">
                                                                                       
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
                                                                                           @*<input class="form-control  value="@row1["CountryOrg"]" form-control-sm" id="CountryOrg">*@
 
-                                                                                        <select class="form-control vtGroup" id="VatGroup">
+                                                                                        <select 
+                                                                                            disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)"
+                                                                                            class="form-control vtGroup" id="VatGroup">
                                                                                         
                                                                                         
                                                                                  @foreach (var j in ViewBag.Countries)
@@ -534,7 +554,7 @@
                                                                                             @if (row["DocType"].Equals("S"))
                                                                         {
                                                                                          @foreach(DataRow row2 in Model.Tables[1].Rows){
-                                                                                        
+                                                                                         
                                                                                         <tr class="rowItemDetail align-items-center itm">
 
                                                                                             <td>
@@ -1284,6 +1304,34 @@ function GetPrice()
         GetListValueMethod();
         GetLisRmCodes();
         GetContactPersons(CntctPerson);
+
+        
+ @*
+     console.log(OpenQty); 
+ $.each([ 52, 97 ], function( index, value ) {
+  alert( index + ": " + value );
+}); 
+ function OpenQtys(OpenQty){
+
+
+      if(OpenQty <= 0 || OpenQty == null){
+            console.log("Open Qty : ",OpenQty);
+  
+        $('#ListParameters .itm').each(function (index, item) {
+           
+            $(this).find('input , select , textarea').each(function (index, data) 
+            {
+               
+                $(this).attr('disabled', true); 
+                
+            });
+              }) 
+        
+        }
+ 
+ }*@
+
+
 
         if (Guid != undefined && Guid != '' && Guid != null) {
             PopulateData();
