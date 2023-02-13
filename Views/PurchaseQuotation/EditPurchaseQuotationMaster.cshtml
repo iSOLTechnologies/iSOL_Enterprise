@@ -378,7 +378,7 @@
                                                                                     <td>
                                                                                         <div class="input-group">
                                                                                             <input disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)" id="ItemCode" value="@row1["ItemCode"]" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
-                                                                                            <div id="Itemno" class="input-group-append"  style="pointer-events: @(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? "none" : "") ;">
+                                                                                                        <div id="Itemno" class="input-group-append" style="pointer-events: @(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? "none" : "") ;">
                                                                                                 <span class="input-group-text">
                                                                                                     <i class="la la-search"></i>
                                                                                                 </span>
