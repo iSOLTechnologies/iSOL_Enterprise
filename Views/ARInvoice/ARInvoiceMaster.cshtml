@@ -859,11 +859,11 @@
                                          $("#BaseLine").val(this.LineNum);
                                          $("#ItemCode").val(this.ItemCode);
                                          $("#ItemName").val(this.ItemName);
-                                         $("#QTY").val(this.Quantity);
+                                         
                                          $("#UomCode").val(this.UomCode);
                                          $("#CountryOrg").val(this.CountryOrg);
                                          $("#VatGroup").val(this.VatGroup);
-
+                                          $("#BaseQty").val(this.OpenQty);
                                     }
                                     else 
                                     {
@@ -1388,7 +1388,19 @@
         var TtlPrc = $(this).closest('#ListParameters .itm').find('#TtlPrc');
         var VatGroup = $(this).closest('#ListParameters .itm').find('#VatGroup');
         var VatGuid =  $('option:selected',VatGroup).attr("guid"); 
-        console.log("My Vallllllll is ", VatGuid)
+        let BaseQty = $(this).closest('#ListParameters .itm').find('#BaseQty');
+
+        if (Number(Qty.val()) <= Number(BaseQty.val())) {
+
+            $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val() - Qty.val());
+        }
+        else {
+
+            toastr.warning("Quantity can't be greater than base quantity");
+            Qty.val(0);
+            $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val());
+        }
+        
 
         if ($(DicPrc).val() == "") {
             var Onepercent = parseFloat($(TtlPrc).val() / 100);
