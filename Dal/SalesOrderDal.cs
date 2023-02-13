@@ -207,8 +207,8 @@ namespace iSOL_Enterprise.Dal
 
                             string RowQueryService = @"insert into RDR1(Id,LineNum,BaseRef,BaseEntry,BaseLine,LineTotal,OpenQty,Dscription,AcctCode,VatGroup)
                                                   values(" + Id + ","
-                                                    + LineNo + ","
-                                                    + item.BaseRef2 + ","
+                                                    + LineNo + ",'"
+                                                    + item.BaseRef2 + "',"
                                                     + item.BaseEntry2 + ","
                                                     + item.BaseLine2 + ","
                                                     + item.TotalLC + ","
