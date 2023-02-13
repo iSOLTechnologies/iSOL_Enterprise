@@ -196,16 +196,7 @@ namespace iSOL_Enterprise.Dal
                                                 + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
                                                 + model.FooterData.Comments + "')";
 
-                        //List<SqlParameter> param2 = new List<SqlParameter>
-                        //        {
-                        //            new SqlParameter("@id",QUT1Id),
-                        //            new SqlParameter("@ItemCode", model.HeaderData.CardCode ),
-                        //            new SqlParameter("@Quantity",item.Quantity),
-                        //            new SqlParameter("@DiscPrcnt",item.DiscPrcnt),
-                        //            new SqlParameter("@VatGroup",item.VatGroup),
-                        //            new SqlParameter("@UomCode",item.UomCode),
-                        //            new SqlParameter("@CountryOrg",item.CountryOrg),
-                        //        };
+                        
 
 
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
@@ -306,7 +297,19 @@ namespace iSOL_Enterprise.Dal
                             #endregion
 
 
-                            string RowQueryItem = @"insert into DLN1(Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+
+                            if (item.BaseEntry != "" && item.BaseEntry != null)
+                            {
+
+                                string Updatequery = @"Update RDR1 set OpenQty =OpenQty - " + item.QTY + " where Id ="+item.BaseEntry + "and LineNum ="+item.BaseLine;
+                                int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+                                if (res <= 0)
+                                {
+                                    tran.Rollback();
+                                    return false;
+                                }
+                            }
+                            string RowQueryItem = @"insert into DLN1(Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
                                                 + LineNo + ",'"
                                                 + item.BaseRef + ","
@@ -314,6 +317,7 @@ namespace iSOL_Enterprise.Dal
                                                 + item.BaseLine + ",'"
                                                 + item.ItemName + "',"
                                                 + item.UPrc + ","
+                                                + item.TtlPrc + ","
                                                 + item.TtlPrc + ",'"
                                                 + item.ItemCode + "',"
                                                 + item.QTY + ","

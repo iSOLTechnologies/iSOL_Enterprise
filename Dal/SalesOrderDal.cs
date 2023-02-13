@@ -150,6 +150,20 @@ namespace iSOL_Enterprise.Dal
                         int LineNo = 1;
                         foreach (var item in model.ListItems)
                         {
+
+
+                            if (item.BaseEntry != "" && item.BaseEntry != null)
+                            {
+
+                                string Updatequery = @"Update QUT1 set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
+                                int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+                                if (res <= 0)
+                                {
+                                    tran.Rollback();
+                                    return false;
+                                }
+                            }
+
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
                             string RowQueryItem = @"insert into RDR1(Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
