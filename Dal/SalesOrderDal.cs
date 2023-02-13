@@ -60,7 +60,7 @@ namespace iSOL_Enterprise.Dal
                     models.PostingDate = rdr["DocDate"].ToDateTime();
                     models.DocNum = rdr["DocNum"].ToString();
                     models.DocType = rdr["DocType"].ToString();
-					models.CardCode = rdr["CardCode"].ToString();
+                    models.CardCode = rdr["CardCode"].ToString();
                     models.Guid = rdr["Guid"].ToString();
                     models.CardName = rdr["CardName"].ToString();
                     list.Add(models);
@@ -78,7 +78,7 @@ namespace iSOL_Enterprise.Dal
                 {
                     SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
 
-                    
+
                     models.DocType = rdr["DocType"].ToString();
                     models.DocNum = rdr["DocNum"].ToString();
                     list.Add(models);
@@ -95,7 +95,7 @@ namespace iSOL_Enterprise.Dal
             string JSONString = string.Empty;
             JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
             return JSONString;
-            
+
         }
 
 
@@ -114,7 +114,7 @@ namespace iSOL_Enterprise.Dal
                 try
                 {
 
-                        int Id = CommonDal.getPrimaryKey(tran, "ORDR");
+                    int Id = CommonDal.getPrimaryKey(tran, "ORDR");
 
                     string DocType = model.ListItems == null ? "S" : "I";
 
@@ -151,9 +151,12 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListItems)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            string RowQueryItem = @"insert into RDR1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            string RowQueryItem = @"insert into RDR1(Id,LineNum,BaseRef,BaseEntry,BaseLine, ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
-                                              + LineNo + ",'"
+                                              + LineNo + ","
+                                              + item.BaseRef + ","
+                                              + item.BaseEntry + ","
+                                              + item.BaseLine + ",'"
                                               + item.ItemName + "',"
                                               + item.UPrc + ","
                                               + item.TtlPrc + ",'"
@@ -181,17 +184,20 @@ namespace iSOL_Enterprise.Dal
                     else if (model.ListService != null)
                     {
 
-                            int LineNo = 1;
+                        int LineNo = 1;
                         foreach (var item in model.ListService)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "RDR1");
 
-                            string RowQueryService = @"insert into RDR1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
+                            string RowQueryService = @"insert into RDR1(Id,LineNum,BaseRef,BaseEntry,BaseLine,LineTotal,Dscription,AcctCode,VatGroup)
                                                   values(" + Id + ","
                                                     + LineNo + ","
+                                                    + item.BaseRef2 + ","
+                                                    + item.BaseEntry2 + ","
+                                                    + item.BaseLine2 + ","
                                                     + item.TotalLC + ",'"
                                                     + item.Dscription + "','"
-                                                    + item.AcctCode + "','" 
+                                                    + item.AcctCode + "','"
                                                     + item.VatGroup2 + "')";
 
 
@@ -213,7 +219,7 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
-                            int LineNo = 1;
+                        int LineNo = 1;
                         int ATC1Id = CommonDal.getPrimaryKey(tran, "AbsEntry", "ATC1");
                         foreach (var item in model.ListAttachment)
                         {
@@ -340,7 +346,7 @@ namespace iSOL_Enterprise.Dal
                                               + item.UomCode + "','"
                                               + item.CountryOrg + "')";
 
-                            
+
 
                             int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
                             if (res2 <= 0)
@@ -361,15 +367,15 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListService)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                             string RowQueryService = @"insert into RDR1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
+                            string RowQueryService = @"insert into RDR1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
                                                   values(" + model.ID + ","
-                                                    + LineNo + ","
-                                                     + item.TotalLC + ",'"
-                                                    + item.Dscription + "','"
-                                                    + item.AcctCode + "','" 
-                                                    + item.VatGroup2 + "')";
+                                                   + LineNo + ","
+                                                    + item.TotalLC + ",'"
+                                                   + item.Dscription + "','"
+                                                   + item.AcctCode + "','"
+                                                   + item.VatGroup2 + "')";
 
-                            
+
 
                             int res3 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryService).ToInt();
                             if (res3 <= 0)
@@ -402,7 +408,7 @@ namespace iSOL_Enterprise.Dal
                                                         + item.selectedFilePath + "','"
                                                         + item.selectedFileName + "','"
                                                         + Convert.ToDateTime(item.selectedFileDate) + "')";
-                               
+
                                 int res4 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryAttachment).ToInt();
                                 if (res4 <= 0)
                                 {

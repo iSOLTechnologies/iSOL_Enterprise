@@ -177,7 +177,7 @@ namespace iSOL_Enterprise.Dal
                     int Id = CommonDal.getPrimaryKey(tran, "ODLN");
                     if (model.HeaderData != null)
                     {
-
+                        
 
                         string HeadQuery = @"insert into ODLN(Id,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
                                            values(" + Id + ",'"
@@ -196,6 +196,16 @@ namespace iSOL_Enterprise.Dal
                                                 + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
                                                 + model.FooterData.Comments + "')";
 
+                        //List<SqlParameter> param2 = new List<SqlParameter>
+                        //        {
+                        //            new SqlParameter("@id",QUT1Id),
+                        //            new SqlParameter("@ItemCode", model.HeaderData.CardCode ),
+                        //            new SqlParameter("@Quantity",item.Quantity),
+                        //            new SqlParameter("@DiscPrcnt",item.DiscPrcnt),
+                        //            new SqlParameter("@VatGroup",item.VatGroup),
+                        //            new SqlParameter("@UomCode",item.UomCode),
+                        //            new SqlParameter("@CountryOrg",item.CountryOrg),
+                        //        };
 
 
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
@@ -296,12 +306,15 @@ namespace iSOL_Enterprise.Dal
                             #endregion
 
 
-                            string RowQueryItem = @"insert into DLN1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            string RowQueryItem = @"insert into DLN1(Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
-                                                 + LineNo + ",'"
-                                              + item.ItemName + "',"
-                                              + item.UPrc + ","
-                                              + item.TtlPrc + ",'"
+                                                + LineNo + ",'"
+                                                + item.BaseRef + ","
+                                                + item.BaseEntry + ","
+                                                + item.BaseLine + ",'"
+                                                + item.ItemName + "',"
+                                                + item.UPrc + ","
+                                                + item.TtlPrc + ",'"
                                                 + item.ItemCode + "',"
                                                 + item.QTY + ","
                                                 + item.DicPrc + ",'"
@@ -330,13 +343,16 @@ namespace iSOL_Enterprise.Dal
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "DLN1");
 
-                            string RowQueryService = @"insert into DLN1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
+                            string RowQueryService = @"insert into DLN1(Id,LineNum,BaseRef,BaseEntry,BaseLine,LineTotal,Dscription,AcctCode,VatGroup)
                                                   values(" + Id + ","
                                                      + LineNo + ","
+                                                     + item.BaseRef2 + ","
+                                                     + item.BaseEntry2 + ","
+                                                     + item.BaseLine2 + ","
                                                      + item.TotalLC + ",'"
-                                                    + item.Dscription + "','"
-                                                    + item.AcctCode + "','"
-                                                    + item.VatGroup2 + "')";
+                                                     + item.Dscription + "','"
+                                                     + item.AcctCode + "','"
+                                                     + item.VatGroup2 + "')";
 
 
 
