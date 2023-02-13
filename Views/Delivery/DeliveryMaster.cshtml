@@ -1427,14 +1427,12 @@
         var VatGuid =  $('option:selected',VatGroup).attr("guid"); 
         let BaseQty = $(this).closest('#ListParameters .itm').find('#BaseQty');
 
-        if (Number( Qty.val() ) <= Number( BaseQty.val())) 
-        {
-           
+        if (Number(Qty.val()) <= Number(BaseQty.val())) {
+
             $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val() - Qty.val());
         }
-        else 
-        {
-        
+        else {
+
             toastr.warning("Quantity can't be greater than base quantity");
             Qty.val(0);
             $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val());
