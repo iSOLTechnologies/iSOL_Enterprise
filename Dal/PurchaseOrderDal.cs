@@ -95,7 +95,7 @@ namespace iSOL_Enterprise.Dal
         {
             DataSet ds = new DataSet();
             SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-            SqlDataAdapter sda = new SqlDataAdapter("select Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup ,UomCode,CountryOrg,Dscription,AcctCode from PQT1 where id = " + DocId + "", conn);
+            SqlDataAdapter sda = new SqlDataAdapter("select Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup ,UomCode,CountryOrg,Dscription,AcctCode,OpenQty from PQT1 where id = " + DocId + "", conn);
             sda.Fill(ds);
             string JSONString = string.Empty;
             JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
@@ -341,19 +341,36 @@ namespace iSOL_Enterprise.Dal
                         int LineNo = 1;
                         foreach (var item in model.ListItems)
                         {
+
+                            if (item.BaseEntry != "" && item.BaseEntry != null)
+                            {
+
+                                string Updatequery = @"Update PQT1 set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
+                                int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+                                if (res <= 0)
+                                {
+                                    tran.Rollback();
+                                    return false;
+                                }
+                            }
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            string RowQueryItem = @"insert into POR1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            string RowQueryItem = @"insert into POR1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
-                                                + LineNo + ",'"
+                                              + LineNo + ",'"
+                                              + item.BaseRef + "',"
+                                              + item.BaseEntry + ","
+                                              + item.BaseLine + ","
+                                              + item.BaseQty + ",'"
                                               + item.ItemName + "',"
                                               + item.UPrc + ","
-                                              + item.TtlPrc + ",'"
-                                                + item.ItemCode + "',"
-                                                + item.QTY + ","
-                                                + item.DicPrc + ",'"
-                                                + item.VatGroup + "','"
-                                                + item.UomCode + "','"
-                                                + item.CountryOrg + "')";
+                                              + item.TtlPrc + ","
+                                              + item.QTY + ",'"
+                                              + item.ItemCode + "',"
+                                              + item.QTY + ","
+                                              + item.DicPrc + ",'"
+                                              + item.VatGroup + "','"
+                                              + item.UomCode + "','"
+                                              + item.CountryOrg + "')";
 
                             #region sqlparam
                             //List<SqlParameter> param2 = new List<SqlParameter>
@@ -388,10 +405,14 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListService)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            string RowQueryService = @"insert into POR1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
+                            string RowQueryService = @"insert into POR1(Id,LineNum,BaseRef,BaseEntry,BaseLine,LineTotal,OpenQty,Dscription,AcctCode,VatGroup)
                                                   values(" + Id + ","
-                                                   + LineNo + ","
-                                                     + item.TotalLC + ",'"
+                                                    + LineNo + ",'"
+                                                    + item.BaseRef2 + "',"
+                                                    + item.BaseEntry2 + ","
+                                                    + item.BaseLine2 + ","
+                                                    + item.TotalLC + ","
+                                                    + item.TotalLC + ",'"
                                                     + item.Dscription + "','"
                                                     + item.AcctCode + "','"
                                                     + item.VatGroup2 + "')";

@@ -349,7 +349,7 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListService)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            string RowQueryService = @"insert into QUT1(Id,LineNum,LineTotal,Dscription,PQTReqDate,ShipDate,AcctCode,VatGroup)
+                            string RowQueryService = @"insert into PQT1(Id,LineNum,LineTotal,Dscription,PQTReqDate,ShipDate,AcctCode,VatGroup)
                                                   values(" + Id + ","
                                                     + LineNo + ","
                                                     + item.TotalLC + ",'"
