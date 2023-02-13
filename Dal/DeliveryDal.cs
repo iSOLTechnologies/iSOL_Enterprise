@@ -82,7 +82,7 @@ namespace iSOL_Enterprise.Dal
         {
             DataSet ds = new DataSet();
             SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-            SqlDataAdapter sda = new SqlDataAdapter("select Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup ,UomCode,CountryOrg,Dscription,AcctCode from RDR1 where id = " + DocId + "", conn);
+            SqlDataAdapter sda = new SqlDataAdapter("select Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup,UomCode,CountryOrg,Dscription,AcctCode,OpenQty from RDR1 where id = " + DocId + "", conn);
             sda.Fill(ds);
             string JSONString = string.Empty;
             JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
