@@ -79,7 +79,7 @@ namespace iSOL_Enterprise.Dal
         {
             DataSet ds = new DataSet();
             SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-            SqlDataAdapter sda = new SqlDataAdapter("select Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup ,UomCode,CountryOrg,Dscription,AcctCode from DLN1 where id = " + DocId + "", conn);
+            SqlDataAdapter sda = new SqlDataAdapter("select Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup ,UomCode,CountryOrg,Dscription,AcctCode,OpenQty from DLN1 where id = " + DocId + "", conn);
             sda.Fill(ds);
             string JSONString = string.Empty;
             JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
@@ -145,17 +145,28 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListItems)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
+                            if (item.BaseEntry != "" && item.BaseEntry != null)
+                            {
 
-                            string RowQueryItem = @"insert into INV1(Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                                string Updatequery = @"Update DLN1 set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
+                                int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+                                if (res <= 0)
+                                {
+                                    tran.Rollback();
+                                    return false;
+                                }
+                            }
+                            string RowQueryItem = @"insert into INV1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
                                                 + LineNo + ",'"
-                                                + item.BaseRef + ","
+                                                + item.BaseRef + "',"
                                                 + item.BaseEntry + ","
-                                                + item.BaseLine + ",'"
+                                                + item.BaseLine + ","
+                                                + item.BaseQty + ",'"
                                                 + item.ItemName + "',"
                                                 + item.UPrc + ","
                                                 + item.TtlPrc + ","
-                                                + item.TtlPrc + ",'"
+                                                + item.QTY + ",'"
                                                 + item.ItemCode + "',"
                                                 + item.QTY + ","
                                                 + item.DicPrc + ",'"
@@ -186,17 +197,16 @@ namespace iSOL_Enterprise.Dal
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
 
-                            string RowQueryService = @"insert into INV1(Id,LineNum,BaseRef,BaseEntry,BaseLine,LineTotal,OpenQty,Dscription,AcctCode,VatGroup)
+                            string RowQueryService = @"insert into INV1(Id,LineNum,BaseRef,BaseEntry,BaseLine,LineTotal,Dscription,AcctCode,VatGroup)
                                                   values(" + Id + ","
-                                                    + LineNo + ","
-                                                    + item.BaseRef2 + ","
-                                                    + item.BaseEntry2 + ","
-                                                    + item.BaseLine2 + ","
-                                                    + item.TotalLC + ","
-                                                    + item.TotalLC + ",'"
-                                                    + item.Dscription + "','"
-                                                    + item.AcctCode + "','"
-                                                    + item.VatGroup2 + "')";
+                                                     + LineNo + ","
+                                                     + item.BaseRef2 + ","
+                                                     + item.BaseEntry2 + ","
+                                                     + item.BaseLine2 + ","
+                                                     + item.TotalLC + ",'"
+                                                     + item.Dscription + "','"
+                                                     + item.AcctCode + "','"
+                                                     + item.VatGroup2 + "')";
 
 
 

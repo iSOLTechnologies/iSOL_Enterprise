@@ -327,6 +327,8 @@
                                                                                     <th>Item No.</th>
                                                                                     <th>Item Name</th>
                                                                                     <th>Quantity</th>
+                                                                                    <th>BaseQty</th>
+                                                                                    <th>OpenQty</th>
                                                                                     <th>Unit Price</th>
                                                                                     <th>Discount %</th>
                                                                                     <th>Tax Code</th>
@@ -339,15 +341,15 @@
                                                                                 <!-- @*<tr class="rowItemDetail">*@ -->
                                                                                 <tr class="rowItemDetail align-items-center itm">
                                                                                     <td>
-                                                                                        <input id="BaseRef" class="form-control form-control-sm NotReq">
+                                                                                        <input id="BaseRef" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input id="BaseEntry" class="form-control form-control-sm NotReq">
+                                                                                        <input id="BaseEntry" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input id="BaseLine" class="form-control form-control-sm NotReq">
+                                                                                        <input id="BaseLine" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
@@ -369,7 +371,14 @@
                                                                                         <input class="form-control form-control-sm" id="QTY"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-
+                                                                                    <td>
+                                                                                        <input readonly class="form-control form-control-sm NotReq" id="BaseQty"  type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
                                                                                     <td>
                                                                                         <input class="form-control form-control-sm" id="UPrc"  type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -981,10 +990,25 @@
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input class="form-control form-control-sm"  value=`+data.Quantity+` id="QTY"  type="number">
+                                                                                            <input class="form-control form-control-sm"  id="QTY"  type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
-
+                                                                                        <td>
+                                                                                        <input readonly class="form-control form-control-sm NotReq" value=`+data.OpenQty+` id="BaseQty"  type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                        <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                        <td>
+                                                                                        <input readonly class="form-control form-control-sm NotReq" id="BaseQty"  type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
                                                                                         <td>
                                                                                             <input class="form-control form-control-sm" id="UPrc"  type="text">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -1239,7 +1263,14 @@
                                                                                 <input class="form-control form-control-sm" id = "QTY" onkeyup = "GetPrice()" type = "number">
                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                             </td>
-
+                                                                            <td>
+                                                                                        <input readonly class="form-control form-control-sm NotReq" id="BaseQty"  type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
                                                                             <td>
                                                                                 <input class="form-control form-control-sm" id = "UPrc" onkeyup = "GetPrice()" type = "text" >
                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -1625,15 +1656,15 @@ function GetPrice()
     $(document).on('click', '#ListBtnAddd', function (e) {
         var html = `    <tr class="rowItemDetail align-items-center itm">
                                                                                         <td>
-                                                                                            <input id="BaseRef" class="form-control form-control-sm NotReq">
+                                                                                            <input id="BaseRef" readonly class="form-control form-control-sm NotReq">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input id="BaseEntry" class="form-control form-control-sm NotReq">
+                                                                                            <input id="BaseEntry" readonly class="form-control form-control-sm NotReq">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
-                                                                                        <td>
-                                                                                            <input id="BaseLine" class="form-control form-control-sm NotReq">
+                                                                                        <td> 
+                                                                                            <input id="BaseLine" readonly class="form-control form-control-sm NotReq">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                             <td>
@@ -1655,7 +1686,14 @@ function GetPrice()
                                                                                                 <input class="form-control form-control-sm" id="QTY"  type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
-
+                                                                                            <td>
+                                                                                            <input readonly class="form-control form-control-sm NotReq" id="BaseQty"  type="number">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
                                                                                             <td>
                                                                                                 <input class="form-control form-control-sm" id="UPrc"  type="text">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
