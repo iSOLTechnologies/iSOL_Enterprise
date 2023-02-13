@@ -146,7 +146,7 @@ namespace iSOL_Enterprise.Dal
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
 
-                            string RowQueryItem = @"insert into INV1(Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            string RowQueryItem = @"insert into INV1(Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
                                                 + LineNo + ",'"
                                                 + item.BaseRef + ","
@@ -154,6 +154,7 @@ namespace iSOL_Enterprise.Dal
                                                 + item.BaseLine + ",'"
                                                 + item.ItemName + "',"
                                                 + item.UPrc + ","
+                                                + item.TtlPrc + ","
                                                 + item.TtlPrc + ",'"
                                                 + item.ItemCode + "',"
                                                 + item.QTY + ","
@@ -185,12 +186,13 @@ namespace iSOL_Enterprise.Dal
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
 
-                            string RowQueryService = @"insert into INV1(Id,LineNum,BaseRef,BaseEntry,BaseLine,LineTotal,Dscription,AcctCode,VatGroup)
+                            string RowQueryService = @"insert into INV1(Id,LineNum,BaseRef,BaseEntry,BaseLine,LineTotal,OpenQty,Dscription,AcctCode,VatGroup)
                                                   values(" + Id + ","
                                                     + LineNo + ","
                                                     + item.BaseRef2 + ","
                                                     + item.BaseEntry2 + ","
                                                     + item.BaseLine2 + ","
+                                                    + item.TotalLC + ","
                                                     + item.TotalLC + ",'"
                                                     + item.Dscription + "','"
                                                     + item.AcctCode + "','"
