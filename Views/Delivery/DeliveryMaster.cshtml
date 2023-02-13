@@ -325,15 +325,15 @@
                                                                                 <!-- @*<tr class="rowItemDetail">*@ -->
                                                                                 <tr class="rowItemDetail align-items-center itm">
                                                                                       <td>
-                                                                                        <input id="BaseRef" class="form-control form-control-sm NotReq">
+                                                                                        <input id="BaseRef" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input id="BaseEntry" class="form-control form-control-sm NotReq">
+                                                                                        <input id="BaseEntry" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input id="BaseLine" class="form-control form-control-sm NotReq">
+                                                                                        <input id="BaseLine" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
@@ -370,11 +370,11 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input class="form-control form-control-sm" id="BaseQty"  type="number">
+                                                                                        <input readonly class="form-control form-control-sm NotReq" id="BaseQty"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input class="form-control form-control-sm" id="OpenQty"  type="number">
+                                                                                        <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
@@ -962,15 +962,15 @@
     {
         var html = `    <tr class="rowItemDetail align-items-center itm">
                                                                                     <td>
-                                                                                        <input id="BaseRef" value="`+baseRef+`" class="form-control form-control-sm NotReq">
+                                                                                        <input id="BaseRef" readonly value="`+baseRef+`" class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input id="BaseEntry" value="`+data.Id+`"  class="form-control form-control-sm NotReq">
+                                                                                        <input id="BaseEntry" readonly value="`+data.Id+`"  class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input id="BaseLine" value="`+data.LineNum+`" class="form-control form-control-sm NotReq">
+                                                                                        <input id="BaseLine" readonly value="`+data.LineNum+`" class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                         <td>
@@ -1008,11 +1008,11 @@
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                        <input class="form-control form-control-sm" value=`+data.OpenQty+` id="BaseQty"  type="number">
+                                                                                        <input readonly class="form-control form-control-sm NotReq" value=`+data.OpenQty+` id="BaseQty"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input class="form-control form-control-sm" id="OpenQty"  type="number">
+                                                                                        <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                         <td>
@@ -1279,15 +1279,16 @@
 
                                                                                         
                                                                                 </td>
+                                                                                <td>
                                                                                 <input class="form-control form-control-sm" id = "QTY" onkeyup = "GetPrice()" type = "number">
                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                 </td>
                                                                                 <td>
-                                                                                        <input class="form-control form-control-sm" id="BaseQty"  type="number">
+                                                                                        <input readonly class="form-control form-control-sm NotReq" id="BaseQty"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input class="form-control form-control-sm" id="OpenQty"  type="number">
+                                                                                        <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                             <td>
@@ -1871,11 +1872,11 @@ function GetPrice()
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input class="form-control form-control-sm" id="BaseQty"  type="number">
+                                                                                                <input readonly class="form-control form-control-sm NotReq" id="BaseQty"  type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input class="form-control form-control-sm" id="OpenQty"  type="number">
+                                                                                                <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>

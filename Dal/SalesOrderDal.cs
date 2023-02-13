@@ -165,16 +165,17 @@ namespace iSOL_Enterprise.Dal
                             }
 
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            string RowQueryItem = @"insert into RDR1(Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            string RowQueryItem = @"insert into RDR1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
-                                              + LineNo + ","
-                                              + item.BaseRef + ","
+                                              + LineNo + ",'"
+                                              + item.BaseRef + "',"
                                               + item.BaseEntry + ","
-                                              + item.BaseLine + ",'"
+                                              + item.BaseLine + ","
+                                              + item.BaseQty + ",'"
                                               + item.ItemName + "',"
                                               + item.UPrc + ","
                                               + item.TtlPrc + ","
-                                              + item.TtlPrc + ",'"
+                                              + item.QTY + ",'"
                                               + item.ItemCode + "',"
                                               + item.QTY + ","
                                               + item.DicPrc + ",'"

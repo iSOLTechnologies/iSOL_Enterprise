@@ -309,16 +309,17 @@ namespace iSOL_Enterprise.Dal
                                     return false;
                                 }
                             }
-                            string RowQueryItem = @"insert into DLN1(Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            string RowQueryItem = @"insert into DLN1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
                                                 + LineNo + ",'"
-                                                + item.BaseRef + ","
+                                                + item.BaseRef + "',"
                                                 + item.BaseEntry + ","
-                                                + item.BaseLine + ",'"
+                                                + item.BaseLine + ","
+                                                + item.BaseQty + ",'"
                                                 + item.ItemName + "',"
                                                 + item.UPrc + ","
                                                 + item.TtlPrc + ","
-                                                + item.TtlPrc + ",'"
+                                                + item.QTY + ",'"
                                                 + item.ItemCode + "',"
                                                 + item.QTY + ","
                                                 + item.DicPrc + ",'"
