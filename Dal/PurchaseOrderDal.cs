@@ -290,7 +290,7 @@ namespace iSOL_Enterprise.Dal
                 try
                 {
                     int Id = CommonDal.getPrimaryKey(tran, "OPOR");
-
+                    string DocNum = SqlHelper.getUpdatedDocumentNumberOnLoad(tran, "OPOR", "PO");
                     if (model.HeaderData != null)
                     {
 
@@ -300,7 +300,7 @@ namespace iSOL_Enterprise.Dal
                                                 + DocType + "','"
                                                 + CommonDal.generatedGuid() + "','"
                                                 + model.HeaderData.CardCode + "','"
-                                                + model.HeaderData.DocNum + "','"
+                                                + DocNum + "','"
                                                 + model.HeaderData.Segment + "','"
                                                 + model.HeaderData.CardName + "','"
                                                 + model.HeaderData.CntctCode + "','"

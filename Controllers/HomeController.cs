@@ -22,9 +22,11 @@ namespace iSOL_Enterprise.Controllers
         private readonly ILogger<HomeController> _logger;
         IConfiguration _configuration;
         //private readonly HttpContextAccessor _accessor;
+        private readonly IHttpContextAccessor context;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
+        public HomeController(IHttpContextAccessor context, ILogger<HomeController> logger, IConfiguration configuration)
         {
+            this.context = context;
             _logger = logger;
             _configuration = configuration;
             //_accessor = accessor;
@@ -34,8 +36,8 @@ namespace iSOL_Enterprise.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-            SqlHelperExtensions.SqlHelper.defaultDB = _configuration["ConnectionStrings:iSolConStr"].ToString();
-            SqlHelperExtensions.SqlHelper.defaultSapDB = _configuration["ConnectionStrings:SapConStr"].ToString();
+            //SqlHelperExtensions.SqlHelper.defaultDB = _configuration["ConnectionStrings:iSolConStr"].ToString();
+            //SqlHelperExtensions.SqlHelper.defaultSapDB = _configuration["ConnectionStrings:SapConStr"].ToString();
             return View();
         }
         public IActionResult Privacy()

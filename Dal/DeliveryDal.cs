@@ -175,6 +175,7 @@ namespace iSOL_Enterprise.Dal
                 {
 
                     int Id = CommonDal.getPrimaryKey(tran, "ODLN");
+                    string DocNum = SqlHelper.getUpdatedDocumentNumberOnLoad(tran, "ODLN", "DV");
                     if (model.HeaderData != null)
                     {
                         
@@ -184,7 +185,7 @@ namespace iSOL_Enterprise.Dal
                                                + DocType + "','"
                                                 + CommonDal.generatedGuid() + "','"
                                                 + model.HeaderData.CardCode + "','"
-                                                + model.HeaderData.DocNum + "','"
+                                                + DocNum + "','"
                                                 + model.HeaderData.CardName + "','"
                                                 + model.HeaderData.CntctCode + "','"
                                                 + Convert.ToDateTime(model.HeaderData.DocDate) + "','"

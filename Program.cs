@@ -5,12 +5,26 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddSession(options => {
-    options.IdleTimeout = TimeSpan.FromMinutes(10);//You can set Time   
 
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+    //options.Cookie.HttpOnly = true;
+    //options.Cookie.IsEssential = true;
 });
+
+
+//builder.Services.AddHttpContextAccessor();
+
+//builder.Services.AddSession(options => {
+//    options.IdleTimeout = TimeSpan.FromMinutes(10);//You can set Time   
+
+//});
 
 
 
@@ -24,16 +38,19 @@ builder.Services.AddAuthentication
         option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
     });
 
+ 
+//builder.Services.ConfigureApplicationCookie(options =>
+//{
+//    options.LoginPath = "/Home/Index";
+//    options.SlidingExpiration = true;
+//    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+//});
+
+builder.Services.AddMvc();
+builder.Services.AddControllers();
+builder.Services.AddRazorPages();
 
 
-
-
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.LoginPath = "/home/";
-    options.SlidingExpiration = true;
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
-});
 
 var app = builder.Build();
 

@@ -110,8 +110,8 @@ namespace iSOL_Enterprise.Dal
                 int res1 = 0;
                 try
                 {
-                        int Id = CommonDal.getPrimaryKey(tran, "OPCH");
-
+                    int Id = CommonDal.getPrimaryKey(tran, "OPCH");
+                    string DocNum = SqlHelper.getUpdatedDocumentNumberOnLoad(tran, "OPCH", "API");
                     if (model.HeaderData != null)
                     {
 
@@ -121,7 +121,7 @@ namespace iSOL_Enterprise.Dal
                                                 + DocType + "','"
                                                 + CommonDal.generatedGuid() + "','"
                                                 + model.HeaderData.CardCode + "','"
-                                                + model.HeaderData.DocNum + "','"
+                                                + DocNum + "','"
                                                 + model.HeaderData.CardName + "','"
                                                 + model.HeaderData.CntctCode + "','"
                                                 + Convert.ToDateTime(model.HeaderData.DocDate) + "','"
