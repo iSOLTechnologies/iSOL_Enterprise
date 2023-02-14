@@ -261,6 +261,27 @@ where s.Status=1 and p.Guid=@Guid";
             id = id + 1;
             return id;
         }
+        public static bool Check_IsEditable(string table, int id)
+        {
+            string query = "select Count(*) as count from  " + table + " where BaseEntry = " + id + ")";
+            int count = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, query).ToInt();
+            if (count > 0)
+            {
+                return true;
+            }
+
+            return false;
+
+        }
+
+
+        public static string getDocType(SqlTransaction tran, string tblName , string id)
+        {
+            string query   = "select DocType from " + tblName + " where Id =" +id;
+            //string query   = "select DocType from ORDR where Id = 1 " ;
+            string data = SqlHelper.ExecuteScalar(tran, CommandType.Text, query).ToString(); 
+            return data;
+        }
         public static int getLineNumber(SqlTransaction tran, string tblName , string id)
         {
             string query = "select max(LineNum) from " + tblName + " where Id =" +id;

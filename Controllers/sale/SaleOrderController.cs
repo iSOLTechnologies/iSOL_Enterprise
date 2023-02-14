@@ -1,4 +1,5 @@
-﻿using iSOL_Enterprise.Dal;
+﻿using iSOL_Enterprise.Common;
+using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -90,6 +91,7 @@ namespace iSOL_Enterprise.Controllers
         //    return code + "-" + a;
         //}
 
+      
         public string getUpdatedDocumentNumberOnLoad()
         {
             return SqlHelper.getUpdatedDocumentNumberOnLoad("ORDR", "SO");
