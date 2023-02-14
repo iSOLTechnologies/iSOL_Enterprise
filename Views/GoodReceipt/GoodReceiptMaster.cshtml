@@ -143,6 +143,33 @@
                             overflow: hidden;
                             text-overflow: ellipsis;
                         }
+                        
+                        .BatchTableContainer {
+                            max-height: 330px;
+                           /* margin-bottom: 10px;*/
+                            overflow-x: hidden;
+                            overflow-y: scroll;
+                            -webkit-overflow-scrolling: touch;
+                            /*border: 1px solid lightgrey;*/
+                        }
+
+                        .scrollbar-ripe-malinka::-webkit-scrollbar-track {
+                            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+                            background-color: #F5F5F5;
+                            border-radius: 10px;
+                        }
+
+                        .scrollbar-ripe-malinka::-webkit-scrollbar {
+                            width: 0.5rem;
+                            background-color: #F5F5F5;
+                        }
+
+                        .scrollbar-ripe-malinka::-webkit-scrollbar-thumb {
+                            border-radius: 10px;
+                            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+                            background-image: -webkit-linear-gradient(330deg, #808080 0%, #808080 100%);
+                            background-image: linear-gradient(120deg, #808080 0%, #808080 100%);
+                        }
                     </style>
                     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
                         <div class="row">
@@ -309,6 +336,7 @@
                                                                                     <th>BaseLine</th>
                                                                                     <th>Item No.</th>
                                                                                     <th>Item Name</th>
+                                                                                    <th>Warehouse</th>
                                                                                     <th>Quantity</th>
                                                                                     <th>BaseQty</th>
                                                                                     <th>OpenQty</th>
@@ -349,6 +377,19 @@
                                                                                     <td>
                                                                                         <input id="ItemName" class="form-control form-control-sm"  type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <select class="form-control" id="Warehouse">
+                                                                                            </select>
+                                                                                            <div id="ListbtnSelectBatch" class="input-group-append">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-warehouse"></i>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+
+
                                                                                     </td>
                                                                                     <td>
                                                                                         <input class="form-control form-control-sm" id="QTY"  type="number">
@@ -412,7 +453,7 @@
                                                                         <table id="kt_repeater_2" style="overflow:auto">
                                                                             <thead class="ScrollThead2">
                                                                                 <tr>
-                                                                                      <th>BaseRef</th>
+                                                                                    <th>BaseRef</th>
                                                                                     <th>BaseEntry</th>
                                                                                     <th>BaseLine</th>
                                                                                     <th>Description</th>
@@ -692,9 +733,131 @@
                             </div>
                         </div>
                     </div>
+                    <div class="modal fade" id="myBatchAddmodal" role="dialog">
+           <div class="modal-dialog modal-dialog-centered modal-xl">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="card-title">Batches Setup</h5>
+					<button type="button" class="close text-danger" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<!-- General Form Elements -->
+					<div class="container">
+						<div class="card-body" style="padding:0">
+							<!--begin: Datatable-->
+							
+							<div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+								<div class="row">
+									<div class="col-sm-12 scrollbar mb-2 pb-2" style="overflow:auto">
+										<table id="rowsFromdocumentTable2" class="table-bordered">
+                                            <thead class="ScrollThead">
+                                               <tr>
+                                                    <th>Item No.</th>
+                                                    <th>Item Description</th>
+                                                    <th>WHse Code</th>
+                                                    <th>Quantity</th>
+                                                    <th>Total Needed</th>
+                                                    <th>Total Selected</th>
+                                                    <th>Total Batches</th>
+                                                    <th>Direction</th>
+                                                </tr>
+                                            </thead>
+											<tbody id="ListParameters5" data-repeater-list="" class="ScrollTbody">
+												<tr class="rowItemDetail align-items-center itm">
+													<td>
+                                                       <input id="adItemno" readonly class="form-control form-control-sm" >
+                                                        <div id="ErrorMsg"  class="error invalid-feedback">This field is required.</div>
+                                                    </td>
+													<td>
+                                                       <input id="adItemDesc" readonly class="form-control form-control-sm">
+                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                    </td>
+													<td>
+                                                       <input id="adWarehouse" readonly class="form-control form-control-sm" >
+                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                    </td>
+													<td>
+                                                       <input id="adQuantity" readonly class="form-control form-control-sm" >
+                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                    </td>
+													<td>
+                                                       <input id="adTotalNeeded" readonly class="form-control form-control-sm" >
+                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                    </td>
+													<td>
+                                                       <input id="adTotalSelected" readonly class="form-control form-control-sm" >
+                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                    </td>
+													<td>
+                                                       <input id="adTotalBacthes" readonly class="form-control form-control-sm" >
+                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                    </td>
+													<td>
+                                                       <input id="adDirection" readonly class="form-control form-control-sm" >
+                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                    </td>
+												
+												</tr>
+											
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-12 mt-3 BatchTableContainer scrollbar-ripe-malinka">
+										<!--begin: Datatable-->
+										<table class="table" id="MyyyyBatchAddTable" style="overflow:auto">
+											<thead class="ScrollThead2">
+												<tr>
+													<th>Batch</th>
+													<th>Qty</th>
+													<th>ExpiryDate</th>
+												</tr>
+											</thead>
+                                            <tbody id="ListParameters6" data-repeater-list="" class="ScrollTbody2">
+                                                         <tr class="rowItemDetail align-items-center itm">
 
+                                                            <td>
+                                                                 <input id="DistNumber" class="form-control form-control-sm">
+                                                               <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                            </td>                
+                                                            <td>
+                                                                 <input id="BQuantity" class="form-control form-control-sm">
+                                                               <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                            </td>
+                                                            <td>
+                                                                 <input id="ExpDate" type="date" class="form-control form-control-sm" placeholder="Valid until">
+                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                            </td> 
+                                                        </tr>
+                                            </tbody>
+										</table>
+                                               <div style="margin-top:1%" class="form-group form-group-last row">
+                                                 <div class="col-md-6">
+                                                     <button type="button" id="ListBtnAddBatch" data-repeater-create="" class="btn btn-light-primary font-weight-bold btn-sm">
+                                                         <i class="la la-plus"></i> Add
+                                                     </button>
+                                                  </div>
+                                              </div>
 
+									</div>
+									
+								</div>
+							</div>
+							<!--end: Datatable-->
+						</div>
+					</div>
+				</div>
 
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-success mr-2"  id="btnAddbatchTableOk"> Ok </button>
+					<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+
+                    </div>
 
 
                 </form>
@@ -737,6 +900,8 @@
     var vatGroupData = "";
     var CountryData = "";
     var ItemServiceType = '1';
+    var WareHouseData ="";
+    var AddedBatches = [];
     const boxes = document.querySelectorAll('.d');
 
     for (const box of boxes) {
@@ -972,6 +1137,20 @@
                                                                                             <input id="ItemName" value="`+data.ItemName+`" class="form-control form-control-sm"  type="text">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
+                                                                                        <td>
+                                                                                        <div class="input-group">
+                                                                                            <select class="form-control" id="Warehouse">
+                                                                                             `+ WareHouseData + `
+                                                                                            </select>
+                                                                                            <div id="ListbtnSelectBatch" class="input-group-append">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-warehouse"></i>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        
+                                                                                    </td>
                                                                                         <td>
                                                                                             <input class="form-control form-control-sm"   id="QTY"  type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -1232,6 +1411,20 @@
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </td>
                                                                         <td>
+                                                                                        <div class="input-group">
+                                                                                            <select class="form-control" id="Warehouse">
+                                                                                             `+ WareHouseData + `
+                                                                                            </select>
+                                                                                            <div id="ListbtnSelectBatch" class="input-group-append">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-warehouse"></i>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        
+                                                                                    </td>
+                                                                        <td>
                                                                             <input class="form-control form-control-sm" id = "QTY" onkeyup = "GetPrice()" type = "number">
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </td>
@@ -1331,11 +1524,38 @@
 		
 	    });
     }
+    function GetWareHouseData() 
+    {
+         $.get("Delivery/GetWareHouseData", function(data) 
+        {
+		
+		
+		    $("#Warehouse").html("");
+		
+		    $.each(data, function() {
+			
+			    $("#Warehouse").append($('<option>', {
+									    value:  this.whscode,
+									    text: this.whsname
+									
+								    }));
+			
+			
+				    WareHouseData = WareHouseData + "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
+		    });
+		   
+	    });
+    }
     $(document).on('click', '#Itemno', function (e) {
         IsHeader = false;
         ObjItemCode = $(this).closest('tr').find("#ItemCode");
+       let ObjWareHouseCode = $(this).closest('tr').find("#Warehouse");
         generateItemTable();
         $('#myItemModal').modal('show');
+
+       let selectedWareHouse =  ObjWareHouseCode.val();
+       let selectedItemCode = ObjItemCode.val();
+        ClearAddedBatches(Number(selectedItemCode), Number(selectedWareHouse));
 
     });
 
@@ -1357,7 +1577,7 @@
         var TtlPrc = $(this).closest('#ListParameters .itm').find('#TtlPrc');
         var VatGroup = $(this).closest('#ListParameters .itm').find('#VatGroup');
         var VatGuid = $('option:selected', VatGroup).attr("guid");
-        console.log("My Vallllllll is ", VatGuid)
+        
 
         if ($(DicPrc).val() == "") {
             var Onepercent = parseFloat($(TtlPrc).val() / 100);
@@ -1375,7 +1595,7 @@
             var Onepercent = parseFloat($(TtlPrc).val() / 100);
             var discountPrice = parseFloat(Onepercent * $(DicPrc).val());
             var Tax = parseFloat(Onepercent * parseFloat(VatGuid))
-            console.log("discountPrice:", discountPrice)
+         
             if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
                 $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) - (parseFloat(discountPrice))) + (Tax)).toFixed(2));
                 GetPrice();
@@ -1456,12 +1676,13 @@ function GetPrice()
     var ListParameter;
     var ListItemCodes;
     var isDuplicate = false;
-    
+
     $(document).ready(function () {
 
         DocNumOnLoad();
         GetCountrydata();
         GetVatGroupData();
+        GetWareHouseData();
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
         Guid = $("#Guid").val();
@@ -1482,69 +1703,7 @@ function GetPrice()
             $(this).removeClass('is-invalid');
         });
 
-        $(document).on('change', '#ValueTypeCode', function (e) {
-            debugger
-            $(this).removeClass('is-invalid');
-            $(this).closest('#ListParameters .itm').find("#StandardValue").removeClass('is-invalid');
-            $(this).closest('#ListParameters .itm').find("#MinValue").removeClass('is-invalid');
-            $(this).closest('#ListParameters .itm').find("#MaxValue").removeClass('is-invalid');
-            $(this).closest('#ListParameters .itm').find("#StandardValue").val('');
-            $(this).closest('#ListParameters .itm').find("#MinValue").val('');
-            $(this).closest('#ListParameters .itm').find("#MaxValue").val('');
-
-            if ($(this).val() == "PM") {
-                $(this).closest('#ListParameters .itm').find("#StandardValue").attr('disabled', false);
-                $(this).closest('#ListParameters .itm').find("#MinValue").attr('disabled', false);
-                $(this).closest('#ListParameters .itm').find("#MaxValue").attr('disabled', false);
-            }
-            else if ($(this).val() == "RN") {
-                $(this).closest('#ListParameters .itm').find("#StandardValue").attr('disabled', true);
-                $(this).closest('#ListParameters .itm').find("#MinValue").attr('disabled', false);
-                $(this).closest('#ListParameters .itm').find("#MaxValue").attr('disabled', false);
-            } else if ($(this).val() == "DS" || $(this).val() == "GT" || $(this).val() == "LT") {
-                $(this).closest('#ListParameters .itm').find("#StandardValue").attr('disabled', false);
-                $(this).closest('#ListParameters .itm').find("#MinValue").attr('disabled', true);
-                $(this).closest('#ListParameters .itm').find("#MaxValue").attr('disabled', true);
-            }
-        });
-
-        $(document).on('change', '#DurationTypeCode', function (e) {
-
-            $(this).removeClass('is-invalid');
-            $(this).closest('#ListParameters .itm').find("#Duration").removeClass('is-invalid');
-            $(this).closest('#ListParameters .itm').find("#Counter").removeClass('is-invalid');
-            //  $(this).closest('#ListParameters .itm').find("#IncrementalDuation").removeClass('is-invalid');
-
-            $(this).closest('#ListParameters .itm').find("#Duration").val('');
-            $(this).closest('#ListParameters .itm').find("#Counter").val('');
-            //   $(this).closest('#ListParameters .itm').find("#IncrementalDuation").val('');
-            if ($(this).val() == "ONT") {
-                $(this).closest('#ListParameters .itm').find("#Duration").attr('disabled', true);
-                // $(this).closest('#ListParameters .itm').find("#Counter").attr('disabled', true);
-                //   $(this).closest('#ListParameters .itm').find("#IncrementalDuation").attr('disabled', true);
-            }
-            else if ($(this).val() != "ONT") {
-                $(this).closest('#ListParameters .itm').find("#Duration").attr('disabled', false);
-                //   $(this).closest('#ListParameters .itm').find("#Counter").attr('disabled', false);
-                //   $(this).closest('#ListParameters .itm').find("#IncrementalDuation").attr('disabled', false);
-            }
-        });
-
-        $(document).on('change', '#ValueMethodCode', function (e) {
-
-            $(this).removeClass('is-invalid');
-            $(this).closest('#ListParameters .itm').find("#Desc1").removeClass('is-invalid');
-            $(this).closest('#ListParameters .itm').find("#Desc2").removeClass('is-invalid');
-
-            if ($(this).val() == "SN") {
-                $(this).closest('#ListParameters .itm').find("#Desc1").attr('disabled', true);
-                $(this).closest('#ListParameters .itm').find("#Desc2").attr('disabled', true);
-            }
-            else if ($(this).val() != "SN") {
-                $(this).closest('#ListParameters .itm').find("#Desc1").attr('disabled', false);
-                $(this).closest('#ListParameters .itm').find("#Desc2").attr('disabled', false);
-            }
-        });
+       
     });
 
     $(document).on('change', '#ParamCode, #DurationTypeCode, #Duration,#EffectiveDate', function (e) {
@@ -1565,12 +1724,183 @@ function GetPrice()
     });
 
     $(document).on('click', '#ListBtnDelete', function () {
-        $(this).closest('tr').remove();
-    })
+       $(this).closest('tr').remove();
 
-    $(document).on('click', '#ListBtnDeleteRM', function () {
+       let selectedWareHouse =  $("#Warehouse").val();
+       let selectedItemCode =  $("#ItemCode").val();
+       let Totalbatches = $("#adTotalBacthes").val();
+       Totalbatches = Number(Totalbatches) - 1;
+      
+      $("#adTotalBacthes").val(Totalbatches);
+       if(!(( selectedWareHouse == null || selectedWareHouse == "" || selectedWareHouse == undefined) || (selectedItemCode == null || selectedItemCode == "" || selectedItemCode == undefined)) ) {
+
+            
+             ClearAddedBatches(Number(selectedItemCode),Number(selectedWareHouse));
+             UpdateTotalNeeded();
+            
+            
+       }
+        
+    });
+
+     $(document).on('click', '#ListbtnSelectBatch', function () 
+    {
+        //debugger
+        let selectedRow = $(this).closest('tr');
+
+       let selectedWareHouse =  selectedRow.find("#Warehouse").val();
+       let selectedItemCode =  selectedRow.find("#ItemCode").val();
+        if (( selectedWareHouse == null || selectedWareHouse == "" || selectedWareHouse == undefined) || (selectedItemCode == null || selectedItemCode == "" || selectedItemCode == undefined) ) 
+        {
+             toastr.error("Select Item & WareHouse");
+        }
+        else 
+        {
+          
+            if(AddedBatches.length > 0) 
+            {
+                ClearAddedBatches(selectedItemCode, selectedWareHouse);
+            
+            }
+
+            
+            AddDataInRowsFromDocumentTable(selectedRow);
+            $('#myBatchAddmodal').modal('show');
+
+        }
+    });
+    function ClearAddedBatches(selectedItemCode,selectedWareHouse) 
+    {
+        $.each(AddedBatches,function(index,item) 
+            {
+               
+                $.each(item,function(index,item) 
+                {
+                    
+                if(this.itemno == selectedItemCode && this.whseno == selectedWareHouse) 
+                {
+                    AddedBatches.splice(index, 1);
+                }
+                })
+            });
+    }
+    function UpdateTotalNeeded() {
+    
+        let totalAdded = 0;
+        let Quantity = Number($("#adQuantity").val());
+        let i = 0;
+        $('#ListParameters6 .itm').each(function (index, item) {
+
+            $(this).find('#BQuantity').each(function (index, data) {
+                totalAdded = totalAdded + Number($(this).val());
+            });
+            i += 1;
+        });
+        $("#adTotalNeeded").val(Quantity - totalAdded);
+        $("#adTotalSelected").val(totalAdded);
+        $("#adTotalBacthes").val((i));
+
+    }
+    function AddDataInRowsFromDocumentTable(selectedRow) 
+    {
+        $("#adItemno").val(selectedRow.find("#ItemCode").val());
+        $("#adItemDesc").val(selectedRow.find("#ItemName").val());
+        $("#adWarehouse").val(selectedRow.find("#Warehouse").val());
+        $("#adQuantity").val(selectedRow.find("#QTY").val());
+        $("#adTotalNeeded").val(selectedRow.find("#QTY").val());
+        $("#adTotalSelected").val(0);
+        $("#adTotalBacthes").val(0);
+        $("#adDirection").val('In');
+    }
+
+    $(document).on('keyup', '#BQuantity', function (e) 
+		{
+          
+			
+			if (Number($(this).val()) > Number($("#adTotalNeeded").val())) {
+			   toastr.warning("You can't add more than needed quanity !");
+			   $(this).val(0);
+               UpdateTotalNeeded();
+			}
+            else 
+            {
+                UpdateTotalNeeded();
+
+                $(this).closest('tr').find("#ExpDate").val(new Date().toJSON().slice(0, 10));
+            }
+	});
+   
+        $(document).on('click', '#btnAddbatchTableOk', function (e) 
+	{ 
+			let listObj = [];
+			if(Number($("#adTotalNeeded").val()) == 0) 
+			{
+
+
+                 $('#ListParameters6 .itm').each(function (index, item) {
+                    var jsonobj = new Object();
+                    $(this).find('input , select , textarea').each(function (index, data) 
+                    {
+
+                    if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') 
+                            jsonobj[$(this).attr("id")] = $(this).val();
+                  
+                    });
+                    jsonobj['itemno'] =  $("#adItemno").val();
+					jsonobj['whseno'] =  $("#adWarehouse").val();
+                    listObj.push(jsonobj);
+
+
+
+                });
+				 AddedBatches.push(listObj);
+				
+			
+				 $('#myBatchAddmodal').modal('hide');
+			     const its = document.querySelectorAll('#ListParameters6 .itm');
+                            for (const i of its) 
+                            {
+                                i.remove();
+
+                            }
+				append_addBatchTablerow();
+			}
+			else 
+			{
+				toastr.warning("Added Quantity is less than required quantity!");
+			}
+	
+	});
+    function append_addBatchTablerow() 
+    {
+         var html = ` <tr class="rowItemDetail align-items-center itm">
+
+                                                            <td>
+                                                                 <input id="DistNumber" class="form-control form-control-sm">
+                                                               <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                            </td>                
+                                                            <td>
+                                                                 <input id="BQuantity" class="form-control form-control-sm">
+                                                               <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                            </td>
+                                                            <td>
+                                                                 <input id="ExpDate" type="date" class="d form-control form-control-sm" placeholder="Valid until">
+                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                            </td> 
+                                                            
+                                                        </tr>`;
+        $('#MyyyyBatchAddTable tbody').append(html);
+    }
+
+
+
+
+
+    $(document).on('click', '#ListBtnDeleteRM', function () 
+    {
+        
         $(this).closest('tr').remove();
-    })
+    });
 
     $(document).on('click', '#ListBtnAddFile', function (e) {
 
@@ -1605,6 +1935,31 @@ function GetPrice()
 
         $('#kt_repeater_3 tbody').append(html);
     });
+    $(document).on('click','#ListBtnAddBatch',function(e) 
+    {
+        var html = ` <tr class="rowItemDetail align-items-center itm">
+
+                                                            <td>
+                                                                 <input id="DistNumber" class="form-control form-control-sm">
+                                                               <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                            </td>                
+                                                            <td>
+                                                                 <input id="BQuantity" class="form-control form-control-sm">
+                                                               <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                            </td>
+                                                            <td>
+                                                                 <input id="ExpDate" type="date" class="d form-control form-control-sm" placeholder="Valid until">
+                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                            </td> 
+                                                            <td>
+                                                                        <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
+                                                                        <i class="la la-trash"></i> X
+                                                                       </a>
+                                                                       </td>
+                                                        </tr>
+                    `;
+        $('#MyyyyBatchAddTable tbody').append(html);
+    })
      $(document).on('keypress', '#CardCode,#DocNum,#CardName,#DocDate,#NumAtCard,#DocDue,#TaxDate,#ItemCode,#VatGroup,#GroupNum,#DocCur', function (e) 
     {
        
@@ -1639,6 +1994,20 @@ function GetPrice()
                                                                                         <input id="ItemName" class="form-control form-control-sm"  type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
+                                                                                        <td>
+                                                                                            <div class="input-group">
+                                                                                                <select class="form-control" id="Warehouse">
+                                                                                                 `+ WareHouseData + `
+                                                                                                </select>
+                                                                                                <div id="ListbtnSelectBatch" class="input-group-append">
+                                                                                                    <span class="input-group-text">
+                                                                                                        <i class="la la-warehouse"></i>
+                                                                                                    </span>
+                                                                                                </div>
+                                                                                            </div>
+
+
+                                                                                        </td>
                                                                                     <td>
                                                                                         <input class="form-control form-control-sm" id="QTY"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -1777,13 +2146,13 @@ function GetPrice()
 
             },
             error: function (jqXhr, textStatus, errorMessage) {
-                console.log(errorMessage);
+              
             }
 
         }).done(function (result) {
 
             result = result.data;
-            console.log(result)
+          
 
             var html = '';
             for (var i = 0; i < result.length; i++) {
@@ -1810,7 +2179,7 @@ function GetPrice()
 
             },
             error: function (jqXhr, textStatus, errorMessage) {
-                console.log(errorMessage);
+               
             }
 
         }).done(function (result) {
@@ -2021,8 +2390,8 @@ function GetPrice()
         ListItems: ItemServiceType == '1' ?  getJsonObjList("ListParameters .itm") : null,
         ListService: ItemServiceType == '2' ? getJsonObjList("ListParameters2 .itm") : null,
         ListAttachment: getJsonObjList("ListParameters3 .itm"),
-        FooterData : getJsonObj("FooterData")
-      
+        FooterData : getJsonObj("FooterData"),
+        AddedBatches : AddedBatches
         }
       
        
