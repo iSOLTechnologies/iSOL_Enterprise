@@ -329,6 +329,7 @@
                                                                             <table id="kt_repeater_1" style="overflow:auto">
                                                                                 <thead class="ScrollThead">
                                                                                     <tr>
+                                                                                        <th>Line Num</th>
                                                                                         <th>Item No.</th>
                                                                                         <th>Item Name</th>
                                                                                         <th>Quantity</th>
@@ -347,6 +348,12 @@
                                                                                         {
 
                                                                                             <tr class="rowItemDetail align-items-center itm">
+                                                                                                <td>
+                                                                                                    <input
+                                                                                                        disabled
+                                                                                                        id="LineNum" value="@row1["LineNum"]" class="form-control form-control-sm" type="text">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
                                                                                                 <td>
                                                                                                     <div class="input-group">
                                                                                                         <input id="ItemCode"
@@ -1460,6 +1467,12 @@
     $(document).on('click', '#ListBtnAddd', function (e) {
         var html = `    <tr class="rowItemDetail align-items-center itm">
                                                                                         <td>
+                                                                                                    <input
+                                                                                                        disabled
+                                                                                                        id="LineNum" class="form-control form-control-sm NotReq" type="text">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
                                                                                             <div class="input-group">
                                                                                                 <input id="ItemCode" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
                                                                                                 <div id="Itemno" class="input-group-append">
@@ -1757,16 +1770,18 @@
 
         $('#' + element + ' input,' + '#' + element + ' select, ' + '#' + element + ' textarea').each(function (index, data) {
 
-            if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') {
-                if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) {
-                    $(this).addClass('is-invalid');
-                    isValid.push(false);
-                }
-                else {
-                    $(this).removeClass('is-invalid');
-                    isValid.push(true);
-                }
+            if (!($(this).hasClass("NotReq"))) {
+                if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') {
+                    if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) {
+                        $(this).addClass('is-invalid');
+                        isValid.push(false);
+                    }
+                    else {
+                        $(this).removeClass('is-invalid');
+                        isValid.push(true);
+                    }
 
+                }
             }
         });
 
@@ -1780,22 +1795,22 @@
     function ValidateListData(element) {
         let isValid = [];
 
-        debugger
         $('#' + element).each(function (index, item) {
 
             $(this).find('input , select , textarea').each(function (index, data) {
 
-                if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') {
-                    if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) {
-                        $(this).addClass('is-invalid');
-                        isValid.push(false);
-                    }
-                    else {
-                        $(this).removeClass('is-invalid');
-                        isValid.push(true);
+                if (!($(this).hasClass("NotReq"))) {
+                    if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') {
+                        if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) {
+                            $(this).addClass('is-invalid');
+                            isValid.push(false);
+                        }
+                        else {
+                            $(this).removeClass('is-invalid');
+                            isValid.push(true);
+                        }
                     }
                 }
-
             });
 
         });

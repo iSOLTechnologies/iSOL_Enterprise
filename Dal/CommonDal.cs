@@ -261,6 +261,13 @@ where s.Status=1 and p.Guid=@Guid";
             id = id + 1;
             return id;
         }
+        public static int getLineNumber(SqlTransaction tran, string tblName , string id)
+        {
+            string query = "select max(LineNum) from " + tblName + " where Id =" +id;
+            int lineNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, query).ToInt();
+            lineNum = lineNum + 1;
+            return lineNum;
+        }
         public static int getPrimaryKey(SqlTransaction tran,string tblid, string tblName)
         {
             string query = "select max("+ tblid + ") from " + tblName + " (TABLOCKX)";

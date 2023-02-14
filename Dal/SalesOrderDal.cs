@@ -3,6 +3,7 @@ using iSOL_Enterprise.Models;
 
 using Newtonsoft.Json;
 using SqlHelperExtensions;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -307,13 +308,13 @@ namespace iSOL_Enterprise.Dal
 
                     #region Deleting Items/List
 
-                    string DeleteI_Or_SQuery = "Delete from RDR1 Where id = " + model.ID;
-                    int res5 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
-                    if (res5 <= 0)
-                    {
-                        tran.Rollback();
-                        return false;
-                    }
+                    //string DeleteI_Or_SQuery = "Delete from RDR1 Where id = " + model.ID;
+                    //int res5 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
+                    //if (res5 <= 0)
+                    //{
+                    //    tran.Rollback();
+                    //    return false;
+                    //}
 
 
                     #endregion
@@ -344,19 +345,47 @@ namespace iSOL_Enterprise.Dal
                             return false;
                         }
                     }
+                    
                     if (model.ListItems != null)
                     {
-                        int LineNo = 1;
+                        
                         foreach (var item in model.ListItems)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            string RowQueryItem = @"insert into RDR1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            if (item.LineNum != "" && item.LineNum != null)
+                            {
+                                            string UpdateQuery = @"update RDR1 set
+                                                                      ItemCode  = '" + item.ItemCode + "'" +
+                                                                    ",ItemName  = '" + item.ItemName + "'" +
+                                                                    ",UomCode   = '" + item.UomCode + "'" +
+                                                                    ",Quantity  = '" + item.QTY + "'" +
+                                                                    ",OpenQty   = OpenQty + (" + item.QTY + "- OpenQty)" +
+                                                                    ",Price     = '" + item.UPrc + "'" +
+                                                                    ",LineTotal = '" + item.TtlPrc + "'" +
+                                                                    ",DiscPrcnt = '" + item.DicPrc + "'" +
+                                                                    ",VatGroup  = '" + item.VatGroup + "'" +
+                                                                    ",CountryOrg= '" + item.CountryOrg + "'" +
+                                                                    " where Id=" + model.ID + " and LineNum=" + item.LineNum +" and OpenQty <> 0";
+                                            int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateQuery).ToInt();
+                                            if (res2 <= 0)
+                                            {
+                                                tran.Rollback();
+                                                return false;
+                                            }
+
+                            }
+                            else
+                            {
+                                int LineNo = CommonDal.getLineNumber(tran, "RDR1", ( model.ID).ToString());
+
+                                string RowQueryItem = @"insert into RDR1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode ,CountryOrg)
                                               values(" + model.ID + ","
                                               + LineNo + ",'"
                                               + item.ItemName + "',"
                                               + item.UPrc + ","
                                               + item.TtlPrc + ",'"
                                               + item.ItemCode + "',"
+                                              + item.QTY + ","
                                               + item.QTY + ","
                                               + item.DicPrc + ",'"
                                               + item.VatGroup + "','"
@@ -371,7 +400,8 @@ namespace iSOL_Enterprise.Dal
                                 tran.Rollback();
                                 return false;
                             }
-                            LineNo += 1;
+                            
+                            }
                         }
 
 
