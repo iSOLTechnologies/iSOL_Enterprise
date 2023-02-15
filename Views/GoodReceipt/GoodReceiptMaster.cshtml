@@ -1267,7 +1267,7 @@
     
     $(document).on('click', '#btnbrowseFile', function (e) {
 
-        console.log("brow");
+      
         let selectedrow = $(this).closest('tr');
         var input = selectedrow.find("#selectedFile");
 
@@ -1688,10 +1688,10 @@ function GetPrice()
         Guid = $("#Guid").val();
         $('#IncrementalDuration').prop('checked', true);
         GetLisParameters();
-        GetListDurationType();
-        GetListValueType();
-        GetListValueMethod();
-        GetLisRmCodes();
+    
+      
+     
+    
     
 
         if (Guid != undefined && Guid != '' && Guid != null) {
@@ -1838,6 +1838,10 @@ function GetPrice()
 
 
                  $('#ListParameters6 .itm').each(function (index, item) {
+                    
+                     if($(this).find("#BQuantity").val() != null && $(this).find("#BQuantity").val() != '' && $(this).find("#BQuantity").val() != undefined && $(this).find("#BQuantity").val() != "" ) {
+
+                     
                     var jsonobj = new Object();
                     $(this).find('input , select , textarea').each(function (index, data) 
                     {
@@ -1849,7 +1853,7 @@ function GetPrice()
                     jsonobj['itemno'] =  $("#adItemno").val();
 					jsonobj['whseno'] =  $("#adWarehouse").val();
                     listObj.push(jsonobj);
-
+                    } 
 
 
                 });

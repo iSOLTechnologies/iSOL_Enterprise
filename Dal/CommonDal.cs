@@ -275,6 +275,13 @@ where s.Status=1 and p.Guid=@Guid";
             id = id + 1;
             return id;
         }
+        public static int getSysNumber(SqlTransaction tran, string tblid, string warehouse,string itemcode)
+        {
+            string query = "select max(" + tblid + ") from  OBTW where ItemCode ='"+itemcode + "' and WhsCode ='"+warehouse +"'";
+            int sysnumber = SqlHelper.ExecuteScalar(tran, CommandType.Text, query).ToInt();
+            sysnumber = sysnumber + 1;
+            return sysnumber;
+        }
         public static int GetTicketCode(SqlTransaction tran)
         {
             string query = "select max(ticketCode) from Tickets_Master (TABLOCKX)";
