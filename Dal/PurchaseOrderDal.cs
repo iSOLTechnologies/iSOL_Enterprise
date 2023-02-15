@@ -24,8 +24,9 @@ namespace iSOL_Enterprise.Dal
             {
                 while (rdr.Read())
                 {
+                    bool flag = CommonDal.Check_IsEditable("PDN1", rdr["Id"].ToInt());
                     SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
-                    models.Id = rdr["Id"].ToInt();
+                    models.Id = flag == false ? rdr["Id"].ToInt() : 0;
                     models.DocDate = rdr["DocDueDate"].ToDateTime();
                     models.PostingDate = rdr["DocDate"].ToDateTime();
                     models.DocNum = rdr["DocNum"].ToString();
@@ -353,6 +354,10 @@ namespace iSOL_Enterprise.Dal
                                     return false;
                                 }
                             }
+
+                            item.BaseEntry = item.BaseEntry == "" ? "null" : item.BaseEntry;
+                            item.BaseLine = item.BaseLine == "" ? "null" : item.BaseLine;
+                            item.BaseQty = item.BaseQty == "" ? "null" : item.BaseQty;
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
                             string RowQueryItem = @"insert into POR1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
@@ -404,6 +409,10 @@ namespace iSOL_Enterprise.Dal
 
                         foreach (var item in model.ListService)
                         {
+
+                            item.BaseEntry = item.BaseEntry == "" ? "null" : item.BaseEntry;
+                            item.BaseLine = item.BaseLine == "" ? "null" : item.BaseLine;
+                            item.BaseQty = item.BaseQty == "" ? "null" : item.BaseQty;
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
                             string RowQueryService = @"insert into POR1(Id,LineNum,BaseRef,BaseEntry,BaseLine,LineTotal,OpenQty,Dscription,AcctCode,VatGroup)
                                                   values(" + Id + ","

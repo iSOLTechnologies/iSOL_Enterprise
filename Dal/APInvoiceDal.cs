@@ -154,6 +154,11 @@ namespace iSOL_Enterprise.Dal
                                     return false;
                                 }
                             }
+
+
+                            item.BaseEntry = item.BaseEntry == "" ? "null" : item.BaseEntry;
+                            item.BaseLine = item.BaseLine == "" ? "null" : item.BaseLine;
+                            item.BaseQty = item.BaseQty == "" ? "null" : item.BaseQty;
                             string RowQueryItem = @"insert into PCH1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
                                              + LineNo + ",'"
@@ -193,6 +198,11 @@ namespace iSOL_Enterprise.Dal
                             int LineNo = 1;
                         foreach (var item in model.ListService)
                         {
+
+
+                            item.BaseEntry = item.BaseEntry == "" ? "null" : item.BaseEntry;
+                            item.BaseLine = item.BaseLine == "" ? "null" : item.BaseLine;
+                            item.BaseQty = item.BaseQty == "" ? "null" : item.BaseQty;
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
 
                             string RowQueryService = @"insert into PCH1(Id,LineNum,BaseRef,BaseEntry,BaseLine,LineTotal,OpenQty,Dscription,AcctCode,VatGroup)
