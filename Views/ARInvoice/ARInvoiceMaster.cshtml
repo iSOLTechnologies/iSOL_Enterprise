@@ -771,19 +771,19 @@
         console.log("Clickeddd")
 
     });
-    $(document).on('click', '#tabAccounting', function (e) {
+    //$(document).on('click', '#tabAccounting', function (e) {
 
-        $.get("SaleQuotation/GetPayments", function (data) 
-        {
-            $("#GroupNum").html("");
-            $.each(data, function () {
+    //    $.get("SaleQuotation/GetPayments", function (data) 
+    //    {
+    //        $("#GroupNum").html("");
+    //        $.each(data, function () {
 
-                $("#GroupNum").append($("<option />").val(this.groupNum).text(this.pymntGroup));
-            });
+    //            $("#GroupNum").append($("<option />").val(this.groupNum).text(this.pymntGroup));
+    //        });
 
-        });
+    //    });
 
-    });
+    //});
 
 
      $(document).on('click', '#btnCopyFrom', function (e) {
@@ -1522,7 +1522,23 @@ function GetPrice()
         GetListValueType();
         GetListValueMethod();
         GetLisRmCodes();
+        GetPayments();
 
+
+
+
+        function GetPayments(){
+            
+        $.get("SaleQuotation/GetPayments", function (data) 
+        {
+            $("#GroupNum").html("");
+            $.each(data, function () {
+
+                $("#GroupNum").append($("<option />").val(this.groupNum).text(this.pymntGroup));
+            });
+        });
+
+        }
 
         if (Guid != undefined && Guid != '' && Guid != null) {
             PopulateData();

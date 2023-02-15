@@ -263,7 +263,7 @@ where s.Status=1 and p.Guid=@Guid";
         }
         public static bool Check_IsEditable(string table, int id)
         {
-            string query = "select Count(*) as count from  " + table + " where BaseEntry = " + id + ")";
+            string query = "select Count(*) as count from  " + table + " where BaseEntry = " + id + "";
             int count = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, query).ToInt();
             if (count > 0)
             {

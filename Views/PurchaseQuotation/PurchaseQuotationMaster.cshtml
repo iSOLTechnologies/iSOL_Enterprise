@@ -517,14 +517,14 @@ $(document).on('click', '#GLAccountNo', function(e) {
 	$('#myaccountModal').modal('show');
 	console.log("Clickeddd")
 });
-$(document).on('click', '#tabAccounting', function(e) {
-	$.get("SaleQuotation/GetPayments", function(data) {
-		$("#GroupNum").html("");
-		$.each(data, function() {
-			$("#GroupNum").append($("<option />").val(this.groupNum).text(this.pymntGroup));
-		});
-	});
-});
+//$(document).on('click', '#tabAccounting', function(e) {
+//	$.get("SaleQuotation/GetPayments", function(data) {
+//		$("#GroupNum").html("");
+//		$.each(data, function() {
+//			$("#GroupNum").append($("<option />").val(this.groupNum).text(this.pymntGroup));
+//		});
+//	});
+//});
 $(document).on('click', '#btnbrowseFile', function(e) {
 	console.log("brow");
 	let selectedrow = $(this).closest('tr');
@@ -823,7 +823,23 @@ $(document).ready(function() {
 	Guid = $("#Guid").val();
 	$('#IncrementalDuration').prop('checked', true);
 	GetLisParameters();
-	
+	        GetPayments();
+
+
+
+
+        function GetPayments(){
+            
+        $.get("SaleQuotation/GetPayments", function (data) 
+        {
+            $("#GroupNum").html("");
+            $.each(data, function () {
+
+                $("#GroupNum").append($("<option />").val(this.groupNum).text(this.pymntGroup));
+            });
+        });
+
+        }
 	if(Guid != undefined && Guid != '' && Guid != null) {
 		PopulateData();
 	}
