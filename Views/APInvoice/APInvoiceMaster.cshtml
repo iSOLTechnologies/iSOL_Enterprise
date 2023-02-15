@@ -830,6 +830,7 @@
                     
                         $.get("APInvoice/GetGoodReceiptItemService", { DocId: DocID }, function(data) 
                         {
+
                         let list = JSON.parse(data.list);  
             
             
@@ -861,7 +862,7 @@
                                          $("#UomCode").val(this.UomCode);
                                          $("#CountryOrg").val(this.CountryOrg);
                                          $("#VatGroup").val(this.VatGroup);
-                                           $("#BaseQty").val(this.OpenQty);
+                                         $("#BaseQty").val(this.OpenQty);
                                     }
                                     else 
                                     {

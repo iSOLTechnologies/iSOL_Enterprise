@@ -60,7 +60,7 @@ namespace iSOL_Enterprise.Dal
         }
         public List<SalesQuotation_MasterModels> GetGoodReceiptType(int DocId)
         {
-            string GetQuery = "select DocType,DocNum from OPOR where Id = " + DocId;
+            string GetQuery = "select DocType,DocNum from OPDN where Id = " + DocId;
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {
