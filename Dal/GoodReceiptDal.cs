@@ -1,6 +1,7 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Models.sale;
+using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
 using SqlHelperExtensions;
 using System.Data;
@@ -333,14 +334,19 @@ namespace iSOL_Enterprise.Dal
                         #endregion
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
                     }
+                    
                     if (model.ListItems != null)
                     {
-                            int LineNo = 1;
+                        int LineNo = 1;
                         foreach (var item in model.ListItems)
                         {
+                            
+
+
+
                             if (item.BaseEntry != "" && item.BaseEntry != null)
                             {
-
+                                //Update Purchase Order OpenQty
                                 string Updatequery = @"Update POR1 set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
                                 int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
                                 if (res <= 0)
@@ -349,7 +355,8 @@ namespace iSOL_Enterprise.Dal
                                     return false;
                                 }
                             }
-                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
+
+
                             string RowQueryItem = @"insert into PDN1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
                                               + LineNo + ",'"
@@ -368,19 +375,6 @@ namespace iSOL_Enterprise.Dal
                                               + item.UomCode + "','"
                                               + item.CountryOrg + "')";
 
-                            #region sqlparam
-                            //List<SqlParameter> param2 = new List<SqlParameter>
-                            //        {
-                            //            new SqlParameter("@id",QUT1Id),
-                            //            new SqlParameter("@ItemCode",item.ItemCode),
-                            //            new SqlParameter("@Quantity",item.Quantity),
-                            //            new SqlParameter("@DiscPrcnt",item.DiscPrcnt),
-                            //            new SqlParameter("@VatGroup",item.VatGroup),
-                            //            new SqlParameter("@UomCode",item.UomCode),
-                            //            new SqlParameter("@CountryOrg",item.CountryOrg),
-
-                            //        };
-                            #endregion
 
                             int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
                             if (res2 <= 0)
@@ -388,6 +382,111 @@ namespace iSOL_Enterprise.Dal
                                 tran.Rollback();
                                 return false;
                             }
+
+
+                            #region OITL Log
+                            int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");   //Primary Key
+
+                            string LogQueryOITL = @"insert into OITL(LogEntry,CardCode,ItemCode,ItemName,CardName,DocEntry,DocLine,DocType,DocNum,DocQty,DocDate) 
+                                           values(" + LogEntry + ",'"
+                                              + model.HeaderData.CardCode + "','"
+                                              + item.ItemCode + "','"
+                                              + item.ItemName + "','"
+                                              + model.HeaderData.CardName + "',"
+                                              + Id + ","
+                                              + LineNo + ","
+                                              + 0 + ", "
+                                              + Id + " ,"
+                                              + ((Decimal)(item.QTY)) + ",'"
+                                              + Convert.ToDateTime(model.HeaderData.DocDate) + "')";
+
+                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryOITL).ToInt();
+                            if (res1 <= 0)
+                            {
+                                tran.Rollback();
+                                return false;
+                            }
+
+                            #endregion
+
+                            #region Insert OBTN , OBTW & ITL1Log
+
+
+                            if (model.Batches != null)
+                            {
+
+                                foreach (var batch in model.Batches)
+                                {
+                                    foreach (var ii in batch)
+                                    {
+                                        if (ii.itemno == item.ItemCode)
+                                        {
+
+                                            int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTW");   //Primary Key
+                                            int SysNumber = CommonDal.getSysNumber(tran,"SysNumber",(ii.whseno).ToString(),(ii.itemno).ToString());
+                                           
+                                            #region Insert in OBTW
+                                            string BatchQueryOBTW = @"insert into OBTW(AbsEntry,ItemCode,SysNumber,WhsCode,DataSource)
+                                                                    values(" + AbsEntry + ",'"
+                                                                    + ii.ItemCode + "',"
+                                                                    + SysNumber + ",'"
+                                                                    + ii.whseno + "','"
+                                                                    + "N')";
+
+                                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTW).ToInt();
+                                            if (res1 <= 0)
+                                            {
+                                                tran.Rollback();
+                                                return false;
+                                            }
+                                            #endregion
+
+                                            #region Insert in OBTN
+                                            string BatchQueryOBTN = @"insert into OBTN(AbsEntry,ItemCode,SysNumber,DistNumber,ExpDate,Quantity)
+                                                                    values(" + AbsEntry + ",'"
+                                                                    + ii.ItemCode + "',"
+                                                                    + SysNumber + ",'"
+                                                                    + ii.DistNumber + "','"
+                                                                    + Convert.ToDateTime(ii.ExpDate) + "',"
+                                                                    + ii.BQuantity + ")";
+
+                                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
+                                            if (res1 <= 0)
+                                            {
+                                                tran.Rollback();
+                                                return false;
+                                            }
+                                            #endregion
+
+                                            #region Insert in ITL1
+                                            string LogQueryITL1 = @"insert into ITL1(LogEntry,ItemCode,SysNumber,Quantity,OrderedQty,MdAbsEntry) 
+                                                   values(" + LogEntry + ",'"
+                                                 + item.ItemCode + "','"
+                                                 + SysNumber + "',"
+                                                 + ii.BQuantity + ","
+                                                 + ((Decimal)(ii.BQuantity)) + ","
+                                                 + AbsEntry + ")";
+
+
+                                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryITL1).ToInt();
+                                            if (res1 <= 0)
+                                            {
+                                                tran.Rollback();
+                                                return false;
+                                            }
+                                            #endregion
+                                        }
+                                        else
+                                            break;
+
+                                    }
+
+                                }
+                            }
+                            #endregion
+
+                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
+                            
                             LineNo += 1;
                         }
 
