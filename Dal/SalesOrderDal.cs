@@ -34,9 +34,7 @@ namespace iSOL_Enterprise.Dal
             }
             return list;
         }
-
-        
-
+         
         public dynamic GetSaleOrderEditDetails(int id)
         {
             DataSet ds = new DataSet();

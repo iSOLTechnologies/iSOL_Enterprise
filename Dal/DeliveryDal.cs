@@ -21,9 +21,10 @@ namespace iSOL_Enterprise.Dal
             {
                 while (rdr.Read())
                 {
-                    SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
-                    models.Id = rdr["Id"].ToInt();
-                    models.DocDate = rdr["DocDueDate"].ToDateTime();
+					bool flag = CommonDal.Check_IsEditable("INV1", rdr["Id"].ToInt());
+					SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
+					models.Id = flag == false ? rdr["Id"].ToInt() : 0;
+					models.DocDate = rdr["DocDueDate"].ToDateTime();
                     models.PostingDate = rdr["DocDate"].ToDateTime();
                     models.DocNum = rdr["DocNum"].ToString();
                     models.CardCode = rdr["CardCode"].ToString();

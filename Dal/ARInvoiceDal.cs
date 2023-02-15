@@ -66,8 +66,6 @@ namespace iSOL_Enterprise.Dal
                 while (rdr.Read())
                 {
                     SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
-
-
                     models.DocType = rdr["DocType"].ToString();
                     models.DocNum = rdr["DocNum"].ToString();
                     list.Add(models);
@@ -156,6 +154,13 @@ namespace iSOL_Enterprise.Dal
                                     return false;
                                 }
                             }
+
+                            item.BaseEntry = item.BaseEntry == "" ?  "null" : item.BaseEntry;
+                            item.BaseLine =  item.BaseLine  == "" ?  "null" : item.BaseLine; 
+                            item.BaseQty =   item.BaseQty   == "" ?  "null" : item.BaseQty; 
+
+
+
                             string RowQueryItem = @"insert into INV1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
                                                 + LineNo + ",'"
