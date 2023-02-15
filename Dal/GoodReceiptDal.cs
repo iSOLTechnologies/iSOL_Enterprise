@@ -355,8 +355,10 @@ namespace iSOL_Enterprise.Dal
                                     return false;
                                 }
                             }
-
-
+                            string a = "" + DBNull.Value + "";
+                            item.BaseEntry = item.BaseEntry == "" ? "NULL" : Convert.ToInt32( item.BaseEntry);
+                            item.BaseLine = item.BaseLine == "" ? "NULL" : Convert.ToInt32( item.BaseLine);
+                            item.BaseQty = item.BaseQty == "" ? "NULL" : Convert.ToInt32( item.BaseQty);
                             string RowQueryItem = @"insert into PDN1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
                                               values(" + Id + ","
                                               + LineNo + ",'"
@@ -414,21 +416,24 @@ namespace iSOL_Enterprise.Dal
 
                             if (model.Batches != null)
                             {
-
+                                int AbsEntry = CommonDal.getPrimaryKeyNoLock(tran, "AbsEntry", "OBTW");   //Primary Key
+                              
                                 foreach (var batch in model.Batches)
                                 {
+                                    string whsno = batch[0].whseno;
+                                    string itemno = batch[0].itemno;
+                                    int SysNumber = CommonDal.getSysNumber(tran, "SysNumber", whsno, itemno);
+
+
                                     foreach (var ii in batch)
                                     {
                                         if (ii.itemno == item.ItemCode)
                                         {
 
-                                            int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTW");   //Primary Key
-                                            int SysNumber = CommonDal.getSysNumber(tran,"SysNumber",(ii.whseno).ToString(),(ii.itemno).ToString());
-                                           
                                             #region Insert in OBTW
                                             string BatchQueryOBTW = @"insert into OBTW(AbsEntry,ItemCode,SysNumber,WhsCode,DataSource)
                                                                     values(" + AbsEntry + ",'"
-                                                                    + ii.ItemCode + "',"
+                                                                    + ii.itemno + "',"
                                                                     + SysNumber + ",'"
                                                                     + ii.whseno + "','"
                                                                     + "N')";
@@ -444,7 +449,7 @@ namespace iSOL_Enterprise.Dal
                                             #region Insert in OBTN
                                             string BatchQueryOBTN = @"insert into OBTN(AbsEntry,ItemCode,SysNumber,DistNumber,ExpDate,Quantity)
                                                                     values(" + AbsEntry + ",'"
-                                                                    + ii.ItemCode + "',"
+                                                                    + ii.itemno + "',"
                                                                     + SysNumber + ",'"
                                                                     + ii.DistNumber + "','"
                                                                     + Convert.ToDateTime(ii.ExpDate) + "',"
@@ -478,14 +483,16 @@ namespace iSOL_Enterprise.Dal
                                         }
                                         else
                                             break;
-
+                                        
+                                        AbsEntry += 1;
+                                        SysNumber +=1;
                                     }
-
+                                   
                                 }
                             }
                             #endregion
 
-                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
+                          
                             
                             LineNo += 1;
                         }

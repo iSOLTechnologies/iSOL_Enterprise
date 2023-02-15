@@ -261,6 +261,13 @@ where s.Status=1 and p.Guid=@Guid";
             id = id + 1;
             return id;
         }
+        public static int getPrimaryKeyNoLock(SqlTransaction tran, string tblid, string tblName)
+        {
+            string query = "select max(" + tblid + ") from " + tblName;
+            int id = SqlHelper.ExecuteScalar(tran, CommandType.Text, query).ToInt();
+            id = id + 1;
+            return id;
+        }
         public static bool Check_IsEditable(string table, int id)
         {
             string query = "select Count(*) as count from  " + table + " where BaseEntry = " + id + "";
