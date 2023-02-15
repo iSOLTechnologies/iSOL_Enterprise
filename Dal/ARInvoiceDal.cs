@@ -199,6 +199,8 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListService)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
+                            item.BaseEntry2 = item.BaseEntry2 == "" ? "NULL" : Convert.ToInt32(item.BaseEntry2);
+                            item.BaseLine2 = item.BaseLine2 == "" ? "NULL" : Convert.ToInt32(item.BaseLine2);
 
                             string RowQueryService = @"insert into INV1(Id,LineNum,BaseRef,BaseEntry,BaseLine,LineTotal,Dscription,AcctCode,VatGroup)
                                                   values(" + Id + ","
