@@ -358,11 +358,7 @@ namespace iSOL_Enterprise.Dal
                             }
 
 
-
-                            item.BaseEntry = item.BaseEntry == "" ? "null" : item.BaseEntry;
-                            item.BaseLine = item.BaseLine == "" ? "null" : item.BaseLine;
-                            item.BaseQty = item.BaseQty == "" ? "null" : item.BaseQty;
-                            string a = "" + DBNull.Value + "";
+                             
                             item.BaseEntry = item.BaseEntry == "" ? "NULL" : Convert.ToInt32( item.BaseEntry);
                             item.BaseLine = item.BaseLine == "" ? "NULL" : Convert.ToInt32( item.BaseLine);
                             item.BaseQty = item.BaseQty == "" ? "NULL" : Convert.ToInt32( item.BaseQty);

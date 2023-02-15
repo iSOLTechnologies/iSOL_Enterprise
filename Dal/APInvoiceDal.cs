@@ -35,7 +35,7 @@ namespace iSOL_Enterprise.Dal
 
         public List<SalesQuotation_MasterModels> GetGoodReceiptData(string cardcode)
         {
-            string GetQuery = "select * from OPDN where CardCode =" + cardcode + "'";
+            string GetQuery = "select * from OPDN where CardCode ='" + cardcode + "'";
 
 
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
@@ -193,9 +193,8 @@ namespace iSOL_Enterprise.Dal
 
                     }
                     else if (model.ListService != null)
-                    {
-
-                            int LineNo = 1;
+                    { 
+                        int LineNo = 1;
                         foreach (var item in model.ListService)
                         {
 
