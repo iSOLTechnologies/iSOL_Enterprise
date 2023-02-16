@@ -1,4 +1,5 @@
-﻿using iSOL_Enterprise.Models;
+﻿using iSOL_Enterprise.Dal;
+using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,20 @@ namespace iSOL_Enterprise.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult GetDocCounts() {
+            DashboardDal dal = new DashboardDal();
+            try
+            {
+                return Json(dal.GetDocCounts());
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
         }
         public IActionResult GetNavAjax()
         {

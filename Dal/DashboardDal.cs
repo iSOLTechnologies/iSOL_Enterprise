@@ -180,7 +180,47 @@ where AssignTo=@UserId";
 
             return model;
         }
+     
+            public List<CountModel> GetDocCounts()
+            {
+                 string countQuery;
+                 List<CountModel> list = new List<CountModel>();
+                 string[] docTables = { "QUT1", "RDR1" , "DLN1" , "INV1" , "PQT1" , "POR1" , "PDN1" , "PCH1" };
+                        
+                        foreach (var table in docTables)
+                        {
+                                if (table == "QUT1" || table == "PQT1")
+                                 countQuery = @"select COUNT(*) as Count from ( select distinct Id  from "+table+")a";                
+                                else
+                                 countQuery = @"select COUNT(*) as Count from ( select distinct Id  from "+table+" where BaseEntry is null )a";
 
+               
+                            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, countQuery))
+                            {
+                                while (rdr.Read())
+                                {
+
+                                    list.Add(
+                                        new CountModel()
+                                        {
+                                            Count = rdr["Count"].ToInt()
+                                          
+                                        });
+
+                                }
+                            }
+
+                        }
+
+                    return list;
+
+
+            }
+
+        public class CountModel
+        {
+            public int? Count { get;set; }
+        }
 
         public class DashboardDataModel
         {
