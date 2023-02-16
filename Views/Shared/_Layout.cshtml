@@ -2978,7 +2978,8 @@
 				//$("#VatGroup2").select2();
 			});
 		}
-		$(document).on('click', '#btnFetchItemCode', function (e) {
+		$(document).on('click', '#btnFetchItemCode', function (e) 
+		{
 			// debugger
 			var LookTable = $('#MyyyyItemmTable').DataTable();;
 			var selectedRow = $(this).closest('tr');
@@ -2989,9 +2990,32 @@
 			RowDataPrint = rowData;
 			$(ObjItemCode).closest('#ListParameters .itm').find("#ItemCode").val(rowData['itemCode']);
 			$(ObjItemCode).closest('#ListParameters .itm').find("#ItemName").val(rowData['itemName']);
+			//Get UOM group Data
+			GetUomGroup(rowData['itemCode']);
+
 			$('#myItemModal').modal('hide');
-			//$(ObjItemCode)
+			
 		});
+
+		function GetUomGroup(itemno) 
+		{
+				var UomCodeRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomCode");
+				$.get("SaleQuotation/GetUomGroup", {itemno : itemno} , function(data) 
+				{
+					$(UomCodeRow).html("");
+					$.each(data.uomdata, function() 
+					{
+						$(UomCodeRow).append($('<option>', 
+						{
+									value: this.uomEntry,
+									text: this.uomName
+						}));
+					
+					});
+
+				});
+
+		}
 		$(document).on('click', '#btnFetchAcctCode', function (e) {
 			debugger
 			console.log("abc")

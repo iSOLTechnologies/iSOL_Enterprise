@@ -4,8 +4,10 @@ using iSOL_Enterprise.Models.sale;
 using iSOL_Enterprise.Models.Sale;
 using Newtonsoft.Json;
 using SqlHelperExtensions;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Runtime.Intrinsics.Arm;
 using static iSOL_Enterprise.Dal.DashboardDal;
 
 namespace iSOL_Enterprise.Dal
@@ -247,6 +249,60 @@ namespace iSOL_Enterprise.Dal
             sda.Fill(ds);
             return ds;
         }
+
+        public List<tbl_OITM> GetOITMRowData(string ItemCode)
+        {
+           
+            List<tbl_OITM> list = new List<tbl_OITM>();
+
+            string UGPEntry = @"select ItemCode,UgpEntry,SUoMEntry,IUoMEntry,PUoMEntry from OITM where ItemCode ='" + ItemCode +"'";
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, UGPEntry))
+            {
+                while (rdr.Read())
+                {
+                    list.Add(
+                       new tbl_OITM()
+                       {
+                           ItemCode = rdr["ItemCode"].ToString(),
+                           UgpEntry = rdr["UgpEntry"].ToInt(),
+                           SUoMEntry = rdr["SUoMEntry"].ToInt(),
+                           IUoMEntry = rdr["IUoMEntry"].ToInt(),
+                           PUoMEntry = rdr["PUoMEntry"].ToInt(),
+                           
+                       });
+                   
+                }
+            }
+            return list;
+        }
+        public List<tbl_OUOM> GetOUOMList(int UgpEntry)
+        {
+            List<tbl_OUOM> list = new List<tbl_OUOM>();
+
+            string OUOMQuery = @"select OUOM.UomEntry,UomName  from OUGP
+	                            Inner Join UGP1 on OUGP.UgpEntry = UGP1.UgpEntry
+	                            Inner Join OUOM on UGP1.UomEntry = OUOM.UomEntry
+	                            where OUGP.UgpEntry = "+UgpEntry;
+
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, OUOMQuery))
+            {
+                while (rdr.Read())
+                {
+                    list.Add(
+                       new tbl_OUOM()
+                       {
+                           UomEntry = rdr["UomEntry"].ToInt(),
+                           UomName = rdr["UomName"].ToString()
+
+                       });
+
+                }
+            }
+
+            return list;
+        }
+
+
         public bool AddSalesQoutation(string formData)
         {
             try

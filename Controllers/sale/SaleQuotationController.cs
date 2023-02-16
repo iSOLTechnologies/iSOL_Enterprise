@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using SqlHelperExtensions;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -211,6 +212,21 @@ namespace iSOL_Enterprise.Controllers.Sales
 
 
 
+        }
+        public IActionResult GetUomGroup(string itemno)
+        {
+            try
+            {
+                SalesQuotationDal dal = new SalesQuotationDal();
+                var OITM_Data = dal.GetOITMRowData(itemno);
+                int UgpEntry = (int)(OITM_Data[0].UgpEntry);
+                return Json(new { oitmdata = OITM_Data, uomdata = dal.GetOUOMList(UgpEntry)});
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         [HttpPost]
         public IActionResult AddSalesQoutation(string formData)
