@@ -74,117 +74,96 @@ namespace iSOL_Enterprise.Controllers
 
             if (Username != null && Password != null)
             {
-
-                LoginDal dal = new LoginDal();
-                bool LogRes = dal.ChkCredentials(Username, Password);
-
-
-                //tbl_user row = await Tbl_user.ChkCredentials(u.user_email_phone, u.user_password.Encrypt_password() ?? "");
-                if (LogRes.Equals(false))
+                UsersModels input = new UsersModels();
+                ResponseModels response = new ResponseModels();
+                try
                 {
-                    return Json(new { success = false, message = "User not found !" });
-                }
-                else
-                {
-                    //    HttpContext.Session.SetString("Name", row.user_name ?? "Nothing");
-                    //    HttpContext.Session.SetString("Role", row.user_role ?? "Nothing");
-                    //    HttpContext.Session.SetString("UsrId", row.user_id.ToString());
-                    //    return RedirectToAction("emailVerification", "Home");
-                    //}
-                    //else if (row.user_approved == false)
-                    //{
-                    //    return RedirectToAction("Waiting", "BusOwner");
-                    //}
-                    //else
-                    //{
-                    //HttpContext.Session.SetString("Name", row.user_name ?? "Nothing");
-                    //HttpContext.Session.SetString("Role", row.user_role ?? "Nothing");
-                    //HttpContext.Session.SetString("UsrId", row.user_id.ToString());
-                    List<Claim> claims = new List<Claim>()
+                    string MachineName = Environment.MachineName.ToString();
+                    
+                    string guid = Guid.NewGuid() + DateTime.Now.ToString("mmddhhmmssms");
+                    input.MachineName = MachineName;
+                    input.IpAddress = input.IpAddress;
+                    input.Guid = guid;
+                    input.Username = Username;
+                    input.Password = Password;
+
+                    UsersModels user = new LoginDal().Get(input);
+                   
+
+                    if ((user != null) && (user.Id > 0))
                     {
-                       new Claim(ClaimTypes.NameIdentifier,Username ?? "ABC Name"),
+                        if (user.IsSession)
+                        {
+                            response.Data = true;
+                            response.isError = false;
+                            response.Message = "/Dashboard/Index";
+                            AddValuesToSession(user);
+                            new LoginDal().GenerateJson(input.Guid, user.Id, "");
+                            
+                        }
+                        else
+                        {
+                            response.Data = false;
+                            response.isError = true;
+                            response.isLogin = false;
+                            response.Message = "Session Not Created Successfully";
+                          
+                        }
+
+
+                    }
+                    else
+                    {
+                        response.Data = false;
+                        response.isError = true;
+                        response.Message = "Username and Password do not match";
                         
-                    };
-
-                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
-                        CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    AuthenticationProperties properties = new AuthenticationProperties()
-                    {
-                        AllowRefresh = true,
-                        IsPersistent = false
-                    };
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity), properties);
-                    return Json(new { success = true, message = "/Dashboard/Index" });
+                    }
                 }
+                catch (Exception ex)
+                {
 
+                    response.isError = true;
+                    response.Message = "An exception occured";
+                }
+                return Json(new { success = !(response.isError), message = response.Message });
+
+
+                #region Login Model by Annas
+                //LoginDal dal = new LoginDal();
+                //bool LogRes = dal.ChkCredentials(Username, Password);
+
+                //if (LogRes.Equals(false))
+                //{
+                //    return Json(new { success = false, message = "User not found !" });
+                //}
+                //else
+                //{
+
+                //    List<Claim> claims = new List<Claim>()
+                //    {
+                //       new Claim(ClaimTypes.NameIdentifier,Username ?? "ABC Name"),
+
+                //    };
+
+                //    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
+                //        CookieAuthenticationDefaults.AuthenticationScheme);
+
+                //    AuthenticationProperties properties = new AuthenticationProperties()
+                //    {
+                //        AllowRefresh = true,
+                //        IsPersistent = false
+                //    };
+                //    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                //        new ClaimsPrincipal(claimsIdentity), properties);
+                //    return Json(new { success = true, message = "/Dashboard/Index" });
+                //}
+                #endregion
             }
             else
             return Json(new { success = false , message = "Username & password can't be empty !"});
-           
 
-
-
-
-
-            //ResponseModels response = new ResponseModels();
-            //try
-            //{
-            //    string MachineName = Environment.MachineName.ToString();
-            //  //  input.IpAddress = _accessor.ActionContext.HttpContext.Connection.RemoteIpAddress.ToString();
-            //    string guid = Guid.NewGuid() + DateTime.Now.ToString("mmddhhmmssms");
-            //    input.MachineName = MachineName;
-            //    input.IpAddress = input.IpAddress;
-            //    input.Guid = guid;
-            //    UsersModels user = new LoginDal().Get(input); //For easy <commented byAnnas>  
-            //    //UsersModels user = new UsersModels()
-            //    //{
-            //    //    Id = 101,
-            //    //    FirstName = "Muhammad Annas",
-            //    //    LastName = "Raza",
-            //    //    RoleCode = "",
-            //    //    Guid = guid,
-            //    //    UserPic = "Assets/images/img.png",
-            //    //    Gender = "Male",
-            //    //    ContactNumber = "0123",
-            //    //    Email="annas@gmail.com",
-            //    //    IsSession =true
-
-            //    //};
-
-            //    if ((user != null) && (user.Id > 0))
-            //    {
-            //        if (user.IsSession)
-            //        {
-            //            response.Data = true;
-            //            AddValuesToSession(user);
-            //            new LoginDal().GenerateJson(input.Guid, user.Id,"");
-
-            //        }
-            //        else
-            //        {
-            //            response.Data = false;
-            //            response.isLogin = false;
-            //            response.Message = "Session Not Created Successfully";
-            //        }
-
-
-            //    }
-            //    else
-            //    {
-            //        response.Data = false;
-            //        response.isError = true;
-            //        response.Message = "Username and Password do not match";
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    response.isError = true;
-            //    response.Message = "An exception occured";
-            //}
-            //return Json(response);
+            
         }
 
 
@@ -200,22 +179,7 @@ namespace iSOL_Enterprise.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public void AddValuesToSession(UsersModels user)
+        public async void AddValuesToSession(UsersModels user)
         {
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("GoldenTicket", "True");
@@ -233,6 +197,26 @@ namespace iSOL_Enterprise.Controllers
             model.listModules = new NavDal().getMenu(user.RoleCode);
 
             HttpContext.Session.SetObjectAsJson("SessNav", model);
+
+            List<Claim> claims = new List<Claim>()
+                    {
+                       new Claim(ClaimTypes.NameIdentifier,user.Username ?? "ABC Name"),
+
+                };
+
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
+                CookieAuthenticationDefaults.AuthenticationScheme);
+
+            AuthenticationProperties properties = new AuthenticationProperties()
+            {
+                AllowRefresh = true,
+                IsPersistent = false
+            };
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity), properties);
+            //    return Json(new { success = true, message = "/Dashboard/Index" });
+
+
             // HttpContext.Session.SetObjectAsJson("SessNav", user.ListPages);
 
 

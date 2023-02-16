@@ -32,10 +32,11 @@
 </head>
 <style>
 	.Input_selected {
-		    background-color: #1A99C8 !important;
-			border: none;
-			color: white;
+		background-color: #1A99C8 !important;
+		border: none;
+		color: white;
 	}
+
 	tr.row_selected td {
 		background-color: #00e4ff !important;
 	}
@@ -49,29 +50,32 @@
 	.dataTables_wrapper .dataTable td {
 		padding: 0.2rem 0.5rem !important;
 	}
-	.scrollbar {
-    -webkit-overflow-scrolling: touch;
-}
-    .scrollbar::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1) !important;
-        background-color: #F5F5F5 !important;
-        border-radius: 8px !important;
-    }
 
-    .scrollbar::-webkit-scrollbar {
-        width: 8px !important;
-        background-color: #F5F5F5 !important;
-    }
-    /*For Horizontal scrollar height */
-        .scrollbar::-webkit-scrollbar:horizontal {
-            height:7px;
-        }
-    .scrollbar::-webkit-scrollbar-thumb {
-        border-radius: 8px !important;
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1) !important;
-        background-image: -webkit-linear-gradient(330deg, #808080 0%, #808080 100%) !important;
-        background-image: linear-gradient(120deg, #808080 0%, #808080 100%) !important;
-    }
+	.scrollbar {
+		-webkit-overflow-scrolling: touch;
+	}
+
+		.scrollbar::-webkit-scrollbar-track {
+			-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1) !important;
+			background-color: #F5F5F5 !important;
+			border-radius: 8px !important;
+		}
+
+		.scrollbar::-webkit-scrollbar {
+			width: 8px !important;
+			background-color: #F5F5F5 !important;
+		}
+			/*For Horizontal scrollar height */
+			.scrollbar::-webkit-scrollbar:horizontal {
+				height: 7px;
+			}
+
+		.scrollbar::-webkit-scrollbar-thumb {
+			border-radius: 8px !important;
+			-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1) !important;
+			background-image: -webkit-linear-gradient(330deg, #808080 0%, #808080 100%) !important;
+			background-image: linear-gradient(120deg, #808080 0%, #808080 100%) !important;
+		}
 </style>
 <!--end::Head-->
 <!--begin::Body-->
@@ -1930,7 +1934,7 @@
 	<script src="~/Assets/js/scripts.bundle.js"></script>*@
 	<script src="~/assets/js/scripts.bundle.min.js"></script>
 	<script src="~/assets/js/scripts.bundle.js"></script>
-	
+
 	<!--end::Global Theme Bundle-->
 	<!--begin::Page Vendors(used by this page)-->
 	<script src="~/Assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
@@ -1990,13 +1994,13 @@
 		}();
 		jQuery(document).ready(function () {
 			KTDatatablesDataSourceHtml.init();
-			
+
 		});
 
 
-		 function Back_his(){
-                                  history.back()
-         }
+		function Back_his() {
+			history.back()
+		}
 	</script>
 	<!--End::(used For Data Table only)-->
 	<!-- Code injected by live-server -->
@@ -2206,7 +2210,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<button type="button" style="display:none;" id="mycopyDatabtn" onclick="generateCopyDataTable()" data-toggle="modal" data-target="#mycopydataModal"></button>
 	<div class="modal fade" id="mycopydataModal" role="dialog">
 		<div class="modal-dialog modal-dialog-centered modal-xl">
@@ -2223,14 +2227,14 @@
 							<!--begin: Datatable-->
 							<div class="row">
 								<div class="form-group row col-md-4 mt-3">
-                                      <label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold"> Item/Service Type</label>
-                                       <div class="col-sm-6">
-                                          <select id="tblItemServiceType" class="form-control">
-                                                  <option selected value="I">Item</option>
-                                                   <option value="S">Service</option>
-                                           </select>
-                                       </div>
-                                </div>
+									<label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold"> Item/Service Type</label>
+									<div class="col-sm-6">
+										<select id="tblItemServiceType" class="form-control">
+											<option selected value="I">Item</option>
+											<option value="S">Service</option>
+										</select>
+									</div>
+								</div>
 							</div>
 							<div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
 								<div class="row">
@@ -2279,60 +2283,60 @@
 					<div class="container">
 						<div class="card-body" style="padding:0">
 							<!--begin: Datatable-->
-							
+
 							<div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
 								<div class="row">
 									<div class="col-sm-12 scrollbar mb-2 pb-2" style="overflow:auto">
 										<table id="rowsFromdocumentTable" class="table-bordered">
-                                            <thead class="ScrollThead">
-                                               <tr>
-                                                    <th>Item No.</th>
-                                                    <th>Item Description</th>
-                                                    <th>WHse Code</th>
-                                                    <th>Quantity</th>
-                                                    <th>Total Needed</th>
-                                                    <th>Total Selected</th>
-                                                    <th>Total Batches</th>
-                                                    <th>Direction</th>
-                                                </tr>
-                                            </thead>
+											<thead class="ScrollThead">
+												<tr>
+													<th>Item No.</th>
+													<th>Item Description</th>
+													<th>WHse Code</th>
+													<th>Quantity</th>
+													<th>Total Needed</th>
+													<th>Total Selected</th>
+													<th>Total Batches</th>
+													<th>Direction</th>
+												</tr>
+											</thead>
 											<tbody id="ListParameters4" data-repeater-list="" class="ScrollTbody">
 												<tr class="rowItemDetail align-items-center itm">
 													<td>
-                                                       <input id="slItemno" readonly class="form-control form-control-sm" >
-                                                        <div id="ErrorMsg"  class="error invalid-feedback">This field is required.</div>
-                                                    </td>
+														<input id="slItemno" readonly class="form-control form-control-sm">
+														<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+													</td>
 													<td>
-                                                       <input id="slItemDesc" readonly class="form-control form-control-sm">
-                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                    </td>
+														<input id="slItemDesc" readonly class="form-control form-control-sm">
+														<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+													</td>
 													<td>
-                                                       <input id="slWarehouse" readonly class="form-control form-control-sm" >
-                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                    </td>
+														<input id="slWarehouse" readonly class="form-control form-control-sm">
+														<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+													</td>
 													<td>
-                                                       <input id="slQuantity" readonly class="form-control form-control-sm" >
-                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                    </td>
+														<input id="slQuantity" readonly class="form-control form-control-sm">
+														<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+													</td>
 													<td>
-                                                       <input id="slTotalNeeded" readonly class="form-control form-control-sm" >
-                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                    </td>
+														<input id="slTotalNeeded" readonly class="form-control form-control-sm">
+														<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+													</td>
 													<td>
-                                                       <input id="slTotalSelected" readonly class="form-control form-control-sm" >
-                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                    </td>
+														<input id="slTotalSelected" readonly class="form-control form-control-sm">
+														<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+													</td>
 													<td>
-                                                       <input id="slTotalBacthes" readonly class="form-control form-control-sm" >
-                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                    </td>
+														<input id="slTotalBacthes" readonly class="form-control form-control-sm">
+														<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+													</td>
 													<td>
-                                                       <input id="slDirection" readonly class="form-control form-control-sm" >
-                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                    </td>
-												
+														<input id="slDirection" readonly class="form-control form-control-sm">
+														<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+													</td>
+
 												</tr>
-											
+
 											</tbody>
 										</table>
 									</div>
@@ -2354,7 +2358,7 @@
 											</thead>
 										</table>
 									</div>
-									
+
 								</div>
 							</div>
 							<!--end: Datatable-->
@@ -2363,7 +2367,7 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-outline-success mr-2"  id="btnbatchTableOk"> Ok </button>
+					<button type="button" class="btn btn-outline-success mr-2" id="btnbatchTableOk"> Ok </button>
 					<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
 				</div>
 			</div>
@@ -2381,280 +2385,255 @@
 		var CopydataTable;
 		var CopyDocIDs = [];
 		var SelectedBatches = [];
-		var Batchtable ="";
+		var Batchtable = "";
 		function removeItemFromArray(arr, value) {
-		  var i = 0;
-		  while (i < arr.length) {
-			if (arr[i] === value) {
-			  arr.splice(i, 1);
-			} else {
-			  ++i;
+			var i = 0;
+			while (i < arr.length) {
+				if (arr[i] === value) {
+					arr.splice(i, 1);
+				} else {
+					++i;
+				}
 			}
-		  }
-		  return arr;
+			return arr;
 		}
 
-		function generateBatchSelectTable(itemcode,warehouse) 
-		{
-			 $.ajax({
-                type: "Get",
-                url: BatchSelectUrl,
-                data : {itemcode :itemcode , warehouse: warehouse },
+		function generateBatchSelectTable(itemcode, warehouse) {
+			$.ajax({
+				type: "Get",
+				url: BatchSelectUrl,
+				data: { itemcode: itemcode, warehouse: warehouse },
 				dataType: "json",
 				cache: false,
-			
-			 }).done(function (data) 
-			 {
-			
-				
+
+			}).done(function (data) {
+
+
 
 				datatable = $('#MyyyyBatchSelectTable').DataTable({
-				responsive: true,
-				searching: true,
-				ordering: false,
-				ordering: false,
-				"columnDefs": [ 
-					{
-						"targets": 0,
-						"createdCell": function (td, cellData, rowData, row, col) 
+					responsive: true,
+					searching: true,
+					ordering: false,
+					ordering: false,
+					"columnDefs": [
 						{
-						$(td).attr('id', "DistNumber");
+							"targets": 0,
+							"createdCell": function (td, cellData, rowData, row, col) {
+								$(td).attr('id', "DistNumber");
+							}
+						},
+						{
+							"targets": 1,
+							"createdCell": function (td, cellData, rowData, row, col) {
+								$(td).attr('id', "Quantity");
+							}
+						},
+						{
+							"targets": 2,
+							"createdCell": function (td, cellData, rowData, row, col) {
+								$(td).attr('id', "selectqty");
+							}
+						},
+						{
+							"targets": 3,
+							"createdCell": function (td, cellData, rowData, row, col) {
+								$(td).attr('id', "CreateDate");
+							}
+						},
+						{
+							"targets": 4,
+							visible: false,
+							"createdCell": function (td, cellData, rowData, row, col) {
+								$(td).attr('id', "AbsEntry");
+							}
+						},
+						{
+							"targets": 5,
+							visible: false,
+							"createdCell": function (td, cellData, rowData, row, col) {
+								$(td).attr('id', "SysNumber");
+							}
 						}
+					],
+					"data": data.data,
+					layout: {
+						scroll: false,
+						footer: false,
 					},
-					{
-						"targets": 1,
-						"createdCell": function (td, cellData, rowData, row, col) 
-						{
-						$(td).attr('id', "Quantity");
-						}
+					// column sorting
+					sortable: true,
+					pagination: true,
+					destroy: true,
+					//   async: false,
+					search: {
+						input: $('#generalSearch'),
 					},
-					{
-						"targets": 2,
-						"createdCell": function (td, cellData, rowData, row, col) 
+					columns: [
+
 						{
-						$(td).attr('id', "selectqty");
-						}
-					},
-					{
-						"targets": 3,
-						"createdCell": function (td, cellData, rowData, row, col) 
+							data: 'distNumber', title: 'Batch',
+
+						},
 						{
-						$(td).attr('id', "CreateDate");
-						}
-					},
-					{
-						"targets": 4,
-						visible: false,
-						"createdCell": function (td, cellData, rowData, row, col) 
+							data: 'quantity', title: 'Available Qty',
+
+						},
 						{
-						$(td).attr('id', "AbsEntry");
-						}
-					},
-					{
-						"targets": 5,
-						visible: false,
-						"createdCell": function (td, cellData, rowData, row, col) 
+							data: function (row, type, set) {
+								return '<input type="number" class="form-control form-control-sm"  id="batchquantity"/>';
+
+							},
+							title: 'Selected Qty',
+						},
 						{
-						$(td).attr('id', "SysNumber");
-						}
-					}
-				],
-				"data": data.data,
-				layout: {
-					scroll: false,
-					footer: false,
-				},
-				// column sorting
-				sortable: true,
-				pagination: true,
-				destroy: true,
-				//   async: false,
-				search: {
-					input: $('#generalSearch'),
-				},
-				columns: [
-                 
-                {
-                    data: 'distNumber', title: 'Batch',
+							data: 'inDate', title: 'Creation Date', render: function (data, type, row) {
+								if (data != undefined && data != '') {
 
-                }, 
-				{
-                    data: 'quantity', title: 'Available Qty',
+									return moment(data).format('DD-MM-YYYY')
 
-                },
-				{
-                    data: function (row, type, set) 
-					{
-                        return '<input type="number" class="form-control form-control-sm"  id="batchquantity"/>';
+								} else {
+									// return data;
+									return '';
+								}
+							}
+						},
+						{
+							data: 'absEntry', title: 'Abs Number',
 
-                    },
-					title : 'Selected Qty',
-                },
-                {
-                    data: 'inDate', title: 'Creation Date', render: function (data, type, row) {
-                        if (data != undefined && data != '') {
+						},
+						{
+							data: 'sysNumber', title: 'Abs Number',
 
-                            return moment(data).format('DD-MM-YYYY')
+						},
+						{
+							data: "absEntry", 'title': 'Action', render: function (data, type, row) {
+								var html = '<a guid=' + data + ' id="btnSelectBatch" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+								html += '<i class="la la-check-double"></i>';
+								html += '</a>';
 
-                        } else {
-                            // return data;
-                            return '';
-                        }
-                    }
-                },
-                {
-                    data: 'absEntry', title: 'Abs Number',
-
-                },
-				{
-                    data: 'sysNumber', title: 'Abs Number',
-
-                },
-				{
-                    data: "absEntry", 'title': 'Action', render: function (data, type, row) {
-                        var html = '<a guid=' + data + ' id="btnSelectBatch" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
-                        html += '<i class="la la-check-double"></i>';
-                        html += '</a>';
-
-                        return html;
-                    }
-                },
-				],
-			});
+								return html;
+							}
+						},
+					],
+				});
 			});
 
 
-			
+
 		}
 		$(document).on('click', '#btnSelectBatch', function (e) {
 			//debugger
 			var LookTable = $('#MyyyyBatchSelectTable').DataTable();
 			var selectedRow = $(this).closest('tr');
 			var rowData = LookTable.row(selectedRow).data();
-			let addedqty = Number( selectedRow.find("#batchquantity").val());
-			if(!($(selectedRow).hasClass('Mainrow_selected'))) 
-			{
-				
-				if (addedqty == "" || addedqty == null || addedqty == undefined) 
-				{
+			let addedqty = Number(selectedRow.find("#batchquantity").val());
+			if (!($(selectedRow).hasClass('Mainrow_selected'))) {
+
+				if (addedqty == "" || addedqty == null || addedqty == undefined) {
 					toastr.error("Selected Quantity can't be empty");
 
 				}
-				else
-				{
+				else {
 
-					if	($("#slTotalSelected").val() == $("#slQuantity").val()) 
-					{
+					if ($("#slTotalSelected").val() == $("#slQuantity").val()) {
 						toastr.warning("You can't select more bacthes");
 					}
-					
-					else 
-					{
-						if(addedqty <=  Number($("#slTotalNeeded").val())) 
-						{
 
-						
-						let slqty = $("#slTotalNeeded").val() - addedqty;
-						let sltotal = Number($("#slTotalSelected").val()) +  addedqty;
-						let slbatches = Number($("#slTotalBacthes").val()) + Number(1);
+					else {
+						if (addedqty <= Number($("#slTotalNeeded").val())) {
 
-						$("#slTotalNeeded").val(slqty);
-						$("#slTotalSelected").val(sltotal);
-						$("#slTotalBacthes").val(slbatches);
 
-						$(selectedRow).addClass('Mainrow_selected');
-						selectedRow.find("#batchquantity").prop('readonly', true);
-						selectedRow.find("#batchquantity").addClass('Input_selected');
+							let slqty = $("#slTotalNeeded").val() - addedqty;
+							let sltotal = Number($("#slTotalSelected").val()) + addedqty;
+							let slbatches = Number($("#slTotalBacthes").val()) + Number(1);
+
+							$("#slTotalNeeded").val(slqty);
+							$("#slTotalSelected").val(sltotal);
+							$("#slTotalBacthes").val(slbatches);
+
+							$(selectedRow).addClass('Mainrow_selected');
+							selectedRow.find("#batchquantity").prop('readonly', true);
+							selectedRow.find("#batchquantity").addClass('Input_selected');
 						}
 						else {
-						toastr.warning("Quantity can't be greater than needed quantity !")
+							toastr.warning("Quantity can't be greater than needed quantity !")
 						}
 					}
 				}
 			}
-			else 
-			{
-				    let slqty =  Number($("#slTotalNeeded").val()) + addedqty;
-					let sltotal = Number($("#slTotalSelected").val()) -  addedqty;
-					let slbatches = Number($("#slTotalBacthes").val()) - Number(1);
+			else {
+				let slqty = Number($("#slTotalNeeded").val()) + addedqty;
+				let sltotal = Number($("#slTotalSelected").val()) - addedqty;
+				let slbatches = Number($("#slTotalBacthes").val()) - Number(1);
 
-					$("#slTotalNeeded").val(slqty);
-					$("#slTotalSelected").val(sltotal);
-					$("#slTotalBacthes").val(slbatches);
-					$(selectedRow).removeClass('Mainrow_selected');
-					selectedRow.find("#batchquantity").prop('readonly', false);	
-					selectedRow.find("#batchquantity").removeClass('Input_selected');
+				$("#slTotalNeeded").val(slqty);
+				$("#slTotalSelected").val(sltotal);
+				$("#slTotalBacthes").val(slbatches);
+				$(selectedRow).removeClass('Mainrow_selected');
+				selectedRow.find("#batchquantity").prop('readonly', false);
+				selectedRow.find("#batchquantity").removeClass('Input_selected');
 			}
-			
+
 		});
-		$(document).on('keyup', '#batchquantity', function (e) 
-		{
+		$(document).on('keyup', '#batchquantity', function (e) {
 			let LookTable = $('#MyyyyBatchSelectTable').DataTable();
 			let selectedRow = $(this).closest('tr');
 			let rowData = LookTable.row(selectedRow).data();
-			
-			if(rowData['quantity'] < $(this).val() ) 
-			{
+
+			if (rowData['quantity'] < $(this).val()) {
 				$(this).val(0);
 				toastr.warning("Selected quantity can't be greater than available quantity !")
 			}
 			if (Number($(this).val()) > Number($("#slTotalNeeded").val())) {
-			   toastr.warning("You can't add more than needed quanity !");
-			   $(this).val(0);
+				toastr.warning("You can't add more than needed quanity !");
+				$(this).val(0);
 			}
 		});
-		
-	$(document).on('click', '#btnbatchTableOk', function (e) 
-	{ 
+
+		$(document).on('click', '#btnbatchTableOk', function (e) {
 			let listObj = [];
-			if(Number($("#slTotalNeeded").val()) == 0 && ( $("#slQuantity").val() == $("#slTotalSelected").val())) 
-			{
+			if (Number($("#slTotalNeeded").val()) == 0 && ($("#slQuantity").val() == $("#slTotalSelected").val())) {
 
 				let LookTable = $('#MyyyyBatchSelectTable').DataTable();
 				let selectedRow = $(this).closest('tr');
 				let rowData = LookTable.rows().data();
 
-				 $('#MyyyyBatchSelectTable tbody tr').each(function (index, item) 
-				 { 
-					 let jsonobj = new Object();
+				$('#MyyyyBatchSelectTable tbody tr').each(function (index, item) {
+					let jsonobj = new Object();
 
-					 if($(this).hasClass('Mainrow_selected')) 
-					 {
-						  
-					 
-					 $('#MyyyyBatchSelectTable').DataTable().column(4).visible(true);
-					 $('#MyyyyBatchSelectTable').DataTable().column(5).visible(true);
-							
-						
-					 $(this).find('td').each(function (index, data) 
-					 {
-							
-							if($(this).attr("id") == "selectqty")
-							jsonobj[$(this).attr("id")] = $(this).find("#batchquantity").val();
+					if ($(this).hasClass('Mainrow_selected')) {
+
+
+						$('#MyyyyBatchSelectTable').DataTable().column(4).visible(true);
+						$('#MyyyyBatchSelectTable').DataTable().column(5).visible(true);
+
+
+						$(this).find('td').each(function (index, data) {
+
+							if ($(this).attr("id") == "selectqty")
+								jsonobj[$(this).attr("id")] = $(this).find("#batchquantity").val();
 							else
-							jsonobj[$(this).attr("id")] = $(this).text();
-					 });
-					 
-					 jsonobj['itemno'] =  $("#slItemno").val();
-					 jsonobj['whseno'] =  $("#slWarehouse").val();
-					 listObj.push(jsonobj);
-					 }
-				 });
-				 SelectedBatches.push(listObj);
-				 console.log(SelectedBatches);
-				 //$('#MyyyyBatchSelectTable').find("tbody").remove();
-				 $('#myBatchSelectmodal').modal('hide');
+								jsonobj[$(this).attr("id")] = $(this).text();
+						});
+
+						jsonobj['itemno'] = $("#slItemno").val();
+						jsonobj['whseno'] = $("#slWarehouse").val();
+						listObj.push(jsonobj);
+					}
+				});
+				SelectedBatches.push(listObj);
+				console.log(SelectedBatches);
+				//$('#MyyyyBatchSelectTable').find("tbody").remove();
+				$('#myBatchSelectmodal').modal('hide');
 				//$('#MyyyyBatchSelectTable').DataTable().clear().destroy();
-				
+
 			}
-			else 
-			{
+			else {
 				toastr.warning("Selected Quantity is less than required quantity!");
 			}
-	
-	});
-		function generateCopyDataTable() 
-		{
+
+		});
+		function generateCopyDataTable() {
 			CopydataTable = $('#MyyyyCopyDataTable').DataTable({
 				responsive: true,
 				searching: true,
@@ -2662,7 +2641,7 @@
 				ordering: false,
 				"ajax": {
 					url: CopyBtnUrl,
-					data : { cardcode : $("#CardCode").val() }
+					data: { cardcode: $("#CardCode").val() }
 				},
 				layout: {
 					scroll: false,
@@ -2677,60 +2656,60 @@
 					input: $('#generalSearch'),
 				},
 				columns: [
-                 
-                {
-                    data: 'docDate', title: 'Doc Date', render: function (data, type, row) {
-                        if (data != undefined && data != '') {
 
-                            return moment(data).format('DD-MM-YYYY')
+					{
+						data: 'docDate', title: 'Doc Date', render: function (data, type, row) {
+							if (data != undefined && data != '') {
 
-                        } else {
-                            // return data;
-                            return '';
-                        }
-                    }
-                },
-                {
-                    data: 'postingDate', title: 'Posting Date', render: function (data, type, row) {
-                        if (data != undefined && data != '') {
+								return moment(data).format('DD-MM-YYYY')
 
-                            return moment(data).format('DD-MM-YYYY')
+							} else {
+								// return data;
+								return '';
+							}
+						}
+					},
+					{
+						data: 'postingDate', title: 'Posting Date', render: function (data, type, row) {
+							if (data != undefined && data != '') {
 
-                        } else {
-                            // return data;
-                            return '';
-                        }
-                    }
-                },
-                {
-                    data: 'docNum', title: 'DocNum',
+								return moment(data).format('DD-MM-YYYY')
 
-                }, 
-				{
-                    data: 'docType', title: 'DocType',
+							} else {
+								// return data;
+								return '';
+							}
+						}
+					},
+					{
+						data: 'docNum', title: 'DocNum',
 
-                },
-				{
-                    data: 'cardCode', title: 'Card Code'
+					},
+					{
+						data: 'docType', title: 'DocType',
 
-                }, {
-                    data: 'cardName', title: 'Card Name'
+					},
+					{
+						data: 'cardCode', title: 'Card Code'
 
-                } ,{
-                    data: "id", 'title': 'Action', render: function (data, type, row) {
-                        var html = '<a guid=' + data + ' id="btnFetchItemService" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
-                        html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
-                        html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
-                        html += '       <rect x="0" y="0" width="24" height="24" />';
-                        html += '      <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953) " />';
-                        html += '      <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />';
-                        html += '   </g>';
-                        html += '</svg><!--end:: Svg Icon--></span> ';
-                        html += '               </a>';
+					}, {
+						data: 'cardName', title: 'Card Name'
 
-                        return html;
-                    }
-                },],
+					}, {
+						data: "id", 'title': 'Action', render: function (data, type, row) {
+							var html = '<a guid=' + data + ' id="btnFetchItemService" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+							html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
+							html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
+							html += '       <rect x="0" y="0" width="24" height="24" />';
+							html += '      <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953) " />';
+							html += '      <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />';
+							html += '   </g>';
+							html += '</svg><!--end:: Svg Icon--></span> ';
+							html += '               </a>';
+
+							return html;
+						}
+					},],
 			});
 			FilterCopydataTable();
 		}
@@ -2930,22 +2909,21 @@
 					}
 				},],
 			});
-			
+
 		}
-		
-		
+
+
 		function FilterCopydataTable() {
-			CopydataTable.columns( 3 ).search($('#tblItemServiceType').val()).draw();
+			CopydataTable.columns(3).search($('#tblItemServiceType').val()).draw();
 			$('#MyyyyCopyDataTable tr').removeClass("Mainrow_selected");
 			CopyDocIDs = [];
 		}
 
-		$(document).on('change', '#tblItemServiceType', function (e) 
-		{
+		$(document).on('change', '#tblItemServiceType', function (e) {
 			FilterCopydataTable();
 		});
-		
-		
+
+
 		$(document).on('click', '#btnFetchCardCode', function (e) {
 			//debugger
 			var LookTable = $('#MyyyyCustomerTable').DataTable();;
@@ -2960,7 +2938,7 @@
 			$("#Currency").val(rowData['currency']);
 			GetContactPersons(rowData['cardCode']);
 			$('#myCustModal').modal('hide');
-			 $('#btnCopyFrom').attr('disabled', false);
+			$('#btnCopyFrom').attr('disabled', false);
 			//$(ObjItemCode)
 		});
 		$(document).on('click', '#btnFetchVendorCardCode', function (e) {
@@ -2977,7 +2955,7 @@
 			$("#Currency").val(rowData['currency']);
 			GetContactPersons(rowData['cardCode']);
 			$('#myVendorModal').modal('hide');
-			 $('#btnCopyFrom').attr('disabled', false);
+			$('#btnCopyFrom').attr('disabled', false);
 			//$(ObjItemCode)
 		});
 
@@ -2985,7 +2963,7 @@
 			$.get("SaleQuotation/GetContactPersons", {
 				cardCode: cardCode
 			}, function (data) {
-				
+
 				// addDataInVatGroup();
 				$("#CntcCode").html("");
 				$.each(data, function () {
