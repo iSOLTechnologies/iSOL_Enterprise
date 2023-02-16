@@ -952,7 +952,7 @@ function GetVatGroupData()
     });
    
 
-      $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount,#VatGroup,.VT_Option', function (e) {
+    $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount,#VatGroup,.VT_Option', function (e) {
 
         var Qty = $(this).closest('#ListParameters .itm').find('#QTY');
         var UPrc = $(this).closest('#ListParameters .itm').find('#UPrc');
@@ -960,7 +960,22 @@ function GetVatGroupData()
         var TtlPrc = $(this).closest('#ListParameters .itm').find('#TtlPrc');
         var VatGroup = $(this).closest('#ListParameters .itm').find('#VatGroup');
         var VatGuid =  $('option:selected',VatGroup).attr("guid"); 
-       // console.log("My Vallllllll is ", VatGuid)
+        let BaseQty = $(this).closest('#ListParameters .itm').find('#BaseQty');
+
+        if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
+            if (Number(Qty.val()) <= Number(BaseQty.val())) {
+
+                $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val() - Qty.val());
+            }
+            else {
+            
+                toastr.warning("Quantity can't be greater than base quantity");
+                Qty.val(0);
+                $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val());
+            
+            
+            }
+        }
 
         if ($(DicPrc).val() == "") {
             var Onepercent = parseFloat($(TtlPrc).val() / 100);

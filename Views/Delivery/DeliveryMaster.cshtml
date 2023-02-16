@@ -1417,8 +1417,7 @@
     //function clckme(){
     //     document.getElementById("myCustomerbtn").click();
     //}
-
-      $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount,#VatGroup,.VT_Option', function (e) {
+    $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount,#VatGroup,.VT_Option', function (e) {
 
         var Qty = $(this).closest('#ListParameters .itm').find('#QTY');
         var UPrc = $(this).closest('#ListParameters .itm').find('#UPrc');
@@ -1428,16 +1427,21 @@
         var VatGuid =  $('option:selected',VatGroup).attr("guid"); 
         let BaseQty = $(this).closest('#ListParameters .itm').find('#BaseQty');
 
-        if (Number(Qty.val()) <= Number(BaseQty.val())) {
+        if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
+            if (Number(Qty.val()) <= Number(BaseQty.val())) {
 
-            $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val() - Qty.val());
+                $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val() - Qty.val());
+            }
+            else {
+            
+                toastr.warning("Quantity can't be greater than base quantity");
+                Qty.val(0);
+                $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val());
+            
+            
+            }
         }
-        else {
 
-            toastr.warning("Quantity can't be greater than base quantity");
-            Qty.val(0);
-            $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val());
-        }
         if ($(DicPrc).val() == "") {
             var Onepercent = parseFloat($(TtlPrc).val() / 100);
             var Tax = parseFloat(Onepercent * parseFloat(VatGuid))
@@ -1454,7 +1458,7 @@
             var Onepercent = parseFloat($(TtlPrc).val() / 100);
             var discountPrice = parseFloat(Onepercent * $(DicPrc).val());
             var Tax = parseFloat(Onepercent * parseFloat(VatGuid))
-           
+            console.log("discountPrice:", discountPrice)
             if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
                 $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) - (parseFloat(discountPrice))) + (Tax)).toFixed(2));
                 GetPrice();
@@ -1464,7 +1468,6 @@
         }
 
     });
-    
     
     $(document).on('click', '#RoundingChkBox', function (e) 
     {
