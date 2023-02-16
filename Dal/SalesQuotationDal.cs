@@ -68,7 +68,7 @@ namespace iSOL_Enterprise.Dal
 
         public List<tbl_customer> GetCustomerData()
         {
-            string GetQuery = "select * from OCRD Where CardType = 'C'";
+            string GetQuery = "select CardCode,CardName,Currency,Balance from OCRD Where CardType = 'C'";
 
 
             List<tbl_customer> list = new List<tbl_customer>();
