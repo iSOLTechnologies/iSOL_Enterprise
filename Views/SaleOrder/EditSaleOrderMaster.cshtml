@@ -1307,7 +1307,26 @@
         GetListValueMethod();
         GetLisRmCodes();
         GetContactPersons(CntctPerson);
-       
+        DocStatus();
+
+        
+        function DocStatus(){
+      
+        if ("@ViewBag.Status" == "Closed") {
+        
+          $('body').each(function (index, item) {
+
+             $(this).find('input , select , textarea').each(function (index, data) {
+                  
+                $("#ListBtnAddd").addClass("d-none");
+                    $("#ListBtnAddRM").addClass("d-none");
+                $(this).attr('disabled', true);
+
+             });
+         })
+        
+        }
+    }
 
 
 

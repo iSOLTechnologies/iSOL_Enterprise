@@ -2966,6 +2966,8 @@
 
 				// addDataInVatGroup();
 				$("#CntcCode").html("");
+
+					$("#CntcCode").append("<option value='0' selected>Select Contact Person<option />");
 				$.each(data, function () {
 					$("#CntcCode").append($("<option />").val(this.value).text(this.text));
 				});
