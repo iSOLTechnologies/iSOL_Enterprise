@@ -32,6 +32,7 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Taxes = dal.GetVatGroupData();
             ViewBag.Countries = dal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
+            ViewBag.Status = "Open";
             return View(dal1.GetARInvoiceDetails(id));
         }
 

@@ -40,6 +40,8 @@ namespace iSOL_Enterprise.Controllers.Sales
             ViewBag.Taxes = dal.GetVatGroupData();
             ViewBag.Countries = dal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
+ 
+            ViewBag.Status =   "Open" ;
             return View(dal1.GetAPInvoiceEditDetails(id));
         }
         public IActionResult GetGoodReceiptData(string cardcode)

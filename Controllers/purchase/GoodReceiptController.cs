@@ -40,6 +40,8 @@ namespace iSOL_Enterprise.Controllers.Sales
             ViewBag.Taxes = dal.GetVatGroupData();
             ViewBag.Countries = dal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
+            bool flag = CommonDal.Check_IsEditable("PCH1", id);
+            ViewBag.Status = flag == false ? "Open" : "Closed";
             return View(dal1.GetGoodReceiptEditDetails(id));
         }
         public IActionResult GetPurchaseOrderData(string cardcode)

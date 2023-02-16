@@ -31,7 +31,7 @@
                    <a onclick="Back_his()" class="btn btn-light-primary font-weight-bolder mr-2">
                         <i class="ki ki-long-arrow-back icon-sm"></i>Back
                     </a>
-                    <div class="btn-group">
+                    <div class="btn-group @(Convert.ToString(ViewBag.Status) == "Closed" ? "d-none" :"")">
 
                         <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
                             <i class="ki ki-check icon-sm"></i>Update
@@ -359,7 +359,7 @@
                                                                                                         <input id="ItemCode"
                                                                                                    disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)"
                                                                                                             value="@row1["ItemCode"]" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
-                                                                                                        <div id="Itemno" class="input-group-append" style="pointer-events: @(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? "none" : "") ;">
+                                                                                                        <div id="Itemno" class="input-group-append @(Convert.ToString(ViewBag.Status) == "Closed" ? "d-none" :"") " style="pointer-events: @(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? "none" : "") ;">
                                                                                                             <span class="input-group-text">
                                                                                                                 <i class="la la-search"></i>
                                                                                                             </span>
@@ -1277,6 +1277,9 @@
 
     }
 
+
+  
+
     var CountryData = ""
     var DOMStatus = '';
     var formid = '';
@@ -1288,8 +1291,9 @@
     var ListItemCodes;
     var isDuplicate = false;
 
-    $(document).ready(function () {
-         GetCountrydata();
+    $(document).ready(function () { 
+        
+        GetCountrydata();
         display_ItemOrService();
         GetVatGroupData();
         var date = new Date;
@@ -1303,6 +1307,11 @@
         GetListValueMethod();
         GetLisRmCodes();
         GetContactPersons(CntctPerson);
+       
+
+
+
+
 
         if (Guid != undefined && Guid != '' && Guid != null) {
             PopulateData();

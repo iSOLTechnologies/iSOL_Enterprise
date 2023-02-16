@@ -10,6 +10,7 @@
         public DateTime? PostingDate { get; set; }
         public string? CardCode { get; set; }
         public string? CardName { get; set; }
+        public string? DocStatus { get; set; }
         public List<SalesQuotation_DetailsModels> ListSalesQuotationDetails { get; set; }
     }
 }

@@ -12,17 +12,16 @@ namespace iSOL_Enterprise.Dal
     public class SalesOrderDal
     {
         public List<SalesQuotation_MasterModels> GetSaleOrderData()
-        {
-            bool flag;
+        { 
             string GetQuery = "select * from ORDR";
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {
                 while (rdr.Read())
                 {
-                    flag = CommonDal.Check_IsEditable("DLN1", rdr["Id"].ToInt());
                     SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
-                    models.Id = flag == false ? rdr["Id"].ToInt() : 0 ;
+                    models.DocStatus = CommonDal.Check_IsEditable("DLN1", rdr["Id"].ToInt()) == false ? "Open" : "Closed" ;
+                    models.Id = rdr["Id"].ToInt() ;
                     models.DocDate = rdr["DocDueDate"].ToDateTime();
                     models.PostingDate = rdr["DocDate"].ToDateTime();
                     models.DocNum = rdr["DocNum"].ToString();

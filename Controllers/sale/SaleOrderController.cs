@@ -28,11 +28,13 @@ namespace iSOL_Enterprise.Controllers
         public IActionResult EditSaleOrderMaster(int id)
         {
             SalesQuotationDal dal = new SalesQuotationDal();
-            SalesOrderDal dal1 = new SalesOrderDal();
+            SalesOrderDal dal1 = new SalesOrderDal();           
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData();
             ViewBag.Countries = dal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
+            bool flag = CommonDal.Check_IsEditable("DLN1", id);
+            ViewBag.Status = flag == false ? "Open" : "Closed";
             return View(dal1.GetSaleOrderEditDetails(id));
         }
         public IActionResult GetSalesQuotationData(int cardcode)
@@ -53,8 +55,9 @@ namespace iSOL_Enterprise.Controllers
 
             return Json(response);
         }
+        
+        
         [HttpGet]
-
         public  IActionResult GetQuotationItemService(int DocId)
         {
             try
