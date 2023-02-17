@@ -302,7 +302,7 @@ namespace iSOL_Enterprise.Dal
                             if (item.BaseEntry != "" && item.BaseEntry != null)
                             {
 
-                                string Updatequery = @"Update DLN1 set OpenQty =OpenQty - " + item.QTY + " where Id ="+item.BaseEntry + "and LineNum ="+item.BaseLine;
+                                string Updatequery = @"Update DLN1 set OpenQty =OpenQty + " + item.QTY + " where Id ="+item.BaseEntry + "and LineNum ="+item.BaseLine;
                                 int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
                                 if (res <= 0)
                                 {
