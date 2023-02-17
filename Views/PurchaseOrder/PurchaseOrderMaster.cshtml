@@ -368,7 +368,7 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input class="form-control form-control-sm" id="DicPrc"  type="number">
+                                                                                        <input class="form-control form-control-sm NotReq" id="DicPrc"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
@@ -607,7 +607,7 @@
                                                                 <div class="col-md-6">
                                                                     <label for="inputEmail4" class="form-label">Discount</label>
                                                                     <!-- @*@Html.EditorFor(m => m.OQUT_obj.DiscPrcnt, new { htmlAttributes = new { @class = "form-control", type = "number" } })*@ -->
-                                                                    <input name="Discount" type="number" class="form-control" id="Discount">
+                                                                    <input name="Discount" type="number" class="form-control NotReq" id="Discount">
 
                                                                 </div>
 
@@ -987,11 +987,11 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                         <td>
-                                                                                            <input class="form-control form-control-sm" id="UPrc"  type="text">
+                                                                                            <input class="form-control form-control-sm NotReq" id="UPrc"  type="text">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input class="form-control form-control-sm" id="DicPrc"  type="number">
+                                                                                            <input class="form-control form-control-sm NotReq"  id = "DicPrc"  onkeyup = "GetPrice()" type = "number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
@@ -1252,7 +1252,7 @@
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </td>
                                                                         <td>
-                                                                            <input class="form-control form-control-sm"  id = "DicPrc"  onkeyup = "GetPrice()" type = "number">
+                                                                            <input class="form-control form-control-sm NotReq"  id = "DicPrc"  onkeyup = "GetPrice()" type = "number">
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </td>
                                                                                                                 <td>
@@ -1639,7 +1639,7 @@ function GetPrice()
 
         $('#kt_repeater_3 tbody').append(html);
     });
-     $(document).on('keypress', '#CardCode,#DocNum,#CardName,#DocDate,#NumAtCard,#DocDue,#TaxDate,#ItemCode,#VatGroup,#GroupNum,#DocCur', function (e) 
+     $(document).on('keypress change', '#CardCode,#DocNum,#CardName,#DocDate,#NumAtCard,#DocDue,#TaxDate,#ItemCode,#VatGroup,#GroupNum,#DocCur', function (e) 
     {
        
         $(this).removeClass('is-invalid');
@@ -1690,7 +1690,7 @@ function GetPrice()
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input class="form-control form-control-sm" id="DicPrc"  type="number">
+                                                                                        <input class="form-control form-control-sm NotReq"  id = "DicPrc"  onkeyup = "GetPrice()" type = "number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
