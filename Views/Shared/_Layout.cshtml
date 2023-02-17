@@ -3026,7 +3026,7 @@
 						if(DocModule == "S" ? (data.oitmdata)[0].sUoMEntry == this.uomEntry : (data.oitmdata)[0].pUoMEntry== this.uomEntry) 
 						{
 							$(UomEntryRow).append("<option value=" + this.uomEntry + " selected>" + this.uomName + "</option>" );
-							$(UomCodeRow).val("'"+this.uomName+"'");
+							$(UomCodeRow).val(""+this.uomName+"");
 						}
 						else 
 						{
