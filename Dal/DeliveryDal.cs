@@ -316,7 +316,7 @@ namespace iSOL_Enterprise.Dal
                             item.BaseLine = item.BaseLine == "" ? "NULL" : Convert.ToInt32(item.BaseLine);
                             item.BaseQty = item.BaseQty == "" ? "NULL" : Convert.ToInt32(item.BaseQty);
 
-                            string RowQueryItem = @"insert into DLN1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            string RowQueryItem = @"insert into DLN1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
                                               values(" + Id + ","
                                                 + LineNo + ",'"
                                                 + item.BaseRef + "',"
@@ -331,7 +331,8 @@ namespace iSOL_Enterprise.Dal
                                                 + item.QTY + ","
                                                 + item.DicPrc + ",'"
                                                 + item.VatGroup + "','"
-                                                + item.UomCode + "','"
+                                                + item.UomCode + "',"
+                                                + item.UomEntry + ",'"
                                                 + item.CountryOrg + "')";
 
 

@@ -360,7 +360,7 @@ namespace iSOL_Enterprise.Dal
                             item.BaseLine = item.BaseLine == "" ? "null" : item.BaseLine;
                             item.BaseQty = item.BaseQty == "" ? "null" : item.BaseQty;
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            string RowQueryItem = @"insert into POR1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            string RowQueryItem = @"insert into POR1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
                                               values(" + Id + ","
                                               + LineNo + ",'"
                                               + item.BaseRef + "',"
@@ -375,7 +375,8 @@ namespace iSOL_Enterprise.Dal
                                               + item.QTY + ","
                                               + item.DicPrc + ",'"
                                               + item.VatGroup + "','"
-                                              + item.UomCode + "','"
+                                              + item.UomCode + "',"
+                                              + item.UomEntry + ",'"
                                               + item.CountryOrg + "')";
 
                             #region sqlparam

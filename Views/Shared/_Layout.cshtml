@@ -3000,10 +3000,11 @@
 
 		function GetUomGroup(itemno) 
 		{
+				var UomEntryRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomEntry");
 				var UomCodeRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomCode");
 				$.get("SaleQuotation/GetUomGroup", {itemno : itemno} , function(data) 
 				{
-					$(UomCodeRow).html("");
+					$(UomEntryRow).html("");
 						//console.log((data.oitmdata)[0].sUoMEntry);
 					//console.log("Hi:" data.oitmdata.PUoMEntry);
 					
@@ -3011,11 +3012,12 @@
 					{
 						if(DocModule == "S" ? (data.oitmdata)[0].sUoMEntry == this.uomEntry : (data.oitmdata)[0].pUoMEntry== this.uomEntry) 
 						{
-							$(UomCodeRow).append("<option value=" + this.uomEntry + " selected>" + this.uomName + "</option>" );
+							$(UomEntryRow).append("<option value=" + this.uomEntry + " selected>" + this.uomName + "</option>" );
+							$(UomCodeRow).val("'"+this.uomName+"'");
 						}
 						else 
 						{
-							$(UomCodeRow).append($('<option>', 
+							$(UomEntryRow).append($('<option>', 
 													{
 																value: this.uomEntry,
 																text: this.uomName

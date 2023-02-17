@@ -388,7 +388,7 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <select class="form-control " id="UomCode"> </select>
+                                                                                       <select class="form-control " id="UomEntry"> </select><input id="UomCode" class="position-absolute d-none"/>
                                                                                         @*<select class="form-control " id="UomCode"> </select>*@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -1008,10 +1008,11 @@
                                                                                             <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
-                                                                                        <td>
-                                                                                            <input class="form-control value="`+data.UomCode+`"  form-control-sm" id="UomCode">
+                                                                                         <td>
+                                                                                             <select class="form-control " id="UomEntry" value="`+data.UomEntry+`"> </select><input value="`+data.UomCode+`" id="UomCode" class="position-absolute d-none"/>
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
+																		                </td>
+                                                                                        
                                                                                         <td>
                                                                                             <select class="form-control form-control-sm" value="`+data.CountryOrg+`" id="CountryOrg" name="DurationTypeCode">
                                                                                                 `+CountryData+`
@@ -1265,10 +1266,10 @@
                                                                             <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled >
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </td>
-                                                                        <td>
-                                                                            <input class="form-control form-control-sm" >
+                                                                         <td>
+                                                                             <select class="form-control " id="UomEntry"> </select><input id="UomCode" class="position-absolute d-none"/>
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                        </td>
+																		</td>
                                                                         <td>
                                                                                 <select class="form-control form-control-sm" id="CountryOrg" name="DurationTypeCode">
                                                                             `+CountryData+`
@@ -1709,7 +1710,7 @@ function GetPrice()
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <select class="form-control " id="UomCode"> </select>
+                                                                                       <select class="form-control " id="UomEntry"> </select><input id="UomCode" class="position-absolute d-none"/>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>

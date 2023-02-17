@@ -159,7 +159,7 @@ namespace iSOL_Enterprise.Dal
                             item.BaseEntry = item.BaseEntry == "" ? "null" : item.BaseEntry;
                             item.BaseLine = item.BaseLine == "" ? "null" : item.BaseLine;
                             item.BaseQty = item.BaseQty == "" ? "null" : item.BaseQty;
-                            string RowQueryItem = @"insert into PCH1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            string RowQueryItem = @"insert into PCH1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
                                               values(" + Id + ","
                                              + LineNo + ",'"
                                              + item.BaseRef + "',"
@@ -174,7 +174,8 @@ namespace iSOL_Enterprise.Dal
                                              + item.QTY + ","
                                              + item.DicPrc + ",'"
                                              + item.VatGroup + "','"
-                                             + item.UomCode + "','"
+                                             + item.UomCode + "',"
+                                             + item.UomEntry + ",'"
                                              + item.CountryOrg + "')";
 
 

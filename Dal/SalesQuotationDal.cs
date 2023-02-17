@@ -367,7 +367,7 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListItems)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            string RowQueryItem = @"insert into QUT1(Id,LineNum,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            string RowQueryItem = @"insert into QUT1(Id,LineNum,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup,UomCode,UomEntry,CountryOrg)
                                               values(" + Id + ","
                                               + LineNo + ",'"
                                               + item.ItemName + "',"
@@ -378,7 +378,8 @@ namespace iSOL_Enterprise.Dal
                                               + item.QTY + ","
                                               + item.DicPrc + ",'"
                                               + item.VatGroup + "','"
-                                              + item.UomCode + "','"
+                                              + item.UomCode + "',"
+                                              + item.UomEntry + ",'"
                                               + item.CountryOrg + "')";
                             
                             #region sqlparam
