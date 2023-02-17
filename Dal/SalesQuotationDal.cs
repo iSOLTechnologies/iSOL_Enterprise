@@ -279,7 +279,7 @@ namespace iSOL_Enterprise.Dal
         {
             List<tbl_OUOM> list = new List<tbl_OUOM>();
 
-            string OUOMQuery = @"select OUOM.UomEntry,UomName  from OUGP
+            string OUOMQuery = @"select OUOM.UomEntry,UomCode  from OUGP
 	                            Inner Join UGP1 on OUGP.UgpEntry = UGP1.UgpEntry
 	                            Inner Join OUOM on UGP1.UomEntry = OUOM.UomEntry
 	                            where OUGP.UgpEntry = "+UgpEntry;
@@ -292,7 +292,7 @@ namespace iSOL_Enterprise.Dal
                        new tbl_OUOM()
                        {
                            UomEntry = rdr["UomEntry"].ToInt(),
-                           UomName = rdr["UomName"].ToString()
+                           UomName = rdr["UomCode"].ToString()
 
                        });
 
