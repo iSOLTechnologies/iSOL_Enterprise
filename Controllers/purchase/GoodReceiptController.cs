@@ -22,13 +22,8 @@ namespace iSOL_Enterprise.Controllers.Sales
         }
         public IActionResult GoodReceiptMaster()
         {
-
             SalesQuotationDal dal = new SalesQuotationDal();
-
             ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
-
-
-
             return View();
         }
 

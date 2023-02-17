@@ -1558,7 +1558,19 @@ function GetPrice()
         GetListValueMethod();
         GetLisRmCodes();
         GetPayments();
+         Edit_GetUomGroup();
+        
+        function Edit_GetUomGroup() {
+        $('#ListParameters .itm').each(function (index, item) {
 
+            ObjItemCode = $(this).find("#ItemCode");
+            var itemno = $(this).find("#ItemCode").val();
+            DocModule = "S";
+            if (itemno != "" && itemno != null) { GetUomGroup(itemno); }
+
+
+        });
+    }
 
 
 

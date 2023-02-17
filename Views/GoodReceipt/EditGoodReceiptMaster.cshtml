@@ -307,7 +307,7 @@
                                                                            {
                                                                             <select id="ItemServiceType" class="form-control">
                                                                                 <option selected value="1">Item</option>                                                                                                                                                           
-                                                                                <option value="2">Service</option>                                                                            
+                                                                                @*<option value="2">Service</option>*@                                                                            
                                                                             </select>        
                                                                             <script>
 
@@ -315,7 +315,7 @@
                                                                             </script>
                                                                            }else if(row["DocType"].Equals("S")){
                                                                             <select id="ItemServiceType" class="form-control">                                                                            
-                                                                                <option value="1">Item</option>                                                                                                                                                          
+                                                                                @*<option value="1">Item</option>  *@                                                                                                                                                        
                                                                                 <option selected value="2">Service</option>                                                                            
                                                                             </select>
                                                                              <script>
@@ -337,6 +337,7 @@
                                                                         <table id="kt_repeater_1" style="overflow:auto">
                                                                             <thead class="ScrollThead">
                                                                                 <tr>
+                                                                                    <th>Line Num</th>
                                                                                     <th>Item No.</th>
                                                                                     <th>Item Name</th>
                                                                                     <th>Quantity</th>
@@ -352,6 +353,11 @@
                                                                              @if(row["DocType"].Equals("I")){
                                                                               @foreach(DataRow row1 in Model.Tables[1].Rows){
                                                                                    <tr class="rowItemDetail align-items-center itm">
+                                                                                                <td>
+
+                                                                                                    <input disabled="" id="LineNum" value="@row1["LineNum"]" class="form-control form-control-sm" type="text">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
                                                                                     <td>
                                                                                         <div class="input-group">
                                                                                             <input disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)" id="ItemCode" value="@row1["ItemCode"]" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
@@ -1280,8 +1286,17 @@ function GetPrice()
         GetListValueMethod();
         GetLisRmCodes();
         GetContactPersons(CntctPerson);
-         DocStatus();
+        DocStatus();
+        Edit_GetUomGroup();
+        
+        function Edit_GetUomGroup() {
+        $('#ListParameters .itm').each(function (index, item) {
 
+            ObjItemCode = $(this).find("#ItemCode");
+            var itemno = $(this).find("#ItemCode").val();
+            DocModule = "S";
+            if (itemno != "" && itemno != null) { GetUomGroup(itemno); }
+            });}
         function DocStatus(){
       
         if ("@ViewBag.Status" == "Closed") {

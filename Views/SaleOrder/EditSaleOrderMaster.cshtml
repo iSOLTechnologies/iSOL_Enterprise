@@ -297,7 +297,7 @@
                                                                                 {
                                                                                     <select id="ItemServiceType" class="form-control">
                                                                                         <option selected value="1">Item</option>
-                                                                                        <option value="2">Service</option>
+                                                                                        @*<option value="2">Service</option>*@
                                                                                     </select>
                                                                                     <script>
 
@@ -307,7 +307,7 @@
                                                                                 else if (row["DocType"].Equals("S"))
                                                                                 {
                                                                                     <select id="ItemServiceType" class="form-control">
-                                                                                        <option value="1">Item</option>
+                                                                                        @*<option value="1">Item</option>*@
                                                                                         <option selected value="2">Service</option>
                                                                                     </select>
                                                                                     <script>
@@ -1308,6 +1308,19 @@
         GetLisRmCodes();
         GetContactPersons(CntctPerson);
         DocStatus();
+       Edit_GetUomGroup();
+        
+        function Edit_GetUomGroup() {
+        $('#ListParameters .itm').each(function (index, item) {
+
+            ObjItemCode = $(this).find("#ItemCode");
+            var itemno = $(this).find("#ItemCode").val();
+            DocModule = "S";
+            if (itemno != "" && itemno != null) { GetUomGroup(itemno); }
+
+
+        });
+    }
 
         
         function DocStatus(){
@@ -2222,5 +2235,8 @@
         );
 
     }
+
+      
+
 
 </script>

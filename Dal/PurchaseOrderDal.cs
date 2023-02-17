@@ -638,47 +638,77 @@ namespace iSOL_Enterprise.Dal
                         //        };
                         #endregion
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                        if (res1 <= 0)
+                        {
+                            tran.Rollback();
+                            return false;
+                        }
                     }
+
+
+
+
+                    //var GetDocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, "Select DocType from ORDR where Id = " + model.Id + " ");
+
+
+
+
+
                     if (model.ListItems != null)
                     {
-                        int LineNo = 1;
+
                         foreach (var item in model.ListItems)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            string RowQueryItem = @"insert into POR1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            if (item.LineNum != "" && item.LineNum != null)
+                            {
+                                string UpdateQuery = @"update POR1 set
+                                                                      ItemCode  = '" + item.ItemCode + "'" +
+                                                        ",ItemName  = '" + item.ItemName + "'" +
+                                                        ",UomCode   = '" + item.UomCode + "'" +
+                                                        ",Quantity  = '" + item.QTY + "'" +
+                                                        ",OpenQty   = OpenQty + (" + item.QTY + "- OpenQty)" +
+                                                        ",Price     = '" + item.UPrc + "'" +
+                                                        ",LineTotal = '" + item.TtlPrc + "'" +
+                                                        ",DiscPrcnt = '" + item.DicPrc + "'" +
+                                                        ",VatGroup  = '" + item.VatGroup + "'" +
+                                                        ",CountryOrg= '" + item.CountryOrg + "'" +
+                                                        " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
+                                int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateQuery).ToInt();
+                                if (res2 <= 0)
+                                {
+                                    tran.Rollback();
+                                    return false;
+                                }
+
+                            }
+                            else
+                            {
+                                int LineNo = CommonDal.getLineNumber(tran, "POR1", (model.ID).ToString());
+                                string RowQueryItem = @"insert into POR1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode ,CountryOrg)
                                               values(" + model.ID + ","
-                                                + LineNo + ",'"
+                                              + LineNo + ",'"
                                               + item.ItemName + "',"
                                               + item.UPrc + ","
                                               + item.TtlPrc + ",'"
-                                                + item.ItemCode + "',"
-                                                + item.QTY + ","
-                                                + item.DicPrc + ",'"
-                                                + item.VatGroup + "','"
-                                                + item.UomCode + "','"
-                                                + item.CountryOrg + "')";
+                                              + item.ItemCode + "',"
+                                              + item.QTY + ","
+                                              + item.QTY + ","
+                                              + item.DicPrc + ",'"
+                                              + item.VatGroup + "','"
+                                              + item.UomCode + "','"
+                                              + item.CountryOrg + "')";
 
-                            #region sqlparam
-                            //List<SqlParameter> param2 = new List<SqlParameter>
-                            //        {
-                            //            new SqlParameter("@id",QUT1Id),
-                            //            new SqlParameter("@ItemCode",item.ItemCode),
-                            //            new SqlParameter("@Quantity",item.Quantity),
-                            //            new SqlParameter("@DiscPrcnt",item.DiscPrcnt),
-                            //            new SqlParameter("@VatGroup",item.VatGroup),
-                            //            new SqlParameter("@UomCode",item.UomCode),
-                            //            new SqlParameter("@CountryOrg",item.CountryOrg),
 
-                            //        };
-                            #endregion
 
-                            int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
-                            if (res2 <= 0)
-                            {
-                                tran.Rollback();
-                                return false;
+                                int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
+                                if (res2 <= 0)
+                                {
+                                    tran.Rollback();
+                                    return false;
+                                }
+
                             }
-                            LineNo += 1;
                         }
 
 
@@ -694,22 +724,12 @@ namespace iSOL_Enterprise.Dal
                             string RowQueryService = @"insert into POR1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
                                                   values(" + model.ID + ","
                                                    + LineNo + ","
-                                                     + item.TotalLC + ",'"
-                                                    + item.Dscription + "','"
-                                                    + item.AcctCode + "','"
-                                                    + item.VatGroup2 + "')";
-
-                            #region sqlparam
-                            //List<SqlParameter> param3 = new List<SqlParameter>
-                            //            {
-                            //                new SqlParameter("@id",QUT1Id),
-                            //                new SqlParameter("@Dscription",item.Dscription),
-                            //                new SqlParameter("@AcctCode",item.AcctCode),
-                            //                new SqlParameter("@VatGroup",item.VatGroup),
+                                                    + item.TotalLC + ",'"
+                                                   + item.Dscription + "','"
+                                                   + item.AcctCode + "','"
+                                                   + item.VatGroup2 + "')";
 
 
-                            //            };
-                            #endregion
 
                             int res3 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryService).ToInt();
                             if (res3 <= 0)
@@ -724,6 +744,16 @@ namespace iSOL_Enterprise.Dal
 
 
                     }
+
+
+
+
+
+
+
+
+
+
                     if (model.ListAttachment != null)
                     {
 
@@ -742,18 +772,7 @@ namespace iSOL_Enterprise.Dal
                                                         + item.selectedFilePath + "','"
                                                         + item.selectedFileName + "','"
                                                         + Convert.ToDateTime(item.selectedFileDate) + "')";
-                                #region sqlparam
-                                //List<SqlParameter> param3 = new List<SqlParameter>
-                                //            {
-                                //                new SqlParameter("@AbsEntry",ATC1Id),
-                                //                new SqlParameter("@Line",ATC1Line),
-                                //                new SqlParameter("@trgtPath",item.trgtPath),
-                                //                new SqlParameter("@FileName",item.FileName),
-                                //                new SqlParameter("@Date",item.Date),
 
-
-                                //            };
-                                #endregion
                                 int res4 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryAttachment).ToInt();
                                 if (res4 <= 0)
                                 {
@@ -768,8 +787,6 @@ namespace iSOL_Enterprise.Dal
 
 
                     }
-
-
                     if (res1 > 0)
                     {
                         tran.Commit();

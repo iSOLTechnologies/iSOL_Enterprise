@@ -354,37 +354,77 @@ namespace iSOL_Enterprise.Dal
 
 
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                        if (res1 <= 0)
+                        {
+                            tran.Rollback();
+                            return false;
+                        }
                     }
+
+
+
+
+                    //var GetDocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, "Select DocType from ORDR where Id = " + model.Id + " ");
+
+
+
+
+
                     if (model.ListItems != null)
                     {
-                        int LineNo = 1;
+
                         foreach (var item in model.ListItems)
                         {
-                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
+                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
+                            if (item.LineNum != "" && item.LineNum != null)
+                            {
+                                string UpdateQuery = @"update PCH1 set
+                                                                      ItemCode  = '" + item.ItemCode + "'" +
+                                                        ",ItemName  = '" + item.ItemName + "'" +
+                                                        ",UomCode   = '" + item.UomCode + "'" +
+                                                        ",Quantity  = '" + item.QTY + "'" +
+                                                        ",OpenQty   = OpenQty + (" + item.QTY + "- OpenQty)" +
+                                                        ",Price     = '" + item.UPrc + "'" +
+                                                        ",LineTotal = '" + item.TtlPrc + "'" +
+                                                        ",DiscPrcnt = '" + item.DicPrc + "'" +
+                                                        ",VatGroup  = '" + item.VatGroup + "'" +
+                                                        ",CountryOrg= '" + item.CountryOrg + "'" +
+                                                        " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
+                                int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateQuery).ToInt();
+                                if (res2 <= 0)
+                                {
+                                    tran.Rollback();
+                                    return false;
+                                }
 
-                            string RowQueryItem = @"insert into PCH1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
+                            }
+                            else
+                            {
+                                int LineNo = CommonDal.getLineNumber(tran, "PCH1", (model.ID).ToString());
+                                string RowQueryItem = @"insert into PCH1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode ,CountryOrg)
                                               values(" + model.ID + ","
-                                                + LineNo + ",'"
+                                              + LineNo + ",'"
                                               + item.ItemName + "',"
                                               + item.UPrc + ","
                                               + item.TtlPrc + ",'"
-                                                + item.ItemCode + "',"
-                                                + item.QTY + ","
-                                                + item.DicPrc + ",'"
-                                                + item.VatGroup + "','"
-                                                + item.UomCode + "','"
-                                                + item.CountryOrg + "')";
+                                              + item.ItemCode + "',"
+                                              + item.QTY + ","
+                                              + item.QTY + ","
+                                              + item.DicPrc + ",'"
+                                              + item.VatGroup + "','"
+                                              + item.UomCode + "','"
+                                              + item.CountryOrg + "')";
 
 
 
-                            int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
-                            if (res2 <= 0)
-                            {
-                                tran.Rollback();
-                                return false;
+                                int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
+                                if (res2 <= 0)
+                                {
+                                    tran.Rollback();
+                                    return false;
+                                }
+
                             }
-                            LineNo += 1;
-
                         }
 
 
@@ -392,19 +432,18 @@ namespace iSOL_Enterprise.Dal
                     }
                     else if (model.ListService != null)
                     {
-
                         int LineNo = 1;
+
                         foreach (var item in model.ListService)
                         {
-                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
-
+                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
                             string RowQueryService = @"insert into PCH1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
-                                                values(" + model.ID + ","
-                                                    + LineNo + ","
-                                                     + item.TotalLC + ",'"
-                                                    + item.Dscription + "','"
-                                                    + item.AcctCode + "','"
-                                                    + item.VatGroup2 + "')";
+                                                  values(" + model.ID + ","
+                                                   + LineNo + ","
+                                                    + item.TotalLC + ",'"
+                                                   + item.Dscription + "','"
+                                                   + item.AcctCode + "','"
+                                                   + item.VatGroup2 + "')";
 
 
 
@@ -413,10 +452,24 @@ namespace iSOL_Enterprise.Dal
                             {
                                 tran.Rollback();
                                 return false;
+
                             }
                             LineNo += 1;
                         }
+
+
+
                     }
+
+
+
+
+
+
+
+
+
+
                     if (model.ListAttachment != null)
                     {
 
@@ -430,7 +483,7 @@ namespace iSOL_Enterprise.Dal
 
 
                                 string RowQueryAttachment = @"insert into ATC1(AbsEntry,Line,trgtPath,FileName,Date)
-                                               values(" + ATC1Id + ","
+                                                  values(" + ATC1Id + ","
                                                         + LineNo + ",'"
                                                         + item.selectedFilePath + "','"
                                                         + item.selectedFileName + "','"
@@ -446,6 +499,9 @@ namespace iSOL_Enterprise.Dal
                                 LineNo += 1;
                             }
                         }
+
+
+
                     }
                     if (res1 > 0)
                     {

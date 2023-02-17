@@ -370,8 +370,7 @@ namespace iSOL_Enterprise.Dal
                     //var GetDocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, "Select DocType from ORDR where Id = " + model.Id + " ");
 
 
-                    if (DocType == GetDocNum)
-                    {
+                    
 
 
                         if (model.ListItems != null)
@@ -465,135 +464,8 @@ namespace iSOL_Enterprise.Dal
 
                         }
 
-
-                    }
-                    else
-                    {
-
-                        #region Inserting if other Item / Service Edited
-
-                        #region Deleting Items/List
-                        string DeleteI_Or_SQuery = "Delete from RDR1 Where id = " + model.ID;
-                        int res5 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
-                        if (res5 <= 0)
-                        {
-                            tran.Rollback();
-                            return false;
-                        }
-                        #endregion
-
-
-
-
-
-
-                        if (model.ListItems != null)
-                        {
-                            int LineNo = 1;
-                            foreach (var item in model.ListItems)
-                            {
-
-
-                                if (item.BaseEntry != "" && item.BaseEntry != null)
-                                {
-
-                                    string Updatequery = @"Update QUT1 set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
-                                    int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
-                                    if (res <= 0)
-                                    {
-                                        tran.Rollback();
-                                        return false;
-                                    }
-                                }
-
-                                //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                                string RowQueryItem = @"insert into RDR1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode ,CountryOrg)
-                                              values(" + model.ID + ","
-                                                  + LineNo + ",'"
-                                                  + item.BaseRef + "',"
-                                                  + item.BaseEntry + ","
-                                                  + item.BaseLine + ","
-                                                  + item.BaseQty + ",'"
-                                                  + item.ItemName + "',"
-                                                  + item.UPrc + ","
-                                                  + item.TtlPrc + ","
-                                                  + item.QTY + ",'"
-                                                  + item.ItemCode + "',"
-                                                  + item.QTY + ","
-                                                  + item.DicPrc + ",'"
-                                                  + item.VatGroup + "','"
-                                                  + item.UomCode + "','"
-                                                  + item.CountryOrg + "')";
-
-
-
-                                int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
-                                if (res2 <= 0)
-                                {
-                                    tran.Rollback();
-                                    return false;
-                                }
-                                LineNo += 1;
-                            }
-
-
-
-                        }
-                        else if (model.ListService != null)
-                        {
-
-                            int LineNo = 1;
-                            foreach (var item in model.ListService)
-                            {
-                                //int QUT1Id = CommonDal.getPrimaryKey(tran, "RDR1");
-
-                                //string RowQueryService = @"insert into RDR1(Id,LineNum,BaseRef,BaseEntry,BaseLine,LineTotal,Dscription,AcctCode,VatGroup)
-                                string RowQueryService = @"insert into RDR1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
-                                                  values(" + model.ID + ","
-                                                        + LineNo + ","
-                                                        //+ item.BaseRef2 + "',"
-                                                        //+ item.BaseEntry2 + ","
-                                                        //+ item.BaseLine2 + "," 
-                                                        + item.TotalLC + ",'"
-                                                        + item.Dscription + "','"
-                                                        + item.AcctCode + "','"
-                                                        + item.VatGroup2 + "')";
-
-
-
-                                int res3 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryService).ToInt();
-                                if (res3 <= 0)
-                                {
-                                    tran.Rollback();
-                                    return false;
-
-                                }
-                                LineNo += 1;
-                            }
-
-
-
-                        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        #endregion
-
-
-
-                    }
+ 
+                    
 
 
 
