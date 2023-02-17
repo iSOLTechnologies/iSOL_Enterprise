@@ -17,7 +17,7 @@ namespace iSOL_Enterprise.Controllers
         {
             return View();
         }
-        public IActionResult DeliveryMaster()
+        public IActionResult ReturnMaster()
         {
             SalesQuotationDal dal = new SalesQuotationDal();
 
@@ -38,14 +38,14 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Status = flag == false ? "Open" : "Closed";
             return View(dal1.GetDeliveryDetails(id));
         }
-        public IActionResult GetSalesOrderData(int cardcode)
+        public IActionResult GetDeliveryData(int cardcode)
         {
             ResponseModels response = new ResponseModels();
             try
             {
 
-                DeliveryDal dal = new DeliveryDal();
-                response.Data = dal.GetSalesOrderData(cardcode);
+                ARInvoiceDal dal = new ARInvoiceDal();
+                response.Data = dal.GetDeliveryData(cardcode);
             }
             catch (Exception ex)
             {
@@ -58,13 +58,13 @@ namespace iSOL_Enterprise.Controllers
         }
         [HttpGet]
 
-        public IActionResult GetOrderItemService(int DocId)
+        public IActionResult GetDeliveryItemService(int DocId)
         {
             try
             {
-                DeliveryDal dal = new DeliveryDal();
+                ARInvoiceDal dal = new ARInvoiceDal();
 
-                return Json(new { baseDoc = dal.GetOrderType(DocId), list = dal.GetOrderItemServiceList(DocId) });
+                return Json(new { baseDoc = dal.GetDeliveryType(DocId), list = dal.GetDeliveryItemServiceList(DocId) });
             }
             catch (Exception)
             {
@@ -73,36 +73,7 @@ namespace iSOL_Enterprise.Controllers
             }
 
         }
-        [HttpGet]
-        public IActionResult GetBatchList(string itemcode  , string warehouse)
-        {
-            try
-            {
-                DeliveryDal dal = new DeliveryDal();
-
-                return Json(new { data = dal.GetBatchList(itemcode , warehouse) });
-            }
-            catch (Exception)
-            {
-                return Json("");
-                throw;
-            }
-        }
-        public IActionResult GetWareHouseData()
-        {
-            try
-            {
-
-                DeliveryDal dal = new DeliveryDal();
-
-                return Json(dal.GetWareHouseData());
-            }
-            catch (Exception ex)
-            {
-
-                return Json(ex.Message);
-            }
-        }
+        
         //public string getUpdatedDocumentNumberOnLoad()
         //{
         //    DataTable dt = SqlHelper.GetData("select top 1 DocNum From ODLN  order by Id desc");
@@ -123,16 +94,16 @@ namespace iSOL_Enterprise.Controllers
         //}
         public string getUpdatedDocumentNumberOnLoad()
         {
-            return SqlHelper.getUpdatedDocumentNumberOnLoad("ODLN", "DV");
+            return SqlHelper.getUpdatedDocumentNumberOnLoad("ORDN", "R");
         }
-        public IActionResult GetDeliveryData()
+        public IActionResult GetReturnData()
         {
             ResponseModels response = new ResponseModels();
             try
             {
 
-                DeliveryDal dal = new DeliveryDal();
-                response.Data = dal.GetDeliveryData();
+                ReturnDal dal = new ReturnDal();
+                response.Data = dal.GetReturnData();
             }
             catch (Exception ex)
             {
@@ -144,12 +115,12 @@ namespace iSOL_Enterprise.Controllers
             return Json(response);
         }
         [HttpPost]
-        public IActionResult AddDelivery(string formData)
+        public IActionResult AddReturn(string formData)
         {
             try
-            { 
-                DeliveryDal dal = new DeliveryDal();
-                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddDelivery(formData) == true ? Json(new { isInserted = true, message = "Delivery Added Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
+            {
+                ReturnDal dal = new ReturnDal();
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddReturn(formData) == true ? Json(new { isInserted = true, message = "Return Added Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
 
             }
             catch (Exception)
