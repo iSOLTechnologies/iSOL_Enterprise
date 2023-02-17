@@ -204,7 +204,7 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
                                                                         <label>Contact Person</label>
-                                                                        <select class=" form-control kt-select2 ItemCode" id="CntcCode" name="param">
+                                                                        <select class=" form-control kt-select2 ItemCode NotReq" id="CntcCode" name="param">
                                                                           
                                                                             <!-- @* @foreach (var item in Model.ListItemMaster)
                                                                              {
@@ -226,7 +226,7 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
                                                                         <label>Customer Ref. No.</label>
-                                                                        <input type="text" id="NumAtCard" class="form-control form-control-sm" placeholder="Ref no.">
+                                                                        <input type="text" id="NumAtCard" class="form-control form-control-sm NotReq" placeholder="Ref no.">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
 
@@ -308,7 +308,7 @@
                                                                                     <th>Discount %</th>
                                                                                     <th>Tax Code</th>
                                                                                     <th>Total (LC)</th>
-                                                                                    <th>UMO Code</th>
+                                                                                    <th>UOM Code</th>
                                                                                     <th>Country / Region of origin</th>
                                                                                 </tr>
                                                                             </thead>
@@ -937,6 +937,7 @@ function GetVatGroupData()
     $(document).on('click', '#Itemno', function (e) {
         IsHeader = false;
         ObjItemCode = $(this).closest('tr').find("#ItemCode");
+        DocModule = "S";
         generateItemTable();
         $('#myItemModal').modal('show');
 

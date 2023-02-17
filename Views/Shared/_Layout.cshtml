@@ -2386,6 +2386,7 @@
 		var CopyDocIDs = [];
 		var SelectedBatches = [];
 		var Batchtable = "";
+		var DocModule = "";
 		function removeItemFromArray(arr, value) {
 			var i = 0;
 			while (i < arr.length) {
@@ -3003,13 +3004,25 @@
 				$.get("SaleQuotation/GetUomGroup", {itemno : itemno} , function(data) 
 				{
 					$(UomCodeRow).html("");
+						//console.log((data.oitmdata)[0].sUoMEntry);
+					//console.log("Hi:" data.oitmdata.PUoMEntry);
+					
 					$.each(data.uomdata, function() 
 					{
-						$(UomCodeRow).append($('<option>', 
+						if(DocModule == "S" ? (data.oitmdata)[0].sUoMEntry == this.uomEntry : (data.oitmdata)[0].pUoMEntry== this.uomEntry) 
 						{
-									value: this.uomEntry,
-									text: this.uomName
-						}));
+							$(UomCodeRow).append("<option value=" + this.uomEntry + " selected>" + this.uomName + "</option>" );
+						}
+						else 
+						{
+							$(UomCodeRow).append($('<option>', 
+													{
+																value: this.uomEntry,
+																text: this.uomName
+													}));
+						}
+
+						
 					
 					});
 
