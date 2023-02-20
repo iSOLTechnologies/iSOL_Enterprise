@@ -319,7 +319,7 @@ namespace iSOL_Enterprise.Dal
                 int res1 = 0;
                 try
                 {
-                    var Status = CommonDal.Check_IsEditable("QUT1", model.Id) == false ? "Open" : "Closed";
+                    var Status = CommonDal.Check_IsEditable("QUT1", Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
                     if (Status == "Closed")
                     {
                         tran.Rollback();

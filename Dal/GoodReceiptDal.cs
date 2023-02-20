@@ -641,7 +641,7 @@ namespace iSOL_Enterprise.Dal
                 try
                 {
 
-                    var Status = CommonDal.Check_IsEditable("POR1", model.Id) == false ? "Open" : "Closed";
+                    var Status = CommonDal.Check_IsEditable("POR1", Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
                     if (Status == "Closed")
                     {
                         tran.Rollback();
