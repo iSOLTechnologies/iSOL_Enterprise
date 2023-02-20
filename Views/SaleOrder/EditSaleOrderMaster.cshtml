@@ -1073,6 +1073,7 @@
     $(document).on('click', '#Itemno', function (e) {
         IsHeader = false;
         ObjItemCode = $(this).closest('tr').find("#ItemCode");
+        DocModule = "S";
         generateItemTable();
         $('#myItemModal').modal('show');
 

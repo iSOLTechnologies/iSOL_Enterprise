@@ -507,11 +507,42 @@ namespace iSOL_Enterprise.Dal
                     {
                         foreach (var item in model.ListItems)
                         {
-                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
+                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToInt32(item.DicPrc);
+
                             if (item.LineNum != "" && item.LineNum != null)
                             {
+
+                                string oldDataQuery = @"select BaseEntry,BaseLine,Quantity from DLN1 where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
+
+                                tbl_docRow docRowModel = new tbl_docRow();
+                                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, oldDataQuery))
+                                {
+                                    while (rdr.Read())
+                                    {
+
+
+                                        docRowModel.BaseEntry = rdr["BaseEntry"].ToInt();
+                                        docRowModel.BaseLine = rdr["BaseLine"].ToInt();
+                                        docRowModel.Quantity = rdr["Quantity"].ToInt();
+
+
+                                    }
+                                }
+                                #region if doc contains base ref
+                                if (docRowModel.BaseEntry != null)
+                                {
+                                    string Updatequery = @"Update RDR1 set OpenQty =(OpenQty + " + docRowModel.Quantity + ") - " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine;
+                                    int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+                                    if (res <= 0)
+                                    {
+                                        tran.Rollback();
+                                        return false;
+                                    }
+                                }
+                                #endregion
+
                                 string UpdateQuery = @"update DLN1 set
-                                                                      ItemCode  = '" + item.ItemCode + "'" +
+                                                         ItemCode  = '" + item.ItemCode + "'" +
                                                         ",ItemName  = '" + item.ItemName + "'" +
                                                         ",UomCode   = '" + item.UomCode + "'" +
                                                         ",Quantity  = '" + item.QTY + "'" +
@@ -530,6 +561,7 @@ namespace iSOL_Enterprise.Dal
                                 }
 
                             }
+                            #region New Row added
                             else
                             {
                                 int LineNo = CommonDal.getLineNumber(tran, "DLN1", (model.ID).ToString());
@@ -558,6 +590,7 @@ namespace iSOL_Enterprise.Dal
                                 }
 
                             }
+                            #endregion
                         }
 
                     }
