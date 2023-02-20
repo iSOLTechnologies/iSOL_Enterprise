@@ -1768,38 +1768,33 @@ function GetPrice()
 
     }
 
-    function ValidateListData(element) 
-    {
+    function ValidateListData(element) {
         let isValid = [];
-            
-            debugger
-            $('#' + element).each(function (index, item) {
-           
-                $(this).find('input , select , textarea').each(function (index, data) 
-                {
 
-                if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') 
-                    {
-                         if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) 
-                        {
+        $('#' + element).each(function (index, item) {
+
+            $(this).find('input , select , textarea').each(function (index, data) {
+
+                if (!($(this).hasClass("NotReq"))) {
+                    if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') {
+                        if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) {
                             $(this).addClass('is-invalid');
                             isValid.push(false);
                         }
-                        else 
-                        {
-                        $(this).removeClass('is-invalid');
-                         isValid.push(true);
+                        else {
+                            $(this).removeClass('is-invalid');
+                            isValid.push(true);
                         }
                     }
-                  
-                });
+                }
+            });
 
-            }); 
+        });
 
 
-        if(isValid.includes(false))
+        if (isValid.includes(false))
             return false;
-            else
+        else
             return true;
     }
 
@@ -1832,7 +1827,7 @@ function GetPrice()
         
       
         return $.ajax({
-            url: '/APInvoice/EditAPInvoice',
+            url: '/GoodsReturn/EditGoodsReturn',
             dataType: 'json',
             type: 'POST',
             

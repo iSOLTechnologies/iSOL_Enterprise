@@ -38,11 +38,11 @@ namespace iSOL_Enterprise.Dal
         }
 
 
-        public dynamic GetReturnDetails(int id)
+        public dynamic GetGoodsReturnDetails(int id)
         {
             DataSet ds = new DataSet();
             SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-            SqlDataAdapter sda = new SqlDataAdapter("select * from ORDN where id = " + id + ";select * from RDN1 where id = " + id + "", conn);
+            SqlDataAdapter sda = new SqlDataAdapter("select * from ORPD where id = " + id + ";select * from RPD1 where id = " + id + "", conn);
             sda.Fill(ds);
             return ds;
         }
@@ -363,7 +363,7 @@ namespace iSOL_Enterprise.Dal
 
 
 
-        public bool EditReturn(string formData)
+        public bool EditGoodsReturn(string formData)
         {
             try
             {
@@ -378,12 +378,12 @@ namespace iSOL_Enterprise.Dal
                 try
                 {
 
-                    var Status = CommonDal.Check_IsEditable("DLN1", Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
-                    if (Status == "Closed")
-                    {
-                        tran.Rollback();
-                        return false;
-                    }
+                    //var Status = CommonDal.Check_IsEditable("DLN1", Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
+                    //if (Status == "Closed")
+                    //{
+                    //    tran.Rollback();
+                    //    return false;
+                    //}
                     #region Deleting Items/List
 
 
@@ -402,7 +402,7 @@ namespace iSOL_Enterprise.Dal
                     //int Id = CommonDal.getPrimaryKey(tran, "ODLN");
                     if (model.HeaderData != null)
                     { 
-                        string HeadQuery = @" Update ORDN set 
+                        string HeadQuery = @" Update ORPD set 
                                                           DocType = '" + DocType + "'" +
                                                        ",CardName = '" + model.HeaderData.CardName + "'" +
                                                        ",CntctCode = '" + model.HeaderData.CntcCode + "'" +
@@ -437,7 +437,7 @@ namespace iSOL_Enterprise.Dal
                             {
 
 
-                                string oldDataQuery = @"select BaseEntry,BaseLine,Quantity from RDN1 where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
+                                string oldDataQuery = @"select BaseEntry,BaseLine,Quantity from RPD1 where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
 
                                 tbl_docRow docRowModel = new tbl_docRow();
                                 using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, oldDataQuery))
@@ -456,7 +456,7 @@ namespace iSOL_Enterprise.Dal
                                 #region if doc contains base ref
                                 if (docRowModel.BaseEntry != null)
                                 {
-                                    string Updatequery = @"Update DLN1 set OpenQty =(OpenQty + " + docRowModel.Quantity + ") + " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine;
+                                    string Updatequery = @"Update PDN1 set OpenQty =(OpenQty + " + docRowModel.Quantity + ") + " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine;
                                     int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
                                     if (res <= 0)
                                     {
@@ -466,7 +466,7 @@ namespace iSOL_Enterprise.Dal
                                 }
                                 #endregion
 
-                                string UpdateQuery = @"update RDN1 set
+                                string UpdateQuery = @"update RPD1 set
                                                              ItemCode  = '" + item.ItemCode + "'" +
                                                             ",ItemName  = '" + item.ItemName + "'" +
                                                             ",UomEntry  =  " + item.UomEntry + "" +
@@ -531,7 +531,7 @@ namespace iSOL_Enterprise.Dal
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "DLN1");
 
-                            string RowQueryService = @"insert into RDN1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
+                            string RowQueryService = @"insert into RPD1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
                                                   values(" + model.ID + ","
                                                      + LineNo + ","
                                                      + item.TotalLC + ",'"

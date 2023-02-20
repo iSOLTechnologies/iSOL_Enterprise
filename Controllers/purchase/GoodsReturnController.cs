@@ -29,7 +29,7 @@ namespace iSOL_Enterprise.Controllers
         public IActionResult EditGoodsReturnMaster(int id)
         {
             
-            ReturnDal dal1 = new ReturnDal();
+            GoodsReturnDal dal1 = new GoodsReturnDal();
             SalesQuotationDal dal = new SalesQuotationDal();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData();
@@ -38,7 +38,7 @@ namespace iSOL_Enterprise.Controllers
             bool flag = CommonDal.Check_IsEditable("INV1", id);
             //ViewBag.Status = flag == false ? "Open" : "Closed";
             ViewBag.Status = "Open" ;
-            return View(dal1.GetReturnDetails(id));
+            return View(dal1.GetGoodsReturnDetails(id));
         }
        
         public string getUpdatedDocumentNumberOnLoad()
@@ -86,8 +86,8 @@ namespace iSOL_Enterprise.Controllers
             {
 
 
-                ReturnDal dal = new ReturnDal();
-                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.EditReturn(formData) == true ? Json(new { isInserted = true, message = "Return Updated Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
+                GoodsReturnDal dal = new GoodsReturnDal();
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.EditGoodsReturn(formData) == true ? Json(new { isInserted = true, message = "Goods Return Updated Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
 
             }
             catch (Exception)
