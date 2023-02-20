@@ -380,13 +380,12 @@ namespace iSOL_Enterprise.Dal
                                             while (rdr.Read())
                                             {
 
+                                        docRowModel.BaseEntry = rdr["BaseEntry"].ToString() == "" ? null : Convert.ToDecimal(rdr["BaseEntry"]);
+                                        docRowModel.BaseLine = rdr["BaseLine"].ToString() == "" ? null : Convert.ToDecimal(rdr["BaseLine"]);
+                                        docRowModel.Quantity = rdr["Quantity"].ToString() == "" ? null : Convert.ToDecimal(rdr["Quantity"]);
 
-                                                docRowModel.BaseEntry = rdr["BaseEntry"].ToInt();
-                                                docRowModel.BaseLine = rdr["BaseLine"].ToInt();
-                                                docRowModel.Quantity = rdr["Quantity"].ToInt();
-                                                
-                                                
-                                            }
+
+                                    }
                                         }
 
                                 #region if doc contains base ref
