@@ -562,39 +562,10 @@ namespace iSOL_Enterprise.Dal
                     #endregion
 
 
-
-
-
-
-
-
-
-
                    // int Id = CommonDal.getPrimaryKey(tran, "OPOR");
 
                     if (model.HeaderData != null)
                     {
-
-
-                        //string HeadQuery = @"insert into OPOR(Id,DocType,Guid,CardCode,DocNum,Segment,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
-                        //                   values(" + Id + ",'"
-                        //                        + DocType + "','"
-                        //                        + CommonDal.generatedGuid() + "','"
-                        //                        + model.HeaderData.CardCode + "','"
-                        //                        + model.HeaderData.DocNum + "','"
-                        //                        + model.HeaderData.Segment + "','"
-                        //                        + model.HeaderData.CardName + "','"
-                        //                        + model.HeaderData.CntctCode + "','"
-                        //                        + Convert.ToDateTime(model.HeaderData.DocDate) + "','"
-                        //                        + model.HeaderData.NumAtCard + "','"
-                        //                        + Convert.ToDateTime(model.HeaderData.DocDueDate) + "','"
-                        //                        + model.HeaderData.DocCur + "','"
-                        //                        + Convert.ToDateTime(model.HeaderData.TaxDate) + "','"
-                        //                        + model.ListAccouting.GroupNum + "',"
-                        //                        + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
-                        //                        + model.FooterData.Comments + "')";
-
-
 
                         string HeadQuery = @" Update OPOR set 
                                                           DocType = '" + DocType + "'" +
@@ -610,14 +581,6 @@ namespace iSOL_Enterprise.Dal
                                                        ",SlpCode = " + model.FooterData.SlpCode + "" +
                                                        ",Comments = '" + model.FooterData.Comments + "' " +
                                                        "WHERE Id = '" + model.ID + "'";
-
-
-
-
-
-
-
-
 
                         #region SqlParameters
                         //List<SqlParameter> param = new List<SqlParameter>   
@@ -647,31 +610,56 @@ namespace iSOL_Enterprise.Dal
                     }
 
 
-
-
-                    //var GetDocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, "Select DocType from ORDR where Id = " + model.Id + " ");
-
-
-
-
-
                     if (model.ListItems != null)
                     {
 
                         foreach (var item in model.ListItems)
                         {
-                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
+                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
+
+
+
+
                             if (item.LineNum != "" && item.LineNum != null)
                             {
+                                string oldDataQuery = @"select BaseEntry,BaseLine,Quantity from POR1 where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
+
+                                tbl_docRow docRowModel = new tbl_docRow();
+                                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, oldDataQuery))
+                                {
+                                    while (rdr.Read())
+                                    {
+
+
+                                        docRowModel.BaseEntry = rdr["BaseEntry"].ToInt();
+                                        docRowModel.BaseLine = rdr["BaseLine"].ToInt();
+                                        docRowModel.Quantity = rdr["Quantity"].ToInt();
+
+
+                                    }
+                                }
+                                #region if doc contains base ref
+                                if (docRowModel.BaseEntry != null)
+                                {
+                                    string Updatequery = @"Update PQT1 set OpenQty =(OpenQty + " + docRowModel.Quantity + ") - " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine;
+                                    int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+                                    if (res <= 0)
+                                    {
+                                        tran.Rollback();
+                                        return false;
+                                    }
+                                }
+                                #endregion
                                 string UpdateQuery = @"update POR1 set
                                                                       ItemCode  = '" + item.ItemCode + "'" +
                                                         ",ItemName  = '" + item.ItemName + "'" +
                                                         ",UomCode   = '" + item.UomCode + "'" +
+                                                        ",UomEntry   = " + item.UomEntry +
                                                         ",Quantity  = '" + item.QTY + "'" +
                                                         ",OpenQty   = OpenQty + (" + item.QTY + "- OpenQty)" +
                                                         ",Price     = '" + item.UPrc + "'" +
                                                         ",LineTotal = '" + item.TtlPrc + "'" +
-                                                        ",DiscPrcnt = '" + item.DicPrc + "'" +
+                                                        ",DiscPrcnt =  " + item.DicPrc  +
                                                         ",VatGroup  = '" + item.VatGroup + "'" +
                                                         ",CountryOrg= '" + item.CountryOrg + "'" +
                                                         " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
@@ -686,7 +674,7 @@ namespace iSOL_Enterprise.Dal
                             else
                             {
                                 int LineNo = CommonDal.getLineNumber(tran, "POR1", (model.ID).ToString());
-                                string RowQueryItem = @"insert into POR1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode ,CountryOrg)
+                                string RowQueryItem = @"insert into POR1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode, UomEntry ,CountryOrg)
                                               values(" + model.ID + ","
                                               + LineNo + ",'"
                                               + item.ItemName + "',"
@@ -697,7 +685,8 @@ namespace iSOL_Enterprise.Dal
                                               + item.QTY + ","
                                               + item.DicPrc + ",'"
                                               + item.VatGroup + "','"
-                                              + item.UomCode + "','"
+                                              + item.UomCode + "',"
+                                              + item.UomEntry + ",'"
                                               + item.CountryOrg + "')";
 
 
@@ -745,14 +734,6 @@ namespace iSOL_Enterprise.Dal
 
 
                     }
-
-
-
-
-
-
-
-
 
 
                     if (model.ListAttachment != null)

@@ -12,7 +12,7 @@ namespace iSOL_Enterprise.Dal
 {
     public class GoodReceiptDal
     {
-       
+
 
 
         public List<SalesQuotation_MasterModels> GetData()
@@ -20,12 +20,12 @@ namespace iSOL_Enterprise.Dal
             string GetQuery = "select * from OPDN";
 
 
-            List<SalesQuotation_MasterModels> list =  new List<SalesQuotation_MasterModels>();
+            List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {
                 while (rdr.Read())
                 {
-                   
+
                     SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
                     models.DocStatus = CommonDal.Check_IsEditable("PCH1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
                     models.Id = rdr["Id"].ToInt();
@@ -120,11 +120,11 @@ namespace iSOL_Enterprise.Dal
                     list.Add(
                         new tbl_item()
                         {
-                           ItemCode = rdr["ItemCode"].ToString(),
-                           ItemName = rdr["ItemName"].ToString(),
-                           OnHand = (decimal)rdr["OnHand"],
+                            ItemCode = rdr["ItemCode"].ToString(),
+                            ItemName = rdr["ItemName"].ToString(),
+                            OnHand = (decimal)rdr["OnHand"],
                         });
-                    
+
                 }
             }
 
@@ -147,7 +147,7 @@ namespace iSOL_Enterprise.Dal
                         {
                             CardCode = rdr["CardCode"].ToString(),
                             CardName = rdr["CardName"].ToString(),
-                            Currency = rdr["Currency"].ToString(), 
+                            Currency = rdr["Currency"].ToString(),
                             Balance = (decimal)rdr["Balance"],
                         });
 
@@ -197,8 +197,8 @@ namespace iSOL_Enterprise.Dal
                     list.Add(
                         new tbl_OCTG()
                         {
-                            GroupNum = rdr["GroupNum"].ToInt(), 
-                            PymntGroup= rdr["PymntGroup"].ToString()
+                            GroupNum = rdr["GroupNum"].ToInt(),
+                            PymntGroup = rdr["PymntGroup"].ToString()
                         });
 
                 }
@@ -220,8 +220,8 @@ namespace iSOL_Enterprise.Dal
                     list.Add(
                         new tbl_OSLP()
                         {
-                            SlpCode = rdr["SlpCode"].ToInt(), 
-                            SlpName= rdr["SlpName"].ToString()
+                            SlpCode = rdr["SlpCode"].ToInt(),
+                            SlpName = rdr["SlpName"].ToString()
                         });
 
                 }
@@ -245,7 +245,7 @@ namespace iSOL_Enterprise.Dal
                         new tbl_OVTG()
                         {
                             vatName = rdr["vatName"].ToString(),
-                            Rate = (decimal) rdr["Rate"]
+                            Rate = (decimal)rdr["Rate"]
                         });
 
                 }
@@ -255,7 +255,7 @@ namespace iSOL_Enterprise.Dal
         }
         public List<ListModel> GetContactPersons(int cardCode)
         {
-            string GetQuery = "select OCRD.CardCode,OCPR.Name from ocrd join ocpr on ocrd.CardCode = OCPR.CardCode where ocrd.CardCode = '" + cardCode+"'";
+            string GetQuery = "select OCRD.CardCode,OCPR.Name from ocrd join ocpr on ocrd.CardCode = OCPR.CardCode where ocrd.CardCode = '" + cardCode + "'";
 
 
             List<ListModel> list = new List<ListModel>();
@@ -336,13 +336,13 @@ namespace iSOL_Enterprise.Dal
                         #endregion
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
                     }
-                    
+
                     if (model.ListItems != null)
                     {
                         int LineNo = 1;
                         foreach (var item in model.ListItems)
                         {
-                            
+
 
 
 
@@ -359,10 +359,10 @@ namespace iSOL_Enterprise.Dal
                             }
 
 
-                             
-                            item.BaseEntry = item.BaseEntry == "" ? "NULL" : Convert.ToInt32( item.BaseEntry);
-                            item.BaseLine = item.BaseLine == "" ? "NULL" : Convert.ToInt32( item.BaseLine);
-                            item.BaseQty = item.BaseQty == "" ? "NULL" : Convert.ToInt32( item.BaseQty);
+
+                            item.BaseEntry = item.BaseEntry == "" ? "NULL" : Convert.ToInt32(item.BaseEntry);
+                            item.BaseLine = item.BaseLine == "" ? "NULL" : Convert.ToInt32(item.BaseLine);
+                            item.BaseQty = item.BaseQty == "" ? "NULL" : Convert.ToInt32(item.BaseQty);
                             item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToInt32(item.DicPrc);
 
                             string RowQueryItem = @"insert into PDN1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
@@ -424,7 +424,7 @@ namespace iSOL_Enterprise.Dal
                             if (model.Batches != null)
                             {
                                 int AbsEntry = CommonDal.getPrimaryKeyNoLock(tran, "AbsEntry", "OBTW");   //Primary Key
-                              
+
                                 foreach (var batch in model.Batches)
                                 {
                                     string whsno = batch[0].whseno;
@@ -490,17 +490,17 @@ namespace iSOL_Enterprise.Dal
                                         }
                                         else
                                             break;
-                                        
+
                                         AbsEntry += 1;
-                                        SysNumber +=1;
+                                        SysNumber += 1;
                                     }
-                                   
+
                                 }
                             }
                             #endregion
 
-                          
-                            
+
+
                             LineNo += 1;
                         }
 
@@ -509,7 +509,7 @@ namespace iSOL_Enterprise.Dal
                     }
                     else if (model.ListService != null)
                     {
-                            int LineNo = 1;
+                        int LineNo = 1;
 
                         foreach (var item in model.ListService)
                         {
@@ -559,40 +559,40 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
-                            int LineNo = 1;
+                        int LineNo = 1;
                         int ATC1Id = CommonDal.getPrimaryKey(tran, "AbsEntry", "ATC1");
                         foreach (var item in model.ListAttachment)
                         {
                             if (item.selectedFilePath != "" && item.selectedFileName != "" && item.selectedFileDate != "")
                             {
 
-                           
-                            string RowQueryAttachment = @"insert into ATC1(AbsEntry,Line,trgtPath,FileName,Date)
+
+                                string RowQueryAttachment = @"insert into ATC1(AbsEntry,Line,trgtPath,FileName,Date)
                                                   values(" + ATC1Id + ","
-                                                    + LineNo + ",'"
-                                                    + item.selectedFilePath + "','"
-                                                    + item.selectedFileName + "','"
-                                                    +  Convert.ToDateTime(item.selectedFileDate) + "')";
-                            #region sqlparam
-                            //List<SqlParameter> param3 = new List<SqlParameter>
-                            //            {
-                            //                new SqlParameter("@AbsEntry",ATC1Id),
-                            //                new SqlParameter("@Line",ATC1Line),
-                            //                new SqlParameter("@trgtPath",item.trgtPath),
-                            //                new SqlParameter("@FileName",item.FileName),
-                            //                new SqlParameter("@Date",item.Date),
+                                                        + LineNo + ",'"
+                                                        + item.selectedFilePath + "','"
+                                                        + item.selectedFileName + "','"
+                                                        + Convert.ToDateTime(item.selectedFileDate) + "')";
+                                #region sqlparam
+                                //List<SqlParameter> param3 = new List<SqlParameter>
+                                //            {
+                                //                new SqlParameter("@AbsEntry",ATC1Id),
+                                //                new SqlParameter("@Line",ATC1Line),
+                                //                new SqlParameter("@trgtPath",item.trgtPath),
+                                //                new SqlParameter("@FileName",item.FileName),
+                                //                new SqlParameter("@Date",item.Date),
 
 
-                            //            };
-                            #endregion
-                            int res4 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryAttachment).ToInt();
-                            if (res4 <= 0)
-                            {
-                                tran.Rollback();
-                                return false;
+                                //            };
+                                #endregion
+                                int res4 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryAttachment).ToInt();
+                                if (res4 <= 0)
+                                {
+                                    tran.Rollback();
+                                    return false;
 
-                            }
-                            LineNo += 1;
+                                }
+                                LineNo += 1;
                             }
                         }
 
@@ -658,28 +658,9 @@ namespace iSOL_Enterprise.Dal
 
                     if (model.HeaderData != null)
                     {
-                        //string HeadQuery = @"insert into OPDN(Id,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
-                        //                   values(" + Id + ",'"
-                        //                        + DocType + "','"
-                        //                        + CommonDal.generatedGuid() + "','"
-                        //                        + model.HeaderData.CardCode + "','"
-                        //                        + model.HeaderData.DocNum + "','"
-                        //                        + model.HeaderData.CardName + "','"
-                        //                        + model.HeaderData.CntctCode + "','"
-                        //                        + Convert.ToDateTime(model.HeaderData.DocDate) + "','"
-                        //                        + model.HeaderData.NumAtCard + "','"
-                        //                        + Convert.ToDateTime(model.HeaderData.DocDueDate) + "','"
-                        //                        + model.HeaderData.DocCur + "','"
-                        //                        + Convert.ToDateTime(model.HeaderData.TaxDate) + "','"
-                        //                        + model.ListAccouting.GroupNum + "',"
-                        //                        + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
-                        //                        + model.FooterData.Comments + "')";
-
-
-
 
                         string HeadQuery = @" Update OPDN set 
-                                                          DocType = '" + DocType + "'" +                                                                              
+                                                          DocType = '" + DocType + "'" +
                                                                              ",CardName = '" + model.HeaderData.CardName + "'" +
                                                                              ",CntctCode = '" + model.HeaderData.CntcCode + "'" +
                                                                              ",DocDate = '" + Convert.ToDateTime(model.HeaderData.DocDate) + "'" +
@@ -721,18 +702,48 @@ namespace iSOL_Enterprise.Dal
 
                         foreach (var item in model.ListItems)
                         {
-                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
+                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
+
                             if (item.LineNum != "" && item.LineNum != null)
                             {
+                                string oldDataQuery = @"select BaseEntry,BaseLine,Quantity from PDN1 where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
+
+                                tbl_docRow docRowModel = new tbl_docRow();
+                                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, oldDataQuery))
+                                {
+                                    while (rdr.Read())
+                                    {
+
+
+                                        docRowModel.BaseEntry = rdr["BaseEntry"].ToInt();
+                                        docRowModel.BaseLine = rdr["BaseLine"].ToInt();
+                                        docRowModel.Quantity = rdr["Quantity"].ToInt();
+
+
+                                    }
+                                }
+                                #region if doc contains base ref
+                                if (docRowModel.BaseEntry != null)
+                                {
+                                    string Updatequery = @"Update POR1 set OpenQty =(OpenQty + " + docRowModel.Quantity + ") - " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine;
+                                    int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+                                    if (res <= 0)
+                                    {
+                                        tran.Rollback();
+                                        return false;
+                                    }
+                                }
+                                #endregion
                                 string UpdateQuery = @"update PDN1 set
-                                                                      ItemCode  = '" + item.ItemCode + "'" +
+                                                         ItemCode  = '" + item.ItemCode + "'" +
                                                         ",ItemName  = '" + item.ItemName + "'" +
                                                         ",UomCode   = '" + item.UomCode + "'" +
+                                                        ",UomEntry   = " + item.UomEntry +
                                                         ",Quantity  = '" + item.QTY + "'" +
                                                         ",OpenQty   = OpenQty + (" + item.QTY + "- OpenQty)" +
                                                         ",Price     = '" + item.UPrc + "'" +
                                                         ",LineTotal = '" + item.TtlPrc + "'" +
-                                                        ",DiscPrcnt = '" + item.DicPrc + "'" +
+                                                        ",DiscPrcnt = " + item.DicPrc  +
                                                         ",VatGroup  = '" + item.VatGroup + "'" +
                                                         ",CountryOrg= '" + item.CountryOrg + "'" +
                                                         " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
@@ -747,7 +758,7 @@ namespace iSOL_Enterprise.Dal
                             else
                             {
                                 int LineNo = CommonDal.getLineNumber(tran, "PDN1", (model.ID).ToString());
-                                string RowQueryItem = @"insert into PDN1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode ,CountryOrg)
+                                string RowQueryItem = @"insert into PDN1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode , UomEntry ,CountryOrg)
                                               values(" + model.ID + ","
                                               + LineNo + ",'"
                                               + item.ItemName + "',"
@@ -758,7 +769,8 @@ namespace iSOL_Enterprise.Dal
                                               + item.QTY + ","
                                               + item.DicPrc + ",'"
                                               + item.VatGroup + "','"
-                                              + item.UomCode + "','"
+                                              + item.UomCode + "',"
+                                              + item.UomEntry + ",'"
                                               + item.CountryOrg + "')";
 
 
