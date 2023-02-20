@@ -374,7 +374,7 @@ namespace iSOL_Enterprise.Dal
 
                             foreach (var item in model.ListItems)
                             {
-                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToInt32(item.DicPrc);
+                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
                             if (item.LineNum != "" && item.LineNum != null)
                                 {
 
@@ -410,7 +410,7 @@ namespace iSOL_Enterprise.Dal
 
 
                                 string UpdateQuery = @"update INV1 set
-                                                                      ItemCode  = '" + item.ItemCode + "'" +
+                                                              ItemCode  = '" + item.ItemCode + "'" +
                                                             ",ItemName  = '" + item.ItemName + "'" +
                                                             ",UomCode   = '" + item.UomCode + "'" +
                                                             ",UomEntry   = " + item.UomEntry  +
@@ -418,7 +418,7 @@ namespace iSOL_Enterprise.Dal
                                                             ",OpenQty  =  " + item.QTY + "" +
                                                             ",Price     = '" + item.UPrc + "'" +
                                                             ",LineTotal = '" + item.TtlPrc + "'" +
-                                                            ",DiscPrcnt = '" + item.DicPrc + "'" +
+                                                            ",DiscPrcnt = " + item.DicPrc  +
                                                             ",VatGroup  = '" + item.VatGroup + "'" +
                                                             ",CountryOrg= '" + item.CountryOrg + "'" +
                                                             " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";

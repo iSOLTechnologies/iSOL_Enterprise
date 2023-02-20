@@ -366,7 +366,7 @@ namespace iSOL_Enterprise.Dal
                             foreach (var item in model.ListItems)
                             {
                            
-                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToInt32(item.DicPrc);
+                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
 
                             if (item.LineNum != "" && item.LineNum != null)
                                 {
@@ -411,7 +411,7 @@ namespace iSOL_Enterprise.Dal
                                                             ",OpenQty   = OpenQty + (" + item.QTY + "- OpenQty)" +
                                                             ",Price     = '" + item.UPrc + "'" +
                                                             ",LineTotal = '" + item.TtlPrc + "'" +
-                                                            ",DiscPrcnt = '" + item.DicPrc + "'" +
+                                                            ",DiscPrcnt = " + item.DicPrc  +
                                                             ",VatGroup  = '" + item.VatGroup + "'" +
                                                             ",CountryOrg= '" + item.CountryOrg + "'" +
                                                             " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
