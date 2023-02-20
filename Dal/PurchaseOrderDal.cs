@@ -558,13 +558,13 @@ namespace iSOL_Enterprise.Dal
 
 
 
-                    string DeleteI_Or_SQuery = "Delete from POR1 Where id = " + model.ID;
-                    res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
-                    if (res1 <= 0)
-                    {
-                        tran.Rollback();
-                        return false;
-                    }
+                    //string DeleteI_Or_SQuery = "Delete from POR1 Where id = " + model.ID;
+                    //res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
+                    //if (res1 <= 0)
+                    //{
+                    //    tran.Rollback();
+                    //    return false;
+                    //}
 
 
                     #endregion
