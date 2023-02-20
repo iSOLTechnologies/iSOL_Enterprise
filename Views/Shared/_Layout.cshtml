@@ -3011,10 +3011,11 @@
 		{
 				var UomEntryRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomEntry");
 				var UomCodeRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomCode");
+		
 				$.get("SaleQuotation/GetUomGroup", {itemno : itemno} , function(data) 
 				{
 					$(UomEntryRow).html("");
-						
+					
 					if((data.oitmdata)[0].ugpEntry == -1)
 					{
 						$(UomCodeRow).val("Manual");
@@ -3023,10 +3024,11 @@
 					
 					$.each(data.uomdata, function() 
 					{
+					
 						if(DocModule == "S" ? (data.oitmdata)[0].sUoMEntry == this.uomEntry : (data.oitmdata)[0].pUoMEntry== this.uomEntry) 
 						{
 							$(UomEntryRow).append("<option value=" + this.uomEntry + " selected>" + this.uomName + "</option>" );
-							$(UomCodeRow).val(""+this.uomName+"");
+							$(UomCodeRow).val(this.uomName);
 						}
 						else 
 						{
@@ -3042,6 +3044,7 @@
 					});
 
 				});
+			
 
 		}
 		$(document).on('click', '#btnFetchAcctCode', function (e) {
