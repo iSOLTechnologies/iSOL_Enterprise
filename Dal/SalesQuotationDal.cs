@@ -534,24 +534,32 @@ namespace iSOL_Enterprise.Dal
                 int res1 = 0;
                 try
                 {
+                    var Status = CommonDal.Check_IsEditable("RDR1", Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
+                    if (Status == "Closed")
+                    {
+                        tran.Rollback();
+                        return false;
+                    }
+
+
 
                     #region Deleting Items/List
-                     
-                        //string DeleteI_Or_SQuery = "Delete from QUT1 Where id = "+model.ID;
-                        //res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
-                        //if (res1 <= 0)
-                        //{
-                        //    tran.Rollback();
-                        //    return false;
-                        //}                  
+
+                    //string DeleteI_Or_SQuery = "Delete from QUT1 Where id = "+model.ID;
+                    //res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
+                    //if (res1 <= 0)
+                    //{
+                    //    tran.Rollback();
+                    //    return false;
+                    //}                  
                     #endregion
-                          
 
 
 
 
 
-                    
+
+
                     //int Id = model.ID.ToInt();
 
                     if (model.HeaderData != null)
