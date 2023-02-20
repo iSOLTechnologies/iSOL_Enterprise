@@ -1412,7 +1412,7 @@
         var VatGuid =  $('option:selected',VatGroup).attr("guid"); 
         let BaseQty = $(this).closest('#ListParameters .itm').find('#BaseQty');
 
-        if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
+        if (BaseQty.val() != "" && BaseQty.val() != '' && BaseQty.val() != null) {
             if (Number(Qty.val()) <= Number(BaseQty.val())) {
 
                 $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val() - Qty.val());

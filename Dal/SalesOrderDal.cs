@@ -1,6 +1,6 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
-
+using iSOL_Enterprise.Models.sale;
 using Newtonsoft.Json;
 using SqlHelperExtensions;
 using System.Collections.Generic;
@@ -247,11 +247,6 @@ namespace iSOL_Enterprise.Dal
                    
                     
                     
-                    
-                    
-                    
-                    
-                    
                     if (model.ListAttachment != null)
                     {
 
@@ -365,25 +360,50 @@ namespace iSOL_Enterprise.Dal
                         }
                     }
 
-
-
-                    
-                    //var GetDocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, "Select DocType from ORDR where Id = " + model.Id + " ");
-
-
-                    
-
-
                         if (model.ListItems != null)
                         {
 
                             foreach (var item in model.ListItems)
                             {
-                                //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                                if (item.LineNum != "" && item.LineNum != null)
+                           
+                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToInt32(item.DicPrc);
+
+                            if (item.LineNum != "" && item.LineNum != null)
                                 {
-                                    string UpdateQuery = @"update RDR1 set
-                                                                      ItemCode  = '" + item.ItemCode + "'" +
+
+                                        
+                                        string oldDataQuery = @"select BaseEntry,BaseLine,Quantity from RDR1 where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
+
+                                        tbl_docRow docRowModel = new tbl_docRow();
+                                        using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, oldDataQuery))
+                                        {
+                                            while (rdr.Read())
+                                            {
+
+
+                                                docRowModel.BaseEntry = rdr["BaseEntry"].ToInt();
+                                                docRowModel.BaseLine = rdr["BaseLine"].ToInt();
+                                                docRowModel.Quantity = rdr["Quantity"].ToInt();
+                                                
+                                                
+                                            }
+                                        }
+
+                                #region if doc contains base ref
+                                if (docRowModel.BaseEntry != null)
+                                        {
+                                            string Updatequery = @"Update QUT1 set OpenQty =(OpenQty + " + docRowModel.Quantity + ") - " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine;
+                                            int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+                                            if (res <= 0)
+                                            {
+                                                tran.Rollback();
+                                                return false;
+                                             }
+                                        }
+                                #endregion
+
+                                string UpdateQuery = @"update RDR1 set
+                                                             ItemCode  = '" + item.ItemCode + "'" +
                                                             ",ItemName  = '" + item.ItemName + "'" +
                                                             ",UomCode   = '" + item.UomCode + "'" +
                                                             ",Quantity  = '" + item.QTY + "'" +
@@ -402,9 +422,12 @@ namespace iSOL_Enterprise.Dal
                                     }
 
                                 }
-                                else
+
+                            #region New Row added
+                            else
                                 {
                                     int LineNo = CommonDal.getLineNumber(tran, "RDR1", (model.ID).ToString());
+
                                     string RowQueryItem = @"insert into RDR1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode ,CountryOrg)
                                               values(" + model.ID + ","
                                                   + LineNo + ",'"
@@ -429,11 +452,12 @@ namespace iSOL_Enterprise.Dal
                                     }
 
                                 }
-                            }
-
-
-
+                            #endregion
                         }
+
+
+
+                    }
                         else if (model.ListService != null)
                         {
                             int LineNo = 1;
