@@ -2,8 +2,8 @@
 {
     public class tbl_docRow
     {
-        public int? BaseEntry { get; set; }
-        public int? BaseLine { get; set; }
-        public double Quantity { get; set; }
+        public decimal? BaseEntry { get; set; }
+        public decimal? BaseLine { get; set; }
+        public decimal? Quantity { get; set; }
     }
 }

@@ -37,6 +37,18 @@ namespace iSOL_Enterprise.Dal
             return list;
         }
 
+
+        public dynamic GetReturnDetails(int id)
+        {
+            DataSet ds = new DataSet();
+            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+            SqlDataAdapter sda = new SqlDataAdapter("select * from ORDN where id = " + id + ";select * from RDN1 where id = " + id + "", conn);
+            sda.Fill(ds);
+            return ds;
+        }
+
+
+
         public List<SalesQuotation_MasterModels> GetDeliveryData(int cardcode)
         {
             string GetQuery = "select * from ODLN where CardCode =" + cardcode;
@@ -350,7 +362,7 @@ namespace iSOL_Enterprise.Dal
 
 
 
-        public bool EditDelivery(string formData)
+        public bool EditReturn(string formData)
         {
             try
             {
@@ -382,7 +394,7 @@ namespace iSOL_Enterprise.Dal
                     //int Id = CommonDal.getPrimaryKey(tran, "ODLN");
                     if (model.HeaderData != null)
                     { 
-                        string HeadQuery = @" Update ODLN set 
+                        string HeadQuery = @" Update ORDN set 
                                                           DocType = '" + DocType + "'" +
                                                        ",CardName = '" + model.HeaderData.CardName + "'" +
                                                        ",CntctCode = '" + model.HeaderData.CntcCode + "'" +
@@ -407,23 +419,58 @@ namespace iSOL_Enterprise.Dal
                     }
                     if (model.ListItems != null)
                     {
+
                         foreach (var item in model.ListItems)
                         {
-                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
+
+                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
+
                             if (item.LineNum != "" && item.LineNum != null)
                             {
-                                string UpdateQuery = @"update DLN1 set
-                                                                      ItemCode  = '" + item.ItemCode + "'" +
-                                                        ",ItemName  = '" + item.ItemName + "'" +
-                                                        ",UomCode   = '" + item.UomCode + "'" +
-                                                        ",Quantity  = '" + item.QTY + "'" +
-                                                        ",OpenQty   = OpenQty + (" + item.QTY + "- OpenQty)" +
-                                                        ",Price     = '" + item.UPrc + "'" +
-                                                        ",LineTotal = '" + item.TtlPrc + "'" +
-                                                        ",DiscPrcnt = '" + item.DicPrc + "'" +
-                                                        ",VatGroup  = '" + item.VatGroup + "'" +
-                                                        ",CountryOrg= '" + item.CountryOrg + "'" +
-                                                        " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
+
+
+                                string oldDataQuery = @"select BaseEntry,BaseLine,Quantity from RDN1 where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
+
+                                tbl_docRow docRowModel = new tbl_docRow();
+                                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, oldDataQuery))
+                                {
+                                    while (rdr.Read())
+                                    { 
+                                        docRowModel.BaseEntry = rdr["BaseEntry"].ToString() == "" ? null : Convert.ToDecimal(rdr["BaseEntry"]); 
+                                        docRowModel.BaseLine = rdr["BaseLine"].ToString() == "" ? null : Convert.ToDecimal(rdr["BaseLine"]); 
+                                        docRowModel.Quantity = rdr["Quantity"].ToString() == "" ? null : Convert.ToDecimal(rdr["Quantity"]); 
+                                        //docRowModel.Quantity = Convert.ToDecimal(rdr["Quantity"]);
+
+
+                                    }
+                                }
+
+                                #region if doc contains base ref
+                                if (docRowModel.BaseEntry != null)
+                                {
+                                    string Updatequery = @"Update DLN1 set OpenQty =(OpenQty + " + docRowModel.Quantity + ") + " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine;
+                                    int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+                                    if (res <= 0)
+                                    {
+                                        tran.Rollback();
+                                        return false;
+                                    }
+                                }
+                                #endregion
+
+                                string UpdateQuery = @"update RDN1 set
+                                                             ItemCode  = '" + item.ItemCode + "'" +
+                                                            ",ItemName  = '" + item.ItemName + "'" +
+                                                            ",UomEntry  =  " + item.UomEntry + "" +
+                                                            ",UomCode   = '" + item.UomCode + "'" +
+                                                            ",Quantity  = '" + item.QTY + "'" +
+                                                            ",OpenQty   = OpenQty + (" + item.QTY + "- OpenQty)" +
+                                                            ",Price     = '" + item.UPrc + "'" +
+                                                            ",LineTotal = " + item.TtlPrc + "" +
+                                                            ",DiscPrcnt = " + item.DicPrc + "" +
+                                                            ",VatGroup  = '" + item.VatGroup + "'" +
+                                                            ",CountryOrg= '" + item.CountryOrg + "'" +
+                                                            " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
                                 int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateQuery).ToInt();
                                 if (res2 <= 0)
                                 {
@@ -432,11 +479,13 @@ namespace iSOL_Enterprise.Dal
                                 }
 
                             }
+
+                            #region New Row added
                             else
                             {
-                                int LineNo = CommonDal.getLineNumber(tran, "DLN1", (model.ID).ToString());
+                                int LineNo = CommonDal.getLineNumber(tran, "RDN1", (model.ID).ToString());
 
-                                string RowQueryItem = @"insert into DLN1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode ,CountryOrg)
+                                string RowQueryItem = @"insert into RDN1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode ,CountryOrg)
                                               values(" + model.ID + ","
                                               + LineNo + ",'"
                                               + item.ItemName + "',"
@@ -460,7 +509,10 @@ namespace iSOL_Enterprise.Dal
                                 }
 
                             }
+                            #endregion
                         }
+
+
 
                     }
                     else if (model.ListService != null)
@@ -471,7 +523,7 @@ namespace iSOL_Enterprise.Dal
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "DLN1");
 
-                            string RowQueryService = @"insert into DLN1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
+                            string RowQueryService = @"insert into RDN1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
                                                   values(" + model.ID + ","
                                                      + LineNo + ","
                                                      + item.TotalLC + ",'"

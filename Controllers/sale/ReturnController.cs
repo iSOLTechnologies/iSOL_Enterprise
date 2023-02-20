@@ -26,17 +26,19 @@ namespace iSOL_Enterprise.Controllers
             return View();
         }
 
-        public IActionResult EditDeliveryMaster(int id)
+        public IActionResult EditReturnMaster(int id)
         {
-            DeliveryDal dal1 = new DeliveryDal();
+            
+            ReturnDal dal1 = new ReturnDal();
             SalesQuotationDal dal = new SalesQuotationDal();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData();
             ViewBag.Countries = dal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
             bool flag = CommonDal.Check_IsEditable("INV1", id);
-            ViewBag.Status = flag == false ? "Open" : "Closed";
-            return View(dal1.GetDeliveryDetails(id));
+            //ViewBag.Status = flag == false ? "Open" : "Closed";
+            ViewBag.Status = "Open" ;
+            return View(dal1.GetReturnDetails(id));
         }
         public IActionResult GetDeliveryData(int cardcode)
         {
@@ -57,7 +59,6 @@ namespace iSOL_Enterprise.Controllers
             return Json(response);
         }
         [HttpGet]
-
         public IActionResult GetDeliveryItemService(int DocId)
         {
             try
@@ -131,14 +132,14 @@ namespace iSOL_Enterprise.Controllers
 
         }
         [HttpPost]
-        public IActionResult EditDelivery(string formData)
+        public IActionResult EditReturn(string formData)
         {
             try
             {
 
 
-                DeliveryDal dal = new DeliveryDal();
-                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.EditDelivery(formData) == true ? Json(new { isInserted = true, message = "Delivery Updated Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
+                ReturnDal dal = new ReturnDal();
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.EditReturn(formData) == true ? Json(new { isInserted = true, message = "Return Updated Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
 
             }
             catch (Exception)
