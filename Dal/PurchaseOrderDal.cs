@@ -356,10 +356,11 @@ namespace iSOL_Enterprise.Dal
                                 }
                             }
 
-                            item.BaseEntry = item.BaseEntry == "" ? "null" : item.BaseEntry;
-                            item.BaseLine = item.BaseLine == "" ? "null" : item.BaseLine;
-                            item.BaseQty = item.BaseQty == "" ? "null" : item.BaseQty;
-                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
+                            item.BaseEntry = item.BaseEntry == "" ? "NULL" : item.BaseEntry;
+                            item.BaseLine = item.BaseLine == "" ? "NULL" : item.BaseLine;
+                            item.BaseQty = item.BaseQty == "" ? "NULL" : item.BaseQty;
+                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToInt32(item.DicPrc);
+
                             string RowQueryItem = @"insert into POR1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
                                               values(" + Id + ","
                                               + LineNo + ",'"
