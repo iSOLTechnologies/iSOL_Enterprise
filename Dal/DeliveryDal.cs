@@ -545,6 +545,7 @@ namespace iSOL_Enterprise.Dal
                                                          ItemCode  = '" + item.ItemCode + "'" +
                                                         ",ItemName  = '" + item.ItemName + "'" +
                                                         ",UomCode   = '" + item.UomCode + "'" +
+                                                        ",UomEntry   = " + item.UomEntry +
                                                         ",Quantity  = '" + item.QTY + "'" +
                                                         ",OpenQty   = OpenQty + (" + item.QTY + "- OpenQty)" +
                                                         ",Price     = '" + item.UPrc + "'" +
@@ -566,7 +567,7 @@ namespace iSOL_Enterprise.Dal
                             {
                                 int LineNo = CommonDal.getLineNumber(tran, "DLN1", (model.ID).ToString());
 
-                                string RowQueryItem = @"insert into DLN1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode ,CountryOrg)
+                                string RowQueryItem = @"insert into DLN1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode ,UomEntry ,CountryOrg)
                                               values(" + model.ID + ","
                                               + LineNo + ",'"
                                               + item.ItemName + "',"
@@ -577,7 +578,8 @@ namespace iSOL_Enterprise.Dal
                                               + item.QTY + ","
                                               + item.DicPrc + ",'"
                                               + item.VatGroup + "','"
-                                              + item.UomCode + "','"
+                                              + item.UomCode + "',"
+                                              + item.UomEntry + ",'"
                                               + item.CountryOrg + "')";
 
 
