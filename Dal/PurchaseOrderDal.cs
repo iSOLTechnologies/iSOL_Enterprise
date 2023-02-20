@@ -546,6 +546,14 @@ namespace iSOL_Enterprise.Dal
                 try
                 {
 
+
+                    var Status = CommonDal.Check_IsEditable("PQT1", model.Id) == false ? "Open" : "Closed";
+                    if (Status == "Closed")
+                    {
+                        tran.Rollback();
+                        return false;
+                    }
+
                     #region Deleting Items/List
 
 

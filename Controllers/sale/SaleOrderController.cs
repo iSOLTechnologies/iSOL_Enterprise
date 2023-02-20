@@ -35,6 +35,7 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Payments = dal.GetPaymentTerms();
             bool flag = CommonDal.Check_IsEditable("DLN1", id);
             ViewBag.Status = flag == false ? "Open" : "Closed";
+
             return View(dal1.GetSaleOrderEditDetails(id));
         }
         public IActionResult GetSalesQuotationData(int cardcode)
