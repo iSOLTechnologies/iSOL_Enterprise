@@ -798,7 +798,7 @@
         //$(document).on('click', '#btnCopyFrom', function (e) {
         BaseType = $(this).attr("guid");
 
-        CopyBtnUrl = '/ARCreditMemo/GetBaseDocData';
+        CopyBtnUrl = '/Common/GetBaseDocData';
         generateCopyDataTable();
         $('#mycopydataModal').modal('show');
 
@@ -833,7 +833,7 @@
                 //For the Entry of 1st Doc number
                 if (i == 0) {
 
-                    $.get("ARCreditMemo/GetBaseDocItemService", { DocId: DocID , BaseType : BaseType }, function (data) {
+                    $.get("Common/GetBaseDocItemService", { DocId: DocID , BaseType : BaseType }, function (data) {
                         let list = JSON.parse(data.list);
 
 
@@ -908,7 +908,7 @@
                 //For the Entry of Other Doc numbers except 1st
                 else {
 
-                    $.get("ARCreditMemo/GetBaseDocItemService", { DocId: DocID , BaseType : BaseType }, function (data) {
+                    $.get("Common/GetBaseDocItemService", { DocId: DocID, BaseType: BaseType }, function (data) {
                         let list = JSON.parse(data.list);
 
 

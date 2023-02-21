@@ -10,7 +10,8 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 <!-- Render Body <Start> -->
-
+<script src="~/Assets/plugins/global/plugins.bundle.js"></script>
+<script src="~/Assets/js/scripts.bundle.js"></script>
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Subheader-->
     <!--end::Subheader-->
@@ -741,7 +742,7 @@
         //$(document).on('click', '#btnCopyFrom', function (e) {
         BaseType = $(this).attr("guid");
 
-        CopyBtnUrl = '/SaleOrder/GetBaseDocData';
+        CopyBtnUrl = '/Common/GetBaseDocData';
         generateCopyDataTable();
         $('#mycopydataModal').modal('show');
 
@@ -783,7 +784,7 @@
                     if(i == 0)
                     {
                     
-                        $.get("SaleOrder/GetBaseDocItemService", { DocId: DocID , BaseType : BaseType }, function(data) 
+                        $.get("Common/GetBaseDocItemService", { DocId: DocID , BaseType : BaseType }, function(data) 
                         {
                         let list = JSON.parse(data.list);  
             
@@ -870,9 +871,8 @@
                     //For the Entry of Other Doc numbers except 1st
                     else 
                     {
-                        
-                        $.get("SaleOrder/GetBaseDocItemService", { DocId: DocID , BaseType : BaseType}, function(data) 
-                        {
+
+                    $.get("Common/GetBaseDocItemService", { DocId: DocID, BaseType: BaseType }, function (data) {
                         let list = JSON.parse(data.list);  
             
             
