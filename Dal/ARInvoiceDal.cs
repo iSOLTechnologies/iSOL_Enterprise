@@ -296,7 +296,7 @@ namespace iSOL_Enterprise.Dal
                
                 var model = JsonConvert.DeserializeObject<dynamic>(formData);
                 string DocType = model.ListItems == null ? "S" : "I";
-
+                CommonDal dal = new CommonDal();
 
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
                 conn.Open();
@@ -386,7 +386,7 @@ namespace iSOL_Enterprise.Dal
                                 {
 
 
-                                string oldDataQuery = @"select BaseEntry,BaseLine,Quantity from INV1 where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
+                                string oldDataQuery = @"select BaseEntry,BaseType,BaseLine,Quantity from INV1 where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
 
                                 tbl_docRow docRowModel = new tbl_docRow();
                                 using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, oldDataQuery))
@@ -397,13 +397,14 @@ namespace iSOL_Enterprise.Dal
                                         docRowModel.BaseEntry = rdr["BaseEntry"].ToString() == "" ? null : Convert.ToDecimal(rdr["BaseEntry"]);
                                         docRowModel.BaseLine = rdr["BaseLine"].ToString() == "" ? null : Convert.ToDecimal(rdr["BaseLine"]);
                                         docRowModel.Quantity = rdr["Quantity"].ToString() == "" ? null : Convert.ToDecimal(rdr["Quantity"]);
-
+                                        docRowModel.BaseType = rdr["BaseType"].ToString() == "" ? null : Convert.ToDecimal(rdr["Quantity"]);
                                     }
                                 }
                                 #region if doc contains base ref
                                 if (docRowModel.BaseEntry != null)
                                 {
-                                    string Updatequery = @"Update DLN1 set OpenQty =(OpenQty + " + docRowModel.Quantity + ") - " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine;
+                                    string table = dal.GetRowTable(Convert.ToInt32(docRowModel.BaseType));
+                                    string Updatequery = @"Update "+table+" set OpenQty =(OpenQty + " + docRowModel.Quantity + ") - " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine;
                                     int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
                                     if (res <= 0)
                                     {

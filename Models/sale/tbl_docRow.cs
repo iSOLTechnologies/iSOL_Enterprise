@@ -5,5 +5,6 @@
         public decimal? BaseEntry { get; set; }
         public decimal? BaseLine { get; set; }
         public decimal? Quantity { get; set; }
+        public decimal? BaseType { get; set; }
     }
 }
