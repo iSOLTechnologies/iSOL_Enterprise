@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -413,11 +414,10 @@ where s.Status=1 and p.Guid=@Guid";
             return res > 0 ? true : false;
         }
 
-        public List<SalesQuotation_MasterModels> GetBaseDocData(int cardcode, int BaseType)
+        private string GetMasterTable(int Basetype)
         {
             string table = "";
-
-            switch (BaseType)
+            switch (Basetype)
             {
                 case 13:    //AR Return
                 table = "OINV";
@@ -435,6 +435,12 @@ where s.Status=1 and p.Guid=@Guid";
                 table = "ORPD";
                 break;
             }
+            return table;
+        }
+
+        public List<SalesQuotation_MasterModels> GetBaseDocData(int cardcode, int BaseType)
+        {
+            string table = GetMasterTable(BaseType);
 
             string GetQuery = "select * from " + table + " where CardCode =" + cardcode;
 
@@ -458,6 +464,36 @@ where s.Status=1 and p.Guid=@Guid";
                 }
             }
             return list;
+        }
+
+        public List<SalesQuotation_MasterModels> GetBaseDocType(int DocId, int BaseType)
+        {
+            string GetQuery = "select DocType,DocNum from ORDR where Id = " + DocId;
+            List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+                    SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
+
+
+                    models.DocType = rdr["DocType"].ToString();
+                    models.DocNum = rdr["DocNum"].ToString();
+                    list.Add(models);
+                }
+            }
+            return list;
+        }
+        public dynamic GetBaseDocItemServiceList(int DocId , int BaseType)
+        {
+            DataSet ds = new DataSet();
+            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+            SqlDataAdapter sda = new SqlDataAdapter("select Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup,UomCode,CountryOrg,Dscription,AcctCode,OpenQty from RDR1 where id = " + DocId + "", conn);
+            sda.Fill(ds);
+            string JSONString = string.Empty;
+            JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
+            return JSONString;
+
         }
 
     }
