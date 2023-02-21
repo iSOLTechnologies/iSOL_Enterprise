@@ -677,7 +677,14 @@ function append_ItemFirstRow() {
 	$('#kt_repeater_1 tbody').append(html);
 	// addDataInVatGroup();
 }
-
+   $(document).on('change', '#UomEntry', function (e) 
+    {
+        
+        let UomCode =  $(this).find("option:selected").text();
+        console.log($(this).closest('tr').find("#UomCode"));
+        $(this).closest('tr').find("#UomCode").val(""+UomCode+"");
+       
+    });
 function GetVatGroupData() 
 {
 	

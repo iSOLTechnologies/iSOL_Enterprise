@@ -1561,7 +1561,14 @@ function GetPrice()
 
         $(this).removeClass('is-invalid');
     });
-
+       $(document).on('change', '#UomEntry', function (e) 
+    {
+        
+        let UomCode =  $(this).find("option:selected").text();
+        console.log($(this).closest('tr').find("#UomCode"));
+        $(this).closest('tr').find("#UomCode").val(""+UomCode+"");
+       
+    });
     $(document).on('click', '#btnBack', function (e) {
 
         window.history.back();

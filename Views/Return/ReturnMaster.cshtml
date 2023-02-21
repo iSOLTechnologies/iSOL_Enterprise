@@ -1125,7 +1125,7 @@
 
         let UomCode = $(this).find("option:selected").text();
         console.log($(this).closest('tr').find("#UomCode"));
-        $(this).closest('tr').find("#UomCode").val("'" + UomCode + "'");
+        $(this).closest('tr').find("#UomCode").val("" + UomCode + "");
 
     });
     $(document).on('change', '#ItemServiceType', function (e) {

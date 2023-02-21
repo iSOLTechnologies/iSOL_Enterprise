@@ -1314,7 +1314,14 @@
     $(document).on('click', '#ListBtnDelete', function () {
         $(this).closest('tr').remove();
     })
-
+       $(document).on('change', '#UomEntry', function (e) 
+    {
+        
+        let UomCode =  $(this).find("option:selected").text();
+        console.log($(this).closest('tr').find("#UomCode"));
+        $(this).closest('tr').find("#UomCode").val(""+UomCode+"");
+       
+    });
     $(document).on('click', '#ListBtnDeleteRM', function () {
         $(this).closest('tr').remove();
     })

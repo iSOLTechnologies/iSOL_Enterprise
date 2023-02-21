@@ -1700,7 +1700,14 @@ function GetPrice()
         //$('.jsSelect2').select2();
         // addDataInVatGroup();
     });
-
+       $(document).on('change', '#UomEntry', function (e) 
+    {
+        
+        let UomCode =  $(this).find("option:selected").text();
+        console.log($(this).closest('tr').find("#UomCode"));
+        $(this).closest('tr').find("#UomCode").val(""+UomCode+"");
+       
+    });
     $(document).on('click', '#ListBtnAddRM', function (e) {
 
         var html = ` <tr class="rowItemDetail align-items-center itm">
