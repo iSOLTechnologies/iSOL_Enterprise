@@ -104,7 +104,7 @@ namespace iSOL_Enterprise.Dal
             try
             {
                 var model = JsonConvert.DeserializeObject<dynamic>(formData);
-
+                CommonDal dal = new CommonDal();
 
 
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
@@ -156,10 +156,10 @@ namespace iSOL_Enterprise.Dal
                         {
 
 
-                            if (item.BaseEntry != "" && item.BaseEntry != null)
+                            if (model.BaseType != -1)
                             {
-
-                                string Updatequery = @"Update QUT1 set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
+                                string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
+                                string Updatequery = @"Update "+table+" set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
                                 int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
                                 if (res <= 0)
                                 {

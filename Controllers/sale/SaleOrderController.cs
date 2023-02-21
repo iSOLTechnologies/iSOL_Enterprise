@@ -38,14 +38,14 @@ namespace iSOL_Enterprise.Controllers
 
             return View(dal1.GetSaleOrderEditDetails(id));
         }
-        public IActionResult GetSalesQuotationData(int cardcode)
+        public IActionResult GetBaseDocData(int cardcode,int BaseType)
         {
             ResponseModels response = new ResponseModels();
             try
             {
 
-                SalesOrderDal dal = new SalesOrderDal();
-                response.Data = dal.GetSalesQuotationData(cardcode);
+                CommonDal dal = new CommonDal();
+                response.Data = dal.GetBaseDocData(cardcode,BaseType);
             }
             catch (Exception ex)
             {
@@ -59,13 +59,13 @@ namespace iSOL_Enterprise.Controllers
         
         
         [HttpGet]
-        public  IActionResult GetQuotationItemService(int DocId)
+        public  IActionResult GetBaseDocItemService(int DocId,int BaseType)
         {
             try
             {
-                SalesOrderDal dal = new SalesOrderDal();
+                CommonDal dal = new CommonDal();
 
-                return Json(new { baseDoc = dal.GetQuotationType(DocId), list = dal.GetQuotationItemServiceList(DocId) });
+                return Json(new { baseDoc = dal.GetBaseDocType(DocId,BaseType), list = dal.GetBaseDocItemServiceList(DocId,BaseType)});
             }
             catch (Exception)
             {

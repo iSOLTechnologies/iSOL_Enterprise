@@ -151,7 +151,7 @@ namespace iSOL_Enterprise.Dal
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
                             if (model.BaseType != -1)
                             {
-                                string table = dal.GetMasterTable(Convert.ToInt32(model.BaseType));
+                                string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
                                 string Updatequery = @"Update "+table+" set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
                                 int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
                                 if (res <= 0)
