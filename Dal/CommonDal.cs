@@ -414,7 +414,7 @@ where s.Status=1 and p.Guid=@Guid";
             return res > 0 ? true : false;
         }
 
-        private string GetMasterTable(int Basetype)
+        public string GetMasterTable(int Basetype)
         {
             string table = "";
             switch (Basetype)
@@ -438,7 +438,7 @@ where s.Status=1 and p.Guid=@Guid";
             return table;
         }
 
-        private string GetRowTable(int Basetype)
+        public string GetRowTable(int Basetype)
         {
             string table = "";
             switch (Basetype)
