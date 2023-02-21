@@ -237,13 +237,14 @@ namespace iSOL_Enterprise.Dal
                             item.BaseQty = item.BaseQty == "" ? "NULL" : Convert.ToInt32(item.BaseQty);
                             item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToInt32(item.DicPrc);
 
-                            string RowQueryItem = @"insert into RPD1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
+                            string RowQueryItem = @"insert into RPD1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,BaseType,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
                                               values(" + Id + ","
                                                 + LineNo + ",'"
                                                 + item.BaseRef + "',"
                                                 + item.BaseEntry + ","
                                                 + item.BaseLine + ","
                                                 + item.BaseQty + ",'"
+                                                + model.BaseType + ",'"
                                                 + item.ItemName + "',"
                                                 + item.UPrc + ","
                                                 + item.TtlPrc + ","
@@ -281,12 +282,13 @@ namespace iSOL_Enterprise.Dal
                             item.BaseEntry2 = item.BaseEntry2 == "" ? "NULL" : Convert.ToInt32(item.BaseEntry2);
                             item.BaseLine2 = item.BaseLine2 == "" ? "NULL" : Convert.ToInt32(item.BaseLine2);
 
-                            string RowQueryService = @"insert into RPD1(Id,LineNum,BaseRef,BaseEntry,BaseLine,LineTotal,Dscription,AcctCode,VatGroup)
+                            string RowQueryService = @"insert into RPD1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseType,LineTotal,Dscription,AcctCode,VatGroup)
                                                   values(" + Id + ","
                                                      + LineNo + ",'"
                                                      + item.BaseRef2 + "',"
                                                      + item.BaseEntry2 + ","
                                                      + item.BaseLine2 + ","
+                                                     + model.BaseType + ",'"
                                                      + item.TotalLC + ",'"
                                                      + item.Dscription + "','"
                                                      + item.AcctCode + "','"
