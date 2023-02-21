@@ -991,7 +991,10 @@
 
     function append_ItemFirstRow() {
 
-        var html = `   <tr class="rowItemDetail align-items-center itm">
+        var html = `   <tr class="rowItemDetail align-items-center itm">  <td>
+                                                                                                    <input disabled="" id="LineNum" class="form-control form-control-sm NotReq" type="text">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
                                                                           <td>
         <div class="input-group">
             <input  id="ItemCode"  type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
