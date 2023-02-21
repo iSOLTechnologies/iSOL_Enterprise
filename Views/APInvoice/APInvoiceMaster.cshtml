@@ -48,37 +48,29 @@
                    <a onclick="Back_his()" class="btn btn-light-primary font-weight-bolder mr-2">
                         <i class="ki ki-long-arrow-back icon-sm"></i>Back
                     </a>
-                    <div class="btn-group">  
-                        <button type="button" class="btn btn-success font-weight-bolder mr-2" id="btnCopyFrom" disabled>
-                            <i class="ki ki-copy icon-sm"></i>Copy From
-                        </button>
+                       <div class="btn-group">
+                     <div class="dropdown mr-2">
+                            <button class="btn btn-success font-weight-bolder dropdown-toggle" type="button" id="btnCopyFrom" disabled data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="ki ki-copy icon-sm"></i>Copy From
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnCopyFrom" id="btnCopyFromOptions" disabled>
+                                <a class="dropdown-item" guid="23">Sales Order</a>
+                                <a class="dropdown-item" guid="22">Purchase Orders</a>
+                                <a class="dropdown-item" guid="540000006">Purchase Quotation</a>
+                                <a class="dropdown-item" guid="23">Sales Quotation</a>
+                            </div>
+                        </div>
+                       
+                        
+
                         <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
                             <i class="ki ki-check icon-sm"></i>Save
                         </button>
-                        @*<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>*@
-                        @*   <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                        <ul class="nav nav-hover flex-column">
-                        <li class="nav-item">
-                        <a href="#" class="nav-link">
-                        <i class="nav-icon flaticon2-reload"></i>
-                        <span class="nav-text">Save &amp; continue</span>
-                        </a>
-                        </li>
-                        <li class="nav-item">
-                        <a href="#" class="nav-link">
-                        <i class="nav-icon flaticon2-add-1"></i>
-                        <span class="nav-text">Save &amp; add new</span>
-                        </a>
-                        </li>
-                        <li class="nav-item">
-                        <a href="#" class="nav-link">
-                        <i class="nav-icon flaticon2-power"></i>
-                        <span class="nav-text">Save &amp; exit</span>
-                        </a>
-                        </li>
-                        </ul>
-                        </div>*@
+
                     </div>
+
+
+
                 </div>
             </div>
             <div class="card-body">
@@ -784,9 +776,11 @@
     //    });
 
     //});
-    $(document).on('click', '#btnCopyFrom', function (e) {
+   $("#btnCopyFromOptions a").click(function () {
+        //$(document).on('click', '#btnCopyFrom', function (e) {
+        BaseType = $(this).attr("guid");
 
-        CopyBtnUrl = '/APInvoice/GetGoodReceiptData';
+        CopyBtnUrl = '/Common/GetDocBasceData';
         generateCopyDataTable();
         $('#mycopydataModal').modal('show');
 
@@ -828,7 +822,7 @@
                     if(i == 0)
                     {
                     
-                        $.get("APInvoice/GetGoodReceiptItemService", { DocId: DocID }, function(data) 
+                        $.get("Common/GetBaseDocItemService", { DocId: DocID , BaseType : BaseType }, function(data)
                         {
 
                         let list = JSON.parse(data.list);  
@@ -916,7 +910,7 @@
                     else 
                     {
 
-                    $.get("APInvoice/GetGoodReceiptItemService", { DocId: DocID }, function (data) {
+                    $.get("Common/GetBaseDocItemService", { DocId: DocID , BaseType : BaseType }, function(data){
                         let list = JSON.parse(data.list);  
             
             
@@ -2082,7 +2076,8 @@ function GetPrice()
         ListItems: ItemServiceType == '1' ?  getJsonObjList("ListParameters .itm") : null,
         ListService: ItemServiceType == '2' ? getJsonObjList("ListParameters2 .itm") : null,
         ListAttachment: getJsonObjList("ListParameters3 .itm"),
-        FooterData : getJsonObj("FooterData")
+        FooterData : getJsonObj("FooterData"),
+        BaseType : BaseType 
       
         }
       

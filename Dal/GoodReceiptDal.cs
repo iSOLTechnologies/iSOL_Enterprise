@@ -339,6 +339,7 @@ namespace iSOL_Enterprise.Dal
 
                     if (model.ListItems != null)
                     {
+                        CommonDal dal = new CommonDal();
                         int LineNo = 1;
                         foreach (var item in model.ListItems)
                         {
@@ -346,10 +347,10 @@ namespace iSOL_Enterprise.Dal
 
 
 
-                            if (item.BaseEntry != "" && item.BaseEntry != null)
+                            if (model.BaseType != -1)
                             {
-                                //Update Purchase Order OpenQty
-                                string Updatequery = @"Update POR1 set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
+                                string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
+                                string Updatequery = @"Update "+table+" set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
                                 int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
                                 if (res <= 0)
                                 {

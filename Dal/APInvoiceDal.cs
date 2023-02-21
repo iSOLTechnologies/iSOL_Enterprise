@@ -140,14 +140,15 @@ namespace iSOL_Enterprise.Dal
                     }
                     if (model.ListItems != null)
                     {
-                            int LineNo = 1;
+                        CommonDal dal = new CommonDal();
+                        int LineNo = 1;
                         foreach (var item in model.ListItems)
                         {
-                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
-                            if (item.BaseEntry != "" && item.BaseEntry != null)
+                            if (model.BaseType != -1)
                             {
+                                string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
 
-                                string Updatequery = @"Update PDN1 set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
+                                string Updatequery = @"Update "+table+" set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
                                 int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
                                 if (res <= 0)
                                 {
