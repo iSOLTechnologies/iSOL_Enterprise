@@ -438,6 +438,31 @@ where s.Status=1 and p.Guid=@Guid";
             return table;
         }
 
+        private string GetRowTable(int Basetype)
+        {
+            string table = "";
+            switch (Basetype)
+            {
+                case 13:    //AR Return
+                table = "INV1";
+                break;
+                case 16:    //AR Invoice
+                table = "ORDN";
+                break;
+                case 18:    //AP Invoice
+                table = "OPCH";
+                break;
+                case 19:   //AP Credit Memo
+                table = "ORPC";
+                break;
+                case 21:   //Goods Return
+                table = "ORPD";
+                break;
+            }
+            return table;
+        }
+
+
         public List<SalesQuotation_MasterModels> GetBaseDocData(int cardcode, int BaseType)
         {
             string table = GetMasterTable(BaseType);
