@@ -40,14 +40,14 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Status = "Open" ;
             return View(dal1.GetARCreditMemoDetails(id));
         }
-        public IActionResult GetARInvoiceData(int cardcode)
+        public IActionResult GetBaseDocData(int cardcode,int BaseType)
         {
             ResponseModels response = new ResponseModels();
             try
             {
 
-                ARCreditMemoDal dal = new ARCreditMemoDal();
-                response.Data = dal.GetARInvoiceData(cardcode);
+                CommonDal dal = new CommonDal();
+                response.Data = dal.GetBaseDocData(cardcode,BaseType);
             }
             catch (Exception ex)
             {

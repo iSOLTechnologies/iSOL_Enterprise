@@ -2428,6 +2428,7 @@
 		var ObjAcctCode;
 		var ObjCardCode;
 		var CopyBtnUrl;
+		var BaseType = -1;
 		var BatchSelectUrl;
 		var CopydataTable;
 		var CopyDocIDs = [];
@@ -2681,6 +2682,7 @@
 			}
 
 		});
+		
 		function generateCopyDataTable() {
 			CopydataTable = $('#MyyyyCopyDataTable').DataTable({
 				responsive: true,
@@ -2689,7 +2691,7 @@
 				ordering: false,
 				"ajax": {
 					url: CopyBtnUrl,
-					data: { cardcode: $("#CardCode").val() }
+					data: { cardcode: $("#CardCode").val() , BaseType : BaseType }
 				},
 				layout: {
 					scroll: false,

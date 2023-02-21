@@ -1,5 +1,7 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
+using Microsoft.CodeAnalysis.Differencing;
+using NuGet.Packaging.Signing;
 using SqlHelperExtensions;
 using System;
 using System.Collections.Generic;
@@ -143,7 +145,8 @@ values(@Id,@Guid,@CompanyCode,@CompanyName,@ContactPerson,@ContactNo,@InterestRa
             }
             return lstModel;
         }
+        
 
-       
+
     }
 }

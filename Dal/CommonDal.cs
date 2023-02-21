@@ -412,5 +412,53 @@ where s.Status=1 and p.Guid=@Guid";
             int res = SqlHelper.ExecuteNonQuery("Update " + tblName + " set Rowstatus=0 where " + WhereClause.Key + "=@" + WhereClause.Key, param);
             return res > 0 ? true : false;
         }
+
+        public List<SalesQuotation_MasterModels> GetBaseDocData(int cardcode, int BaseType)
+        {
+            string table = "";
+
+            switch (BaseType)
+            {
+                case 13:    //AR Return
+                table = "OINV";
+                break;
+                case 16:    //AR Invoice
+                table = "ORDN";
+                break;
+                case 18:    //AP Invoice
+                table = "OPCH";
+                break;
+                case 19:   //AP Credit Memo
+                table = "ORPC";
+                break;
+                case 21:   //Goods Return
+                table = "ORPD";
+                break;
+            }
+
+            string GetQuery = "select * from " + table + " where CardCode =" + cardcode;
+
+
+            List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+                    SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
+
+                    models.Id = rdr["Id"].ToInt();
+                    models.DocDate = rdr["DocDueDate"].ToDateTime();
+                    models.PostingDate = rdr["DocDate"].ToDateTime();
+                    models.DocNum = rdr["DocNum"].ToString();
+                    models.DocType = rdr["DocType"].ToString();
+                    models.CardCode = rdr["CardCode"].ToString();
+                    models.Guid = rdr["Guid"].ToString();
+                    models.CardName = rdr["CardName"].ToString();
+                    list.Add(models);
+                }
+            }
+            return list;
+        }
+
     }
 }
