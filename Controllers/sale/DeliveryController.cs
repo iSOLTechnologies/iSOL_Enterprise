@@ -38,14 +38,14 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Status = flag == false ? "Open" : "Closed";
             return View(dal1.GetDeliveryDetails(id));
         }
-        public IActionResult GetSalesOrderData(int cardcode)
+        public IActionResult GetBaseDocData(int cardcode,int BaseType)
         {
             ResponseModels response = new ResponseModels();
             try
             {
 
-                DeliveryDal dal = new DeliveryDal();
-                response.Data = dal.GetSalesOrderData(cardcode);
+                CommonDal dal = new CommonDal();
+                response.Data = dal.GetBaseDocData(cardcode,BaseType);
             }
             catch (Exception ex)
             {
@@ -58,13 +58,13 @@ namespace iSOL_Enterprise.Controllers
         }
         [HttpGet]
 
-        public IActionResult GetOrderItemService(int DocId)
+        public IActionResult GetBaseDocItemService(int DocId,int BaseType)
         {
             try
             {
-                DeliveryDal dal = new DeliveryDal();
+                CommonDal dal = new CommonDal();
 
-                return Json(new { baseDoc = dal.GetOrderType(DocId), list = dal.GetOrderItemServiceList(DocId) });
+                return Json(new { baseDoc = dal.GetBaseDocType(DocId,BaseType), list = dal.GetBaseDocItemServiceList(DocId,BaseType) });
             }
             catch (Exception)
             {
