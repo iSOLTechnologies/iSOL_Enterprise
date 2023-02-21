@@ -18,7 +18,7 @@
             <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200">
             </div>
             <span class="text-muted font-weight-bold mr-2">Dashboard</span>
-            <span class="font-weight-bolder">/ AR Invoice</span>
+            <span class="font-weight-bolder">/ AP Credit Memo</span>
             <!--end::Actions-->
         </div>
         <!--end::Info-->
@@ -36,7 +36,7 @@
                 <span class="card-icon">
                     <i class="flaticon-notepad text-primary"></i>
                 </span>
-                <h3 class="card-label">A/R Invoice</h3>
+                <h3 class="card-label">A/P Credit Memo</h3>
             </div>
             @* <div class="card-toolbar">
             <button class="bt btn-brand"  type="button">
@@ -87,7 +87,7 @@
     $(document).on('click', '#btnAdd', function () {
 
         //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
-        window.location.href = '/ARInvoice/ARInvoiceMaster';
+        window.location.href = '/APCreditMemo/APCreditMemoMaster';
     })
     function Mastercheck() {
 
@@ -121,7 +121,7 @@
             "ajax": {
 
                 // url: '/HrAdmin/GetAttendanceList_MainLines?Date=' + $('#FilterDate').val(),
-                url: '/ARInvoice/GetARInvoiceData',
+                url: '/APCreditMemo/GetAPCreditMemoData',
             },
 
             layout: {
@@ -182,25 +182,15 @@
                     data: 'cardName', title: 'Card Name'
 
                 }, {
-                    data: "docStatus", 'title': 'Status', render: function (data, type, row) {
-
-                        if (data == "Open") {
+                    data: "docStatus", 'title': 'Status', render: function (data, type, row) {                         
                             //var html = `<span class="badge badge-success" style="background-color: #28a745;">Open</span>`;
                             var html = `<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">Open</span>`;
-                            return html;
-
-
-
-                        } else {
-                            //var html = ` <span class="badge badge-danger">Closed</span>`;
-                            var html = `<span class="label label-lg label-light-danger label-inline">Closed</span>`;
-                            return html;
-                        }
+                            return html;                         
                     }
                 }, {
                     data: "id", 'title': 'Action', render: function (data, type, row) {
 
-                        var html = '<a guid=' + data + ' id="btnFetchARInvoice" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+                        var html = '<a guid=' + data + ' id="btnFetchAPCreditMemo" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
                             html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
                             html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
                             html += '       <rect x="0" y="0" width="24" height="24" />';
@@ -221,11 +211,11 @@
 
         generateTable();
     });
-    $(document).on('click', '#btnFetchARInvoice', function (e) {
+    $(document).on('click', '#btnFetchAPCreditMemo', function (e) {
 
         var guid = $(this).attr("guid");
         
-        window.location.href = '/ARInvoice/EditARInvoiceMaster/' + guid + '';
+        window.location.href = '/APCreditMemo/EditAPCreditMemoMaster/' + guid + '';
         console.log(guid);
 
     });

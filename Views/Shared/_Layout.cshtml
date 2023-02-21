@@ -238,6 +238,15 @@
 												</span>
 											</a>
 										</li>
+										<li class="menu-item" aria-haspopup="true">
+											<a asp-action="Index" asp-controller="ARCreditMemo" class="menu-link">
+												<i class="menu-bullet menu-bullet-dot">
+													<span></span>
+												</i> <span class="menu-text">A/R Credit Memo</span> <span class="menu-label">
+													<!-- <span class="label label-danger label-inline">new</span> -->
+												</span>
+											</a>
+										</li>
 									</ul>
 								</div>
 							</li>
@@ -293,6 +302,15 @@
 												<i class="menu-bullet menu-bullet-dot">
 													<span></span>
 												</i> <span class="menu-text">A/P Invoice</span>
+											</a>
+										</li>
+										<li class="menu-item" aria-haspopup="true">
+											<a asp-action="Index" asp-controller="APCreditMemo" class="menu-link">
+												<i class="menu-bullet menu-bullet-dot">
+													<span></span>
+												</i> <span class="menu-text">A/P Credit Memo</span> <span class="menu-label">
+													<!-- <span class="label label-danger label-inline">new</span> -->
+												</span>
 											</a>
 										</li>
 									</ul>
@@ -2391,29 +2409,19 @@
 	</div>
 	<!-- Customer Modal End -->
 	<script>
-		 
-		function MyToFixed(){
-			 
-		    $('body').each(function (index, item) {
-            $(this).find('input').each(function (index, data) {
-			 if($(this).prop("type") == "number"){
 
-               $(this).val(parseInt($(this).val()).toFixed(2));
+		function MyToFixed() {
 
-			 }
+			$('body').each(function (index, item) {
+				$(this).find('input').each(function (index, data) {
+					if ($(this).prop("type") == "number") {
+
+						$(this).val(parseInt($(this).val()).toFixed(2));
+
+					}
+				});
 			});
-		});
 		}
-
-
-
-
-
-
-
-
-
-
 		//$.ajaxSetup({ cache: false });
 		var isHeader;
 		var ObjItemCode;
@@ -3007,7 +3015,7 @@
 				// addDataInVatGroup();
 				$("#CntcCode").html("");
 
-					$("#CntcCode").append("<option value='0' selected>Select Contact Person<option />");
+				$("#CntcCode").append("<option value='0' selected>Select Contact Person<option />");
 				$.each(data, function () {
 					$("#CntcCode").append($("<option />").val(this.value).text(this.text));
 				});
@@ -3018,8 +3026,7 @@
 				//$("#VatGroup2").select2();
 			});
 		}
-		$(document).on('click', '#btnFetchItemCode', function (e) 
-		{
+		$(document).on('click', '#btnFetchItemCode', function (e) {
 			// debugger
 			var LookTable = $('#MyyyyItemmTable').DataTable();;
 			var selectedRow = $(this).closest('tr');
@@ -3034,47 +3041,41 @@
 			GetUomGroup(rowData['itemCode']);
 
 			$('#myItemModal').modal('hide');
-			
+
 		});
 
-		function GetUomGroup(itemno) 
-		{
-				var UomEntryRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomEntry");
-				var UomCodeRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomCode");
-		
-				$.get("SaleQuotation/GetUomGroup", {itemno : itemno} , function(data) 
-				{
-					$(UomEntryRow).html("");
-					
-					if((data.oitmdata)[0].ugpEntry == -1)
-					{
-						$(UomCodeRow).val("Manual");
+		function GetUomGroup(itemno) {
+			var UomEntryRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomEntry");
+			var UomCodeRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomCode");
+
+			$.get("SaleQuotation/GetUomGroup", { itemno: itemno }, function (data) {
+				$(UomEntryRow).html("");
+
+				if ((data.oitmdata)[0].ugpEntry == -1) {
+					$(UomCodeRow).val("Manual");
+				}
+
+
+				$.each(data.uomdata, function () {
+
+					if (DocModule == "S" ? (data.oitmdata)[0].sUoMEntry == this.uomEntry : (data.oitmdata)[0].pUoMEntry == this.uomEntry) {
+						$(UomEntryRow).append("<option value=" + this.uomEntry + " selected>" + this.uomName + "</option>");
+						$(UomCodeRow).val(this.uomName);
+					}
+					else {
+						$(UomEntryRow).append($('<option>',
+							{
+								value: this.uomEntry,
+								text: this.uomName
+							}));
 					}
 
-					
-					$.each(data.uomdata, function() 
-					{
-					
-						if(DocModule == "S" ? (data.oitmdata)[0].sUoMEntry == this.uomEntry : (data.oitmdata)[0].pUoMEntry== this.uomEntry) 
-						{
-							$(UomEntryRow).append("<option value=" + this.uomEntry + " selected>" + this.uomName + "</option>" );
-							$(UomCodeRow).val(this.uomName);
-						}
-						else 
-						{
-							$(UomEntryRow).append($('<option>', 
-													{
-																value: this.uomEntry,
-																text: this.uomName
-													}));
-						}
 
-						
-					
-					});
 
 				});
-			
+
+			});
+
 
 		}
 		$(document).on('click', '#btnFetchAcctCode', function (e) {

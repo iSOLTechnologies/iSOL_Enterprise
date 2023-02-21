@@ -32,7 +32,9 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Taxes = dal.GetVatGroupData();
             ViewBag.Countries = dal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
-            ViewBag.Status = "Open";
+
+            bool flag = CommonDal.Check_IsEditable("RIN1", id);
+            ViewBag.Status = flag == false ? "Open" : "Closed";
             return View(dal1.GetARInvoiceDetails(id));
         }
 
