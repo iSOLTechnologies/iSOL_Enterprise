@@ -2010,7 +2010,7 @@
 		}();
 		jQuery(document).ready(function () {
 			KTDatatablesDataSourceHtml.init();
-
+			MyToFixed();
 		});
 
 
@@ -2391,6 +2391,29 @@
 	</div>
 	<!-- Customer Modal End -->
 	<script>
+		 
+		function MyToFixed(){
+			 
+		    $('body').each(function (index, item) {
+            $(this).find('input').each(function (index, data) {
+			 if($(this).prop("type") == "number"){
+
+               $(this).val(parseInt($(this).val()).toFixed(2));
+
+			 }
+			});
+		});
+		}
+
+
+
+
+
+
+
+
+
+
 		//$.ajaxSetup({ cache: false });
 		var isHeader;
 		var ObjItemCode;
