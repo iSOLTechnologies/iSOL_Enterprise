@@ -422,6 +422,9 @@ where s.Status=1 and p.Guid=@Guid";
                 case 13:     
                 table = "OINV"; //A/R Invoice
                 break;
+                case 15:     
+                table = "ODLN"; //Delivery
+                break;
                 case 16:    
                 table = "ORDN"; //Return
                 break;
@@ -460,6 +463,9 @@ where s.Status=1 and p.Guid=@Guid";
             {
                 case 13:
                     table = "INV1"; //A/R Invoice
+                    break;
+                case 15:
+                    table = "DLN1"; //Delivery
                     break;
                 case 16:
                     table = "RDN1"; //Return
