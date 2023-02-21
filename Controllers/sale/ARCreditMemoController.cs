@@ -59,13 +59,13 @@ namespace iSOL_Enterprise.Controllers
             return Json(response);
         }
         [HttpGet]
-        public IActionResult GetARInvoiceItemService(int DocId)
+        public IActionResult GetBaseDocItemService(int DocId, int BaseType)
         {
             try
             {
-                ARCreditMemoDal dal = new ARCreditMemoDal();
+                CommonDal dal = new CommonDal();
 
-                return Json(new { baseDoc = dal.GetInvoiceType(DocId), list = dal.GetARInvoiceItemService(DocId) });
+                return Json(new { baseDoc = dal.GetBaseDocType(DocId,BaseType), list = dal.GetBaseDocItemServiceList(DocId,BaseType)});
             }
             catch (Exception)
             {

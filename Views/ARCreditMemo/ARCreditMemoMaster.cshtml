@@ -833,7 +833,7 @@
                 //For the Entry of 1st Doc number
                 if (i == 0) {
 
-                    $.get("ARCreditMemo/GetARInvoiceItemService", { DocId: DocID }, function (data) {
+                    $.get("ARCreditMemo/GetBaseDocItemService", { DocId: DocID , BaseType : BaseType }, function (data) {
                         let list = JSON.parse(data.list);
 
 
@@ -908,7 +908,7 @@
                 //For the Entry of Other Doc numbers except 1st
                 else {
 
-                    $.get("ARCreditMemo/GetARInvoiceItemService", { DocId: DocID }, function (data) {
+                    $.get("ARCreditMemo/GetBaseDocItemService", { DocId: DocID , BaseType : BaseType }, function (data) {
                         let list = JSON.parse(data.list);
 
 
@@ -1110,6 +1110,14 @@
 
 
         //$(ObjItemCode)
+    });
+     $(document).on('change', '#UomEntry', function (e) 
+    {
+        
+        let UomCode =  $(this).find("option:selected").text();
+        console.log($(this).closest('tr').find("#UomCode"));
+        $(this).closest('tr').find("#UomCode").val(""+UomCode+"");
+       
     });
     $(document).on('change', '#ItemServiceType', function (e) {
         var val = $("#ItemServiceType option:selected").val();
@@ -1862,7 +1870,8 @@
             ListItems: ItemServiceType == '1' ? getJsonObjList("ListParameters .itm") : null,
             ListService: ItemServiceType == '2' ? getJsonObjList("ListParameters2 .itm") : null,
             ListAttachment: getJsonObjList("ListParameters3 .itm"),
-            FooterData: getJsonObj("FooterData")
+            FooterData: getJsonObj("FooterData"),
+            BaseType : BaseType
 
         }
 
