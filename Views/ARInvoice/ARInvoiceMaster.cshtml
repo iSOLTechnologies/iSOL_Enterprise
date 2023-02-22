@@ -862,7 +862,7 @@
                                     }
                                 j+=1;
                             });
-
+                           Edit_GetUomGroup();   //For Uom Dropdown options
                         }
                         else if((data.baseDoc)[0].docType ==  "S") 
                         {
@@ -923,7 +923,7 @@
 
                                     
                             });
-
+                           Edit_GetUomGroup();   //For Uom Dropdown options
                         }
                         else if((data.baseDoc)[0].docType ==  "S") 
                         {
@@ -949,6 +949,17 @@
 
 			
         });
+    function Edit_GetUomGroup() {   //For Uom Dropdown options
+        $('#ListParameters .itm').each(function (index, item) {
+
+            ObjItemCode = $(this).find("#ItemCode");
+            let itemno = $(this).find("#ItemCode").val();
+            DocModule = "S";
+            if (itemno != "" && itemno != null) { GetUomGroup(itemno); }
+
+
+        });
+    }
     function AddItemRowData(baseRef,data)
     {
         var html = `    <tr class="rowItemDetail align-items-center itm">
@@ -1513,11 +1524,7 @@ function GetPrice()
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
         Guid = $("#Guid").val();
         $('#IncrementalDuration').prop('checked', true);
-        GetLisParameters();
-        GetListDurationType();
-        GetListValueType();
-        GetListValueMethod();
-        GetLisRmCodes();
+        
         GetPayments();
 
 
@@ -1536,78 +1543,12 @@ function GetPrice()
 
         }
 
-        if (Guid != undefined && Guid != '' && Guid != null) {
-            PopulateData();
-        }
-
         $(document).on('change', '#ParamCode', function (e) {
 
             $(this).removeClass('is-invalid');
         });
 
-        $(document).on('change', '#ValueTypeCode', function (e) {
-            debugger
-            $(this).removeClass('is-invalid');
-            $(this).closest('#ListParameters .itm').find("#StandardValue").removeClass('is-invalid');
-            $(this).closest('#ListParameters .itm').find("#MinValue").removeClass('is-invalid');
-            $(this).closest('#ListParameters .itm').find("#MaxValue").removeClass('is-invalid');
-            $(this).closest('#ListParameters .itm').find("#StandardValue").val('');
-            $(this).closest('#ListParameters .itm').find("#MinValue").val('');
-            $(this).closest('#ListParameters .itm').find("#MaxValue").val('');
-
-            if ($(this).val() == "PM") {
-                $(this).closest('#ListParameters .itm').find("#StandardValue").attr('disabled', false);
-                $(this).closest('#ListParameters .itm').find("#MinValue").attr('disabled', false);
-                $(this).closest('#ListParameters .itm').find("#MaxValue").attr('disabled', false);
-            }
-            else if ($(this).val() == "RN") {
-                $(this).closest('#ListParameters .itm').find("#StandardValue").attr('disabled', true);
-                $(this).closest('#ListParameters .itm').find("#MinValue").attr('disabled', false);
-                $(this).closest('#ListParameters .itm').find("#MaxValue").attr('disabled', false);
-            } else if ($(this).val() == "DS" || $(this).val() == "GT" || $(this).val() == "LT") {
-                $(this).closest('#ListParameters .itm').find("#StandardValue").attr('disabled', false);
-                $(this).closest('#ListParameters .itm').find("#MinValue").attr('disabled', true);
-                $(this).closest('#ListParameters .itm').find("#MaxValue").attr('disabled', true);
-            }
-        });
-
-        $(document).on('change', '#DurationTypeCode', function (e) {
-
-            $(this).removeClass('is-invalid');
-            $(this).closest('#ListParameters .itm').find("#Duration").removeClass('is-invalid');
-            $(this).closest('#ListParameters .itm').find("#Counter").removeClass('is-invalid');
-            //  $(this).closest('#ListParameters .itm').find("#IncrementalDuation").removeClass('is-invalid');
-
-            $(this).closest('#ListParameters .itm').find("#Duration").val('');
-            $(this).closest('#ListParameters .itm').find("#Counter").val('');
-            //   $(this).closest('#ListParameters .itm').find("#IncrementalDuation").val('');
-            if ($(this).val() == "ONT") {
-                $(this).closest('#ListParameters .itm').find("#Duration").attr('disabled', true);
-                // $(this).closest('#ListParameters .itm').find("#Counter").attr('disabled', true);
-                //   $(this).closest('#ListParameters .itm').find("#IncrementalDuation").attr('disabled', true);
-            }
-            else if ($(this).val() != "ONT") {
-                $(this).closest('#ListParameters .itm').find("#Duration").attr('disabled', false);
-                //   $(this).closest('#ListParameters .itm').find("#Counter").attr('disabled', false);
-                //   $(this).closest('#ListParameters .itm').find("#IncrementalDuation").attr('disabled', false);
-            }
-        });
-
-        $(document).on('change', '#ValueMethodCode', function (e) {
-
-            $(this).removeClass('is-invalid');
-            $(this).closest('#ListParameters .itm').find("#Desc1").removeClass('is-invalid');
-            $(this).closest('#ListParameters .itm').find("#Desc2").removeClass('is-invalid');
-
-            if ($(this).val() == "SN") {
-                $(this).closest('#ListParameters .itm').find("#Desc1").attr('disabled', true);
-                $(this).closest('#ListParameters .itm').find("#Desc2").attr('disabled', true);
-            }
-            else if ($(this).val() != "SN") {
-                $(this).closest('#ListParameters .itm').find("#Desc1").attr('disabled', false);
-                $(this).closest('#ListParameters .itm').find("#Desc2").attr('disabled', false);
-            }
-        });
+        
     });
 
     $(document).on('change', '#ParamCode, #DurationTypeCode, #Duration,#EffectiveDate', function (e) {
@@ -1839,158 +1780,7 @@ function GetPrice()
         ValidateForm();
     });
 
-    function GetListValueType() {
-
-        return $.ajax({
-            url: '/LabTemplate/GetListValueType',
-            dataType: 'json',
-            type: 'Get',
-            async: false,
-            success: function (result) {
-
-
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                console.log(errorMessage);
-            }
-
-        }).done(function (result) {
-
-            result = result.data;
-            console.log(result)
-
-            var html = '';
-            for (var i = 0; i < result.length; i++) {
-                $('#ValueTypeCode').append('<option value="' + result[i].valueTypeCode + '">' + result[i].valueTypeDescription + ' </option>');
-                $('#LengthValueType').append('<option value="' + result[i].valueTypeCode + '">' + result[i].valueTypeDescription + ' </option>');
-                $('#WidthValueType').append('<option value="' + result[i].valueTypeCode + '">' + result[i].valueTypeDescription + ' </option>');
-                html += '<option value="' + result[i].valueTypeCode + '">' + result[i].valueTypeDescription + ' </option>';
-                ListValueType = html;
-            }
-
-
-        });
-    }
-
-    function GetListDurationType() {
-
-        return $.ajax({
-            url: '/LabTemplate/GetListDurationType',
-            dataType: 'json',
-            type: 'Get',
-            async: false,
-            success: function (result) {
-
-
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                console.log(errorMessage);
-            }
-
-        }).done(function (result) {
-
-            result = result.data;
-            console.log(result)
-            var html = '';
-            for (var i = 0; i < result.length; i++) {
-                $('#DurationTypeCode').append('<option value="' + result[i].durationTypeCode + '">' + result[i].durationTypeDescription + ' </option>');
-                html += '<option value="' + result[i].durationTypeCode + '">' + result[i].durationTypeDescription + ' </option>';
-                ListDurationType = html;
-            }
-
-
-        });
-    }
-
-    function GetListValueMethod() {
-
-        return $.ajax({
-            url: '/LabTemplate/GetListValueMethod',
-            dataType: 'json',
-            type: 'Get',
-            async: false,
-            success: function (result) {
-
-
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                console.log(errorMessage);
-            }
-
-        }).done(function (result) {
-
-            result = result.data;
-            console.log(result)
-            var html = '';
-            for (var i = 0; i < result.length; i++) {
-                $('#ValueMethodCode').append('<option value="' + result[i].methodCode + '">' + result[i].methodDescription + ' </option>');
-                html += '<option value="' + result[i].methodCode + '">' + result[i].methodDescription + ' </option>';
-                ListValueMethod = html;
-            }
-
-
-        });
-    }
-
-    function GetLisParameters() {
-
-        return $.ajax({
-            url: '/LabTemplate/GetListParameters',
-            dataType: 'json',
-            type: 'Get',
-            async: false,
-            success: function (result) {
-
-
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                console.log(errorMessage);
-            }
-
-        }).done(function (result) {
-
-            result = result.data;
-            console.log(result)
-            var html = '';
-            for (var i = 0; i < result.length; i++) {
-                $('#ParamCode').append('<option value="' + result[i].paramCode + '">' + result[i].paramName + ' </option>');
-                html += '<option value="' + result[i].paramCode + '">' + result[i].paramName + ' </option>';
-                ListParameter = html;
-            }
-
-
-        });
-    }
-
-    function GetLisRmCodes() {
-
-        return $.ajax({
-            url: '/LabTemplate/GetListRmCodes',
-            dataType: 'json',
-            type: 'Get',
-            async: false,
-            success: function (result) {
-
-
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                console.log(errorMessage);
-            }
-
-        }).done(function (result) {
-
-            result = result.data;
-            console.log(result)
-            var html = '';
-            for (var i = 0; i < result.length; i++) {
-                $('#RmCode').append('<option value="' + result[i].itemCode + '">' + result[i].itemName + ' </option>');
-                html += '<option value="' + result[i].itemCode + '">' + result[i].itemName + ' </option>';
-                ListItemCodes = html;
-            }
-
-
-        });
-    }
+    
 
     
     
@@ -2134,8 +1924,8 @@ function GetPrice()
                         function () 
                         {
 
-                            $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                            $('#btnSave').attr('disabled', false);
+                            $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                            $('#btnSaveData').attr('disabled', false);
 
                         }, 800);
                     setTimeout(function () {
@@ -2147,8 +1937,8 @@ function GetPrice()
 
                 if (!(result.isInserted)) {
                     toastr.error(result.message);
-                    $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                    $('#btnSave').attr('disabled', false);
+                    $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $('#btnSaveData').attr('disabled', false);
 
                 }
 
@@ -2220,288 +2010,17 @@ function GetPrice()
         return listObj;
     }
     //==================== End Post Data Working===========================//
-    //===============================================
 
+    
 
-
-
-
-
-
-    //function FormData() {
-    //    var data = {
-
-    //        Guid: $('#Guid').val(),
-    //        DocDate: $('#DocDate').val(),
-    //        DocNum: $('#DocNum').val(),
-    //        EffectiveDate: $('#EffectiveDate').val(),
-    //        ItemCode: $('#ItemCode option:selected').val(),
-    //        ItemName: $('#ItemCode option:selected').text(),
-    //        ListLabTemplateDetails: [],
-    //        ListLabTemplateRmDetails: []
-    //    }
-
-    //    $('#ListParameters .itm').each(function (index, item) {
-
-
-    //        var ParamCode = $(this).closest('#ListParameters .itm').find("#ParamCode option:selected").val();
-    //        var QcMethod = $(this).closest('#ListParameters .itm').find("#QcMethod").val();
-    //        var ValueTypeCode = $(this).closest('#ListParameters .itm').find("#ValueTypeCode option:selected").val();
-    //        var StandardValue = $(this).closest('#ListParameters .itm').find("#StandardValue").val();
-    //        var MinValue = $(this).closest('#ListParameters .itm').find("#MinValue").val();
-    //        var MaxValue = $(this).closest('#ListParameters .itm').find("#MaxValue").val();
-    //        var ValueMethodCode = $(this).closest('#ListParameters .itm').find("#ValueMethodCode option:selected").val();
-    //        var Desc1 = $(this).closest('#ListParameters .itm').find("#Desc1").val();
-    //        var Desc2 = $(this).closest('#ListParameters .itm').find("#Desc2").val();
-    //        var DurationTypeCode = $(this).closest('#ListParameters .itm').find("#DurationTypeCode option:selected").val();
-    //        var Duration = $(this).closest('#ListParameters .itm').find("#Duration").val();
-    //        var Counter = $(this).closest('#ListParameters .itm').find("#Counter").val();
-    //        //var IncrementalDuation = $(this).closest('#ListParameters .itm').find("#IncrementalDuation").val();
-    //        //var ParamCode = $(this).closest('#ListParameters .itm').find("#ParamCode").val().val();
-    //        //var DurationTypeCode = $(this).closest('#ListParameters .itm').find("#DurationTypeCode").val();
-    //        //var Duration = $(this).closest('#ListParameters .itm').find("#Duration").val();
-    //        //var IncrementalDuration = $(this).closest('#ListParameters .itm').find("#IncrementalDuration").text();
-
-    //        var ListDate = {
-    //            ParamCode: ParamCode,
-    //            QcMethod: QcMethod,
-    //            ValueTypeCode: ValueTypeCode,
-    //            StandardValue: StandardValue,
-    //            MinValue: MinValue,
-    //            MaxValue: MaxValue,
-    //            ValueMethodCode: ValueMethodCode,
-    //            Desc1: Desc1,
-    //            Desc2: Desc2,
-    //            DurationTypeCode: DurationTypeCode,
-    //            Duration: Duration,
-    //            ParamCount: Counter,
-    //        };
-
-    //        data.ListLabTemplateDetails.push(ListDate);
-
-    //    });
-
-    //    $('#ListParameters2 .itm').each(function (index, item) {
-
-    //        var ItemCode = $(this).closest('#ListParameters2 .itm').find("#RmCode option:selected").val();
-    //        var LengthValueType = $(this).closest('#ListParameters2 .itm').find("#LengthValueType option:selected").val();
-    //        var StandardLength = $(this).closest('#ListParameters2 .itm').find("#StandardLength").val();
-    //        var MinLength = $(this).closest('#ListParameters2 .itm').find("#MinLength").val();
-    //        var MaxLength = $(this).closest('#ListParameters2 .itm').find("#MaxLength").val();
-    //        var WidthValueType = $(this).closest('#ListParameters2 .itm').find("#WidthValueType option:selected").val();
-    //        var StandardWidth = $(this).closest('#ListParameters2 .itm').find("#StandardWidth").val();
-    //        var MinWidth = $(this).closest('#ListParameters2 .itm').find("#MinWidth").val();
-    //        var MaxWidth = $(this).closest('#ListParameters2 .itm').find("#MaxWidth").val();
-
-    //        var dd2 = {
-    //            ItemCode: ItemCode,
-    //            LengthValueType: LengthValueType,
-    //            StandardLength: StandardLength,
-    //            MinLength: MinLength,
-    //            MaxLength: MaxLength,
-    //            WidthValueType: WidthValueType,
-    //            StandardWidth: StandardWidth,
-    //            MinWidth: MinWidth,
-    //            MaxWidth: MaxWidth,
-
-    //        };
-
-    //        data.ListLabTemplateRmDetails.push(dd2);
-    //    });
-
-    //    console.log(data);
-    //    return data;
-    //}
-
-    function Add() {
-
-        return $.ajax({
-            url: '/LabTemplate/Add',
-            dataType: 'json',
-            type: 'POST',
-            data: FormData(),
-            success: function (result) {
-                console.log(result);
-                if (result.isInserted) {
-                    toastr.success(result.message);
-
-                    setTimeout(
-                        function () {
-
-                            $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                            $('#btnSave').attr('disabled', false);
-
-                        }, 800);
-                    setTimeout(function () {
-                        window.history.back();
-                    }, 800);
-
-
-                }
-
-                if (result.isError) {
-                    toastr.error(result.message);
-                    $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                    $('#btnSave').attr('disabled', false);
-
-                }
-
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                console.log(errorMessage);
-            }
-
-        }).done(function (result) {
-
-
-        });
-    }
-
-    function Edit() {
-
-        return $.ajax({
-            url: '/LabTemplate/Edit',
-            dataType: 'json',
-            type: 'POST',
-            data: FormData(),
-            success: function (result) {
-                console.log(result);
-                if (result.isInserted) {
-                    toastr.success(result.message);
-
-                    setTimeout(
-                        function () {
-
-                            $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                            $('#btnSave').attr('disabled', false);
-
-                        }, 800);
-                    setTimeout(function () {
-                        window.history.back();
-                    }, 800);
-
-
-                }
-
-                if (result.isError) {
-                    toastr.error(result.message);
-                    $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                    $('#btnSave').attr('disabled', false);
-
-                }
-
-
-
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                console.log(errorMessage);
-            }
-
-        }).done(function (result) {
-
-
-        });
-    }
-
-    function PopulateData() {
-
-        return $.ajax({
-            url: '/LabTemplate/GetData',
-            dataType: 'json',
-            type: 'Get',
-            data: { Guid: $("#Guid").val() },
-            success: function (result) {
-
-
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                console.log(errorMessage);
-            }
-
-        }).done(function (result) {
-            debugger
-            result = result.data;
-            console.log(result)
-
-            $('#DocDate').val(moment(result.docDate).format("YYYY-MM-DD"));
-            $('#EffectiveDate').val(moment(result.effectiveDate).format("YYYY-MM-DD"));
-            //$('#ItemCode').val(result.itemCode);
-            $('#DocNum').val(result.docNum);
-
-            var SelectData = [];
-            SelectData.push(result.itemCode);
-            $('#ItemCode').val(SelectData);
-            $('#ItemCode').change();
-
-            for (var i = 1; i < result.listLabTemplateDetails.length; i++) {
-                $('#ListBtnAddd').click();
-            }
-
-
-
-
-            $('#ListParameters .itm').each(function (index, item) {
-                $(this).closest('#ListParameters .itm').find("#ParamCode").val(result.listLabTemplateDetails[index].paramCode);
-                $(this).closest('#ListParameters .itm').find("#QcMethod").val(result.listLabTemplateDetails[index].qcMethod);
-                $(this).closest('#ListParameters .itm').find("#ValueTypeCode").val(result.listLabTemplateDetails[index].valueTypeCode).trigger('change');
-                $(this).closest('#ListParameters .itm').find('#ValueTypeCode').trigger('change');
-                $(this).closest('#ListParameters .itm').find("#StandardValue").val(result.listLabTemplateDetails[index].standardValue);
-                $(this).closest('#ListParameters .itm').find("#MinValue").val(result.listLabTemplateDetails[index].minValue);
-                $(this).closest('#ListParameters .itm').find("#MaxValue").val(result.listLabTemplateDetails[index].maxValue);
-                $(this).closest('#ListParameters .itm').find("#ValueMethodCode").val(result.listLabTemplateDetails[index].valueMethodCode).trigger('change');
-                $(this).closest('#ListParameters .itm').find("#Desc1").val(result.listLabTemplateDetails[index].desc1);
-                $(this).closest('#ListParameters .itm').find("#Desc2").val(result.listLabTemplateDetails[index].desc2);
-                $(this).closest('#ListParameters .itm').find("#DurationTypeCode").val(result.listLabTemplateDetails[index].durationTypeCode).trigger('change');
-                $(this).closest('#ListParameters .itm').find("#Duration").val(result.listLabTemplateDetails[index].duration);
-                $(this).closest('#ListParameters .itm').find("#Counter").val(result.listLabTemplateDetails[index].paramCount);
-            });
-
-            for (var i = 1; i < result.listLabTemplateRmDetails.length; i++) {
-                $('#ListBtnAddRM').click();
-            }
-
-            $('#ListParameters2 .itm').each(function (index, item) {
-                $(this).closest('#ListParameters2 .itm').find("#RmCode").val(result.listLabTemplateRmDetails[index].itemCode);
-                $(this).closest('#ListParameters2 .itm').find("#LengthValueType").val(result.listLabTemplateRmDetails[index].lengthValueType).trigger('change');;
-                $(this).closest('#ListParameters2 .itm').find("#StandardLength").val(result.listLabTemplateRmDetails[index].standardLength)
-                $(this).closest('#ListParameters2 .itm').find("#MinLength").val(result.listLabTemplateRmDetails[index].minLength)
-                $(this).closest('#ListParameters2 .itm').find("#MaxLength").val(result.listLabTemplateRmDetails[index].maxLength);
-                $(this).closest('#ListParameters2 .itm').find("#WidthValueType").val(result.listLabTemplateRmDetails[index].widthValueType).trigger('change');
-                $(this).closest('#ListParameters2 .itm').find("#StandardWidth").val(result.listLabTemplateRmDetails[index].standardWidth);
-                $(this).closest('#ListParameters2 .itm').find("#MinWidth").val(result.listLabTemplateRmDetails[index].minWidth)
-                $(this).closest('#ListParameters2 .itm').find("#MaxWidth").val(result.listLabTemplateRmDetails[index].maxWidth);
-            });
-
-        });
-    }
-
+   
     function DocNumOnLoad() {
 
         $.get('/ARInvoice/getUpdatedDocumentNumberOnLoad', function(data, status)
             { console.log(data)
                 $('#DocNum').val( data );
           });
-        //return $.ajax({
-        //    url: '/SaleQuotation/getUpdatedDocumentNumberOnLoad',
-        //    dataType: 'json',
-        //    type: 'Get',
-        //    success: function (result) 
-        //    {
-
-
-        //    },
-        //    error: function (jqXhr, textStatus, errorMessage) {
-        //        console.log(errorMessage);
-        //    }
-
-        //}).done(function (result) {
-
-        //   // result = result.data;
-        //    console.log(result)
-        //    $('#DocNum').val(result);
-
-
-        //});
+       
     }
 
 </script>

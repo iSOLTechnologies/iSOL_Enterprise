@@ -869,7 +869,7 @@
                                 }
                                 j += 1;
                             });
-
+                           Edit_GetUomGroup();   //For Uom Dropdown options
                         }
                         else if ((data.baseDoc)[0].docType == "S") {
                             $("#ItemServiceType").val(2);
@@ -921,7 +921,7 @@
 
 
                             });
-
+                           Edit_GetUomGroup();   //For Uom Dropdown options
                         }
                         else if ((data.baseDoc)[0].docType == "S") {
 
@@ -945,6 +945,18 @@
 
 
     });
+
+    function Edit_GetUomGroup() {   //For Uom Dropdown options
+        $('#ListParameters .itm').each(function (index, item) {
+
+            ObjItemCode = $(this).find("#ItemCode");
+            let itemno = $(this).find("#ItemCode").val();
+            DocModule = "S";
+            if (itemno != "" && itemno != null) { GetUomGroup(itemno); }
+
+
+        });
+    }
     function AddItemRowData(baseRef, data) {
         var html = `    <tr class="rowItemDetail align-items-center itm">
                                                                                         <td>
@@ -1519,18 +1531,10 @@
 
         }
 
-        if (Guid != undefined && Guid != '' && Guid != null) {
-            PopulateData();
-        }
-
         $(document).on('change', '#ParamCode', function (e) {
 
             $(this).removeClass('is-invalid');
         });
-
-
-
-
 
     });
 
