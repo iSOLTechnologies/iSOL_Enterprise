@@ -14,7 +14,7 @@ namespace iSOL_Enterprise.Controllers
     {
 
 
-        public IActionResult GetBaseDocData(int cardcode, int BaseType)
+        public IActionResult GetBaseDocData(string cardcode, int BaseType)
         {
             ResponseModels response = new ResponseModels();
             try
@@ -35,7 +35,7 @@ namespace iSOL_Enterprise.Controllers
 
 
         [HttpGet]
-        public IActionResult GetBaseDocItemService(int DocId, int BaseType)
+        public IActionResult GetBaseDocItemService(string DocId, int BaseType)
         {
             try
             {

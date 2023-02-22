@@ -38,7 +38,7 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Status = flag == false ? "Open" : "Closed";
             return View(dal1.GetDeliveryDetails(id));
         }
-        public IActionResult GetBaseDocData(int cardcode,int BaseType)
+        public IActionResult GetBaseDocData(string cardcode,int BaseType)
         {
             ResponseModels response = new ResponseModels();
             try
@@ -56,23 +56,23 @@ namespace iSOL_Enterprise.Controllers
 
             return Json(response);
         }
-        [HttpGet]
+        //[HttpGet]
 
-        public IActionResult GetBaseDocItemService(int DocId,int BaseType)
-        {
-            try
-            {
-                CommonDal dal = new CommonDal();
+        //public IActionResult GetBaseDocItemService(int DocId,int BaseType)
+        //{
+        //    try
+        //    {
+        //        CommonDal dal = new CommonDal();
 
-                return Json(new { baseDoc = dal.GetBaseDocType(DocId,BaseType), list = dal.GetBaseDocItemServiceList(DocId,BaseType) });
-            }
-            catch (Exception)
-            {
-                return Json("");
-                throw;
-            }
+        //        return Json(new { baseDoc = dal.GetBaseDocType(DocId,BaseType), list = dal.GetBaseDocItemServiceList(DocId,BaseType) });
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return Json("");
+        //        throw;
+        //    }
 
-        }
+        //}
         [HttpGet]
         public IActionResult GetBatchList(string itemcode  , string warehouse)
         {

@@ -40,7 +40,7 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Status = "Open" ;
             return View(dal1.GetARCreditMemoDetails(id));
         }
-        public IActionResult GetBaseDocData(int cardcode,int BaseType)
+        public IActionResult GetBaseDocData(string cardcode,int BaseType)
         {
             ResponseModels response = new ResponseModels();
             try
@@ -58,22 +58,22 @@ namespace iSOL_Enterprise.Controllers
 
             return Json(response);
         }
-        [HttpGet]
-        public IActionResult GetBaseDocItemService(int DocId, int BaseType)
-        {
-            try
-            {
-                CommonDal dal = new CommonDal();
+        //[HttpGet]
+        //public IActionResult GetBaseDocItemService(int DocId, int BaseType)
+        //{
+        //    try
+        //    {
+        //        CommonDal dal = new CommonDal();
 
-                return Json(new { baseDoc = dal.GetBaseDocType(DocId,BaseType), list = dal.GetBaseDocItemServiceList(DocId,BaseType)});
-            }
-            catch (Exception)
-            {
-                return Json("");
-                throw;
-            }
+        //        return Json(new { baseDoc = dal.GetBaseDocType(DocId,BaseType), list = dal.GetBaseDocItemServiceList(DocId,BaseType)});
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return Json("");
+        //        throw;
+        //    }
 
-        }
+        //}
         
         
         public string getUpdatedDocumentNumberOnLoad()

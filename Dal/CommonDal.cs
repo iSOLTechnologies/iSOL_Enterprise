@@ -499,11 +499,11 @@ where s.Status=1 and p.Guid=@Guid";
         }
 
 
-        public List<SalesQuotation_MasterModels> GetBaseDocData(int cardcode, int BaseType)
+        public List<SalesQuotation_MasterModels> GetBaseDocData(string cardcode, int BaseType)
         {
             string table = GetMasterTable(BaseType);
 
-            string GetQuery = "select * from " + table + " where CardCode =" + cardcode;
+            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "'";
 
 
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
@@ -527,10 +527,10 @@ where s.Status=1 and p.Guid=@Guid";
             return list;
         }
 
-        public List<SalesQuotation_MasterModels> GetBaseDocType(int DocId, int BaseType)
+        public List<SalesQuotation_MasterModels> GetBaseDocType(string DocId, int BaseType)
         {
             string table = GetMasterTable(BaseType);
-            string GetQuery = "select DocType,DocNum from "+table+" where Id = " + DocId;
+            string GetQuery = "select DocType,DocNum from "+table+" where Id = '" + DocId +"'";
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {
@@ -546,12 +546,12 @@ where s.Status=1 and p.Guid=@Guid";
             }
             return list;
         }
-        public dynamic GetBaseDocItemServiceList(int DocId , int BaseType)
+        public dynamic GetBaseDocItemServiceList(string DocId , int BaseType)
         {
             string table = GetRowTable(BaseType);
             DataSet ds = new DataSet();
             SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-            SqlDataAdapter sda = new SqlDataAdapter("select Id,LineNum,ItemCode,Quantity,DiscPrcnt,VatGroup,UomCode,CountryOrg,Dscription,AcctCode,OpenQty from "+table+" where id = " + DocId + "", conn);
+            SqlDataAdapter sda = new SqlDataAdapter("select Id,LineNum,ItemCode,ItemName,Quantity,DiscPrcnt,VatGroup,UomCode,CountryOrg,Dscription,AcctCode,OpenQty from "+table+" where id = '" + DocId + "'", conn);
             sda.Fill(ds);
             string JSONString = string.Empty;
             JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
