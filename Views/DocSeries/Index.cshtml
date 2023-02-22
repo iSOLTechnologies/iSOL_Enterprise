@@ -64,11 +64,11 @@
 <!-- Render Body <End> -->
 
 <script>
-    $(document).on('click', '#btnAdd', function () {
+    //$(document).on('click', '#btnAdd', function () {
 
-        //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
-        window.location.href = '/Delivery/DeliveryMaster';
-    })
+    //    //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
+    //    window.location.href = '/Delivery/DeliveryMaster';
+    //})
 
     function generateTable() {
 
@@ -76,12 +76,12 @@
             responsive: true,
             searching: true,
             ordering: false,
-            //   order: [[2, 'asc']],
+         // order: [[2, 'asc']],
             ordering: false,
             "ajax": {
 
                 // url: '/HrAdmin/GetAttendanceList_MainLines?Date=' + $('#FilterDate').val(),
-                url: '/Delivery/GetDeliveryData',
+                url: '/GetDoc/GetDocSeries',
             },
 
             layout: {
@@ -100,58 +100,26 @@
                 input: $('#generalSearch'),
             },
             columns: [
-                
+                 
                 {
-                    data: 'docDate', title: 'Doc Date', render: function (data, type, row) {
-                        if (data != undefined && data != '') {
-
-                            return moment(data).format('DD-MM-YYYY')
-
-                        } else {
-                            // return data;
-                            return '';
-                        }
-                    }
-                },
-                {
-                    data: 'postingDate', title: 'Posting Date', render: function (data, type, row) {
-                        if (data != undefined && data != '') {
-
-                            return moment(data).format('DD-MM-YYYY')
-
-                        } else {
-                            // return data;
-                            return '';
-                        }
-                    }
-                },
-                {
-                    data: 'docNum', title: 'DocNum',
+                    data: 'serialNo', title: '#',
 
                 }, {
-                    data: 'cardCode', title: 'Card Code'
+                    data: 'objectCode', title: 'Object Code'
 
                 }, {
-                    data: 'cardName', title: 'Card Name'
+                    data: 'pageName', title: 'Page Name'
 
                 }, {
-                    data: "docStatus", 'title': 'Status', render: function (data, type, row) {
+                    data: "series", 'title': 'Series', render: function (data, type, row) {
 
-                        if (data == "Open") {
-                            //var html = `<span class="badge badge-success" style="background-color: #28a745;">Open</span>`;
-                            var html = `<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">Open</span>`;
-                            return html;
+                        
 
 
 
-                        } else {
-                            //var html = ` <span class="badge badge-danger">Closed</span>`;
-                            var html = `<span class="label label-lg label-light-danger label-inline">Closed</span>`;
-                            return html;
-                        }
                     }
                 }, {
-                    data: "id", 'title': 'Action', render: function (data, type, row) {
+                    data: "serialNo", 'title': 'Action', render: function (data, type, row) {
 
                         var html = '<a guid=' + data + ' id="btnFetchDelivery" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
                         html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';

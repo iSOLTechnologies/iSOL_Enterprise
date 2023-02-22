@@ -1,5 +1,6 @@
 ﻿using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Models;
+using iSOL_Enterprise.Models.Sale;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,6 +18,27 @@ namespace iSOL_Enterprise.Controllers
         {
             return View();
         }
+
+
+
+        public IActionResult GetDocSeries()
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
+                AdministratorDal dal = new AdministratorDal();
+                response.Data = dal.GetDocSeries();
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+        }
+         
 
     }
 }
