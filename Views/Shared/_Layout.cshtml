@@ -80,7 +80,7 @@
 <!--end::Head-->
 <!--begin::Body-->
 
-<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+<body oncontextmenu="return false" id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
 	<!--begin::Main-->
 	<!--begin::Header Mobile-->
 	<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
@@ -3140,6 +3140,24 @@
 			$('.OperationBtns').attr("data-id", SelectedVal);
 			RowDataPrint = rowData;
 		});
+
+//		document.onkeydown = function(e) {
+//  if(event.keyCode == 123) {
+//     return false;
+//  }
+//  if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+//     return false;
+//  }
+//  if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+//     return false;
+//  }
+//  if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+//     return false;
+//  }
+//  if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+//     return false;
+//  }
+//}
 	</script>
 	<!--=============================== Modal Work End ===================================-->
 </body>
