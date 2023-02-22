@@ -13,7 +13,7 @@ namespace iSOL_Enterprise.Dal
 
         public List<SalesQuotation_MasterModels> GetARInvoiceData()
         {
-            string GetQuery = "select * from OINV";
+            string GetQuery = "select * from OINV order by id DESC";
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {

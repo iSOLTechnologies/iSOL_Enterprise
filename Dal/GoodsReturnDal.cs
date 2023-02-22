@@ -15,7 +15,7 @@ namespace iSOL_Enterprise.Dal
 
         public List<SalesQuotation_MasterModels> GetGoodsReturnData()
         {
-            string GetQuery = "select * from ORPD";
+            string GetQuery = "select * from ORPD order by id DESC";
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {

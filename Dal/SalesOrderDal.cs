@@ -13,7 +13,7 @@ namespace iSOL_Enterprise.Dal
     {
         public List<SalesQuotation_MasterModels> GetSaleOrderData()
         {
-            string GetQuery = "select * from ORDR";
+            string GetQuery = "select * from ORDR order by id DESC";
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {

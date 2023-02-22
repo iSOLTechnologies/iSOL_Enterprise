@@ -17,7 +17,7 @@ namespace iSOL_Enterprise.Dal
 
         public List<SalesQuotation_MasterModels> GetData()
         {
-            string GetQuery = "select * from OPDN";
+            string GetQuery = "select * from OPDN order by id DESC";
 
 
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
