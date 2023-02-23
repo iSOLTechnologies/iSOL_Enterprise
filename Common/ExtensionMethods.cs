@@ -33,6 +33,17 @@ namespace iSOL_Enterprise.Common
                 return 0;
         }
 
+        public static double ToDouble(this object val)
+        {
+            if (val == null) return 0;
+            double number = 0;
+            bool success = Double.TryParse(val.ToString(), out number);
+            if (success)
+                return number;
+            else
+                return 0;
+        }
+
         public static bool ToBool(this object val)
         {
             if (val == null) return false;

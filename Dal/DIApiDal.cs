@@ -13,7 +13,7 @@ namespace SAP_MVC_DIAPI.BLC
     public class DIApiDal
     {
         private Company oCompany = new Company();
-        private int connectionResult; 
+        private int connectionResult;
 
         public bool Connect()
         {
@@ -27,16 +27,16 @@ namespace SAP_MVC_DIAPI.BLC
             oCompany.language = BoSuppLangs.ln_English_Gb;
             oCompany.UseTrusted = false;
             connectionResult = oCompany.Connect();
-            
+
             if (oCompany.Connected)
             {
-                
-                
+
+
                 return true;
             }
             else
             {
-                
+
                 return false;
             }
         }
@@ -57,11 +57,11 @@ namespace SAP_MVC_DIAPI.BLC
                         string headerTable = dal.GetMasterTable(ObjectCode);
                         string rowTable = dal.GetRowTable(ObjectCode);
                         string message = "";
-                        int Series = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select Series from Pages where ObjectCode ="+ObjectCode).ToInt();
-                        
+                        int Series = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select Series from Pages where ObjectCode =" + ObjectCode).ToInt();
+
                         foreach (var ID in checkedIDs)
                         {
-                            string headerQuery = @"select DocType,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum ,SlpCode,Comments from " + headerTable + " where Id=" +ID;
+                            string headerQuery = @"select DocType,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum ,SlpCode,Comments from " + headerTable + " where Id=" + ID;
                             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
                             {
                                 while (rdr.Read())
@@ -81,19 +81,25 @@ namespace SAP_MVC_DIAPI.BLC
                                     oDoc.Comments = rdr["Comments"].ToString();
 
                                     string RowQuery = @"select BaseEntry,BaseLine,BaseType,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup,UomEntry ,CountryOrg , Dscription,AcctCode from " + rowTable + " where Id = " + ID;
-                                    using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
+                                    using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, RowQuery))
                                     {
                                         while (rdr2.Read())
                                         {
 
-                                            oDoc.Lines.BaseEntry = rdr2["BaseEntry"].ToInt();
-                                            oDoc.Lines.BaseLine = rdr2["BaseLine"].ToInt();
-                                            oDoc.Lines.BaseType = rdr2["BaseType"].ToInt();
-                                            oDoc.Lines.Price = Convert.ToDouble(rdr2["Price"]);
-                                            oDoc.Lines.LineTotal = Convert.ToDouble(rdr2["LineTotal"]);
+                                           
+                                            if (rdr2["BaseLine"].ToString() != "")
+                                                oDoc.Lines.BaseEntry = rdr2["BaseEntry"].ToInt();
+                                            if (rdr2["BaseLine"].ToString() != "")
+                                                oDoc.Lines.BaseLine = rdr2["BaseLine"].ToInt();
+                                            if (rdr2["BaseLine"].ToString() != "")
+                                                oDoc.Lines.BaseType = rdr2["BaseType"].ToInt();
+                                            if (rdr2["BaseLine"].ToString() != "")
+                                                oDoc.Lines.Price = rdr2["Price"].ToDouble();
+                                            if (rdr2["BaseLine"].ToString() != "")
+                                                oDoc.Lines.LineTotal = rdr2["LineTotal"].ToDouble();
                                             oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();
-                                            oDoc.Lines.Quantity = Convert.ToDouble(rdr2["Quantity"]);
-                                            oDoc.Lines.DiscountPercent = Convert.ToDouble(rdr2["DiscPrcnt"]);
+                                            oDoc.Lines.Quantity = rdr2["Quantity"].ToDouble();
+                                            oDoc.Lines.DiscountPercent = rdr2["DiscPrcnt"].ToDouble();
                                             oDoc.Lines.VatGroup = rdr2["VatGroup"].ToString();
                                             oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
                                             oDoc.Lines.CountryOrg = rdr2["CountryOrg"].ToString();
@@ -105,27 +111,27 @@ namespace SAP_MVC_DIAPI.BLC
                                     }
                                 }
                             }
-                            int  res = oDoc.Add();
-                            if (res == 0)
+                            int res = oDoc.Add();
+                            if (res <= 0)
                             {
-                                
+
                                 oCompany.GetLastError(out res, out message);
                                 models.Message = message;
                                 models.isSuccess = false;
                                 return models;
                             }
-                            
+
 
                         }
-                        
-                            
-                            models.Message = "Posted Data Successfully !!";
-                            models.isSuccess = true;
-                            return models;
-                    
+
+
+                        models.Message = "Posted Data Successfully !!";
+                        models.isSuccess = true;
+                        return models;
+
                     }
-                    else 
-                    { 
+                    else
+                    {
                         models.Message = "Page not Found !!";
                         models.isSuccess = false;
                         return models;
@@ -137,7 +143,7 @@ namespace SAP_MVC_DIAPI.BLC
                     models.Message = "Connection Failure !!";
                     models.isSuccess = false;
                     return models;
-                    
+
                 }
 
             }
@@ -151,13 +157,13 @@ namespace SAP_MVC_DIAPI.BLC
 
         }
 
-        
+
 
 
         public int DisConnect()
-        { 
+        {
             oCompany.Disconnect();
             return 1;
-        } 
+        }
     }
 }
