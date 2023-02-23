@@ -112,7 +112,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 }
                             }
                             int res = oDoc.Add();
-                            if (res <= 0)
+                            if (res < 0)
                             {
 
                                 oCompany.GetLastError(out res, out message);
