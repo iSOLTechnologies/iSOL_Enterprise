@@ -66,7 +66,7 @@
     //    //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
     //    window.location.href = '/Delivery/DeliveryMaster';
     //})
-
+    var datatable;
     function generateTable() {
 
         datatable = $('#AttTable').DataTable({
@@ -108,20 +108,22 @@
                     data: 'pageName', title: 'Page Name'
 
                 }, {
+
+                    
                     data: "series", 'title': 'Series', render: function (data, type, row) {
 
 
-                        return GetSelectList(data);
 
+                        return GetSelectList(data, row.pageSeries);
 
 
                     }
                 }, {
                     data: "serialNo", 'title': 'Action', render: function (data, type, row) {
 
-                        var html = '<a guid=' + data + ' id="btnFetchDelivery" class="btn btn-primary btn-sm mx-3">';
+                        var html = '<a guid=' + data + ' id="btnSaveSeries" class="btn btn-primary btn-sm mx-3">';
                         html += '<i class="fas fa-save"></i>';
-                        html += ' Save</a>';
+                        html += ' Update</a>';
                         return html;
 
                     }
@@ -135,21 +137,39 @@
         generateTable();
     });
 
-    function GetSelectList(series) 
+    function GetSelectList(series,SelectedValue) 
     {
+        
         let selectObj = "<select class='form-control'>";
 
-        $.each(series, function(){
-            selectObj +=" <option value=" + this.series + ">" + this.seriesName + "</option>";
+        $.each(series, function()
+        {   
+            if(this.series == SelectedValue)
+                selectObj +=" <option value=" + this.series + " selected>" + this.seriesName + "</option>";
+            else
+                selectObj += " <option value=" + this.series + ">" + this.seriesName + "</option>";
         })
         selectObj += "</select>";
-        
         return selectObj;
     }
-    $(document).on('click', '#btnFetchDelivery', function (e) {
+    $(document).on('click', '#btnSaveSeries', function (e) {
 
-        var guid = $(this).attr("guid");
-        window.location.href = '/Delivery/EditDeliveryMaster/' + guid + '';
+        var LookTable = $('#AttTable').DataTable();
+        var selectedRow = $(this).closest('tr');
+        var rowData = LookTable.row(selectedRow).data();
+        let series = $(selectedRow).find("select");
+        series = $(series).val();
+        
+        $.post("DocSeries/UpdateSeries", { objCode: rowData['objectCode'] , series : series } , function(data) {
+            if (data.success == true) 
+            {
+                toastr.success(data.message);
+                datatable.ajax.reload();
+            }
+            else
+                toastr.error(data.message);
+
+        })
 
     });
 </script>

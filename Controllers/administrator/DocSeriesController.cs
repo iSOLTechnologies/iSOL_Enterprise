@@ -38,6 +38,26 @@ namespace iSOL_Enterprise.Controllers
 
             return Json(response);
         }
+        [HttpPost]
+        public IActionResult UpdateSeries(int objCode , int series)
+        {
+            try
+            {
+                AdministratorDal dal = new AdministratorDal();
+                if (dal.UpdateSeries(objCode,series))
+                {
+                    return Json(new { success = true , message = "Series Updated Successfully !!" }) ;
+                }
+                else
+                    return Json(new { success = false, message = "An error Occured !!" });
+
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "An error Occured !!" });
+                throw;
+            }
+        }
          
 
     }

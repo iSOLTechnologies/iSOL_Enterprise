@@ -14,7 +14,7 @@ namespace iSOL_Enterprise.Dal
         public List<tbl_pages> GetDocSeries()
         {  
 
-            string GetQuery = "select id,ObjectCode,PageName from Pages";
+            string GetQuery = "select id,ObjectCode,PageName,Series from Pages";
             List<tbl_pages> list = new List<tbl_pages>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {
@@ -24,6 +24,7 @@ namespace iSOL_Enterprise.Dal
                     {   SerialNo = rdr["Id"].ToInt(),
                         ObjectCode = rdr["ObjectCode"].ToInt(),
                         PageName= rdr["PageName"].ToString(),
+                        PageSeries = rdr["Series"].ToInt(),
                         Series = GetSeries(rdr["ObjectCode"].ToInt())
                     }); 
                 }
@@ -33,7 +34,7 @@ namespace iSOL_Enterprise.Dal
 
         public List<tbl_series> GetSeries(int ObjectCode)
         {
-            string GetSeriesQuery = "select Series,SeriesName from NNM1 where ObjectCode = " + ObjectCode + "";
+            string GetSeriesQuery = "select Series,SeriesName from NNM1 where ObjectCode = '" + ObjectCode + "'";
             List<tbl_series> listSeries = new List<tbl_series>();
             using (var rdr1 = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetSeriesQuery))
             {
@@ -47,6 +48,39 @@ namespace iSOL_Enterprise.Dal
                 }
             }
             return listSeries;
+        }
+
+        public bool UpdateSeries(int ObjCode , int Series)
+        {
+            try
+            {
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                conn.Open();
+                SqlTransaction tran = conn.BeginTransaction();
+                int res1 = 0;
+
+                string HeadQuery = @" Update Pages set 
+                                                        Series = " + Series  +
+                                                       "WHERE ObjectCode = " + ObjCode;
+
+
+                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                if (res1 <= 0)
+                {
+                    tran.Rollback();
+                    return false;
+                }
+                else
+                    tran.Commit();
+                    conn.Close();
+                    return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+
         }
 }
 }
