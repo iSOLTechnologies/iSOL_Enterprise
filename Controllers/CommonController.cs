@@ -3,6 +3,7 @@ using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SAP_MVC_DIAPI.BLC;
 using SqlHelperExtensions;
 using System.Data;
 
@@ -45,10 +46,19 @@ namespace iSOL_Enterprise.Controllers
             }
             catch (Exception)
             {
-                return Json("");
+                return Json(""); 
                 throw;
             }
 
+        }
+        [HttpPost]
+        public IActionResult PostToSap(string [] checkedIDs, int ObjectCode)
+        {
+            DIApiDal dal = new DIApiDal();
+            ResponseModels model = new ResponseModels();
+            model = dal.PostToSap(checkedIDs,ObjectCode);
+
+            return Json(new { success = model.isSuccess, message = model.Message });
         }
 
     }

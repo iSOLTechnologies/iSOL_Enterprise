@@ -1,6 +1,7 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
 using Newtonsoft.Json;
+using SAPbobsCOM;
 using SqlHelperExtensions;
 using System;
 using System.Collections.Generic;
@@ -452,6 +453,9 @@ where s.Status=1 and p.Guid=@Guid";
                 case 540000006:    
                 table = "OPQT"; //Purchase Quotation
                 break;
+                case 14:
+                table = "ORIN";
+                break;
             }
             return table;
         }
@@ -494,10 +498,62 @@ where s.Status=1 and p.Guid=@Guid";
                 case 540000006:
                     table = "PQT1"; //Purchase Quotation
                     break;
+                case 14:
+                table = "RIN1";
+                break;
             }
             return table;
         }
-
+        public SAPbobsCOM.Documents getDocObj(int ObjectCode, Company oCompany)
+        {
+            SAPbobsCOM.Documents? oDoc = null;
+            switch (ObjectCode)
+            {
+                
+                case 23: //Sales Quotation
+                oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oQuotations);
+                break;
+                case 17: //Sales Order
+                oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oOrders);
+                break;
+                case 15: //Delivery
+                oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oDeliveryNotes);
+                break;
+                case 16: //Return
+                oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oReturns); 
+                break;
+                case 13: //A/R Invoice
+                oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oInvoices);
+                break;
+                case 14: //AR Credit Memo
+                oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oCreditNotes);
+                break;
+                case 540000006: //Purchase Quotation
+                oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseQuotations);
+                break;
+                case 22: //Purchase Order
+                oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseOrders);
+                break;
+                case 20: //Goods Receipt PO
+                oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseDeliveryNotes);
+                break;
+                case 21: //Goods Return
+                oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseReturns);
+                break;
+                case 18: //A/P Invoice
+                oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseInvoices); 
+                break;
+                case 19: //A/P Credit Memo
+                oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseCreditNotes); 
+                break;
+                
+                
+                
+               
+                
+            }
+            return oDoc;
+        }
 
         public List<SalesQuotation_MasterModels> GetBaseDocData(string cardcode, int BaseType)
         {
