@@ -3,6 +3,7 @@ using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Models.sale;
 using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
+using SAPbobsCOM;
 using SqlHelperExtensions;
 using System.Data;
 using System.Data.SqlClient;
@@ -130,11 +131,11 @@ namespace iSOL_Enterprise.Dal
             {
 
             
-            string GetQuery = "select OBTN.DistNumber,OBTN.Quantity,OBTN.InDate,OBTN.AbsEntry,OBTN.SysNumber  from OBTW Inner join OBTN on OBTN.AbsEntry = OBTW.AbsEntry where OBTW.ItemCode = '" + itemcode+"' and OBTW.WhsCode = '"+warehouse+"'";
+            string GetQuery = "select OBTN.DistNumber,OBTN.ExpDate,OBTN.Quantity,OBTN.InDate,OBTN.AbsEntry,OBTN.SysNumber  from OBTW Inner join OBTN on OBTN.AbsEntry = OBTW.AbsEntry where OBTW.ItemCode = '" + itemcode+"' and OBTW.WhsCode = '"+warehouse+"'";
 
 
             List<tbl_OBTN> list = new List<tbl_OBTN>();
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
             {
                 while (rdr.Read())
                 {
@@ -146,6 +147,7 @@ namespace iSOL_Enterprise.Dal
                             DistNumber = rdr["DistNumber"].ToString(),
                             Quantity = rdr["Quantity"].ToString() == "" ? 0 : Convert.ToInt32(rdr["Quantity"]),
                             InDate = Convert.ToDateTime( rdr["InDate"]),
+                            ExpDate = rdr["ExpDate"].ToString() == "" ? null : Convert.ToDateTime(rdr["ExpDate"]) ,
                             SysNumber = Convert.ToInt32(rdr["SysNumber"])
                         });
 
@@ -255,13 +257,24 @@ namespace iSOL_Enterprise.Dal
 
                                 foreach (var batch in model.Batches)
                                 {
+
                                     foreach (var ii in batch)
                                     {
+                                       
                                         if (ii.itemno == item.ItemCode)
                                         {
+                                            int count = Convert.ToInt32(SqlHelper.ExecuteScalar(tran, CommandType.Text, "Select Count(*) from OBTN Where AbsEntry = "+ ii.AbsEntry));
+                                            string BatchQueryOBTN = count == 0 ?
+                                                 @"insert into OBTN(AbsEntry,ItemCode,SysNumber,DistNumber,ExpDate,Quantity)
+                                                                    values(" + ii.AbsEntry + ",'"
+                                                                    + ii.itemno + "',"
+                                                                    + ii.SysNumber + ",'"
+                                                                    + ii.DistNumber + "','"
+                                                                    + Convert.ToDateTime(ii.ExpDate) + "',"
+                                                                    + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + "); insert into OBTW(AbsEntry,ItemCode,SysNumber,WhsCode,DataSource) values(" + ii.AbsEntry + ",'" + ii.itemno + "'," + ii.SysNumber + ",'" + ii.whseno + "','" + "N')" 
+                                                : @"Update OBTN set Quantity = " + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + " WHERE AbsEntry = " + ii.AbsEntry + "";
 
-
-                                            string BatchQueryOBTN = @" Update OBTN set Quantity = " + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + " WHERE AbsEntry = " + ii.AbsEntry + "";
+                                            //string BatchQueryOBTN = @" Update OBTN set Quantity = " + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + " WHERE AbsEntry = " + ii.AbsEntry + "";
 
 
                                             res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
@@ -285,11 +298,9 @@ namespace iSOL_Enterprise.Dal
                                             {
                                                 tran.Rollback();
                                                 return false;
-                                            }
-
+                                            } 
                                         }
-                                        else
-                                            break;
+                                        else  break;
 
                                     }
 
@@ -324,7 +335,7 @@ namespace iSOL_Enterprise.Dal
                                                 + item.BaseRef + "',"
                                                 + item.BaseEntry + ","
                                                 + item.BaseLine + ","
-                                                + item.BaseQty + ",'"
+                                                + item.BaseQty + ","
                                                 + model.BaseType + ",'"
                                                 + item.ItemName + "',"
                                                 + item.UPrc + ","

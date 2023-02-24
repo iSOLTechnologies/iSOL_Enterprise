@@ -2420,6 +2420,7 @@
 													<th></th>
 													<th></th>
 													<th></th>
+													<th></th>
 												</tr>
 											</thead>
 										</table>
@@ -2534,6 +2535,13 @@
 							"createdCell": function (td, cellData, rowData, row, col) {
 								$(td).attr('id', "SysNumber");
 							}
+						},
+						{
+							"targets": 6,
+							visible: true,
+							"createdCell": function (td, cellData, rowData, row, col) {
+								$(td).attr('id', "ExpDate");
+							}
 						}
 					],
 					"data": data.data,
@@ -2585,6 +2593,18 @@
 						{
 							data: 'sysNumber', title: 'Abs Number',
 
+						},
+						{
+							data: 'expDate', title: 'Exp Date', render: function (data, type, row) {
+								 if (data != undefined && data != '' && data != null) {
+									
+									console.log("Exp Date",data);
+								 	return moment(data).format('DD-MM-YYYY')
+
+								 } else { 
+									return data;
+								 }
+							}
 						},
 						{
 							data: "absEntry", 'title': 'Action', render: function (data, type, row) {

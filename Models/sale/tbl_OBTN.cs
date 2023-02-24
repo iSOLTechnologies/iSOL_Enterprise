@@ -8,6 +8,7 @@
         public string DistNumber { get; set; }
         public int Quantity { get; set;}
         public DateTime InDate { get; set; }
+        public DateTime? ExpDate { get; set; }
 
         public int SysNumber { get; set; }
     }
