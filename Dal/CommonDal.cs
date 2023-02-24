@@ -20,6 +20,22 @@ namespace iSOL_Enterprise.Dal
     public class CommonDal
     {
         public static string API_Url;
+
+
+               public static string DiAPI_Server = "DESKTOP-AJM6HM8\\SQLSERVER19";
+               public static string DiAPI_companydb = "SAPDB";
+               public static SAPbobsCOM.BoDataServerTypes dst_HANADB = BoDataServerTypes.dst_MSSQL2019;
+               public static string DiAPI_dbusername = "sa";
+               public static string DiAPI_dbpassword = "n5210567";
+               public static string DiAPI_username = "manager";
+               public static string DiAPI_password = "Bilal@123";
+               public static SAPbobsCOM.BoSuppLangs DiAPI_langauge = BoSuppLangs.ln_English_Gb;
+               public static bool DiAPI_UserTrusted = false;
+               
+               //public static string DiAPI_SldServer;
+               //public static string ln_English;
+            
+
         public static int Count(string tblName)
         {
             int count = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select count(*) from Line_One_ProductionData where windowsService=1 and cast(timestamp as date) = cast(getdate() as date)").ToInt();
@@ -453,7 +469,7 @@ where s.Status=1 and p.Guid=@Guid";
                 case 540000006:    
                 table = "OPQT"; //Purchase Quotation
                 break;
-                case 14:
+                case 14: //AR Credit Memo
                 table = "ORIN";
                 break;
             }
