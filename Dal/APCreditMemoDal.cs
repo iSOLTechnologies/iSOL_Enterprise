@@ -172,7 +172,7 @@ namespace iSOL_Enterprise.Dal
                                                 + item.BaseRef + "',"
                                                 + item.BaseEntry + ","
                                                 + item.BaseLine + ","
-                                                + item.BaseQty + ",'"
+                                                + item.BaseQty + ","
                                                 + model.BaseType + ",'"
                                                 + item.ItemName + "',"
                                                 + item.UPrc + ","
