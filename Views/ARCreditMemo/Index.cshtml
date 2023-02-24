@@ -223,24 +223,47 @@
         console.log(guid);
 
     });
-    $(document).on('click', '#btnPostToSap', function () {
+    $(document).on('click', '#btnPostToSap' , function() 
+    {
+        $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+        $(this).attr('disabled', true);
         let checkedIDs = [];
+
         $('#AttTable tbody tr').each(function (index, item) {
+            
+             let CheckBoxObj = $(this).find('#chckbox');
 
-            let CheckBoxObj = $(this).find('#chckbox');
-
-            if ($(CheckBoxObj).is(":checked"))
+                if ($(CheckBoxObj).is(":checked"))
                 checkedIDs.push($(CheckBoxObj).attr('guid'));
-
-
-        });
-        $.post("Common/PostToSap", { checkedIDs: checkedIDs, ObjectCode: 14 }, function (response) {
-            if (response.success)
-                toastr.success(response.message);
-            else
-                toastr.error(response.message);
+            
 
         });
-        console.log(checkedIDs);
-    })
+        if(checkedIDs.length > 0 ) 
+        {
+
+            $.post("Common/PostToSap", {checkedIDs : checkedIDs , ObjectCode : 14 } , function(response) 
+            {
+                if (response.success) 
+                {
+                    $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $("#btnPostToSap").attr('disabled', false);
+
+                    toastr.success(response.message);
+                }         
+                else {
+                    $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $("#btnPostToSap").attr('disabled', false);
+                    toastr.error(response.message);
+                }
+
+            });
+        }
+        else
+        {
+            $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+            $("#btnPostToSap").attr('disabled', false);
+            toastr.warning("Documents not Selected !!");
+        }
+            
+    });
 </script>

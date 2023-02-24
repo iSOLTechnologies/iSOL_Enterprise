@@ -213,7 +213,10 @@
     });
 
     $(document).on('click', '#btnPostToSap', function () {
+        $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+        $(this).attr('disabled', true);
         let checkedIDs = [];
+
         $('#AttTable tbody tr').each(function (index, item) {
 
             let CheckBoxObj = $(this).find('#chckbox');
@@ -223,13 +226,28 @@
 
 
         });
-        $.post("Common/PostToSap", { checkedIDs: checkedIDs, ObjectCode: 15 }, function (response) {
-            if (response.success)
-                toastr.success(response.message);
-            else
-                toastr.error(response.message);
+        if (checkedIDs.length > 0) {
 
-        });
-        console.log(checkedIDs);
-    })
+            $.post("Common/PostToSap", { checkedIDs: checkedIDs, ObjectCode: 15 }, function (response) {
+                if (response.success) {
+                    $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $("#btnPostToSap").attr('disabled', false);
+
+                    toastr.success(response.message);
+                }
+                else {
+                    $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $("#btnPostToSap").attr('disabled', false);
+                    toastr.error(response.message);
+                }
+
+            });
+        }
+        else {
+            $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+            $("#btnPostToSap").attr('disabled', false);
+            toastr.warning("Documents not Selected !!");
+        }
+
+    });
 </script>
