@@ -65,11 +65,16 @@ namespace SAP_MVC_DIAPI.BLC
                         SqlTransaction tran = conn.BeginTransaction();
 
 
+
                         foreach (var ID in checkedIDs)
                         {
                             string headerQuery = @"select DocType,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum ,SlpCode,Comments from " + headerTable + " where Id=" + ID + " and isPosted = 0";
                             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
                             {
+                                try
+                                {
+
+                                
                                 while (rdr.Read())
                                 {
                                     #region Insert In Header
@@ -135,6 +140,14 @@ namespace SAP_MVC_DIAPI.BLC
                                         }
                                     }
                                     #endregion
+                                }
+                                }
+                                catch (Exception e)
+                                {
+                                    models.Message = e.Message;
+                                    models.isSuccess = false;
+                                    return models;
+                                    throw;
                                 }
                             }
 
