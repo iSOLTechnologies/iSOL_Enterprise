@@ -311,22 +311,23 @@ namespace iSOL_Enterprise.Dal
                             item.BaseQty = item.BaseQty == "" ? "null" : item.BaseQty;
                             item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToInt32(item.DicPrc);
 
-                            string RowQueryItem = @"insert into PQT1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,PQTReqDate,ShipDate,PQTReqQty,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
+                            string RowQueryItem = @"insert into PQT1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,PQTReqDate,ShipDate,PQTReqQty,OpenQty,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
                                               values(" + Id + ","
                                                  + LineNo + ",'"
                                               + item.ItemName + "',"
                                               + item.UPrc + ","
                                               + item.TtlPrc + ",'"
-                                                + item.ItemCode + "','"
-                                                + Convert.ToDateTime(item.PQTReqDate) + "','"
-                                                + Convert.ToDateTime(item.ShipDate) + "',"
-                                                + item.PQTReqQty + ","
-                                                + item.QTY + ","
-                                                + item.DicPrc + ",'"
-                                                + item.VatGroup + "','"
-                                                + item.UomCode + "',"
-                                                + item.UomEntry + ",'"
-                                                + item.CountryOrg + "')";
+                                              + item.ItemCode + "','"
+                                              + Convert.ToDateTime(item.PQTReqDate) + "','"
+                                              + Convert.ToDateTime(item.ShipDate) + "',"
+                                              + item.PQTReqQty + ","
+                                              + item.QTY + ","
+                                              + item.QTY + ","
+                                              + item.DicPrc + ",'"
+                                              + item.VatGroup + "','"
+                                              + item.UomCode + "',"
+                                              + item.UomEntry + ",'"
+                                              + item.CountryOrg + "')";
 
                             #region sqlparam
                             //List<SqlParameter> param2 = new List<SqlParameter>
