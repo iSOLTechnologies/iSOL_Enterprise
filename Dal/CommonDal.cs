@@ -575,7 +575,7 @@ where s.Status=1 and p.Guid=@Guid";
         {
             string table = GetMasterTable(BaseType);
 
-            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "' isPosted = 1";
+            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "'"; /*isPosted = 1*/
 
 
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
@@ -623,7 +623,7 @@ where s.Status=1 and p.Guid=@Guid";
             string table = GetRowTable(BaseType);
             DataSet ds = new DataSet();
             SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-            SqlDataAdapter sda = new SqlDataAdapter("select Id,LineNum,ItemCode,ItemName,Quantity,DiscPrcnt,VatGroup,UomCode,CountryOrg,Dscription,AcctCode,OpenQty from "+table+" where id = '" + DocId + "'", conn);
+            SqlDataAdapter sda = new SqlDataAdapter("select Id,LineNum,ItemCode,ItemName,Quantity,DiscPrcnt,Price,VatGroup,UomCode,CountryOrg,Dscription,AcctCode,OpenQty from "+table+" where id = '" + DocId + "'", conn);
             sda.Fill(ds);
             string JSONString = string.Empty;
             JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);

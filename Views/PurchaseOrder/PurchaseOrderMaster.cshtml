@@ -790,155 +790,134 @@
 
         
     });
-        $(document).on('click', '#btnCopytableOk', function (e) 
-		{
-			
-           
-            if(CopyDocIDs.length > 0) 
-            {
-               
+    $(document).on('click', '#btnCopytableOk', function (e) {
 
-                let i = 0;
 
-                 for (const DocID of CopyDocIDs) 
-                {
+        if (CopyDocIDs.length > 0) {
 
-                    //For the Entry of 1st Doc number
-                    if(i == 0)
-                    {
-                    
-                        $.get("Common/GetBaseDocItemService", { DocId: DocID , BaseType : BaseType }, function(data)
-                        {
-                        let list = JSON.parse(data.list);  
-            
-            
-                        if((data.baseDoc)[0].docType ==  "I") 
-                        {
+
+            let i = 0;
+
+            for (const DocID of CopyDocIDs) {
+
+                //For the Entry of 1st Doc number
+                if (i == 0) {
+
+                    $.get("Common/GetBaseDocItemService", { DocId: DocID, BaseType: BaseType }, function (data) {
+                        let list = JSON.parse(data.list);
+
+
+                        if ((data.baseDoc)[0].docType == "I") {
                             $("#ItemServiceType").val(1);
                             $("#ItemServiceType").trigger("change");
-                             const its = document.querySelectorAll('#kt_tabs_5_1 #ListParameters .itm');
-                            for (const i of its) 
-                            {
+                            const its = document.querySelectorAll('#kt_tabs_5_1 #ListParameters .itm');
+                            for (const i of its) {
                                 i.remove();
 
                             }
                             let j = 0;
-                            $.each(list[0], function () 
-                            {
-                        
-                                    if(j == 0) 
-                                    {
-                                         append_ItemFirstRow();
+                            $.each(list[0], function () {
 
-                             
-                                         $("#BaseRef").val((data.baseDoc)[0].docNum);
-                                         $("#BaseEntry").val(this.Id);
-                                         $("#BaseLine").val(this.LineNum);
-                                         $("#ItemCode").val(this.ItemCode);
-                                         $("#ItemName").val(this.ItemName);
-                                     
-                                         $("#UomCode").val(this.UomCode);
-                                         $("#CountryOrg").val(this.CountryOrg);
-                                         $("#VatGroup").val(this.VatGroup);
-                                           $("#BaseQty").val(this.OpenQty);
-                                    }
-                                    else 
-                                    {
-                                        AddItemRowData((data.baseDoc)[0].docNum, this);
+                                if (j == 0) {
+                                    append_ItemFirstRow();
 
-                                    }
-                                j+=1;
+
+                                    $("#BaseRef").val((data.baseDoc)[0].docNum);
+                                    $("#BaseEntry").val(this.Id);
+                                    $("#BaseLine").val(this.LineNum);
+                                    $("#ItemCode").val(this.ItemCode);
+                                    $("#ItemName").val(this.ItemName);
+                                    $("#UPrc").val(this.Price);
+                                    $("#DicPrc").val(this.DiscPrcnt);
+                                    $("#UomCode").val(this.UomCode);
+                                    $("#CountryOrg").val(this.CountryOrg);
+                                    $("#VatGroup").val(this.VatGroup);
+                                    $("#BaseQty").val(this.OpenQty);
+
+                                }
+                                else {
+                                    AddItemRowData((data.baseDoc)[0].docNum, this);
+
+                                }
+                                j += 1;
                             });
-                           Edit_GetUomGroup();   //For Uom Dropdown options
+                            Edit_GetUomGroup();     //For Uom Dropdown options
+
                         }
-                        else if((data.baseDoc)[0].docType ==  "S") 
-                        {
-                              $("#ItemServiceType").val(2);
-                               $("#ItemServiceType").trigger("change");
+                        else if ((data.baseDoc)[0].docType == "S") {
+                            $("#ItemServiceType").val(2);
+                            $("#ItemServiceType").trigger("change");
                             const srs = document.querySelectorAll('#kt_tabs_5_2 #ListParameters2 .itm');
 
-                            for (const s of srs) 
-                            {
+                            for (const s of srs) {
                                 s.remove();
 
                             }
                             let k = 0;
-                            $.each(list[0], function () 
-                            {
-                        
-                                    if(k == 0) 
-                                    {
-                                        append_ServiceFirstRow();
-                                        
-                                         $("#BaseRef2").val((data.baseDoc)[0].docNum);
-                                         $("#BaseEntry2").val(this.Id);
-                                         $("#BaseLine2").val(this.LineNum);
-                                         $("#Dscription").val(this.Dscription);
-                                         $("#AcctCode").val(this.AcctCode);
-                                         $("#AcctName").val(this.AcctName);
-                                         $("#VatGroup2").val(this.VatGroup);
-                                    }
-                                    else 
-                                    {
-                                       AddServiceRowData((data.baseDoc)[0].docNum,this);
-                                    }
-                                k+=1;
+                            $.each(list[0], function () {
+
+                                if (k == 0) {
+                                    append_ServiceFirstRow();
+
+                                    $("#BaseRef2").val((data.baseDoc)[0].docNum);
+                                    $("#BaseEntry2").val(this.Id);
+                                    $("#BaseLine2").val(this.LineNum);
+                                    $("#Dscription").val(this.Dscription);
+                                    $("#AcctCode").val(this.AcctCode);
+                                    $("#AcctName").val(this.AcctName);
+                                    $("#VatGroup2").val(this.VatGroup);
+                                }
+                                else {
+                                    AddServiceRowData((data.baseDoc)[0].docNum, this);
+                                }
+                                k += 1;
                             });
 
                         }
 
-                        });
+                    });
 
-                    }
-                    //For the Entry of Other Doc numbers except 1st
-                    else 
-                    {
-                        
-                         $.get("Common/GetBaseDocItemService", { DocId: DocID , BaseType : BaseType }, function(data)
-                        {
-                        let list = JSON.parse(data.list);  
-            
-            
-                        if((data.baseDoc)[0].docType ==  "I") 
-                        {
-                            
-                            $.each(list[0], function () 
-                            {
-                        
-                                    
-                                  AddItemRowData((data.baseDoc)[0].docNum, this);
-
-                                    
-                            });
-                           Edit_GetUomGroup();   //For Uom Dropdown options
-                        }
-                        else if((data.baseDoc)[0].docType ==  "S") 
-                        {
-                           
-                            $.each(list[0], function () 
-                            {
-                        
-                                   AddServiceRowData((data.baseDoc)[0].docNum,this);
-                                   
-                            });
-
-                        }
-
-                        });
-
-                    }
-                    i+=1;
                 }
+                //For the Entry of Other Doc numbers except 1st
+                else {
 
-                CopyDocIDs = [];
+                    $.get("Common/GetBaseDocItemService", { DocId: DocID, BaseType: BaseType }, function (data) {
+                        let list = JSON.parse(data.list);
 
+
+                        if ((data.baseDoc)[0].docType == "I") {
+
+                            $.each(list[0], function () {
+
+
+                                AddItemRowData((data.baseDoc)[0].docNum, this);
+
+
+                            });
+                            Edit_GetUomGroup();     //For Uom Dropdown options
+                        }
+                        else if ((data.baseDoc)[0].docType == "S") {
+
+                            $.each(list[0], function () {
+
+                                AddServiceRowData((data.baseDoc)[0].docNum, this);
+
+                            });
+
+                        }
+
+                    });
+
+                }
+                i += 1;
             }
+
+            CopyDocIDs = [];
+
+        }
         else
             BaseType = -1;
-            
-
-			
-        });
+    });
 
     function Edit_GetUomGroup() {   //For Uom Dropdown options
         $('#ListParameters .itm').each(function (index, item) {
@@ -951,93 +930,91 @@
 
         });
     }
-
-    function AddItemRowData(baseRef,data)
-    {
+    function AddItemRowData(baseRef, data) {
         var html = `    <tr class="rowItemDetail align-items-center itm">
-                                                                                    <td>
-                                                                                        <input id="BaseRef" value="`+baseRef+`" class="form-control form-control-sm NotReq">
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <input id="BaseEntry" value="`+data.Id+`"  class="form-control form-control-sm NotReq">
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <input id="BaseLine" value="`+data.LineNum+`" class="form-control form-control-sm NotReq">
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
                                                                                         <td>
-                                                                                            <div class="input-group">
-                                                                                                <input id="ItemCode" value="`+data.ItemCode+`" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
-                                                                                                <div id="Itemno" class="input-group-append">
-                                                                                                    <span class="input-group-text">
-                                                                                                        <i class="la la-search"></i>
-                                                                                                    </span>
+                                                                                            <input id="BaseRef" readonly value="`+ baseRef + `" class="form-control form-control-sm NotReq">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input id="BaseEntry" readonly value="`+ data.Id + `"  class="form-control form-control-sm NotReq">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input id="BaseLine" readonly value="`+ data.LineNum + `" class="form-control form-control-sm NotReq">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                            <td>
+                                                                                                <div class="input-group">
+                                                                                                    <input id="ItemCode" value="`+ data.ItemCode + `" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
+                                                                                                    <div id="Itemno" class="input-group-append">
+                                                                                                        <span class="input-group-text">
+                                                                                                            <i class="la la-search"></i>
+                                                                                                        </span>
+                                                                                                    </div>
                                                                                                 </div>
-                                                                                            </div>
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input id="ItemName" value="`+ data.ItemName + `" class="form-control form-control-sm"  type="text">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input class="form-control form-control-sm"   id="QTY"  type="number">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                            <input readonly class="form-control form-control-sm NotReq" value=`+ data.OpenQty + ` id="BaseQty"  type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input id="ItemName" value="`+data.ItemName+`" class="form-control form-control-sm"  type="text">
+                                                                                            <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
-                                                                                        <td>
-                                                                                            <input class="form-control form-control-sm"  id="QTY"  type="number">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                        <input readonly class="form-control form-control-sm NotReq" value="`+data.OpenQty+`"  id="BaseQty"  type="number">
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-                                                                                        <td>
-                                                                                            <input class="form-control form-control-sm NotReq" id="UPrc"  type="number">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input class="form-control form-control-sm NotReq"  id = "DicPrc"  onkeyup = "GetPrice()" type = "number">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                        <td>
+                                                                                            <td>
+                                                                                                <input class="form-control form-control-sm" id="UPrc" value=`+ data.Price + ` type="number">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                    <input class="form-control form-control-sm NotReq" value=`+ data.DiscPrcnt + ` id = "DicPrc"  onkeyup = "GetPrice()" type = "number">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
 
 
-                                                                                            <select  class="form-control jsSelect2" id="VatGroup" value="`+data.VatGroup+`">
-                                                                                           `+ vatGroupData + `
-                                                                                            </select>
+                                                                                                <select  class="form-control jsSelect2" id="VatGroup" value="`+ data.VatGroup + `">
+                                                                                               `+ vatGroupData + `
+                                                                                                </select>
 
 
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                            <select class="form-control" value="`+ data.UomEntry + `" id="UomEntry"> </select><input id="UomCode" value="` + data.UomCode + `" class="position-absolute d-none"/>
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                         <td>
-                                                                                             <select class="form-control " id="UomEntry" value="`+data.UomEntry+`"> </select><input value="`+data.UomCode+`" id="UomCode" class="position-absolute d-none"/>
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																		                </td>
-                                                                                        
-                                                                                        <td>
-                                                                                            <select class="form-control form-control-sm" value="`+data.CountryOrg+`" id="CountryOrg" name="DurationTypeCode">
-                                                                                                `+CountryData+`
-                                                                                            </select>
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                        <td>
-                                                                            <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
-                                                                            <i class="la la-trash"></i> X
-                                                                           </a>
-                                                                           </td>
-                                                                                    </tr>`;
+                                                                                            </td>
+
+                                                                                            <td>
+                                                                                                <select class="form-control form-control-sm" value="`+ data.CountryOrg + `" id="CountryOrg" name="DurationTypeCode">
+                                                                                                    `+ CountryData + `
+                                                                                                </select>
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
+                                                                                <i class="la la-trash"></i> X
+                                                                               </a>
+                                                                               </td>
+                                                                                        </tr>`;
         $('#kt_repeater_1 tbody').append(html);
 
 
     }
-    
+
     function AddServiceRowData(baseRef,data)
     {
         var html = ` <tr class="rowItemDetail align-items-center itm">

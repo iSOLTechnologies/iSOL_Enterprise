@@ -807,7 +807,7 @@
 
         
     });
-        $(document).on('click', '#btnCopytableOk', function (e) 
+    $(document).on('click', '#btnCopytableOk', function (e) 
 		{
 			
            
@@ -824,9 +824,8 @@
                     if(i == 0)
                     {
                     
-                        $.get("Common/GetBaseDocItemService", { DocId: DocID , BaseType : BaseType }, function(data)
+                        $.get("Common/GetBaseDocItemService", { DocId: DocID , BaseType : BaseType }, function(data) 
                         {
-
                         let list = JSON.parse(data.list);  
             
             
@@ -848,17 +847,19 @@
                                     {
                                          append_ItemFirstRow();
 
-                             
+                                         
                                          $("#BaseRef").val((data.baseDoc)[0].docNum);
                                          $("#BaseEntry").val(this.Id);
                                          $("#BaseLine").val(this.LineNum);
                                          $("#ItemCode").val(this.ItemCode);
                                          $("#ItemName").val(this.ItemName);
-                                         
+                                         $("#UPrc").val(this.Price);
+                                         $("#DicPrc").val(this.DiscPrcnt);
                                          $("#UomCode").val(this.UomCode);
                                          $("#CountryOrg").val(this.CountryOrg);
                                          $("#VatGroup").val(this.VatGroup);
                                          $("#BaseQty").val(this.OpenQty);
+
                                     }
                                     else 
                                     {
@@ -867,7 +868,8 @@
                                     }
                                 j+=1;
                             });
-                           Edit_GetUomGroup();   //For Uom Dropdown options
+                            Edit_GetUomGroup();     //For Uom Dropdown options
+
                         }
                         else if((data.baseDoc)[0].docType ==  "S") 
                         {
@@ -912,7 +914,7 @@
                     else 
                     {
 
-                    $.get("Common/GetBaseDocItemService", { DocId: DocID , BaseType : BaseType }, function(data){
+                    $.get("Common/GetBaseDocItemService", { DocId: DocID, BaseType: BaseType }, function (data) {
                         let list = JSON.parse(data.list);  
             
             
@@ -927,7 +929,7 @@
 
                                     
                             });
-                           Edit_GetUomGroup();   //For Uom Dropdown options
+                            Edit_GetUomGroup();     //For Uom Dropdown options
                         }
                         else if((data.baseDoc)[0].docType ==  "S") 
                         {
@@ -950,11 +952,8 @@
                 CopyDocIDs = [];
 
             }
-            else
+			else
             BaseType = -1;
-            
-
-			
         });
 
     function Edit_GetUomGroup() {   //For Uom Dropdown options
@@ -968,7 +967,6 @@
 
         });
     }
-
     function AddItemRowData(baseRef,data)
     {
         var html = `    <tr class="rowItemDetail align-items-center itm">
@@ -1000,11 +998,11 @@
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input class="form-control form-control-sm" id="QTY"  type="number">
+                                                                                            <input class="form-control form-control-sm"   id="QTY"  type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                        <input readonly class="form-control form-control-sm NotReq" value="`+data.OpenQty+`"  id="BaseQty"  type="number">
+                                                                                        <input readonly class="form-control form-control-sm NotReq" value=`+data.OpenQty+` id="BaseQty"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
@@ -1012,11 +1010,11 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                         <td>
-                                                                                            <input class="form-control form-control-sm" id="UPrc"  type="number">
+                                                                                            <input class="form-control form-control-sm" id="UPrc" value=`+data.Price+` type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                           <input class="form-control form-control-sm NotReq"  id = "DicPrc"  onkeyup = "GetPrice()" type = "number">
+                                                                                                <input class="form-control form-control-sm NotReq" value=`+ data.DiscPrcnt + ` id = "DicPrc"  onkeyup = "GetPrice()" type = "number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
@@ -1033,10 +1031,10 @@
                                                                                             <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
-                                                                                         <td>
-                                                                                             <select class="form-control " id="UomEntry" value="`+data.UomEntry+`"> </select><input id="UomCode" value="`+data.UomCode+`" class="position-absolute d-none"/>
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																		                </td>
+                                                                                        <td>
+                                                                                        <select class="form-control" value="`+data.UomEntry+`" id="UomEntry"> </select><input id="UomCode" value="`+data.UomCode+`" class="position-absolute d-none"/>
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
                                                                                         
                                                                                         <td>
                                                                                             <select class="form-control form-control-sm" value="`+data.CountryOrg+`" id="CountryOrg" name="DurationTypeCode">
