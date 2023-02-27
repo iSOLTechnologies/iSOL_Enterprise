@@ -575,7 +575,7 @@ where s.Status=1 and p.Guid=@Guid";
         {
             string table = GetMasterTable(BaseType);
 
-            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "' and isPosted = 1";
+            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "' isPosted = 1";
 
 
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();

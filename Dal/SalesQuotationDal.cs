@@ -391,7 +391,7 @@ namespace iSOL_Enterprise.Dal
                                               + item.ItemName + "',"
                                               + item.UPrc + ","
                                               + item.TtlPrc + ","
-                                              + item.TtlPrc + ",'"
+                                              + item.QTY + ",'"
                                               + item.ItemCode + "',"
                                               + item.QTY + ","
                                               + item.DicPrc + ",'"
