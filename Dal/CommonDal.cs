@@ -610,7 +610,6 @@ where s.Status=1 and p.Guid=@Guid";
                 {
                     SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
 
-
                     models.DocType = rdr["DocType"].ToString();
                     models.DocNum = rdr["DocNum"].ToString();
                     list.Add(models);

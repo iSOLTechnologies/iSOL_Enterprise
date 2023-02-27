@@ -77,7 +77,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 
                                 while (rdr.Read())
                                 {
-                                        #region Insert In Header
+                                    #region Insert In Header
                                         
                                     oDoc.Series = Series;
                                     oDoc.DocType = rdr["DocType"].ToString() == "I" ? BoDocumentTypes.dDocument_Items : BoDocumentTypes.dDocument_Service;
@@ -140,8 +140,9 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         }
                                     }
-                                    #endregion
-                                }
+                                        #endregion
+
+                                    }
                                 }
                                 catch (Exception e)
                                 {
@@ -153,7 +154,7 @@ namespace SAP_MVC_DIAPI.BLC
                             }
 
                             #region Updating Table Row as Posted
-                            string BatchQueryOBTN = @"Update "+headerTable+ " set isPosted = 1";    //For Updating master table row as this data is posted to SAP
+                            string BatchQueryOBTN = @"Update "+headerTable+ " set isPosted = 1 where Id ="+ID;    //For Updating master table row as this data is posted to SAP
                             int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
                             if (res1 <= 0)
                             {
