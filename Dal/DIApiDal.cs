@@ -77,17 +77,18 @@ namespace SAP_MVC_DIAPI.BLC
                                 
                                 while (rdr.Read())
                                 {
-                                    #region Insert In Header
+                                        #region Insert In Header
+                                        
                                     oDoc.Series = Series;
                                     oDoc.DocType = rdr["DocType"].ToString() == "I" ? BoDocumentTypes.dDocument_Items : BoDocumentTypes.dDocument_Service;
                                     oDoc.CardCode = rdr["CardCode"].ToString();
                                     oDoc.CardName = rdr["CardName"].ToString();
                                     oDoc.ContactPersonCode = rdr["CntctCode"].ToInt();
-                                    oDoc.DocDate = Convert.ToDateTime(rdr["DocDate"] ?? DateTime.Now);
+                                    oDoc.DocDate = rdr["DocDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["DocDate"].ToString());
                                     oDoc.NumAtCard = rdr["NumAtCard"].ToString();
-                                    oDoc.DocDueDate = Convert.ToDateTime(rdr["DocDueDate"] ?? DateTime.Now);
+                                    oDoc.DocDueDate = rdr["DocDueDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["DocDueDate"].ToString()); 
                                     oDoc.DocCurrency = rdr["DocCur"].ToString();
-                                    oDoc.TaxDate = Convert.ToDateTime(rdr["TaxDate"] ?? DateTime.Now);
+                                    oDoc.TaxDate = rdr["TaxDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["TaxDate"].ToString());
                                     oDoc.GroupNumber = rdr["GroupNum"].ToInt();
                                     oDoc.SalesPersonCode = rdr["SlpCode"].ToInt();
                                     oDoc.Comments = rdr["Comments"].ToString();
