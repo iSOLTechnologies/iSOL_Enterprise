@@ -236,7 +236,7 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
                                                                         <label>Customer Ref. No.</label>
-                                                                        <input type="text" value="@row["NumAtCard"]" id="NumAtCard" class="form-control form-control-sm" placeholder="Ref no.">
+                                                                        <input type="text" value="@row["NumAtCard"]" id="NumAtCard" class="form-control form-control-sm NotReq"  placeholder="Ref no.">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
 
@@ -1860,8 +1860,8 @@ function GetPrice()
                         function () 
                         {
 
-                            $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                            $('#btnSave').attr('disabled', false);
+                            $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                            $('#btnSaveData').attr('disabled', false);
 
                         }, 800);
                     setTimeout(function () {
@@ -1873,8 +1873,8 @@ function GetPrice()
 
                 if (!(result.isInserted)) {
                     toastr.error(result.message);
-                    $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                    $('#btnSave').attr('disabled', false);
+                    $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $('#btnSaveData').attr('disabled', false);
 
                 }
 
