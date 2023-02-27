@@ -13,7 +13,7 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(20);
+    options.IdleTimeout = TimeSpan.FromMinutes(60);
     //options.Cookie.HttpOnly = true;
     //options.Cookie.IsEssential = true;
 });

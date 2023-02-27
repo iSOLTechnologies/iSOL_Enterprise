@@ -886,83 +886,9 @@
             CopyDocIDs = [];
 
         }
-
-        //Old Working
-        //$.get("SaleOrder/GetQuotationItemService", { DocId: $(this).attr('guid') }, function(data)
-        //{
-        //    var list = JSON.parse(data.list);
-
-
-        //    if((data.baseDoc)[0].docType ==  "I")
-        //    {
-        //         const its = document.querySelectorAll('#kt_tabs_5_1 #ListParameters .itm');
-        //        for (const i of its)
-        //        {
-        //            i.remove();
-
-        //        }
-        //        let i = 0;
-        //        $.each(list[0], function ()
-        //        {
-
-        //                if(i == 0)
-        //                {
-        //                     append_ItemFirstRow();
-
-
-        //                     $("#BaseRef").val((data.baseDoc)[0].docNum);
-        //                     $("#BaseEntry").val(this.Id);
-        //                     $("#BaseLine").val(this.LineNum);
-        //                     $("#ItemCode").val(this.ItemCode);
-        //                     $("#ItemName").val(this.ItemName);
-        //                     $("#QTY").val(this.Quantity);
-        //                     $("#UomCode").val(this.UomCode);
-        //                     $("#CountryOrg").val(this.CountryOrg);
-        //                     $("#VatGroup").val(this.VatGroup);
-
-        //                }
-        //                else
-        //                {
-        //                    AddItemRowData((data.baseDoc)[0].docNum, this);
-
-        //                }
-        //            i+=1;
-        //        });
-
-        //    }
-        //    else if((data.baseDoc)[0].docType ==  "S")
-        //    {
-        //        const srs = document.querySelectorAll('#kt_tabs_5_2 #ListParameters2 .itm');
-
-        //        for (const s of srs) {
-        //            s.remove();
-
-        //        }
-        //        let i = 0;
-        //        $.each(list[0], function ()
-        //        {
-
-        //                if(i == 0)
-        //                {
-        //                    append_ServiceFirstRow();
-        //                     $("#BaseRef").val((data.baseDoc)[0].docNum);
-        //                     $("#BaseEntry").val(this.Id);
-        //                     $("#BaseLine").val(this.LineNum);
-        //                     $("#Dscription").val(this.Dscription);
-        //                     $("#AcctCode").val(this.AcctCode);
-        //                     $("#AcctName").val(this.AcctName);
-        //                     $("#VatGroup2").val(this.VatGroup);
-        //                }
-        //                else
-        //                {
-        //                   AddServiceRowData((data.baseDoc)[0].docNum,this);
-        //                }
-        //            i+=1;
-        //        });
-
-        //    }
-
-        //});
+        else
+            BaseType = -1;
+        
 
 
     });
