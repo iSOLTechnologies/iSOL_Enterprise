@@ -1500,8 +1500,7 @@ function GetPrice()
         GetVatGroupData();
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
-        Guid = $("#Guid").val();
-        $('#IncrementalDuration').prop('checked', true);
+        DocModule = "P";
         GetPayments();
 
 

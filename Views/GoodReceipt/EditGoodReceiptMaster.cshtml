@@ -1236,15 +1236,7 @@ function GetPrice()
         display_ItemOrService();
         GetVatGroupData(); 
         var date = new Date;
-        @*$('#DocDate').val(moment(date).format('YYYY-MM-DD'));*@
-        Guid = $("#Guid").val();
-        $('#IncrementalDuration').prop('checked', true);
-        DocNumOnLoad();
-        GetLisParameters();
-        GetListDurationType();
-        GetListValueType();
-        GetListValueMethod();
-        GetLisRmCodes();
+        DocModule = "P";
         GetContactPersons(CntctPerson);
         DocStatus();
         Edit_GetUomGroup();

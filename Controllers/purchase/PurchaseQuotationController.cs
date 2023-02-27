@@ -95,14 +95,14 @@ namespace iSOL_Enterprise.Controllers.Sales
 
             return Json(response);
         }
-        public IActionResult GetItems()
+        public IActionResult GetItems(string DocModule)
         {
             ResponseModels response = new ResponseModels();
             try
             {
 
                 SalesQuotationDal dal = new SalesQuotationDal();
-                response.Data = dal.GetItemsData();
+                response.Data = dal.GetItemsData(DocModule);
             }
             catch (Exception ex)
             {

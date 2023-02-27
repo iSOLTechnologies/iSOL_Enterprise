@@ -1575,9 +1575,7 @@ function GetPrice()
         GetWareHouseData();
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
-        Guid = $("#Guid").val();
-        $('#IncrementalDuration').prop('checked', true);
-        
+        DocModule = "S";
         GetPayments();
          
  

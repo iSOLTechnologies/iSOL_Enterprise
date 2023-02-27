@@ -43,12 +43,28 @@ namespace iSOL_Enterprise.Dal
             return list;
         }
 
-        public List<tbl_item> GetItemsData()
+        public List<tbl_item> GetItemsData(string DocModule)
         {
-            string GetQuery = "select * from OITM";
-
-
             List<tbl_item> list = new List<tbl_item>();
+            string GetQuery = "";
+            if (DocModule == "S")
+            {
+                 GetQuery = "select * from OITM where SellItem = 'Y'";
+            }
+            else if (DocModule == "P")
+            {
+                GetQuery = "select * from OITM where PrchseItem = 'Y'";
+            }
+            else if (DocModule == "I")
+            {
+                GetQuery = "select * from OITM where InvntItem = 'Y'";
+            }
+            else
+            {
+                return list;
+            }
+
+
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
             {
                 while (rdr.Read())
