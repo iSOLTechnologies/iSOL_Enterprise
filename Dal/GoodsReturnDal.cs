@@ -186,7 +186,7 @@ namespace iSOL_Enterprise.Dal
                 try
                 {
 
-                    int Id = CommonDal.getPrimaryKey(tran, "ORDN");
+                    int Id = CommonDal.getPrimaryKey(tran, "ORPD");
                     string DocNum = SqlHelper.getUpdatedDocumentNumberOnLoad(tran, "ORPD", "GRT");
                     if (model.HeaderData != null)
                     {
@@ -212,6 +212,12 @@ namespace iSOL_Enterprise.Dal
 
 
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                        if (res1 <= 0)
+                        {
+                            tran.Rollback();
+                            return false;
+
+                        }
                     }
                     if (model.ListItems != null)
                     {
