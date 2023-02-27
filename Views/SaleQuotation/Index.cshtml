@@ -171,12 +171,22 @@
             search: {
                 input: $('#generalSearch'),
             },
-            columns: [{
+            columns: [
+                {
                 data: "id", 'title': '<span style="width: 30px;"><label class="checkbox checkbox-single checkbox-all"><input id="Mastercheck" onclick="Mastercheck()" type="checkbox">&nbsp;<span></span></label></span>', render: function (data, type, row) {
-                    var html = '';
-                    html += '<span style="width: 30px;"><label class="checkbox checkbox-single checkbox-all"><input guid=' + data + '  id="chckbox" type="checkbox">&nbsp;<span></span></label></span>';
+                     
+                    if (row.isPosted == "False") {
 
-                    return html;
+                        var html = '';
+                        html += '<span style="width: 30px;"><label class="checkbox checkbox-single checkbox-all"><input guid=' + data + '  id="chckbox" type="checkbox">&nbsp;<span></span></label></span>';
+                        return html;
+
+                        } else if (row.isPosted == "True") 
+                            {
+                                return '<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">Posted</span>';
+                    }
+                    
+                   
                 }
             },               
                 {
