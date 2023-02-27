@@ -142,17 +142,22 @@ namespace iSOL_Enterprise.Dal
 
 
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                        if (res1 <= 0)
+                        {
+                            tran.Rollback();
+                            return false;
+                        }
                     }
                     if (model.ListItems != null)
                     {
                         int LineNo = 1;
                         foreach (var item in model.ListItems)
-                        {
+                          {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
                             if (model.BaseType != -1)
                             {
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
-                                string Updatequery = @"Update "+table+" set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
+                                string Updatequery = @"Update "+table+" set OpenQty = OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + " and LineNum =" + item.BaseLine;
                                 int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
                                 if (res <= 0)
                                 {
