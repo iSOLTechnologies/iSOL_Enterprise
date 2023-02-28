@@ -2705,10 +2705,29 @@
 			}
 
 		});
+
+ 
+
+
+
+
+
 		$(document).on('keyup', '#batchquantity', function (e) {
 			let LookTable = $('#MyyyyBatchSelectTable').DataTable();
 			let selectedRow = $(this).closest('tr');
 			let rowData = LookTable.row(selectedRow).data();
+
+			if($("#batchquantity").val() != $("#adTotalNeeded").val()) 
+            {
+                let qty = $(this).val();
+                if(qty.length > 0) 
+                {
+                    qty = qty.substring(0, (qty.length-1));
+                    console.log("qty" ,qty);
+                    $("#adTotalNeeded").val(Number(qty) + Number($("#adTotalNeeded").val()));
+                }
+
+            }
 
 			if (rowData['quantity'] < $(this).val()) {
 				$(this).val(0);
