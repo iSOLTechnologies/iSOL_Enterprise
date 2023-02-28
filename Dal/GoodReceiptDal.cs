@@ -459,14 +459,13 @@ namespace iSOL_Enterprise.Dal
 
                                             #region Insert in OBTQ
                                             int ObtqAbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTQ");
-                                            string BatchQueryOBTQ = @"insert into OBTQ(AbsEntry,MdAbsEntry,ItemCode,SysNumber,WhsCode,Quantity,DataSource)
+                                            string BatchQueryOBTQ = @"insert into OBTQ(AbsEntry,MdAbsEntry,ItemCode,SysNumber,WhsCode,Quantity)
                                                                     values(" + ObtqAbsEntry + ","
                                                                     + AbsEntry + ",'"
                                                                     + ii.itemno + "',"
                                                                     + SysNumber + ",'"
                                                                     + ii.whseno + "',"
-                                                                    + ii.BQuantity + ",'"
-                                                                    + "N')";
+                                                                    + ii.BQuantity + ",)";                                                                    
 
                                             res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTQ).ToInt();
                                             if (res1 <= 0)
@@ -483,7 +482,7 @@ namespace iSOL_Enterprise.Dal
                                                  + SysNumber + "',"
                                                  + ii.BQuantity + ","
                                                  + ((Decimal)(ii.BQuantity)) + ","
-                                                 + ObtqAbsEntry + ")";
+                                                 + AbsEntry + ")";
 
 
                                             res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryITL1).ToInt();

@@ -287,14 +287,14 @@ namespace iSOL_Enterprise.Dal
                                                                    + rdr["InDate"].ToString() == "" ? "NULL" : Convert.ToDateTime(rdr["InDate"]) + "',"
                                                                    + rdr["Quantity"].ToDecimal() + ");" +
 
-                                                                   " insert into OBTQ(AbsEntry,ItemCode,SysNumber,WhsCode,Quantity,MdAbsEntry,DataSource) " +
+                                                                   " insert into OBTQ(AbsEntry,ItemCode,SysNumber,WhsCode,Quantity,MdAbsEntry) " +
                                                                    "values (" + ii.AbsEntry + ",'"
                                                                    + ii.itemno + "',"
                                                                    + ii.SysNumber + ",'"
                                                                    + ii.whseno + "',"
                                                                    + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + ","
-                                                                   + Convert.ToInt32(rdr["AbsEntry"]) + ",'"
-                                                                   + "N')";
+                                                                   + Convert.ToInt32(rdr["AbsEntry"]) + ",)";
+                                                                   
 
                                                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, InsertBatchQuery).ToInt();
                                                         if (res1 <= 0)
