@@ -465,7 +465,7 @@ namespace iSOL_Enterprise.Dal
                                                                     + ii.itemno + "',"
                                                                     + SysNumber + ",'"
                                                                     + ii.whseno + "',"
-                                                                    + ii.BQuantity + ",)";                                                                    
+                                                                    + ii.BQuantity + ")";                                                                    
 
                                             res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTQ).ToInt();
                                             if (res1 <= 0)
