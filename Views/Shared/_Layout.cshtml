@@ -2063,6 +2063,34 @@
 		 
 		});
 
+		function GetCountrydata() 
+    {
+	
+	    $.get("SaleQuotation/GetCountries", function(data) 
+        {
+		
+		
+		    $("#CountryOrg").html("");
+		
+		    $.each(data, function() {
+			
+			    
+			    
+			
+			if(this.country_code == "PK" && this.country_name == "Pakistan"){
+				$("#CountryOrg").append("<option selected value=" + this.country_code + ">" + this.country_name + "</option>");
+				CountryData = CountryData + "<option selected value=" + this.country_code + ">" + this.country_name + "</option>";
+			}else{
+				$("#CountryOrg").append("<option value=" + this.country_code + ">" + this.country_name + "</option>");
+				CountryData = CountryData + "<option  value=" + this.country_code + ">" + this.country_name + "</option>";
+			}
+		    });
+		
+	    });
+    } 
+
+
+
 
 		function Back_his() {
 			history.back()
@@ -2456,6 +2484,7 @@
 			});
 		}
 		//$.ajaxSetup({ cache: false });
+		var CountryData = "";
 		var isHeader;
 		var ObjItemCode;
 		var ObjAcctCode;

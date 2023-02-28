@@ -739,8 +739,7 @@
 <!-- Modal End -->
 
 <script>
-    var vatGroupData = "";
-    var CountryData = "";
+    var vatGroupData = ""; 
     var ItemServiceType = '1';
     const boxes = document.querySelectorAll('.d');
 
@@ -1306,27 +1305,27 @@
             //$("#VatGroup2").select2();
         });
     }
-    function GetCountrydata() {
+    //function GetCountrydata() {
 
-        $.get("SaleQuotation/GetCountries", function (data) {
-
-
-            $("#CountryOrg").html("");
-
-            $.each(data, function () {
-
-                $("#CountryOrg").append($('<option>', {
-                    value: this.country_code,
-                    text: this.country_name
-
-                }));
+    //    $.get("SaleQuotation/GetCountries", function (data) {
 
 
-                CountryData = CountryData + "<option  value=" + this.country_code + ">" + this.country_name + "</option>";
-            });
+    //        $("#CountryOrg").html("");
 
-        });
-    }
+    //        $.each(data, function () {
+
+    //            $("#CountryOrg").append($('<option>', {
+    //                value: this.country_code,
+    //                text: this.country_name
+
+    //            }));
+
+
+    //            CountryData = CountryData + "<option  value=" + this.country_code + ">" + this.country_name + "</option>";
+    //        });
+
+    //    });
+    //}
     $(document).on('click', '#Itemno', function (e) {
         IsHeader = false;
         ObjItemCode = $(this).closest('tr').find("#ItemCode");

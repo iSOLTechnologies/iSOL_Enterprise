@@ -706,8 +706,7 @@
 <!-- Modal End -->
 
 <script>
-    var vatGroupData = "";
-    var CountryData = "";
+    var vatGroupData = ""; 
     var ItemServiceType = '1';
     const boxes = document.querySelectorAll('.d');
 
@@ -1168,29 +1167,29 @@
         
     }
 
-    function GetCountrydata() 
-    {
+    //function GetCountrydata() 
+    //{
 	
-	    $.get("SaleQuotation/GetCountries", function(data) 
-        {
+	   // $.get("SaleQuotation/GetCountries", function(data) 
+    //    {
 		
 		
-		    $("#CountryOrg").html("");
+		  //  $("#CountryOrg").html("");
 		
-		    $.each(data, function() {
+		  //  $.each(data, function() {
 			
-			    $("#CountryOrg").append($('<option>', {
-									    value: this.country_code,
-									    text: this.country_name
+			 //   $("#CountryOrg").append($('<option>', {
+				//					    value: this.country_code,
+				//					    text: this.country_name
 									
-								    }));
+				//				    }));
 			
 			
-				    CountryData = CountryData + "<option  value=" + this.country_code + ">" + this.country_name + "</option>";
-		    });
+				//    CountryData = CountryData + "<option  value=" + this.country_code + ">" + this.country_name + "</option>";
+		  //  });
 		
-	    });
-    }
+	   // });
+    //}
     
     function append_ServiceFirstRow() {
 
