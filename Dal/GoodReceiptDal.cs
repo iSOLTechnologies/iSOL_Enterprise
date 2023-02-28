@@ -482,7 +482,7 @@ namespace iSOL_Enterprise.Dal
                                                  + SysNumber + "',"
                                                  + ii.BQuantity + ","
                                                  + ((Decimal)(ii.BQuantity)) + ","
-                                                 + AbsEntry + ")";
+                                                 + ObtqAbsEntry + ")";
 
 
                                             res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryITL1).ToInt();
