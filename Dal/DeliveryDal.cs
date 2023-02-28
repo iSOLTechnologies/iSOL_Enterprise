@@ -22,8 +22,8 @@ namespace iSOL_Enterprise.Dal
             {
                 while (rdr.Read())
                 {
-					 
-					SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
+
+                    SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
                     models.DocStatus = CommonDal.Check_IsEditable("INV1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
                     models.Id = rdr["Id"].ToInt();
                     models.DocDate = rdr["DocDueDate"].ToDateTime();
@@ -104,7 +104,7 @@ namespace iSOL_Enterprise.Dal
 
         public List<tbl_OWHS> GetWareHouseData()
         {
-            string GetQuery = "select WhsCode , WhsName = WhsName + ' (' + WhsCode + ')' from OWHS";
+            string GetQuery = "select WhsCode , WhsName = WhsName + ' (' + WhsCode + ')' from OWHS order by WhsCode";
 
 
             List<tbl_OWHS> list = new List<tbl_OWHS>();
@@ -118,7 +118,7 @@ namespace iSOL_Enterprise.Dal
                         {
                             whscode = rdr["WhsCode"].ToString(),
                             whsname = rdr["WhsName"].ToString()
-                         
+
                         });
 
                 }
@@ -131,31 +131,31 @@ namespace iSOL_Enterprise.Dal
             try
             {
 
-            
-            string GetQuery = "select OBTN.DistNumber,OBTN.ExpDate,OBTN.Quantity,OBTN.InDate,OBTN.AbsEntry,OBTN.SysNumber  from OBTW Inner join OBTN on OBTN.AbsEntry = OBTW.AbsEntry where OBTW.ItemCode = '" + itemcode+"' and OBTW.WhsCode = '"+warehouse+"'";
+
+                string GetQuery = "select OBTN.DistNumber,OBTN.ExpDate,OBTQ.Quantity,OBTN.InDate,OBTQ.AbsEntry,OBTQ.SysNumber,OBTQ.ItemCode,OBTQ.WhsCode  from OBTQ Inner join OBTN on OBTN.AbsEntry = OBTQ.MdAbsEntry where OBTQ.ItemCode = '" + itemcode + "' and OBTQ.WhsCode = '" + warehouse + "'";
 
 
-            List<tbl_OBTN> list = new List<tbl_OBTN>();
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-            {
-                while (rdr.Read())
+                List<tbl_OBTN> list = new List<tbl_OBTN>();
+                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
                 {
+                    while (rdr.Read())
+                    {
 
-                    list.Add(
-                        new tbl_OBTN()
-                        {
-                            AbsEntry = Convert.ToInt32(rdr["AbsEntry"]),
-                            DistNumber = rdr["DistNumber"].ToString(),
-                            Quantity = rdr["Quantity"].ToString() == "" ? 0 : Convert.ToInt32(rdr["Quantity"]),
-                            InDate = Convert.ToDateTime( rdr["InDate"]),
-                            ExpDate = rdr["ExpDate"].ToString() == "" ? null : Convert.ToDateTime(rdr["ExpDate"]) ,
-                            SysNumber = Convert.ToInt32(rdr["SysNumber"])
-                        });
+                        list.Add(
+                            new tbl_OBTN()
+                            {
+                                AbsEntry = Convert.ToInt32(rdr["AbsEntry"]),
+                                DistNumber = rdr["DistNumber"].ToString(),
+                                Quantity = rdr["Quantity"].ToString() == "" ? 0 : Convert.ToInt32(rdr["Quantity"]),
+                                InDate = Convert.ToDateTime(rdr["InDate"]),
+                                ExpDate = rdr["ExpDate"].ToString() == "" ? null : Convert.ToDateTime(rdr["ExpDate"]),
+                                SysNumber = Convert.ToInt32(rdr["SysNumber"])
+                            });
 
+                    }
                 }
-            }
 
-            return list;
+                return list;
             }
             catch (Exception)
             {
@@ -179,12 +179,12 @@ namespace iSOL_Enterprise.Dal
                 int res1 = 0;
                 try
                 {
-                  
+
                     int Id = CommonDal.getPrimaryKey(tran, "ODLN");
                     string DocNum = SqlHelper.getUpdatedDocumentNumberOnLoad(tran, "ODLN", "DV");
                     if (model.HeaderData != null)
                     {
-                        
+
 
                         string HeadQuery = @"insert into ODLN(Id,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
                                            values(" + Id + ",'"
@@ -203,23 +203,23 @@ namespace iSOL_Enterprise.Dal
                                                 + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
                                                 + model.FooterData.Comments + "')";
 
-                        
+
 
 
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
-                            if (res1 <= 0)
-                            {
-                                tran.Rollback();
-                                return false;
-                            }
+                        if (res1 <= 0)
+                        {
+                            tran.Rollback();
+                            return false;
+                        }
                     }
                     if (model.ListItems != null)
                     {
                         int LineNo = 1;
-                        
+
                         foreach (var item in model.ListItems)
                         {
-                        int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");
+                            int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "DLN1");
                             #region UpdateWarehouse&GenerateLog
 
@@ -250,8 +250,7 @@ namespace iSOL_Enterprise.Dal
                             #endregion
 
 
-                            #region Update_OBTN & ITL1Log
-
+                            #region Bataches & Logs working
 
                             if (model.Batches != null)
                             {
@@ -261,30 +260,71 @@ namespace iSOL_Enterprise.Dal
 
                                     foreach (var ii in batch)
                                     {
-                                       
+
                                         if (ii.itemno == item.ItemCode)
                                         {
-                                            int count = Convert.ToInt32(SqlHelper.ExecuteScalar(tran, CommandType.Text, "Select Count(*) from OBTN Where AbsEntry = "+ ii.AbsEntry));
-                                            string BatchQueryOBTN = count == 0 ?
-                                                 @"insert into OBTN(AbsEntry,ItemCode,SysNumber,DistNumber,ExpDate,Quantity)
-                                                                    values(" + ii.AbsEntry + ",'"
-                                                                    + ii.itemno + "',"
-                                                                    + ii.SysNumber + ",'"
-                                                                    + ii.DistNumber + "','"
-                                                                    + Convert.ToDateTime(ii.ExpDate) + "',"
-                                                                    + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + "); insert into OBTW(AbsEntry,ItemCode,SysNumber,WhsCode,DataSource) values(" + ii.AbsEntry + ",'" + ii.itemno + "'," + ii.SysNumber + ",'" + ii.whseno + "','" + "N')" 
-                                                : @"Update OBTN set Quantity = " + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + " WHERE AbsEntry = " + ii.AbsEntry + "";
+                                            int count = Convert.ToInt32(SqlHelper.ExecuteScalar(tran, CommandType.Text, "Select Count(*) from OBTQ Where AbsEntry = " + ii.AbsEntry));
 
-                                            //string BatchQueryOBTN = @" Update OBTN set Quantity = " + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + " WHERE AbsEntry = " + ii.AbsEntry + "";
-
-
-                                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
-                                            if (res1 <= 0)
+                                            #region Record not found in OBTQ
+                                            if (count == 0)
                                             {
-                                                tran.Rollback();
-                                                return false;
-                                            }
+                                                string GetQuery = @"select OBTN.AbsEntry,OBTN.SysNumber,OBTN.ExpDate,OBTN.Quantity,OBTN.DistNumber,OBTN.ExpDate,OBTN.InDate, OBTQ.Quantity as obtqQuantity , OBTQ.MdAbsEntry from OBTQ " +
+                                                                   "Inner join OBTN on OBTN.AbsEntry = OBTQ.MdAbsEntry " +
+                                                                   "where OBTQ.ItemCode = '" + ii.itemno + "' and OBTQ.WhsCode = '" + ii.whseno + "' and OBTQ.SysNumber = '" + ii.SysNumber + "'";
+                                                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+                                                {
+                                                    while (rdr.Read())
+                                                    {
 
+
+
+                                                        string InsertBatchQuery = @"insert into OBTN(AbsEntry,ItemCode,SysNumber,DistNumber,ExpDate,InDate,Quantity)
+                                                                    values(" + Convert.ToInt32(rdr["AbsEntry"]) + ",'"
+                                                                   + ii.itemno + "',"
+                                                                   + Convert.ToInt32(rdr["SysNumber"]) + ",'"
+                                                                   + ii.DistNumber + "','"
+                                                                   + rdr["ExpDate"].ToString() == "" ? "NULL" : Convert.ToDateTime(rdr["ExpDate"]) + "','"
+                                                                   + rdr["InDate"].ToString() == "" ? "NULL" : Convert.ToDateTime(rdr["InDate"]) + "',"
+                                                                   + rdr["Quantity"].ToDecimal() + ");" +
+
+                                                                   " insert into OBTQ(AbsEntry,ItemCode,SysNumber,WhsCode,Quantity,MdAbsEntry,DataSource) " +
+                                                                   "values (" + ii.AbsEntry + ",'"
+                                                                   + ii.itemno + "',"
+                                                                   + ii.SysNumber + ",'"
+                                                                   + ii.whseno + "',"
+                                                                   + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + ","
+                                                                   + Convert.ToInt32(rdr["AbsEntry"]) + ",'"
+                                                                   + "N')";
+
+                                                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, InsertBatchQuery).ToInt();
+                                                        if (res1 <= 0)
+                                                        {
+                                                            tran.Rollback();
+                                                            return false;
+                                                        }
+
+
+                                                    }
+                                                }
+
+                                            }
+                                            #endregion
+
+                                            #region Record found in OBTQ
+                                            else
+                                            {
+                                                string BatchQueryOBTN = @"Update OBTQ set Quantity = " + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + " WHERE AbsEntry = " + ii.AbsEntry + "";
+
+                                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
+                                                if (res1 <= 0)
+                                                {
+                                                    tran.Rollback();
+                                                    return false;
+                                                }
+                                            }
+                                            #endregion
+
+                                            #region ITL1 log
                                             string LogQueryITL1 = @"insert into ITL1(LogEntry,ItemCode,SysNumber,Quantity,AllocQty,MdAbsEntry) 
                                                    values(" + LogEntry + ",'"
                                                  + item.ItemCode + "','"
@@ -299,13 +339,14 @@ namespace iSOL_Enterprise.Dal
                                             {
                                                 tran.Rollback();
                                                 return false;
-                                            } 
+                                            }
+                                            #endregion
                                         }
-                                        else  break;
+                                        else break;
 
                                     }
 
-                                    }
+                                }
                             }
                             #endregion
 
@@ -317,7 +358,7 @@ namespace iSOL_Enterprise.Dal
                             if (model.BaseType != -1)
                             {
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
-                                string Updatequery = @"Update "+table+" set OpenQty =OpenQty - " + item.QTY + " where Id ="+item.BaseEntry + "and LineNum ="+item.BaseLine;
+                                string Updatequery = @"Update " + table + " set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
                                 int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
                                 if (res <= 0)
                                 {
@@ -500,7 +541,7 @@ namespace iSOL_Enterprise.Dal
 
                     //int Id = CommonDal.getPrimaryKey(tran, "ODLN");
                     if (model.HeaderData != null)
-                    { 
+                    {
                         string HeadQuery = @" Update ODLN set 
                                                           DocType = '" + DocType + "'" +
                                                        ",CardName = '" + model.HeaderData.CardName + "'" +
@@ -553,7 +594,7 @@ namespace iSOL_Enterprise.Dal
                                 if (docRowModel.BaseEntry != null)
                                 {
                                     string table = dal.GetRowTable(Convert.ToInt32(docRowModel.BaseType));
-                                    string Updatequery = @"Update "+table+" set OpenQty =(OpenQty + " + docRowModel.Quantity + ") - " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine;
+                                    string Updatequery = @"Update " + table + " set OpenQty =(OpenQty + " + docRowModel.Quantity + ") - " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine;
                                     int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
                                     if (res <= 0)
                                     {

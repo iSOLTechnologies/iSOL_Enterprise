@@ -321,9 +321,9 @@ where s.Status=1 and p.Guid=@Guid";
             id = id + 1;
             return id;
         }
-        public static int getSysNumber(SqlTransaction tran, string tblid, string warehouse,string itemcode)
+        public static int getSysNumber(SqlTransaction tran,string itemcode)
         {
-            string query = "select max(" + tblid + ") from  OBTW where ItemCode ='"+itemcode + "' and WhsCode ='"+warehouse +"'";
+            string query = "select max(SysNumber) from  OBTN where ItemCode ='"+itemcode + "'";
             int sysnumber = SqlHelper.ExecuteScalar(tran, CommandType.Text, query).ToInt();
             sysnumber = sysnumber + 1;
             return sysnumber;
