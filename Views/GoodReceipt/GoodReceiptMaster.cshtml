@@ -1806,7 +1806,17 @@ function GetPrice()
     $(document).on('keyup', '#BQuantity', function (e) 
 		{
           
-			
+			if($("#adQuantity").val() != $("#adTotalNeeded").val()) 
+            {
+                let qty = $(this).val();
+                if(qty.length > 0) 
+                {
+                    qty = qty.substring(0, (qty.length-1));
+                    console.log("qty" ,qty);
+                    $("#adTotalNeeded").val(Number(qty) + Number($("#adTotalNeeded").val()));
+                }
+
+            }
 			if (Number($(this).val()) > Number($("#adTotalNeeded").val())) {
 			   toastr.warning("You can't add more than needed quanity !");
 			   $(this).val(0);
