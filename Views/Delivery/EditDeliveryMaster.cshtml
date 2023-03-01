@@ -351,10 +351,10 @@
                                                                                     <th>Quantity</th>
                                                                                     <th>BaseQty</th>
                                                                                     <th>OpenQty</th>
-                                                                                    <th>Unit Price</th>
+                                                                                    @*<th>Unit Price</th>*@
                                                                                     <th>Discount %</th>
                                                                                     <th>Tax Code</th>
-                                                                                    <th>Total (LC)</th>
+                                                                                    @*<th>Total (LC)</th>*@
                                                                                     <th>UOM Code</th>
                                                                                     <th>Country / Region of origin</th>
                                                                                 </tr>
@@ -402,7 +402,7 @@
                                                                                                     <input readonly class="form-control form-control-sm NotReq" id="OpenQty" type="number">
                                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                                 </td>
-                                                                                    <td>
+                                                                                    <td style="display:none;">
                                                                                         <input 
                                                                                             disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)"
                                                                                             value="@row1["price"]" class="form-control form-control-sm" id="UPrc"  type="number">
@@ -435,7 +435,7 @@
                                                                                        </select>                                                                                        
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div> 
                                                                                     </td>
-                                                                                    <td>
+                                                                                                <td style="display:none;">
                                                                                         
                                                                                         <input 
                                                                                             disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)"
@@ -551,7 +551,7 @@
                                                                                        </select>  
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
-                                                                                            <td>
+                                                                                            <td  style="display:none;">
                                                                                                 <input value="@row2["LineTotal"]" class="form-control form-control-sm" id="TotalLC">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
@@ -745,7 +745,7 @@
                                                             <div class="row">
 
 
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-6"  style="display:none;">
                                                                     <label for="inputEmail4" class="form-label">Total</label>
                                                                     <input name="Total" type="text" class="form-control" id="Total">
                                                                 </div>
@@ -964,7 +964,7 @@
                                                                                         
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td  style="display:none;">
                                                                                         <input class="form-control form-control-sm" id="TotalLC">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -1005,7 +1005,7 @@
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </td>
 
-                                                                        <td>
+                                                                        <td  style="display:none;">
                                                                             <input class="form-control form-control-sm" id = "UPrc" onkeyup = "GetPrice()" type = "number" >
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </td>
@@ -1020,7 +1020,7 @@
                                                                                         </select>                                                                                                                                        
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>                                                                                       
                                                                                     </td>
-                                                                        <td>
+                                                                        <td  style="display:none;">
                                                                             <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled >
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </td>
@@ -1433,7 +1433,7 @@ function GetPrice()
                                                                                                     <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
                                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                                 </td>
-                                                                                    <td>
+                                                                                    <td  style="display:none;">
                                                                                         <input class="form-control form-control-sm" id="UPrc"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -1453,7 +1453,7 @@ function GetPrice()
                                                                                         @*<input class="form-control form-control-sm" id="VatGroup" onkeyup="GetPrice()" type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>*@
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td  style="display:none;">
                                                                                         <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -1516,7 +1516,7 @@ function GetPrice()
                                                                                         
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td  style="display:none;">
                                                                                         <input class="form-control form-control-sm" id="TotalLC">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
