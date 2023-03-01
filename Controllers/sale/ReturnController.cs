@@ -38,6 +38,8 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Payments = dal.GetPaymentTerms();
             bool flag = CommonDal.Check_IsEditable("INV1", id);
             //ViewBag.Status = flag == false ? "Open" : "Closed";
+
+            ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.Status = "Open" ;
             return View(dal1.GetReturnDetails(id));
         }

@@ -254,8 +254,22 @@
 
                                                                     <div class="col-md-6">
                                                                         <label>Currency</label>
-                                                                        <input maxlength="3" id="DocCur" readonly value="@row["DocCur"]" type="text" class="form-control form-control-sm">
-                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                         <select id="DocCur" class="form-control form-control-sm ">
+
+                                                                 @foreach (iSOL_Enterprise.Models.sale.tbl_currency x in ViewBag.Currency)
+                                                                {
+                                                                    if (row["DocCur"].Equals(x.curr_code))
+                                                                    {
+                                                                        <option selected value="@x.curr_code">@x.curr_name</option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@x.curr_code">@x.curr_name</option>
+                                                                    }
+                    
+                    
+                                                                }
+                                                                            </select>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <label>Document Date</label>

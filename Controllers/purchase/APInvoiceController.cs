@@ -40,6 +40,7 @@ namespace iSOL_Enterprise.Controllers.Sales
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData();
             ViewBag.Countries = cdal.GetCountries();
+            ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.Payments = dal.GetPaymentTerms();
  
             ViewBag.Status =   "Open" ;

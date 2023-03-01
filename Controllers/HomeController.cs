@@ -181,15 +181,17 @@ namespace iSOL_Enterprise.Controllers
 
         public async void AddValuesToSession(UsersModels user)
         {
-            HttpContext.Session.SetInt32("UserId", user.Id);
-            HttpContext.Session.SetString("GoldenTicket", "True");
-            HttpContext.Session.SetString("Email", user.Email);
-            HttpContext.Session.SetString("Name", user.FirstName + ' ' + user.LastName);
-            HttpContext.Session.SetString("Contact", user.ContactNumber);
-            HttpContext.Session.SetString("Gender", user.Gender);
-            HttpContext.Session.SetString("UserPic", user.UserPic);
-            HttpContext.Session.SetString("SessionId", user.Guid);
-            HttpContext.Session.SetString("RoleCode", user.RoleCode);
+
+            context.HttpContext.Session.SetInt32("UserId", user.Id);
+            context.HttpContext.Session.SetString("GoldenTicket", "True");
+            context.HttpContext.Session.SetString("Email", user.Email);
+            context.HttpContext.Session.SetString("Name", user.FirstName + ' ' + user.LastName);
+            context.HttpContext.Session.SetString("FirstChar", user.FirstName.Substring(0, 1));
+            context.HttpContext.Session.SetString("Contact", user.ContactNumber);
+            context.HttpContext.Session.SetString("Gender", user.Gender);
+            context.HttpContext.Session.SetString("UserPic", user.UserPic);
+            context.HttpContext.Session.SetString("SessionId", user.Guid);
+            context.HttpContext.Session.SetString("RoleCode", user.RoleCode);
 
             _usersModels model = new _usersModels();
 

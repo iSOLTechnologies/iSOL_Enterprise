@@ -35,6 +35,7 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData();
             ViewBag.Countries = cdal.GetCountries();
+            ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.Payments = dal.GetPaymentTerms();
             bool flag = CommonDal.Check_IsEditable("INV1", id);
             //ViewBag.Status = flag == false ? "Open" : "Closed";

@@ -8,9 +8,10 @@ builder.Services.AddControllersWithViews();
 
 
 
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddDistributedMemoryCache();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(60);
@@ -63,8 +64,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseSession();
+app.UseStaticFiles(); 
 app.UseCookiePolicy();
 
 app.UseRouting();
@@ -72,7 +72,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseSession();
 
 
 app.MapControllerRoute(

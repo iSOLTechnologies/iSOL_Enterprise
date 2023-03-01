@@ -34,6 +34,7 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Taxes = dal.GetVatGroupData();
             ViewBag.Countries = cdal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
+            ViewBag.Currency = cdal.GetCurrencydata();
             bool flag = CommonDal.Check_IsEditable("DLN1", id);
             ViewBag.Status = flag == false ? "Open" : "Closed";
 
