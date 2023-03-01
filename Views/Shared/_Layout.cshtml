@@ -3210,19 +3210,18 @@
 		});
 		$(document).on('change keyup', "#ItemCode", function (e) {
 
-
+			ObjItemCode = $(this).closest('tr').find("#ItemCode");
+			
 			$.get("Common/GetItemData", { itemcode: $(this).val(), DocModule: DocModule }, function (data) {
 
-				console.log(data);
 				if (data.success) {
-					console.log($(this).closest('#ListParameters .itm').find("#ItemName").val());
-					console.log((data.item).itemName);
-					let ItemNameObj = $(this).closest('#ListParameters .itm').find("#ItemName");
+					
+					let ItemNameObj = $(ObjItemCode).closest('#ListParameters .itm').find("#ItemName");
 					$(ItemNameObj).val((data.item).itemName);
 					GetUomGroup((data.item).itemCode);
 				} else {
-					$(this).closest('#ListParameters .itm').find("#ItemName").val("");
-					//GetUomGroup((data.item).itemCode);
+					$(ObjItemCode).closest('#ListParameters .itm').find("#ItemName").val("");
+					
 				}
 			});
 
