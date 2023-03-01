@@ -68,7 +68,10 @@ namespace SAP_MVC_DIAPI.BLC
 
                         foreach (var ID in checkedIDs)
                         {
-                            string headerQuery = @"select DocType,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum ,SlpCode,Comments,Id from " + headerTable + " where Id=" + ID + " and isPosted = 0";
+                            string UDF = "";
+                            if (headerTable == "ORDR")                            
+                                UDF = ",CETnum";                            
+                            string headerQuery = @"select DocType,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum ,SlpCode,Comments,Id "+UDF+" from " + headerTable + " where Id=" + ID + " and isPosted = 0";
                             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
                             {
                                 try
@@ -92,6 +95,8 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.GroupNumber = rdr["GroupNum"].ToInt();
                                         oDoc.SalesPersonCode = rdr["SlpCode"].ToInt();
                                         oDoc.Comments = rdr["Comments"].ToString();
+                                        if (headerTable == "ORDR")      //For UDF
+                                            oDoc.UserFields.Fields.Item("U_CETnum").Value = rdr["CETnum"].ToString();
                                         #endregion
 
                                         #region Insert in Row
