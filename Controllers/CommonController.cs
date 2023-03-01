@@ -93,6 +93,22 @@ namespace iSOL_Enterprise.Controllers
                 return Json(ex.Message);
             }
         }
+        [HttpGet]
+        public IActionResult GetCustomerData(string cardcode,string DocModule)
+        {
+            try
+            {
+                CommonDal dal = new CommonDal();
+                ResponseModels model = new ResponseModels();
+                model = dal.GetCustomerData(cardcode, DocModule);
+                return Json(new {success = model.isSuccess , customer = model.Data });
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
+        
     }
 }

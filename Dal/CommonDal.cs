@@ -680,5 +680,41 @@ where s.Status=1 and p.Guid=@Guid";
             return list;
         }
 
+        public  ResponseModels GetCustomerData(string cardcode,string DocModule)
+        {
+            string GetQuery = "";
+            if (DocModule == "S")
+            {
+                GetQuery = "select CardCode,CardName,Currency from OCRD Where CardType = 'C' and CardCode ='" + cardcode + "'";
+            }
+            else if (DocModule == "P")
+            {
+                GetQuery = "select CardCode,CardName,Currency from OCRD Where CardType = 'S' and CardCode ='" + cardcode + "'";
+            }
+
+            List<tbl_customer> list = new List<tbl_customer>();
+            ResponseModels model = new ResponseModels();
+
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+                    tbl_customer customer = new tbl_customer();
+
+                    customer.CardCode = rdr["CardCode"].ToString();
+                    customer.CardName = rdr["CardName"].ToString();
+                    customer.Currency = rdr["Currency"].ToString();
+
+                    model.Data = customer;
+                    model.isSuccess = true;
+                    return model;
+                }
+                model.Data = "";
+                model.isSuccess = false;
+                return model;
+            }
+            
+
+        }
     }
 }

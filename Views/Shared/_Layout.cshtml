@@ -3107,6 +3107,26 @@
 			$('#btnCopyFrom').attr('disabled', false);
 			//$(ObjItemCode)
 		});
+		$(document).on('change keyup',"#CardCode",function(e) {
+
+
+			$.get("Common/GetCustomerData",{cardcode : $(this).val() , DocModule : DocModule},function(data) {
+
+				
+				if(data.success) {
+				$("#CardName").val((data.customer).cardName);
+				$("#DocCur").val((data.customer).currency);
+					GetContactPersons((data.customer).cardCode);
+				}else{
+				$("#CardName").val("");
+				$("#DocCur").val("");
+				GetContactPersons("");
+				}
+			});
+
+			
+		});
+
 		$(document).on('click', '#btnFetchVendorCardCode', function (e) {
 			//debugger
 			var LookTable = $('#MyyyyVendorTable').DataTable();;
