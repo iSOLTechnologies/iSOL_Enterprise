@@ -109,6 +109,21 @@ namespace iSOL_Enterprise.Controllers
                 throw;
             }
         }
-        
+        [HttpGet]
+        public IActionResult GetItemData(string itemcode, string DocModule)
+        {
+            try
+            {
+                CommonDal dal = new CommonDal();
+                ResponseModels model = new ResponseModels();
+                model = dal.GetItemData(itemcode, DocModule);
+                return Json(new { success = model.isSuccess, item = model.Data });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

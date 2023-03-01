@@ -692,7 +692,7 @@ where s.Status=1 and p.Guid=@Guid";
                 GetQuery = "select CardCode,CardName,Currency from OCRD Where CardType = 'S' and CardCode ='" + cardcode + "'";
             }
 
-            List<tbl_customer> list = new List<tbl_customer>();
+           
             ResponseModels model = new ResponseModels();
 
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
@@ -714,6 +714,46 @@ where s.Status=1 and p.Guid=@Guid";
                 return model;
             }
             
+
+        }
+        public ResponseModels GetItemData(string itemcode, string DocModule)
+        {
+            string GetQuery = "";
+            
+            if (DocModule == "S")
+            {
+                GetQuery = "select ItemCode,ItemName,OnHand from OITM where SellItem = 'Y'  and ItemCode='"+itemcode+"'";
+            }
+            else if (DocModule == "P")
+            {
+                GetQuery = "select ItemCode,ItemName,OnHand from OITM where PrchseItem = 'Y' and ItemCode='"+itemcode+"'";
+            }
+            else if (DocModule == "I")
+            {
+                GetQuery = "select ItemCode,ItemName,OnHand from OITM where InvntItem = 'Y' and ItemCode='"+itemcode+"'";
+            }
+
+          
+            ResponseModels model = new ResponseModels();
+
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+                    tbl_item item = new tbl_item();
+
+                    item.ItemCode = rdr["ItemCode"].ToString();
+                    item.ItemName = rdr["ItemName"].ToString();
+
+                    model.Data = item;
+                    model.isSuccess = true;
+                    return model;
+                }
+                model.Data = "";
+                model.isSuccess = false;
+                return model;
+            }
+
 
         }
     }
