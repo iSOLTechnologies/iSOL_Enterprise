@@ -842,6 +842,7 @@
                                     $("#CountryOrg").val(this.CountryOrg);
                                     $("#VatGroup").val(this.VatGroup);
                                     $("#BaseQty").val(this.OpenQty);
+                                    $("#QTY").val(this.OpenQty);
 
                                 }
                                 else {
@@ -969,7 +970,7 @@
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input class="form-control form-control-sm"   id="QTY"  type="number">
+                                                                                                <input class="form-control form-control-sm"  value=`+data.OpenQty+` id="QTY"  type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
