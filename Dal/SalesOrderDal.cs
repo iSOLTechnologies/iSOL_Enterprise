@@ -125,7 +125,7 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
-                        string HeadQuery = @"insert into ORDR(Id,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
+                        string HeadQuery = @"insert into ORDR(Id,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode,CETnum, Comments) 
                                            values(" + Id + ",'"
                                                 + DocType + "','"
                                                 + CommonDal.generatedGuid() + "','"
@@ -140,6 +140,7 @@ namespace iSOL_Enterprise.Dal
                                                 + Convert.ToDateTime(model.HeaderData.TaxDate) + "','"
                                                 + model.ListAccouting.GroupNum + "',"
                                                 + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
+                                                + model.HeaderData.CETnum + "','"
                                                 + model.FooterData.Comments + "')";
 
 
@@ -350,6 +351,7 @@ namespace iSOL_Enterprise.Dal
                                                           DocType = '" + DocType + "'" +
                                                         ",CardName = '" + model.HeaderData.CardName + "'" +
                                                         ",CntctCode = '" + model.HeaderData.CntcCode + "'" +
+                                                        ",CETnum = '" + model.HeaderData.CETnum + "'" +
                                                         ",DocDate = '" + Convert.ToDateTime(model.HeaderData.DocDate) + "'" +
                                                         ",DocDueDate = '" + Convert.ToDateTime(model.HeaderData.DocDueDate) + "'" +
                                                         ",TaxDate = '" + Convert.ToDateTime(model.HeaderData.TaxDate) + "'" +
