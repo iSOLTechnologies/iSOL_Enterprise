@@ -432,30 +432,34 @@ namespace iSOL_Enterprise.Dal
 
                                     if (batch[0].itemno == item.ItemCode)
                                     {
-                                        string itemno = batch[0].itemno;
-                                        int SysNumber = CommonDal.getSysNumber(tran, itemno);
-                                        int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
-
-                                        #region Insert in OBTN
-                                        string BatchQueryOBTN = @"insert into OBTN(AbsEntry,ItemCode,SysNumber,DistNumber,InDate,ExpDate)
-                                                                    values(" + AbsEntry + ",'"
-                                                                + itemno + "',"
-                                                                + SysNumber + ",'"
-                                                                + batch[0].DistNumber + "','"
-                                                                + DateTime.Now + "','"
-                                                                + Convert.ToDateTime(batch[0].ExpDate) + "')";
-
-
-                                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
-                                        if (res1 <= 0)
-                                        {
-                                            tran.Rollback();
-                                            return false;
-                                        }
-                                        #endregion
+                                        
 
                                         foreach (var ii in batch)
                                         {
+
+
+                                            string itemno = ii.itemno;
+                                            int SysNumber = CommonDal.getSysNumber(tran, itemno);
+                                            int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
+
+                                            #region Insert in OBTN
+                                            string BatchQueryOBTN = @"insert into OBTN(AbsEntry,ItemCode,SysNumber,DistNumber,InDate,ExpDate)
+                                                                    values(" + AbsEntry + ",'"
+                                                                    + itemno + "',"
+                                                                    + SysNumber + ",'"
+                                                                    + ii.DistNumber + "','"
+                                                                    + DateTime.Now + "','"
+                                                                    + Convert.ToDateTime(batch[0].ExpDate) + "')";
+
+
+                                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
+                                            if (res1 <= 0)
+                                            {
+                                                tran.Rollback();
+                                                return false;
+                                            }
+                                            #endregion
+
 
                                             #region Insert in OBTQ
                                             int ObtqAbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTQ");
@@ -478,7 +482,7 @@ namespace iSOL_Enterprise.Dal
                                             #region Insert in ITL1
                                             string LogQueryITL1 = @"insert into ITL1(LogEntry,ItemCode,SysNumber,Quantity,OrderedQty,MdAbsEntry) 
                                                    values(" + LogEntry + ",'"
-                                                 + item.ItemCode + "','"
+                                                 + ii.itemno + "','"
                                                  + SysNumber + "',"
                                                  + ii.BQuantity + ","
                                                  + ((Decimal)(ii.BQuantity)) + ","
