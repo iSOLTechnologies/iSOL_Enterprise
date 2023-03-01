@@ -845,6 +845,7 @@
                                     $("#BaseQty").val(this.OpenQty);
                                     $("#QTY").val(this.OpenQty);
                                      $("#OpenQty").val(0);
+                                           $("#TtlPrc").val(this.LineTotal);
                                 }
                                 else {
                                     AddItemRowData((data.baseDoc)[0].docNum, this);
@@ -877,6 +878,7 @@
                                     $("#AcctCode").val(this.AcctCode);
                                     $("#AcctName").val(this.AcctName);
                                     $("#VatGroup2").val(this.VatGroup);
+                                    $("#TotalLC").val(this.LineTotal);
                                 }
                                 else {
                                     AddServiceRowData((data.baseDoc)[0].docNum, this);
@@ -1001,7 +1003,7 @@
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
+                                                                                                <input class="form-control form-control-sm" id="TtlPrc"  value="`+ data.LineTotal + `" name="TotalLC" type='number' disabled>
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
