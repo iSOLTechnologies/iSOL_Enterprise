@@ -77,6 +77,22 @@ namespace iSOL_Enterprise.Controllers
                 return Json(ex.Message);
             }
         }
+        [HttpGet]
+        public IActionResult GetCurrencies()
+        {
+            try
+            {
+
+                CommonDal dal = new CommonDal();
+
+                return Json(dal.GetCurrencydata());
+            }
+            catch (Exception ex)
+            {
+
+                return Json(ex.Message);
+            }
+        }
 
     }
 }

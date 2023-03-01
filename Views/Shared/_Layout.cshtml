@@ -2093,11 +2093,12 @@
 			{
 		
 		
-				$("#Currency").html("");
+				$("#DocCur").html("");
 		
-				$.each(data, function() {
-					
-					$("#Currency").append("<option value=" + this.curr_name + ">" + this.curr_code + "</option>");
+				$("#DocCur").append("<option value=''> Select Currency </option>");
+				$.each(data, function() 
+				{					
+					$("#DocCur").append("<option value=" + this.curr_name + ">" + this.curr_code + "</option>");
 
 				
 				});

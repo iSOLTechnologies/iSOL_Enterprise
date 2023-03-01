@@ -255,7 +255,7 @@
 
                                                                     <div class="col-md-6">
                                                                         <label>Currency</label>
-                                                                        <input id="DocCur" readonly type="text" class="form-control form-control-sm">
+                                                                        <select id="DocCur" class="form-control form-control-sm "></select>
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                     <div class="col-md-6">
@@ -1536,6 +1536,7 @@ function GetPrice()
         DocNumOnLoad();
         GetVatGroupData();
         GetCountrydata();
+        GetCurrencydata();
         GetWareHouseData();
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));

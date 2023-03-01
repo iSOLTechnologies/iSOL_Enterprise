@@ -1,5 +1,6 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
+using iSOL_Enterprise.Models.sale;
 using iSOL_Enterprise.Models.Sale;
 using Newtonsoft.Json;
 using SAPbobsCOM;
@@ -647,6 +648,30 @@ where s.Status=1 and p.Guid=@Guid";
                         {
                             country_code = rdr["country_code"].ToString(),
                             country_name = rdr["country_name"].ToString()
+                        });
+
+                }
+            }
+
+            return list;
+        }
+
+        public List<tbl_currency> GetCurrencydata()
+        {
+            string GetQuery = "select CurrCode, CurrCode +' - '  +CurrName  as CurrName from OCRN order by CurrCode";
+
+
+            List<tbl_currency> list = new List<tbl_currency>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    list.Add(
+                        new tbl_currency()
+                        {
+                            curr_code = rdr["CurrCode"].ToString(),
+                            curr_name = rdr["CurrName"].ToString()
                         });
 
                 }
