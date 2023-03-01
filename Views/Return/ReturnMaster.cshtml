@@ -705,7 +705,7 @@
 <!-- Modal End -->
 
 <script>
-    var vatGroupData = ""; 
+    //var vatGroupData = ""; 
     var ItemServiceType = '1';
     const boxes = document.querySelectorAll('.d');
 
@@ -1109,33 +1109,33 @@
             $("#kt_tabs_5_2").removeClass("d-none");
         }
     });
-    function GetVatGroupData() {
+    //function GetVatGroupData() {
 
-        $.get("SaleQuotation/GetVatGroupData", function (data) {
+    //    $.get("SaleQuotation/GetVatGroupData", function (data) {
 
 
-            // addDataInVatGroup();
-            $("#VatGroup").html("");
-            $("#VatGroup2").html("");
-            $.each(data, function () {
-                console.log();
-                $("#VatGroup").append($('<option>', {
-                    value: this.code,
-                    text: this.vatName,
-                    guid: this.rate
-                }));
-                $("#VatGroup2").append($('<option>', {
-                    value: this.code,
-                    text: this.vatName,
-                    guid: this.rate
-                }));
+    //        // addDataInVatGroup();
+    //        $("#VatGroup").html("");
+    //        $("#VatGroup2").html("");
+    //        $.each(data, function () {
+    //            console.log();
+    //            $("#VatGroup").append($('<option>', {
+    //                value: this.code,
+    //                text: this.vatName,
+    //                guid: this.rate
+    //            }));
+    //            $("#VatGroup2").append($('<option>', {
+    //                value: this.code,
+    //                text: this.vatName,
+    //                guid: this.rate
+    //            }));
 
-                vatGroupData = vatGroupData + "<option guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>";
-            });
+    //            vatGroupData = vatGroupData + "<option guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>";
+    //        });
 
-        });
+    //    });
 
-    }
+    //}
 
     //function GetCountrydata() {
 

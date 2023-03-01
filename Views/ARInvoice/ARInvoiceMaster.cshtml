@@ -739,7 +739,7 @@
 <!-- Modal End -->
 
 <script>
-    var vatGroupData = ""; 
+    //var vatGroupData = ""; 
     var ItemServiceType = '1';
     const boxes = document.querySelectorAll('.d');
 
@@ -1284,33 +1284,33 @@
 
 
 
-  function GetVatGroupData() 
-{
+//  function GetVatGroupData() 
+//{
 	
-	$.get("SaleQuotation/GetVatGroupData", function(data) {
-		vatGroupData = data;
-		// addDataInVatGroup();
-		$("#VatGroup").html("");
-		$("#VatGroup2").html("");
-		$.each(data, function() {
-			console.log();
-			$("#VatGroup").append($('<option>', {
-									value: this.code,
-									text: this.vatName,
-									guid: this.rate
-								}));
-			$("#VatGroup2").append($('<option>', {
-									value: this.code,
-									text: this.vatName,
-									guid : this.rate
-								}));
+//	$.get("SaleQuotation/GetVatGroupData", function(data) {
+//		vatGroupData = data;
+//		// addDataInVatGroup();
+//		$("#VatGroup").html("");
+//		$("#VatGroup2").html("");
+//		$.each(data, function() {
+//			console.log();
+//			$("#VatGroup").append($('<option>', {
+//									value: this.code,
+//									text: this.vatName,
+//									guid: this.rate
+//								}));
+//			$("#VatGroup2").append($('<option>', {
+//									value: this.code,
+//									text: this.vatName,
+//									guid : this.rate
+//								}));
 			
-				vatGroupData = vatGroupData + "<option guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>";
-		});
-		//$("#VatGroup").select2();
-		//$("#VatGroup2").select2();
-	});
-}
+//				vatGroupData = vatGroupData + "<option guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>";
+//		});
+//		//$("#VatGroup").select2();
+//		//$("#VatGroup2").select2();
+//	});
+//}
     //function GetCountrydata() 
     //{
 	

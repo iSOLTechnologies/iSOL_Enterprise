@@ -2062,7 +2062,32 @@
 			MyToFixed();
 		 
 		});
+		  var vatGroupData = "";
+     function GetVatGroupData() 
+		{
+	
+			$.get("SaleQuotation/GetVatGroupData", function(data) 
+			{
+		
+		        vatGroupData = data;
+				$("#VatGroup").html("");
+				$("#VatGroup2").html("");
+		
+				$.each(data, function() {
 
+                if (this.code == "S1" && this.vatName == "S1 - Sales Tax Output Export") {
+					$("#VatGroup").append("<option selected guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>");
+					$("#VatGroup2").append("<option selected guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>");
+					vatGroupData += "<option selected guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>";
+				}else{
+					$("#VatGroup").append("<option guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>");
+					$("#VatGroup2").append("<option guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>");
+					vatGroupData += "<option guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>";
+				}
+				});
+		
+			});
+		} 
 		function GetCountrydata() 
 		{
 	
