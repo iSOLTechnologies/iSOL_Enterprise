@@ -2064,32 +2064,46 @@
 		});
 
 		function GetCountrydata() 
-    {
+		{
 	
-	    $.get("SaleQuotation/GetCountries", function(data) 
-        {
+			$.get("Common/GetCountries", function(data) 
+			{
 		
 		
-		    $("#CountryOrg").html("");
+				$("#CountryOrg").html("");
 		
-		    $.each(data, function() {
-			
-			    
-			    
-			
-			if(this.country_code == "PK" && this.country_name == "Pakistan"){
-				$("#CountryOrg").append("<option selected value=" + this.country_code + ">" + this.country_name + "</option>");
-				CountryData = CountryData + "<option selected value=" + this.country_code + ">" + this.country_name + "</option>";
-			}else{
-				$("#CountryOrg").append("<option value=" + this.country_code + ">" + this.country_name + "</option>");
-				CountryData = CountryData + "<option  value=" + this.country_code + ">" + this.country_name + "</option>";
-			}
-		    });
+				$.each(data, function() {
+					
+				if(this.country_code == "PK" && this.country_name == "Pakistan"){
+					$("#CountryOrg").append("<option selected value=" + this.country_code + ">" + this.country_name + "</option>");
+					CountryData = CountryData + "<option selected value=" + this.country_code + ">" + this.country_name + "</option>";
+				}else{
+					$("#CountryOrg").append("<option value=" + this.country_code + ">" + this.country_name + "</option>");
+					CountryData = CountryData + "<option  value=" + this.country_code + ">" + this.country_name + "</option>";
+				}
+				});
 		
-	    });
-    } 
+			});
+		} 
 
+		function GetCurrencydata() 
+		{
+	
+			$.get("Common/GetCurrencies", function(data) 
+			{
+		
+		
+				$("#Currency").html("");
+		
+				$.each(data, function() {
+					
+					$("#Currency").append("<option value=" + this.curr_name + ">" + this.curr_code + "</option>");
 
+				
+				});
+		
+			});
+		} 
 
 
 		function Back_his() {

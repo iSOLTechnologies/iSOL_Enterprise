@@ -60,6 +60,23 @@ namespace iSOL_Enterprise.Controllers
 
             return Json(new { success = model.isSuccess, message = model.Message });
         }
+        
+        [HttpGet]
+        public IActionResult GetCountries()
+        {
+            try
+            {
+
+                CommonDal dal = new CommonDal();
+
+                return Json(dal.GetCountries());
+            }
+            catch (Exception ex)
+            {
+
+                return Json(ex.Message);
+            }
+        }
 
     }
 }

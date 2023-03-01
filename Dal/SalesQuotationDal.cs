@@ -183,29 +183,7 @@ namespace iSOL_Enterprise.Dal
 
             return list;
         }
-        public List<tbl_country> GetCountries()
-        {
-            string GetQuery = "select * from tbl_country ";
-
-
-            List<tbl_country> list = new List<tbl_country>();
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
-            {
-                while (rdr.Read())
-                {
-
-                    list.Add(
-                        new tbl_country()
-                        {
-                            country_code = rdr["country_code"].ToString(),
-                            country_name = rdr["country_name"].ToString()
-                        });
-
-                }
-            }
-
-            return list;
-        }
+        
 
         public List<tbl_OVTG> GetVatGroupData()
         {

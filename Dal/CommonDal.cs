@@ -1,5 +1,6 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
+using iSOL_Enterprise.Models.Sale;
 using Newtonsoft.Json;
 using SAPbobsCOM;
 using SqlHelperExtensions;
@@ -628,6 +629,30 @@ where s.Status=1 and p.Guid=@Guid";
             JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
             return JSONString;
 
+        }
+
+        public List<tbl_country> GetCountries()
+        {
+            string GetQuery = "select * from tbl_country ";
+
+
+            List<tbl_country> list = new List<tbl_country>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    list.Add(
+                        new tbl_country()
+                        {
+                            country_code = rdr["country_code"].ToString(),
+                            country_name = rdr["country_name"].ToString()
+                        });
+
+                }
+            }
+
+            return list;
         }
 
     }

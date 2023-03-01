@@ -35,10 +35,11 @@ namespace iSOL_Enterprise.Controllers.Sales
         public IActionResult EditAPInvoiceMaster(int id)
         {
             SalesQuotationDal dal = new SalesQuotationDal();
+            CommonDal cdal = new CommonDal();
             APInvoiceDal dal1 = new APInvoiceDal();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData();
-            ViewBag.Countries = dal.GetCountries();
+            ViewBag.Countries = cdal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
  
             ViewBag.Status =   "Open" ;

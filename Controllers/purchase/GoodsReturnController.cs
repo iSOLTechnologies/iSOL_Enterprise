@@ -31,9 +31,10 @@ namespace iSOL_Enterprise.Controllers
             
             GoodsReturnDal dal1 = new GoodsReturnDal();
             SalesQuotationDal dal = new SalesQuotationDal();
+            CommonDal cdal = new CommonDal();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData();
-            ViewBag.Countries = dal.GetCountries();
+            ViewBag.Countries = cdal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
             bool flag = CommonDal.Check_IsEditable("INV1", id);
             //ViewBag.Status = flag == false ? "Open" : "Closed";

@@ -37,10 +37,11 @@ namespace iSOL_Enterprise.Controllers.Sales
             public IActionResult EditSaleQuotationMaster(int id)
         {
             SalesQuotationDal dal = new SalesQuotationDal();
+            CommonDal cdal = new CommonDal();
             //ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData();
-            ViewBag.Countries = dal.GetCountries();
+            ViewBag.Countries = cdal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
             bool flag = CommonDal.Check_IsEditable("RDR1", id);
             ViewBag.Status = flag == false ? "Open" : "Closed";
@@ -160,21 +161,7 @@ namespace iSOL_Enterprise.Controllers.Sales
                 return Json(ex.Message);
             }
         }
-        public IActionResult GetCountries()
-        {
-            try
-            {
-
-                SalesQuotationDal dal = new SalesQuotationDal();
-
-                return Json(dal.GetCountries());
-            }
-            catch (Exception ex)
-            {
-
-                return Json(ex.Message);
-            }
-        }
+        
         public IActionResult GetSaleEmployee()
         {
             //ResponseModels response = new ResponseModels();

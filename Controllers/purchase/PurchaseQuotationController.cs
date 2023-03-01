@@ -39,9 +39,10 @@ namespace iSOL_Enterprise.Controllers.Sales
         {
             PurchaseQuotationDal dal1 = new PurchaseQuotationDal();
             SalesQuotationDal dal = new SalesQuotationDal();
+            CommonDal cdal = new CommonDal();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData();
-            ViewBag.Countries = dal.GetCountries();
+            ViewBag.Countries = cdal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
             bool flag = CommonDal.Check_IsEditable("POR1", id);
             ViewBag.Status = flag == false ? "Open" : "Closed";

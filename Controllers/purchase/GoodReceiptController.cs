@@ -30,10 +30,11 @@ namespace iSOL_Enterprise.Controllers.Sales
         public IActionResult EditGoodReceiptMaster(int id)
         {
             SalesQuotationDal dal = new SalesQuotationDal();
+            CommonDal cdal = new CommonDal();
             GoodReceiptDal dal1 = new GoodReceiptDal();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData();
-            ViewBag.Countries = dal.GetCountries();
+            ViewBag.Countries = cdal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
             bool flag = CommonDal.Check_IsEditable("PCH1", id);
             ViewBag.Status = flag == false ? "Open" : "Closed";
