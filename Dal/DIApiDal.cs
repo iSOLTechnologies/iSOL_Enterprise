@@ -128,7 +128,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                 oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
 
 
-                                                if (rowTable == "DLN1")
+                                                if (rowTable == "DLN1" || rowTable == "PDN1")
                                                 {
 
                                                     string BatchQuery = @" select ITL1.ItemCode,ITL1.SysNumber,ITL1.Quantity,ITL1.AllocQty,OITL.CreateDate, OBTN.ExpDate,Obtn.DistNumber from OITL 
@@ -152,15 +152,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                         }
                                                     }
 
-                                                }
-                                                else if (rowTable == "PDN1")
-                                                {
-
-                                                    string BatchQuery = "@";
-
-
-
-                                                }
+                                                }                                               
                                                 oDoc.Lines.Add();
 
                                             }
