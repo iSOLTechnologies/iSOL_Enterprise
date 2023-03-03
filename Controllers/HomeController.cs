@@ -186,12 +186,13 @@ namespace iSOL_Enterprise.Controllers
             context.HttpContext.Session.SetString("GoldenTicket", "True");
             context.HttpContext.Session.SetString("Email", user.Email);
             context.HttpContext.Session.SetString("Name", user.FirstName + ' ' + user.LastName);
-            context.HttpContext.Session.SetString("FirstChar", user.FirstName.Substring(0, 1));
+            context.HttpContext.Session.SetString("FirstChar", user.FirstName.Substring(0, 1).ToUpper());
             context.HttpContext.Session.SetString("Contact", user.ContactNumber);
             context.HttpContext.Session.SetString("Gender", user.Gender);
             context.HttpContext.Session.SetString("UserPic", user.UserPic);
             context.HttpContext.Session.SetString("SessionId", user.Guid);
             context.HttpContext.Session.SetString("RoleCode", user.RoleCode);
+            context.HttpContext.Session.SetString("RoleName", user.RoleName);
 
             _usersModels model = new _usersModels();
 

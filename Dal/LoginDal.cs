@@ -20,6 +20,10 @@ namespace iSOL_Enterprise.Dal
     {
 
        dynamic Id;
+
+
+
+
         public bool ChkCredentials(string name, string pwd)
         {
             try
@@ -86,8 +90,9 @@ namespace iSOL_Enterprise.Dal
             UsersModels model = new UsersModels();
             try
             {
-                string LoginQuery = @"select u.id,u.FirstName,u.LastName,u.Email,u.Username,u.ContactNumber,u.Password,u.IsLoggedIn,u.DateOfBirth,u.Gender,u.UserPic,u.RoleCode from users u
-                                      where u.email=@Username and u.Password=@Password and IsActive=1";
+                string LoginQuery = @"select r.RoleName,u.id,u.FirstName,u.LastName,u.Email,u.Username,u.ContactNumber,u.Password,u.IsLoggedIn,u.DateOfBirth,u.Gender,u.UserPic,u.RoleCode from users u 
+inner join Roles r on u.RoleCode = r.RoleCode 
+                                      where u.email=@Username and u.Password=@Password and u.IsActive=1 ";
 
                 SqlParameter[] param = new SqlParameter[]
                 {
@@ -117,7 +122,9 @@ namespace iSOL_Enterprise.Dal
                         model.UserPic = rdr["UserPic"].ToString();
                         model.RoleCode = rdr["RoleCode"].ToString();
                         model.Guid = input.Guid;
-                    }
+                        model.RoleName = rdr["RoleName"].ToString();
+
+					}
                     rdr.Close();
                     bool result = new LoginDal().GenerateSession(tran, model);
                     bool GenerateLogs = new LoginDal().GenerateSessionLogs(tran, model);

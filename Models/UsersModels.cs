@@ -22,6 +22,7 @@ namespace iSOL_Enterprise.Models
         public string Gender { get; set; }
         public string UserPic { get; set; }
         public string RoleCode { get; set; }
+        public string RoleName { get; set; }
         public int SuperiorId { get; set; }
         public string RegionCode { get; set; }
         public string DepartmentCode { get; set; }
