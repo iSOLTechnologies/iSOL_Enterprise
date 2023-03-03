@@ -681,28 +681,7 @@
 <script src="~/Assets/plugins/global/plugins.bundle.js"></script>
 <script src="~/Assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
 <script src="~/Assets/js/scripts.bundle.js"></script>
-
-
-
-
-<!-- Item Modal -->
-@*<button type="button" style="display:none;" id="myItembtn" data-toggle="modal" data-target="#myModal"></button>
-
-<partial name="~/Views/Shared/_ItemModal.cshtml" model='ViewData["ItemList"]'/>
- *@
-<!-- Modal End -->
-<!-- Customer Modal -->
-@*<button type="button" style="display:none;" id="myCustomerbtn" data-toggle="modal" data-target="#myCustModal"></button>
-
-<partial name="~/Views/Shared/_CustomerModal.cshtml" model='ViewData["CustomerList"]'/>
- *@
-<!-- Modal End -->
-<!-- Account Modal -->
-@*<button type="button" style="display:none;" id="myAccountbtn" data-toggle="modal" data-target="#myaccountModal"></button>
-
-<partial name="~/Views/Shared/_AccountModal.cshtml" model='ViewData["AccountList"]' />
- *@
-<!-- Modal End -->
+<script src="~/js/commonmethods.js"></script>
 
 <script>
     //var vatGroupData = ""; 
@@ -724,18 +703,7 @@
         console.log("Clickeddd")
 
     });
-    //$(document).on('click', '#tabAccounting', function (e) {
-
-    //    $.get("SaleQuotation/GetPayments", function (data) {
-    //        $("#GroupNum").html("");
-    //        $.each(data, function () {
-
-    //            $("#GroupNum").append($("<option />").val(this.groupNum).text(this.pymntGroup));
-    //        });
-
-    //    });
-
-    //});
+    
     $("#btnCopyFromOptions a").click(function () {
         //$(document).on('click', '#btnCopyFrom', function (e) {
         BaseType = $(this).attr("guid");
@@ -1316,10 +1284,7 @@
         $('#myCustModal').modal('show');
 
     });
-    //function clckme(){
-    //     document.getElementById("myCustomerbtn").click();
-    //}
-
+ 
     $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount,#VatGroup,.VT_Option', function (e) {
 
         var Qty = $(this).closest('#ListParameters .itm').find('#QTY');
@@ -1384,71 +1349,6 @@
         }
     });
 
-    //$(document).on('keyup', '#Rounding', function (e)
-    //{
-
-
-    //  if($('#RoundingChkBox').is(":checked"))
-    //  {
-
-    //    var TotalPrice = $("#Total").val();
-    //    var RoundingValue = parseFloat($('#Rounding').val());
-    //    if(TotalPrice != "")
-    //        if(RoundingValue != "")
-    //            $("#Total").val( Number(TotalPrice) +  RoundingValue);
-    //        else
-    //        $("#Total").val( Number(TotalPrice));
-    //  }
-    //});
-    function GetPrice() {
-
-        $("#Total").val(0);
-        var totalBeforeDiscount = 0;
-        var RoundingValue = 0;
-        var Discount = parseFloat($("#Discount").val() / 100);
-        $('#ListParameters .itm').each(function (index, item) {
-            var dt1 = $(this).closest('#ListParameters .itm').find("#TtlPrc");
-            if (dt1.val() != null)
-                totalBeforeDiscount = Number(totalBeforeDiscount) + Number(dt1.val());
-        })
-        if (totalBeforeDiscount != 0)
-            $("#TotalBeforeDiscount").val(totalBeforeDiscount);
-
-        if ($('#RoundingChkBox').is(":checked")) {
-
-
-            RoundingValue = parseFloat($('#Rounding').val());
-
-        }
-        if (Discount != "" && RoundingValue != "") {
-
-            $("#Total").val(totalBeforeDiscount - ((totalBeforeDiscount + RoundingValue) * Discount));
-
-        }
-        else if (Discount == "" && RoundingValue != "") {
-            $("#Total").val((totalBeforeDiscount + RoundingValue));
-        }
-        else if (Discount != "" && RoundingValue == "") {
-
-            $("#Total").val(parseFloat(totalBeforeDiscount - (totalBeforeDiscount * Discount)));
-        }
-        else if (Discount == "" && RoundingValue == "") {
-
-            $("#Total").val(totalBeforeDiscount);
-        }
-
-    }
-
-
-    var DOMStatus = '';
-    var formid = '';
-    var Guid = '';
-    var ListValueType;
-    var ListDurationType;
-    var ListValueMethod;
-    var ListParameter;
-    var ListItemCodes;
-    var isDuplicate = false;
 
     $(document).ready(function () {
 
@@ -1750,64 +1650,6 @@
     });
 
 
-    function ValidateData(element) {
-
-        let isValid = [];
-
-        $('#' + element + ' input,' + '#' + element + ' select, ' + '#' + element + ' textarea').each(function (index, data) {
-
-            if (!($(this).hasClass("NotReq"))) {
-                if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') {
-                    if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) {
-                        $(this).addClass('is-invalid');
-                        isValid.push(false);
-                    }
-                    else {
-                        $(this).removeClass('is-invalid');
-                        isValid.push(true);
-                    }
-
-                }
-            }
-        });
-
-        if (isValid.includes(false))
-            return false;
-        else
-            return true;
-
-    }
-
-    function ValidateListData(element) {
-        let isValid = [];
-
-        $('#' + element).each(function (index, item) {
-
-            $(this).find('input , select , textarea').each(function (index, data) {
-
-                if (!($(this).hasClass("NotReq"))) {
-                    if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') {
-                        if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) {
-                            $(this).addClass('is-invalid');
-                            isValid.push(false);
-                        }
-                        else {
-                            $(this).removeClass('is-invalid');
-                            isValid.push(true);
-                        }
-                    }
-                }
-            });
-
-        });
-
-
-        if (isValid.includes(false))
-            return false;
-        else
-            return true;
-    }
-
     function FormData() {
 
 
@@ -1873,62 +1715,6 @@
         }).done(function (result) {
 
         });
-    }
-
-    function getJsonObj(element) {
-
-
-
-        var jsonobj = new Object();
-
-        // console.log($('#' + element + ' input,' + '#' + element + ' select'))
-
-        $('#' + element + ' input,' + '#' + element + ' select, ' + '#' + element + ' textarea').each(function (index, data) {
-
-            if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')
-                jsonobj[$(this).attr("id")] = $(this).val();
-
-        });
-        return jsonobj;
-    }
-
-    function getJsonObjList(element) {
-        let listObj = [];
-
-        $('#' + element).each(function (index, item) {
-            var jsonobj = new Object();
-            $(this).find('input , select , textarea').each(function (index, data) {
-
-                if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')
-                    jsonobj[$(this).attr("id")] = $(this).val();
-
-            });
-
-            listObj.push(jsonobj);
-
-
-
-        })
-        return listObj;
-    }
-    function getJsonObjList(element) {
-        let listObj = [];
-
-        $('#' + element).each(function (index, item) {
-            var jsonobj = new Object();
-            $(this).find('input , select , textarea').each(function (index, data) {
-
-                if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')
-                    jsonobj[$(this).attr("id")] = $(this).val();
-
-            });
-
-            listObj.push(jsonobj);
-
-
-
-        })
-        return listObj;
     }
 
 
