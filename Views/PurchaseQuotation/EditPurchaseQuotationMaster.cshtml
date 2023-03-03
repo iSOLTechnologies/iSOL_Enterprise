@@ -1878,33 +1878,30 @@ function GetPrice()
     });
     
     
-    function ValidateData(element) 
-    {
+    function ValidateData(element) {
 
         let isValid = [];
 
-        $('#' + element + ' input,' + '#' + element + ' select, ' + '#' + element + ' textarea').each(function (index, data) 
-        {
-            
-            if($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')     
-            {
-                    if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) 
-                    {
-                            $(this).addClass('is-invalid');
-                            isValid.push(false);
+        $('#' + element + ' input,' + '#' + element + ' select, ' + '#' + element + ' textarea').each(function (index, data) {
+
+            if (!($(this).hasClass("NotReq"))) {
+                if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') {
+                    if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) {
+                        $(this).addClass('is-invalid');
+                        isValid.push(false);
                     }
-                    else 
-                    {
+                    else {
                         $(this).removeClass('is-invalid');
-                         isValid.push(true);
+                        isValid.push(true);
                     }
-                  
+
+                }
             }
         });
 
-        if(isValid.includes(false))
+        if (isValid.includes(false))
             return false;
-            else
+        else
             return true;
 
     }

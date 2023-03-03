@@ -86,6 +86,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.DocType = rdr["DocType"].ToString() == "I" ? BoDocumentTypes.dDocument_Items : BoDocumentTypes.dDocument_Service;
                                         oDoc.CardCode = rdr["CardCode"].ToString();
                                         oDoc.CardName = rdr["CardName"].ToString();
+                                       
                                         oDoc.ContactPersonCode = rdr["CntctCode"].ToInt();
                                         oDoc.DocDate = rdr["DocDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["DocDate"].ToString());
                                         oDoc.NumAtCard = rdr["NumAtCard"].ToString();
@@ -103,64 +104,134 @@ namespace SAP_MVC_DIAPI.BLC
                                         string RowQuery = @"select BaseEntry,BaseLine,BaseType,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup,UomEntry ,CountryOrg , Dscription,AcctCode,LineNum from " + rowTable + " where Id = " + ID;
                                         using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, RowQuery))
                                         {
-                                            while (rdr2.Read())
+                                            try
                                             {
 
 
-                                                if (rdr2["BaseEntry"].ToString() != "")
-                                                    oDoc.Lines.BaseEntry = rdr2["BaseEntry"].ToInt();
-                                                if (rdr2["BaseLine"].ToString() != "")
-                                                    oDoc.Lines.BaseLine = rdr2["BaseLine"].ToInt();
-                                                if (rdr2["BaseType"].ToString() != "")
-                                                    oDoc.Lines.BaseType = rdr2["BaseType"].ToInt();
-                                                if (rdr2["Price"].ToString() != "")
-                                                    oDoc.Lines.Price = rdr2["Price"].ToDouble();
-                                                if (rdr2["LineTotal"].ToString() != "")
-                                                    oDoc.Lines.LineTotal = rdr2["LineTotal"].ToDouble();
-
-                                                oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();
-                                                oDoc.Lines.Quantity = rdr2["Quantity"].ToDouble();
-                                                oDoc.Lines.DiscountPercent = rdr2["DiscPrcnt"].ToDouble();
-                                                oDoc.Lines.VatGroup = rdr2["VatGroup"].ToString();
-                                                oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
-                                                oDoc.Lines.CountryOrg = rdr2["CountryOrg"].ToString();
-                                                oDoc.Lines.ItemDescription = rdr2["Dscription"].ToString();
-                                                oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
-
-
-                                                if (rowTable == "DLN1" || rowTable == "PDN1")
+                                                while (rdr2.Read())
                                                 {
 
-                                                    string BatchQuery = @" select ITL1.ItemCode,ITL1.SysNumber,ITL1.Quantity,ITL1.AllocQty,OITL.CreateDate, OBTN.ExpDate,OBTN.DistNumber from OITL 
+
+                                                    if (rdr2["BaseEntry"].ToString() != "")
+                                                        oDoc.Lines.BaseEntry = rdr2["BaseEntry"].ToInt();
+                                                    if (rdr2["BaseLine"].ToString() != "")
+                                                        oDoc.Lines.BaseLine = rdr2["BaseLine"].ToInt();
+                                                    if (rdr2["BaseType"].ToString() != "")
+                                                        oDoc.Lines.BaseType = rdr2["BaseType"].ToInt();
+                                                    if (rdr2["Price"].ToString() != "")
+                                                        oDoc.Lines.Price = rdr2["Price"].ToDouble();
+                                                    if (rdr2["LineTotal"].ToString() != "")
+                                                        oDoc.Lines.LineTotal = rdr2["LineTotal"].ToDouble();
+
+                                                    oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();
+                                                    oDoc.Lines.Quantity = rdr2["Quantity"].ToDouble();
+                                                    oDoc.Lines.DiscountPercent = rdr2["DiscPrcnt"].ToDouble();
+                                                    //oDoc.Lines.VatGroup = rdr2["VatGroup"].ToString();
+                                                    oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
+                                                    oDoc.Lines.CountryOrg = rdr2["CountryOrg"].ToString();
+                                                    oDoc.Lines.ItemDescription = rdr2["Dscription"].ToString();
+                                                    oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
+
+
+                                                    if (rowTable == "DLN1")
+                                                    {
+
+                                                        string BatchQuery = @" select ITL1.ItemCode,ITL1.SysNumber,ITL1.Quantity,ITL1.AllocQty,OITL.CreateDate, OBTN.ExpDate,OBTN.DistNumber from OITL 
                                                                            inner join ITL1 on OITL.LogEntry = ITL1.LogEntry 
                                                                            inner join OBTQ on ITL1.MdAbsEntry = OBTQ.AbsEntry 
                                                                            inner join OBTN on OBTQ.MdAbsEntry = OBTN.AbsEntry
                                                                            where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "'";
-                                                    using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
-                                                    {
-                                                        while (rdr3.Read())
+                                                        using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
                                                         {
-                                                            
-                                                            oDoc.Lines.BatchNumbers.ItemCode = rdr3["ItemCode"].ToString();
-                                                            oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();
-                                                            oDoc.Lines.BatchNumbers.SystemSerialNumber = rdr3["SysNumber"].ToInt();
-                                                            oDoc.Lines.BatchNumbers.Quantity = rdr3["AllocQty"].ToInt() > 0 ? rdr3["AllocQty"].ToInt() : (-1 * rdr3["AllocQty"].ToInt());
-                                                            oDoc.Lines.BatchNumbers.AddmisionDate = rdr3["CreateDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr3["CreateDate"].ToString());                                                            
-                                                            if (rdr3["ExpDate"].ToString() != "")
-                                                            oDoc.Lines.BatchNumbers.ExpiryDate =  Convert.ToDateTime(rdr3["ExpDate"].ToString());
-                                                            oDoc.Lines.BatchNumbers.Add();
+                                                            while (rdr3.Read())
+                                                            {
 
+                                                                oDoc.Lines.BatchNumbers.SetCurrentLine(0);
+
+                                                                oDoc.Lines.BatchNumbers.ItemCode = rdr3["ItemCode"].ToString();
+                                                                oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();
+                                                                // oDoc.Lines.BatchNumbers.SystemSerialNumber = rdr3["SysNumber"].ToInt();
+                                                                oDoc.Lines.BatchNumbers.Quantity = rdr3["Quantity"].ToInt() > 0 ? rdr3["Quantity"].ToInt() : (-1 * rdr3["Quantity"].ToInt());
+                                                                oDoc.Lines.BatchNumbers.AddmisionDate = rdr3["CreateDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr3["CreateDate"].ToString());
+                                                                if (rdr3["ExpDate"].ToString() != "")
+                                                                    oDoc.Lines.BatchNumbers.ExpiryDate = Convert.ToDateTime(rdr3["ExpDate"].ToString());
+                                                                oDoc.Lines.BatchNumbers.Add();
+
+                                                            }
                                                         }
+
                                                     }
 
-                                                }                                               
-                                                oDoc.Lines.Add();
+                                                    if (rowTable == "PDN1")
+                                                    {
 
+                                                        try
+                                                        {
+
+
+                                                            string BatchQuery = @" select ITL1.ItemCode,ITL1.SysNumber,ITL1.Quantity,ITL1.AllocQty,OITL.CreateDate, OBTN.ExpDate,OBTN.DistNumber from OITL 
+                                                                           inner join ITL1 on OITL.LogEntry = ITL1.LogEntry 
+                                                                           inner join OBTQ on ITL1.MdAbsEntry = OBTQ.AbsEntry 
+                                                                           inner join OBTN on OBTQ.MdAbsEntry = OBTN.AbsEntry
+                                                                           where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "'";
+                                                            using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
+                                                            {
+                                                     
+                                                                while (rdr3.Read())
+                                                                {
+
+                                                                    //SAPbobsCOM.BatchNumbers oBatchNumber = oDoc.Lines.BatchNumbers;
+                                                                    //SAPbobsCOM.Batc oBatchNumber = oBatchNumbers.BatchNumber;
+
+                                                                    //oBatchNumber.BatchNumber = rdr3["DistNumber"].ToString();
+                                                                    //oBatchNumber.Quantity = rdr3["Quantity"].ToInt() > 0 ? rdr3["Quantity"].ToInt() : (-1 * rdr3["Quantity"].ToInt());
+                                                                    //oBatchNumber.ManufacturerSerialNumber = "MSN001";
+                                                                    //oBatchNumber.InternalSerialNumber = "ISN001";
+                                                                    //oBatchNumber.ManufacturingDate = DateTime.Today;
+                                                                    //oBatchNumber.Location = "LOC001";
+                                                                    //oBatchNumber.Notes = "New batch added via DI API";
+
+                                                                    //oBatchNumber.Add();
+
+                                                                    //if (i == 0)
+                                                                    //    oDoc.Lines.BatchNumbers.SetCurrentLine(0);
+                                                                    oDoc.Lines.BatchNumbers.ItemCode = rdr3["ItemCode"].ToString();
+                                                                    oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();
+                                                                    oDoc.Lines.BatchNumbers.BaseLineNumber = rdr2["BaseLine"].ToInt();
+                                                                    
+                                                                    // oDoc.Lines.BatchNumbers.SystemSerialNumber = rdr3["SysNumber"].ToInt();
+                                                                    oDoc.Lines.BatchNumbers.Quantity = rdr3["Quantity"].ToInt() > 0 ? rdr3["Quantity"].ToInt() : (-1 * rdr3["Quantity"].ToInt());
+                                                                    //oDoc.Lines.BatchNumbers.AddmisionDate = rdr3["CreateDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr3["CreateDate"].ToString());
+                                                                    //if (rdr3["ExpDate"].ToString() != "")
+                                                                    //    oDoc.Lines.BatchNumbers.ExpiryDate = Convert.ToDateTime(rdr3["ExpDate"].ToString());
+                                                                    oDoc.Lines.BatchNumbers.Add();
+
+                                                                  
+
+
+                                                                    //i += 1;
+                                                                }
+                                                            }
+                                                        }
+                                                        catch (Exception)
+                                                        {
+
+                                                            throw;
+                                                        }
+                                                    }
+                                                     oDoc.Lines.Add();
+                                                }
                                             }
+                                            catch (Exception)
+                                            {
+
+                                                throw;
+                                            }
+                                        }
                                         }
                                         #endregion
 
-                                    }
+                                    
                                 }
                                 catch (Exception e)
                                 {
@@ -194,6 +265,7 @@ namespace SAP_MVC_DIAPI.BLC
                                     oCompany.GetLastError(out res, out message);
                                     models.Message = message;
                                     models.isSuccess = false;
+                                    tran.Rollback();
                                     return models;
                                 }
                                 else
