@@ -755,8 +755,7 @@
         $('#myaccountModal').modal('show');
         console.log("Clickeddd")
 
-    });
-    
+    });    
 
     $("#btnCopyFromOptions a").click(function () {
         //$(document).on('click', '#btnCopyFrom', function (e) {
@@ -784,6 +783,7 @@
 
 
     });
+    
     $(document).on('click', '#btnCopytableOk', function (e) {
 
 
@@ -927,6 +927,7 @@
 
         });
     }
+    
     function AddItemRowData(baseRef, data) {
         var html = `    <tr class="rowItemDetail align-items-center itm">
                                                                                         <td>
@@ -1070,7 +1071,6 @@
         $('#kt_repeater_2 tbody').append(html);
     }
 
-
     $(document).on('click', '#btnbrowseFile', function (e) {
 
         console.log("brow");
@@ -1092,7 +1092,8 @@
 
         //$(ObjItemCode)
     });
-     $(document).on('change', '#UomEntry', function (e) 
+     
+    $(document).on('change', '#UomEntry', function (e) 
     {
         
         let UomCode =  $(this).find("option:selected").text();
@@ -1100,6 +1101,7 @@
         $(this).closest('tr').find("#UomCode").val(""+UomCode+"");
        
     });
+    
     $(document).on('change', '#ItemServiceType', function (e) {
         var val = $("#ItemServiceType option:selected").val();
         var value = $('#ItemServiceType').val();
@@ -1280,15 +1282,13 @@
 
     });
 
-
     $(document).on('click', '#CustomerNo', function (e) {
         ObjCardCode = $(this);
 
         generateCustomerTable();
         $('#myCustModal').modal('show');
 
-    });
-   
+    });  
 
     $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount,#VatGroup,.VT_Option', function (e) {
 
@@ -1342,7 +1342,6 @@
 
     });
 
-
     $(document).on('click', '#RoundingChkBox', function (e) {
 
         if ($(this).is(":checked")) {
@@ -1352,8 +1351,6 @@
             $('#Rounding').attr('readonly', 'readonly');
         }
     });
-
-    
 
     $(document).ready(function () {
 
@@ -1616,9 +1613,7 @@
 
         $(this).removeClass('is-invalid');
     });
-    //================== Post Data Working =====================
-
-
+    
     $(document).on('click', '#btnSaveData', function (e) {
 
         $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
@@ -1650,7 +1645,6 @@
         }
     });
 
-
     function FormData() {
 
 
@@ -1671,6 +1665,7 @@
 
 
     }
+    
     function PostData(formData) {
 
 
