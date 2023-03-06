@@ -299,9 +299,9 @@
                                                                         <table id="kt_repeater_1" style="overflow:auto">
                                                                             <thead class="ScrollThead">
                                                                                 <tr>
-                                                                                    <th>BaseRef</th>
+                                                                                   @* <th>BaseRef</th>
                                                                                     <th>BaseEntry</th>
-                                                                                    <th>BaseLine</th>
+                                                                                    <th>BaseLine</th>*@
                                                                                     <th>Item No.</th>
                                                                                     <th>Item Name</th>
                                                                                     <th>Quantity</th>
@@ -318,15 +318,15 @@
                                                                             <tbody id="ListParameters" data-repeater-list="" class="ScrollTbody">
                                                                                 <!-- @*<tr class="rowItemDetail">*@ -->
                                                                                 <tr class="rowItemDetail align-items-center itm">
-                                                                                     <td>
+                                                                                     <td style="display:none;">
                                                                                         <input id="BaseRef" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td style="display:none;">
                                                                                         <input id="BaseEntry" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td style="display:none;">
                                                                                         <input id="BaseLine" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -426,15 +426,15 @@
                                                                             </thead>
                                                                             <tbody id="ListParameters2" data-repeater-list="" class="ScrollTbody2">
                                                                                 <tr class="rowItemDetail align-items-center itm">
-                                                                                     <td>
+                                                                                     <td style="display:none;">
                                                                                         <input id="BaseRef2" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td style="display:none;">
                                                                                         <input id="BaseEntry2" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td style="display:none;">
                                                                                         <input id="BaseLine2" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -903,16 +903,16 @@
         });
     }
     function AddItemRowData(baseRef, data) {
-        var html = `    <tr class="rowItemDetail align-items-center itm">
-                                                                                        <td>
+        var html = `<tr class="rowItemDetail align-items-center itm">
+                                                                                        <td style="display:none;">
                                                                                             <input id="BaseRef" readonly value="`+ baseRef + `" class="form-control form-control-sm NotReq">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
-                                                                                        <td>
+                                                                                        <td style="display:none;">
                                                                                             <input id="BaseEntry" readonly value="`+ data.Id + `"  class="form-control form-control-sm NotReq">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
-                                                                                        <td>
+                                                                                        <td style="display:none;">
                                                                                             <input id="BaseLine" readonly value="`+ data.LineNum + `" class="form-control form-control-sm NotReq">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
@@ -990,15 +990,15 @@
     function AddServiceRowData(baseRef,data)
     {
         var html = ` <tr class="rowItemDetail align-items-center itm">
-         < <td>
+         <td style="display:none;">
                                                                                         <input id="BaseRef2" value="`+baseRef+`" class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td style="display:none;">
                                                                                         <input id="BaseEntry2" value="`+data.Id+`"  class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td style="display:none;">
                                                                                         <input id="BaseLine2" value="`+data.LineNum+`" class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -1109,15 +1109,15 @@
     function append_ServiceFirstRow(){
 
            var html = ` <tr class="rowItemDetail align-items-center itm">
-            <td>
+            <td style="display:none;">
                                                                                         <input id="BaseRef2" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td style="display:none;">
                                                                                         <input id="BaseEntry2" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td style="display:none;">
                                                                                         <input id="BaseLine2" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -1165,15 +1165,15 @@
     function append_ItemFirstRow(){
         
               var html = `   <tr class="rowItemDetail align-items-center itm">
-               <td>
+               <td style="display:none;">
                                                                                         <input id="BaseRef" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td style="display:none;">
                                                                                         <input id="BaseEntry" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td style="display:none;">
                                                                                         <input id="BaseLine" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -1425,15 +1425,15 @@
     
     $(document).on('click', '#ListBtnAddd', function (e) {
         var html = `    <tr class="rowItemDetail align-items-center itm">
-                                                                                 <td>
+                                                                                 <td style="display:none;">
                                                                                         <input id="BaseRef" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td style="display:none;">
                                                                                         <input id="BaseEntry" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td style="display:none;">
                                                                                         <input id="BaseLine" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -1522,15 +1522,15 @@
     $(document).on('click', '#ListBtnAddRM', function (e) {
 
         var html = ` <tr class="rowItemDetail align-items-center itm">
-         <td>
+         <td style="display:none;">
                                                                                         <input id="BaseRef2" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td style="display:none;">
                                                                                         <input id="BaseEntry2" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td style="display:none;">
                                                                                         <input id="BaseLine2" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
