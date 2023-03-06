@@ -1,4 +1,26 @@
-﻿function GetPrice() {
+﻿
+$(document).on('change keyup', '#DicPrc', function (e) {
+    //debugger
+    var quantityField = $(this).closest('#ListParameters .itm').find('#DicPrc');
+    var quantityValue = $(this).closest('#ListParameters .itm').find('#DicPrc').val();
+
+
+    if (quantityValue < 0 || quantityValue == "") {
+        quantityField.val(0);
+        toastr.warning("Discount can't be less than 0");
+    } else if (quantityValue > 100) {
+        quantityField.val(100);
+        toastr.warning("Discount can't be greater than 100");
+    }
+});
+
+
+
+
+
+
+
+function GetPrice() {
 
     $("#Total").val(0);
     var totalBeforeDiscount = 0;
