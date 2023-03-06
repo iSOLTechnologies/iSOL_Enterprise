@@ -595,13 +595,13 @@
 
 
 
-    var input = document.getElementById("password");
-    input.addEventListener("keyup", function (event) {
+    
+    document.onkeyup = function (event) {
         if (event.keyCode === 13) {
             event.preventDefault();
             document.getElementById("btn_Login").click();
         }
-    });
+    }
 
     function onsuccess() {
         alert("calling onsucceess method")
