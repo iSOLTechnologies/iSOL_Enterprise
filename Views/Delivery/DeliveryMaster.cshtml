@@ -1347,7 +1347,7 @@
         var DicPrc = $(this).closest('#ListParameters .itm').find('#DicPrc');
         var TtlPrc = $(this).closest('#ListParameters .itm').find('#TtlPrc');
         var VatGroup = $(this).closest('#ListParameters .itm').find('#VatGroup');
-        var VatGuid =  $('option:selected',VatGroup).attr("guid"); 
+        var VatGuid = $('option:selected', VatGroup).attr("guid");
         let BaseQty = $(this).closest('#ListParameters .itm').find('#BaseQty');
 
         if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
@@ -1356,18 +1356,19 @@
                 $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val() - Qty.val());
             }
             else {
-            
+
                 toastr.warning("Quantity can't be greater than base quantity");
                 Qty.val(0);
                 $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val());
-            
-            
+
+
             }
         }
 
         if ($(DicPrc).val() == "") {
             var Onepercent = parseFloat($(TtlPrc).val() / 100);
-            var Tax = parseFloat(Onepercent * parseFloat(VatGuid))
+            var Tax = parseFloat(Onepercent * parseFloat(VatGuid));
+ 
             if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
                 $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) + parseFloat(Tax)).toFixed(2)));
                 GetPrice();
@@ -1376,7 +1377,7 @@
             }
         }
 
-        if (DicPrc != "") {
+        if ($(DicPrc).val() != "") {
             $(TtlPrc).val((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())).toFixed(2));
             var Onepercent = parseFloat($(TtlPrc).val() / 100);
             var discountPrice = parseFloat(Onepercent * $(DicPrc).val());
@@ -1391,7 +1392,7 @@
         }
 
     });
-    
+
     $(document).on('click', '#RoundingChkBox', function (e) 
     {
 

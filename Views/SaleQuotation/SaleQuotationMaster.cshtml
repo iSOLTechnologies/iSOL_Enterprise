@@ -880,7 +880,7 @@
     });
    
     $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount,#VatGroup,.VT_Option', function (e) {
-
+        
         var Qty = $(this).closest('#ListParameters .itm').find('#QTY');
         var UPrc = $(this).closest('#ListParameters .itm').find('#UPrc');
         var DicPrc = $(this).closest('#ListParameters .itm').find('#DicPrc');
@@ -906,7 +906,9 @@
 
         if ($(DicPrc).val() == "") {
             var Onepercent = parseFloat($(TtlPrc).val() / 100);
-            var Tax = parseFloat(Onepercent * parseFloat(VatGuid))
+            var Tax = parseFloat(Onepercent * parseFloat(VatGuid));
+            console.log(Tax);
+            console.log(Onepercent);
             if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
                 $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) + parseFloat(Tax)).toFixed(2)));
                 GetPrice();
@@ -915,7 +917,7 @@
             }
         }
 
-        if (DicPrc != "") {
+        if ($(DicPrc).val() != "") {
             $(TtlPrc).val((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())).toFixed(2));
             var Onepercent = parseFloat($(TtlPrc).val() / 100);
             var discountPrice = parseFloat(Onepercent * $(DicPrc).val());
@@ -1058,7 +1060,7 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input class="form-control form-control-sm NotReq"  id = "DicPrc"  onkeyup = "GetPrice()" type = "number">
+                                                                                        <input class="form-control form-control-sm NotReq"  id = "DicPrc"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
@@ -1074,7 +1076,7 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>*@
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input class="form-control form-control-sm" id="TotalLC" name="TotalLC" type='number' disabled>
+                                                                                            <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
