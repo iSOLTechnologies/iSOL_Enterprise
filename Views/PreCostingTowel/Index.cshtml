@@ -1,0 +1,1677 @@
+﻿@{
+    ViewBag.title1 = "Pre-Costing Towel / ";
+    ViewBag.title2 = "New";
+    ViewData["Title"] = "PreCostingTowelMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model iSOL_Enterprise.Models.RoleModels
+
+@using Microsoft.AspNetCore.Http
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+<!-- Render Body <Start> -->
+
+<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid mt-4">
+
+    <!--end::Subheader-->
+    <!--begin::Entry-->
+    <div class="container">
+        <!--begin::Card-->
+        <div class="card card-custom card-sticky" id="kt_page_sticky_card">
+            <div class="card-header">
+            <div class="card-title">
+            <h3 class="card-label">
+            Add Details
+            <i class="mr-2"></i>
+            <!-- <small class="">try to scroll the page</small> -->
+            </h3>
+            </div>
+            <div class="card-toolbar">
+            <a onclick="Back_his()" class="btn btn-light-primary font-weight-bolder mr-2">
+            <i class="ki ki-long-arrow-back icon-sm"></i>Back
+            </a>
+            <div class="btn-group">
+
+            <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
+            <i class="ki ki-check icon-sm"></i>Save
+            </button>
+
+            </div>
+            </div>
+            </div>
+            <div class="card-body">
+                <!--begin::Form-->
+                <form class="form" id="kt_form">
+
+
+                    <input type="hidden" value="@Context.Session.GetString("Name")" id="sessionName" />
+                    <input type="hidden" value="@Context.Session.GetString("Email")" id="sessionEmail" />
+                    <input type="hidden" value="@Context.Session.GetString("RoleCode")" id="UserRoleCode" />
+                    <input type="hidden" value="@Context.Session.GetString("DepartmentCode")" id="_DepartmentCode" />
+
+                    <input type="hidden" value="@Context.Request.Query["Id"]" id="Guid" />
+                    <input type="hidden" value="@Context.Request.Query["Source"]" id="PageGuid" />
+                    <input type="hidden" value="@Context.Request.Query["DocType"]" id="DocType" />
+                    <input type="hidden" value="@Context.Request.Query["DOM"]" id="DOMStatus" />
+
+                    <input type="hidden" value="@Context.Session.GetInt32("UserId")" id="_UserId" />
+                    <style>
+                        .mr2 {
+                            margin: 0% 2% 0% 2%;
+                            /*width: 5%;*/
+                        }
+
+                        .cr2 {
+                            margin: 0% 1% 0% 0%;
+                            width: 5%;
+                        }
+
+                        .wdth {
+                            width: 250% !important;
+                        }
+
+                        /*tr > th {
+                                                    text-align: left;
+                                                    width: 50px !important;
+                                                }
+                                                table {
+                                                   display: table-cell;
+                                                    text-align:center;
+                                                    overflow-x: auto;
+                                                    white-space: nowrap;
+                                                }
+
+                                                tr > td {
+                                                    text-align: center;
+                                                    width: 5% !important;
+                                                }*/
+                        #kt_repeater_1 {
+                            border-collapse: collapse;
+                            width: 100%;
+                            overflow-x: scroll;
+                            display: block;
+                        }
+
+                        .ScrollThead,
+                        .ScrollTbody {
+                            display: inline-block;
+                        }
+
+                        .ScrollTbody {
+                            overflow-y: auto;
+                            overflow-x: hidden;
+                            max-height: 600px;
+                        }
+
+                            .ScrollTbody td, .ScrollThead
+                            th {
+                                min-width: 160px;
+                                max-width: 160px;
+                                height: 40px;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                            }
+
+                        .ScrollTbody2 td, .ScrollThead2
+                        th {
+                            min-width: 100px;
+                            max-width: 160px;
+                            height: 40px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                    </style>
+                    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <!--begin::Portlet-->
+                                <div class="kt-portlet kt-portlet--last kt-portlet--head-lg kt-portlet--responsive-mobile" id="kt_page_portlet">
+
+                                    <div class="kt-portlet__body">
+                                        <form autocomplete="off" role="form" class="kt-form" id="F_@Context.Request.Query" name="F_@Context.Request.Query["Source"]">
+                                            <div class="row">
+                                                <div class="col-xl-12">
+                                                    <div class="kt-section kt-section--first">
+                                                        <div class="kt-section__body">
+
+
+                                                            @* ----------   Header -----------*@
+                                                            <div id="HeaderForm">
+                                                                <div class="form-group row justify-content-between">
+
+                                                                    <div class="col-md-3">
+                                                                        <label>Weight/Lbs (dz) </label>
+
+
+                                                                        <input id="WeightLbsdz" type="number" class="form-control form-control-sm NotReq" placeholder="0.00000">
+
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+
+                                                                    <div class="col-md-5">
+                                                                        <label>Sale Order</label>
+
+
+                                                                        <input id="saleorder" type="text" class="form-control form-control-sm NotReq">
+
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label>Doc Entry</label>
+                                                                        <input id="DocEntry" disabled type="text" class="form-control form-control-sm NotReq" placeholder="No.">
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div class="form-group row justify-content-between">
+                                                                    <div class="col-md-3">
+                                                                        <label>GSM</label>
+                                                                        <input type="number" id="GSM" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+
+                                                                    <div class="col-md-5">
+                                                                        <label>Item Description</label>
+                                                                        <input type="text" id="Status" class="form-control form-control-sm NotReq">
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label>Gram / Pcs</label>
+                                                                        <input type="number" id="grampcs" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="form-group row justify-content-between">
+                                                                    <div class="col-md-3">
+                                                                        <label>No of Pcs/Lbs</label>
+                                                                        <input type="number" id="noofpcslbs" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+                                                                    <div class="col-md-5">
+                                                                        <label>Oz</label>
+                                                                        <input type="number" id="oz" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label>Lbs/Pcs</label>
+                                                                        <input id="lbspcs" type="number" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+
+                                                                </div>
+
+
+                                                                <div class="form-group row justify-content-center">
+
+
+                                                                    <div class="col-md-2 text-center">
+                                                                        <label class="pt-2 font-weight-bold">Width</label>
+                                                                    </div>
+
+                                                                    <div class="col-md-2 text-center">
+                                                                        <label class="pt-2 text-center font-weight-bold">Length</label>
+                                                                    </div>
+                                                                    <div class="col-md-2 text-center">
+                                                                        <label class="pt-2 text-center font-weight-bold">Packing</label>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group row justify-content-center">
+
+                                                                    <label class="mr-1 pt-2">CM</label>
+                                                                    <div class="col-md-2 d-flex">
+
+                                                                        <input type="number" id="cmw" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                    </div>
+                                                                    <label class="mr-1 ml-1 pt-2 font-weight-bold">X</label>
+                                                                    <div class="col-md-2 d-flex">
+
+                                                                        <input type="number" id="cml" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                    </div>
+
+                                                                    <div class="col-md-2 d-flex">
+
+                                                                        <input type="number" id="cmp" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                    </div>
+                                                                    <label class="mr-1 pt-2">Pcs/Crtn</label>
+                                                                </div>
+
+                                                                <div class="form-group row justify-content-center">
+
+                                                                    <label class="mr-1 pt-2">Inch</label>
+                                                                    <div class="col-md-2 d-flex">
+
+                                                                        <input type="number" id="inchw" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                    </div>
+                                                                    <label class="mr-1 ml-1 pt-2 font-weight-bold">X</label>
+                                                                    <div class="col-md-2 d-flex">
+
+                                                                        <input type="number" id="inchl" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                    </div>
+
+                                                                    <div class="col-md-2 d-flex">
+
+                                                                        <input type="number" id="inchp" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                    </div>
+                                                                    <label class="mr-1 pt-2">Pcs/Poly</label>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="kt-separator kt-separator--space-md kt-separator--border-dashed"></div>
+
+
+
+                                                            <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand" role="tablist">
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link active" data-toggle="tab" href="#kt_tabs_Yarn" role="tab">Yarn</a>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link" data-toggle="tab" id="tabAccounting" href="#kt_tabs_Wastage" role="tab">Wastage</a>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link" data-toggle="tab" href="#kt_tabs_DirectCost" role="tab">Direct Cost</a>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link" data-toggle="tab" href="#kt_tabs_Accessories" role="tab">Accessories</a>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link" data-toggle="tab" href="#kt_tabs_Printing" role="tab">Printing</a>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link" data-toggle="tab" href="#kt_tabs_Bathrobe" role="tab">Bathrobe</a>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link" data-toggle="tab" href="#kt_tabs_IndirectCose" role="tab">Indirect Cost</a>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link" data-toggle="tab" href="#kt_tabs_SellingPrice" role="tab">Selling Price</a>
+                                                                </li>
+
+                                                            </ul>
+
+                                                            <div class="tab-content">
+
+                                                                <div class="tab-pane active" id="kt_tabs_Yarn" role="tabpanel">
+
+
+                                                                    <table id="kt_repeater_1"  style="overflow:auto">
+                                                                        <thead class="ScrollThead">
+                                                                            <tr>
+                                                                                <th></th>
+                                                                                <th>ItemCode</th>
+                                                                                <th>Item Description</th>
+                                                                                <th>Percentage</th>
+                                                                                <th>Grey Rate</th>
+                                                                                <th>Dyeing Rate </th>
+                                                                                <th>Pastel</th>
+                                                                                <th>Medium</th>
+                                                                                <th>Dark</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody id="ListParameters" data-repeater-list="" class="ScrollTbody pb-2">
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td >
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Pile1
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="text" id="Pile1itemCode" class="form-control form-control-sm NotReq">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="text" id="Pile1itemdescription" class="form-control form-control-sm NotReq">
+                                                                                 
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1percentage" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1medium" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1dark" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                            </tr>
+                                                                        
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td >
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Pile2
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="text" id="Pile1itemCode" class="form-control form-control-sm NotReq">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="text" id="Pile1itemdescription" class="form-control form-control-sm NotReq">
+                                                                                   
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1percentage" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                  
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1medium" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1dark" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                            </tr>
+                                                                        
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Ground1
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="text" id="Pile1itemCode" class="form-control form-control-sm NotReq">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="text" id="Pile1itemdescription" class="form-control form-control-sm NotReq">
+                                                                                   
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1percentage" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                   
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1medium" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1dark" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                            </tr>
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Ground2
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="text" id="Pile1itemCode" class="form-control form-control-sm NotReq">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="text" id="Pile1itemdescription" class="form-control form-control-sm NotReq">
+                                                                                 
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1percentage" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                    
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1medium" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1dark" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                            </tr>
+                                                                        
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Weft1
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="text" id="Pile1itemCode" class="form-control form-control-sm NotReq">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="text" id="Pile1itemdescription" class="form-control form-control-sm NotReq">
+                                                                                    
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1percentage" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                   
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1medium" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1dark" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                            </tr>
+                                                                        
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td >
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Weft2
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="text" id="Pile1itemCode" class="form-control form-control-sm NotReq">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="text" id="Pile1itemdescription" class="form-control form-control-sm NotReq">
+                                                                                   
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1percentage" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                  
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1medium" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1dark" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                            </tr>
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Fancy1
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="text" id="Pile1itemCode" class="form-control form-control-sm NotReq">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="text" id="Pile1itemdescription" class="form-control form-control-sm NotReq">
+                                                                                  
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1percentage" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                  
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1medium" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1dark" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                            </tr>
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td >
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Fancy2
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="text" id="Pile1itemCode" class="form-control form-control-sm NotReq">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="text" id="Pile1itemdescription" class="form-control form-control-sm NotReq">
+                                                                                 
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1percentage" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                   
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1medium" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1dark" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                            </tr>                                                                        
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    Total Percentage %
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    Total Yarn Cost
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1medium" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                
+                                                                            </tr>
+                                                                        
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                 <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Total Wastage
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1medium" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+
+                                                                            </tr>
+                                                                        
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Total Yarn Cost With Wastage
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1medium" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+
+                                                                            </tr>
+                                                                        
+                                                                        </tbody>
+                                                                    </table>
+
+                                                                </div>
+
+                                                                <div class="tab-pane" id="kt_tabs_Wastage" role="tabpanel">
+
+                                                                    <div class="p-5">
+
+                                                                        <div class="row ">
+
+                                                                            <div class="col-md-3">
+                                                                                <label class="mr-1 pt-2">Sizing & Drawing</label>
+                                                                                <input type="number" id="cmw" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="row ">
+
+                                                                            <div class="col-md-3 ">
+                                                                                <label class="mr-1 pt-2">Dyeing</label>
+                                                                                <input type="number" id="cmw" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                            </div>
+
+                                                                        </div>
+                                                                         <div class="row ">
+
+                                                                            <div class="col-md-3 ">
+                                                                                <label class="mr-1 pt-2">Shearing / Velour</label>
+                                                                                <input type="number" id="cmw" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                            </div>
+
+                                                                        </div>
+                                                                         <div class="row ">
+
+                                                                            <div class="col-md-3 ">
+                                                                                <label class="mr-1 pt-2">Printing</label>
+                                                                                <input type="number" id="cmw" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                            </div>
+
+                                                                        </div>
+                                                                         <div class="row ">
+
+                                                                            <div class="col-md-3 ">
+                                                                                <label class="mr-1 pt-2">Yarn Dyeing</label>
+                                                                                <input type="number" id="cmw" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                            </div>
+
+                                                                        </div>
+                                                                         <div class="row ">
+
+                                                                            <div class="col-md-3 ">
+                                                                                <label class="mr-1 pt-2">Total Wastage Percentage</label>
+                                                                                <input type="number" id="cmw" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                        <div class="row justify-content-end">
+
+                                                                                <label class="mr-1 pt-2">Total Wastage</label>
+                                                                            
+                                                                                <div class="col-md-2">
+                                                                                <input type="number" id="cmw" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </div>
+                                                                                <div class="col-md-2">
+                                                                                <input type="number" id="cmw" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </div>
+                                                                            <div class="col-md-2">
+                                                                                <input type="number" id="cmw" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="tab-pane" id="kt_tabs_DirectCost" role="tabpanel">
+
+                                                                    <table id="kt_repeater_2" style="overflow:auto">
+                                                                        <thead class="ScrollThead">
+                                                                            <tr>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                                <th></th>                                                                              
+                                                                                <th>Pastel</th>
+                                                                                <th>Medium</th>
+                                                                                <th>Dark</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody id="ListParameters" data-repeater-list="" class="ScrollTbody pb-2">
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Weaving Charges
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                       
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                       
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                
+                                                                            </tr>
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Dyeing/Bleaching Charges
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                     
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                       
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                
+                                                                            </tr>
+                                                                           
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Stitching Charges (Cut to Pack)
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                
+                                                                            </tr>
+                                                                            
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Shearing Charges
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                       
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                
+                                                                            </tr>
+                                                                            
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Embroidery Charges
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                
+                                                                            </tr>
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        B% Percentage
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                       
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                
+                                                                            </tr>
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Bardana Charges
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                   
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                
+                                                                            </tr>
+                                                                            
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Total Direct Cost
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                
+                                                                                
+                                                                            </tr>
+
+                                                                           
+                                                                        </tbody>
+                                                                    </table>
+
+                                                                </div>
+
+                                                                <div class="tab-pane" id="kt_tabs_Accessories" role="tabpanel">
+
+                                                                    <table id="kt_repeater_3" style="overflow:auto">
+                                                                        <thead class="ScrollThead">
+                                                                            <tr>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                                <th>Cost</th>
+                                                                                <th>Unit</th>
+                                                                                <th></th>
+                                                                                <th>Cost/Lbs</th>
+                                                                                <th></th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody id="ListParameters" data-repeater-list="" class="ScrollTbody pb-2">
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                       Main Label
+                                                                                    </div>
+
+                                                                                </td>
+                                                                               
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                            </tr>
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                       Hanger Label
+                                                                                    </div>
+
+                                                                                </td>
+                                                                               
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                            </tr>
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                       Plastic Tag
+                                                                                    </div>
+
+                                                                                </td>
+                                                                               
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                            </tr>
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                       Poly Bags
+                                                                                    </div>
+
+                                                                                </td>
+                                                                               
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                    X
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                            </tr>
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        MIROP Label
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                            </tr>
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Bardana Charges
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                            </tr>
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Stitching Thread
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                            </tr>
+
+                                                                            <tr class="rowItemDetail align-items-center Pile1">
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                    </div>
+
+                                                                                </td>
+
+                                                                                <td>
+
+                                                                                    <div id="" class="form-control form-control-sm text-center font-weight-bold" style="border:none">
+                                                                                        Total Direct Cost
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1greyrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" id="Pile1dyeingrate" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+                                                                                <td>
+
+                                                                                    <input type="number" id="Pile1pastel" class="form-control form-control-sm NotReq" placeholder="0.00000">
+                                                                                </td>
+
+
+                                                                            </tr>
+
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+
+                                                                <div class="tab-pane" id="kt_tabs_Printing" role="tabpanel">
+
+                                                                    kt_tabs_Printing
+                                                                </div>
+
+                                                                <div class="tab-pane" id="kt_tabs_Bathrobe" role="tabpanel">
+
+                                                                    kt_tabs_Bathrobe
+                                                                </div>
+
+                                                                <div class="tab-pane" id="kt_tabs_IndirectCose" role="tabpanel">
+
+                                                                    kt_tabs_IndirectCose
+                                                                </div>
+
+                                                                <div class="tab-pane" id="kt_tabs_SellingPrice" role="tabpanel">
+
+                                                                    kt_tabs_SellingPrice
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <!--end::Portlet-->
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+        <!--end::Card-->
+
+    </div>
+    <!--end::Entry-->
+</div>
+<!-- Render Body <End> -->
+<script src="~/Assets/plugins/global/plugins.bundle.js"></script>
+<script src="~/Assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
+<script src="~/Assets/js/scripts.bundle.js"></script>
+<script src="~/js/commonmethods.js"></script>
+
+<script>
+    //var vatGroupData = "";
+    var ItemServiceType = '1';
+    const boxes = document.querySelectorAll('.d');
+
+    for (const box of boxes) {
+        box.value = new Date().toJSON().slice(0, 10);
+    }
+
+    $(document).on('click', '#GLAccountNo', function (e) {
+
+        ObjAcctCode = $(this).closest('tr').find("#AcctCode");
+        //var GLAccount = $(this).closest('#ListParameters2 .itm').find('#GLAccountNo');
+        generateAccountTable();
+        $('#myaccountModal').modal('show');
+        console.log("Clickeddd")
+
+    });
+
+
+    $(document).on('click', '#Itemno', function (e) {
+        IsHeader = false;
+        ObjItemCode = $(this).closest('tr').find("#ItemCode");
+        DocModule = "S";
+        generateItemTable();
+        $('#myItemModal').modal('show');
+
+    });
+
+
+    $(document).on('click', '#btnBack', function (e) {
+
+        window.history.back();
+    });
+
+    $(document).on('click', '#ListBtnDelete', function () {
+        $(this).closest('tr').remove();
+    })
+
+
+</script>
