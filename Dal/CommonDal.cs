@@ -33,10 +33,18 @@ namespace iSOL_Enterprise.Dal
                public static string DiAPI_password = "Bilal@123";
                public static SAPbobsCOM.BoSuppLangs DiAPI_langauge = BoSuppLangs.ln_English_Gb;
                public static bool DiAPI_UserTrusted = false;
-               
-               //public static string DiAPI_SldServer;
-               //public static string ln_English;
-            
+
+        //public static string DiAPI_SldServer;
+        //public static string ln_English;
+
+
+        public decimal GetSelectedWareHouseData(string ItemCode, string WhsCode)
+        {
+            decimal res = Convert.ToDecimal(SqlHelper.ExecuteScalar(SqlHelper.defaultSapDB, CommandType.Text, "select onHand from OITW where ItemCode = '"+ItemCode+"' and WhsCode = '" + WhsCode + "'"));
+            return res;
+        }
+
+
 
         public static int Count(string tblName)
         {

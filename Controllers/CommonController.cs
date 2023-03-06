@@ -125,5 +125,24 @@ namespace iSOL_Enterprise.Controllers
                 throw;
             }
         }
+
+
+
+        [HttpGet]
+        public IActionResult GetSelectedWareHouseData(string ItemCode, string WhsCode)
+        {
+            try
+            {
+
+                CommonDal dal = new CommonDal();
+
+                return Json(dal.GetSelectedWareHouseData(ItemCode, WhsCode));
+            }
+            catch (Exception ex)
+            {
+
+                return Json(ex.Message);
+            }
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿
 $(document).on('change keyup', '#DicPrc', function (e) {
-    //debugger
+   
     var quantityField = $(this).closest('#ListParameters .itm').find('#DicPrc');
     var quantityValue = $(this).closest('#ListParameters .itm').find('#DicPrc').val();
 
@@ -16,7 +16,44 @@ $(document).on('change keyup', '#DicPrc', function (e) {
 
 
 
+$(document).on('change keyup', '#ItemCode ,#Warehouse', function (e) {
+    let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
+    let ItemCodeValue = ItemCodeField.val();
+    let WarehouseField = $(this).closest('#ListParameters .itm').find('#Warehouse');
+    let WarehouseValue = WarehouseField.val();
+    let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
 
+    console.log("ItemCodeValue", ItemCodeValue);
+    console.log("WarehouseValue", WarehouseValue.toString());
+    $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
+        console.log("Data is : ",data)
+        onHand.val(data);
+
+    });
+});
+
+
+
+function GetWareHouseData() {
+    $.get("Delivery/GetWareHouseData", function (data) {
+
+
+        $("#Warehouse").html("");
+
+        $.each(data, function () {
+
+            $("#Warehouse").append($('<option>', {
+                value: this.whscode,
+                text: this.whsname
+
+            }));
+
+
+            WareHouseData += "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
+        });
+
+    });
+}
 
 
 
