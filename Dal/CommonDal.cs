@@ -722,15 +722,15 @@ where s.Status=1 and p.Guid=@Guid";
             
             if (DocModule == "S")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand from OITM where SellItem = 'Y'  and ItemCode='"+itemcode+"'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where SellItem = 'Y'  and ItemCode='" + itemcode+"'";
             }
             else if (DocModule == "P")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand from OITM where PrchseItem = 'Y' and ItemCode='"+itemcode+"'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where PrchseItem = 'Y' and ItemCode='" + itemcode+"'";
             }
             else if (DocModule == "I")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand from OITM where InvntItem = 'Y' and ItemCode='"+itemcode+"'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where InvntItem = 'Y' and ItemCode='" + itemcode+"'";
             }
 
           
@@ -744,6 +744,7 @@ where s.Status=1 and p.Guid=@Guid";
 
                     item.ItemCode = rdr["ItemCode"].ToString();
                     item.ItemName = rdr["ItemName"].ToString();
+                    item.ManBtchNum = rdr["ManBtchNum"].ToString();
 
                     model.Data = item;
                     model.isSuccess = true;

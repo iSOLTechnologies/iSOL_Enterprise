@@ -50,15 +50,15 @@ namespace iSOL_Enterprise.Dal
             string GetQuery = "";
             if (DocModule == "S")
             {
-                 GetQuery = "select ItemCode,ItemName,OnHand from OITM where SellItem = 'Y'";
+                 GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where SellItem = 'Y'";
             }
             else if (DocModule == "P")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand from OITM where PrchseItem = 'Y'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where PrchseItem = 'Y'";
             }
             else if (DocModule == "I")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand from OITM where InvntItem = 'Y'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where InvntItem = 'Y'";
             }
             else
             {
@@ -76,6 +76,7 @@ namespace iSOL_Enterprise.Dal
                         {
                             ItemCode = rdr["ItemCode"].ToString(),
                             ItemName = rdr["ItemName"].ToString(),
+                            ManBtchNum = rdr["ManBtchNum"].ToString(),
                             OnHand = (decimal)rdr["OnHand"],
                         });
 

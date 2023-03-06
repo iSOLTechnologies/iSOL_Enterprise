@@ -2222,6 +2222,7 @@
 													<th></th>
 													<th></th>
 													<th></th>
+													<th></th>
 													@*<th></th>*@
 												</tr>
 											</thead>
@@ -2926,6 +2927,15 @@
 				searching: true,
 				ordering: false,
 				ordering: false,
+				"columnDefs": [
+						{
+							"targets": 3,
+							visible: false,
+							"createdCell": function (td, cellData, rowData, row, col) {
+								$(td).attr('id', "ItemType");
+							}
+						}, 
+				],
 				"ajax": {
 					url: '/SaleQuotation/GetItems',
 					data: { DocModule: DocModule },
@@ -2951,6 +2961,9 @@
 				}, {
 					data: 'onHand',
 					title: 'In Stock'
+				},{
+					data: 'manBtchNum',
+					title: 'ItemType'
 				}
 				//, {
 				//	data: "itemCode",
@@ -3154,6 +3167,7 @@
 			$('#btnCopyFrom').attr('disabled', false);
 			//$(ObjItemCode)
 		});
+		
 		$(document).on('change keyup',"#CardCode",function(e) {
 
 
@@ -3213,11 +3227,14 @@
 				//$("#VatGroup2").select2();
 			});
 		}
+		
 		$(document).on('dblclick', '#MyyyyItemmTable tbody tr', function (e) {
 			// debugger
-			var LookTable = $('#MyyyyItemmTable').DataTable();;
+			var LookTable = $('#MyyyyItemmTable').DataTable();
+			$('#MyyyyItemmTable').DataTable().column(3).visible(true);
 			var selectedRow = $(this).closest('tr');
 			var rowData = LookTable.row(selectedRow).data();
+			
 			$('#MyyyyItemmTable tr').removeClass("Mainrow_selected");
 			$(selectedRow).addClass('Mainrow_selected');
 			//$('.OperationBtns').attr("data-id", SelectedVal);
@@ -3225,6 +3242,14 @@
 			$(ObjItemCode).closest('#ListParameters .itm').find("#ItemCode").val(rowData['itemCode']).change();
 			$(ObjItemCode).closest('#ListParameters .itm').find("#ItemName").val(rowData['itemName']).change();
 			//Get UOM group Data
+			if(DocModule == "P") 
+			{
+				
+				if(rowData['manBtchNum'] == "Y"){
+
+				$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").removeClass("d-none");
+				}
+			}
 			GetUomGroup(rowData['itemCode']);
 
 			$('#myItemModal').modal('hide');
@@ -3237,13 +3262,22 @@
 			$.get("Common/GetItemData", { itemcode: $(this).val(), DocModule: DocModule }, function (data) {
 
 				if (data.success) {
-					
+							
 					let ItemNameObj = $(ObjItemCode).closest('#ListParameters .itm').find("#ItemName");
 					$(ItemNameObj).val((data.item).itemName);
+					if(DocModule == "P") 
+					{
+				
+						if((data.item).manBtchNum == "Y")
+						{
+							$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").removeClass("d-none");
+						}
+					}
 					GetUomGroup((data.item).itemCode);
 				} else {
 					$(ObjItemCode).closest('#ListParameters .itm').find("#ItemName").val("");
-					
+					if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
+					$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
 				}
 			});
 
