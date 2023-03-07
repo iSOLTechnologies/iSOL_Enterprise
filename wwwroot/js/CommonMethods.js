@@ -56,9 +56,9 @@ function GetWareHouseData() {
 }
 
 
-
+    
 function GetPrice() {
-
+    
     $("#Total").val(0);
     var totalBeforeDiscount = 0;
     var RoundingValue = 0;
@@ -67,11 +67,12 @@ function GetPrice() {
         var dt1 = $(this).closest('#ListParameters .itm').find("#TtlPrc");
         if (dt1.val() != null)
             totalBeforeDiscount = Number(totalBeforeDiscount) + Number(dt1.val());
-    })
+    });
     if (totalBeforeDiscount != 0)
         $("#TotalBeforeDiscount").val(totalBeforeDiscount);
 
-    if ($('#RoundingChkBox').is(":checked")) {
+    if ($('#RoundingChkBox').is(":checked") && $('#Rounding').val() != "") 
+    {
 
 
         RoundingValue = parseFloat($('#Rounding').val());
@@ -93,7 +94,7 @@ function GetPrice() {
 
         $("#Total").val(totalBeforeDiscount);
     }
-
+    
 }
 
 
