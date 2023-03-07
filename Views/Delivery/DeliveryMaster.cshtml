@@ -613,12 +613,12 @@
                                                         <div class="container" id="FooterData">
                                                             <br />
                                                             <br />
-                                                            <div class="row">
-                                                                <div class="col-md-6">
+                                                            <div class="row d-none">
+                                                                @*<div class="col-md-6">
                                                                     <label for="" class="form-label" >Sales Employee</label>
                                                                     <select id="SlpCode" asp-items="@ViewBag.SalesEmployee" class="form-control form-control-sm">
                                                                     </select>
-                                                                </div>
+                                                                </div>*@
 
                                                                 <div class="col-md-6">
                                                                     <label for="inputEmail4" class="form-label">Total Before Discount</label>
@@ -628,7 +628,7 @@
 
                                                             </div>
                                                             <br />
-                                                            <div class="row">
+                                                            <div class="row d-none">
                                                                 <div class="col-md-6">
                                                                     <label  for="inputPassword4" class="form-label">Owner</label>
                                                                     <input name="OwnerCode" type="text" class="form-control" id="OwnerCode">
@@ -645,7 +645,7 @@
 
                                                             </div>
                                                             </br>
-                                                            <div class="row">
+                                                            <div class="row d-none">
 
 
                                                                 <div class="col-md-6">
@@ -673,6 +673,11 @@
                                                                 <div class="col-md-6" style="display:none;">
                                                                     <label for="inputEmail4" class="form-label">Total</label>
                                                                     <input name="Total" type="text" class="form-control" id="Total">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="" class="form-label">Sales Employee</label>
+                                                                    <select id="SlpCode" asp-items="@ViewBag.SalesEmployee" class="form-control form-control-sm">
+                                                                    </select>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="inputRemarks" class="form-label">Remarks</label>
