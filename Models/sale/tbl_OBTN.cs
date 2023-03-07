@@ -11,5 +11,7 @@
         public DateTime? ExpDate { get; set; }
 
         public int SysNumber { get; set; }
+
+        public int sno { get; set; }
     }
 }

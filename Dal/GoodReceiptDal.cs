@@ -183,7 +183,41 @@ namespace iSOL_Enterprise.Dal
             return list;
         }
 
+        public List<tbl_OBTN> GetBatches(string itemno,string whsno)
+        {
+            try
+            {
 
+
+                string GetQuery = "select OBTN.DistNumber  from OBTQ Inner join OBTN on OBTN.AbsEntry = OBTQ.MdAbsEntry where OBTQ.ItemCode = '" + itemno + "' and OBTQ.WhsCode = '" + whsno + "'";
+
+
+                List<tbl_OBTN> list = new List<tbl_OBTN>();
+                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+                {
+                    int i = 1;
+                    while (rdr.Read())
+                    {
+
+                        list.Add(
+                            new tbl_OBTN()
+                            {
+                                sno = i,
+                                DistNumber = rdr["DistNumber"].ToString(),
+
+                            });
+                        i += 1;
+                    }
+                }
+
+                return list;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public List<tbl_OCTG> GetPaymentTerms()
         {
             string GetQuery = "select GroupNum,PymntGroup from OCTG";

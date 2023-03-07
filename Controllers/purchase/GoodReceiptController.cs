@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using SAPbobsCOM;
 using SqlHelperExtensions;
 using System.Data;
 using System.Data.SqlClient;
@@ -99,6 +100,24 @@ namespace iSOL_Enterprise.Controllers.Sales
             return SqlHelper.getUpdatedDocumentNumberOnLoad("OPDN", "GR");
         }
 
+        public IActionResult GetBatches(string itemno,string whsno)
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
+
+                GoodReceiptDal dal = new GoodReceiptDal();
+                response.Data = dal.GetBatches(itemno,whsno);
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+        }
         public IActionResult GetData()
         {
             ResponseModels response = new ResponseModels();
