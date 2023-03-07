@@ -3265,7 +3265,21 @@
 		});
 		$(document).on('change keyup', "#ItemCode", function (e) {
 
-			ObjItemCode = $(this).closest('tr').find("#ItemCode");
+
+	let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
+    let ItemCodeValue = ItemCodeField.val();
+    let WarehouseField = $(this).closest('#ListParameters .itm').find('#Warehouse');
+    let WarehouseValue = WarehouseField.val();
+    let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
+	  if(WarehouseField.val() != "" || WarehouseField.val() != null){
+   $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
+        console.log("Data is : ",data)
+        onHand.val(data);
+
+    });
+	  }
+ 
+	ObjItemCode = $(this).closest('tr').find("#ItemCode");
 			
 			$.get("Common/GetItemData", { itemcode: $(this).val(), DocModule: DocModule }, function (data) {
 

@@ -16,21 +16,38 @@ $(document).on('change keyup', '#DicPrc', function (e) {
 
 
 
-$(document).on('change keyup', '#ItemCode ,#Warehouse', function (e) {
+
+
+$(document).on('change keyup', '#Warehouse', function (e) {
     let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
     let ItemCodeValue = ItemCodeField.val();
     let WarehouseField = $(this).closest('#ListParameters .itm').find('#Warehouse');
     let WarehouseValue = WarehouseField.val();
     let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
 
-    console.log("ItemCodeValue", ItemCodeValue);
-    console.log("WarehouseValue", WarehouseValue.toString());
+    //console.log("ItemCodeValue", ItemCodeValue);
+    //console.log("WarehouseValue", WarehouseValue.toString());
     $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
-        console.log("Data is : ",data)
+        
         onHand.val(data);
 
     });
 });
+
+
+
+
+function GetWareHouseQty(ItemCodeValue, WarehouseValue) {
+   
+    var a = 0;
+    $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
+  
+       a =  data
+
+    });
+    return a;
+}
+
 
 
 

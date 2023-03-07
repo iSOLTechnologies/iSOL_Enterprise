@@ -237,8 +237,9 @@ namespace iSOL_Enterprise.Dal
                             item.BaseQty = item.BaseQty == "" ? "NULL" : Convert.ToInt32(item.BaseQty);
                             item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToInt32(item.DicPrc);
 
-                            string RowQueryItem = @"insert into RDN1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,BaseType,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
-                                              values(" + Id + ","
+                            string RowQueryItem = @"insert into RDN1(Id,WhsCode,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,BaseType,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
+                                              values(" + Id + ",'"
+                                               + item.WhsCode + "','"
                                                 + LineNo + ",'"
                                                 + item.BaseRef + "',"
                                                 + item.BaseEntry + ","

@@ -304,6 +304,8 @@
                                                                                     <th>BaseLine</th>*@
                                                                                     <th>Item No.</th>
                                                                                     <th>Item Name</th>
+                                                                                    <th>Warehouse</th>
+                                                                                    <th>Qty in Warehouse</th>
                                                                                     <th>Quantity</th>
                                                                                     <th>BaseQty</th>
                                                                                     <th>OpenQty</th>
@@ -345,6 +347,20 @@
                                                                                         <input id="ItemName" class="form-control form-control-sm"  type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
+                                                                                                                <td>
+                                                                                                <div class="input-group">
+                                                                                                        <select   class="form-control" id="Warehouse">
+                                                                                                    
+                                                                                                    </select>
+
+                                                                                                </div>
+
+
+                                                                                            </td>
+                                                                                             <td>
+                                                                                                        <input id="onHand"  class="form-control form-control-sm" readonly type="number">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
                                                                                     <td>
                                                                                         <input class="form-control form-control-sm" id="QTY"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -805,6 +821,9 @@
                                     $("#QTY").val(this.OpenQty);
                                      $("#OpenQty").val(0);
                                     $("#TltPrc").val(this.LineTotal);
+                                    
+                                         $("#Warehouse").val(this.WhsCode);
+                                         $("#onHand").val( GetWareHouseQty(this.ItemCode,this.WhsCode));
                                 }
                                 else {
                                     AddItemRowData((data.baseDoc)[0].docNum, this);
@@ -929,6 +948,20 @@
                                                                                             </td>
                                                                                             <td>
                                                                                                 <input id="ItemName" value="`+ data.ItemName + `" class="form-control form-control-sm"  type="text">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                                                        <td>
+                                                                                                <div class="input-group">
+                                                                                                        <select value="`+ data.WhsCode + `" class="form-control" id="Warehouse">
+                                                                                                        `+ WareHouseData + `
+                                                                                                    </select>
+
+                                                                                                </div>
+
+
+                                                                                            </td>
+                                                                                             <td>
+                                                                                                        <input id="onHand" value="`+ GetWareHouseQty(data.ItemCode, data.WhsCode) + `" class="form-control form-control-sm" readonly type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
@@ -1192,6 +1225,20 @@
                                                                             <input class="form-control form-control-sm" id="ItemName" type = "text">
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </td>
+                                                                                                    <td>
+                                                                                                <div class="input-group">
+                                                                                                        <select   class="form-control" id="Warehouse">
+                                                                                                        `+ WareHouseData + `
+                                                                                                    </select>
+
+                                                                                                </div>
+
+
+                                                                                            </td>
+                                                                                             <td>
+                                                                                                        <input id="onHand" class="form-control form-control-sm" readonly type="number">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
                                                                         <td>
                                                                             <input class="form-control form-control-sm" id = "QTY" onkeyup = "GetPrice()" type = "number">
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -1323,8 +1370,9 @@
         }
     });
     
+      var WareHouseData="";
     $(document).ready(function () {
-
+       GetWareHouseData(); 
         DocNumOnLoad();
         GetCountrydata();
         GetCurrencydata();
@@ -1452,6 +1500,20 @@
                                                                                         <input id="ItemName" class="form-control form-control-sm"  type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
+                                                                                                                <td>
+                                                                                                <div class="input-group">
+                                                                                                        <select class="form-control" id="Warehouse">
+                                                                                                        `+ WareHouseData + `
+                                                                                                    </select>
+
+                                                                                                </div>
+
+
+                                                                                            </td>
+                                                                                             <td>
+                                                                                                        <input id="onHand" class="form-control form-control-sm" readonly type="number">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
                                                                                     <td>
                                                                                         <input class="form-control form-control-sm" id="QTY"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>

@@ -435,25 +435,28 @@ namespace iSOL_Enterprise.Dal
                             item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToInt32(item.DicPrc);
 
                             #region Insert in Rows
-                            string RowQueryItem = @"insert into PDN1(Id,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,BaseType,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
+                            string RowQueryItem = @"insert into PDN1(Id,LineNum,WhsCode,BaseRef,BaseEntry,BaseLine,BaseQty,BaseType,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
                                               values(" + Id + ","
-                                              + LineNo + ",'"
-                                              + item.BaseRef + "',"
-                                              + item.BaseEntry + ","
-                                              + item.BaseLine + ","
-                                              + item.BaseQty + ","
-                                              + model.BaseType + ",'"
-                                              + item.ItemName + "',"
-                                              + item.UPrc + ","
-                                              + item.TtlPrc + ","
-                                              + item.QTY + ",'"
-                                              + item.ItemCode + "',"
-                                              + item.QTY + ","
-                                              + item.DicPrc + ",'"
-                                              + item.VatGroup + "','"
-                                              + item.UomCode + "',"
-                                              + item.UomEntry + ",'"
-                                              + item.CountryOrg + "')";
+                                           + LineNo + ",'"
+                                            + item.WhsCode + "','"
+                                           + item.BaseRef + "',"
+                                           + item.BaseEntry + ","
+                                           + item.BaseLine + ","
+                                           + item.BaseQty + ","
+                                           + model.BaseType + ",'"
+                                           + item.ItemName + "',"
+                                           + item.UPrc + ","
+                                           + item.TtlPrc + ","
+                                           + item.QTY + ",'"
+                                           + item.ItemCode + "',"
+                                           + item.QTY + ","
+                                           + item.DicPrc + ",'"
+                                           + item.VatGroup + "','"
+                                           + item.UomCode + "',"
+                                           + item.UomEntry + ",'"
+                                           + item.CountryOrg + "')";
+
+
 
 
                             int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();

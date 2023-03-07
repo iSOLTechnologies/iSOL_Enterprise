@@ -365,9 +365,10 @@ namespace iSOL_Enterprise.Dal
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
                             item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToInt32(item.DicPrc);
 
-                            string RowQueryItem = @"insert into QUT1(Id,LineNum,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup,UomCode,UomEntry,CountryOrg)
+                            string RowQueryItem = @"insert into QUT1(Id,LineNum,WhsCode,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup,UomCode,UomEntry,CountryOrg)
                                               values(" + Id + ","
                                               + LineNo + ",'"
+                                              + item.WhsCode + "','"
                                               + item.ItemName + "',"
                                               + item.UPrc + ","
                                               + item.TtlPrc + ","
