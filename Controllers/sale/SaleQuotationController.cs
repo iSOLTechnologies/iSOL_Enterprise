@@ -22,12 +22,12 @@ namespace iSOL_Enterprise.Controllers.Sales
             return View();
         }
         public IActionResult SaleQuotationMaster()
-        { 
-
+        {
+            AdministratorDal Adal = new AdministratorDal();
             SalesQuotationDal dal = new SalesQuotationDal();
 
             ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
-
+            ViewBag.GetSeries = Adal.GetSeries(23);
 
 
             return View();

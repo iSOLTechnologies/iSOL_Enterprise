@@ -20,8 +20,9 @@ namespace iSOL_Enterprise.Controllers
         public IActionResult SaleOrderMaster()
         {
             SalesQuotationDal dal = new SalesQuotationDal();
-
-            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+			AdministratorDal Adal = new AdministratorDal();
+			ViewBag.GetSeries = Adal.GetSeries(17);
+			ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
             return View();
         }
 

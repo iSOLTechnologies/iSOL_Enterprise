@@ -20,8 +20,9 @@ namespace iSOL_Enterprise.Controllers
         public IActionResult ARCreditMemoMaster()
         {
             SalesQuotationDal dal = new SalesQuotationDal();
-
-            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+			AdministratorDal Adal = new AdministratorDal();
+			ViewBag.GetSeries = Adal.GetSeries(19);
+			ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
             //ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
             return View();
         }
@@ -120,9 +121,7 @@ namespace iSOL_Enterprise.Controllers
         public IActionResult EditARCreditMemo(string formData)
         {
             try
-            {
-
-
+            { 
                 ARCreditMemoDal dal = new ARCreditMemoDal();
                 return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.EditARCreditMemo(formData) == true ? Json(new { isInserted = true, message = "AR Credit Memo Updated Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
 

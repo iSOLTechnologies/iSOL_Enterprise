@@ -3,6 +3,7 @@ using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Models.sale;
 using iSOL_Enterprise.Models.Sale;
 using Newtonsoft.Json;
+using SAPbobsCOM;
 using SqlHelperExtensions;
 using System.Collections.Generic;
 using System.Data;
@@ -319,8 +320,9 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
-                        string HeadQuery = @"insert into OQUT(Id,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
-                                           values(" + Id + ",'"
+                        string HeadQuery = @"insert into OQUT(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
+                                           values(" + Id + ","
+                                                + model.HeaderData.Series + ",'"
                                                 + DocType + "','"
                                                 + CommonDal.generatedGuid() + "','"
                                                 + model.HeaderData.CardCode + "','"

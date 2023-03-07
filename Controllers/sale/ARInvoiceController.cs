@@ -19,8 +19,9 @@ namespace iSOL_Enterprise.Controllers
         public IActionResult ARInvoiceMaster()
         {
             SalesQuotationDal dal = new SalesQuotationDal();
-
-            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+			AdministratorDal Adal = new AdministratorDal();
+			ViewBag.GetSeries = Adal.GetSeries(13);
+			ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
             return View();
         }
 
