@@ -4,6 +4,7 @@
     {
 
         public int AbsEntry { get; set; }
+        public int MdAbsEntry { get; set; }
 
         public string DistNumber { get; set; }
         public int Quantity { get; set;}
