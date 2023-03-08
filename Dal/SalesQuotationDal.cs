@@ -187,9 +187,17 @@ namespace iSOL_Enterprise.Dal
         }
         
 
-        public List<tbl_OVTG> GetVatGroupData()
+        public List<tbl_OVTG> GetVatGroupData(string DocModule)
         {
-            string GetQuery = "select code = Code, vatName = Code+' - ' +Name , Rate from OVTG ";
+            string GetQuery = "";
+            if (DocModule == "S")
+            {
+                GetQuery = "select code = Code, vatName = Code+' - ' +Name , Rate from OVTG Where Category = 'O'";
+            }
+            else if (DocModule == "P")
+            {
+                GetQuery = "select code = Code, vatName = Code+' - ' +Name , Rate from OVTG  Where Category = 'I'";
+            } 
 
 
             List<tbl_OVTG> list = new List<tbl_OVTG>();

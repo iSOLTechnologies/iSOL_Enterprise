@@ -1422,6 +1422,7 @@
 
     var WareHouseData="";
     $(document).ready(function () {
+        DocModule = "S";
        GetWareHouseData(); 
         DocNumOnLoad();
         GetCountrydata();
@@ -1429,7 +1430,6 @@
         GetVatGroupData();
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
-        DocModule = "S";
 
         GetPayments();
 

@@ -39,7 +39,7 @@ namespace iSOL_Enterprise.Controllers.Sales
             CommonDal cdal = new CommonDal();
             APInvoiceDal dal1 = new APInvoiceDal();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
-            ViewBag.Taxes = dal.GetVatGroupData();
+            ViewBag.Taxes = dal.GetVatGroupData("P");
             ViewBag.Countries = cdal.GetCountries();
             ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.Payments = dal.GetPaymentTerms();

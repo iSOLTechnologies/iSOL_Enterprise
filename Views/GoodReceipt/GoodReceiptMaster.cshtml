@@ -1610,6 +1610,7 @@
 
     $(document).ready(function () {
 
+        DocModule = "P";
         DocNumOnLoad();
         GetCountrydata();
         GetCurrencydata();
@@ -1618,7 +1619,6 @@
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
         
-        DocModule = "P";
       
         GetPayments();
 

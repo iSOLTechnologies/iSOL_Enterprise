@@ -1399,13 +1399,13 @@
     $(document).ready(function () {
        GetWareHouseData(); 
        
+        DocModule = "S";
         DocNumOnLoad();
         GetCountrydata();
         GetCurrencydata();
         GetVatGroupData();
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
-        DocModule = "S";
         
         GetPayments();
 

@@ -1418,6 +1418,7 @@
     });
     var WareHouseData;
     $(document).ready(function () {
+        DocModule = "S";
         GetWareHouseData();
         DocNumOnLoad();
         GetCountrydata();
@@ -1426,7 +1427,6 @@
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
         GetPayments();
-        DocModule = "S";
 
         function GetPayments() {
 

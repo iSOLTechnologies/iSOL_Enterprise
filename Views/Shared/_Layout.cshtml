@@ -2103,8 +2103,7 @@
      function GetVatGroupData() 
 		{
 	
-			$.get("SaleQuotation/GetVatGroupData", function(data) 
-			{
+			$.get("SaleQuotation/GetVatGroupData", { DocModule: DocModule }, function (data) {
 		
 		        vatGroupData = data;
 				$("#VatGroup").html("");

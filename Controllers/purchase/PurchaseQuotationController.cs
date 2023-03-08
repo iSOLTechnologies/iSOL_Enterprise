@@ -41,7 +41,7 @@ namespace iSOL_Enterprise.Controllers.Sales
             SalesQuotationDal dal = new SalesQuotationDal();
             CommonDal cdal = new CommonDal();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
-            ViewBag.Taxes = dal.GetVatGroupData();
+            ViewBag.Taxes = dal.GetVatGroupData("P");
             ViewBag.Countries = cdal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
 
@@ -174,21 +174,21 @@ namespace iSOL_Enterprise.Controllers.Sales
 
             
         }
-        public IActionResult GetVatGroupData()
-        {
-            try
-            {
+        //public IActionResult GetVatGroupData()
+        //{
+        //    try
+        //    {
 
-                SalesQuotationDal dal = new SalesQuotationDal();
+        //        SalesQuotationDal dal = new SalesQuotationDal();
 
-                return Json(dal.GetVatGroupData());
-            }
-            catch (Exception ex)
-            {
+        //        return Json(dal.GetVatGroupData());
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                return Json(ex.Message);
-            }
-        }
+        //        return Json(ex.Message);
+        //    }
+        //}
         public IActionResult GetSaleEmployee()
         {
             //ResponseModels response = new ResponseModels();

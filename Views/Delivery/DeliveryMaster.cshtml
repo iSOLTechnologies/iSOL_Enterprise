@@ -1452,6 +1452,7 @@
     $(document).ready(function () {
 
         
+        DocModule = "S";
         DocNumOnLoad();
         GetVatGroupData();
         GetCountrydata();
@@ -1459,7 +1460,6 @@
         GetWareHouseData();
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
-        DocModule = "S";
         GetPayments();
          
  

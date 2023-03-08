@@ -38,7 +38,7 @@ namespace iSOL_Enterprise.Controllers.Sales
             PurchaseOrderDal dal1 = new PurchaseOrderDal();
             CommonDal cdal = new CommonDal();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
-            ViewBag.Taxes = dal.GetVatGroupData();
+            ViewBag.Taxes = dal.GetVatGroupData("P");
             ViewBag.Countries = cdal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
             ViewBag.Currency = cdal.GetCurrencydata();

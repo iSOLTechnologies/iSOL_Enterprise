@@ -34,7 +34,7 @@ namespace iSOL_Enterprise.Controllers
             SalesQuotationDal dal = new SalesQuotationDal();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             CommonDal cdal = new CommonDal();
-            ViewBag.Taxes = dal.GetVatGroupData();
+            ViewBag.Taxes = dal.GetVatGroupData("S");
             ViewBag.Countries = cdal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
             bool flag = CommonDal.Check_IsEditable("INV1", id);

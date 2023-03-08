@@ -32,7 +32,7 @@ namespace iSOL_Enterprise.Controllers
             SalesOrderDal dal1 = new SalesOrderDal();
             CommonDal cdal = new CommonDal();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
-            ViewBag.Taxes = dal.GetVatGroupData();
+            ViewBag.Taxes = dal.GetVatGroupData("S");
             ViewBag.Countries = cdal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
             ViewBag.Currency = cdal.GetCurrencydata();
