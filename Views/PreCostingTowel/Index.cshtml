@@ -2838,60 +2838,17 @@
         box.value = new Date().toJSON().slice(0, 10);
     }
 
-    // Select all input elements with type="number"
-    const numberInputs = document.querySelectorAll('input[type="number"]');
-
-    // Add an event listener for the "input" event to each input element
-        numberInputs.forEach(input => {
-          let previousValue = '';
-
-          input.addEventListener('input', () => {
-                
-            
-                const caretPosition = input.selectionStart;
-                let value = input.value;
-
-                // Remove any non-numeric characters except the decimal point
-                value = value.replace(/[^0-9.]/g, '');
-
-                // If there are more than 2 decimal places, round to 2 decimal places
-                const parts = value.split('.');
-                if (parts.length > 1 && parts[1].length > 2) {
-                  parts[1] = parts[1].substr(0, 2);
-                  value = parts.join('.');
-                }
-
-                // If the input value ends with a decimal point, add a zero to the end
-                if (value.endsWith('.')) {
-                  value += '0';
-                }
-
-                // Set the input value to the sanitized value
-                input.value = value;
-
-                // Adjust the cursor position if the input value was modified
-                if (previousValue !== value) {
-                  const newPosition = caretPosition + (value.length - previousValue.length);
-                    input.type = "text";
-
-                    // Set the selection range to the desired values
-                    //input.setSelectionRange(startIndex, endIndex);
-                    input.setSelectionRange(newPosition, newPosition);
-
-                    // Change the input type back to "number"
-                    input.type = "number";
-                  previousValue = value;
-                }
-            
-          });
-          //input.addEventListener('keydown', event => {
-          //          if (event.key === '.' && input.value.includes('.')) {
-          //              event.preventDefault();
-          //          }
-          //});
-        
-        });
-
+    
+    $(document).on("input", "input[type='number']", function() {
+      var value = parseFloat(this.value);
+      if (isNaN(value)) {
+        return;
+      }
+      var decimalCount = (this.value.split(".")[1] || []).length;
+      if (decimalCount > 3) {
+        this.value = value.toFixed(3);
+      }
+    });
 
 
 
