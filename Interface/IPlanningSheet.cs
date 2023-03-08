@@ -38,7 +38,7 @@ namespace iSOL_Enterprise.Interface
              string CustomerCodeHeader (string SONumber);
              string CustomerNameHeader (string SONumber);
              string StatusHeader (string SONumber);
-             int QuantityHeader (string SONumber);
+             int? QuantityHeader (string SONumber);
              dynamic SaleOrderDateHeader(string SONumber);
              dynamic ShipmentDateHeader(string SONumber);
 
