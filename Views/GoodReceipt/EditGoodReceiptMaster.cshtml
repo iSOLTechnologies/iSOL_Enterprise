@@ -364,7 +364,7 @@
                                                                                     <th>Tax Code</th>
                                                                                     <th>Total (LC)</th>
                                                                                     <th>UOM Code</th>
-                                                                                    <th>Country / Region of origin</th>
+                                                                                    @*<th>Country / Region of origin</th>*@
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody id="ListParameters" data-repeater-list="" class="ScrollTbody">
@@ -442,7 +442,7 @@
                                                                                       
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                   <td class="d-none">
                                                                                           @*<input class="form-control  value="@row1["CountryOrg"]" form-control-sm" id="CountryOrg">*@
 
 
@@ -1079,7 +1079,7 @@
                                                                                 <select class="form-control " id="UomEntry"></select><input id="UomCode" class="position-absolute d-none"/>
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </td>
-                                                                        <td>
+                                                                       <td class="d-none">
                                                                             <select class="form-control form-control-sm" id="CountryOrg" name="DurationTypeCode">
                                                                             `+CountryData+`
                                                                             </select>
@@ -1505,7 +1505,7 @@ function GetPrice()
                                                                                        <select class="form-control " id="UomEntry"> </select><input id="UomCode" class="position-absolute d-none"/>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                   <td class="d-none">
                                                                                         <select class="form-control form-control-sm" id="CountryOrg" name="DurationTypeCode">
                                                                                              `+CountryData+`
                                                                                         </select>

@@ -38,12 +38,14 @@ namespace iSOL_Enterprise.Controllers.Sales
         {
             SalesQuotationDal dal = new SalesQuotationDal();
             CommonDal cdal = new CommonDal();
+            DeliveryDal Ddal = new DeliveryDal();
             //ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData("S");
             ViewBag.Countries = cdal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
             ViewBag.Currency = cdal.GetCurrencydata();
+            ViewBag.Warehouse = Ddal.GetWareHouseData();
             bool flag = CommonDal.Check_IsEditable("RDR1", id);
             ViewBag.Status = flag == false ? "Open" : "Closed";
             return View(dal.GetSaleQuotationEditDetails(id));
