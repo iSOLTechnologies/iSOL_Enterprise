@@ -8,7 +8,7 @@ namespace iSOL_Enterprise.Dal
 {
     public class PlanningSheetDal : IPlanningSheet
     {
-        public dynamic? AuditApprovalActualDate(string SONumber)
+        public DateTime? AuditApprovalActualDate(string SONumber)
         {
             try
             {            
@@ -33,7 +33,7 @@ namespace iSOL_Enterprise.Dal
             return null;
         }
 
-        public dynamic? AuditApprovalPlannedDate(string SONumber)
+        public DateTime? AuditApprovalPlannedDate(string SONumber)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? DeliveryNoteActualDate(string SONumber)
+        public DateTime? DeliveryNoteActualDate(string SONumber)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? DeliveryNotePlannedDate(string SONumber)
+        public DateTime? DeliveryNotePlannedDate(string SONumber)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? DyedIssuanceForProdActualDate(string SONumber)
+        public DateTime? DyedIssuanceForProdActualDate(string SONumber)
         {
             try
             {
@@ -133,7 +133,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? DyedIssuanceForProdPlannedDate(string SONumber)
+        public DateTime? DyedIssuanceForProdPlannedDate(string SONumber)
         {
             try
             {
@@ -158,7 +158,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? DyedReceivingActualDate(string SONumber)
+        public DateTime? DyedReceivingActualDate(string SONumber)
         {
             try
             {
@@ -183,7 +183,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? DyedReceivingPlannedDate(string SONumber)
+        public DateTime? DyedReceivingPlannedDate(string SONumber)
         {
             try
             {
@@ -208,7 +208,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? GatePassActualDate(string SONumber)
+        public DateTime? GatePassActualDate(string SONumber)
         {
             try
             {
@@ -233,7 +233,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? GatePassPlannedDate(string SONumber)
+        public DateTime? GatePassPlannedDate(string SONumber)
         {
             try
             {
@@ -258,7 +258,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? GreigeIssuanceForDyedActualDate(string SONumber)
+        public DateTime? GreigeIssuanceForDyedActualDate(string SONumber)
         {
             try
             {
@@ -283,7 +283,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? GreigeIssuanceForDyedPlannedDate(string SONumber)
+        public DateTime? GreigeIssuanceForDyedPlannedDate(string SONumber)
         {
             try
             {
@@ -308,7 +308,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? GreigeReceivingActualDate(string SONumber)
+        public DateTime? GreigeReceivingActualDate(string SONumber)
         {
             try
             {
@@ -333,7 +333,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? GreigeReceivingPlannedDate(string SONumber)
+        public DateTime? GreigeReceivingPlannedDate(string SONumber)
         {
             try
             {
@@ -358,7 +358,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? PackingActualDate(string SONumber)
+        public DateTime? PackingActualDate(string SONumber)
         {
             try
             {
@@ -383,7 +383,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? PackingPlannedDate(string SONumber)
+        public DateTime? PackingPlannedDate(string SONumber)
         {
             try
             {
@@ -408,7 +408,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? POActualDate(string SONumber)
+        public DateTime? POActualDate(string SONumber)
         {
             try
             {
@@ -433,7 +433,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? POPlannedDate(string SONumber)
+        public DateTime? POPlannedDate(string SONumber)
         {
             try
             {
@@ -458,7 +458,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? PreCostingActualDate(string SONumber)
+        public DateTime? PreCostingActualDate(string SONumber)
         {
             try
             {
@@ -483,7 +483,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? PreCostingPlannedDate(string SONumber)
+        public DateTime? PreCostingPlannedDate(string SONumber)
         {
             try
             {
@@ -509,7 +509,7 @@ namespace iSOL_Enterprise.Dal
             return null;
         }
 
-        public dynamic? SizedYarnIssuanceForGreigePlannedDate(string SONumber)
+        public DateTime? SizedYarnIssuanceForGreigePlannedDate(string SONumber)
         {
             try
             {
@@ -534,7 +534,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? YarnDeliveryActualDate(string SONumber)
+        public DateTime? YarnDeliveryActualDate(string SONumber)
         {
             try
             {
@@ -559,7 +559,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? YarnDeliveryPlannedDate(string SONumber)
+        public DateTime? YarnDeliveryPlannedDate(string SONumber)
         {
             try
             {
@@ -584,7 +584,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? SizedYarnReceivedPlannedDate(string SONumber)
+        public DateTime? SizedYarnReceivedPlannedDate(string SONumber)
         {
             try
             {
@@ -609,7 +609,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? YarnIssuanceForSizzingPlannedDate(string SONumber)
+        public DateTime? YarnIssuanceForSizzingPlannedDate(string SONumber)
         {
             try
             {
@@ -634,7 +634,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? YarnPurchaseActualDate(string SONumber)
+        public DateTime? YarnPurchaseActualDate(string SONumber)
         {
             try
             {
@@ -659,7 +659,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? YarnPurchasePlannedDate(string SONumber)
+        public DateTime? YarnPurchasePlannedDate(string SONumber)
         {
             try
             {
@@ -684,7 +684,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? PlanningDateHeader(string SONumber)
+        public DateTime? PlanningDateHeader(string SONumber)
         {
             try
             {
@@ -784,7 +784,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? SaleOrderDateHeader(string SONumber)
+        public DateTime? SaleOrderDateHeader(string SONumber)
         {
             try
             {
@@ -809,7 +809,7 @@ namespace iSOL_Enterprise.Dal
             }
             return null;
         }
-        public dynamic? ShipmentDateHeader(string SONumber)
+        public DateTime? ShipmentDateHeader(string SONumber)
         {
             try
             {

@@ -7,40 +7,40 @@ namespace iSOL_Enterprise.Interface
     public interface IPlanningSheet
     {
            
-             dynamic AuditApprovalActualDate(string SONumber);
-             dynamic AuditApprovalPlannedDate(string SONumber);
-             dynamic DeliveryNoteActualDate(string SONumber);
-             dynamic DeliveryNotePlannedDate(string SONumber);
-             dynamic DyedIssuanceForProdActualDate(string SONumber);
-             dynamic DyedIssuanceForProdPlannedDate(string SONumber);
-             dynamic DyedReceivingActualDate(string SONumber);
-             dynamic DyedReceivingPlannedDate(string SONumber);
-             dynamic GatePassActualDate(string SONumber);
-             dynamic GatePassPlannedDate(string SONumber);
-             dynamic GreigeIssuanceForDyedActualDate(string SONumber);
-             dynamic GreigeIssuanceForDyedPlannedDate(string SONumber);
-             dynamic GreigeReceivingActualDate(string SONumber);
-             dynamic GreigeReceivingPlannedDate(string SONumber);
-             dynamic PackingActualDate(string SONumber);
-             dynamic PackingPlannedDate(string SONumber);
-             dynamic POActualDate(string SONumber);
-             dynamic POPlannedDate(string SONumber);
-             dynamic PreCostingActualDate(string SONumber);
-             dynamic PreCostingPlannedDate(string SONumber);
-             dynamic SizedYarnIssuanceForGreigePlannedDate(string SONumber);
-             dynamic SizedYarnReceivedPlannedDate(string SONumber);
-             dynamic YarnDeliveryActualDate(string SONumber);
-             dynamic YarnDeliveryPlannedDate(string SONumber);
-             dynamic YarnIssuanceForSizzingPlannedDate(string SONumber);
-             dynamic YarnPurchaseActualDate(string SONumber);
-             dynamic YarnPurchasePlannedDate(string SONumber);
-             dynamic PlanningDateHeader(string SONumber);
+             DateTime? AuditApprovalActualDate(string SONumber);
+             DateTime? AuditApprovalPlannedDate(string SONumber);
+             DateTime? DeliveryNoteActualDate(string SONumber);
+             DateTime? DeliveryNotePlannedDate(string SONumber);
+             DateTime? DyedIssuanceForProdActualDate(string SONumber);
+             DateTime? DyedIssuanceForProdPlannedDate(string SONumber);
+             DateTime? DyedReceivingActualDate(string SONumber);
+             DateTime? DyedReceivingPlannedDate(string SONumber);
+             DateTime? GatePassActualDate(string SONumber);
+             DateTime? GatePassPlannedDate(string SONumber);
+             DateTime? GreigeIssuanceForDyedActualDate(string SONumber);
+             DateTime? GreigeIssuanceForDyedPlannedDate(string SONumber);
+             DateTime? GreigeReceivingActualDate(string SONumber);
+             DateTime? GreigeReceivingPlannedDate(string SONumber);
+             DateTime? PackingActualDate(string SONumber);
+             DateTime? PackingPlannedDate(string SONumber);
+             DateTime? POActualDate(string SONumber);
+             DateTime? POPlannedDate(string SONumber);
+             DateTime? PreCostingActualDate(string SONumber);
+             DateTime? PreCostingPlannedDate(string SONumber);
+             DateTime? SizedYarnIssuanceForGreigePlannedDate(string SONumber);
+             DateTime? SizedYarnReceivedPlannedDate(string SONumber);
+             DateTime? YarnDeliveryActualDate(string SONumber);
+             DateTime? YarnDeliveryPlannedDate(string SONumber);
+             DateTime? YarnIssuanceForSizzingPlannedDate(string SONumber);
+             DateTime? YarnPurchaseActualDate(string SONumber);
+             DateTime? YarnPurchasePlannedDate(string SONumber);
+             DateTime? PlanningDateHeader(string SONumber);
              string CustomerCodeHeader (string SONumber);
              string CustomerNameHeader (string SONumber);
              string StatusHeader (string SONumber);
              int? QuantityHeader (string SONumber);
-             dynamic SaleOrderDateHeader(string SONumber);
-             dynamic ShipmentDateHeader(string SONumber);
+             DateTime? SaleOrderDateHeader(string SONumber);
+             DateTime? ShipmentDateHeader(string SONumber);
 
 
     }
