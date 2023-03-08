@@ -59,7 +59,7 @@ namespace SAP_MVC_DIAPI.BLC
                         string headerTable = dal.GetMasterTable(ObjectCode);
                         string rowTable = dal.GetRowTable(ObjectCode);
                         string message = "";
-                        int Series = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select Series from Pages where ObjectCode =" + ObjectCode).ToInt();
+                       //int Series = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select Series from Pages where ObjectCode =" + ObjectCode).ToInt();
                         SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
                         conn.Open();
                         SqlTransaction tran = conn.BeginTransaction();
@@ -71,7 +71,7 @@ namespace SAP_MVC_DIAPI.BLC
                             string UDF = "";
                             if (headerTable == "ORDR")                            
                                 UDF = ",CETnum";                            
-                            string headerQuery = @"select DocType,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum ,SlpCode,Comments,Id "+UDF+" from " + headerTable + " where Id=" + ID + " and isPosted = 0";
+                            string headerQuery = @"select DocType,Series,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum ,SlpCode,Comments,Id " + UDF+" from " + headerTable + " where Id=" + ID + " and isPosted = 0";
                             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
                             {
                                 try
@@ -82,7 +82,7 @@ namespace SAP_MVC_DIAPI.BLC
                                     {
                                         #region Insert In Header
 
-                                        oDoc.Series = Series;
+                                        oDoc.Series = rdr["Series"].ToInt();
                                         oDoc.DocType = rdr["DocType"].ToString() == "I" ? BoDocumentTypes.dDocument_Items : BoDocumentTypes.dDocument_Service;
                                         oDoc.CardCode = rdr["CardCode"].ToString();
                                         oDoc.CardName = rdr["CardName"].ToString();

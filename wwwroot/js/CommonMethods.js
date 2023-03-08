@@ -98,7 +98,7 @@ function GetPrice() {
     }
     if (Discount != "" && RoundingValue != "") {
 
-        $("#Total").val(totalBeforeDiscount - ((totalBeforeDiscount + RoundingValue) * Discount));
+        $("#Total").val((totalBeforeDiscount + RoundingValue) - ((totalBeforeDiscount + RoundingValue) * Discount));
 
     }
     else if (Discount == "" && RoundingValue != "") {
