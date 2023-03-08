@@ -24,6 +24,8 @@ namespace iSOL_Enterprise.Controllers.Sales
         public IActionResult GoodReceiptMaster()
         {
             SalesQuotationDal dal = new SalesQuotationDal();
+            AdministratorDal Adal = new AdministratorDal();
+            ViewBag.GetSeries = Adal.GetSeries(20);
             ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
             return View();
         }

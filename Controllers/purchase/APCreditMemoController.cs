@@ -20,7 +20,8 @@ namespace iSOL_Enterprise.Controllers
         public IActionResult APCreditMemoMaster()
         {
             SalesQuotationDal dal = new SalesQuotationDal();
-
+            AdministratorDal Adal = new AdministratorDal();
+            ViewBag.GetSeries = Adal.GetSeries(19);
             ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
             //ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
             return View();

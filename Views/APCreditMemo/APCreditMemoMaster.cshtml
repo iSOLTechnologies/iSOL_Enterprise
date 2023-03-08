@@ -190,11 +190,30 @@
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
 
-                                                                    <div class="col-md-6">
-                                                                        <label>No.</label>
-                                                                        <input id="DocNum" readonly type="text" class="form-control form-control-sm" placeholder="No.">
-                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                    </div>
+                                                                  <div class="col-md-6">
+																		<label>No.</label>
+																		<div class="row">
+																			<div class="col-md-6">
+																				<select id="Series" class="form-control">
+
+																					@foreach (iSOL_Enterprise.Models.Sale.tbl_series i in ViewBag.GetSeries)
+																					{
+
+																						<option value="@i.Series">@i.SeriesName </option>
+																					}
+
+
+																				</select>
+																			</div>
+
+																			<div class="col-md-6">
+																				<input id="DocNum" readonly type="text" class="form-control form-control-sm" placeholder="No.">
+																			</div>
+
+																		</div>
+
+																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																	</div>
 
                                                                 </div>
 

@@ -1,12 +1,13 @@
 ﻿
-$(document).on('change keyup', '#DicPrc', function (e) {
+$(document).on('change keyup', '#UPrc,#DicPrc', function (e) {
    
     var quantityField = $(this).closest('#ListParameters .itm').find('#DicPrc');
     var quantityValue = $(this).closest('#ListParameters .itm').find('#DicPrc').val();
-
-
-    if (quantityValue < 0 || quantityValue == "") {
-        quantityField.val(0);
+     
+    if (quantityValue == "") {
+        quantityField.val("");
+    }else if (quantityValue < 0) {
+        quantityField.val("");
         toastr.warning("Discount can't be less than 0");
     } else if (quantityValue > 100) {
         quantityField.val(100);

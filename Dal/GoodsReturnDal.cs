@@ -193,10 +193,11 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
-                        string HeadQuery = @"insert into ORPD(Id,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
-                                           values(" + Id + ",'"
-                                               + DocType + "','"
-                                           + CommonDal.generatedGuid() + "','"
+                        string HeadQuery = @"insert into ORPD(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode , Comments) 
+                                           values(" + Id + ","
+                                                + model.HeaderData.Series + ",'"
+                                                + DocType + "','"
+                                                + CommonDal.generatedGuid() + "','"
                                                 + model.HeaderData.CardCode + "','"
                                                 + DocNum + "','"
                                                 + model.HeaderData.CardName + "','"
