@@ -311,7 +311,7 @@ namespace iSOL_Enterprise.Dal
                             item.BaseEntry = item.BaseEntry == "" ? "null" : item.BaseEntry;
                             item.BaseLine = item.BaseLine == "" ? "null" : item.BaseLine;
                             item.BaseQty = item.BaseQty == "" ? "null" : item.BaseQty;
-                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToInt32(item.DicPrc);
+                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
 
                             string RowQueryItem = @"insert into PQT1(Id,LineNum,WhsCode,ItemName,Price,LineTotal,ItemCode,PQTReqDate,ShipDate,PQTReqQty,OpenQty,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
                                               values(" + Id + ","

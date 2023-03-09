@@ -163,7 +163,7 @@ namespace iSOL_Enterprise.Dal
                             item.BaseEntry = item.BaseEntry == "" ? "NULL" : item.BaseEntry;
                             item.BaseLine = item.BaseLine == "" ? "NULL" : item.BaseLine;
                             item.BaseQty = item.BaseQty == "" ? "NULL" : item.BaseQty;
-                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToInt32(item.DicPrc);
+                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
 
                             string RowQueryItem = @"insert into PCH1(Id,LineNum,WhsCode,BaseRef,BaseEntry,BaseLine,BaseQty,BaseType,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
                                               values(" + Id + ","
