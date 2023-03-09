@@ -11,5 +11,6 @@
         public string ? u_SOnum { get; set; }
         public string ? u_ItemCode { get; set; }
         public string ? status { get; set; }
+        public string? IsPosted { get; set; }
     }
 }

@@ -59,7 +59,7 @@ namespace SAP_MVC_DIAPI.BLC
                         string headerTable = dal.GetMasterTable(ObjectCode);
                         string rowTable = dal.GetRowTable(ObjectCode);
                         string message = "";
-                       //int Series = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select Series from Pages where ObjectCode =" + ObjectCode).ToInt();
+                        //int Series = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select Series from Pages where ObjectCode =" + ObjectCode).ToInt();
                         SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
                         conn.Open();
                         SqlTransaction tran = conn.BeginTransaction();
@@ -69,9 +69,9 @@ namespace SAP_MVC_DIAPI.BLC
                         foreach (var ID in checkedIDs)
                         {
                             string UDF = "";
-                            if (headerTable == "ORDR")                            
-                                UDF = ",CETnum";                            
-                            string headerQuery = @"select DocType,Series,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum ,SlpCode,Comments,Id " + UDF+" from " + headerTable + " where Id=" + ID + " and isPosted = 0";
+                            if (headerTable == "ORDR")
+                                UDF = ",CETnum";
+                            string headerQuery = @"select DocType,Series,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum ,SlpCode,Comments,Id " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
                             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
                             {
                                 try
@@ -86,7 +86,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.DocType = rdr["DocType"].ToString() == "I" ? BoDocumentTypes.dDocument_Items : BoDocumentTypes.dDocument_Service;
                                         oDoc.CardCode = rdr["CardCode"].ToString();
                                         oDoc.CardName = rdr["CardName"].ToString();
-                                       
+
                                         oDoc.ContactPersonCode = rdr["CntctCode"].ToInt();
                                         oDoc.DocDate = rdr["DocDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["DocDate"].ToString());
                                         oDoc.NumAtCard = rdr["NumAtCard"].ToString();
@@ -176,7 +176,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                                            where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "'";
                                                             using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
                                                             {
-                                                     
+
                                                                 while (rdr3.Read())
                                                                 {
 
@@ -198,7 +198,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                                     oDoc.Lines.BatchNumbers.ItemCode = rdr3["ItemCode"].ToString();
                                                                     oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();
                                                                     oDoc.Lines.BatchNumbers.BaseLineNumber = rdr2["BaseLine"].ToInt();
-                                                                    
+
                                                                     // oDoc.Lines.BatchNumbers.SystemSerialNumber = rdr3["SysNumber"].ToInt();
                                                                     oDoc.Lines.BatchNumbers.Quantity = rdr3["Quantity"].ToInt() > 0 ? rdr3["Quantity"].ToInt() : (-1 * rdr3["Quantity"].ToInt());
                                                                     //oDoc.Lines.BatchNumbers.AddmisionDate = rdr3["CreateDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr3["CreateDate"].ToString());
@@ -206,7 +206,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                                     //    oDoc.Lines.BatchNumbers.ExpiryDate = Convert.ToDateTime(rdr3["ExpDate"].ToString());
                                                                     oDoc.Lines.BatchNumbers.Add();
 
-                                                                  
+
 
 
                                                                     //i += 1;
@@ -219,7 +219,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                             throw;
                                                         }
                                                     }
-                                                     oDoc.Lines.Add();
+                                                    oDoc.Lines.Add();
                                                 }
                                             }
                                             catch (Exception)
@@ -228,10 +228,10 @@ namespace SAP_MVC_DIAPI.BLC
                                                 throw;
                                             }
                                         }
-                                        }
-                                        #endregion
+                                    }
+                                    #endregion
 
-                                    
+
                                 }
                                 catch (Exception e)
                                 {
@@ -318,7 +318,9 @@ namespace SAP_MVC_DIAPI.BLC
                 if (Connect())
                 {
                     CommonDal dal = new CommonDal();
-
+                    SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                    conn.Open();
+                    SqlTransaction tran = conn.BeginTransaction();
 
                     foreach (var docEntry in checkedIDs)
                     {
@@ -331,7 +333,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                 while (rdr.Read())
                                 {
-                                    UserTable PSFTable = oCompany.UserTables.Item("@PSF");
+                                    UserTable PSFTable = oCompany.UserTables.Item("dbo.[@PSF]");
                                     if (PSFTable != null)
                                     {
                                         #region Insert in PSF
@@ -346,16 +348,32 @@ namespace SAP_MVC_DIAPI.BLC
                                         PSFTable.UserFields.Fields.Item("U_ItemDes").Value = "U_ItemDes";
                                         PSFTable.UserFields.Fields.Item("U_Qty").Value = "U_Qty";
                                         PSFTable.UserFields.Fields.Item("U_UOM").Value = "U_UOMPSFTable";
-                                        int rc = PSFTable.Add();
-                                        if (rc != 0)
+                                        #region Updating Table Row as Posted
+                                        string updatePSF = @"Update dbo.[@PSF] set isPosted = 1 where DocEntry =" + docEntry;    //For Updating master table row as this data is posted to SAP
+                                        int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, updatePSF).ToInt();
+                                        if (res1 <= 0)
                                         {
-                                            models.Message = oCompany.GetLastErrorDescription();
-                                            models.isSuccess = false;
+                                            tran.Rollback();
 
+                                            models.Message = "An Error occured";
+                                            models.isSuccess = false;
                                             return models;
                                         }
+                                        else
+                                        {
+                                            #endregion
+                                            
+                                            int rc = PSFTable.Add();
+                                            if (rc != 0)
+                                            {
+                                                models.Message = oCompany.GetLastErrorDescription();
+                                                models.isSuccess = false;
+
+                                                return models;
+                                            }
+                                        
                                         #endregion
-                                        #region Insert in PSF2
+                                            #region Insert in PSF2
                                         else
                                         {
                                             string rowQuery = @"select DocEntry,LineId,U_PlanDate,U_PreCosPln,U_PreCosAct,U_POPln,U_POAct,
@@ -430,7 +448,8 @@ namespace SAP_MVC_DIAPI.BLC
                                                 }
                                             }
                                         }
-                                        #endregion
+                                            #endregion
+                                        }
                                     }
                                     else
                                     {
@@ -445,7 +464,7 @@ namespace SAP_MVC_DIAPI.BLC
                             }
                             catch (Exception ex)
                             {
-                                models.Message = "An Error Occured";
+                                models.Message = ex.Message;
                                 models.isSuccess = false;
                                 return models;
 

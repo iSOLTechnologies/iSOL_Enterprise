@@ -14,7 +14,7 @@ namespace iSOL_Enterprise.Dal
 
         public List<planningSheetModel> GetPlanningSheetData()
         {
-            string GetQuery = "select DocEntry,U_PlanDate,U_SODate,U_ShipDate,U_SOnum,U_ItemCode,Status from [dbo].[@PSF] order by docEntry desc";
+            string GetQuery = "select DocEntry,U_PlanDate,U_SODate,U_ShipDate,U_SOnum,U_ItemCode,Status,isPosted from [dbo].[@PSF] order by docEntry desc";
             
 
             List<planningSheetModel> list = new List<planningSheetModel>();
@@ -31,7 +31,8 @@ namespace iSOL_Enterprise.Dal
                     models.u_ShipDate = rdr["U_ShipDate"].ToDateTime();
                     models.u_SOnum = rdr["U_SOnum"].ToString();
                     models.u_ItemCode = rdr["U_ItemCode"].ToString();
-                    models.status = rdr["Status"].ToString();                   
+                    models.status = rdr["Status"].ToString();
+                    models.IsPosted = rdr["isPosted"].ToString();
                     list.Add(models);
                 }
             }
