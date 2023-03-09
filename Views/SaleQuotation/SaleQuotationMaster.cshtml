@@ -932,13 +932,15 @@
     });
    
     $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount,#VatGroup,.VT_Option', function (e) {
-        
+
         var Qty = $(this).closest('#ListParameters .itm').find('#QTY');
         var UPrc = $(this).closest('#ListParameters .itm').find('#UPrc');
         var DicPrc = $(this).closest('#ListParameters .itm').find('#DicPrc');
         var TtlPrc = $(this).closest('#ListParameters .itm').find('#TtlPrc');
         var VatGroup = $(this).closest('#ListParameters .itm').find('#VatGroup');
-        var VatGuid =  $('option:selected',VatGroup).attr("guid"); 
+        let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
+
+        var VatGuid = $('option:selected', VatGroup).attr("guid");
         let BaseQty = $(this).closest('#ListParameters .itm').find('#BaseQty');
 
         if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
@@ -947,20 +949,23 @@
                 $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val() - Qty.val());
             }
             else {
-            
+
                 toastr.warning("Quantity can't be greater than base quantity");
                 Qty.val(0);
                 $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val());
-            
-            
+
+
             }
+        }
+        if (!(Number(Qty.val()) <= Number(onHand.val()))) {
+            toastr.warning("Quantity can't be greater than Quantity in Warehouse");
+            Qty.val(0);
         }
 
         if ($(DicPrc).val() == "") {
             var Onepercent = parseFloat($(TtlPrc).val() / 100);
             var Tax = parseFloat(Onepercent * parseFloat(VatGuid));
-            console.log(Tax);
-            console.log(Onepercent);
+
             if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
                 $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) + parseFloat(Tax)).toFixed(2)));
                 GetPrice();
@@ -984,7 +989,7 @@
         }
 
     });
-    
+
     $(document).on('click', '#RoundingChkBox', function (e) 
     {
 

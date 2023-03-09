@@ -1353,6 +1353,8 @@
         var DicPrc = $(this).closest('#ListParameters .itm').find('#DicPrc');
         var TtlPrc = $(this).closest('#ListParameters .itm').find('#TtlPrc');
         var VatGroup = $(this).closest('#ListParameters .itm').find('#VatGroup');
+        let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
+   
         var VatGuid = $('option:selected', VatGroup).attr("guid");
         let BaseQty = $(this).closest('#ListParameters .itm').find('#BaseQty');
 
@@ -1370,7 +1372,12 @@
 
             }
         }
-
+        if(! ( Number(Qty.val()) <= Number(onHand.val()) ))
+        {
+             toastr.warning("Quantity can't be greater than Quantity in Warehouse");
+             Qty.val(0);
+        }
+        
         if ($(DicPrc).val() == "") {
             var Onepercent = parseFloat($(TtlPrc).val() / 100);
             var Tax = parseFloat(Onepercent * parseFloat(VatGuid));

@@ -2567,7 +2567,7 @@
 				$(this).find('input').each(function (index, data) {
 					if ($(this).prop("type") == "number") {
 
-						$(this).val(parseInt($(this).val()).toFixed(2));
+						$(this).val(parseFloat($(this).val()).toFixed(2));
 
 					}
 				});
