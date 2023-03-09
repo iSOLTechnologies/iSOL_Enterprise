@@ -27,10 +27,12 @@ namespace iSOL_Enterprise.Controllers
 
         public IActionResult EditARInvoiceMaster(int id)
         {
+            DeliveryDal Ddal = new DeliveryDal();
             ARInvoiceDal dal1 = new ARInvoiceDal();
             SalesQuotationDal dal = new SalesQuotationDal();
             CommonDal cdal = new CommonDal();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
+            ViewBag.Warehouse = Ddal.GetWareHouseData();
             ViewBag.Taxes = dal.GetVatGroupData("S");
             ViewBag.Countries = cdal.GetCountries();
             ViewBag.Currency = cdal.GetCurrencydata();

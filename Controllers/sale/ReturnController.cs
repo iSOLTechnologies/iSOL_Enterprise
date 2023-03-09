@@ -29,7 +29,8 @@ namespace iSOL_Enterprise.Controllers
 
         public IActionResult EditReturnMaster(int id)
         {
-            
+            DeliveryDal Ddal = new DeliveryDal();
+            ViewBag.Warehouse = Ddal.GetWareHouseData();
             ReturnDal dal1 = new ReturnDal();
             SalesQuotationDal dal = new SalesQuotationDal();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();

@@ -376,6 +376,8 @@
                                                                                     <th>Line Num</th>
                                                                                     <th>Item No.</th>
                                                                                     <th>Item Name</th>
+                                                                                        <th>Warehouse</th>
+                                                                                        <th>QTY in Warehouse</th>
                                                                                     <th>Required Date</th>
 																					<th>Quoted Date</th>
 																					<th>Required Qty</th>
@@ -413,6 +415,40 @@
                                                                                         <input disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)" id="ItemName"  value="@row1["ItemName"]" class="form-control form-control-sm"  type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
+                                                                                    <td>
+                                                                                                    <div class="input-group">
+                                                                                                        <select disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)"
+                                                                                               
+                                                                                               class="form-control" id="Warehouse">
+                                                                                               
+                                                                                                        @foreach (iSOL_Enterprise.Models.sale.tbl_OWHS warehouse in  ViewBag.Warehouse)
+                                                                                                        {
+                                                                                                            if (row1["WhsCode"].Equals(warehouse.whscode))
+                                                                                                            {
+                                                                                                                <option  value="@warehouse.whscode" selected>@warehouse.whsname</option>
+                                                                                                            }
+                                                                                                            else
+                                                                                                            {
+                                                                                                                <option  value="@warehouse.whscode" >@warehouse.whsname</option> 
+                                                                                                            }
+
+
+                                                                                                        }
+
+
+                                                                                                        </select>
+
+                                                                                                    </div>
+
+
+                                                                                                </td>
+                                                                                                 
+                                                                                                <td>
+                                                                                                    <input id="onHand"  
+                                                                                                        class="form-control form-control-sm" readonly type="number">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td> 
+
                                                                                     <td>
 																						<input disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)" value="@(((DateTime)row1["PQTReqDate"]).ToString("yyyy-MM-dd"))" id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
 																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -492,89 +528,8 @@
                                                                                     </td>
                                                                                 </tr>
                                                                                 }  
-                                                                                }else{  
-                                                                                    <tr class="rowItemDetail align-items-center itm">
-                                                                                    <td>
-                                                                                        <div class="input-group">
-                                                                                            <input id="ItemCode" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
-                                                                                            <div id="Itemno" class="input-group-append">
-                                                                                                <span class="input-group-text">
-                                                                                                    <i class="la la-search"></i>
-                                                                                                </span>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <input id="ItemName" class="form-control form-control-sm"  type="text">
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-                                                                                    <td>
-																						<input id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-																					<td>
-																						<input id="ShipDate" type="date" class="form-control form-control-sm" placeholder="Quoted Date">
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-																					<td>
-																						<input class="form-control form-control-sm" id="PQTReqQty" type="number">
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-                                                                                    <td>
-                                                                                        <input class="form-control form-control-sm" id="QTY"  type="number">
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-
-                                                                                    <td>
-                                                                                        <input class="form-control form-control-sm" id="UPrc"  type="number">
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <input class="form-control form-control-sm NotReq" id="DicPrc"  type="number">
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-                                                                                    <td>
-
-                                                                                         
-                                                                                        <select class="form-control vtGroup" id="VatGroup">
-                                                                                        
-                                                                                        
-                                                                              @foreach (var ii in ViewBag.Taxes)
-                                                                             {
-                                                                               
-                                                                                    <option guid="@ii.Rate" value="@ii.code">@ii.vatName </option>
-                                                                                 
-                                                                             }
-                                                                                       </select>  
-                                                                       
-                                                                   
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        @*<input class="form-control form-control-sm" id="VatGroup" onkeyup="GetPrice()" type="number">
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>*@
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                       <select class="form-control " id="UomEntry"> </select><input id="UomCode" class="position-absolute d-none"/>
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-                                                                                  <td class="d-none">
-                                                                                        <select class="form-control form-control-sm" id="CountryOrg" name="DurationTypeCode">
-                                                                                                @foreach (var j in ViewBag.Countries)
-                                                                             {
-                                                                                  
-                                                                                    <option value="@j.country_code">@j.country_name</option>
-                                                                                    
-                                                                             }
-                                                                                        
-                                                                                        </select>
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-                                                                                </tr>
-                                                                         }
+                                                                                }
+                                                                                
                                                                                  </tbody>
                                                                         </table>
                                                                        
@@ -994,7 +949,7 @@
 <script src="~/Assets/plugins/global/plugins.bundle.js"></script>
 <script src="~/Assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
 <script src="~/Assets/js/scripts.bundle.js"></script>
-
+<script src="~/js/commonmethods.js"></script>
 
 
 
@@ -1020,7 +975,7 @@
 <script>
     var vatGroupData = "";
     var ItemServiceType = Doctype; 
-
+    var WareHouseData ="";
 
     const boxes = document.querySelectorAll('.d');
     for (const box of boxes) {
@@ -1176,6 +1131,20 @@
                                                                             <input class="form-control form-control-sm" id="ItemName" type = "text">
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </td>
+                                                                        <td>
+                                                                                            <div class="input-group">
+                                                                                                <select class="form-control" id="Warehouse">
+                                                                                                    `+ WareHouseData + `
+                                                                                                </select>
+
+                                                                                            </div>
+
+
+                                                                                        </td>
+                                                                                         <td>
+                                                                                            <input id="onHand" class="form-control form-control-sm" readonly type="number">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
                                                                         <td>
 																						<input id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
 																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -1366,18 +1335,47 @@ function GetPrice()
     var isDuplicate = false;
     
     $(document).ready(function () {
-
+          DocModule = "P";
+        Edit_GetUomGroup();
+        InitializeWareHouseData();
+        GetVatGroupData();
          GetCountrydata();
         display_ItemOrService();
-        GetVatGroupData(); 
+       
         var date = new Date;
-        DocModule = "P";
+         
         GetContactPersons(CntctPerson);
          DocStatus();
-          Edit_GetUomGroup();
+         
         
+            function InitializeWareHouseData() {
+
+                $.get("Delivery/GetWareHouseData", function (data) {
+
+
+
+
+                    $.each(data, function () {
+
+
+
+
+                        WareHouseData += "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
+                    });
+
+                });
+            }
+
         function Edit_GetUomGroup() {
         $('#ListParameters .itm').each(function (index, item) {
+            
+                    let ItemCode = $(this).find("#ItemCode").val();
+                    let WhsCode = $(this).find("#Warehouse").val();
+                    let onHand = $(this).find("#onHand");
+                    let a = "";
+                    $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCode, WhsCode: WhsCode }, function (data) {
+                        onHand.val(data);
+                    });
 
             ObjItemCode = $(this).find("#ItemCode");
             var itemno = $(this).find("#ItemCode").val();
@@ -1586,6 +1584,20 @@ function GetPrice()
                                                                                         <input id="ItemName" class="form-control form-control-sm"  type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
+                                                                                    <td>
+                                                                                            <div class="input-group">
+                                                                                                <select class="form-control" id="Warehouse">
+                                                                                                    `+ WareHouseData + `
+                                                                                                </select>
+
+                                                                                            </div>
+
+
+                                                                                        </td>
+                                                                                         <td>
+                                                                                            <input id="onHand" class="form-control form-control-sm" readonly type="number">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
                                                                                     <td>
 																						<input id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
 																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>

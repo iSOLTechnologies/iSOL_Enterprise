@@ -33,6 +33,8 @@ namespace iSOL_Enterprise.Controllers
             GoodsReturnDal dal1 = new GoodsReturnDal();
             SalesQuotationDal dal = new SalesQuotationDal();
             CommonDal cdal = new CommonDal();
+            DeliveryDal Ddal = new DeliveryDal();
+            ViewBag.Warehouse = Ddal.GetWareHouseData();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData("P");
             ViewBag.Countries = cdal.GetCountries();

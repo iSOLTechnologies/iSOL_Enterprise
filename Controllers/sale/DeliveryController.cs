@@ -28,10 +28,11 @@ namespace iSOL_Enterprise.Controllers
         }
 
         public IActionResult EditDeliveryMaster(int id)
-        {
+        { 
             DeliveryDal dal1 = new DeliveryDal();
             SalesQuotationDal dal = new SalesQuotationDal();
             CommonDal cdal = new CommonDal();
+            ViewBag.Warehouse = dal1.GetWareHouseData();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData("S");
             ViewBag.Countries = cdal.GetCountries();

@@ -633,7 +633,7 @@ namespace iSOL_Enterprise.Dal
                                 else
                                 {
                                     int LineNo = CommonDal.getLineNumber(tran, "QUT1", (model.ID).ToString());
-                                    string RowQueryItem = @"insert into RDR1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode ,CountryOrg)
+                                    string RowQueryItem = @"insert into QUT1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode ,CountryOrg)
                                               values(" + model.ID + ","
                                                   + LineNo + ",'"
                                                   + item.ItemName + "',"

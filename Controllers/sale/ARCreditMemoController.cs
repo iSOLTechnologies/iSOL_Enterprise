@@ -33,6 +33,8 @@ namespace iSOL_Enterprise.Controllers
             ARCreditMemoDal dal1 = new ARCreditMemoDal();
             SalesQuotationDal dal = new SalesQuotationDal();
             CommonDal cdal = new CommonDal();
+            DeliveryDal Ddal = new DeliveryDal();
+            ViewBag.Warehouse = Ddal.GetWareHouseData();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData("S");
             ViewBag.Countries = cdal.GetCountries();

@@ -35,6 +35,8 @@ namespace iSOL_Enterprise.Controllers.Sales
             SalesQuotationDal dal = new SalesQuotationDal();
             CommonDal cdal = new CommonDal();
             GoodReceiptDal dal1 = new GoodReceiptDal();
+            DeliveryDal Ddal = new DeliveryDal();
+            ViewBag.Warehouse = Ddal.GetWareHouseData();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData("P");
             ViewBag.Countries = cdal.GetCountries();

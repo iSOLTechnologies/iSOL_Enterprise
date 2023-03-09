@@ -74,6 +74,25 @@ function GetWareHouseData() {
 }
 
 
+function InitializeWareHouseData() {
+   
+        $.get("Delivery/GetWareHouseData", function (data) {
+
+
+           
+
+            $.each(data, function () {
+
+                
+
+
+                WareHouseData += "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
+            });
+
+        });
+}
+
+
     
 function GetPrice() {
     
