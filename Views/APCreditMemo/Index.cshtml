@@ -8,6 +8,7 @@
 }
 <script src="https://code.jquery.com/jquery-3.6.3.slim.js" integrity="sha256-DKU1CmJ8kBuEwumaLuh9Tl/6ZB6jzGOBV/5YpNE2BWc=" crossorigin="anonymous"></script>
 <!-- Render Body <Start> -->
+<link href="~/css/commonstyle.css" rel="stylesheet" />
 <!--begin::Subheader-->
 <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
@@ -77,7 +78,15 @@
                     </tr>
                 </thead>
             </table>
+            <div class="loading_ic">
 
+                <div class="spinner-border text-primary">
+                    <span class="sr-only">Loading...</span>
+
+                </div>
+
+
+            </div>
 
 
 
@@ -233,7 +242,8 @@
         $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
         $(this).attr('disabled', true);
         let checkedIDs = [];
-
+        $(".loading_ic").addClass('overlay');
+        $(".loading_ic").show();
         $('#AttTable tbody tr').each(function (index, item) {
 
             let CheckBoxObj = $(this).find('#chckbox');
@@ -249,13 +259,16 @@
                 if (response.success) {
                     $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                     $("#btnPostToSap").attr('disabled', false);
-
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
                     toastr.success(response.message);
                 }
                 else {
                     $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                     $("#btnPostToSap").attr('disabled', false);
                     toastr.error(response.message);
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
                 }
 
             });
@@ -264,6 +277,8 @@
             $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
             $("#btnPostToSap").attr('disabled', false);
             toastr.warning("Documents not Selected !!");
+            $(".loading_ic").removeClass('overlay dark');
+            $(".loading_ic").hide();
         }
 
     });
