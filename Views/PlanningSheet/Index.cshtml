@@ -123,7 +123,7 @@
         if (checkedIDs.length > 0) {
             $(".loading_ic").addClass('overlay');
             $(".loading_ic").show();
-            $.post("Common/PostToSap", { checkedIDs: checkedIDs, ObjectCode: 23 }, function (response) {
+            $.post("Common/PostPlanningSheet", { checkedIDs: checkedIDs}, function (response) {
                 if (response.success) {
                     $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                     $("#btnPostToSap").attr('disabled', false);

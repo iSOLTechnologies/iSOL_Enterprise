@@ -310,6 +310,170 @@ namespace SAP_MVC_DIAPI.BLC
 
 
 
+        public ResponseModels PostPlanningSheet(string[] checkedIDs)
+        {
+            ResponseModels models = new ResponseModels();
+            try
+            {
+                if (Connect())
+                {
+                    CommonDal dal = new CommonDal();
+
+
+                    foreach (var docEntry in checkedIDs)
+                    {
+                        string headerQuery = @"select DocEntry,U_PlanDate,Status,U_SOnum,U_CutomerCode,U_SODate,U_ShipDate,U_ItemCode,U_ItemDes,U_Qty,U_UOM from dbo.[@PSF] where DocEntry=" + docEntry;
+
+                        using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
+                        {
+                            try
+                            {
+
+                                while (rdr.Read())
+                                {
+                                    UserTable PSFTable = oCompany.UserTables.Item("@PSF");
+                                    if (PSFTable != null)
+                                    {
+                                        #region Insert in PSF
+                                        PSFTable.UserFields.Fields.Item("DocEntry").Value = "DocEntry";
+                                        PSFTable.UserFields.Fields.Item("U_PlanDate").Value = "U_PlanDate";
+                                        PSFTable.UserFields.Fields.Item("Status").Value = "Status";
+                                        PSFTable.UserFields.Fields.Item("U_SOnum").Value = "U_SOnum";
+                                        PSFTable.UserFields.Fields.Item("U_CutomerCode").Value = "U_CutomerCode";
+                                        PSFTable.UserFields.Fields.Item("U_SODate").Value = "U_SODate";
+                                        PSFTable.UserFields.Fields.Item("U_ShipDate").Value = "U_ShipDate";
+                                        PSFTable.UserFields.Fields.Item("U_ItemCode").Value = "U_ItemCode";
+                                        PSFTable.UserFields.Fields.Item("U_ItemDes").Value = "U_ItemDes";
+                                        PSFTable.UserFields.Fields.Item("U_Qty").Value = "U_Qty";
+                                        PSFTable.UserFields.Fields.Item("U_UOM").Value = "U_UOMPSFTable";
+                                        int rc = PSFTable.Add();
+                                        if (rc != 0)
+                                        {
+                                            models.Message = oCompany.GetLastErrorDescription();
+                                            models.isSuccess = false;
+
+                                            return models;
+                                        }
+                                        #endregion
+                                        #region Insert in PSF2
+                                        else
+                                        {
+                                            string rowQuery = @"select DocEntry,LineId,U_PlanDate,U_PreCosPln,U_PreCosAct,U_POPln,U_POAct,
+                                                    U_AudApp,U_AudAppAct,U_YarnPur,U_YarPurAct,U_YarDel,U_YarDelAct,U_YarIssSiz,U_YarIssSizAct
+                                                    ,U_SizYarRec,U_SizYarRecAct,U_SizYarIssGre,U_SizYarIssGreAct,U_GreRec,U_GreRecAct,U_GreIssDye
+                                                    ,U_GreIssDyeAct,U_DyeRec,U_DyeRecAct,U_DyeIssProd,U_DyeIssProdAct,U_PackPln,U_PackAct
+                                                    ,U_DelPln,U_DelAct,U_GatePass,U_GatePassAct from dbo.[@PSF2] where DocEntry=" + docEntry;
+
+                                            using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, rowQuery))
+                                            {
+                                                try
+                                                {
+                                                    while (rdr2.Read())
+                                                    {
+                                                        UserTable PSF2Table = oCompany.UserTables.Item("@PSF2");
+                                                        if (PSF2Table != null)
+                                                        {
+                                                            PSF2Table.UserFields.Fields.Item("DocEntry").Value = "DocEntry";
+                                                            PSF2Table.UserFields.Fields.Item("LineId").Value = "LineId";
+                                                            PSF2Table.UserFields.Fields.Item("U_PlanDate").Value = "U_PlanDate";
+                                                            PSF2Table.UserFields.Fields.Item("U_PreCosPln").Value = "U_PreCosPln";
+                                                            PSF2Table.UserFields.Fields.Item("U_PreCosAct").Value = "U_PreCosAct";
+                                                            PSF2Table.UserFields.Fields.Item("U_POPln").Value = "U_POPln";
+                                                            PSF2Table.UserFields.Fields.Item("U_POAct").Value = "U_POAct";
+                                                            PSF2Table.UserFields.Fields.Item("U_AudApp").Value = "U_AudApp";
+                                                            PSF2Table.UserFields.Fields.Item("U_AudAppAct").Value = "U_AudAppAct";
+                                                            PSF2Table.UserFields.Fields.Item("U_YarnPur").Value = "U_YarnPur";
+                                                            PSF2Table.UserFields.Fields.Item("U_YarPurAct").Value = "U_YarPurAct";
+                                                            PSF2Table.UserFields.Fields.Item("U_YarDel").Value = "U_YarDel";
+                                                            PSF2Table.UserFields.Fields.Item("U_YarDelAct").Value = "U_YarDelAct";
+                                                            PSF2Table.UserFields.Fields.Item("U_YarIssSiz").Value = "U_YarIssSiz";
+                                                            PSF2Table.UserFields.Fields.Item("U_YarIssSizAct").Value = "U_YarIssSizAct";
+                                                            PSF2Table.UserFields.Fields.Item("U_SizYarRec").Value = "U_SizYarRec";
+                                                            PSF2Table.UserFields.Fields.Item("U_SizYarRecAct").Value = "U_SizYarRecAct";
+                                                            PSF2Table.UserFields.Fields.Item("U_SizYarIssGre").Value = "U_SizYarIssGre";
+                                                            PSF2Table.UserFields.Fields.Item("U_SizYarIssGreAct").Value = "U_SizYarIssGreAct";
+                                                            PSF2Table.UserFields.Fields.Item("U_GreRec").Value = "U_GreRec";
+                                                            PSF2Table.UserFields.Fields.Item("U_GreRecAct").Value = "U_GreRecAct";
+                                                            PSF2Table.UserFields.Fields.Item("U_GreIssDye").Value = "U_GreIssDye";
+                                                            PSF2Table.UserFields.Fields.Item("U_GreIssDyeAct").Value = "U_GreIssDyeAct";
+                                                            PSF2Table.UserFields.Fields.Item("U_DyeRec").Value = "U_DyeRec";
+                                                            PSF2Table.UserFields.Fields.Item("U_DyeRecAct").Value = "U_DyeRecAct";
+                                                            PSF2Table.UserFields.Fields.Item("U_DyeIssProd").Value = "U_DyeIssProd";
+                                                            PSF2Table.UserFields.Fields.Item("U_DyeIssProdAct").Value = "U_DyeIssProdAct";
+                                                            PSF2Table.UserFields.Fields.Item("U_PackPln").Value = "U_PackPln";
+                                                            PSF2Table.UserFields.Fields.Item("U_PackAct").Value = "U_PackAct";
+                                                            PSF2Table.UserFields.Fields.Item("U_DelPln").Value = "U_DelPln";
+                                                            PSF2Table.UserFields.Fields.Item("U_DelAct").Value = "U_DelAct";
+                                                            PSF2Table.UserFields.Fields.Item("U_GatePass").Value = "U_GatePass";
+                                                            PSF2Table.UserFields.Fields.Item("U_GatePassAct").Value = "U_GatePassAct";
+                                                            int rc2 = PSF2Table.Add();
+                                                            if (rc2 != 0)
+                                                            {
+                                                                models.Message = oCompany.GetLastErrorDescription();
+                                                                models.isSuccess = false;
+
+                                                                return models;
+                                                            }
+
+
+
+                                                        }
+                                                    }
+                                                }
+
+                                                catch (Exception ex)
+                                                {
+                                                    models.Message = "An Error Occured";
+                                                    models.isSuccess = false;
+                                                    return models;
+
+                                                }
+                                            }
+                                        }
+                                        #endregion
+                                    }
+                                    else
+                                    {
+                                        models.Message = "Table Not Found !";
+                                        models.isSuccess = false;
+                                        return models;
+                                    }
+                                }
+
+
+
+                            }
+                            catch (Exception ex)
+                            {
+                                models.Message = "An Error Occured";
+                                models.isSuccess = false;
+                                return models;
+
+                            }
+                        }
+                    }
+                    models.Message = "Posted Data Succesfully !";
+                    models.isSuccess = true;
+                    return models;
+                }
+                else
+                {
+                    models.Message = "Connection Failure !!";
+                    models.isSuccess = false;
+                    return models;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                models.Message = "An Error Occured";
+                models.isSuccess = false;
+                return models;
+
+            }
+
+        }
 
         public int DisConnect()
         {
