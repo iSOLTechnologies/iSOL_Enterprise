@@ -1,5 +1,6 @@
 ﻿using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Interface;
+using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Models.Sale;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -13,13 +14,35 @@ namespace iSOL_Enterprise.Controllers.sale
         {
             return View();
         }
+        public IActionResult GetPlanningSheetData()
+        {
 
+            ResponseModels response = new ResponseModels();
+            try
+            {
+                PlanningSheetDal dal = new PlanningSheetDal();
+                response.Data = dal.GetPlanningSheetData();
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+        }
+
+        public IActionResult PlanningSheetMaster()
+        {
+            return View();
+        }
 
         public IActionResult GetData(string SONumber)
         {
             try
             {
-                IPlanningSheet dal = new PlanningSheetDal();
+                IPlanningSheet dal = new PlanningQuerySheetDal();
 
                 List<tbl_planningSheet> list = new List<tbl_planningSheet>();
 
@@ -74,6 +97,25 @@ namespace iSOL_Enterprise.Controllers.sale
 
                 throw;
             }
+        }
+
+        [HttpPost]
+        public IActionResult AddPlanningSheet(string formData)
+        {
+            try
+            {
+
+
+                PlanningSheetDal dal = new PlanningSheetDal();
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddPlanningSheet(formData) == true ? Json(new { isInserted = true, message = "Planning Sheet Added Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }

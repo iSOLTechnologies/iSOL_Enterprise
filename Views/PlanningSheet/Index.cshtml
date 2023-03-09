@@ -1,596 +1,283 @@
-﻿@{
-    ViewBag.title1 = "Planning Sheet / ";
-    ViewBag.title2 = "New";
-    ViewData["Title"] = "Planning Sheet Master";
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewBag.title1 = "";
+    ViewBag.title2 = "Planning Sheet";
+    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@model iSOL_Enterprise.Models.RoleModels
-
-@using Microsoft.AspNetCore.Http
-
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
+<script src="https://code.jquery.com/jquery-3.6.3.slim.js" integrity="sha256-DKU1CmJ8kBuEwumaLuh9Tl/6ZB6jzGOBV/5YpNE2BWc=" crossorigin="anonymous"></script>
 <!-- Render Body <Start> -->
+<!--begin::Subheader-->
+<link href="~/css/commonstyle.css" rel="stylesheet" />
+<!--end::Subheader-->
+<!--begin::Entry-->
+<div class="container mt-5">
 
-<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid mt-4">
-
-    <!--end::Subheader-->
-    <!--begin::Entry-->
-    <div class="container">
-        <!--begin::Card-->
-        <div class="card card-custom card-sticky" id="kt_page_sticky_card">
-            <div class="card-header">
-                <div class="card-title">
-                    <h3 class="card-label">
-                        Add Details
-                        <i class="mr-2"></i>
-                        <!-- <small class="">try to scroll the page</small> -->
-                    </h3>
-                </div>
-                <div class="card-toolbar">
-                    <a onclick="Back_his()" class="btn btn-light-primary font-weight-bolder mr-2">
-                        <i class="ki ki-long-arrow-back icon-sm"></i>Back
-                    </a>
-                    <div class="btn-group">
-
-                        <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
-                            <i class="ki ki-check icon-sm"></i>Save
-                        </button>
-
-                    </div>
-                </div>
+    <!--begin::Card-->
+    <div class="card card-custom">
+        <div class="card-header">
+            <div class="card-title">
+                <span class="card-icon">
+                    <i class="flaticon-notepad text-primary"></i>
+                </span>
+                <h3 class="card-label">Sale Quotation</h3>
             </div>
-            <div class="card-body">
-                <!--begin::Form-->
-                <form class="form" id="kt_form">
-
-
-                    <input type="hidden" value="@Context.Session.GetString("Name")" id="sessionName" />
-                    <input type="hidden" value="@Context.Session.GetString("Email")" id="sessionEmail" />
-                    <input type="hidden" value="@Context.Session.GetString("RoleCode")" id="UserRoleCode" />
-                    <input type="hidden" value="@Context.Session.GetString("DepartmentCode")" id="_DepartmentCode" />
-
-                    <input type="hidden" value="@Context.Request.Query["Id"]" id="Guid" />
-                    <input type="hidden" value="@Context.Request.Query["Source"]" id="PageGuid" />
-                    <input type="hidden" value="@Context.Request.Query["DocType"]" id="DocType" />
-                    <input type="hidden" value="@Context.Request.Query["DOM"]" id="DOMStatus" />
-
-                    <input type="hidden" value="@Context.Session.GetInt32("UserId")" id="_UserId" />
-                    <style>
-                        .mr2 {
-                            margin: 0% 2% 0% 2%;
-                            /*width: 5%;*/
-                        }
-
-                        .cr2 {
-                            margin: 0% 1% 0% 0%;
-                            width: 5%;
-                        }
-
-                        .wdth {
-                            width: 250% !important;
-                        }
-
-                        #kt_repeater_1 {
-                            border-collapse: collapse;
-                            width: 100%;
-                            overflow-x: scroll;
-                            display: block;
-                        }
-
-                        .ScrollThead,
-                        .ScrollTbody {
-                            display: inline-block;
-                        }
-
-                        .ScrollTbody {
-                            overflow-y: auto;
-                            overflow-x: hidden;
-                            max-height: 800px;
-                        }
-
-                            .ScrollTbody td, .ScrollThead
-                            th {
-                                min-width: 160px;
-                                max-width: 160px;
-                                height: 40px;
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                            }
-
-                        .ScrollTbody2 td, .ScrollThead2
-                        th {
-                            min-width: 100px;
-                            max-width: 160px;
-                            height: 40px;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                        }
-
-                        .loading_ic {
-                            /*opacity: 0;*/
-                           display: none;
-
-                        }
-                        .mycont > .overlay {
-                            height: 100%;
-                            left: 0;
-                            position: absolute;
-                            top: 0;
-                            width: 100%;
-                            border-radius: 0.25rem;
-                            -ms-flex-align: center;
-                            align-items: center;
-                            background-color: rgba(0, 0, 0, 0.5);
-                            display: -ms-flexbox;
-                            display: flex;
-                            -ms-flex-pack: center;
-                            justify-content: center;
-                            z-index: 100;
-                        }
-                        /*.spinner-border {
-                            position: absolute;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);
-                            background-color: white;
-                            padding: 20px;
-                        }*/
-                    </style>
-                    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
-                        <div class="row">
-                            <div class="col-lg-12 mycont">
-                                <!--begin::Portlet-->
-                                <div class="kt-portlet kt-portlet--last kt-portlet--head-lg kt-portlet--responsive-mobile" id="kt_page_portlet">
-
-                                    <div class="kt-portlet__body">
-                                        <form autocomplete="off" role="form" class="kt-form" id="F_@Context.Request.Query" name="F_@Context.Request.Query["Source"]">
-                                            <div class="row">
-                                                <div class="col-xl-12">
-                                                    <div class="kt-section kt-section--first">
-                                                        <div class="kt-section__body">
-
-
-                                                            @* ----------   Header -----------*@
-                                                            <div id="HeaderForm">
-                                                                <div class="form-group row justify-content-between">
-
-                                                                    <div class="col-md-3 d-flex">
-
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-5">Planning Date</label>
-
-                                                                        <input id="PlanningDateHeader" type="date" class="d form-control form-control-sm">
-
-
-                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                    </div>
-
-                                                                    <div class="col-md-3 d-flex">
-
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-5">Status</label>
-
-                                                                        <input type="text" id="StatusHeader" class="form-control form-control-sm NotReq" placeholder="Status">
-
-
-                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                    </div>
-                                                                    <div class="col-md-3 d-flex">
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-5">Sale Order #</label>
-                                                                        <input type="number" id="saleorderno" class="form-control form-control-sm NotReq" placeholder="0.00000">
-                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                    </div>
-                                                                    <div class="col-md-3 d-flex">
-
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-5">Customer Code</label>
-
-                                                                        <input type="text" id="CustomerCodeHeader" class="form-control form-control-sm NotReq">
-
-
-                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="form-group row justify-content-between">
-                                                                    <div class="col-md-3 d-flex">
-
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-5">SO Date</label>
-
-                                                                        <input id="SaleOrderDateHeader" type="date" class="d form-control form-control-sm">
-
-
-                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                    </div>
-
-                                                                    <div class="col-md-3 d-flex">
-
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-5">Shipment Date</label>
-
-                                                                        <input id="ShipmentDateHeader" type="date" class="d form-control form-control-sm">
-
-
-                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                    </div>
-                                                                    <div class="col-md-3 d-flex">
-
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-5">Item Code</label>
-
-                                                                        <input type="text" id="Status" class="form-control form-control-sm NotReq">
-
-
-                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                    </div>
-                                                                    <div class="col-md-3 d-flex">
-
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-5">Item Name</label>
-
-                                                                        <input type="text" id="Status" class="form-control form-control-sm NotReq">
-
-
-                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                    </div>
-                                                                </div>
-
-
-                                                                <div class="form-group row ">
-                                                                    <div class="col-md-3 d-flex">
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-5">Quantity</label>
-                                                                        <input type="number" id="QuantityHeader" class="form-control form-control-sm NotReq" placeholder="0.00000">
-                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                    </div>
-                                                                    <div class="col-md-3 d-flex">
-
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-5">UOM</label>
-
-                                                                        <input type="text" id="uom" class="form-control form-control-sm NotReq">
-
-
-                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                    </div>
-
-
-                                                                </div>
-
-
-
-                                                            </div>
-
-                                                            <div class="kt-separator kt-separator--space-md kt-separator--border-dashed"></div>
-
-
-
-                                                            <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand" role="tablist">
-
-                                                                <li class="nav-item ">
-                                                                    <a class="nav-link active" data-toggle="tab" href="#kt_tabs_Dates" role="tab">Dates</a>
-                                                                </li>
-
-                                                            </ul>
-
-                                                            <div class="tab-content" style="height:150px">
-
-
-                                                                @*Tab  kt_tabs_SellingPrice*@
-                                                                <div class="tab-pane scrollbar active" id="kt_tabs_Dates" role="tabpanel" style="overflow:auto">
-                                                                    <table id="kt_repeater_6">
-                                                                        <thead class="ScrollThead mt-3">
-                                                                            <tr>
-                                                                                <th class="text-center">
-                                                                                    Planning Date
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Precosting Planned
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Precosting Actual
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    PO Planned
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    PO Actual
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Audit Approval Planned
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Audit Approval Actual
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Yarn Purchase Planned
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Yarn Purchase Actual
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Yarn Delivery Planned
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Yarn Delivery Actual
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Yarn Issuance For Sizing Planned
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Yarn Issuance For Sizing Actual
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Sized Yarn Received Planned
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Sized Yarn Received Actual
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Sized Yarn Issuance For Greige Planned
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Sized Yarn Issuance For Greige Actual
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Greige Received Planned
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Greige Received Actual
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Greige Issuance for Dyed Planned
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Greige Issuance for Dyed Actual
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Dyed Receiving Planned
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Dyed Receiving Actual
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Dyed Issuance For Prod Planned
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Dyed Issuance For Prod Actual
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Packing Planned
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Packing Actual
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Delivery Note Planned
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Delivery Note Actual
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Gate Pass Planned
-                                                                                </th>
-                                                                                <th class="text-center">
-                                                                                    Gate Pass Actual
-                                                                                </th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody id="ListParameters" data-repeater-list="" class="ScrollTbody pb-2">
-
-                                                                            <tr class="rowItemDetail align-items-center Pile1">
-                                                                                <td>
-                                                                                    <input id="ListPlanningDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                 <td>
-                                                                                    <input id="PreCostingPlannedDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                 <td>
-                                                                                    <input id="PreCostingActualDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-
-                                                                                 <td>
-                                                                                    <input id="POPlannedDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="POActualDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                 <td>
-                                                                                    <input id="AuditApprovalPlannedDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="AuditApprovalActualDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="YarnPurchasePlannedDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="YarnPurchaseActualDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="YarnDeliveryPlannedDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-
-                                                                                <td>
-                                                                                    <input id="YarnDeliveryActualDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="YarnIssuanceForSizzingPlannedDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="YarnIssuanceForSizzingActualDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="SizedYarnReceivedPlannedDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="SizedYarnReceivedActualDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="SizedYarnIssuanceForGreigePlannedDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="SizedYarnIssuanceForGreigeActualDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-
-                                                                                <td>
-                                                                                    <input id="GreigeReceivingPlannedDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="GreigeReceivingActualDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="GreigeIssuanceForDyedPlannedDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="GreigeIssuanceForDyedActualDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="DyedReceivingPlannedDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="DyedReceivingActualDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="DyedIssuanceForProdPlannedDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-
-                                                                                <td>
-                                                                                    <input id="DyedIssuanceForProdActualDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="PackingPlannedDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="PackingActualDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="DeliveryNotePlannedDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="DeliveryNoteAcutalDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="GatePassPlannedDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input id="GatePassActualDate" type="date" class="form-control form-control-sm">
-                                                                                </td>
-                                                                            </tr>
-
-                                                                            
-                                                                        </tbody>
-                                                                    </table>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <!--end::Portlet-->
-                                <div class="loading_ic">
-                                    
-                                    <div class="spinner-border text-primary">
-                                    <span class="sr-only">Loading...</span>
-                                    @*@*<i class="fas fa-2x fa-sync-alt"></i>*@
-                                    </div>
-                                        @*<span class="">Loading...</span>*@
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </form>
-                <!--end::Form-->
+            @* <div class="card-toolbar">
+            <button class="bt btn-brand"  type="button">
+            Add
+            </button>
+
+            <!--end::Button-->
+            </div>*@
+            <div class="card-toolbar">
+                <div class="btn-group">
+                    <button type="button" id="btnPostToSap" class="btn btn-success font-weight-bolder mr-2">
+                        <i class="fas fa-database"></i>  Post To SAP
+                    </button>
+
+                    <button type="button" id="btnAdd" class="btn btn-primary font-weight-bolder">
+                        + Add Record
+                    </button>
+                </div>
             </div>
         </div>
-        <!--end::Card-->
+        <div class="card-body ">
+            <!--begin: Datatable-->
+            <table class="table table-striped- table-bordered table-hover table-checkable " id="AttTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
 
+
+                    </tr>
+                </thead>
+            </table>
+            <div class="loading_ic">
+                <div class="spinner-border text-primary">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+
+
+            <!--end: Datatable-->
+        </div>
     </div>
-    <!--end::Entry-->
+
 </div>
+<!--end::Entry-->
 <!-- Render Body <End> -->
-<script src="~/Assets/plugins/global/plugins.bundle.js"></script>
-<script src="~/Assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
-<script src="~/Assets/js/scripts.bundle.js"></script>
-<script src="~/js/commonmethods.js"></script>
 
 <script>
-    //var vatGroupData = "";
-    var ItemServiceType = '1';
-    var timeout;
-    const boxes = document.querySelectorAll('.d');
 
-    for (const box of boxes) {
-        box.value = new Date().toJSON().slice(0, 10);
+    function Mastercheck() {
+
+
+
+        if (document.getElementById('Mastercheck').checked == true) {
+
+            $("#AttTable tr").each(function () {
+                $(this).find("#chckbox").prop("checked", true);
+
+            });
+        } else {
+
+            $("#AttTable  tr").each(function () {
+                $(this).find("#chckbox").prop("checked", false);
+
+            });
+
+        }
+
     }
 
+    $(document).on('click', '#btnAdd', function () {
 
-    $(document).on("input", "input[type='number']", function () {
-        var value = parseFloat(this.value);
-        if (isNaN(value)) {
-            return;
-        }
-        var decimalCount = (this.value.split(".")[1] || []).length;
-        if (decimalCount > 3) {
-            this.value = value.toFixed(3);
-        }
+        //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
+        window.location.href = '/PlanningSheet/PlanningSheetMaster';
     });
 
+    $(document).on('click', '#btnPostToSap', function () {
+        $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+        $(this).attr('disabled', true);
+
+        let checkedIDs = [];
+
+        $('#AttTable tbody tr').each(function (index, item) {
+
+            let CheckBoxObj = $(this).find('#chckbox');
+
+            if ($(CheckBoxObj).is(":checked"))
+                checkedIDs.push($(CheckBoxObj).attr('guid'));
 
 
-
-
-    $(document).on('click', '#Itemno', function (e) {
-        IsHeader = false;
-        ObjItemCode = $(this).closest('tr').find("#ItemCode");
-        DocModule = "S";
-        generateItemTable();
-        $('#myItemModal').modal('show');
-
-    });
-
-
-    $(document).on('click', '#btnBack', function (e) {
-
-        window.history.back();
-    });
-
-    $(document).on('keyup', '#saleorderno', function (e) {
-        clearTimeout(timeout);
-        let SONumber = $(this).val();
-        timeout = setTimeout(function () {
-        $(".loading_ic").addClass('overlay');
-        $(".loading_ic").show();
-            $.get("PlanningSheet/GetData", { SONumber: SONumber }, function (data) {
-            let list = JSON.parse(data.docData);
-         
-            if(data.success) 
-            {
-                
-                $.each(list,function() {
-                    
-                    $("#" + this.Key).val(this.Value);
-                });
-                $(".loading_ic").removeClass('overlay dark');
-                $(".loading_ic").hide();
-                    clearTimeout(timeout);
-            }
-            else {
-                $(".loading_ic").removeClass('overlay dark');
-                $(".loading_ic").hide();
-                    clearTimeout(timeout);
-            }
-            
         });
-        }, 2000);
+        if (checkedIDs.length > 0) {
+            $(".loading_ic").addClass('overlay');
+            $(".loading_ic").show();
+            $.post("Common/PostToSap", { checkedIDs: checkedIDs, ObjectCode: 23 }, function (response) {
+                if (response.success) {
+                    $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $("#btnPostToSap").attr('disabled', false);
+
+                    toastr.success(response.message);
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
+                }
+                else {
+                    $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $("#btnPostToSap").attr('disabled', false);
+                    toastr.error(response.message);
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
+                }
+
+            });
+        }
+        else {
+            $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+            $("#btnPostToSap").attr('disabled', false);
+            toastr.warning("Documents not Selected !!");
+        }
+
     });
+    function generateTable() {
 
-    $(document).on('click', '#ListBtnDelete', function () {
-        $(this).closest('tr').remove();
-    })
+        datatable = $('#AttTable').DataTable({
+            responsive: true,
+            searching: true,
+            ordering: false,
+            //   order: [[2, 'asc']],
+            ordering: false,
+            "ajax": {
+
+                // url: '/HrAdmin/GetAttendanceList_MainLines?Date=' + $('#FilterDate').val(),
+                url: '/PlanningSheet/GetPlanningSheetData',
+            },
+
+            layout: {
+                scroll: false, // enable/disable datatable scroll both horizontal and vertical when needed.
+                // height: 450, // datatable's body's fixed height
+                footer: false, // display/hide footer
+            },
+
+            // column sorting
+            sortable: true,
+
+            pagination: true,
+            destroy: true,
+            //   async: false,
+            search: {
+                input: $('#generalSearch'),
+            },
+            columns: [
+                {
+                    data: "docEntry", 'title': '<span style="width: 30px;"><label class="checkbox checkbox-single checkbox-all"><input id="Mastercheck" onclick="Mastercheck()" type="checkbox">&nbsp;<span></span></label></span>', render: function (data, type, row) {
+
+                        if (row.isPosted == "True") {
+                            return '<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">Posted</span>';
+                        } else {
+                            return '<span style="width: 30px;"><label class="checkbox checkbox-single checkbox-all"><input guid=' + data + '  id="chckbox" type="checkbox">&nbsp;<span></span></label></span>';
+                        }
 
 
+                    }
+                },
+                {
+                    data: 'u_PlanDate', title: 'PlanningDate', render: function (data, type, row) {
+                        if (data != undefined && data != '') {
+
+                            return moment(data).format('DD-MM-YYYY')
+
+                        } else {
+                            // return data;
+                            return '';
+                        }
+                    }
+                },
+                {
+                    data: 'u_SODate', title: 'SODate', render: function (data, type, row) {
+                        if (data != undefined && data != '') {
+
+                            return moment(data).format('DD-MM-YYYY')
+
+                        } else {
+                            // return data;
+                            return '';
+                        }
+                    }
+                },
+                {
+                    data: 'u_ShipDate', title: 'Shipment Date', render: function (data, type, row) {
+                        if (data != undefined && data != '') {
+
+                            return moment(data).format('DD-MM-YYYY')
+
+                        } else {
+                            // return data;
+                            return '';
+                        }
+                    }
+                },
+                {
+                    data: 'u_SOnum', title: 'Sale Order #',
+
+                },  {
+                    data: 'u_ItemCode', title: 'Item Code'
+
+                }, {
+                    data: "status", 'title': 'Status', render: function (data, type, row) {
+
+                        if (data == "O") {
+                            
+                            var html = `<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">Open</span>`;
+                            return html;
+
+
+
+                        } else {
+                           
+                            var html = `<span class="label label-lg label-light-danger label-inline">Closed</span>`;
+                            return html;
+                        }
+                    }
+                }, {
+                    data: "docEntry", 'title': 'Action', render: function (data, type, row) {
+
+                        var html = '<a guid=' + data + ' id="btnFetchSaleQuotation" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+                        html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
+                        html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
+                        html += '       <rect x="0" y="0" width="24" height="24" />';
+                        html += '      <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953) " />';
+                        html += '      <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />';
+                        html += '   </g>';
+                        html += '</svg><!--end:: Svg Icon--></span> ';
+                        html += '               </a>';
+                        return html;
+
+                    }
+                },],
+        });
+
+    }
+
+    $(document).ready(function () {
+
+        generateTable();
+    });
+    $(document).on('click', '#btnFetchSaleQuotation', function (e) {
+
+        //var guid = $(this).attr("guid");
+
+        //window.location.href = '/SaleQuotation/EditSaleQuotationMaster/' + guid + '';
+
+    });
 </script>

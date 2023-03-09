@@ -1,863 +1,163 @@
-﻿using iSOL_Enterprise.Common;
-using iSOL_Enterprise.Interface;
-using iSOL_Enterprise.Models;
-using SqlHelperExtensions;
+﻿using SqlHelperExtensions;
+using System.Data.SqlClient;
 using System.Data;
+using Newtonsoft.Json;
+using iSOL_Enterprise.Common;
+using System;
+using iSOL_Enterprise.Models;
+using iSOL_Enterprise.Models.sale;
 
 namespace iSOL_Enterprise.Dal
 {
-    public class PlanningSheetDal : IPlanningSheet
+    public class PlanningSheetDal
     {
-        public DateTime? AuditApprovalActualDate(string SONumber)
+
+        public List<planningSheetModel> GetPlanningSheetData()
+        {
+            string GetQuery = "select DocEntry,U_PlanDate,U_SODate,U_ShipDate,U_SOnum,U_ItemCode,Status from [dbo].[@PSF] order by docEntry desc";
+            
+
+            List<planningSheetModel> list = new List<planningSheetModel>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    planningSheetModel models = new planningSheetModel();
+                    models.docEntry = rdr["DocEntry"].ToInt();
+                   
+                    models.u_PlanDate = rdr["U_PlanDate"].ToDateTime();
+                    models.u_SODate = rdr["U_SODate"].ToDateTime();
+                    models.u_ShipDate = rdr["U_ShipDate"].ToDateTime();
+                    models.u_SOnum = rdr["U_SOnum"].ToString();
+                    models.u_ItemCode = rdr["U_ItemCode"].ToString();
+                    models.status = rdr["Status"].ToString();                   
+                    list.Add(models);
+                }
+            }
+            return list;
+        }
+
+        public bool AddPlanningSheet(string formData)
         {
             try
-            {            
-                    string GetQuery = "SELECT  (P.UpdateDate) FROM OWDD T0 inner join WDD1 P on P.WddCode = T0.WddCode inner join POR1 R on R.ObjType = T0.ObjType and R.DocEntry = T0.DocEntry  WHERE  R.U_SO = '"+ SONumber + "' and   T0.objtype = 22 and R.Dscription like '%YARN%' and P.UpdateDate is not null";                  
-                    using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                var model = JsonConvert.DeserializeObject<dynamic>(formData);
+                
+
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                conn.Open();
+                SqlTransaction tran = conn.BeginTransaction();
+                int res1 = 0;
+                try
+                {
+                    int DocEntry = CommonDal.getPrimaryKey(tran, "DocEntry", "dbo.[@PSF]");
+                    
+                    if (model.HeaderData != null)
                     {
-                        while (rdr.Read())
+
+                        model.HeaderData.StatusHeader = model.HeaderData.StatusHeader == "Open" ? "O" : "C";
+                        string HeadQuery = @"insert into dbo.[@PSF](DocEntry,U_PlanDate,Status,U_SOnum,U_CutomerCode,U_SODate,U_ShipDate,U_ItemCode,U_ItemDes,U_Qty,U_UOM) 
+                                           values(" + DocEntry + ",'"
+                                                + Convert.ToDateTime(model.HeaderData.PlanningDateHeader) + "','"
+                                                + model.HeaderData.StatusHeader + "','"
+                                                + model.HeaderData.saleorderno + "','"
+                                                + model.HeaderData.CustomerCodeHeader + "','"
+                                                + Convert.ToDateTime(model.HeaderData.SaleOrderDateHeader) + "','"
+                                                + Convert.ToDateTime(model.HeaderData.ShipmentDateHeader) + "','"
+                                                + model.HeaderData.ItemCodeHeader + "','"
+                                                + model.HeaderData.ItemDesHeader + "','"
+                                                + model.HeaderData.QuantityHeader + "','"
+                                                + model.HeaderData.uom + "')";
+                                                
+                       
+                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                        if (res1 <= 0)
                         {
-
-
-                            return (DateTime)rdr["UpdateDate"].ToDateTime();
-                    
-                    
+                            tran.Rollback();
+                            return false;
                         }
                     }
-            }
-            catch (Exception)
-            {
-                return null;
-                
-            }
-            return null;
-        }
-
-        public DateTime? AuditApprovalPlannedDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate + 2) as AuditApprovalPlannedDate FROM ORDR T0 WHERE   T0.DocNum = '" + SONumber+"'";
-                
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
+                    if (model.ListDates != null)
                     {
+                        int LineID = 1;
+                        foreach (var item in model.ListDates)
+                        {                            
 
+                            string RowQueryItem = @"insert into dbo.[@PSF2](DocEntry,LineId,U_PlanDate,U_PreCosPln,U_PreCosAct,U_POPln,U_POAct,
+                                                    U_AudApp,U_AudAppAct,U_YarnPur,U_YarPurAct,U_YarDel,U_YarDelAct,U_YarIssSiz,U_YarIssSizAct
+                                                    ,U_SizYarRec,U_SizYarRecAct,U_SizYarIssGre,U_SizYarIssGreAct,U_GreRec,U_GreRecAct,U_GreIssDye
+                                                    ,U_GreIssDyeAct,U_DyeRec,U_DyeRecAct,U_DyeIssProd,U_DyeIssProdAct,U_PackPln,U_PackAct
+                                                    ,U_DelPln,U_DelAct,U_GatePass,U_GatePassAct)
+                                               values(" + DocEntry + ","
+                                              + LineID + ",'"
+                                              + Convert.ToDateTime(item.ListPlanningDate) + "','"
+                                              + Convert.ToDateTime(item.PreCostingPlannedDate) + "','"
+                                              + Convert.ToDateTime(item.PreCostingActualDate) + "','"
+                                              + Convert.ToDateTime(item.POPlannedDate) + "','"
+                                              + Convert.ToDateTime(item.POActualDate) + "','"
+                                              + Convert.ToDateTime(item.AuditApprovalPlannedDate) + "','"
+                                              + Convert.ToDateTime(item.AuditApprovalActualDate) + "','"
+                                              + Convert.ToDateTime(item.YarnPurchasePlannedDate) + "','"
+                                              + Convert.ToDateTime(item.YarnPurchaseActualDate) + "','"
+                                              + Convert.ToDateTime(item.YarnDeliveryPlannedDate) + "','"
+                                              + Convert.ToDateTime(item.YarnDeliveryActualDate) + "','"
+                                              + Convert.ToDateTime(item.YarnIssuanceForSizzingPlannedDate) + "','"
+                                              + Convert.ToDateTime(item.YarnIssuanceForSizzingActualDate) + "','"
+                                              + Convert.ToDateTime(item.SizedYarnReceivedPlannedDate) + "','"
+                                              + Convert.ToDateTime(item.SizedYarnReceivedActualDate) + "','"
+                                              + Convert.ToDateTime(item.SizedYarnIssuanceForGreigePlannedDate) + "','"
+                                              + Convert.ToDateTime(item.SizedYarnIssuanceForGreigeActualDate) + "','"
+                                              + Convert.ToDateTime(item.GreigeReceivingPlannedDate) + "','"
+                                              + Convert.ToDateTime(item.GreigeReceivingActualDate) + "','"
+                                              + Convert.ToDateTime(item.GreigeIssuanceForDyedPlannedDate) + "','"
+                                              + Convert.ToDateTime(item.GreigeIssuanceForDyedActualDate) + "','"
+                                              + Convert.ToDateTime(item.DyedReceivingPlannedDate) + "','"
+                                              + Convert.ToDateTime(item.DyedReceivingActualDate) + "','"
+                                              + Convert.ToDateTime(item.DyedIssuanceForProdPlannedDate) + "','"
+                                              + Convert.ToDateTime(item.DyedIssuanceForProdActualDate) + "','"
+                                              + Convert.ToDateTime(item.PackingPlannedDate) + "','"
+                                              + Convert.ToDateTime(item.PackingActualDate) + "','"
+                                              + Convert.ToDateTime(item.DeliveryNotePlannedDate) + "','"
+                                              + Convert.ToDateTime(item.DeliveryNoteAcutalDate) + "','"
+                                              + Convert.ToDateTime(item.GatePassPlannedDate) + "','"
+                                              + Convert.ToDateTime(item.GatePassActualDate) + "')";                                
+                            
 
-                        return (DateTime)rdr["AuditApprovalPlannedDate"].ToDateTime();
+                            int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
+                            if (res2 <= 0)
+                            {
+                                tran.Rollback();
+                                return false;
+                            }
+                            LineID += 1;
+                        }
+
 
 
                     }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? DeliveryNoteActualDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  Max(T0.dOCdATE) as DeliveryNoteActualDate FROM odln T0 inner join dln1 P on P.DocEntry = T0.DocEntry inner join OITM M on M.itemCode = P.ItemCode  WHERE M.ItmsGrpCod in (101,102,122,103) and  P.BaseRef = '" + SONumber + "' group by T0.dOCdATE, p.ItemCode,p.Dscription,p.Quantity";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
+                    
+                    if (res1 > 0)
                     {
-
-
-                        return (DateTime)rdr["DeliveryNoteActualDate"].ToDateTime();
-
-
+                        tran.Commit();
                     }
+
                 }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? DeliveryNotePlannedDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate + 51) as DeliveryNotePlannedDate FROM ORDR T0 WHERE   T0.DocNum = '" + SONumber+"'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+                catch (Exception)
                 {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["DeliveryNotePlannedDate"].ToDateTime();
-
-
-                    }
+                    tran.Rollback();
+                    return false;
                 }
+
+                return res1 > 0 ? true : false;
+
             }
             catch (Exception)
             {
-                return null;
 
+                return false;
             }
-            return null;
-        }
-        public DateTime? DyedIssuanceForProdActualDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT distinct  Max(P.DocDate) as DyedIssuanceForProdActualDate FROM IGN1 T0 inner join OIGN P on P.DocEntry = T0.DocEntry and T0.BaseType = 202 left join OWOR R on R.DocNum = T0.BaseRef inner join OITM M on M.itemCode = T0.ItemCode   WHERE  R.OriginNum = '" + SONumber+"' and R.ProdName like '%Weaved%' group by R.ProdName,T0.Quantity,R.OriginNum,P.DocDate";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["DyedIssuanceForProdActualDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? DyedIssuanceForProdPlannedDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate + 36) as DyedIssuanceForProdPlannedDate FROM ORDR T0 WHERE   T0.DocNum = '" + SONumber+"'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["DyedIssuanceForProdPlannedDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? DyedReceivingActualDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT distinct  Max(P.DocDate) as DyedReceivingActualDate FROM IGN1 T0 inner join OIGN P on P.DocEntry = T0.DocEntry and T0.BaseType = 202 left join OWOR R on R.DocNum = T0.BaseRef inner join OITM M on M.itemCode = T0.ItemCode WHERE  R.OriginNum = '" + SONumber+"' and  R.ProdName like '%Dyed%' group by R.ProdName,T0.Quantity,R.OriginNum,P.DocDate";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["DyedReceivingActualDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? DyedReceivingPlannedDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate + 36) as DyedReceivingPlannedDate  FROM ORDR T0 WHERE   T0.DocNum = '" + SONumber+"'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["DyedReceivingPlannedDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? GatePassActualDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  Max(T0.U_Date) as GatePassActualDate FROM [@OCGP] T0 inner join [@cgp1] P on P.DocEntry = T0.DocEntry  WHERE P.U_SO = '" + SONumber+"' group by T0.U_Date, T0.U_Cardcode,T0.U_Conatiner_numb";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["GatePassActualDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? GatePassPlannedDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate + 51) as GatePassPlannedDate FROM ORDR T0 WHERE T0.DocNum = '" + SONumber + "'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["GatePassPlannedDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? GreigeIssuanceForDyedActualDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  Max(T0.DocDate) as GreigeIssuanceForDyedActualDate FROM OWTR T0 inner join WTR1 P on P.DocEntry = T0.DocEntry inner join OITM M on M.itemCode = P.ItemCode WHERE M.ItmsGrpCod in (115) and  P.U_Sale_ord = '" + SONumber+"' group by T0.DocDate,P.Dscription, P.Quantity";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["GreigeIssuanceForDyedActualDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? GreigeIssuanceForDyedPlannedDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate + 33) as GreigeIssuanceForDyedPlannedDate FROM ORDR T0 WHERE T0.DocNum = '" + SONumber + "'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["GreigeIssuanceForDyedPlannedDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? GreigeReceivingActualDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT distinct  Max(P.DocDate) as GreigeReceivingActualDate FROM IGN1 T0 inner join OIGN P on P.DocEntry = T0.DocEntry and T0.BaseType = 202 left join OWOR R on R.DocNum = T0.BaseRef inner join OITM M on M.itemCode = T0.ItemCode   WHERE  R.OriginNum = '" + SONumber+"' and R.ProdName like '%Weaved%' group by R.ProdName,T0.Quantity,R.OriginNum,P.DocDate";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["GreigeReceivingActualDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? GreigeReceivingPlannedDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate + 30) as GreigeReceivingPlannedDate FROM ORDR T0 WHERE T0.DocNum = '" + SONumber + "'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["GreigeReceivingPlannedDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? PackingActualDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT distinct  Max(P.DocDate) as PackingActualDate FROM IGN1 T0 inner join OIGN P on P.DocEntry = T0.DocEntry and T0.BaseType = 202 left join OWOR R on R.DocNum = T0.BaseRef inner join OITM M on M.itemCode = T0.ItemCode   WHERE  R.OriginNum = '" + SONumber+"' and R.ProdName like '%Finished%' group by R.ProdName,T0.Quantity,R.OriginNum,P.DocDateQCategory";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["PackingActualDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? PackingPlannedDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate + 50) as PackingPlannedDate FROM ORDR T0 WHERE T0.DocNum = '" + SONumber + "'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["PackingPlannedDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? POActualDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate) as POActualDate FROM POR1 T0 WHERE  T0.U_SO = '" + SONumber+"' and T0.Dscription like '%YARN%' --group by  T0.Dscription, T0.Quantity,T0.DocDate";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["POActualDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? POPlannedDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate + 1) as POPlannedDate FROM ORDR T0 WHERE   T0.DocNum = '" + SONumber+"'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["POPlannedDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? PreCostingActualDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  S.CreateDate as PreCostingActualDate FROM [@PCS1] T0 inner join [@OPCS] S on S.DocEntry = T0.DocEntry WHERE  S.U_SO = '" + SONumber+"'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["PreCostingActualDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? PreCostingPlannedDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate + 0) as PreCostingPlannedDate FROM ORDR T0 WHERE   T0.DocNum = '" + SONumber + "'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["PreCostingPlannedDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
         }
 
-        public DateTime? SizedYarnIssuanceForGreigePlannedDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate + 11) as SizedYarnIssuanceForGreigePlannedDate FROM ORDR T0 WHERE   T0.DocNum = '" + SONumber+"'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["SizedYarnIssuanceForGreigePlannedDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? YarnDeliveryActualDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  Max(P.DocDate) as YarnDeliveryActualDate FROM PDN1 T0 inner join OPDN P on P.DocEntry = T0.DocEntry inner join OITM M on M.itemCode = T0.ItemCode   WHERE M.ItmsGrpCod in (104,126) and T0.U_SO = '" + SONumber+"' group by  T0.Dscription, T0.Quantity,T0.DocDate";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["YarnDeliveryActualDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? YarnDeliveryPlannedDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate + 7) as YarnDeliveryPlannedDate FROM ORDR T0 WHERE   T0.DocNum = '" + SONumber+"'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["YarnDeliveryPlannedDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? SizedYarnReceivedPlannedDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate + 11) as SizedYarnReceivedPlannedDate FROM ORDR T0 WHERE   T0.DocNum = '" + SONumber+"'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["SizedYarnReceivedPlannedDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? YarnIssuanceForSizzingPlannedDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate + 7) as YarnIssuanceForSizzingPlannedDate FROM ORDR T0 WHERE   T0.DocNum = '" + SONumber+"'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["YarnIssuanceForSizzingPlannedDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? YarnPurchaseActualDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate) as YarnPurchaseActualDate FROM POR1 T0 WHERE  T0.U_SO = '" + SONumber+"' and T0.Dscription like '%YARN%' --group by  T0.Dscription, T0.Quantity,T0.DocDate";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["YarnPurchaseActualDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? YarnPurchasePlannedDate(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate + 3) as YarnPurchasePlannedDate  FROM ORDR T0 WHERE   T0.DocNum = '" + SONumber+"'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["YarnPurchasePlannedDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? PlanningDateHeader(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate)  as PlanningDateHeader FROM ORDR T0 WHERE T0.DocNum = '" + SONumber + "'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["PlanningDateHeader"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public string? CustomerCodeHeader(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.Cardcode) as CustomerCode  FROM ORDR T0 WHERE   T0.DocNum = '" + SONumber+"'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return rdr["CustomerCode"].ToString();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public string? CustomerNameHeader(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.CardName) as CardName  FROM ORDR T0 WHERE   T0.DocNum = '" + SONumber + "'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return rdr["CardName"].ToString();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public int? QuantityHeader(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  sum(R.Quantity) as Quantity FROM ORDR T0 inner join RDR1 R on R.DocEntry = T0.DocEntry WHERE   T0.DocNum = '" + SONumber+"'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return rdr["Quantity"].ToInt();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? SaleOrderDateHeader(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDate) as SaleOrderDate FROM ORDR T0 WHERE   T0.DocNum = '" + SONumber+"'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["SaleOrderDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public DateTime? ShipmentDateHeader(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  (T0.DocDueDate) as ShipmentDate FROM ORDR T0 WHERE   T0.DocNum = '" + SONumber + "'";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return (DateTime)rdr["ShipmentDate"].ToDateTime();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
-        public string? StatusHeader(string SONumber)
-        {
-            try
-            {
-                string GetQuery = "SELECT  case when (T0.DocStatus)  = 'O' then 'Open' when (T0.DocStatus)  = 'C' then 'Closed'  Else 'Status' end PreCosted FROM ORDR T0 WHERE   T0.DocNum = '"+SONumber+"' ";
-
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                {
-                    while (rdr.Read())
-                    {
-
-
-                        return rdr["PreCosted"].ToString();
-
-
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-
-            }
-            return null;
-        }
     }
 }
