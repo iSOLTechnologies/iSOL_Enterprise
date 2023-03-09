@@ -122,12 +122,12 @@
                             border-radius: 0.25rem;
                             -ms-flex-align: center;
                             align-items: center;
-                            background-color: rgba(255, 255, 255, 0.7);
+                            background-color: rgba(0, 0, 0, 0.5);
                             display: -ms-flexbox;
                             display: flex;
                             -ms-flex-pack: center;
                             justify-content: center;
-                            z-index: 50;
+                            z-index: 100;
                         }
                         /*.spinner-border {
                             position: absolute;
@@ -520,6 +520,7 @@
 <script>
     //var vatGroupData = "";
     var ItemServiceType = '1';
+    var timeout;
     const boxes = document.querySelectorAll('.d');
 
     for (const box of boxes) {
@@ -558,10 +559,12 @@
     });
 
     $(document).on('keyup', '#saleorderno', function (e) {
+        clearTimeout(timeout);
+        let SONumber = $(this).val();
+        timeout = setTimeout(function () {
         $(".loading_ic").addClass('overlay');
         $(".loading_ic").show();
-        $.get("PlanningSheet/GetData", {SONumber : $(this).val()} ,function(data) 
-        {
+            $.get("PlanningSheet/GetData", { SONumber: SONumber }, function (data) {
             let list = JSON.parse(data.docData);
          
             if(data.success) 
@@ -573,14 +576,16 @@
                 });
                 $(".loading_ic").removeClass('overlay dark');
                 $(".loading_ic").hide();
+                    clearTimeout(timeout);
             }
             else {
                 $(".loading_ic").removeClass('overlay dark');
                 $(".loading_ic").hide();
+                    clearTimeout(timeout);
             }
             
         });
-        
+        }, 2000);
     });
 
     $(document).on('click', '#ListBtnDelete', function () {
