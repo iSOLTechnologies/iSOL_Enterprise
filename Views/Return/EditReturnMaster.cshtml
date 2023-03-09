@@ -1262,13 +1262,13 @@
           DocModule = "S";
         Edit_GetUomGroup();
         InitializeWareHouseData();
-        GetVatGroupData();
+        InitializeGetVatGroupData();
         GetCountrydata();
         display_ItemOrService(); 
         var date = new Date; 
         GetContactPersons(CntctPerson);
         DocStatus(); 
-       
+         GetPrice();
             function InitializeWareHouseData() {
 
                 $.get("Delivery/GetWareHouseData", function (data) {

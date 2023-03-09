@@ -1254,7 +1254,7 @@ function GetPrice()
           DocModule = "S";
         Edit_GetUomGroup();
         InitializeWareHouseData();
-        GetVatGroupData();
+        InitializeGetVatGroupData();
         GetCountrydata();
         display_ItemOrService();
  
@@ -1263,7 +1263,7 @@ function GetPrice()
        
         GetContactPersons(CntctPerson);
          DocStatus(); 
-        
+          GetPrice();
             function InitializeWareHouseData() {
 
                 $.get("Delivery/GetWareHouseData", function (data) {

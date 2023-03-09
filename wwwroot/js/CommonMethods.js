@@ -18,7 +18,6 @@ $(document).on('change keyup', '#UPrc,#DicPrc', function (e) {
 
 
 
-
 $(document).on('change keyup', '#Warehouse', function (e) {
     let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
     let ItemCodeValue = ItemCodeField.val();

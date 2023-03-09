@@ -143,6 +143,11 @@ namespace iSOL_Enterprise.Dal
 
 
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                        if (res1 <= 0)
+                        {
+                            tran.Rollback();
+                            return false;
+                        }
                     }
                     if (model.ListItems != null)
                     {

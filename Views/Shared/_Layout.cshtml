@@ -2100,6 +2100,19 @@
 		 
 		});
 		  var vatGroupData = "";
+		  
+		function InitializeGetVatGroupData() {
+
+			$.get("SaleQuotation/GetVatGroupData", { DocModule: DocModule }, function (data) {
+
+				$.each(data, function () {
+					vatGroupData += "<option selected guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>";
+
+				});
+
+			});
+		}
+
      function GetVatGroupData() 
 		{
 	
