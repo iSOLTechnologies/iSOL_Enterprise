@@ -500,7 +500,6 @@ namespace iSOL_Enterprise.Dal
 
                             #region Batches & Log Working
 
-
                             if (model.Batches != null)
                             {
 

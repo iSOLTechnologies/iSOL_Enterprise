@@ -901,8 +901,11 @@
 <script>
     //var vatGroupData = ""; 
     var ItemServiceType = '1';
-    const boxes = document.querySelectorAll('.d');
+    var WareHouseData ="";
     var AddedBatches = [];
+    var ObjBatchCode ;
+    const boxes = document.querySelectorAll('.d');
+    
     for (const box of boxes) {
         box.value = new Date().toJSON().slice(0, 10);
     }
