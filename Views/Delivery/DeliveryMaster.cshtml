@@ -1970,7 +1970,8 @@
     function DocNumOnLoad() {
 
         $.get('/Delivery/getUpdatedDocumentNumberOnLoad', function(data, status)
-            { console.log(data)
+            { 
+                console.log(data)
                 $('#DocNum').val( data );
           });
         

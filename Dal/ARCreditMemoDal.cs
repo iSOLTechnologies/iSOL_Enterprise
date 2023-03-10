@@ -99,7 +99,39 @@ namespace iSOL_Enterprise.Dal
             sda.Fill(ds);
             return ds;
         }
+        public tbl_OBTN GetBatchList(string itemcode, string distnumber)
+        {
+            try
+            {
 
+
+                string GetQuery = "select OBTQ.MdAbsEntry,OBTQ.SysNumber,OBTQ.AbsEntry  from OBTN inner join OBTQ on OBTQ.MdAbsEntry = OBTN.AbsEntry where OBTN.ItemCode ='" + itemcode + "' and OBTN.DistNumber = '" + distnumber + "'";
+
+
+                tbl_OBTN model = new tbl_OBTN();
+                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+                {
+                    while (rdr.Read())
+                    {
+
+
+                        model.MdAbsEntry = Convert.ToInt32(rdr["MdAbsEntry"]);
+                        model.AbsEntry = Convert.ToInt32(rdr["AbsEntry"]);
+                        model.SysNumber = rdr["SysNumber"].ToInt();
+
+
+
+                    }
+                }
+
+                return model;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
         public bool AddARCreditMemo(string formData)
         {
@@ -251,8 +283,8 @@ namespace iSOL_Enterprise.Dal
                                             string itemno = ii.itemno;
                                             int SysNumber = CommonDal.getSysNumber(tran, itemno);
                                             int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
-                                            GoodReceiptDal goodReceiptDal = new GoodReceiptDal();
-                                            tbl_OBTN OldBatchData = goodReceiptDal.GetBatchList(itemno, ii.DistNumber);
+                                            
+                                            tbl_OBTN OldBatchData = GetBatchList(itemno, ii.DistNumber);
                                             if (OldBatchData.AbsEntry > 0)
                                             {
                                                 #region Update OBTQ
