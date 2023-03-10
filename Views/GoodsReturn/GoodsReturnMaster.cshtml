@@ -849,12 +849,11 @@
                                      $("#OpenQty").val(this.Quantity);
                                       $("#TtlPrc").val(this.LineTotal);                                           
                                          $("#Warehouse").val(this.WhsCode);
-                                        $.when( GetWareHouseQty(this.ItemCode,this.WhsCode) ).done(function( OnHand ) 
-                                         {
-                                           
-                                            $("#onHand").val(OnHand);
-                                         
-                                         });
+                                    $.when(GetWareHouseQty(this.ItemCode, this.WhsCode)).done(function (OnHand) {
+
+                                        $("#onHand").val(OnHand);
+
+                                    });
                                 }
                                 else {
                                     AddItemRowData((data.baseDoc)[0].docNum, this);

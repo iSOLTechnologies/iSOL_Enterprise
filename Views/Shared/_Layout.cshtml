@@ -3335,7 +3335,7 @@
 		function GetUomGroup(itemno) {
 			var UomEntryRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomEntry");
 			var UomCodeRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomCode");
-
+			
 			$.get("SaleQuotation/GetUomGroup", { itemno: itemno }, function (data) {
 				$(UomEntryRow).html("");
 
