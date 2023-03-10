@@ -142,7 +142,6 @@ namespace iSOL_Enterprise.Controllers.Sales
             }
             catch (Exception ex)
             {
-
                 return Json(ex.Message);
             }
 
@@ -172,12 +171,10 @@ namespace iSOL_Enterprise.Controllers.Sales
             {
 
                 SalesQuotationDal dal = new SalesQuotationDal();
-
                 return Json(dal.GetSalesEmployee());
             }
             catch (Exception ex)
             {
-
                 return Json(ex.Message);
             }
 
@@ -189,19 +186,13 @@ namespace iSOL_Enterprise.Controllers.Sales
             //ResponseModels response = new ResponseModels();
             try
             {
-
                 SalesQuotationDal dal = new SalesQuotationDal();
-
                 return Json(dal.GetContactPersons(cardCode));
             }
             catch (Exception ex)
             {
-
                 return Json(ex.Message);
-            }
-
-
-
+            } 
         }
         public IActionResult GetUomGroup(string itemno)
         {
@@ -214,7 +205,6 @@ namespace iSOL_Enterprise.Controllers.Sales
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -223,11 +213,8 @@ namespace iSOL_Enterprise.Controllers.Sales
         {
             try
             {
-
-
                 SalesQuotationDal dal = new SalesQuotationDal();
                 return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddSalesQoutation(formData) == true ? Json(new { isInserted = true , message = "Sale Qoutation Added Successfully !" }) : Json(new { isInserted = false , message = "An Error occured !" });
-
             }
             catch (Exception)
             {
@@ -243,15 +230,11 @@ namespace iSOL_Enterprise.Controllers.Sales
         {
             try
             {
-
-
                 SalesQuotationDal dal = new SalesQuotationDal();
                 return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.EditSalesQoutation(formData) == true ? Json(new { isInserted = true, message = "Sale Qoutation Updated Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
-
             }
             catch (Exception)
             {
-
                 throw;
             }
 

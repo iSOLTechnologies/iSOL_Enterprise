@@ -16,24 +16,7 @@
 <script src="~/Assets/js/scripts.bundle.js"></script>
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Subheader-->
-    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
-        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
-            <!--begin::Info-->
-            <div class="d-flex align-items-center flex-wrap mr-2">
-                <!--begin::Page Title-->
-                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">iSOl</h5>
-                <!--end::Page Title-->
-                <!--begin::Actions-->
-                <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200">
-                </div>
-                <span class="text-muted font-weight-bold mr-2">Dashboard</span>
-                <span class="font-weight-bolder">/ Add AP Credit Memo</span>
-                <!--end::Actions-->
-            </div>
-            <!--end::Info-->
-
-        </div>
-    </div>
+    
     <!--end::Subheader-->
     <!--begin::Entry-->
     <div class="container">
@@ -174,11 +157,10 @@
                                                                 <div class="form-group row">
 
                                                                     <div class="col-md-6">
-                                                                        <label>Customer</label>
+                                                                        <label>Vendor</label>
                                                                         @*<input disabled type="text" class="form-control form-control-sm" >*@
-
                                                                         <div class="input-group">
-                                                                            <input type="text" id="CardCode" class="form-control form-control-sm" placeholder="Customer" aria-describedby="basic-addon2">
+                                                                            <input type="text" id="CardCode" class="form-control form-control-sm " placeholder="Vendor" aria-describedby="basic-addon2">
                                                                             <div id="CustomerNo" class="input-group-append">
                                                                                 <span class="input-group-text">
                                                                                     <i class="la la-search"></i>
@@ -1335,8 +1317,8 @@
     $(document).on('click', '#CustomerNo', function (e) {
         ObjCardCode = $(this);
 
-        generateCustomerTable();
-        $('#myCustModal').modal('show');
+        generateVendorTable();
+        $('#myVendorModal').modal('show');
 
     });
 
@@ -1352,25 +1334,33 @@
 
         var VatGuid = $('option:selected', VatGroup).attr("guid");
         let BaseQty = $(this).closest('#ListParameters .itm').find('#BaseQty');
-
-        if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
-            if (Number(Qty.val()) <= Number(BaseQty.val())) {
-
-                $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val() - Qty.val());
-            }
-            else {
-
-                toastr.warning("Quantity can't be greater than base quantity");
-                Qty.val(0);
-                $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val());
-
-
-            }
-        }
-        if (!(Number(Qty.val()) <= Number(onHand.val()))) {
-            toastr.warning("Quantity can't be greater than Quantity in Warehouse");
+        
+           let _ItemCode = $(this).closest('#ListParameters .itm').find('#ItemCode').val()
+        let _WhsCode = $(this).closest('#ListParameters .itm').find('#Warehouse').val()
+      
+        $.when( GetWhsAddedQty(_ItemCode, _WhsCode) ).then(function(sum) {
+        if(!(sum <= onHand.val())){
             Qty.val(0);
+            toastr.warning("Quantity can't be greater than Warehouse quantity");
         }
+        //if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
+        //    if (Number(Qty.val()) <= Number(BaseQty.val())) {
+
+        //        $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val() - Qty.val());
+        //    }
+        //    else {
+
+        //        toastr.warning("Quantity can't be greater than base quantity");
+        //        Qty.val(0);
+        //        $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val());
+
+
+        //    }
+        //}
+        //if (!(Number(Qty.val()) <= Number(onHand.val()))) {
+        //    toastr.warning("Quantity can't be greater than Quantity in Warehouse");
+        //    Qty.val(0);
+        //}
 
         if ($(DicPrc).val() == "") {
             var Onepercent = parseFloat($(TtlPrc).val() / 100);
@@ -1397,7 +1387,7 @@
                 //console.log(Tax)
             }
         }
-
+      });
     });
 
 
