@@ -831,9 +831,9 @@
                                     $("#UomCode").val(this.UomCode);
                                     $("#CountryOrg").val(this.CountryOrg);
                                     $("#VatGroup").val(this.VatGroup);
-                                    $("#BaseQty").val(this.OpenQty);
+                                    $("#BaseQty").val(this.BaseQty);
                                     $("#QTY").val(this.OpenQty);
-                                     $("#OpenQty").val(0);
+                                     $("#OpenQty").val(this.OpenQty);
                                     $("#TltPrc").val(this.LineTotal);
                                     
                                          $("#Warehouse").val(this.WhsCode);
@@ -983,11 +983,11 @@
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                            <input readonly class="form-control form-control-sm NotReq" value=`+ data.OpenQty + ` id="BaseQty"  type="number">
+                                                                                            <input readonly class="form-control form-control-sm NotReq" value=`+ data.BaseQty + ` id="BaseQty"  type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  value="0" type="number">
+                                                                                            <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  value=`+data.OpenQty+` type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                             <td>
@@ -1331,20 +1331,20 @@
         var VatGuid = $('option:selected', VatGroup).attr("guid");
         let BaseQty = $(this).closest('#ListParameters .itm').find('#BaseQty');
 
-        if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
-            if (Number(Qty.val()) <= Number(BaseQty.val())) {
+        //if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
+        //    if (Number(Qty.val()) <= Number(BaseQty.val())) {
 
-                $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val() - Qty.val());
-            }
-            else {
+        //        $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val() - Qty.val());
+        //    }
+        //    else {
 
-                toastr.warning("Quantity can't be greater than base quantity");
-                Qty.val(0);
-                $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val());
+        //        toastr.warning("Quantity can't be greater than base quantity");
+        //        Qty.val(0);
+        //        $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val());
 
 
-            }
-        }
+        //    }
+        //}
         if (!(Number(Qty.val()) <= Number(onHand.val()))) {
             toastr.warning("Quantity can't be greater than Quantity in Warehouse");
             Qty.val(0);
