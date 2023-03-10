@@ -845,9 +845,9 @@
                                     $("#UomCode").val(this.UomCode);
                                     $("#CountryOrg").val(this.CountryOrg);
                                     $("#VatGroup").val(this.VatGroup);
-                                    $("#BaseQty").val(this.OpenQty);
-                                    $("#QTY").val(this.OpenQty);
-                                     $("#OpenQty").val(0);
+                                    $("#BaseQty").val(this.Quantity);
+                                    $("#QTY").val(this.Quanity);
+                                     $("#OpenQty").val(this.Quantity);
                                                    $("#TtlPrc").val(this.LineTotal);
                                          $("#Warehouse").val(this.WhsCode);
                                          $("#onHand").val( GetWareHouseQty(this.ItemCode,this.WhsCode));
@@ -993,15 +993,15 @@
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input class="form-control form-control-sm"  value=`+data.OpenQty+` id="QTY"  type="number">
+                                                                                                <input class="form-control form-control-sm"  value=`+data.Quantity+` id="QTY"  type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                            <input readonly class="form-control form-control-sm NotReq" value=`+ data.OpenQty + ` id="BaseQty"  type="number">
+                                                                                            <input readonly class="form-control form-control-sm NotReq" value=`+ data.Quantity + ` id="BaseQty"  type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  value="0" type="number">
+                                                                                            <input readonly class="form-control form-control-sm NotReq" value=`+ data.Quantity + ` type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                             <td>
