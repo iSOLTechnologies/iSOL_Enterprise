@@ -1035,7 +1035,12 @@
                                      $("#OpenQty").val(this.OpenQty);
                                                    $("#TtlPrc").val(this.LineTotal);
                                                      $("#Warehouse").val(this.WhsCode);
-                                         $("#onHand").val( GetWareHouseQty(this.ItemCode,this.WhsCode));
+                                         $.when( GetWareHouseQty(this.ItemCode,this.WhsCode) ).done(function( OnHand ) 
+                                         {
+                                           
+                                            $("#onHand").val(OnHand);
+                                         
+                                         });
                                 }
                                 else {
                                     AddItemRowData((data.baseDoc)[0].docNum, this);
@@ -1134,6 +1139,9 @@
         });
     }
     function AddItemRowData(baseRef, data) {
+         $.when( GetWareHouseQty(data.ItemCode,data.WhsCode) ).done(function( OnHand ) 
+                                         {
+                                         
         var html = `    <tr class="rowItemDetail align-items-center itm">
                                                                                         <td style="display:none;">
                                                                                             <input id="BaseRef" readonly value="`+ baseRef + `" class="form-control form-control-sm NotReq">
@@ -1173,7 +1181,7 @@
 
                                                                                             </td>
                                                                                              <td>
-                                                                                                        <input id="onHand" value="`+ GetWareHouseQty(data.ItemCode, data.WhsCode) + `" class="form-control form-control-sm" readonly type="number">
+                                                                                                        <input id="onHand" value="`+ OnHand + `" class="form-control form-control-sm" readonly type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
 
@@ -1229,7 +1237,7 @@
                                                                                </td>
                                                                                         </tr>`;
         $('#kt_repeater_1 tbody').append(html);
-
+        });
 
     }
 
