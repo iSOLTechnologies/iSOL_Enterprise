@@ -264,7 +264,7 @@ namespace iSOL_Enterprise.Dal
                                                    values(" + LogEntry + ",'"
                                                  + item.ItemCode + "','"
                                                  + ii.SysNumber + "',"
-                                                 + ii.Quantity + ","
+                                                 + -1 * ((Decimal)(ii.selectqty)) + ","
                                                  + -1 * ((Decimal)(ii.selectqty)) + ","
                                                  + ii.AbsEntry + ")";
 
