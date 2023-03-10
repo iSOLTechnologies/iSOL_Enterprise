@@ -629,7 +629,7 @@ where s.Status=1 and p.Guid=@Guid";
             string table = GetRowTable(BaseType);
             DataSet ds = new DataSet();
             SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-            SqlDataAdapter sda = new SqlDataAdapter("select Id,WhsCode,LineNum,ItemCode,ItemName,Quantity,DiscPrcnt,Price,VatGroup,UomCode,CountryOrg,Dscription,AcctCode,OpenQty,BaseQty,LineTotal from " + table+" where id = '" + DocId + "'", conn);
+            SqlDataAdapter sda = new SqlDataAdapter("select Id,WhsCode,LineNum,ItemCode,ItemName,Quantity,DiscPrcnt,Price,VatGroup,UomCode,CountryOrg,Dscription,AcctCode,OpenQty,LineTotal from " + table+" where id = '" + DocId + "'", conn);
             sda.Fill(ds);
             string JSONString = string.Empty;
             JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
