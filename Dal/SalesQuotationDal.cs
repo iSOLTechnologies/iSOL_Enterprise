@@ -383,7 +383,7 @@ namespace iSOL_Enterprise.Dal
                             string RowQueryItem = @"insert into QUT1(Id,LineNum,WhsCode,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup,UomCode,UomEntry,CountryOrg)
                                               values(" + Id + ","
                                               + LineNo + ",'"
-                                              + item.WhsCode + "','"
+                                              + item.Warehouse + "','"
                                               + item.ItemName + "',"
                                               + item.UPrc + ","
                                               + item.TtlPrc + ","

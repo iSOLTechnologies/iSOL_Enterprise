@@ -321,7 +321,7 @@ namespace iSOL_Enterprise.Dal
                             string RowQueryItem = @"insert into PQT1(Id,LineNum,WhsCode,ItemName,Price,LineTotal,ItemCode,PQTReqDate,ShipDate,PQTReqQty,OpenQty,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
                                               values(" + Id + ","
                                               + LineNo + ",'"
-                                              + item.WhsCode + "','"
+                                              + item.Warehouse + "','"
                                               + item.ItemName + "',"
                                               + item.UPrc + ","
                                               + item.TtlPrc + ",'"

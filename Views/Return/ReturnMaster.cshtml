@@ -813,7 +813,7 @@
                                     $("#BaseQty").val(this.BaseQty);
                                     $("#QTY").val(this.Quantity);
                                     $("#OpenQty").val(this.Quantity);
-                                    $("#TtlPrc").val(this.LineTotal);
+                                    $("#TtlPrc").val(this.LineTotal);                                 
                                     $("#Warehouse").val(this.WhsCode);
                                     $("#onHand").val(GetWareHouseQty(this.ItemCode,this.WhsCode));
                                 }
@@ -1134,55 +1134,7 @@
             $("#kt_tabs_5_2").removeClass("d-none");
         }
     });
-    //function GetVatGroupData() {
-
-    //    $.get("SaleQuotation/GetVatGroupData", function (data) {
-
-
-    //        // addDataInVatGroup();
-    //        $("#VatGroup").html("");
-    //        $("#VatGroup2").html("");
-    //        $.each(data, function () {
-    //            console.log();
-    //            $("#VatGroup").append($('<option>', {
-    //                value: this.code,
-    //                text: this.vatName,
-    //                guid: this.rate
-    //            }));
-    //            $("#VatGroup2").append($('<option>', {
-    //                value: this.code,
-    //                text: this.vatName,
-    //                guid: this.rate
-    //            }));
-
-    //            vatGroupData = vatGroupData + "<option guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>";
-    //        });
-
-    //    });
-
-    //}
-
-    //function GetCountrydata() {
-
-    //    $.get("SaleQuotation/GetCountries", function (data) {
-
-
-    //        $("#CountryOrg").html("");
-
-    //        $.each(data, function () {
-
-    //            $("#CountryOrg").append($('<option>', {
-    //                value: this.country_code,
-    //                text: this.country_name
-
-    //            }));
-
-
-    //            CountryData = CountryData + "<option  value=" + this.country_code + ">" + this.country_name + "</option>";
-    //        });
-
-    //    });
-    //}
+  
     function append_ServiceFirstRow() {
 
         var html = ` <tr class="rowItemDetail align-items-center itm">
