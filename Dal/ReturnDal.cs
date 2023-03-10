@@ -135,35 +135,68 @@ namespace iSOL_Enterprise.Dal
 
             return list;
         }
-        public List<tbl_OBTN> GetBatchList(string itemcode, string warehouse)
+        //public List<tbl_OBTN> GetBatchList(string itemcode, string warehouse)
+        //{
+        //    try
+        //    {
+
+
+        //    string GetQuery = "select OBTN.DistNumber,OBTN.Quantity,OBTN.InDate,OBTN.AbsEntry,OBTN.SysNumber  from OBTW Inner join OBTN on OBTN.AbsEntry = OBTW.AbsEntry where OBTW.ItemCode = '" + itemcode+"' and OBTW.WhsCode = '"+warehouse+"'";
+
+
+        //    List<tbl_OBTN> list = new List<tbl_OBTN>();
+        //    using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+        //    {
+        //        while (rdr.Read())
+        //        {
+
+        //            list.Add(
+        //                new tbl_OBTN()
+        //                {
+        //                    AbsEntry = Convert.ToInt32(rdr["AbsEntry"]),
+        //                    DistNumber = rdr["DistNumber"].ToString(),
+        //                    Quantity = rdr["Quantity"].ToString() == "" ? 0 : Convert.ToInt32(rdr["Quantity"]),
+        //                    InDate = Convert.ToDateTime( rdr["InDate"]),
+        //                    SysNumber = Convert.ToInt32(rdr["SysNumber"])
+        //                });
+
+        //        }
+        //    }
+
+        //    return list;
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+        public tbl_OBTN GetBatchList(string itemcode, string distnumber)
         {
             try
             {
 
-            
-            string GetQuery = "select OBTN.DistNumber,OBTN.Quantity,OBTN.InDate,OBTN.AbsEntry,OBTN.SysNumber  from OBTW Inner join OBTN on OBTN.AbsEntry = OBTW.AbsEntry where OBTW.ItemCode = '" + itemcode+"' and OBTW.WhsCode = '"+warehouse+"'";
+
+                string GetQuery = "select OBTQ.MdAbsEntry,OBTQ.SysNumber,OBTQ.AbsEntry  from OBTN inner join OBTQ on OBTQ.MdAbsEntry = OBTN.AbsEntry where OBTN.ItemCode ='" + itemcode + "' and OBTN.DistNumber = '" + distnumber + "'";
 
 
-            List<tbl_OBTN> list = new List<tbl_OBTN>();
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
-            {
-                while (rdr.Read())
+                tbl_OBTN model = new tbl_OBTN();
+                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
                 {
+                    while (rdr.Read())
+                    {
 
-                    list.Add(
-                        new tbl_OBTN()
-                        {
-                            AbsEntry = Convert.ToInt32(rdr["AbsEntry"]),
-                            DistNumber = rdr["DistNumber"].ToString(),
-                            Quantity = rdr["Quantity"].ToString() == "" ? 0 : Convert.ToInt32(rdr["Quantity"]),
-                            InDate = Convert.ToDateTime( rdr["InDate"]),
-                            SysNumber = Convert.ToInt32(rdr["SysNumber"])
-                        });
 
+                        model.MdAbsEntry = Convert.ToInt32(rdr["MdAbsEntry"]);
+                        model.AbsEntry = Convert.ToInt32(rdr["AbsEntry"]);
+                        model.SysNumber = rdr["SysNumber"].ToInt();
+
+
+
+                    }
                 }
-            }
 
-            return list;
+                return model;
             }
             catch (Exception)
             {
@@ -319,8 +352,8 @@ namespace iSOL_Enterprise.Dal
                                             string itemno = ii.itemno;
                                             int SysNumber = CommonDal.getSysNumber(tran, itemno);
                                             int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
-                                            GoodReceiptDal goodReceiptDal = new GoodReceiptDal();
-                                            tbl_OBTN OldBatchData = goodReceiptDal.GetBatchList(itemno, ii.DistNumber);
+                                           // GoodReceiptDal goodReceiptDal = new GoodReceiptDal();
+                                            tbl_OBTN OldBatchData = GetBatchList(itemno, ii.DistNumber.ToString());
                                             if (OldBatchData.AbsEntry > 0)
                                             {
                                                 #region Update OBTQ

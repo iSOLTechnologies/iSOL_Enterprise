@@ -390,7 +390,7 @@
                                                                                             <select class="form-control" id="Warehouse">
 
                                                                                             </select>
-                                                                                            <div id="ListbtnSelectBatch" class="input-group-append">
+                                                                                            <div id="ListbtnSelectBatch" class="input-group-append d-none">
                                                                                                 <span class="input-group-text">
                                                                                                     <i class="la la-warehouse"></i>
                                                                                                 </span>
@@ -1010,7 +1010,7 @@
                                                                                             <select class="form-control" id="Warehouse">
                                                                                             `+WareHouseData +`
                                                                                             </select>
-                                                                                            <div id="ListbtnSelectBatch" class="input-group-append">
+                                                                                            <div id="ListbtnSelectBatch" class="input-group-append d-none">
                                                                                                 <span class="input-group-text">
                                                                                                     <i class="la la-warehouse"></i>
                                                                                                 </span>
@@ -1021,7 +1021,7 @@
                                                                                     </td>
                               
                                                                                              <td>
-                                                                                                        <input id="onHand" value="`OnHand + `" class="form-control form-control-sm" readonly type="number">
+                                                                                                        <input id="onHand" value="` + OnHand + `" class="form-control form-control-sm" readonly type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
@@ -1290,7 +1290,7 @@
                                                                                             <select class="form-control" id="Warehouse">
                                                                                             `+WareHouseData+`
                                                                                             </select>
-                                                                                            <div id="ListbtnSelectBatch" class="input-group-append">
+                                                                                            <div id="ListbtnSelectBatch" class="input-group-append d-none">
                                                                                                 <span class="input-group-text">
                                                                                                     <i class="la la-warehouse"></i>
                                                                                                 </span>
@@ -1578,29 +1578,25 @@
                 })
             });
     }
-    function GetBatchData(itemcode,warehouse) 
-    {
+   // function GetBatchData(itemcode,warehouse) 
+   // {
   
 
-        //$.getJSON("Delivery/GetBatchList",{itemcode :itemcode , warehouse: warehouse }, function(result){
-        //    console.log("HI: " + result);
-        //});
+   //     //$.getJSON("Delivery/GetBatchList",{itemcode :itemcode , warehouse: warehouse }, function(result){
+   //     //    console.log("HI: " + result);
+   //     //});
 
-        $.ajax({
-                type: "Get",
-                url: 'Delivery/GetBatchList',
-                data : {itemcode :itemcode , warehouse: warehouse },
-				dataType: "json",
-                contentType: "application/json; charset=utf-8",
-			 }).done(function (data) 
-			 {				
-				console.log("HI: " + data);
-			});
-    }
-
-   
-
-
+   //     $.ajax({
+   //             type: "Get",
+   //             url: 'Delivery/GetBatchList',
+   //             data : {itemcode :itemcode , warehouse: warehouse },
+			//	dataType: "json",
+   //             contentType: "application/json; charset=utf-8",
+			// }).done(function (data) 
+			// {				
+				
+			//});
+   // }
 
     function AddDataInRowsFromDocumentTable(selectedRow) 
     {
@@ -1613,6 +1609,7 @@
         $("#slTotalBacthes").val(0);
         $("#slDirection").val('Out');
     }
+    
     $(document).on('click', '#ListBtnDeleteRM', function () 
     {
        let selectedRow = $(this).closest('tr');
@@ -1698,7 +1695,7 @@
                                                                                             <select class="form-control" id="Warehouse">
                                                                                              `+ WareHouseData + `
                                                                                             </select>
-                                                                                            <div id="ListbtnSelectBatch" class="input-group-append">
+                                                                                            <div id="ListbtnSelectBatch" class="input-group-append d-none">
                                                                                                 <span class="input-group-text">
                                                                                                     <i class="la la-warehouse"></i>
                                                                                                 </span>
@@ -1973,7 +1970,8 @@
     function DocNumOnLoad() {
 
         $.get('/Delivery/getUpdatedDocumentNumberOnLoad', function(data, status)
-            { console.log(data)
+            { 
+                console.log(data)
                 $('#DocNum').val( data );
           });
         

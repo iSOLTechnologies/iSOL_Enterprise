@@ -355,7 +355,7 @@ namespace iSOL_Enterprise.Dal
                             #endregion
 
 
-
+                            #region Update Base Documnet
                             if (model.BaseType != -1)
                             {
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
@@ -367,11 +367,15 @@ namespace iSOL_Enterprise.Dal
                                     return false;
                                 }
                             }
+                            #endregion
+                            
                             item.BaseEntry = item.BaseEntry == "" ? "NULL" : Convert.ToInt32(item.BaseEntry);
                             item.BaseLine = item.BaseLine == "" ? "NULL" : Convert.ToInt32(item.BaseLine);
                             item.BaseQty = item.BaseQty == "" ? "NULL" : Convert.ToInt32(item.BaseQty);
                             item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
 
+
+                            #region Insert into Row 
                             string RowQueryItem = @"insert into DLN1(Id,WhsCode,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,BaseType,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
                                               values(" + Id + ",'"
                                                 + item.Warehouse + "',"
@@ -401,6 +405,7 @@ namespace iSOL_Enterprise.Dal
                                 return false;
                             }
                             LineNo += 1;
+                            #endregion
                         }
 
 
