@@ -1,12 +1,12 @@
 ﻿
 $(document).on('change keyup', '#UPrc,#DicPrc', function (e) {
-   
+
     var quantityField = $(this).closest('#ListParameters .itm').find('#DicPrc');
     var quantityValue = $(this).closest('#ListParameters .itm').find('#DicPrc').val();
-     
+
     if (quantityValue == "") {
         quantityField.val("");
-    }else if (quantityValue < 0) {
+    } else if (quantityValue < 0) {
         quantityField.val("");
         toastr.warning("Discount can't be less than 0");
     } else if (quantityValue > 100) {
@@ -28,7 +28,7 @@ $(document).on('change keyup', '#Warehouse', function (e) {
     //console.log("ItemCodeValue", ItemCodeValue);
     //console.log("WarehouseValue", WarehouseValue.toString());
     $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
-        
+
         onHand.val(data);
 
     });
@@ -38,14 +38,29 @@ $(document).on('change keyup', '#Warehouse', function (e) {
 
 
 function GetWareHouseQty(ItemCodeValue, WarehouseValue) {
-   
-    var a = 0;
-    $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
-  
-       a =  data
 
+    var a = 0;
+
+    return $.ajax({
+        url: 'Common/GetSelectedWareHouseData',
+        type: 'GET',
+        dataType: 'json',
+        data: { ItemCode: ItemCodeValue, WhsCode: WarehouseValue },
+        success: function (result) {
+            return result;
+        },
+        error: function (jqXhr, textStatus, errorMessage) {
+            console.log(errorMessage);
+        }
     });
-    return a;
+
+    //$.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
+
+    //    console.log("Ware" + data);
+    //    return data;
+
+    //});
+
 }
 
 
@@ -74,27 +89,27 @@ function GetWareHouseData() {
 
 
 function InitializeWareHouseData() {
-   
-        $.get("Delivery/GetWareHouseData", function (data) {
+
+    $.get("Delivery/GetWareHouseData", function (data) {
 
 
-           
-
-            $.each(data, function () {
-
-                
 
 
-                WareHouseData += "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
-            });
+        $.each(data, function () {
 
+
+
+
+            WareHouseData += "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
         });
+
+    });
 }
 
 
-    
+
 function GetPrice() {
-    
+
     $("#Total").val(0);
     var totalBeforeDiscount = 0;
     var RoundingValue = 0;
@@ -107,8 +122,7 @@ function GetPrice() {
     if (totalBeforeDiscount != 0)
         $("#TotalBeforeDiscount").val(totalBeforeDiscount);
 
-    if ($('#RoundingChkBox').is(":checked") && $('#Rounding').val() != "") 
-    {
+    if ($('#RoundingChkBox').is(":checked") && $('#Rounding').val() != "") {
 
 
         RoundingValue = parseFloat($('#Rounding').val());
@@ -130,7 +144,7 @@ function GetPrice() {
 
         $("#Total").val(totalBeforeDiscount);
     }
-    
+
 }
 
 
