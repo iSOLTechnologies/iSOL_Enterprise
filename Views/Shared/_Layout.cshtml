@@ -3341,8 +3341,8 @@
         _Qty = $(this).find('#QTY').val();
 
         if (ItemCode == _ItemCode && WhsCode == _WhsCode) {
-            if (_Qty == "" || _Qty == undefined || _Qty == null) { _Qty.val(0); }
-            sum = parseFloat(sum) + parseFloat(_Qty);
+            if (_Qty != "" && _Qty != undefined && _Qty != null)  {
+            sum = parseFloat(sum) + parseFloat(_Qty);}
         }
     });
     return sum;

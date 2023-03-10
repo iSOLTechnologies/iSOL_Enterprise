@@ -110,6 +110,10 @@ function InitializeWareHouseData() {
 
 function GetPrice() {
 
+
+    let FooterTax = $('#FooterTax').val();
+    console.log("FooterTax", FooterTax);
+
     $("#Total").val(0);
     var totalBeforeDiscount = 0;
     var RoundingValue = 0;
@@ -123,7 +127,6 @@ function GetPrice() {
         $("#TotalBeforeDiscount").val(totalBeforeDiscount);
 
     if ($('#RoundingChkBox').is(":checked") && $('#Rounding').val() != "") {
-
 
         RoundingValue = parseFloat($('#Rounding').val());
 
@@ -145,6 +148,12 @@ function GetPrice() {
         $("#Total").val(totalBeforeDiscount);
     }
 
+    if (FooterTax != null && FooterTax != "" && FooterTax != undefined) {
+        console.log("A", $("#Total").val());
+        let OnePercent = parseFloat($("#Total").val()) / 100;
+        let TaxAmount = parseFloat(OnePercent) * parseFloat(FooterTax);
+        $("#Total").val((parseFloat($("#Total").val()) + parseFloat(TaxAmount)).ToFixed(2)); 
+    }
 }
 
 

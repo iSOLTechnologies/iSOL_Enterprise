@@ -772,7 +772,7 @@
 
                                                                 <div class="col-md-6">
                                                                     <label for="inputEmail4" class="form-label" id="">Tax</label>
-                                                                    <input name="Tax" type="text" class="form-control" id="Tax">
+                                                                    <input name="Tax" type="text" class="form-control" id="FooterTax">
 
                                                                 </div>
                                                             </div>
@@ -1125,8 +1125,11 @@
 
     });
    
-
-    $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#Discount,#VatGroup,.VT_Option', function (e) {
+    $(document).on('change keyup', '#Discount,#FooterTax', function (e) {
+         GetPrice();
+         
+     });
+    $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#VatGroup,.VT_Option', function (e) {
 
         var Qty = $(this).closest('#ListParameters .itm').find('#QTY');
         var UPrc = $(this).closest('#ListParameters .itm').find('#UPrc');
