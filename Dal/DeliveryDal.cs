@@ -374,7 +374,7 @@ namespace iSOL_Enterprise.Dal
 
                             string RowQueryItem = @"insert into DLN1(Id,WhsCode,LineNum,BaseRef,BaseEntry,BaseLine,BaseQty,BaseType,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
                                               values(" + Id + ",'"
-                                               + item.WhsCode + "','"
+                                               + item.WhsCode + "',"
                                                 + LineNo + ",'"
                                                 + item.BaseRef + "',"
                                                 + item.BaseEntry + ","
