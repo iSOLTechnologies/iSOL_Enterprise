@@ -1173,8 +1173,12 @@
                                                                                                 <div class="input-group">
                                                                                                         <select value="`+ data.WhsCode + `" class="form-control" id="Warehouse">
                                                                                                         `+ WareHouseData + `
-                                                                                                    </select>
-
+                                                                                                        </select>
+                                                                                                            <div id="ListbtnSelectBatch" class="input-group-append d-none">
+                                                                                                        <span class="input-group-text">
+                                                                                                            <i class="la la-warehouse"></i>
+                                                                                                        </span>
+                                                                                                    </div>
                                                                                                 </div>
 
 
@@ -1820,7 +1824,8 @@
                     })
                 });
         }
-    function UpdateTotalNeeded() {
+    
+        function UpdateTotalNeeded() {
     
         let totalAdded = 0;
         let Quantity = Number($("#adQuantity").val());
@@ -1837,7 +1842,8 @@
         $("#adTotalBacthes").val((i));
 
     }
-    function AddDataInRowsFromDocumentTable(selectedRow) 
+    
+        function AddDataInRowsFromDocumentTable(selectedRow) 
     {
         $("#adItemno").val(selectedRow.find("#ItemCode").val());
         $("#adItemDesc").val(selectedRow.find("#ItemName").val());
@@ -1849,7 +1855,7 @@
         $("#adDirection").val('In');
     }
 
-    $(document).on('keyup', '#BQuantity', function (e) 
+        $(document).on('keyup', '#BQuantity', function (e) 
 		{
           
 			if($("#adQuantity").val() != $("#adTotalNeeded").val()) 
@@ -1877,7 +1883,7 @@
 	});
    
         $(document).on('click', '#btnAddbatchTableOk', function (e) 
-	{ 
+	    { 
 			let listObj = [];
 			if(Number($("#adTotalNeeded").val()) == 0) 
 			{
@@ -1921,7 +1927,8 @@
 			}
 	
 	});
-    function append_addBatchTablerow() 
+        
+        function append_addBatchTablerow() 
     {
          var html = ` <tr class="rowItemDetail align-items-center itm">
 

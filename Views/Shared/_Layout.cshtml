@@ -3269,8 +3269,7 @@
 			$(ObjItemCode).closest('#ListParameters .itm').find("#ItemCode").val(rowData['itemCode']).change();
 			$(ObjItemCode).closest('#ListParameters .itm').find("#ItemName").val(rowData['itemName']).change();
 			//Get UOM group Data
-			if(DocModule == "P") 
-			{
+			
 				
 				if(rowData['manBtchNum'] == "Y"){
 
@@ -3280,7 +3279,7 @@
 					if (!($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
 						$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
 				}
-			}
+			
 			GetUomGroup(rowData['itemCode']);
 
 			$('#myItemModal').modal('hide');
@@ -3310,8 +3309,7 @@
 							
 					let ItemNameObj = $(ObjItemCode).closest('#ListParameters .itm').find("#ItemName");
 					$(ItemNameObj).val((data.item).itemName);
-					if(DocModule == "P") 
-					{
+					
 				
 						if((data.item).manBtchNum == "Y")
 						{
@@ -3321,7 +3319,7 @@
 							if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
 								$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
 						}
-					}
+					
 					GetUomGroup((data.item).itemCode);
 				} else {
 					$(ObjItemCode).closest('#ListParameters .itm').find("#ItemName").val("");

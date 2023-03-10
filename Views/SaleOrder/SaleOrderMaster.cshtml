@@ -815,7 +815,7 @@
 
                             }
                             let j = 0;
-                            $.each(list[0], function () 
+                            $.when ( $.each(list[0], function () 
                             {
                         
                                     if(j == 0) 
@@ -853,8 +853,11 @@
 
                                     }
                                 j+=1;
-                            });
+                            })).done(function() {
+
                             Edit_GetUomGroup();     //For Uom Dropdown options
+                            })
+                            
 
                         }
                         else if((data.baseDoc)[0].docType ==  "S") 
@@ -945,6 +948,7 @@
         });
 
     function Edit_GetUomGroup() {   //For Uom Dropdown options
+        
         $('#ListParameters .itm').each(function (index, item) {
 
             ObjItemCode = $(this).find("#ItemCode");
