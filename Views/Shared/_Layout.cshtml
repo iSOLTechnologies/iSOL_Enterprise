@@ -3276,6 +3276,10 @@
 
 				$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").removeClass("d-none");
 				}
+				else{
+							if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
+								$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
+						}
 			}
 			GetUomGroup(rowData['itemCode']);
 
@@ -3285,18 +3289,18 @@
 		$(document).on('change keyup', "#ItemCode", function (e) {
 
 
-	let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
-    let ItemCodeValue = ItemCodeField.val();
-    let WarehouseField = $(this).closest('#ListParameters .itm').find('#Warehouse');
-    let WarehouseValue = WarehouseField.val();
-    let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
+		let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
+		let ItemCodeValue = ItemCodeField.val();
+		let WarehouseField = $(this).closest('#ListParameters .itm').find('#Warehouse');
+		let WarehouseValue = WarehouseField.val();
+		let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
 	  if(WarehouseField.val() != "" || WarehouseField.val() != null){
-   $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
-        console.log("Data is : ",data)
-        onHand.val(data);
+		   $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
+				console.log("Data is : ",data)
+				onHand.val(data);
 
-    });
-	  }
+			});
+			  }
  
 	ObjItemCode = $(this).closest('tr').find("#ItemCode");
 			
@@ -3312,6 +3316,10 @@
 						if((data.item).manBtchNum == "Y")
 						{
 							$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").removeClass("d-none");
+						}
+						else{
+							if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
+								$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
 						}
 					}
 					GetUomGroup((data.item).itemCode);
