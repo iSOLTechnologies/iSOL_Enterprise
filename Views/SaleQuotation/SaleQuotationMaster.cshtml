@@ -942,7 +942,15 @@
 
         var VatGuid = $('option:selected', VatGroup).attr("guid");
         let BaseQty = $(this).closest('#ListParameters .itm').find('#BaseQty');
-
+        
+           let _ItemCode = $(this).closest('#ListParameters .itm').find('#ItemCode').val()
+        let _WhsCode = $(this).closest('#ListParameters .itm').find('#Warehouse').val()
+      
+        $.when( GetWhsAddedQty(_ItemCode, _WhsCode) ).then(function(sum) {
+        if(!(sum <= onHand.val())){
+            Qty.val(0);
+            toastr.warning("Quantity can't be greater than Warehouse quantity");
+        }
         if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
             if (Number(Qty.val()) <= Number(BaseQty.val())) {
 
@@ -957,10 +965,10 @@
 
             }
         }
-        if (!(Number(Qty.val()) <= Number(onHand.val()))) {
-            toastr.warning("Quantity can't be greater than Quantity in Warehouse");
-            Qty.val(0);
-        }
+        //if (!(Number(Qty.val()) <= Number(onHand.val()))) {
+        //    toastr.warning("Quantity can't be greater than Quantity in Warehouse");
+        //    Qty.val(0);
+        //}
 
         if ($(DicPrc).val() == "") {
             var Onepercent = parseFloat($(TtlPrc).val() / 100);
@@ -987,7 +995,7 @@
                 //console.log(Tax)
             }
         }
-
+   });
     });
 
     $(document).on('click', '#RoundingChkBox', function (e) 

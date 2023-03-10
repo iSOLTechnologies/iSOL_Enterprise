@@ -3330,6 +3330,24 @@
 
 
 		});
+	function GetWhsAddedQty(ItemCode, WhsCode) {
+    let sum = 0;
+    let _ItemCode;
+    let _WhsCode;
+    let _Qty;
+    $('#ListParameters .itm').each(function () {
+        _ItemCode = $(this).find('#ItemCode').val();
+        _WhsCode = $(this).find('#Warehouse').val();
+        _Qty = $(this).find('#QTY').val();
+
+        if (ItemCode == _ItemCode && WhsCode == _WhsCode) {
+            if (_Qty == "" || _Qty == undefined || _Qty == null) { _Qty.val(0); }
+            sum = parseFloat(sum) + parseFloat(_Qty);
+        }
+    });
+    return sum;
+}
+
 		function GetUomGroup(itemno) {
 			var UomEntryRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomEntry");
 			var UomCodeRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomCode");
