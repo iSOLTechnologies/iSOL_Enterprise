@@ -385,7 +385,11 @@
                                                                                                         <select class="form-control" id="Warehouse">
                                                                                                        
                                                                                                     </select>
-
+                                                                                                    <div id="ListbtnSelectBatch" class="input-group-append d-none">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-warehouse"></i>
+                                                                                                </span>
+                                                                                            </div>
                                                                                                 </div>
 
 
@@ -991,7 +995,11 @@
                                                                                                         <select value="`+ data.WhsCode + `" class="form-control" id="Warehouse">
                                                                                                         `+ WareHouseData + `
                                                                                                     </select>
-
+                                                                                                    <div id="ListbtnSelectBatch" class="input-group-append d-none">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-warehouse"></i>
+                                                                                                </span>
+                                                                                            </div>
                                                                                                 </div>
 
 
@@ -1266,7 +1274,11 @@
                                                                                                         <select class="form-control" id="Warehouse">
                                                                                                         `+ WareHouseData + `
                                                                                                     </select>
-
+                                                                                                        <div id="ListbtnSelectBatch" class="input-group-append d-none">
+                                                                                                    <span class="input-group-text">
+                                                                                                        <i class="la la-warehouse"></i>
+                                                                                                    </span>
+                                                                                                </div>
                                                                                                 </div>
 
 
@@ -1480,8 +1492,64 @@
 
     $(document).on('click', '#ListBtnDelete', function () {
         $(this).closest('tr').remove();
-    })
+    });
+    $(document).on('click', '#ListbtnSelectBatch', function () 
+    {
+        //debugger
+        let selectedRow = $(this).closest('tr');
 
+       let selectedWareHouse =  selectedRow.find("#Warehouse").val();
+       let selectedItemCode =  selectedRow.find("#ItemCode").val();
+        if (( selectedWareHouse == null || selectedWareHouse == "" || selectedWareHouse == undefined) || (selectedItemCode == null || selectedItemCode == "" || selectedItemCode == undefined) ) 
+        {
+             toastr.error("Select Item & WareHouse");
+        }
+        else 
+        {
+          
+            if(SelectedBatches.length > 0) 
+            {
+                ClearSelectedBatches(selectedItemCode,selectedWareHouse);
+            
+            }
+
+            BatchSelectUrl = 'Delivery/GetBatchList';
+            AddDataInRowsFromDocumentTable(selectedRow);
+            $('#myBatchSelectmodal').modal('show');
+
+
+            generateBatchSelectTable(selectedItemCode,selectedWareHouse);
+        }
+    });
+
+    function ClearSelectedBatches(selectedItemCode,selectedWareHouse) 
+    {
+        $.each(SelectedBatches,function(index,item) 
+            {
+               
+                $.each(item,function(index,item) 
+                {
+                    
+                if(this.itemno == selectedItemCode && this.whseno == selectedWareHouse) 
+                {
+                    SelectedBatches.splice(index, 1);
+                }
+                })
+            });
+    }
+   
+
+    function AddDataInRowsFromDocumentTable(selectedRow) 
+    {
+        $("#slItemno").val(selectedRow.find("#ItemCode").val());
+        $("#slItemDesc").val(selectedRow.find("#ItemName").val());
+        $("#slWarehouse").val(selectedRow.find("#Warehouse").val());
+        $("#slQuantity").val(selectedRow.find("#QTY").val());
+        $("#slTotalNeeded").val(selectedRow.find("#QTY").val());
+        $("#slTotalSelected").val(0);
+        $("#slTotalBacthes").val(0);
+        $("#slDirection").val('Out');
+    }
     $(document).on('click', '#ListBtnDeleteRM', function () {
         $(this).closest('tr').remove();
     })
@@ -1554,7 +1622,11 @@
                                                                                                         <select  class="form-control" id="Warehouse">
                                                                                                         `+ WareHouseData + `
                                                                                                     </select>
-
+                                                                                                    <div id="ListbtnSelectBatch" class="input-group-append d-none">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-warehouse"></i>
+                                                                                                </span>
+                                                                                            </div>
                                                                                                 </div>
 
 
@@ -1747,6 +1819,7 @@
             ListService: ItemServiceType == '2' ? getJsonObjList("ListParameters2 .itm") : null,
             ListAttachment: getJsonObjList("ListParameters3 .itm"),
             FooterData: getJsonObj("FooterData"),
+            Batches: SelectedBatches,
             BaseType: BaseType
 
         }
