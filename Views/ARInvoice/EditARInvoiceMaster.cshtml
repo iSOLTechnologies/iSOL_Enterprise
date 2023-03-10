@@ -1202,15 +1202,7 @@
         if(!(sum <= onHand.val())){
             Qty.val(0);
             toastr.warning("Quantity can't be greater than Warehouse quantity");
-        }
-           let _ItemCode = $(this).closest('#ListParameters .itm').find('#ItemCode').val()
-        let _WhsCode = $(this).closest('#ListParameters .itm').find('#Warehouse').val()
-      
-        $.when( GetWhsAddedQty(_ItemCode, _WhsCode) ).then(function(sum) {
-        if(!(sum <= onHand.val())){
-            Qty.val(0);
-            toastr.warning("Quantity can't be greater than Warehouse quantity");
-        }
+        } 
 
        @* if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
             if (Number(Qty.val()) <= Number(BaseQty.val())) {
