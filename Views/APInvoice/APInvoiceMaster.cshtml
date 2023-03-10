@@ -1335,6 +1335,10 @@
         $('#myVendorModal').modal('show');
 
     });
+    $(document).on('change keyup', '#Discount,#FooterTax', function (e) {
+         GetPrice();
+         
+     });
 
     $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#VatGroup,.VT_Option', function (e) {
 
