@@ -954,7 +954,7 @@
 
     function Edit_GetUomGroup() {   //For Uom Dropdown options
         
-        $('#ListParameters .itm').each(function (index, item) {
+        $('#ListParameters tr').each(function (index, item) {
 
             ObjItemCode = $(this).find("#ItemCode");
             let itemno = $(this).find("#ItemCode").val();
@@ -967,8 +967,9 @@
     
     function AddItemRowData(baseRef,data)
     { 
-        $.when( GetWareHouseQty(data.ItemCode,data.WhsCode) ).done(function( OnHand ) 
-                                         {
+        let OnHand = GetWareHouseQty(data.ItemCode,data.WhsCode);
+        //$.when( GetWareHouseQty(data.ItemCode,data.WhsCode) ).done(function( OnHand ) 
+        //                                 {
                                            
                                             var html = `    <tr class="rowItemDetail align-items-center itm">
                                                                                     <td style="display:none;">
@@ -1065,7 +1066,7 @@
                                                                                     </tr>`;
         $('#kt_repeater_1 tbody').append(html);
                                          
-        });
+        //});
         
        
 

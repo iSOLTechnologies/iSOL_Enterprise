@@ -1063,8 +1063,9 @@
 
                                 }
                                 j += 1;
+                                if( j == list[0].length)
+                                    Edit_GetUomGroup();     //For Uom Dropdown options
                             });
-                            Edit_GetUomGroup();     //For Uom Dropdown options
 
                         }
                         else if ((data.baseDoc)[0].docType == "S") {
@@ -1109,16 +1110,19 @@
                         let list = JSON.parse(data.list);
 
 
-                        if ((data.baseDoc)[0].docType == "I") {
-
-                            $.each(list[0], function () {
-
-
-                                AddItemRowData((data.baseDoc)[0].docNum, this);
-
-
+                        if((data.baseDoc)[0].docType ==  "I") 
+                        {
+                            let counter = 0;
+                             $.each(list[0], function () 
+                            {
+                        
+                                    
+                                  AddItemRowData((data.baseDoc)[0].docNum, this);
+                                  counter +=1;
+                                  if(counter == list[0].length)
+                                    Edit_GetUomGroup();     //For Uom Dropdown options
+                                    
                             });
-                            Edit_GetUomGroup();     //For Uom Dropdown options
                         }
                         else if ((data.baseDoc)[0].docType == "S") {
 
@@ -1156,8 +1160,10 @@
     }
     
     function AddItemRowData(baseRef, data) {
-         $.when( GetWareHouseQty(data.ItemCode,data.WhsCode) ).done(function( OnHand ) 
-                                         {
+         
+        let OnHand = GetWareHouseQty(data.ItemCode,data.WhsCode);
+        //$.when( GetWareHouseQty(data.ItemCode,data.WhsCode) ).done(function( OnHand ) 
+        //   {
                                          
         var html = `    <tr class="rowItemDetail align-items-center itm">
                                                                                         <td style="display:none;">
@@ -1258,7 +1264,7 @@
                                                                                         </tr>`;
         $('#kt_repeater_1 tbody').append(html);
 
-        });
+        //});
     }
 
     function AddServiceRowData(baseRef, data) {
