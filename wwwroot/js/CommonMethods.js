@@ -56,6 +56,7 @@ function GetWareHouseQty(ItemCodeValue, WarehouseValue) {
         url: 'Common/GetSelectedWareHouseData',
         type: 'GET',
         dataType: 'json',
+        async : false,
         data: { ItemCode: ItemCodeValue, WhsCode: WarehouseValue },
         success: function (result) {
             return result;
