@@ -1024,10 +1024,12 @@
                                                                                                 <input class="form-control form-control-sm" id="TtlPrc"  value="`+ data.LineTotal + `" name="TotalLC" type='number' disabled>
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
-                                                                                            <td>
-                                                                                            <select class="form-control" value="`+ data.UomEntry + `" id="UomEntry"> </select><input id="UomCode" value="` + data.UomCode + `" class="position-absolute d-none"/>
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
+                                                                                           <td>
+                                                                                        <select class="form-control" value="`+data.UomEntry+`" id="UomEntry">
+                                                                                        <option value=-1>Manual</option>
+                                                                                        </select><input id="UomCode" value="Manual" class="position-absolute d-none"/>
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
 
                                                                                            <td class="d-none">
                                                                                                 <select class="form-control form-control-sm" value="`+ data.CountryOrg + `" id="CountryOrg" name="DurationTypeCode">

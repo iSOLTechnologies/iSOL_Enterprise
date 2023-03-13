@@ -163,7 +163,7 @@ function GetPrice() {
         console.log("A", $("#Total").val());
         let OnePercent = parseFloat($("#Total").val()) / 100;
         let TaxAmount = parseFloat(OnePercent) * parseFloat(FooterTax);
-        $("#Total").val((parseFloat($("#Total").val()) + parseFloat(TaxAmount)).ToFixed(2)); 
+        $("#Total").val((parseFloat($("#Total").val()) + parseFloat(TaxAmount)).toFixed(2)); 
     }
 }
 
