@@ -815,7 +815,7 @@
 
                             }
                             let j = 0;
-                            $.when ( $.each(list[0], function () 
+                            $.each(list[0], function () 
                             {
                         
                                     if(j == 0) 
@@ -853,10 +853,14 @@
 
                                     }
                                 j+=1;
-                            })).done(function() {
-
-                            Edit_GetUomGroup();     //For Uom Dropdown options
+                                if(j == list[0].length)
+                                {
+                                   
+                                    Edit_GetUomGroup();     //For Uom Dropdown options 
+                                }
                             })
+                               
+                           
                             
 
                         }
@@ -910,16 +914,17 @@
             
                         if((data.baseDoc)[0].docType ==  "I") 
                         {
-                            
-                            $.each(list[0], function () 
+                            let counter = 0;
+                             $.each(list[0], function () 
                             {
                         
                                     
                                   AddItemRowData((data.baseDoc)[0].docNum, this);
-
+                                  counter +=1;
+                                  if(counter == list[0].length)
+                                    Edit_GetUomGroup();     //For Uom Dropdown options
                                     
                             });
-                            Edit_GetUomGroup();     //For Uom Dropdown options
                         }
                         else if((data.baseDoc)[0].docType ==  "S") 
                         {
@@ -953,7 +958,7 @@
 
             ObjItemCode = $(this).find("#ItemCode");
             let itemno = $(this).find("#ItemCode").val();
-            DocModule = "S";
+            DocModule = "S";            
             if (itemno != "" && itemno != null) { GetUomGroup(itemno); }
 
 

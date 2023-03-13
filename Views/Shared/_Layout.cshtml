@@ -34,6 +34,26 @@
 	<link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
 </head>
 <style>
+	input[type=number] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number]:hover,
+input[type=number]:focus {
+  outline: none;
+}
+input[type=number] {
+  -moz-appearance: textfield !important; /* Firefox */
+  -webkit-appearance: none !important; /* Safari and Chrome */
+  margin: 0 !important; /* Optional: Remove the default margin */
+  overflow: hidden !important; /* Prevent the element from overflowing */
+}
 	.Input_selected {
 		background-color: #1A99C8 !important;
 		border: none;
@@ -2035,7 +2055,7 @@
 	<script src="~/Assets/js/scripts.bundle.js"></script>*@
 	<script src="~/assets/js/scripts.bundle.min.js"></script>
 	<script src="~/assets/js/scripts.bundle.js"></script>
-	@*<script src="~/Assets/js/disable.js"></script>*@
+	<script src="~/Assets/js/disable.js"></script>
 
 	<!--end::Global Theme Bundle-->
 	<!--begin::Page Vendors(used by this page)-->
@@ -3352,33 +3372,37 @@
 			var UomEntryRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomEntry");
 			var UomCodeRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomCode");
 			
-			$.get("SaleQuotation/GetUomGroup", { itemno: itemno }, function (data) {
-				$(UomEntryRow).html("");
-
-				if ((data.oitmdata)[0].ugpEntry == -1) {
-					$(UomCodeRow).val("Manual");
-				}
+			$(UomEntryRow).append("<option value=" + -1 + " selected>" + 'Manual' + "</option>");
+						$(UomCodeRow).val('Manual');
 
 
-				$.each(data.uomdata, function () {
+			//$.get("SaleQuotation/GetUomGroup", { itemno: itemno }, function (data) {
+			//	$(UomEntryRow).html("");
 
-					if (DocModule == "S" ? (data.oitmdata)[0].sUoMEntry == this.uomEntry : (data.oitmdata)[0].pUoMEntry == this.uomEntry) {
-						$(UomEntryRow).append("<option value=" + this.uomEntry + " selected>" + this.uomName + "</option>");
-						$(UomCodeRow).val(this.uomName);
-					}
-					else {
-						$(UomEntryRow).append($('<option>',
-							{
-								value: this.uomEntry,
-								text: this.uomName
-							}));
-					}
+			//	if ((data.oitmdata)[0].ugpEntry == -1) {
+			//		$(UomCodeRow).val("Manual");
+			//	}
 
 
+			//	$.each(data.uomdata, function () {
 
-				});
+			//		if (DocModule == "S" ? (data.oitmdata)[0].sUoMEntry == this.uomEntry : (data.oitmdata)[0].pUoMEntry == this.uomEntry) {
+			//			$(UomEntryRow).append("<option value=" + this.uomEntry + " selected>" + this.uomName + "</option>");
+			//			$(UomCodeRow).val(this.uomName);
+			//		}
+			//		else {
+			//			$(UomEntryRow).append($('<option>',
+			//				{
+			//					value: this.uomEntry,
+			//					text: this.uomName
+			//				}));
+			//		}
 
-			});
+
+
+			//	});
+
+			//});
 
 
 		}
@@ -3455,7 +3479,16 @@
 				event.preventDefault();
 			}
 		});
- 
+		$('input[type=number]').on('wheel', function(e) {
+			e.preventDefault();
+		});
+
+		  // Disable scrolling on input elements of type number
+		$('input[type=number]').on('keydown', function(e) {
+			if (e.keyCode === 38 || e.keyCode === 40) {
+			  e.preventDefault();
+			}
+		});
 	</script>
 	<!--=============================== Modal Work End ===================================-->
 

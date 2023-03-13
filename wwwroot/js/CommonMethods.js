@@ -15,7 +15,17 @@ $(document).on('change keyup', '#UPrc,#DicPrc', function (e) {
     }
 });
 
+$(document).on('change keyup', '#Discount', function (e) {
 
+    if ($(this).val() > 100) {
+        $(this).val(100);
+        toastr.warning("Discount can't be greater than 100");
+    }
+    else if ($(this).val() < 0) {
+        $(this).val("");
+        toastr.warning("Discount can't be less than 0");
+    }
+})
 
 
 $(document).on('change keyup', '#Warehouse', function (e) {
@@ -25,6 +35,7 @@ $(document).on('change keyup', '#Warehouse', function (e) {
     let WarehouseValue = WarehouseField.val();
     let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
 
+    $(this).closest('#ListParameters .itm').find("#QTY").val(0);
     //console.log("ItemCodeValue", ItemCodeValue);
     //console.log("WarehouseValue", WarehouseValue.toString());
     $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
