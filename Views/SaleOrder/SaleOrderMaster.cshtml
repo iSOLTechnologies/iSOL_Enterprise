@@ -858,7 +858,7 @@
                                    
                                     Edit_GetUomGroup();     //For Uom Dropdown options 
                                 }
-                            })
+                            });
                                
                            
                             
@@ -967,9 +967,9 @@
     
     function AddItemRowData(baseRef,data)
     { 
-        let OnHand = GetWareHouseQty(data.ItemCode,data.WhsCode);
-        //$.when( GetWareHouseQty(data.ItemCode,data.WhsCode) ).done(function( OnHand ) 
-        //                                 {
+        //let OnHand = GetWareHouseQty(data.ItemCode,data.WhsCode);
+        $.when( GetWareHouseQty(data.ItemCode,data.WhsCode) ).done(function( OnHand ) 
+                                         {
                                            
                                             var html = `    <tr class="rowItemDetail align-items-center itm">
                                                                                     <td style="display:none;">
@@ -1048,7 +1048,9 @@
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                        <select class="form-control" value="`+data.UomEntry+`" id="UomEntry"> </select><input id="UomCode" value="`+data.UomCode+`" class="position-absolute d-none"/>
+                                                                                        <select class="form-control" value="`+data.UomEntry+`" id="UomEntry">
+                                                                                        <option value=-1>Manual</option>
+                                                                                        </select><input id="UomCode" value="Manual" class="position-absolute d-none"/>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         
@@ -1066,7 +1068,7 @@
                                                                                     </tr>`;
         $('#kt_repeater_1 tbody').append(html);
                                          
-        //});
+        });
         
        
 
