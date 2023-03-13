@@ -626,6 +626,10 @@ where s.Status=1 and p.Guid=@Guid";
         }
         public dynamic GetBaseDocItemServiceList(string DocId , int BaseType)
         {
+            try
+            {
+
+            
             string table = GetRowTable(BaseType);
             DataSet ds = new DataSet();
             SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
@@ -634,6 +638,12 @@ where s.Status=1 and p.Guid=@Guid";
             string JSONString = string.Empty;
             JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
             return JSONString;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
         }
 
