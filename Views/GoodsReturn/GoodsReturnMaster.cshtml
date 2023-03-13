@@ -826,21 +826,22 @@
                                     $("#BaseLine").val(this.LineNum);
                                     $("#ItemCode").val(this.ItemCode);
                                     $("#ItemName").val(this.ItemName);
-                                    $("#UPrc").val(this.Price);
-                                    $("#DicPrc").val(this.DiscPrcnt);
-                                    $("#UomCode").val(this.UomCode);
-                                    $("#CountryOrg").val(this.CountryOrg);
-                                    $("#VatGroup").val(this.VatGroup);
-                                    $("#BaseQty").val(this.Quantity);
-                                    $("#QTY").val(this.Quantity);
-                                     $("#OpenQty").val(this.Quantity);
-                                      $("#TtlPrc").val(this.LineTotal);                                           
-                                         $("#Warehouse").val(this.WhsCode);
-                                    $.when(GetWareHouseQty(this.ItemCode, this.WhsCode)).done(function (OnHand) {
+                                    $("#Warehouse").val(this.WhsCode);
+                                     $.when(GetWareHouseQty(this.ItemCode, this.WhsCode)).done(function (OnHand) {
 
                                         $("#onHand").val(OnHand);
 
                                     });
+                                    $("#QTY").val(this.Quantity);
+                                    $("#BaseQty").val(this.Quantity);
+                                    $("#OpenQty").val(this.Quantity);
+                                    $("#UPrc").val(this.Price);
+                                    $("#DicPrc").val(this.DiscPrcnt);
+                                    $("#VatGroup").val(this.VatGroup);
+                                    $("#TtlPrc").val(this.LineTotal);                                           
+                                    $("#UomCode").val(this.UomCode);
+                                    $("#CountryOrg").val(this.CountryOrg);
+                                   
                                 }
                                 else {
                                     AddItemRowData((data.baseDoc)[0].docNum, this);
@@ -1267,10 +1268,7 @@
                                                                                                 <input id="onHand" class="form-control form-control-sm" readonly type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
-                                                                                             <td>
-                                                                                                        <input id="onHand" class="form-control form-control-sm" readonly type="number">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
+                                                                                             
                                                                         <td>
                                                                             <input class="form-control form-control-sm" id = "QTY" onkeyup = "GetPrice()" type = "number">
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>

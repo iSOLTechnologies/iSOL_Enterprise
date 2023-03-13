@@ -3369,9 +3369,10 @@ input[type=number] {
 }
 
 		function GetUomGroup(itemno) {
+
 			var UomEntryRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomEntry");
 			var UomCodeRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomCode");
-			
+			$(UomEntryRow).html('');
 			$(UomEntryRow).append("<option value=" + -1 + " selected>" + 'Manual' + "</option>");
 						$(UomCodeRow).val('Manual');
 
