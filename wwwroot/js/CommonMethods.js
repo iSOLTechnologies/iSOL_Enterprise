@@ -228,6 +228,51 @@ function ValidateListData(element) {
         return true;
 }
 
+function ValidateBatches(element)
+{
+    console.log("In validate batches");
+    let isValid = [];
+    $('#' + element).each(function (index, item) {
+
+         
+
+        if (!($(this).find('#ListbtnSelectBatch').hasClass("d-none")))
+        {
+
+            let itemno = $(this).find('#ItemCode');
+            let isbatchSelected = $(this).find('#ListbtnSelectBatch span i').hasClass("batch_is_valid");
+           
+            if (isbatchSelected)
+            {
+                
+                isValid.push(true);
+                $(this).find('#ListbtnSelectBatch span i').removeClass("batch_not_valid");
+            }
+            else {
+                isValid.push(false);
+                $(this).find('#ListbtnSelectBatch span i').addClass("batch_not_valid");
+            }
+        }
+       
+
+    });
+    if (isValid.includes(false))
+        return false;
+    else
+        return true;
+}
+//function findItemInArray(arr, value) {
+//    var i = 0;
+//    while (i < arr.length) {
+//        if (arr[i].itemno === value)
+//        {
+//            return true;
+//        } else {
+//            ++i;
+//        }
+//    }
+//    return false;
+//}
 
 function getJsonObj(element) {
 

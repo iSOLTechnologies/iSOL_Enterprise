@@ -99,6 +99,12 @@ input[type=number] {
 			background-image: -webkit-linear-gradient(330deg, #808080 0%, #808080 100%) !important;
 			background-image: linear-gradient(120deg, #808080 0%, #808080 100%) !important;
 		}
+		.batch_not_valid {
+			color :red;
+		}
+		/*.batch_is_valid {
+			color :#1BC5BD;
+		}*/
 </style>
 <!--end::Head-->
 <!--begin::Body-->
@@ -2055,7 +2061,7 @@ input[type=number] {
 	<script src="~/Assets/js/scripts.bundle.js"></script>*@
 	<script src="~/assets/js/scripts.bundle.min.js"></script>
 	<script src="~/assets/js/scripts.bundle.js"></script>
-	<script src="~/Assets/js/disable.js"></script>
+	@*<script src="~/Assets/js/disable.js"></script>*@
 
 	<!--end::Global Theme Bundle-->
 	<!--begin::Page Vendors(used by this page)-->
@@ -2598,6 +2604,7 @@ input[type=number] {
 		var isHeader;
 		var ObjItemCode;
 		var ObjAcctCode;
+		var ObjBatchCode;
 		var ObjCardCode;
 		var CopyBtnUrl;
 		var BaseType = -1;
@@ -2875,7 +2882,8 @@ input[type=number] {
 					}
 				});
 				SelectedBatches.push(listObj);
-				console.log(SelectedBatches);
+				 $(ObjBatchCode).closest('#ListParameters .itm').find('#ListbtnSelectBatch span i').addClass("batch_is_valid");
+				 $(ObjBatchCode).closest('#ListParameters .itm').find('#ListbtnSelectBatch span i').removeClass("batch_not_valid");
 				//$('#MyyyyBatchSelectTable').find("tbody").remove();
 				$('#myBatchSelectmodal').modal('hide');
 				//$('#MyyyyBatchSelectTable').DataTable().clear().destroy();
@@ -2883,6 +2891,7 @@ input[type=number] {
 			}
 			else {
 				toastr.warning("Selected Quantity is less than required quantity!");
+				$(ObjBatchCode).closest('#ListParameters .itm').find('#ListbtnSelectBatch span i').removeClass("batch_is_valid");
 			}
 
 		});

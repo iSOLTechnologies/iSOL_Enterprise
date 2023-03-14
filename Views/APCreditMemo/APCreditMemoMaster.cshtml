@@ -1,5 +1,5 @@
 ﻿@{
-     ViewBag.title1 = "AP CreditMemo / ";
+    ViewBag.title1 = "AP CreditMemo / ";
     ViewBag.title2 = "Add";
     ViewData["Title"] = "SalesOrderMaster";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,11 +12,10 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 <!-- Render Body <Start> -->
-    <script src="~/Assets/plugins/global/plugins.bundle.js"></script>
+<script src="~/Assets/plugins/global/plugins.bundle.js"></script>
 <script src="~/Assets/js/scripts.bundle.js"></script>
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Subheader-->
-    
     <!--end::Subheader-->
     <!--begin::Entry-->
     <div class="container">
@@ -88,20 +87,20 @@
                         }
 
                         /*tr > th {
-                                                    text-align: left;
-                                                    width: 50px !important;
-                                                }
-                                                table {
-                                                   display: table-cell;
-                                                    text-align:center;
-                                                    overflow-x: auto;
-                                                    white-space: nowrap;
-                                                }
+                                                                            text-align: left;
+                                                                            width: 50px !important;
+                                                                        }
+                                                                        table {
+                                                                           display: table-cell;
+                                                                            text-align:center;
+                                                                            overflow-x: auto;
+                                                                            white-space: nowrap;
+                                                                        }
 
-                                                tr > td {
-                                                    text-align: center;
-                                                    width: 5% !important;
-                                                }*/
+                                                                        tr > td {
+                                                                            text-align: center;
+                                                                            width: 5% !important;
+                                                                        }*/
                         #kt_repeater_1 {
                             border-collapse: collapse;
                             width: 100%;
@@ -172,30 +171,30 @@
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
 
-                                                                  <div class="col-md-6">
-																		<label>No.</label>
-																		<div class="row">
-																			<div class="col-md-6">
-																				<select id="Series" class="form-control">
+                                                                    <div class="col-md-6">
+                                                                        <label>No.</label>
+                                                                        <div class="row">
+                                                                            <div class="col-md-6">
+                                                                                <select id="Series" class="form-control">
 
-																					@foreach (iSOL_Enterprise.Models.Sale.tbl_series i in ViewBag.GetSeries)
-																					{
+                                                                                    @foreach (iSOL_Enterprise.Models.Sale.tbl_series i in ViewBag.GetSeries)
+                                                                                    {
 
-																						<option value="@i.Series">@i.SeriesName </option>
-																					}
+                                                                                        <option value="@i.Series">@i.SeriesName </option>
+                                                                                    }
 
 
-																				</select>
-																			</div>
+                                                                                </select>
+                                                                            </div>
 
-																			<div class="col-md-6">
-																				<input id="DocNum" readonly type="text" class="form-control form-control-sm" placeholder="No.">
-																			</div>
+                                                                            <div class="col-md-6">
+                                                                                <input id="DocNum" readonly type="text" class="form-control form-control-sm" placeholder="No.">
+                                                                            </div>
 
-																		</div>
+                                                                        </div>
 
-																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																	</div>
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
 
                                                                 </div>
 
@@ -314,7 +313,7 @@
                                                                         <table id="kt_repeater_1" style="overflow:auto">
                                                                             <thead class="ScrollThead">
                                                                                 <tr>
-                                                                                   @* <th>BaseRef</th>
+                                                                                    @* <th>BaseRef</th>
                                                                                     <th>BaseEntry</th>
                                                                                     <th>BaseLine</th>*@
                                                                                     <th>Item No.</th>
@@ -336,15 +335,15 @@
                                                                                 <!-- @*<tr class="rowItemDetail">*@ -->
                                                                                 <tr class="rowItemDetail align-items-center itm">
                                                                                     <td style="display:none;">
-                                                                                        <input  id="BaseRef" readonly class="form-control form-control-sm NotReq">
+                                                                                        <input id="BaseRef" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td style="display:none;">
-                                                                                        <input  id="BaseEntry" readonly class="form-control form-control-sm NotReq">
+                                                                                        <input id="BaseEntry" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td style="display:none;">
-                                                                                        <input  id="BaseLine" readonly class="form-control form-control-sm NotReq">
+                                                                                        <input id="BaseLine" readonly class="form-control form-control-sm NotReq">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
@@ -362,24 +361,23 @@
                                                                                         <input id="ItemName" class="form-control form-control-sm" type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                                                <td>
-                                                                                                <div class="input-group">
-                                                                                                        <select class="form-control" id="Warehouse">
-                                                                                                       
-                                                                                                    </select>
-                                                                                                    <div id="ListbtnSelectBatch" class="input-group-append d-none">
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <select class="form-control" id="Warehouse">
+                                                                                            </select>
+                                                                                            <div id="ListbtnSelectBatch" class="input-group-append d-none">
                                                                                                 <span class="input-group-text">
                                                                                                     <i class="la la-warehouse"></i>
                                                                                                 </span>
                                                                                             </div>
-                                                                                                </div>
+                                                                                        </div>
 
 
-                                                                                            </td>
-                                                                                             <td>
-                                                                                                        <input id="onHand" class="form-control form-control-sm" readonly type="number">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input id="onHand" class="form-control form-control-sm" readonly type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
                                                                                     <td>
                                                                                         <input class="form-control form-control-sm" id="QTY" type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -655,8 +653,8 @@
                                                                 </div>
 
                                                                 <div class="col-md-6">
-                                                                    <label for="inputEmail4" class="form-label"  >Tax</label>
-                                                                    <input name="Tax" type="number" class="form-control" id="FooterTax">
+                                                                    <label for="inputEmail4" class="form-label">Tax</label>
+                                                                    <input name="Tax" type="text" class="form-control" id="FooterTax">
 
                                                                 </div>
                                                             </div>
@@ -742,7 +740,7 @@
 <script src="~/js/commonmethods.js"></script>
 
 <script>
-    //var vatGroupData = ""; 
+    //var vatGroupData = "";
     var ItemServiceType = '1';
     const boxes = document.querySelectorAll('.d');
 
@@ -761,7 +759,7 @@
         console.log("Clickeddd")
 
     });
-   
+
     $("#btnCopyFromOptions a").click(function () {
         //$(document).on('click', '#btnCopyFrom', function (e) {
         BaseType = $(this).attr("guid");
@@ -788,7 +786,7 @@
 
 
     });
-    
+
     $(document).on('click', '#btnCopytableOk', function (e) {
 
 
@@ -833,9 +831,9 @@
                                     $("#VatGroup").val(this.VatGroup);
                                     $("#BaseQty").val(this.Quantity);
                                     $("#QTY").val(this.Quanity);
-                                     $("#OpenQty").val(this.Quantity);
-                                                   $("#TtlPrc").val(this.LineTotal);
-                                         $("#Warehouse").val(this.WhsCode);
+                                    $("#OpenQty").val(this.Quantity);
+                                    $("#TtlPrc").val(this.LineTotal);
+                                    $("#Warehouse").val(this.WhsCode);
                                     $.when(GetWareHouseQty(this.ItemCode, this.WhsCode)).done(function (OnHand) {
 
                                         $("#onHand").val(OnHand);
@@ -847,10 +845,10 @@
 
                                 }
                                 j += 1;
-                                if(j == list[0].length)
+                                if (j == list[0].length)
                                     Edit_GetUomGroup();
                             });
-                           
+
 
                         }
                         else if ((data.baseDoc)[0].docType == "S") {
@@ -875,7 +873,7 @@
                                     $("#AcctCode").val(this.AcctCode);
                                     $("#AcctName").val(this.AcctName);
                                     $("#VatGroup2").val(this.VatGroup);
-                                              $("#TotalLC").val(this.LineTotal);
+                                    $("#TotalLC").val(this.LineTotal);
                                 }
                                 else {
                                     AddServiceRowData((data.baseDoc)[0].docNum, this);
@@ -941,170 +939,169 @@
 
         });
     }
-    
+
     function AddItemRowData(baseRef, data) {
-         $.when( GetWareHouseQty(data.ItemCode,data.WhsCode) ).done(function( OnHand ) 
-                                         {
-                                         
-        
-        var html = `    <tr class="rowItemDetail align-items-center itm">
-                                                                                        <td style="display:none;">
-                                                                                            <input id="BaseRef" readonly value="`+ baseRef + `" class="form-control form-control-sm NotReq">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                        <td style="display:none;">
-                                                                                            <input id="BaseEntry" readonly value="`+ data.Id + `"  class="form-control form-control-sm NotReq">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                        <td style="display:none;">
-                                                                                            <input id="BaseLine" readonly value="`+ data.LineNum + `" class="form-control form-control-sm NotReq">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                            <td>
-                                                                                                <div class="input-group">
-                                                                                                    <input id="ItemCode" value="`+ data.ItemCode + `" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
-                                                                                                    <div id="Itemno" class="input-group-append">
-                                                                                                        <span class="input-group-text">
-                                                                                                            <i class="la la-search"></i>
-                                                                                                        </span>
+        $.when(GetWareHouseQty(data.ItemCode, data.WhsCode)).done(function (OnHand) {
+
+
+            var html = `    <tr class="rowItemDetail align-items-center itm">
+                                                                                            <td style="display:none;">
+                                                                                                <input id="BaseRef" readonly value="`+ baseRef + `" class="form-control form-control-sm NotReq">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td style="display:none;">
+                                                                                                <input id="BaseEntry" readonly value="`+ data.Id + `"  class="form-control form-control-sm NotReq">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td style="display:none;">
+                                                                                                <input id="BaseLine" readonly value="`+ data.LineNum + `" class="form-control form-control-sm NotReq">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                                <td>
+                                                                                                    <div class="input-group">
+                                                                                                        <input id="ItemCode" value="`+ data.ItemCode + `" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
+                                                                                                        <div id="Itemno" class="input-group-append">
+                                                                                                            <span class="input-group-text">
+                                                                                                                <i class="la la-search"></i>
+                                                                                                            </span>
+                                                                                                        </div>
                                                                                                     </div>
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input id="ItemName" value="`+ data.ItemName + `" class="form-control form-control-sm"  type="text">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                                            <td>
+                                                                                                    <div class="input-group">
+                                                                                                            <select value="`+ data.WhsCode + `" class="form-control" id="Warehouse">
+                                                                                                            `+ WareHouseData + `
+                                                                                                        </select>
+                                                                                                        <div id="ListbtnSelectBatch" class="input-group-append d-none">
+                                                                                                    <span class="input-group-text">
+                                                                                                        <i class="la la-warehouse"></i>
+                                                                                                    </span>
                                                                                                 </div>
+                                                                                                    </div>
+
+
+                                                                                                </td>
+                                                                                                 <td>
+                                                                                                            <input id="onHand" value="`+ OnHand + `" class="form-control form-control-sm" readonly type="number">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input class="form-control form-control-sm"  value=`+ data.Quantity + ` id="QTY"  type="number">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                <input readonly class="form-control form-control-sm NotReq" value=`+ data.Quantity + ` id="BaseQty"  type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input id="ItemName" value="`+ data.ItemName + `" class="form-control form-control-sm"  type="text">
+                                                                                                <input readonly class="form-control form-control-sm NotReq" value=`+ data.Quantity + ` type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
-                                                                                                                        <td>
-                                                                                                <div class="input-group">
-                                                                                                        <select value="`+ data.WhsCode + `" class="form-control" id="Warehouse">
-                                                                                                        `+ WareHouseData + `
+                                                                                                <td>
+                                                                                                    <input class="form-control form-control-sm" id="UPrc" value=`+ data.Price + ` type="number">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                        <input class="form-control form-control-sm NotReq" value=`+ data.DiscPrcnt + ` id = "DicPrc"   type = "number">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+
+
+                                                                                                    <select  class="form-control jsSelect2" id="VatGroup" value="`+ data.VatGroup + `">
+                                                                                                   `+ vatGroupData + `
                                                                                                     </select>
-                                                                                                    <div id="ListbtnSelectBatch" class="input-group-append d-none">
-                                                                                                <span class="input-group-text">
-                                                                                                    <i class="la la-warehouse"></i>
-                                                                                                </span>
-                                                                                            </div>
-                                                                                                </div>
 
 
-                                                                                            </td>
-                                                                                             <td>
-                                                                                                        <input id="onHand" value="`+ OnHand + `" class="form-control form-control-sm" readonly type="number">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <input class="form-control form-control-sm"  value=`+data.Quantity+` id="QTY"  type="number">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                            <input readonly class="form-control form-control-sm NotReq" value=`+ data.Quantity + ` id="BaseQty"  type="number">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input class="form-control form-control-sm" id="TtlPrc"  value="`+ data.LineTotal + `" name="TotalLC" type='number' disabled>
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                               <td>
+                                                                                            <select class="form-control" value="`+ data.UomEntry + `" id="UomEntry">
+                                                                                            <option value=-1>Manual</option>
+                                                                                            </select><input id="UomCode" value="Manual" class="position-absolute d-none"/>
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input readonly class="form-control form-control-sm NotReq" value=`+ data.Quantity + ` type="number">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                            <td>
-                                                                                                <input class="form-control form-control-sm" id="UPrc" value=`+ data.Price + ` type="number">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
-                                                                                            <td>
-                                                                                                    <input class="form-control form-control-sm NotReq" value=`+ data.DiscPrcnt + ` id = "DicPrc"   type = "number">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td>
 
-
-                                                                                                <select  class="form-control jsSelect2" id="VatGroup" value="`+ data.VatGroup + `">
-                                                                                               `+ vatGroupData + `
-                                                                                                </select>
-
-
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <input class="form-control form-control-sm" id="TtlPrc"  value="`+ data.LineTotal + `" name="TotalLC" type='number' disabled>
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                           <td>
-                                                                                        <select class="form-control" value="`+data.UomEntry+`" id="UomEntry">
-                                                                                        <option value=-1>Manual</option>
-                                                                                        </select><input id="UomCode" value="Manual" class="position-absolute d-none"/>
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-
-                                                                                           <td class="d-none">
-                                                                                                <select class="form-control form-control-sm" value="`+ data.CountryOrg + `" id="CountryOrg" name="DurationTypeCode">
-                                                                                                    `+ CountryData + `
-                                                                                                </select>
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
-                                                                                <i class="la la-trash"></i> X
-                                                                               </a>
-                                                                               </td>
-                                                                                        </tr>`;
-        $('#kt_repeater_1 tbody').append(html);
+                                                                                               <td class="d-none">
+                                                                                                    <select class="form-control form-control-sm" value="`+ data.CountryOrg + `" id="CountryOrg" name="DurationTypeCode">
+                                                                                                        `+ CountryData + `
+                                                                                                    </select>
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                    <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
+                                                                                    <i class="la la-trash"></i> X
+                                                                                   </a>
+                                                                                   </td>
+                                                                                            </tr>`;
+            $('#kt_repeater_1 tbody').append(html);
 
         });
     }
 
     function AddServiceRowData(baseRef, data) {
         var html = ` <tr class="rowItemDetail align-items-center itm">
-              <td style="display:none;">
-                                                                                            <input id="BaseRef2" value="`+ baseRef + `" class="form-control form-control-sm NotReq">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                        <td style="display:none;">
-                                                                                            <input id="BaseEntry2" value="`+ data.Id + `"  class="form-control form-control-sm NotReq">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                        <td style="display:none;">
-                                                                                            <input id="BaseLine2" value="`+ data.LineNum + `" class="form-control form-control-sm NotReq">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                            <td>
-                                                                                                <input id="Dscription" value="`+ data.Dscription + `" class="form-control form-control-sm">
+                  <td style="display:none;">
+                                                                                                <input id="BaseRef2" value="`+ baseRef + `" class="form-control form-control-sm NotReq">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
-                                                                                            <td>
-                                                                                                <div class="input-group">
-                                                                                                    <input type="text" id="AcctCode" value=`+ data.AcctCode + ` class="form-control form-control-sm" placeholder="GL Account" aria-describedby="basic-addon2">
-                                                                                                    <div id="GLAccountNo" class="input-group-append">
-                                                                                                        <span class="input-group-text">
-                                                                                                            <i class="la la-search"></i>
-                                                                                                        </span>
+                                                                                            <td style="display:none;">
+                                                                                                <input id="BaseEntry2" value="`+ data.Id + `"  class="form-control form-control-sm NotReq">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td style="display:none;">
+                                                                                                <input id="BaseLine2" value="`+ data.LineNum + `" class="form-control form-control-sm NotReq">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                                <td>
+                                                                                                    <input id="Dscription" value="`+ data.Dscription + `" class="form-control form-control-sm">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <div class="input-group">
+                                                                                                        <input type="text" id="AcctCode" value=`+ data.AcctCode + ` class="form-control form-control-sm" placeholder="GL Account" aria-describedby="basic-addon2">
+                                                                                                        <div id="GLAccountNo" class="input-group-append">
+                                                                                                            <span class="input-group-text">
+                                                                                                                <i class="la la-search"></i>
+                                                                                                            </span>
+                                                                                                        </div>
                                                                                                     </div>
-                                                                                                </div>
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <input id="AcctName" value="`+ data.AcctName + `" class="form-control form-control-sm">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <select  class="form-control" id="VatGroup2" value="`+ data.VatGroup + `">
-                                                                                               `+ vatGroupData + `
-                                                                                                </select>
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input id="AcctName" value="`+ data.AcctName + `" class="form-control form-control-sm">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <select  class="form-control" id="VatGroup2" value="`+ data.VatGroup + `">
+                                                                                                   `+ vatGroupData + `
+                                                                                                    </select>
 
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <input class="form-control form-control-sm"  value="`+ data.LineTotal + `" id="TotalLC">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <input class="form-control form-control-sm" id="BlanketAgreementNo">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                              <td>
-                                                                                <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
-                                                                                <i class="la la-trash"></i> X
-                                                                               </a>
-                                                                               </td>
-                                                                                        </tr>`;
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input class="form-control form-control-sm"  value="`+ data.LineTotal + `" id="TotalLC">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input class="form-control form-control-sm" id="BlanketAgreementNo">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                  <td>
+                                                                                    <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
+                                                                                    <i class="la la-trash"></i> X
+                                                                                   </a>
+                                                                                   </td>
+                                                                                            </tr>`;
 
         $('#kt_repeater_2 tbody').append(html);
     }
@@ -1131,7 +1128,7 @@
 
         //$(ObjItemCode)
     });
-    
+
     $(document).on('change', '#ItemServiceType', function (e) {
         var val = $("#ItemServiceType option:selected").val();
         var value = $('#ItemServiceType').val();
@@ -1172,55 +1169,55 @@
     function append_ServiceFirstRow() {
 
         var html = ` <tr class="rowItemDetail align-items-center itm">
-             <td style="display:none;">
-                                                                                            <input id="BaseRef2" readonly  class="form-control form-control-sm NotReq">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                        <td style="display:none;">
-                                                                                            <input id="BaseEntry2" readonly class="form-control form-control-sm NotReq">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                        <td style="display:none;">
-                                                                                            <input id="BaseLine2" readonly class="form-control form-control-sm NotReq">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-
-                                                                                            <td>
-                                                                                                <input id="Dscription" class="form-control form-control-sm">
+                 <td style="display:none;">
+                                                                                                <input id="BaseRef2" readonly  class="form-control form-control-sm NotReq">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
-                                                                                            <td>
-                                                                                                <div class="input-group">
-                                                                                                    <input type="text" id="AcctCode" class="form-control form-control-sm" placeholder="GL Account" aria-describedby="basic-addon2">
-                                                                                                    <div id="GLAccountNo" class="input-group-append">
-                                                                                                        <span class="input-group-text">
-                                                                                                            <i class="la la-search"></i>
-                                                                                                        </span>
+                                                                                            <td style="display:none;">
+                                                                                                <input id="BaseEntry2" readonly class="form-control form-control-sm NotReq">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td style="display:none;">
+                                                                                                <input id="BaseLine2" readonly class="form-control form-control-sm NotReq">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+
+                                                                                                <td>
+                                                                                                    <input id="Dscription" class="form-control form-control-sm">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <div class="input-group">
+                                                                                                        <input type="text" id="AcctCode" class="form-control form-control-sm" placeholder="GL Account" aria-describedby="basic-addon2">
+                                                                                                        <div id="GLAccountNo" class="input-group-append">
+                                                                                                            <span class="input-group-text">
+                                                                                                                <i class="la la-search"></i>
+                                                                                                            </span>
+                                                                                                        </div>
                                                                                                     </div>
-                                                                                                </div>
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <input id="AcctName" class="form-control form-control-sm">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <select  class="form-control" id="VatGroup2" >
-                                                                                               `+ vatGroupData + `
-                                                                                                </select>
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input id="AcctName" class="form-control form-control-sm">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <select  class="form-control" id="VatGroup2" >
+                                                                                                   `+ vatGroupData + `
+                                                                                                    </select>
 
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <input class="form-control form-control-sm" id="TotalLC">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <input class="form-control form-control-sm" id="BlanketAgreementNo">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input class="form-control form-control-sm" id="TotalLC">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input class="form-control form-control-sm" id="BlanketAgreementNo">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
 
-                                                                                        </tr>`;
+                                                                                            </tr>`;
 
         $('#kt_repeater_2 tbody').append(html);
         //addDataInVatGroup();
@@ -1229,94 +1226,94 @@
     function append_ItemFirstRow() {
 
         var html = `   <tr class="rowItemDetail align-items-center itm">
-             <td style="display:none;">
-                                                                                            <input id="BaseRef" readonly class="form-control form-control-sm NotReq">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                 <td style="display:none;">
+                                                                                                <input id="BaseRef" readonly class="form-control form-control-sm NotReq">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td style="display:none;">
+                                                                                                <input id="BaseEntry" readonly class="form-control form-control-sm NotReq">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td style="display:none;">
+                                                                                                    <input id="BaseLine" readonly class="form-control form-control-sm NotReq">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                  <td>
+                                                                                        <div class="input-group">
+                                                                                            <input  id="ItemCode"  type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
+                                                                                        <div id="Itemno" class="input-group-append">
+                                                                                        <span  class="input-group-text">
+                                                                                        <i class="la la-search"></i>
+                                                                                        </span>
+                                                                                        </div>
+                                                                                        </div>
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
-                                                                                        <td style="display:none;">
-                                                                                            <input id="BaseEntry" readonly class="form-control form-control-sm NotReq">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                        <td style="display:none;">
-                                                                                                <input id="BaseLine" readonly class="form-control form-control-sm NotReq">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                              <td>
-                                                                                    <div class="input-group">
-                                                                                        <input  id="ItemCode"  type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
-                                                                                    <div id="Itemno" class="input-group-append">
-                                                                                    <span  class="input-group-text">
-                                                                                    <i class="la la-search"></i>
-                                                                                    </span>
-                                                                                    </div>
-                                                                                    </div>
-                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    <td>
+                                                                                        <input class="form-control form-control-sm" id="ItemName" type = "text">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                <td>
-                                                                                    <input class="form-control form-control-sm" id="ItemName" type = "text">
-                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                </td>
-                                                                                                            <td>
-                                                                                                <div class="input-group">
-                                                                                                        <select class="form-control" id="Warehouse">
-                                                                                                        `+ WareHouseData + `
+                                                                                                                <td>
+                                                                                                    <div class="input-group">
+                                                                                                            <select class="form-control" id="Warehouse">
+                                                                                                            `+ WareHouseData + `
+                                                                                                        </select>
+                                                                                                            <div id="ListbtnSelectBatch" class="input-group-append d-none">
+                                                                                                        <span class="input-group-text">
+                                                                                                            <i class="la la-warehouse"></i>
+                                                                                                        </span>
+                                                                                                    </div>
+                                                                                                    </div>
+
+
+                                                                                                </td>
+                                                                                                 <td>
+                                                                                                            <input id="onHand"  class="form-control form-control-sm" readonly type="number">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                    <td>
+                                                                                        <input class="form-control form-control-sm" id = "QTY"  type = "number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                                <input readonly class="form-control form-control-sm NotReq" id="BaseQty"  type="number">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                    <td>
+                                                                                        <input class="form-control form-control-sm" id = "UPrc"  type = "text" >
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                       <input class="form-control form-control-sm NotReq"  id = "DicPrc"   type = "number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                                                            <td>
+
+                                                                                                         <select  class="form-control" id="VatGroup" >
+                                                                                                   `+ vatGroupData + `
                                                                                                     </select>
-                                                                                                        <div id="ListbtnSelectBatch" class="input-group-append d-none">
-                                                                                                    <span class="input-group-text">
-                                                                                                        <i class="la la-warehouse"></i>
-                                                                                                    </span>
-                                                                                                </div>
-                                                                                                </div>
-
-
-                                                                                            </td>
-                                                                                             <td>
-                                                                                                        <input id="onHand"  class="form-control form-control-sm" readonly type="number">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                    <td>
+                                                                                        <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled >
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                     <td>
+                                                                                                <select class="form-control " id="UomEntry"> </select><input id="UomCode" class="position-absolute d-none"/>
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                <td>
-                                                                                    <input class="form-control form-control-sm" id = "QTY"  type = "number">
-                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                </td>
-                                                                                <td>
-                                                                                            <input readonly class="form-control form-control-sm NotReq" id="BaseQty"  type="number">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
-                                                                                <td>
-                                                                                    <input class="form-control form-control-sm" id = "UPrc"  type = "text" >
-                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                </td>
-                                                                                <td>
-                                                                                   <input class="form-control form-control-sm NotReq"  id = "DicPrc"   type = "number">
-                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                </td>
-                                                                                                                        <td>
+                                                                                    </td>
+                                                                                    <td class="d-none">
+                                                                                        <select class="form-control form-control-sm" id="CountryOrg" name="DurationTypeCode">
+                                                                                       `+ CountryData + `
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
 
-                                                                                                     <select  class="form-control" id="VatGroup" >
-                                                                                               `+ vatGroupData + `
-                                                                                                </select>
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                <td>
-                                                                                    <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled >
-                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                </td>
-                                                                                 <td>
-                                                                                            <select class="form-control " id="UomEntry"> </select><input id="UomCode" class="position-absolute d-none"/>
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                </td>
-                                                                                <td class="d-none">
-                                                                                    <select class="form-control form-control-sm" id="CountryOrg" name="DurationTypeCode">
-                                                                                   `+ CountryData + `
-                                                                                    </select>
-                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                </td>
-
-                                                                               </tr>`;
+                                                                                   </tr>`;
         $('#kt_repeater_1 tbody').append(html);
         // addDataInVatGroup();
     }
@@ -1338,11 +1335,12 @@
         $('#myVendorModal').modal('show');
 
     });
-    $(document).on('change keyup', '#Rounding,#Discount,#FooterTax', function (e) {
-         GetPrice();         
-     });
+    $(document).on('change keyup', '#Discount,#FooterTax', function (e) {
+        GetPrice();
 
-    $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#VatGroup,.VT_Option', function (e) {
+    });
+
+    $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#Rounding,#VatGroup,.VT_Option', function (e) {
 
         var Qty = $(this).closest('#ListParameters .itm').find('#QTY');
         var UPrc = $(this).closest('#ListParameters .itm').find('#UPrc');
@@ -1353,60 +1351,60 @@
 
         var VatGuid = $('option:selected', VatGroup).attr("guid");
         let BaseQty = $(this).closest('#ListParameters .itm').find('#BaseQty');
-        
-           let _ItemCode = $(this).closest('#ListParameters .itm').find('#ItemCode').val()
+
+        let _ItemCode = $(this).closest('#ListParameters .itm').find('#ItemCode').val()
         let _WhsCode = $(this).closest('#ListParameters .itm').find('#Warehouse').val()
-      
-        $.when( GetWhsAddedQty(_ItemCode, _WhsCode) ).then(function(sum) {
-        if(!(sum <= onHand.val())){
-            Qty.val(0);
-            toastr.warning("Quantity can't be greater than Warehouse quantity");
-        }
-        //if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
-        //    if (Number(Qty.val()) <= Number(BaseQty.val())) {
 
-        //        $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val() - Qty.val());
-        //    }
-        //    else {
-
-        //        toastr.warning("Quantity can't be greater than base quantity");
-        //        Qty.val(0);
-        //        $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val());
-
-
-        //    }
-        //}
-        //if (!(Number(Qty.val()) <= Number(onHand.val()))) {
-        //    toastr.warning("Quantity can't be greater than Quantity in Warehouse");
-        //    Qty.val(0);
-        //}
-
-        if ($(DicPrc).val() == "") {
-            var Onepercent = parseFloat($(TtlPrc).val() / 100);
-            var Tax = parseFloat(Onepercent * parseFloat(VatGuid));
-
-            if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
-                $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) + parseFloat(Tax)).toFixed(2)));
-                GetPrice();
-                //document.getElementById("TtlPrc").value = parseFloat(TtlPrc).toFixed(2);
-                //console.log(TtlPrc)
+        $.when(GetWhsAddedQty(_ItemCode, _WhsCode)).then(function (sum) {
+            if (!(sum <= onHand.val())) {
+                Qty.val(0);
+                toastr.warning("Quantity can't be greater than Warehouse quantity");
             }
-        }
+            //if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
+            //    if (Number(Qty.val()) <= Number(BaseQty.val())) {
 
-        if ($(DicPrc).val() != "") {
-            $(TtlPrc).val((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())).toFixed(2));
-            var Onepercent = parseFloat($(TtlPrc).val() / 100);
-            var discountPrice = parseFloat(Onepercent * $(DicPrc).val());
-            var Tax = parseFloat(Onepercent * parseFloat(VatGuid))
-            console.log("discountPrice:", discountPrice)
-            if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
-                $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) - (parseFloat(discountPrice))) + (Tax)).toFixed(2));
-                GetPrice();
-                //document.getElementById("TtlPrc").value = parseFloat(TtlPrc).toFixed(2);
-                //console.log(Tax)
+            //        $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val() - Qty.val());
+            //    }
+            //    else {
+
+            //        toastr.warning("Quantity can't be greater than base quantity");
+            //        Qty.val(0);
+            //        $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val());
+
+
+            //    }
+            //}
+            //if (!(Number(Qty.val()) <= Number(onHand.val()))) {
+            //    toastr.warning("Quantity can't be greater than Quantity in Warehouse");
+            //    Qty.val(0);
+            //}
+
+            if ($(DicPrc).val() == "") {
+                var Onepercent = parseFloat($(TtlPrc).val() / 100);
+                var Tax = parseFloat(Onepercent * parseFloat(VatGuid));
+
+                if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
+                    $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) + parseFloat(Tax)).toFixed(2)));
+                    GetPrice();
+                    //document.getElementById("TtlPrc").value = parseFloat(TtlPrc).toFixed(2);
+                    //console.log(TtlPrc)
+                }
             }
-        }
-      });
+
+            if ($(DicPrc).val() != "") {
+                $(TtlPrc).val((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())).toFixed(2));
+                var Onepercent = parseFloat($(TtlPrc).val() / 100);
+                var discountPrice = parseFloat(Onepercent * $(DicPrc).val());
+                var Tax = parseFloat(Onepercent * parseFloat(VatGuid))
+                console.log("discountPrice:", discountPrice)
+                if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
+                    $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) - (parseFloat(discountPrice))) + (Tax)).toFixed(2));
+                    GetPrice();
+                    //document.getElementById("TtlPrc").value = parseFloat(TtlPrc).toFixed(2);
+                    //console.log(Tax)
+                }
+            }
+        });
     });
 
 
@@ -1421,10 +1419,10 @@
     });
 
 
-    var WareHouseData="";
+    var WareHouseData = "";
     $(document).ready(function () {
         DocModule = "P";
-        GetWareHouseData(); 
+        GetWareHouseData();
         DocNumOnLoad();
         GetCountrydata();
         GetCurrencydata();
@@ -1490,54 +1488,46 @@
     $(document).on('click', '#ListBtnDelete', function () {
         $(this).closest('tr').remove();
     });
-    $(document).on('click', '#ListbtnSelectBatch', function () 
-    {
+    $(document).on('click', '#ListbtnSelectBatch', function () {
         //debugger
         let selectedRow = $(this).closest('tr');
 
-       let selectedWareHouse =  selectedRow.find("#Warehouse").val();
-       let selectedItemCode =  selectedRow.find("#ItemCode").val();
-        if (( selectedWareHouse == null || selectedWareHouse == "" || selectedWareHouse == undefined) || (selectedItemCode == null || selectedItemCode == "" || selectedItemCode == undefined) ) 
-        {
-             toastr.error("Select Item & WareHouse");
+        let selectedWareHouse = selectedRow.find("#Warehouse").val();
+        let selectedItemCode = selectedRow.find("#ItemCode").val();
+        $(ObjBatchCode).closest('#ListParameters .itm').find('#ListbtnSelectBatch span i').removeClass("batch_is_valid");
+        if ((selectedWareHouse == null || selectedWareHouse == "" || selectedWareHouse == undefined) || (selectedItemCode == null || selectedItemCode == "" || selectedItemCode == undefined)) {
+            toastr.error("Select Item & WareHouse");
         }
-        else 
-        {
-          
-            if(SelectedBatches.length > 0) 
-            {
-                ClearSelectedBatches(selectedItemCode,selectedWareHouse);
-            
+        else {
+
+            if (SelectedBatches.length > 0) {
+                ClearSelectedBatches(selectedItemCode, selectedWareHouse);
+
             }
 
             BatchSelectUrl = 'Delivery/GetBatchList';
             AddDataInRowsFromDocumentTable(selectedRow);
             $('#myBatchSelectmodal').modal('show');
+            ObjBatchCode = $(this).closest('tr').find("#ListbtnSelectBatch");
 
-
-            generateBatchSelectTable(selectedItemCode,selectedWareHouse);
+            generateBatchSelectTable(selectedItemCode, selectedWareHouse);
         }
     });
 
-    function ClearSelectedBatches(selectedItemCode,selectedWareHouse) 
-    {
-        $.each(SelectedBatches,function(index,item) 
-            {
-               
-                $.each(item,function(index,item) 
-                {
-                    
-                if(this.itemno == selectedItemCode && this.whseno == selectedWareHouse) 
-                {
+    function ClearSelectedBatches(selectedItemCode, selectedWareHouse) {
+        $.each(SelectedBatches, function (index, item) {
+
+            $.each(item, function (index, item) {
+
+                if (this.itemno == selectedItemCode && this.whseno == selectedWareHouse) {
                     SelectedBatches.splice(index, 1);
                 }
-                })
-            });
+            })
+        });
     }
-   
 
-    function AddDataInRowsFromDocumentTable(selectedRow) 
-    {
+
+    function AddDataInRowsFromDocumentTable(selectedRow) {
         $("#slItemno").val(selectedRow.find("#ItemCode").val());
         $("#slItemDesc").val(selectedRow.find("#ItemName").val());
         $("#slWarehouse").val(selectedRow.find("#Warehouse").val());
@@ -1557,131 +1547,131 @@
 
         var html = `  <tr class="rowItemDetail align-items-center itm">
 
-                                                                                    <td>
-                                                                                        <input readonly type="file" id="selectedFile" class="position-absolute d-none form-control form-control-sm">
-                                                                                        <input id="selectedFilePath" class="form-control form-control-sm">
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <input readonly id="selectedFileName" class="form-control form-control-sm">
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <input readonly id="selectedFileDate" type="date" class="form-control form-control-sm">
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-                                                                                    <td>
-                                                                                        <button id="btnbrowseFile" type="button" class="btn btn-light-primary font-weight-bold btn-sm"> <i class="la la-plus"></i> Browse </button>
+                                                                                        <td>
+                                                                                            <input readonly type="file" id="selectedFile" class="position-absolute d-none form-control form-control-sm">
+                                                                                            <input id="selectedFilePath" class="form-control form-control-sm">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input readonly id="selectedFileName" class="form-control form-control-sm">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input readonly id="selectedFileDate" type="date" class="form-control form-control-sm">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <button id="btnbrowseFile" type="button" class="btn btn-light-primary font-weight-bold btn-sm"> <i class="la la-plus"></i> Browse </button>
 
-                                                                                    </td>
-                                                                                   <td>
-                                                                            <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
-                                                                            <i class="la la-trash"></i> X
-                                                                           </a>
-                                                                           </td>
+                                                                                        </td>
+                                                                                       <td>
+                                                                                <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
+                                                                                <i class="la la-trash"></i> X
+                                                                               </a>
+                                                                               </td>
 
-                                                                                </tr> `;
+                                                                                    </tr> `;
 
         $('#kt_repeater_3 tbody').append(html);
     });
 
     $(document).on('click', '#ListBtnAddd', function (e) {
         var html = `    <tr class="rowItemDetail align-items-center itm">
-                                                                                            <td style="display:none;">
-                                                                                                <input id="BaseRef" readonly class="form-control form-control-sm NotReq">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td style="display:none;">
-                                                                                                <input id="BaseEntry" readonly class="form-control form-control-sm NotReq">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td style="display:none;">
-                                                                                                <input id="BaseLine" readonly class="form-control form-control-sm NotReq">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                                <td>
-                                                                                                    <div class="input-group">
-                                                                                                        <input id="ItemCode" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
-                                                                                                        <div id="Itemno" class="input-group-append">
-                                                                                                            <span class="input-group-text">
-                                                                                                                <i class="la la-search"></i>
-                                                                                                            </span>
+                                                                                                <td style="display:none;">
+                                                                                                    <input id="BaseRef" readonly class="form-control form-control-sm NotReq">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td style="display:none;">
+                                                                                                    <input id="BaseEntry" readonly class="form-control form-control-sm NotReq">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td style="display:none;">
+                                                                                                    <input id="BaseLine" readonly class="form-control form-control-sm NotReq">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                    <td>
+                                                                                                        <div class="input-group">
+                                                                                                            <input id="ItemCode" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
+                                                                                                            <div id="Itemno" class="input-group-append">
+                                                                                                                <span class="input-group-text">
+                                                                                                                    <i class="la la-search"></i>
+                                                                                                                </span>
+                                                                                                            </div>
                                                                                                         </div>
-                                                                                                    </div>
-                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <input id="ItemName" class="form-control form-control-sm"  type="text">
-                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                </td>
-                                                                                                                            <td>
-                                                                                                <div class="input-group">
-                                                                                                        <select  class="form-control" id="Warehouse">
-                                                                                                        `+ WareHouseData + `
-                                                                                                    </select>
-                                                                                                    <div id="ListbtnSelectBatch" class="input-group-append d-none">
-                                                                                                <span class="input-group-text">
-                                                                                                    <i class="la la-warehouse"></i>
-                                                                                                </span>
-                                                                                            </div>
+                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <input id="ItemName" class="form-control form-control-sm"  type="text">
+                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                    </td>
+                                                                                                                                <td>
+                                                                                                    <div class="input-group">
+                                                                                                            <select  class="form-control" id="Warehouse">
+                                                                                                            `+ WareHouseData + `
+                                                                                                        </select>
+                                                                                                        <div id="ListbtnSelectBatch" class="input-group-append d-none">
+                                                                                                    <span class="input-group-text">
+                                                                                                        <i class="la la-warehouse"></i>
+                                                                                                    </span>
                                                                                                 </div>
+                                                                                                    </div>
 
 
-                                                                                            </td>
-                                                                                             <td>
-                                                                                                <input id="onHand" class="form-control form-control-sm" readonly type="number">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                                <td>
-                                                                                                    <input class="form-control form-control-sm" id="QTY"  type="number">
+                                                                                                </td>
+                                                                                                 <td>
+                                                                                                    <input id="onHand" class="form-control form-control-sm" readonly type="number">
                                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                                 </td>
-                                                                                                <td>
-                                                                                                <input readonly class="form-control form-control-sm NotReq" id="BaseQty"  type="number">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
+                                                                                                    <td>
+                                                                                                        <input class="form-control form-control-sm" id="QTY"  type="number">
+                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                    <input readonly class="form-control form-control-sm NotReq" id="BaseQty"  type="number">
                                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <input class="form-control form-control-sm" id="UPrc"  type="number">
-                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <input class="form-control form-control-sm NotReq"  id = "DicPrc"   type ="number">
-                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                </td>
-                                                                                                <td>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
+                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <input class="form-control form-control-sm" id="UPrc"  type="number">
+                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <input class="form-control form-control-sm NotReq"  id = "DicPrc"   type ="number">
+                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                    </td>
+                                                                                                    <td>
 
 
-                                                                                                    <select  class="form-control jsSelect2" id="VatGroup">
-                                                                                                   `+ vatGroupData + `
-                                                                                                    </select>
+                                                                                                        <select  class="form-control jsSelect2" id="VatGroup">
+                                                                                                       `+ vatGroupData + `
+                                                                                                        </select>
 
 
-                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
-                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                   <select class="form-control " id="UomEntry"> </select><input id="UomCode" class="position-absolute d-none"/>
-                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                </td>
-                                                                                                   <td class="d-none">
-                                                                                                    <select class="form-control form-control-sm" id="CountryOrg" name="DurationTypeCode">
-                                                                                                        `+ CountryData + `
-                                                                                                    </select>
-                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                    <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
-                                                                                    <i class="la la-trash"></i> X
-                                                                                   </a>
-                                                                                   </td>
-                                                                                            </tr>`;
+                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
+                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                       <select class="form-control " id="UomEntry"> </select><input id="UomCode" class="position-absolute d-none"/>
+                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                    </td>
+                                                                                                       <td class="d-none">
+                                                                                                        <select class="form-control form-control-sm" id="CountryOrg" name="DurationTypeCode">
+                                                                                                            `+ CountryData + `
+                                                                                                        </select>
+                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                        <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
+                                                                                        <i class="la la-trash"></i> X
+                                                                                       </a>
+                                                                                       </td>
+                                                                                                </tr>`;
         $('#kt_repeater_1 tbody').append(html);
         //$('#VatGroup').select2('destroy');
         //$('.jsSelect2').select2();
@@ -1691,58 +1681,58 @@
     $(document).on('click', '#ListBtnAddRM', function (e) {
 
         var html = ` <tr class="rowItemDetail align-items-center itm">
-                 <td style="display:none;">
-                                                                                                <input id="BaseRef2" class="form-control form-control-sm NotReq">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td style="display:none;">
-                                                                                                <input id="BaseEntry2" class="form-control form-control-sm NotReq">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                            <td style="display:none;">
-                                                                                                <input id="BaseLine2" class="form-control form-control-sm NotReq">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
-                                                                                                <td>
-                                                                                                    <input id="Dscription" class="form-control form-control-sm">
+                     <td style="display:none;">
+                                                                                                    <input id="BaseRef2" class="form-control form-control-sm NotReq">
                                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                                 </td>
-                                                                                                <td>
-                                                                                                    <div class="input-group">
-                                                                                                        <input type="text" id="AcctCode" class="form-control form-control-sm" placeholder="GL Account" aria-describedby="basic-addon2">
-                                                                                                        <div id="GLAccountNo" class="input-group-append">
-                                                                                                            <span class="input-group-text">
-                                                                                                                <i class="la la-search"></i>
-                                                                                                            </span>
+                                                                                                <td style="display:none;">
+                                                                                                    <input id="BaseEntry2" class="form-control form-control-sm NotReq">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                <td style="display:none;">
+                                                                                                    <input id="BaseLine2" class="form-control form-control-sm NotReq">
+                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                </td>
+                                                                                                    <td>
+                                                                                                        <input id="Dscription" class="form-control form-control-sm">
+                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <div class="input-group">
+                                                                                                            <input type="text" id="AcctCode" class="form-control form-control-sm" placeholder="GL Account" aria-describedby="basic-addon2">
+                                                                                                            <div id="GLAccountNo" class="input-group-append">
+                                                                                                                <span class="input-group-text">
+                                                                                                                    <i class="la la-search"></i>
+                                                                                                                </span>
+                                                                                                            </div>
                                                                                                         </div>
-                                                                                                    </div>
-                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <input id="AcctName" class="form-control form-control-sm">
-                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <select  class="form-control" id="VatGroup2" >
-                                                                                                   `+ vatGroupData + `
-                                                                                                    </select>
+                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <input id="AcctName" class="form-control form-control-sm">
+                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <select  class="form-control" id="VatGroup2" >
+                                                                                                       `+ vatGroupData + `
+                                                                                                        </select>
 
-                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <input class="form-control form-control-sm" id="TotalLC">
-                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <input class="form-control form-control-sm" id="BlanketAgreementNo">
-                                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                                </td>
-                                                                                                  <td>
-                                                                                    <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
-                                                                                    <i class="la la-trash"></i> X
-                                                                                   </a>
-                                                                                   </td>
-                                                                                            </tr>`;
+                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <input class="form-control form-control-sm" id="TotalLC">
+                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <input class="form-control form-control-sm" id="BlanketAgreementNo">
+                                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                                    </td>
+                                                                                                      <td>
+                                                                                        <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
+                                                                                        <i class="la la-trash"></i> X
+                                                                                       </a>
+                                                                                       </td>
+                                                                                                </tr>`;
 
         $('#kt_repeater_2 tbody').append(html);
         //addDataInVatGroup();
@@ -1784,7 +1774,13 @@
         ) {
             if (ItemServiceType == '1') {
                 if (ValidateListData("ListParameters .itm") && ValidateData("kt_tabs_acct"))
-                    FormData();
+                    if (ValidateBatches("ListParameters .itm"))
+                        FormData();
+                    else {
+                        $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                        $(this).attr('disabled', false);
+                        toastr.warning("Batches not Selected !");
+                    }
                 else {
                     $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                     $(this).attr('disabled', false);
@@ -1826,7 +1822,7 @@
 
 
     }
-    
+
     function PostData(formData) {
 
 
