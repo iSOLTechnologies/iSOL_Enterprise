@@ -221,7 +221,7 @@
                             <div class="input-group to eyes-slash" style="color: #495057;background-color: #fff;outline: 0;-webkit-box-shadow: 0 0 0 0.2rem rgba(88, 103, 221, 0.25);box-shadow: 0 0 0 0.2rem rgba(234, 234, 234, 0.25);">
                                 <input class="form-control" type="password" placeholder="Password" name="password" id="Password">
                                 <span class="input-group-btn">
-                                    <button id="slasheyes" onclick="showPassword()" class="btn  reveal" style="top: 10px;position: relative;" type="button">
+                                    <button id="slasheyes"  class="btn  reveal" style="top: 10px;position: relative;" type="button">
                                         <i id="showeyes" class=" fa fa-eye-slash"></i>
                                     </button>
                                 </span>
@@ -395,21 +395,26 @@
             var val = 0;
             $('#slasheyes').click(function () {
                 SearchToggle();
+         
             });
 
 
 
 
-            function SearchToggle() {
+            function SearchToggle() { 
                 if (val == 0) {
-
+                           console.log("Funclaaed 0");
                     $('#showeyes').removeClass('fa fa-eye-slash');
                     $('#showeyes').addClass('fa fa-eye');
+                    $("#Password").attr('type', 'text');
+
                     val = 1;
                 }
                 else {
+                           console.log("Funclaaed 1");
                     $('#showeyes').removeClass('fa fa-eye');
                     $('#showeyes').addClass('fa fa-eye-slash');
+                    $("#Password").attr('type', 'password'); 
                     val = 0;
                 }
             }
@@ -485,14 +490,7 @@
                 $("#valMsg").remove();
             }
         }
-        function showPassword() {
-            var x = document.getElementById("password");
-            if (x.type === "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
-            }
-        }
+        
 
 
 
