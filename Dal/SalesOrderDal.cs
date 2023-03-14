@@ -164,10 +164,10 @@ namespace iSOL_Enterprise.Dal
                         {
 
 
-                            if (model.BaseType != -1)
+                            if (model.BaseType != -1 && item.BaseEntry != "" && item.BaseLine != "")
                             {
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
-                                string Updatequery = @"Update " + table + " set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
+                                string Updatequery = @"Update " + table + " set OpenQty = OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + " and LineNum = " + item.BaseLine;
                                 int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
                                 if (res <= 0)
                                 {
