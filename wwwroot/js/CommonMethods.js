@@ -232,6 +232,7 @@ function ValidateBatches(element)
 {
     console.log("In validate batches");
     let isValid = [];
+    let triggerBatch = false;
     $('#' + element).each(function (index, item) {
 
          
@@ -251,6 +252,10 @@ function ValidateBatches(element)
             else {
                 isValid.push(false);
                 $(this).find('#ListbtnSelectBatch span i').addClass("batch_not_valid");
+                if (!triggerBatch) {
+                    $(this).find('#ListbtnSelectBatch').trigger('click');
+                    triggerBatch = true;
+                }
             }
         }
        
