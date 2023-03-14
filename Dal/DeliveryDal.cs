@@ -356,7 +356,7 @@ namespace iSOL_Enterprise.Dal
 
 
                             #region Update Base Documnet
-                            if (model.BaseType != -1)
+                            if (model.BaseType != -1 && item.BaseEntry != "" && item.BaseLine != "")
                             {
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
                                 string Updatequery = @"Update " + table + " set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;

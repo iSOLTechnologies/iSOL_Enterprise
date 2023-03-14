@@ -147,7 +147,7 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListItems)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
-                            if (model.BaseType != -1)
+                            if (model.BaseType != -1 && item.BaseEntry != "" && item.BaseLine != "")
                             {
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
                                 string Updatequery = @"Update "+table+" set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;

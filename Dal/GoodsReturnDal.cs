@@ -361,7 +361,7 @@ namespace iSOL_Enterprise.Dal
 
 
                             #region Update Base Documnet
-                            if (model.BaseType != -1)
+                            if (model.BaseType != -1 && item.BaseEntry != "" && item.BaseLine != "")
                             {
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
 

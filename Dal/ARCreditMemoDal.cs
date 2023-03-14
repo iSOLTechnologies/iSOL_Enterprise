@@ -187,19 +187,19 @@ namespace iSOL_Enterprise.Dal
                         int LineNo = 1;
                         foreach (var item in model.ListItems)
                           {
-                            #region If Doc copied data from other Doc
-                            if (model.BaseType != -1)
-                            {
-                                string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
-                                string Updatequery = @"Update "+table+" set OpenQty = OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + " and LineNum =" + item.BaseLine;
-                                int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
-                                if (res <= 0)
-                                {
-                                    tran.Rollback();
-                                    return false;
-                                }
-                            }
-                            #endregion
+                            //#region If Doc copied data from other Doc
+                            //if (model.BaseType != -1 && item.BaseEntry != "" && item.BaseLine != "")
+                            //{
+                            //    string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
+                            //    string Updatequery = @"Update "+table+" set OpenQty = OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + " and LineNum =" + item.BaseLine;
+                            //    int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+                            //    if (res <= 0)
+                            //    {
+                            //        tran.Rollback();
+                            //        return false;
+                            //    }
+                            //}
+                            //#endregion
 
                             item.BaseEntry = item.BaseEntry == "" ? "NULL" : Convert.ToInt32(item.BaseEntry);
                             item.BaseLine = item.BaseLine == "" ? "NULL" : Convert.ToInt32(item.BaseLine);

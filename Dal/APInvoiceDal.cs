@@ -151,7 +151,7 @@ namespace iSOL_Enterprise.Dal
                         int LineNo = 1;
                         foreach (var item in model.ListItems)
                         {
-                            if (model.BaseType != -1)
+                            if (model.BaseType != -1 && item.BaseEntry != "" && item.BaseLine != "")
                             {
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
 

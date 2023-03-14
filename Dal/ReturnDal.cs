@@ -259,7 +259,7 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListItems)
                         {
                             #region If Doc copied data from other Doc
-                            if (model.BaseType != -1)
+                            if (model.BaseType != -1 && item.BaseEntry != "" && item.BaseLine != "")
                             {
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
                                 string Updatequery = @"Update "+table+" set OpenQty =OpenQty + " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
