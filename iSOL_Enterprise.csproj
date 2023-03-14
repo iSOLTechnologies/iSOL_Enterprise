@@ -19,8 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="SapBob\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Interop.SAPbobsCOM">
-      <HintPath>bin\Debug\net6.0\refs\Interop.SAPbobsCOM.dll</HintPath>
+      <HintPath>SapBob\Interop.SAPbobsCOM.dll</HintPath>
     </Reference>
   </ItemGroup>
 
