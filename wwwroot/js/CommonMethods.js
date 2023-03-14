@@ -35,7 +35,7 @@ $(document).on('change keyup', '#Warehouse', function (e) {
     let WarehouseValue = WarehouseField.val();
     let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
 
-    $(this).closest('#ListParameters .itm').find("#QTY").val(0);
+    $(this).closest('#ListParameters .itm').find("#QTY").val("");
     //console.log("ItemCodeValue", ItemCodeValue);
     //console.log("WarehouseValue", WarehouseValue.toString());
     $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
