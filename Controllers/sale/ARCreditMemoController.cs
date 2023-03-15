@@ -41,8 +41,8 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Payments = dal.GetPaymentTerms();
             ViewBag.Currency = cdal.GetCurrencydata();
             bool flag = CommonDal.Check_IsEditable("INV1", id);
-            //ViewBag.Status = flag == false ? "Open" : "Closed";
-            ViewBag.Status = "Open" ;
+            bool flag2 = CommonDal.Check_IsEditable("RDN1", id);
+            ViewBag.Status = flag == false || flag2 == false ? "Open" : "Closed";
             return View(dal1.GetARCreditMemoDetails(id));
         }
         public IActionResult GetBaseDocData(string cardcode,int BaseType)
