@@ -641,9 +641,9 @@ namespace iSOL_Enterprise.Dal
                                         return false;
                                     }
                                 }
-                                #endregion
-
-                                string UpdateQuery = @"update RDN1 set
+								#endregion
+								item.DicPrc = item.DicPrc == "" ? "null" : item.DicPrc;
+								string UpdateQuery = @"update RDN1 set
                                                              ItemCode  = '" + item.ItemCode + "'" +
                                                             ",ItemName  = '" + item.ItemName + "'" +
                                                             ",UomEntry  =  " + item.UomEntry + "" +

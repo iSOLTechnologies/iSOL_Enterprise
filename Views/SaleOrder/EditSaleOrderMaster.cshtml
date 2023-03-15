@@ -734,10 +734,10 @@
                                                                 </div>
 
 
-                                                            }
+                                                          
 
 
-                                                        </div>
+                                                        
 
 
 
@@ -790,7 +790,7 @@
                                                                 </div>
 
                                                             </div>
-                                                            </br>
+                                                            <br/>
                                                             <div class="row">
 
 
@@ -824,7 +824,8 @@
                                                                     <label for="inputRemarks" class="form-label">Remarks</label>
 
                                                                     <!-- @*<textarea class = "form-control" rows="3" asp-for="OQUT_obj.Comments"></textarea>*@ -->
-                                                                    <textarea id="Comments" class="form-control" rows="3"></textarea>
+                                                                    <textarea id="Comments" class="form-control" rows="3">@row["Comments"]
+                                                                    </textarea>
 
 
 
@@ -835,7 +836,7 @@
                                                             <hr />
                                                         </div>
 
-
+                                                        }
 
 
 
