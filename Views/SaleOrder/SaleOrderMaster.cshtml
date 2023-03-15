@@ -857,6 +857,7 @@
                                 {
                                    
                                     Edit_GetUomGroup();     //For Uom Dropdown options 
+                                    GetPrice();
                                 }
                             });
                                
@@ -922,7 +923,7 @@
                                   AddItemRowData((data.baseDoc)[0].docNum, this);
                                   counter +=1;
                                   if(counter == list[0].length)
-                                    Edit_GetUomGroup();     //For Uom Dropdown options
+                                    Edit_GetUomGroup(); GetPrice();   //For Uom Dropdown options
                                     
                             });
                         }
@@ -945,6 +946,7 @@
                 }
 
                 CopyDocIDs = [];
+                
 
             }
         else { BaseType = -1; }

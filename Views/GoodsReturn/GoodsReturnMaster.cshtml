@@ -848,8 +848,8 @@
 
                                 }
                                 j += 1;
-                                if(j == list[0].length)
-                                    Edit_GetUomGroup();
+                                if(j == list[0].length){
+                                    Edit_GetUomGroup();  GetPrice(); }
                             });
                            
 
@@ -905,8 +905,9 @@
                                     
                                   AddItemRowData((data.baseDoc)[0].docNum, this);
                                   counter +=1;
-                                  if(counter == list[0].length)
-                                    Edit_GetUomGroup();     //For Uom Dropdown options
+                                if (counter == list[0].length) {
+                                    Edit_GetUomGroup(); GetPrice();
+                                }   //For Uom Dropdown options
                                     
                             });
                         }
