@@ -51,6 +51,23 @@ namespace iSOL_Enterprise.Controllers
             }
 
         }
+
+        [HttpGet]
+        public IActionResult GetBaseDocItemServiceReturn(string DocId, int BaseType)
+        {
+            try
+            {
+                CommonDal dal = new CommonDal();
+
+                return Json(new { baseDoc = dal.GetBaseDocType(DocId, BaseType), list = dal.GetBaseDocItemServiceList_Return(DocId, BaseType) });
+            }
+            catch (Exception)
+            {
+                return Json(""); 
+                throw;
+            }
+
+        }
         [HttpPost]
         public IActionResult PostToSap(string [] checkedIDs, int ObjectCode)
         {

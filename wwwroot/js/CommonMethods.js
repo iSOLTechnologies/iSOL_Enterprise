@@ -128,6 +128,7 @@ function GetPrice() {
 
     $("#Total").val(0);
     var totalBeforeDiscount = 0;
+    var totalDiscount = 0;
     var RoundingValue = 0;
     var Discount = parseFloat($("#Discount").val() / 100);
     $('#ListParameters .itm').each(function (index, item) {

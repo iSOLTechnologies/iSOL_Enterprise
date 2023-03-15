@@ -1422,10 +1422,10 @@
             if (Qty.val() <= 0) {
                 Qty.val("");
                 toastr.warning("Quantity can't be 0");
-            } if (!(sum <= onHand.val())) {
-                Qty.val("");
-                toastr.warning("Quantity can't be greater than Warehouse quantity");
-            }
+            } // if (!(sum <= onHand.val())) {
+            //    Qty.val("");
+            //    toastr.warning("Quantity can't be greater than Warehouse quantity");
+            //}
         //if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
         //    if (Number(Qty.val()) <= Number(BaseQty.val())) {
 
@@ -1440,8 +1440,10 @@
 
         //    }
         //}
-        //if (!(Number(Qty.val()) <= Number(onHand.val()))) {
-        //    toastr.warning("Quantity can't be greater than Quantity in Warehouse");
+
+
+        //if (!(Number(Qty.val()) > Number(BaseQty.val()))) {
+        //    toastr.warning("Quantity can't be greater than BaseQty in Warehouse");
         //    Qty.val(0);
         //}
 
