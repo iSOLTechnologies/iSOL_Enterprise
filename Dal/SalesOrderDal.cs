@@ -407,7 +407,7 @@ namespace iSOL_Enterprise.Dal
 
                                     }
                                     }
-                                }
+                                
 
                                 #region if doc contains base ref
                                 if (docRowModel.BaseEntry != null)
