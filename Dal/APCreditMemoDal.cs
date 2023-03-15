@@ -538,9 +538,9 @@ namespace iSOL_Enterprise.Dal
                                         return false;
                                     }
                                 }
-                                #endregion
-
-                                string UpdateQuery = @"update RPC1 set
+								#endregion
+								item.DicPrc = item.DicPrc == "" ? "null" : item.DicPrc;
+								string UpdateQuery = @"update RPC1 set
                                                          ItemCode  = '" + item.ItemCode + "'" +
                                                         ",ItemName  = '" + item.ItemName + "'" +
                                                         ",UomCode   = '" + item.UomCode + "'" +

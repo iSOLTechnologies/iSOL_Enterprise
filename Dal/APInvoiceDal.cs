@@ -406,9 +406,11 @@ namespace iSOL_Enterprise.Dal
                                         return false;
                                     }
                                 }
-                                #endregion
+								#endregion
 
-                                string UpdateQuery = @"update PCH1 set
+
+								item.DicPrc = item.DicPrc == "" ? "null" : item.DicPrc;
+								string UpdateQuery = @"update PCH1 set
                                                                       ItemCode  = '" + item.ItemCode + "'" +
                                                         ",ItemName  = '" + item.ItemName + "'" +
                                                         ",UomCode   = '" + item.UomCode + "'" +

@@ -589,8 +589,10 @@ namespace iSOL_Enterprise.Dal
 
                             foreach (var item in model.ListItems)
                             {
-                                //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                                if (item.LineNum != "" && item.LineNum != null)
+
+							item.DicPrc = item.DicPrc == "" ? "null" : item.DicPrc;
+							//int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
+							if (item.LineNum != "" && item.LineNum != null)
                                 {
                                     string UpdateQuery = @"update PQT1 set
                                                                       ItemCode  = '" + item.ItemCode + "'" +
@@ -600,7 +602,7 @@ namespace iSOL_Enterprise.Dal
                                                             ",OpenQty  =  " + item.QTY + "" +
                                                             ",Price     = '" + item.UPrc + "'" +
                                                             ",LineTotal = '" + item.TtlPrc + "'" +
-                                                            ",DiscPrcnt = '" + item.DicPrc + "'" +
+                                                            ",DiscPrcnt = " + item.DicPrc + "" +
                                                             ",VatGroup  = '" + item.VatGroup + "'" +
                                                             ",CountryOrg= '" + item.CountryOrg + "'" +
                                                             ",PQTReqDate= '" + Convert.ToDateTime(item.PQTReqDate) + "'" +
