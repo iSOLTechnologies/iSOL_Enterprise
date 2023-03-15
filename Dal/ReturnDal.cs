@@ -642,7 +642,7 @@ namespace iSOL_Enterprise.Dal
                                     }
                                 }
 								#endregion
-								item.DicPrc = item.DicPrc == "" ? "null" : item.DicPrc;
+								//item.DicPrc = item.DicPrc == "" ? "null" : item.DicPrc;
 								string UpdateQuery = @"update RDN1 set
                                                              ItemCode  = '" + item.ItemCode + "'" +
                                                             ",ItemName  = '" + item.ItemName + "'" +
