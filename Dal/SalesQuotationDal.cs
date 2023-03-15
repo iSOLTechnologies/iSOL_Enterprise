@@ -616,6 +616,7 @@ namespace iSOL_Enterprise.Dal
                                 //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
                                 if (item.LineNum != "" && item.LineNum != null)
                                 {
+                                    item.DicPrc = item.DicPrc == "" ? "NUll" : item.DicPrc;
                                     string UpdateQuery = @"update QUT1 set
                                                                       ItemCode  = '" + item.ItemCode + "'" +
                                                             ",ItemName  = '" + item.ItemName + "'" +
@@ -624,7 +625,7 @@ namespace iSOL_Enterprise.Dal
                                                             ",OpenQty  =  " + item.QTY + "" +
                                                             ",Price     = '" + item.UPrc + "'" +
                                                             ",LineTotal = '" + item.TtlPrc + "'" +
-                                                            ",DiscPrcnt = '" + item.DicPrc + "'" +
+                                                            ",DiscPrcnt = " + item.DicPrc + "" +
                                                             ",VatGroup  = '" + item.VatGroup + "'" +
                                                             ",CountryOrg= '" + item.CountryOrg + "'" +
                                                             " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
