@@ -258,7 +258,7 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
-                        string HeadQuery = @"insert into OPQT(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,PQTGrpNum,ReqDate, GroupNum , SlpCode , Comments) 
+                        string HeadQuery = @"insert into OPQT(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,PQTGrpNum,ReqDate, GroupNum ,DocTotal, SlpCode , Comments) 
                                            values(" + Id + ","
                                                 + model.HeaderData.Series + ",'"
                                                 + DocType + "','"
@@ -275,6 +275,7 @@ namespace iSOL_Enterprise.Dal
                                                 + model.HeaderData.PQTGrpNum + ",'"
                                                 + Convert.ToDateTime(model.HeaderData.ReqDate) + "','"
                                                 + model.ListAccouting.GroupNum + "',"
+                                                + model.FooterData.Total + ","
                                                 + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
                                                 + model.FooterData.Comments + "')";
 

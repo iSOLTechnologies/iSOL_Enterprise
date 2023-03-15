@@ -125,7 +125,7 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
-                        string HeadQuery = @"insert into ORDR(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum , SlpCode,CETnum, Comments) 
+                        string HeadQuery = @"insert into ORDR(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum,DocTotal , SlpCode,CETnum, Comments) 
                                            values(" + Id + ","
 												+ model.HeaderData.Series + ",'"
 												+ DocType + "','"
@@ -140,6 +140,7 @@ namespace iSOL_Enterprise.Dal
                                                 + model.HeaderData.DocCur + "','"
                                                 + Convert.ToDateTime(model.HeaderData.TaxDate) + "','"
                                                 + model.ListAccouting.GroupNum + "',"
+                                                + model.FooterData.Total + ","
                                                 + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
                                                 + model.HeaderData.CETnum + "','"
                                                 + model.FooterData.Comments + "')";
