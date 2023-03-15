@@ -408,8 +408,7 @@ namespace iSOL_Enterprise.Dal
                                 }
 								#endregion
 
-
-								item.DicPrc = item.DicPrc == "" ? "null" : item.DicPrc;
+                                 
 								string UpdateQuery = @"update PCH1 set
                                                                       ItemCode  = '" + item.ItemCode + "'" +
                                                         ",ItemName  = '" + item.ItemName + "'" +

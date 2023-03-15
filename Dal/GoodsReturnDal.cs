@@ -580,7 +580,7 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListItems)
                         {
 
-                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
+                            
 
                             if (item.LineNum != "" && item.LineNum != null)
                             {
@@ -614,10 +614,10 @@ namespace iSOL_Enterprise.Dal
                                         return false;
                                     }
                                 }
-								#endregion
+                                #endregion
 
-								item.DicPrc = item.DicPrc == "" ? "null" : item.DicPrc;
-								string UpdateQuery = @"update RPD1 set
+                                item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
+                                string UpdateQuery = @"update RPD1 set
                                                              ItemCode  = '" + item.ItemCode + "'" +
                                                             ",ItemName  = '" + item.ItemName + "'" +
                                                             ",UomEntry  =  " + item.UomEntry + "" +

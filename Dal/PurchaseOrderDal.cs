@@ -670,8 +670,7 @@ namespace iSOL_Enterprise.Dal
                                         tran.Rollback();
                                         return false;
                                     }
-                                }
-								item.DicPrc = item.DicPrc == "" ? "null" : item.DicPrc;
+                                } 
 								#endregion
 								string UpdateQuery = @"update POR1 set
                                                                       ItemCode  = '" + item.ItemCode + "'" +
