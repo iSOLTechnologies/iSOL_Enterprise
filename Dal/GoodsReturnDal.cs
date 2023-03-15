@@ -23,7 +23,8 @@ namespace iSOL_Enterprise.Dal
                 {
 					 
 					SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
-                    models.DocStatus = CommonDal.Check_IsEditable("RDN1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
+
+                    models.DocStatus = CommonDal.Check_IsEditable("RPC1", rdr["Id"].ToInt()) == false ? "Open" : "Closed"; 
                     models.Id = rdr["Id"].ToInt();
                     models.DocDate = rdr["DocDueDate"].ToDateTime();
                     models.PostingDate = rdr["DocDate"].ToDateTime();

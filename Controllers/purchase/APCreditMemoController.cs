@@ -42,7 +42,7 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Payments = dal.GetPaymentTerms();
             bool flag = CommonDal.Check_IsEditable("PCH1", id);
             bool flag2 = CommonDal.Check_IsEditable("RPD1", id);
-            ViewBag.Status = flag == false || flag2 == false ? "Open" : "Closed";
+            ViewBag.Status = flag == false && flag2 == false ? "Open" : "Closed";
            // ViewBag.Status = "Open" ;
             return View(dal1.GetAPCreditMemoDetails(id));
         }

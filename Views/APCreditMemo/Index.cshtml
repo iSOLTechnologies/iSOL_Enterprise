@@ -183,10 +183,19 @@
                     data: 'cardName', title: 'Card Name'
 
                 }, {
-                    data: "docStatus", 'title': 'Status', render: function (data, type, row) {                         
+                    data: "docStatus", 'title': 'Status', render: function (data, type, row) {
+                        if (data == "Open") {
                             //var html = `<span class="badge badge-success" style="background-color: #28a745;">Open</span>`;
                             var html = `<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">Open</span>`;
-                            return html;                         
+                            return html;
+
+
+
+                        } else {
+                            //var html = ` <span class="badge badge-danger">Closed</span>`;
+                            var html = `<span class="label label-lg label-light-danger label-inline">Closed</span>`;
+                            return html;
+                        }
                     }
                 }, {
                     data: "id", 'title': 'Action', render: function (data, type, row) {
