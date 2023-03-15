@@ -71,7 +71,7 @@ namespace SAP_MVC_DIAPI.BLC
                             string UDF = "";
                             if (headerTable == "ORDR")
                                 UDF = ",CETnum";
-                            string headerQuery = @"select DocType,Series,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum ,SlpCode,Comments,Id " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
+                            string headerQuery = @"select DocType,Series,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum,DocTotal ,SlpCode,Comments,Id " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
                             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
                             {
                                 try
@@ -86,7 +86,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.DocType = rdr["DocType"].ToString() == "I" ? BoDocumentTypes.dDocument_Items : BoDocumentTypes.dDocument_Service;
                                         oDoc.CardCode = rdr["CardCode"].ToString();
                                         oDoc.CardName = rdr["CardName"].ToString();
-
+                                   
                                         oDoc.ContactPersonCode = rdr["CntctCode"].ToInt();
                                         oDoc.DocDate = rdr["DocDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["DocDate"].ToString());
                                         oDoc.NumAtCard = rdr["NumAtCard"].ToString();
@@ -94,6 +94,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.DocCurrency = rdr["DocCur"].ToString();
                                         oDoc.TaxDate = rdr["TaxDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["TaxDate"].ToString());
                                         oDoc.GroupNumber = rdr["GroupNum"].ToInt();
+                                        oDoc.DocTotal = rdr["DocTotal"].ToDouble();
                                         oDoc.SalesPersonCode = rdr["SlpCode"].ToInt();
                                         oDoc.Comments = rdr["Comments"].ToString();
                                         if (headerTable == "ORDR")      //For UDF

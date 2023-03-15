@@ -358,9 +358,9 @@ namespace iSOL_Enterprise.Dal
                                  
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
 
-                                string Updatequery = @"Update "+table+" set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine;
+                                string Updatequery = @"Update "+table+" set OpenQty =OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine + "and ItemCode = '"+ item.ItemCode +"'";
                                 int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
-                                if (res <= 0)
+                                if (res < 0)
                                 {
                                     tran.Rollback();
                                     return false;

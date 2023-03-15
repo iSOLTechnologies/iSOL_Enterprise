@@ -516,28 +516,29 @@ namespace iSOL_Enterprise.Dal
 					{
 
 
-						//string HeadQuery = @"insert into OPQT(Id,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,PQTGrpNum,ReqDate, GroupNum , SlpCode , Comments) 
-						//                     values(" + Id + ",'"
-						//						+ DocType + "','"
-						//						+ CommonDal.generatedGuid() + "','"
-						//						+ model.HeaderData.CardCode + "','"
-						//						+ model.HeaderData.DocNum + "','"
-						//						+ model.HeaderData.CardName + "','"
-						//						+ model.HeaderData.CntctCode + "','"
-						//						+ Convert.ToDateTime(model.HeaderData.DocDate) + "','"
-						//						+ model.HeaderData.NumAtCard + "','"
-						//						+ Convert.ToDateTime(model.HeaderData.DocDueDate) + "','"
-						//						+ model.HeaderData.DocCur + "','"
-						//						+ Convert.ToDateTime(model.HeaderData.TaxDate) + "',"
-						//						+ model.HeaderData.PQTGrpNum + ",'"
-						//						+ Convert.ToDateTime(model.HeaderData.ReqDate) + "','"
-						//						+ model.ListAccouting.GroupNum + "',"
-						//						+ Convert.ToInt32(model.FooterData.SlpCode) + ",'"
-						//						+ model.FooterData.Comments + "')";
+                        //string HeadQuery = @"insert into OPQT(Id,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,PQTGrpNum,ReqDate, GroupNum , SlpCode , Comments) 
+                        //                     values(" + Id + ",'"
+                        //						+ DocType + "','"
+                        //						+ CommonDal.generatedGuid() + "','"
+                        //						+ model.HeaderData.CardCode + "','"
+                        //						+ model.HeaderData.DocNum + "','"
+                        //						+ model.HeaderData.CardName + "','"
+                        //						+ model.HeaderData.CntctCode + "','"
+                        //						+ Convert.ToDateTime(model.HeaderData.DocDate) + "','"
+                        //						+ model.HeaderData.NumAtCard + "','"
+                        //						+ Convert.ToDateTime(model.HeaderData.DocDueDate) + "','"
+                        //						+ model.HeaderData.DocCur + "','"
+                        //						+ Convert.ToDateTime(model.HeaderData.TaxDate) + "',"
+                        //						+ model.HeaderData.PQTGrpNum + ",'"
+                        //						+ Convert.ToDateTime(model.HeaderData.ReqDate) + "','"
+                        //						+ model.ListAccouting.GroupNum + "',"
+                        //						+ Convert.ToInt32(model.FooterData.SlpCode) + ",'"
+                        //						+ model.FooterData.Comments + "')";
 
+                        model.HeaderData.PQTGrpNum = model.HeaderData.PQTGrpNum == "" ? "NULL" : Convert.ToInt32( model.HeaderData.PQTGrpNum);
                         string HeadQuery = @" Update OPQT set 
                                                           DocType = '" + DocType + "'" +
-                                                       ",PQTGrpNum = '" + model.HeaderData.PQTGrpNum + "'" +
+                                                       ",PQTGrpNum = " + model.HeaderData.PQTGrpNum + "" +
                                                        ",CardName = '" + model.HeaderData.CardName + "'" +
                                                        ",CntctCode = '" + model.HeaderData.CntcCode + "'" +
                                                        ",DocDate = '" + Convert.ToDateTime(model.HeaderData.DocDate) + "'" +

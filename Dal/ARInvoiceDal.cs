@@ -410,9 +410,9 @@ namespace iSOL_Enterprise.Dal
                                 if (docRowModel.BaseEntry != null)
                                 {
                                     string table = dal.GetRowTable(Convert.ToInt32(docRowModel.BaseType));
-                                    string Updatequery = @"Update "+table+" set OpenQty =(OpenQty + " + docRowModel.Quantity + ") - " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine;
+                                    string Updatequery = @"Update "+table+" set OpenQty =(OpenQty + " + docRowModel.Quantity + ") - " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine + "and ItemCode = '"+ item.ItemCode +"'";
                                     int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
-                                    if (res <= 0)
+                                    if (res < 0)
                                     {
                                         tran.Rollback();
                                         return false;
