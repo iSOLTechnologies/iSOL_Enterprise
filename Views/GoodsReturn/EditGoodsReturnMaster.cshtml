@@ -1194,10 +1194,20 @@
             if (Qty.val() <= 0) {
                 Qty.val("");
                 toastr.warning("Quantity can't be 0");
-            } if (!(sum <= onHand.val())) {
+            } 
+            
+            if (BaseQty.val() != "" && BaseQty.val() != '' && BaseQty.val() != null) {
+                if (!(Number(Qty.val()) <= Number(BaseQty.val()))) {
+
+                    toastr.warning("Quantity can't be greater than Base Quantity");
+                    Qty.val("");
+                }
+
+            }
+            @*if (!(sum <= onHand.val())) {
                 Qty.val("");
                 toastr.warning("Quantity can't be greater than Warehouse quantity");
-            }
+            }*@
         @*if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
             if (Number(Qty.val()) <= Number(BaseQty.val())) {
 

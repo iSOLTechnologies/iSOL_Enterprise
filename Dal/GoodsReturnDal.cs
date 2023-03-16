@@ -632,7 +632,7 @@ namespace iSOL_Enterprise.Dal
                                 if (docRowModel.BaseEntry != null)
                                 {
                                     string table = dal.GetRowTable(Convert.ToInt32(docRowModel.BaseType));
-                                    string getFromDeliveryQuery = "select BaseEntry,BaseLine,ItemCode from " + table + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine + "and ItemCode = '" + item.ItemCode + "'";
+                                    string getFromDeliveryQuery = "select BaseEntry,BaseLine,ItemCode from " + table + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine + "and ItemCode = '" + item.ItemCode + "'";
 
                                     try
                                     {
