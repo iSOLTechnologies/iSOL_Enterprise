@@ -458,7 +458,7 @@ namespace iSOL_Enterprise.Dal
                     var Status = CommonDal.Check_IsNotEditable(mytable, Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
                     if (Status == "Closed")
                     {
-                        string HeadQuery = @" Update OQUT set NumAtCard = '" + model.HeaderData.NumAtCard + "'" +
+                        string HeadQuery = @" Update ORIN set NumAtCard = '" + model.HeaderData.NumAtCard + "'" +
                                                       ",Comments = '" + model.FooterData.Comments + "' " +
                                                       "WHERE Id = '" + model.ID + "'";
 
@@ -673,13 +673,11 @@ namespace iSOL_Enterprise.Dal
 
                     }
 
-
+                }
                     if (res1 > 0)
                     {
                         tran.Commit();
                     }
-
-                }
                 }
                 catch (Exception)
                 {

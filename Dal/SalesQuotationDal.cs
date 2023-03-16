@@ -758,12 +758,12 @@ namespace iSOL_Enterprise.Dal
 
 
                     }
+
+                }
                     if (res1 > 0)
                     {
                         tran.Commit();
                     }
-
-                }
                 }
                 catch (Exception)
                 {
