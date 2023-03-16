@@ -38,7 +38,7 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.Payments = dal.GetPaymentTerms();
 
-            bool flag = CommonDal.Check_IsEditable("RIN1", id);
+            bool flag = CommonDal.Check_IsNotEditable("INV1", id);
             ViewBag.Status = flag == false ? "Open" : "Closed";
             return View(dal1.GetARInvoiceDetails(id));
         }

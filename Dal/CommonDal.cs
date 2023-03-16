@@ -293,18 +293,33 @@ where s.Status=1 and p.Guid=@Guid";
             id = id + 1;
             return id;
         }
-        public static bool Check_IsEditable(string table, int id)
-        {
-            string query = "select Count(*) as count from  " + table + " where BaseEntry = " + id + "";
-            int count = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, query).ToInt();
-            if (count > 0)
+         
+            public static bool Check_IsNotEditable(string table, int id)
             {
-                return true;
+
+
+            string query = "select OpenQty from " + table + " where Id = " + id + "";
+            DataSet ds = new DataSet();
+            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+            SqlDataAdapter sda = new SqlDataAdapter(query, conn);
+            sda.Fill(ds);
+            foreach (DataRow item in ds.Tables[0].Rows)
+            {
+                if (Convert.ToDecimal(item["OpenQty"]) > 0)
+                {
+                    return false; //Status is Open
+                }
+            }
+            return true; //Status is Closed  
+
+              
+                //int count = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, query).ToInt();
+                //if (count > 0) { return true; } //Closed
+                //return false; //Open
+
             }
 
-            return false;
-
-        }
+         
 
 
         public static string getDocType(SqlTransaction tran, string tblName , string id)

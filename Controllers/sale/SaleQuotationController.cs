@@ -46,7 +46,7 @@ namespace iSOL_Enterprise.Controllers.Sales
             ViewBag.Payments = dal.GetPaymentTerms();
             ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.Warehouse = Ddal.GetWareHouseData();
-            bool flag = CommonDal.Check_IsEditable("RDR1", id);
+            bool flag = CommonDal.Check_IsNotEditable("QUT1", id);
             ViewBag.Status = flag == false ? "Open" : "Closed";
             return View(dal.GetSaleQuotationEditDetails(id));
         }
@@ -238,7 +238,7 @@ namespace iSOL_Enterprise.Controllers.Sales
                 throw;
             }
 
-        }
+            }
 
 
 

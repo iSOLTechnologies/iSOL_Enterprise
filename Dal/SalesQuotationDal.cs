@@ -30,7 +30,7 @@ namespace iSOL_Enterprise.Dal
                 {
 					 
 					SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
-                    models.DocStatus = CommonDal.Check_IsEditable("RDR1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
+                    models.DocStatus = CommonDal.Check_IsNotEditable("QUT1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
                     models.Id = rdr["Id"].ToInt();
                     models.DocDate = rdr["DocDueDate"].ToDateTime();
                     models.PostingDate = rdr["DocDate"].ToDateTime();
@@ -537,7 +537,7 @@ namespace iSOL_Enterprise.Dal
             {
                 var model = JsonConvert.DeserializeObject<dynamic>(formData);
                string DocType = model.ListItems == null ? "S" : "I";
-
+                string table = "QUT1";
 
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
                 conn.Open();
@@ -547,14 +547,23 @@ namespace iSOL_Enterprise.Dal
                 int res1 = 0;
                 try
                 {
-                    var Status = CommonDal.Check_IsEditable("RDR1", Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
+
+
+                    var Status = CommonDal.Check_IsNotEditable(table, Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
                     if (Status == "Closed")
                     {
-                        tran.Rollback();
-                        return false;
+                        string HeadQuery = @" Update OQUT set NumAtCard = '" + model.HeaderData.NumAtCard + "'"+                                                          
+                                                      ",Comments = '" + model.FooterData.Comments + "' "+
+                                                      "WHERE Id = '" + model.ID + "'";
+
+                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                        if (res1 <= 0)
+                        {
+                            tran.Rollback();
+                            return false;
+                        }
                     }
-
-
+                    else { 
 
                     #region Deleting Items/List
 
@@ -605,104 +614,109 @@ namespace iSOL_Enterprise.Dal
                     //var GetDocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, "Select DocType from ORDR where Id = " + model.Id + " ");
 
 
-                     
 
 
-                        if (model.ListItems != null)
-                        {
 
-                            foreach (var item in model.ListItems)
-                            {
+                    if (model.ListItems != null)
+                    {
+
+                        foreach (var item in model.ListItems)
+                        { 
+                                
                                 //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
                                 if (item.LineNum != "" && item.LineNum != null)
-                                {
-                                    item.DicPrc = item.DicPrc == "" ? "NUll" : item.DicPrc;
-                                    string UpdateQuery = @"update QUT1 set
-                                                                      ItemCode  = '" + item.ItemCode + "'" +
-                                                            ",ItemName  = '" + item.ItemName + "'" +
-                                                            ",UomCode   = '" + item.UomCode + "'" +
-                                                            ",Quantity  = " + item.QTY + "" +
-                                                            ",OpenQty  =  " + item.QTY + "" +
-                                                            ",Price     = '" + item.UPrc + "'" +
-                                                            ",LineTotal = '" + item.TtlPrc + "'" +
-                                                            ",DiscPrcnt = " + item.DicPrc + "" +
-                                                            ",VatGroup  = '" + item.VatGroup + "'" +
-                                                            ",CountryOrg= '" + item.CountryOrg + "'" +
-                                                            " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
-                                    int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateQuery).ToInt();
-                                    if (res2 <= 0)
-                                    {
-                                        tran.Rollback();
-                                        return false;
-                                    }
-
-                                }
-                                else
-                                {
-                                    int LineNo = CommonDal.getLineNumber(tran, "QUT1", (model.ID).ToString());
-                                    string RowQueryItem = @"insert into QUT1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode ,CountryOrg)
-                                              values(" + model.ID + ","
-                                                  + LineNo + ",'"
-                                                  + item.ItemName + "',"
-                                                  + item.UPrc + ","
-                                                  + item.TtlPrc + ",'"
-                                                  + item.ItemCode + "',"
-                                                  + item.QTY + ","
-                                                  + item.QTY + ","
-                                                  + item.DicPrc + ",'"
-                                                  + item.VatGroup + "','"
-                                                  + item.UomCode + "','"
-                                                  + item.CountryOrg + "')";
-
-
-
-                                    int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
-                                    if (res2 <= 0)
-                                    {
-                                        tran.Rollback();
-                                        return false;
-                                    }
-
-                                }
-                            }
-
-
-
-                        }
-                        else if (model.ListService != null)
-                        {
-                            int LineNo = 1;
-
-                            foreach (var item in model.ListService)
                             {
-                                //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                                string RowQueryService = @"insert into QUT1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
-                                                  values(" + model.ID + ","
-                                                       + LineNo + ","
-                                                        + item.TotalLC + ",'"
-                                                       + item.Dscription + "','"
-                                                       + item.AcctCode + "','"
-                                                       + item.VatGroup2 + "')";
+                                    decimal OpenQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select OpenQty from " + table + " where Id=" + model.ID + " and LineNum=" + item.LineNum + ""));
+                                    if (OpenQty > 0)
+                                    { 
+                                        item.DicPrc = item.DicPrc == "" ? "NUll" : item.DicPrc;
+                                        string UpdateQuery = @"update QUT1 set
+                                                                      ItemCode  = '" + item.ItemCode + "'" +
+                                                        ",ItemName  = '" + item.ItemName + "'" +
+                                                        ",UomCode   = '" + item.UomCode + "'" +
+                                                        ",Quantity  = " + item.QTY + "" +
+                                                        ",OpenQty  =  " + item.QTY + "" +
+                                                        ",Price     = '" + item.UPrc + "'" +
+                                                        ",LineTotal = '" + item.TtlPrc + "'" +
+                                                        ",DiscPrcnt = " + item.DicPrc + "" +
+                                                        ",VatGroup  = '" + item.VatGroup + "'" +
+                                                        ",CountryOrg= '" + item.CountryOrg + "'" +
+                                                        " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
+                                        int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateQuery).ToInt();
+                                        if (res2 <= 0)
+                                        {
+                                            tran.Rollback();
+                                            return false;
+                                        }
+                                } else { continue; }
+
+                                }
+                            else
+                            {
+                                int LineNo = CommonDal.getLineNumber(tran, "QUT1", (model.ID).ToString());
+                                string RowQueryItem = @"insert into QUT1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode ,CountryOrg)
+                                              values(" + model.ID + ","
+                                              + LineNo + ",'"
+                                              + item.ItemName + "',"
+                                              + item.UPrc + ","
+                                              + item.TtlPrc + ",'"
+                                              + item.ItemCode + "',"
+                                              + item.QTY + ","
+                                              + item.QTY + ","
+                                              + item.DicPrc + ",'"
+                                              + item.VatGroup + "','"
+                                              + item.UomCode + "','"
+                                              + item.CountryOrg + "')";
 
 
 
-                                int res3 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryService).ToInt();
-                                if (res3 <= 0)
+                                int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
+                                if (res2 <= 0)
                                 {
                                     tran.Rollback();
                                     return false;
-
                                 }
-                                LineNo += 1;
+
                             }
-
-
-
                         }
 
 
-                   
-                 
+
+                    }
+                    else if (model.ListService != null)
+                    {
+                        int LineNo = 1;
+
+                        foreach (var item in model.ListService)
+                        {
+                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
+                            string RowQueryService = @"insert into QUT1(Id,LineNum,LineTotal,Dscription,AcctCode,VatGroup)
+                                                  values(" + model.ID + ","
+                                                   + LineNo + ","
+                                                    + item.TotalLC + ",'"
+                                                   + item.Dscription + "','"
+                                                   + item.AcctCode + "','"
+                                                   + item.VatGroup2 + "')";
+
+
+
+                            int res3 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryService).ToInt();
+                            if (res3 <= 0)
+                            {
+                                tran.Rollback();
+                                return false;
+
+                            }
+                            LineNo += 1;
+                        }
+
+
+
+                    }
+
+
+
+
 
 
 
@@ -746,6 +760,7 @@ namespace iSOL_Enterprise.Dal
                         tran.Commit();
                     }
 
+                }
                 }
                 catch (Exception)
                 {

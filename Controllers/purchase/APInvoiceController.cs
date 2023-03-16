@@ -22,13 +22,10 @@ namespace iSOL_Enterprise.Controllers.Sales
         }
         public IActionResult APInvoiceMaster()
         {
-
             SalesQuotationDal dal = new SalesQuotationDal();
             AdministratorDal Adal = new AdministratorDal();
             ViewBag.GetSeries = Adal.GetSeries(18);
             ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
-
-
 
             return View();
         }
@@ -45,8 +42,9 @@ namespace iSOL_Enterprise.Controllers.Sales
             ViewBag.Countries = cdal.GetCountries();
             ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.Payments = dal.GetPaymentTerms();
- 
-            ViewBag.Status =   "Open" ;
+            bool flag = CommonDal.Check_IsNotEditable("PCH1", id);
+            ViewBag.Status = flag == false ? "Open" : "Closed";
+            //ViewBag.Status =   "Open" ;
             return View(dal1.GetAPInvoiceEditDetails(id));
         }
         public IActionResult GetGoodReceiptData(string cardcode)

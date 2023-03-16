@@ -23,8 +23,8 @@ namespace iSOL_Enterprise.Dal
                 {
 					 
 					SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
-                    models.DocStatus = CommonDal.Check_IsEditable("RIN1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
-                   // models.DocStatus = CommonDal.Check_IsEditable("RDN1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
+                    models.DocStatus = CommonDal.Check_IsNotEditable("RDN1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
+                   // models.DocStatus = CommonDal.Check_IsNotEditable("RDN1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
                     models.Id = rdr["Id"].ToInt();
                     models.DocDate = rdr["DocDueDate"].ToDateTime();
                     models.PostingDate = rdr["DocDate"].ToDateTime();
@@ -583,7 +583,7 @@ namespace iSOL_Enterprise.Dal
                 try
                 {
 
-                    //var Status = CommonDal.Check_IsEditable("INV1", Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
+                    //var Status = CommonDal.Check_IsNotEditable("INV1", Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
                     //if (Status == "Closed")
                     //{
                     //    tran.Rollback();
@@ -711,7 +711,7 @@ namespace iSOL_Enterprise.Dal
                                                             ",CountryOrg= '" + item.CountryOrg + "'" +
                                                             " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
                                 int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateQuery).ToInt();
-                                if (res2 <= 0)
+                                if (res2 <  0)
                                 {
                                     tran.Rollback();
                                     return false;

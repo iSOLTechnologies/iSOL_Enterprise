@@ -474,7 +474,7 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <select class="form-control " id="UomEntry"></select><input id="UomCode" class="position-absolute d-none"/>
+                                                                                        <select disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)" class="form-control " id="UomEntry"></select><input id="UomCode" class="position-absolute d-none"/>
                                                                                       
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>

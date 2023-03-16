@@ -38,7 +38,7 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Currency = cdal.GetCurrencydata();
             DeliveryDal Ddal = new DeliveryDal();
             ViewBag.Warehouse = Ddal.GetWareHouseData();
-            bool flag = CommonDal.Check_IsEditable("DLN1", id);
+            bool flag = CommonDal.Check_IsNotEditable("RDR1",id);
             ViewBag.Status = flag == false ? "Open" : "Closed";
 
             return View(dal1.GetSaleOrderEditDetails(id));

@@ -40,10 +40,10 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Countries = cdal.GetCountries();
             ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.Payments = dal.GetPaymentTerms();
-            bool flag = CommonDal.Check_IsEditable("PCH1", id);
-            bool flag2 = CommonDal.Check_IsEditable("RPD1", id);
-            ViewBag.Status = flag == false && flag2 == false ? "Open" : "Closed";
-           // ViewBag.Status = "Open" ;
+            bool flag = CommonDal.Check_IsNotEditable("RPC1", id);
+            ViewBag.Status = flag == false ? "Open" : "Closed"; 
+           // bool flag2 = CommonDal.Check_IsNotEditable("RPD1", id);
+           // ViewBag.Status = flag == false && flag2 == false ? "Open" : "Closed";
             return View(dal1.GetAPCreditMemoDetails(id));
         }
         public IActionResult GetAPInvoiceData(int cardcode)

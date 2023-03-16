@@ -48,7 +48,7 @@ namespace iSOL_Enterprise.Dal
                 while (rdr.Read())
                 {
                     SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
-
+                    models.DocStatus = CommonDal.Check_IsNotEditable("RPC1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
                     models.Id = rdr["Id"].ToInt();
                     models.DocDate = rdr["DocDueDate"].ToDateTime();
                     models.PostingDate = rdr["DocDate"].ToDateTime();
@@ -454,7 +454,7 @@ namespace iSOL_Enterprise.Dal
                 int res1 = 0;
                 try
                 {
-                    //var Status = CommonDal.Check_IsEditable("INV1", Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
+                    //var Status = CommonDal.Check_IsNotEditable("INV1", Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
                     //if (Status == "Closed")
                     //{
                     //    tran.Rollback();

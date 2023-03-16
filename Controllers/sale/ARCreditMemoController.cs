@@ -22,7 +22,7 @@ namespace iSOL_Enterprise.Controllers
             SalesQuotationDal dal = new SalesQuotationDal();
 			AdministratorDal Adal = new AdministratorDal();
 			ViewBag.GetSeries = Adal.GetSeries(19);
-			ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+			ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode","SlpName");
             //ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
             return View();
         }
@@ -39,9 +39,12 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Countries = cdal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
             ViewBag.Currency = cdal.GetCurrencydata();
-            bool flag = CommonDal.Check_IsEditable("INV1", id);
-            bool flag2 = CommonDal.Check_IsEditable("RDN1", id);
-            ViewBag.Status = flag == false && flag2 == false ? "Open" : "Closed";
+            //bool flag = CommonDal.Check_IsNotEditable("INV1", id);
+            //bool flag2 = CommonDal.Check_IsNotEditable("RDN1", id);
+            //ViewBag.Status = flag == false && flag2 == false ? "Open" : "Closed";
+
+            bool flag = CommonDal.Check_IsNotEditable("RIN1", id);
+            ViewBag.Status = flag == false ? "Open" : "Closed";
             return View(dal1.GetARCreditMemoDetails(id));
         }
         public IActionResult GetBaseDocData(string cardcode,int BaseType)
