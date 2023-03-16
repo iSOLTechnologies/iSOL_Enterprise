@@ -297,11 +297,11 @@ namespace iSOL_Enterprise.Dal
                     if (model.HeaderData != null)
                     {
 
-                        model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToInt32(model.HeaderData.PurchaseType);
-                        model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToInt32(model.HeaderData.TypeDetail);
-                        model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.ProductionOrderNo);
-                        model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.ChallanNo);
-                        model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.DONo);
+                        model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.PurchaseType);
+                        model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
+                        model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
+                        model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
+                        model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
                         
 
 
@@ -612,7 +612,14 @@ namespace iSOL_Enterprise.Dal
                         if (model.HeaderData != null)
                     {
 
-                        string HeadQuery = @" Update OPOR set 
+                            model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToInt32(model.HeaderData.PurchaseType);
+                            model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
+                            model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
+                            model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
+                            model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
+
+
+                            string HeadQuery = @" Update OPOR set 
                                                           DocType = '" + DocType + "'" +
                                                        ",Segment = '" + model.HeaderData.Segment + "'" +
                                                        ",CardName = '" + model.HeaderData.CardName + "'" +
@@ -624,6 +631,11 @@ namespace iSOL_Enterprise.Dal
                                                        ",DocCur = '" + model.HeaderData.DocCur + "'" +
                                                        ",GroupNum = '" + model.ListAccouting.GroupNum + "'" +
                                                        ",SlpCode = " + model.FooterData.SlpCode + "" +
+                                                       ",PurchaseType = " + model.HeaderData.PurchaseType + "" +
+                                                        ",TypeDetail = " + model.HeaderData.TypeDetail + "" +
+                                                        ",ProductionOrderNo = " + model.HeaderData.ProductionOrderNo + "" +
+                                                        ",ChallanNo = " + model.HeaderData.ChallanNo + "" +
+                                                        ",DONo = " + model.HeaderData.DONo + "" +                                                        
                                                        ",Comments = '" + model.FooterData.Comments + "' " +
                                                        "WHERE Id = '" + model.ID + "'";
 

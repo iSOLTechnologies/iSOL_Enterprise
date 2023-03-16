@@ -123,12 +123,12 @@ namespace iSOL_Enterprise.Dal
 
                     if (model.HeaderData != null)
                     {
-                        model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToInt32( model.HeaderData.PurchaseType);
-                        model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToInt32( model.HeaderData.TypeDetail);
-                        model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToInt32( model.HeaderData.ProductionOrderNo);
-                        model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToInt32( model.HeaderData.ChallanNo);
-                        model.HeaderData.ContainerNo = model.HeaderData.ContainerNo == "" ? "NULL" : Convert.ToInt32( model.HeaderData.ContainerNo);
-                        model.HeaderData.ManualGatePassNo = model.HeaderData.ManualGatePassNo == "" ? "NULL" : Convert.ToInt32( model.HeaderData.ManualGatePassNo);
+                        model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToDecimal( model.HeaderData.PurchaseType);
+                        model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToDecimal( model.HeaderData.TypeDetail);
+                        model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal( model.HeaderData.ProductionOrderNo);
+                        model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal( model.HeaderData.ChallanNo);
+                        model.HeaderData.ContainerNo = model.HeaderData.ContainerNo == "" ? "NULL" : Convert.ToDecimal( model.HeaderData.ContainerNo);
+                        model.HeaderData.ManualGatePassNo = model.HeaderData.ManualGatePassNo == "" ? "NULL" : Convert.ToDecimal( model.HeaderData.ManualGatePassNo);
                        
 
                         string HeadQuery = @"insert into ORDR(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum,DocTotal , SlpCode,CETnum,
@@ -230,6 +230,7 @@ namespace iSOL_Enterprise.Dal
 
 
                     }
+                    
                     else if (model.ListService != null)
                     {
 
@@ -269,9 +270,7 @@ namespace iSOL_Enterprise.Dal
 
 
                     }
-
-
-
+                    
                     if (model.ListAttachment != null)
                     {
 
@@ -380,8 +379,15 @@ namespace iSOL_Enterprise.Dal
 
                         if (model.HeaderData != null)
                         {
+                            model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.PurchaseType);
+                            model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
+                            model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
+                            model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
+                            model.HeaderData.ContainerNo = model.HeaderData.ContainerNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ContainerNo);
+                            model.HeaderData.ManualGatePassNo = model.HeaderData.ManualGatePassNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ManualGatePassNo);
+
                             string HeadQuery = @" Update ORDR set 
-                                                          DocType = '" + DocType + "'" +
+                                                            DocType = '" + DocType + "'" +
                                                             ",CardName = '" + model.HeaderData.CardName + "'" +
                                                             ",CntctCode = '" + model.HeaderData.CntcCode + "'" +
                                                             ",CETnum = '" + model.HeaderData.CETnum + "'" +
@@ -392,6 +398,12 @@ namespace iSOL_Enterprise.Dal
                                                             ",DocCur = '" + model.HeaderData.DocCur + "'" +
                                                             ",GroupNum = '" + model.ListAccouting.GroupNum + "'" +
                                                             ",SlpCode = " + model.FooterData.SlpCode + "" +
+                                                            ",PurchaseType = " + model.HeaderData.PurchaseType + "" +
+                                                            ",TypeDetail = " + model.HeaderData.TypeDetail + "" +
+                                                            ",ProductionOrderNo = " + model.HeaderData.ProductionOrderNo + "" +
+                                                            ",ChallanNo = " + model.HeaderData.ChallanNo + "" +
+                                                            ",ContainerNo = " + model.HeaderData.ContainerNo + "" +
+                                                            ",ManualGatePassNo = " + model.HeaderData.ManualGatePassNo + "" +
                                                             ",Comments = '" + model.FooterData.Comments + "' " +
                                                             "WHERE Id = '" + model.ID + "'";
 
