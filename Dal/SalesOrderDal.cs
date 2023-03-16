@@ -123,9 +123,16 @@ namespace iSOL_Enterprise.Dal
 
                     if (model.HeaderData != null)
                     {
+                        model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToInt32( model.HeaderData.PurchaseType);
+                        model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToInt32( model.HeaderData.TypeDetail);
+                        model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToInt32( model.HeaderData.ProductionOrderNo);
+                        model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToInt32( model.HeaderData.ChallanNo);
+                        model.HeaderData.ContainerNo = model.HeaderData.ContainerNo == "" ? "NULL" : Convert.ToInt32( model.HeaderData.ContainerNo);
+                        model.HeaderData.ManualGatePassNo = model.HeaderData.ManualGatePassNo == "" ? "NULL" : Convert.ToInt32( model.HeaderData.ManualGatePassNo);
+                       
 
-
-                        string HeadQuery = @"insert into ORDR(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum,DocTotal , SlpCode,CETnum, Comments) 
+                        string HeadQuery = @"insert into ORDR(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum,DocTotal , SlpCode,CETnum,
+                                            PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,ContainerNo,ManualGatePassNo, Comments) 
                                            values(" + Id + ","
 												+ model.HeaderData.Series + ",'"
 												+ DocType + "','"
@@ -142,7 +149,13 @@ namespace iSOL_Enterprise.Dal
                                                 + model.ListAccouting.GroupNum + "',"
                                                 + model.FooterData.Total + ","
                                                 + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
-                                                + model.HeaderData.CETnum + "','"
+                                                + model.HeaderData.CETnum + "',"
+                                                + model.HeaderData.PurchaseType + ","
+                                                + model.HeaderData.TypeDetail + ","
+                                                + model.HeaderData.ProductionOrderNo + ","
+                                                + model.HeaderData.ChallanNo + ","
+                                                + model.HeaderData.ContainerNo + ","
+                                                + model.HeaderData.ManualGatePassNo + ",'"
                                                 + model.FooterData.Comments + "')";
 
 

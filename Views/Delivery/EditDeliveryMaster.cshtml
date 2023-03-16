@@ -726,16 +726,17 @@
                                                                             </select>
                                                                              }
                                                                 </div>
-
                                                                 <div class="col-md-6">
-                                                                    <label for="inputEmail4" class="form-label">Total Before Discount</label>
-                                                                    <input name="TotalBeforeDiscount" readonly type="text" class="form-control" id="TotalBeforeDiscount">
+                                                                    <label for="inputRemarks" class="form-label">Remarks</label>
 
+                                                                           <textarea id="Comments" class="form-control" rows="3">@row["Comments"]
+                                                                    </textarea>
                                                                 </div>
+                                                               
 
                                                             </div>
                                                             <br />
-                                                            <div class="row">
+                                                            <div class="row d-none">
                                                                 <div class="col-md-6">
                                                                     <label  for="inputPassword4" class="form-label">Owner</label>
                                                                     <input name="OwnerCode" type="text" class="form-control" id="OwnerCode">
@@ -752,7 +753,7 @@
 
                                                             </div>
                                                             <br/>
-                                                            <div class="row">
+                                                            <div class="row d-none">
 
 
                                                                 <div class="col-md-6">
@@ -774,19 +775,18 @@
                                                                 </div>
                                                             </div>
                                                             <br />
-                                                            <div class="row">
+                                                            <div class="row d-none">
 
 
                                                                 <div class="col-md-6"  style="display:none;">
                                                                     <label for="inputEmail4" class="form-label">Total</label>
                                                                     <input name="Total" readonly type="text" class="form-control" id="Total">
                                                                 </div>
-                                                                <div class="col-md-6">
-                                                                    <label for="inputRemarks" class="form-label">Remarks</label>
+                                                                     <div class="col-md-6 d-none">
+                                                                        <label for="inputEmail4" class="form-label">Total Before Discount</label>
+                                                                        <input name="TotalBeforeDiscount" readonly type="text" class="form-control" id="TotalBeforeDiscount">
 
-                                                                           <textarea id="Comments" class="form-control" rows="3">@row["Comments"]
-                                                                    </textarea>
-                                                                </div>
+                                                                    </div>
                                                             </div>
                                                             <hr />
                                                         </div>
