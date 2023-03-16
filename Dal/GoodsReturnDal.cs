@@ -362,11 +362,11 @@ namespace iSOL_Enterprise.Dal
                             #endregion
 
 
-                            #region If Doc copied data from other Doc then get data from Goods Receipt  &  Update in Purchase Order
+                            #region If Doc copied data from other Doc then get data from Goods Receipt  then   Update in Purchase Order &  Goods Receipt
                             if (model.BaseType != -1 && item.BaseEntry != "" && item.BaseLine != "")
                             {
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
-                                string getFromDeliveryQuery = "select BaseEntry,BaseLine,ItemCode from "+table+" where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine + "and ItemCode = '" + item.ItemCode + "'";
+                                string getFromDeliveryQuery = "select BaseEntry,BaseLine,ItemCode from " + table + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine + "and ItemCode = '" + item.ItemCode + "'";
 
                                 try
                                 {
@@ -381,8 +381,16 @@ namespace iSOL_Enterprise.Dal
                                             docRowModel.BaseLine = Convert.ToInt32(rdr["BaseLine"]);
                                             docRowModel.ItemCode = rdr["ItemCode"].ToString();
 
-                                            string Updatequery = @"Update POR1 set OpenQty =OpenQty + " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine + "and ItemCode = '" + docRowModel.ItemCode + "'";
-                                            int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+                                            string UpdateDLQuery = @"Update " + table + " set Quantity =Quantity - " + item.QTY + " , OpenQty = OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine + "and ItemCode = '" + item.ItemCode + "'";
+                                            int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateDLQuery).ToInt();
+                                            if (res <= 0)
+                                            {
+                                                tran.Rollback();
+                                                return false;
+                                            }
+
+                                            string UpdatePOQuery = @"Update POR1 set OpenQty =OpenQty + " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine + "and ItemCode = '" + docRowModel.ItemCode + "'";
+                                            res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdatePOQuery).ToInt();
                                             if (res <= 0)
                                             {
                                                 tran.Rollback();
@@ -401,6 +409,7 @@ namespace iSOL_Enterprise.Dal
                                 }
                             }
                             #endregion
+
 
                             item.BaseEntry = item.BaseEntry == "" ? "NULL" : Convert.ToInt32(item.BaseEntry);
                             item.BaseLine = item.BaseLine == "" ? "NULL" : Convert.ToInt32(item.BaseLine);
@@ -647,8 +656,16 @@ namespace iSOL_Enterprise.Dal
                                                 docRowModel2.BaseLine = Convert.ToInt32(rdr["BaseLine"]);
                                                 docRowModel2.ItemCode = rdr["ItemCode"].ToString();
 
-                                                string Updatequery = @"Update POR1 set OpenQty =(OpenQty - " + docRowModel.Quantity + ") + " + item.QTY + " where Id =" + docRowModel2.BaseEntry + "and LineNum =" + docRowModel2.BaseLine + "and ItemCode = '" + docRowModel2.ItemCode + "'";
-                                                int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+                                                string UpdateDLQuery = @"Update " + table + " set Quantity =(Quantity + " + docRowModel.Quantity + ") - " + item.QTY + " , OpenQty = (OpenQty + " + docRowModel.Quantity + ") - " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine + "and ItemCode = '" + item.ItemCode + "'";
+                                                int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateDLQuery).ToInt();
+                                                if (res <= 0)
+                                                {
+                                                    tran.Rollback();
+                                                    return false;
+                                                }
+
+                                                string UpdatePOQuery = @"Update POR1 set OpenQty =(OpenQty - " + docRowModel.Quantity + ") + " + item.QTY + " where Id =" + docRowModel2.BaseEntry + "and LineNum =" + docRowModel2.BaseLine + "and ItemCode = '" + docRowModel2.ItemCode + "'";
+                                                res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdatePOQuery).ToInt();
                                                 if (res <= 0)
                                                 {
                                                     tran.Rollback();

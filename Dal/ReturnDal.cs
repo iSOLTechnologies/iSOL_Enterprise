@@ -260,11 +260,11 @@ namespace iSOL_Enterprise.Dal
                         int LineNo = 1;
                         foreach (var item in model.ListItems)
                         {
-                            #region If Doc copied data from other Doc then get data from Delivery &  Update in Sale Order
+                            #region If Doc copied data from other Doc then get data from Delivery then  Update in Sale Order & Delivery
                             if (model.BaseType != -1 && item.BaseEntry != "" && item.BaseLine != "")
                             {
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
-                                string getFromDeliveryQuery = "select BaseEntry,BaseLine,ItemCode from DLN1 where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine + "and ItemCode = '" + item.ItemCode + "'";
+                                string getFromDeliveryQuery = "select BaseEntry,BaseLine,ItemCode from " + table + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine + "and ItemCode = '" + item.ItemCode + "'";
 
                                 try
                                 {
@@ -278,9 +278,17 @@ namespace iSOL_Enterprise.Dal
                                             docRowModel.BaseEntry = Convert.ToInt32(rdr["BaseEntry"]);
                                             docRowModel.BaseLine = Convert.ToInt32(rdr["BaseLine"]);
                                             docRowModel.ItemCode = rdr["ItemCode"].ToString();
+                                            string UpdateDLQuery = @"Update " + table + " set Quantity =Quantity - " + item.QTY + " , OpenQty = OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine + "and ItemCode = '" + item.ItemCode + "'";
+                                            int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateDLQuery).ToInt();
+                                            if (res <= 0)
+                                            {
+                                                tran.Rollback();
+                                                return false;
+                                            }
 
-                                            string Updatequery = @"Update RDR1 set OpenQty =OpenQty + " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine + "and ItemCode = '" + docRowModel.ItemCode + "'";
-                                            int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+
+                                            string UpdateSOQuery = @"Update RDR1 set OpenQty =OpenQty + " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine + "and ItemCode = '" + docRowModel.ItemCode + "'";
+                                            res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateSOQuery).ToInt();
                                             if (res <= 0)
                                             {
                                                 tran.Rollback();
@@ -298,9 +306,10 @@ namespace iSOL_Enterprise.Dal
                                     throw;
                                 }
 
-                                
+
                             }
                             #endregion
+
                             item.BaseEntry = item.BaseEntry == "" ? "NULL" : Convert.ToInt32(item.BaseEntry);
                             item.BaseLine = item.BaseLine == "" ? "NULL" : Convert.ToInt32(item.BaseLine);
                             item.BaseQty = item.BaseQty == "" ? "NULL" : Convert.ToInt32(item.BaseQty);
@@ -676,8 +685,16 @@ namespace iSOL_Enterprise.Dal
                                                 docRowModel2.BaseLine = Convert.ToInt32(rdr["BaseLine"]);
                                                 docRowModel2.ItemCode = rdr["ItemCode"].ToString();
 
-                                                string Updatequery = @"Update RDR1 set OpenQty =(OpenQty - " + docRowModel.Quantity + ") + " + item.QTY + " where Id =" + docRowModel2.BaseEntry + "and LineNum =" + docRowModel2.BaseLine + "and ItemCode = '" + docRowModel2.ItemCode + "'";
-                                                int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+                                                string UpdateDLQuery = @"Update DLN1 set Quantity =(Quantity + " + docRowModel.Quantity + ") - " + item.QTY + " , OpenQty = (OpenQty + " + docRowModel.Quantity + ") - " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine + "and ItemCode = '" + item.ItemCode + "'";
+                                                int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateDLQuery).ToInt();
+                                                if (res <= 0)
+                                                {
+                                                    tran.Rollback();
+                                                    return false;
+                                                }
+
+                                                string UpdateSOQuery = @"Update RDR1 set OpenQty =(OpenQty - " + docRowModel.Quantity + ") + " + item.QTY + " where Id =" + docRowModel2.BaseEntry + "and LineNum =" + docRowModel2.BaseLine + "and ItemCode = '" + docRowModel2.ItemCode + "'";
+                                                res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateSOQuery).ToInt();
                                                 if (res <= 0)
                                                 {
                                                     tran.Rollback();
@@ -695,9 +712,9 @@ namespace iSOL_Enterprise.Dal
                                         throw;
                                     }
                                 }
-								#endregion
-								//item.DicPrc = item.DicPrc == "" ? "null" : item.DicPrc;
-								string UpdateQuery = @"update RDN1 set
+                                #endregion
+                                //item.DicPrc = item.DicPrc == "" ? "null" : item.DicPrc;
+                                string UpdateQuery = @"update RDN1 set
                                                              ItemCode  = '" + item.ItemCode + "'" +
                                                             ",ItemName  = '" + item.ItemName + "'" +
                                                             ",UomEntry  =  " + item.UomEntry + "" +
