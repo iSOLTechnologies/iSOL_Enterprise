@@ -297,8 +297,16 @@ namespace iSOL_Enterprise.Dal
                     if (model.HeaderData != null)
                     {
 
+                        model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToInt32(model.HeaderData.PurchaseType);
+                        model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToInt32(model.HeaderData.TypeDetail);
+                        model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.ProductionOrderNo);
+                        model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.ChallanNo);
+                        model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.DONo);
+                        
 
-                        string HeadQuery = @"insert into OPOR(Id,Series,DocType,Guid,CardCode,DocNum,Segment,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum,DocTotal , SlpCode , Comments) 
+
+                        string HeadQuery = @"insert into OPOR(Id,Series,DocType,Guid,CardCode,DocNum,Segment,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum,DocTotal , SlpCode,
+                                            PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo, Comments) 
                                            values(" + Id + ","
                                                  + model.HeaderData.Series + ",'"
                                                 + DocType + "','"
@@ -315,7 +323,12 @@ namespace iSOL_Enterprise.Dal
                                                 + Convert.ToDateTime(model.HeaderData.TaxDate) + "','"
                                                 + model.ListAccouting.GroupNum + "',"
                                                 + model.FooterData.Total + ","
-                                                + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
+                                                + Convert.ToInt32(model.FooterData.SlpCode) + ","                                                
+                                                + model.HeaderData.PurchaseType + ","
+                                                + model.HeaderData.TypeDetail + ","
+                                                + model.HeaderData.ProductionOrderNo + ","
+                                                + model.HeaderData.ChallanNo + ","
+                                                + model.HeaderData.DONo + ",'"                                                
                                                 + model.FooterData.Comments + "')";
 
 
