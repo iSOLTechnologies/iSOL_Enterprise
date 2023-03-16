@@ -488,26 +488,34 @@
 																</div>
 															</div>
 															</br>
-															<div class="row">
-																<div class="col-md-6">
-																	<div class="form-check">
-																		<input class="form-check-input" type="checkbox" value="" id="RoundingChkBox">
-																		<label class="form-check-label" for="flexCheckDefault"> Rounding </label>
-																	</div>
-																	<!-- @*  @Html.EditorFor(m => m.OQUT_obj.Rounding, new { htmlAttributes = new { @class = "form-control", type = "number" } })*@ -->
-																	<input type="number" class="form-control " readonly id="Rounding">
-																</div>
-																<div class="col-md-6">
-																	<label for="inputEmail4" class="form-label" >Tax</label>
-																	<input name="Tax" type="number" class="form-control" id="FooterTax">
-																</div>
-															</div>
+															 <div class="row">
+
+
+                                                                <div class="col-md-6  d-none">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="checkbox" value="" id="RoundingChkBox">
+                                                                        <label class="form-check-label" for="flexCheckDefault">
+                                                                            Rounding
+                                                                        </label>
+                                                                    </div>
+                                                                    <!-- @*  @Html.EditorFor(m => m.OQUT_obj.Rounding, new { htmlAttributes = new { @class = "form-control", type = "number" } })*@ -->
+                                                                    <input type="number" class="form-control " readonly id="Rounding">
+
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <label for="inputEmail4" class="form-label" id="">Tax</label>
+                                                                    <input name="Tax" type="number" class="form-control" id="FooterTax">
+
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="inputEmail4" class="form-label">Total</label>
+                                                                    <input name="Total" readonly type="text" class="form-control" id="Total">
+                                                                </div>
+                                                            </div>
 															<br />
 															<div class="row">
-																<div class="col-md-6">
-																	<label for="inputEmail4" class="form-label">Total</label>
-																	<input name="Total" readonly type="text" class="form-control" id="Total">
-																</div>
+																 
 																<div class="col-md-6">
 																	<label for="inputRemarks" class="form-label">Remarks</label>
 																	<!-- @*<textarea class = "form-control" rows="3" asp-for="OQUT_obj.Comments"></textarea>*@ -->
