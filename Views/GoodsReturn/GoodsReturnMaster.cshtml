@@ -427,11 +427,11 @@
                                                                             </tbody>
                                                                         </table>
                                                                         <div style="margin-top:1%" class="form-group form-group-last row">
-                                                                            <div class="col-md-6">
+                                                                            @*<div class="col-md-6">
                                                                                 <button type="button" id="ListBtnAddd" data-repeater-create="" class="btn btn-light-primary font-weight-bold btn-sm">
                                                                                     <i class="la la-plus"></i> Add
                                                                                 </button>
-                                                                            </div>
+                                                                            </div>*@
                                                                         </div>
 
                                                                     </div>
@@ -802,7 +802,7 @@
                 //For the Entry of 1st Doc number
                 if (i == 0) {
 
-                    $.get("Common/GetBaseDocItemService", { DocId: DocID, BaseType: BaseType }, function (data) {
+                    $.get("Common/GetBaseDocItemServiceReturn", { DocId: DocID, BaseType: BaseType }, function (data) {
                         let list = JSON.parse(data.list);
 
 
@@ -892,7 +892,7 @@
                 //For the Entry of Other Doc numbers except 1st
                 else {
 
-                    $.get("Common/GetBaseDocItemService", { DocId: DocID, BaseType: BaseType }, function (data) {
+                    $.get("Common/GetBaseDocItemServiceReturn", { DocId: DocID, BaseType: BaseType }, function (data) {
                         let list = JSON.parse(data.list);
 
 
@@ -1001,7 +1001,7 @@
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                            <input readonly class="form-control form-control-sm NotReq" value=`+ data.Quntity + ` id="BaseQty"  type="number">
+                                                                                                <input readonly class="form-control form-control-sm NotReq" value=`+ data.Quantity + ` id="BaseQty"  type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
@@ -1367,10 +1367,20 @@
              if(Qty.val() <= 0){
             Qty.val("");
             toastr.warning("Quantity can't be 0");
-        }if(!(sum <= onHand.val())){
-            Qty.val("");
-            toastr.warning("Quantity can't be greater than Warehouse quantity");
         }
+            if (BaseQty.val() != "" && BaseQty.val() != '' && BaseQty.val() != null) {
+                if (!(Number(Qty.val()) <= Number(BaseQty.val()))) {
+
+                    toastr.warning("Quantity can't be greater than Base Quantity");
+                    Qty.val(0);
+                }
+
+            }
+        
+        //if(!(sum <= onHand.val())){
+        //    Qty.val("");
+        //    toastr.warning("Quantity can't be greater than Warehouse quantity");
+        //}
 
         //if ($(this).closest('#ListParameters .itm').find('#OpenQty').val() != "" && $(this).closest('#ListParameters .itm').find('#OpenQty').val() != '' && $(this).closest('#ListParameters .itm').find('#OpenQty').val() != null) {
         //    if (!(Number(Qty.val()) <= Number(OpenQty.val()))) {

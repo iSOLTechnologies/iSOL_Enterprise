@@ -362,17 +362,42 @@ namespace iSOL_Enterprise.Dal
                             #endregion
 
 
-                            #region Update Base Documnet
+                            #region If Doc copied data from other Doc then get data from Goods Receipt  &  Update in Purchase Order
                             if (model.BaseType != -1 && item.BaseEntry != "" && item.BaseLine != "")
                             {
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
+                                string getFromDeliveryQuery = "select BaseEntry,BaseLine,ItemCode from "+table+" where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine + "and ItemCode = '" + item.ItemCode + "'";
 
-                                string Updatequery = @"Update " + table + " set OpenQty =OpenQty + " + item.QTY + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine + "and ItemCode = '" + item.ItemCode + "'";
-                                int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
-                                if (res < 0)
+                                try
+                                {
+                                    tbl_docRow docRowModel = new tbl_docRow();
+                                    using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, getFromDeliveryQuery))
+                                    {
+                                        while (rdr.Read())
+                                        {
+
+
+                                            docRowModel.BaseEntry = Convert.ToInt32(rdr["BaseEntry"]);
+                                            docRowModel.BaseLine = Convert.ToInt32(rdr["BaseLine"]);
+                                            docRowModel.ItemCode = rdr["ItemCode"].ToString();
+
+                                            string Updatequery = @"Update POR1 set OpenQty =OpenQty + " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine + "and ItemCode = '" + docRowModel.ItemCode + "'";
+                                            int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+                                            if (res <= 0)
+                                            {
+                                                tran.Rollback();
+                                                return false;
+                                            }
+
+                                        }
+                                    }
+
+                                }
+                                catch (Exception)
                                 {
                                     tran.Rollback();
                                     return false;
+                                    throw;
                                 }
                             }
                             #endregion
@@ -587,7 +612,7 @@ namespace iSOL_Enterprise.Dal
                             {
 
 
-                                string oldDataQuery = @"select BaseEntry,BaseType,BaseLine,Quantity from RPD1 where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
+                                string oldDataQuery = @"select BaseEntry,BaseType,BaseLine,Quantity from RPD1 where Id=" + model.ID + " and LineNum=" + item.LineNum + "and ItemCode = '" + item.ItemCode + "'";
 
                                 tbl_docRow docRowModel = new tbl_docRow();
                                 using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, oldDataQuery))
@@ -607,12 +632,38 @@ namespace iSOL_Enterprise.Dal
                                 if (docRowModel.BaseEntry != null)
                                 {
                                     string table = dal.GetRowTable(Convert.ToInt32(docRowModel.BaseType));
-                                    string Updatequery = @"Update "+table+" set OpenQty =(OpenQty + " + docRowModel.Quantity + ") + " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine;
-                                    int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
-                                    if (res <= 0)
+                                    string getFromDeliveryQuery = "select BaseEntry,BaseLine,ItemCode from " + table + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine + "and ItemCode = '" + item.ItemCode + "'";
+
+                                    try
+                                    {
+                                        tbl_docRow docRowModel2 = new tbl_docRow();
+                                        using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, getFromDeliveryQuery))
+                                        {
+                                            while (rdr.Read())
+                                            {
+
+
+                                                docRowModel2.BaseEntry = Convert.ToInt32(rdr["BaseEntry"]);
+                                                docRowModel2.BaseLine = Convert.ToInt32(rdr["BaseLine"]);
+                                                docRowModel2.ItemCode = rdr["ItemCode"].ToString();
+
+                                                string Updatequery = @"Update POR1 set OpenQty =(OpenQty - " + docRowModel.Quantity + ") + " + item.QTY + " where Id =" + docRowModel2.BaseEntry + "and LineNum =" + docRowModel2.BaseLine + "and ItemCode = '" + docRowModel2.ItemCode + "'";
+                                                int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+                                                if (res <= 0)
+                                                {
+                                                    tran.Rollback();
+                                                    return false;
+                                                }
+
+                                            }
+                                        }
+
+                                    }
+                                    catch (Exception)
                                     {
                                         tran.Rollback();
                                         return false;
+                                        throw;
                                     }
                                 }
                                 #endregion
