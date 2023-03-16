@@ -537,7 +537,7 @@ namespace iSOL_Enterprise.Dal
             {
                 var model = JsonConvert.DeserializeObject<dynamic>(formData);
                string DocType = model.ListItems == null ? "S" : "I";
-                string table = "QUT1";
+                string mytable = "QUT1";
 
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
                 conn.Open();
@@ -549,7 +549,7 @@ namespace iSOL_Enterprise.Dal
                 {
 
 
-                    var Status = CommonDal.Check_IsNotEditable(table, Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
+                    var Status = CommonDal.Check_IsNotEditable(mytable, Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
                     if (Status == "Closed")
                     {
                         string HeadQuery = @" Update OQUT set NumAtCard = '" + model.HeaderData.NumAtCard + "'"+                                                          
@@ -626,7 +626,9 @@ namespace iSOL_Enterprise.Dal
                                 //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
                                 if (item.LineNum != "" && item.LineNum != null)
                             {
-                                    decimal OpenQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select OpenQty from " + table + " where Id=" + model.ID + " and LineNum=" + item.LineNum + ""));
+                                    if (item.LineNum != "" && item.LineNum != null)
+                                    {
+                                        decimal OpenQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select OpenQty from " + mytable + " where Id=" + model.ID + " and LineNum=" + item.LineNum + ""));
                                     if (OpenQty > 0)
                                     { 
                                         item.DicPrc = item.DicPrc == "" ? "NUll" : item.DicPrc;
@@ -648,7 +650,8 @@ namespace iSOL_Enterprise.Dal
                                             tran.Rollback();
                                             return false;
                                         }
-                                } else { continue; }
+                                        }
+                                }  
 
                                 }
                             else

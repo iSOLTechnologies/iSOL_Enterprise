@@ -480,8 +480,8 @@ namespace iSOL_Enterprise.Dal
 			try
 			{
 				var model = JsonConvert.DeserializeObject<dynamic>(formData);
-
-				string DocType = model.ListItems == null ? "S" : "I";
+                string mytable = "PQT1";
+                string DocType = model.ListItems == null ? "S" : "I";
 
 				SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
 				conn.Open();
@@ -489,30 +489,40 @@ namespace iSOL_Enterprise.Dal
 				int res1 = 0;
 				try
 				{
-                    var Status = CommonDal.Check_IsNotEditable("POR1", Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
+                    var Status = CommonDal.Check_IsNotEditable(mytable, Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
                     if (Status == "Closed")
                     {
-                        tran.Rollback();
-                        return false;
+                        string HeadQuery = @" Update OQUT set NumAtCard = '" + model.HeaderData.NumAtCard + "'" +
+                                                      ",Comments = '" + model.FooterData.Comments + "' " +
+                                                      "WHERE Id = '" + model.ID + "'";
+
+                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                        if (res1 <= 0)
+                        {
+                            tran.Rollback();
+                            return false;
+                        }
                     }
-                    #region Deleting Items/List
+                    else
+                    {
+                        #region Deleting Items/List
 
-                    //string DeleteI_Or_SQuery = "Delete from PQT1 Where id = " + model.ID;
-                    // res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
-                    //if (res1 <= 0)
-                    //{
-                    //    tran.Rollback();
-                    //    return false;
-                    //}
-
-
-                    #endregion
-
+                        //string DeleteI_Or_SQuery = "Delete from PQT1 Where id = " + model.ID;
+                        // res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
+                        //if (res1 <= 0)
+                        //{
+                        //    tran.Rollback();
+                        //    return false;
+                        //}
 
 
-                    // int Id = CommonDal.getPrimaryKey(tran, "OPQT");
+                        #endregion
 
-                    if (model.HeaderData != null)
+
+
+                        // int Id = CommonDal.getPrimaryKey(tran, "OPQT");
+
+                        if (model.HeaderData != null)
 					{
 
 
@@ -595,7 +605,10 @@ namespace iSOL_Enterprise.Dal
 							//int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
 							if (item.LineNum != "" && item.LineNum != null)
                                 {
-                                    string UpdateQuery = @"update PQT1 set
+                                    decimal OpenQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select OpenQty from " + mytable + " where Id=" + model.ID + " and LineNum=" + item.LineNum + ""));
+                                    if (OpenQty > 0)
+                                    {
+                                        string UpdateQuery = @"update PQT1 set
                                                                       ItemCode  = '" + item.ItemCode + "'" +
                                                             ",ItemName  = '" + item.ItemName + "'" +
                                                             ",UomCode   = '" + item.UomCode + "'" +
@@ -615,6 +628,7 @@ namespace iSOL_Enterprise.Dal
                                     {
                                         tran.Rollback();
                                         return false;
+                                    }
                                     }
 
                                 }
@@ -727,6 +741,7 @@ namespace iSOL_Enterprise.Dal
                         tran.Commit();
                     }
 
+                }
                 }
                 catch (Exception)
                 {

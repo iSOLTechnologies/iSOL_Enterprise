@@ -552,7 +552,7 @@ namespace iSOL_Enterprise.Dal
                 var model = JsonConvert.DeserializeObject<dynamic>(formData);
                 string DocType = model.ListItems == null ? "S" : "I";
                 CommonDal dal = new CommonDal();
-
+                string mytable = "POR1";
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
                 conn.Open();
                 SqlTransaction tran = conn.BeginTransaction();
@@ -561,32 +561,42 @@ namespace iSOL_Enterprise.Dal
                 {
 
 
-                    var Status = CommonDal.Check_IsNotEditable("PDN1", Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
+                    var Status = CommonDal.Check_IsNotEditable(mytable, Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
                     if (Status == "Closed")
                     {
-                        tran.Rollback();
-                        return false;
+                        string HeadQuery = @" Update OQUT set NumAtCard = '" + model.HeaderData.NumAtCard + "'" +
+                                                      ",Comments = '" + model.FooterData.Comments + "' " +
+                                                      "WHERE Id = '" + model.ID + "'";
+
+                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                        if (res1 <= 0)
+                        {
+                            tran.Rollback();
+                            return false;
+                        }
                     }
+                    else
+                    {
 
-                    #region Deleting Items/List
-
-
-
-                    //string DeleteI_Or_SQuery = "Delete from POR1 Where id = " + model.ID;
-                    //res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
-                    //if (res1 <= 0)
-                    //{
-                    //    tran.Rollback();
-                    //    return false;
-                    //}
+                        #region Deleting Items/List
 
 
-                    #endregion
+
+                        //string DeleteI_Or_SQuery = "Delete from POR1 Where id = " + model.ID;
+                        //res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
+                        //if (res1 <= 0)
+                        //{
+                        //    tran.Rollback();
+                        //    return false;
+                        //}
 
 
-                   // int Id = CommonDal.getPrimaryKey(tran, "OPOR");
+                        #endregion
 
-                    if (model.HeaderData != null)
+
+                        // int Id = CommonDal.getPrimaryKey(tran, "OPOR");
+
+                        if (model.HeaderData != null)
                     {
 
                         string HeadQuery = @" Update OPOR set 
@@ -644,7 +654,11 @@ namespace iSOL_Enterprise.Dal
 
                             if (item.LineNum != "" && item.LineNum != null)
                             {
-                                string oldDataQuery = @"select BaseEntry,BaseLine,BaseType,Quantity from POR1 where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
+                                    decimal OpenQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select OpenQty from " + mytable + " where Id=" + model.ID + " and LineNum=" + item.LineNum + ""));
+                                    if (OpenQty > 0)
+                                    {
+
+                                        string oldDataQuery = @"select BaseEntry,BaseLine,BaseType,Quantity from POR1 where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
 
                                 tbl_docRow docRowModel = new tbl_docRow();
                                 using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, oldDataQuery))
@@ -692,6 +706,7 @@ namespace iSOL_Enterprise.Dal
                                     return false;
                                 }
 
+                            }
                             }
                             else
                             {
@@ -796,6 +811,7 @@ namespace iSOL_Enterprise.Dal
                         tran.Commit();
                     }
 
+                }
                 }
                 catch (Exception)
                 {

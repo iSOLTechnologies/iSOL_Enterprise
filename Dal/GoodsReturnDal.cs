@@ -554,7 +554,7 @@ namespace iSOL_Enterprise.Dal
                 var model = JsonConvert.DeserializeObject<dynamic>(formData);
                 string DocType = model.ListItems == null ? "S" : "I";
                 CommonDal dal = new CommonDal();
-
+                string mytable = "RPD1";
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
                 conn.Open();
                 SqlTransaction tran = conn.BeginTransaction();
@@ -562,29 +562,39 @@ namespace iSOL_Enterprise.Dal
                 try
                 {
 
-                    //var Status = CommonDal.Check_IsNotEditable("DLN1", Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
-                    //if (Status == "Closed")
-                    //{
-                    //    tran.Rollback();
-                    //    return false;
-                    //}
-                    #region Deleting Items/List
+                    var Status = CommonDal.Check_IsNotEditable(mytable, Convert.ToInt32(model.ID)) == false ? "Open" : "Closed";
+                    if (Status == "Closed")
+                    {
+                        string HeadQuery = @" Update OQUT set NumAtCard = '" + model.HeaderData.NumAtCard + "'" +
+                                                      ",Comments = '" + model.FooterData.Comments + "' " +
+                                                      "WHERE Id = '" + model.ID + "'";
+
+                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                        if (res1 <= 0)
+                        {
+                            tran.Rollback();
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        #region Deleting Items/List
 
 
 
-                    //string DeleteI_Or_SQuery = "Delete from DLN1 Where id = " + model.ID;
-                    //res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
-                    //if (res1 <= 0)
-                    //{
-                    //    tran.Rollback();
-                    //    return false;
-                    //}
+                        //string DeleteI_Or_SQuery = "Delete from DLN1 Where id = " + model.ID;
+                        //res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteI_Or_SQuery).ToInt();
+                        //if (res1 <= 0)
+                        //{
+                        //    tran.Rollback();
+                        //    return false;
+                        //}
 
 
-                    #endregion
+                        #endregion
 
-                    //int Id = CommonDal.getPrimaryKey(tran, "ODLN");
-                    if (model.HeaderData != null)
+                        //int Id = CommonDal.getPrimaryKey(tran, "ODLN");
+                        if (model.HeaderData != null)
                     { 
                         string HeadQuery = @" Update ORPD set 
                                                           DocType = '" + DocType + "'" +
@@ -619,9 +629,11 @@ namespace iSOL_Enterprise.Dal
 
                             if (item.LineNum != "" && item.LineNum != null)
                             {
+                                    decimal OpenQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select OpenQty from " + mytable + " where Id=" + model.ID + " and LineNum=" + item.LineNum + ""));
+                                    if (OpenQty > 0)
+                                    {
 
-
-                                string oldDataQuery = @"select BaseEntry,BaseType,BaseLine,Quantity from RPD1 where Id=" + model.ID + " and LineNum=" + item.LineNum + "and ItemCode = '" + item.ItemCode + "'";
+                                        string oldDataQuery = @"select BaseEntry,BaseType,BaseLine,Quantity from RPD1 where Id=" + model.ID + " and LineNum=" + item.LineNum + "and ItemCode = '" + item.ItemCode + "'";
 
                                 tbl_docRow docRowModel = new tbl_docRow();
                                 using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, oldDataQuery))
@@ -704,6 +716,7 @@ namespace iSOL_Enterprise.Dal
                                 {
                                     tran.Rollback();
                                     return false;
+                                }
                                 }
 
                             }
@@ -814,6 +827,7 @@ namespace iSOL_Enterprise.Dal
                         tran.Commit();
                     }
 
+                }
                 }
                 catch (Exception)
                 {
