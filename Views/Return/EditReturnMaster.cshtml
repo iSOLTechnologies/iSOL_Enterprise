@@ -35,7 +35,7 @@
                     </a>
                     <div class="btn-group">
 
-                        <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
+                        <button type="button" class="btn btn-primary font-weight-bolder" disabled id="btnSaveData">
                             <i class="ki ki-check icon-sm"></i>Update
                         </button>
                         @*<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>*@
@@ -1428,6 +1428,7 @@
                 $("#Comments").attr('disabled', false);
                 $("#NumAtCard").attr('disabled', false);
             }
+                 $("#btnSaveData").attr('disabled', false);
         }
 
 
