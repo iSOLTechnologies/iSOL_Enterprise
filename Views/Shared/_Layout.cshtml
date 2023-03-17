@@ -2061,7 +2061,7 @@ input[type=number] {
 	<script src="~/Assets/js/scripts.bundle.js"></script>*@
 	<script src="~/assets/js/scripts.bundle.min.js"></script>
 	<script src="~/assets/js/scripts.bundle.js"></script>
-	<script src="~/Assets/js/disable.js"></script>
+	@*<script src="~/Assets/js/disable.js"></script>*@
 
 	<!--end::Global Theme Bundle-->
 	<!--begin::Page Vendors(used by this page)-->
@@ -2638,6 +2638,7 @@ input[type=number] {
 		var SelectedBatches = [];
 		var Batchtable = "";
 		var DocModule = "";
+		var WareshouseChk = false;
 		function removeItemFromArray(arr, value) {
 			var i = 0;
 			while (i < arr.length) {
@@ -3407,12 +3408,18 @@ input[type=number] {
 			//debugger
 			var UomEntryRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomEntry");
 			var UomQTYRow = $(ObjItemCode).closest('#ListParameters .itm').find("#QTY");
+			let _WhsCode = $(ObjItemCode).closest('#ListParameters .itm').find('#Warehouse').val();
+			 let onHand = $(ObjItemCode).closest('#ListParameters .itm').find('#onHand');
+			console.log(UomQTYRow);
+			
 			var UomCodeRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomCode");
 			$(UomEntryRow).html('');
 			$(UomEntryRow).append("<option value=" + -1 + " selected>" + 'Manual' + "</option>");
 						$(UomCodeRow).val('Manual');
 			
-			$(UomQTYRow).trigger('change');
+
+			//$(UomQTYRow).trigger('change');
+			
 			return $.ajax({
 				url: 'Common/GetItemData',
 				type: 'GET',
@@ -3420,6 +3427,21 @@ input[type=number] {
 				async: false,
 				data: { itemcode: itemno, DocModule: DocModule },
 				success: function (data) {
+					//Trigger for QTY check is it available in warehouse
+					if($(UomQTYRow).val() != "" && $(UomQTYRow).val() != undefined && $(UomQTYRow).val() != null && WareshouseChk == true)
+							{
+								$.when( GetWhsAddedQty(itemno, _WhsCode) ).then(function(sum) {
+								
+									console.log(sum);
+
+								if(!(sum <= onHand.val())){
+									$(UomQTYRow).val("");
+									toastr.warning("Quantity can't be greater than Warehouse quantity");
+								}
+								
+								});
+
+					}
 					if((data.item).manBtchNum == "Y")
 						{
 							$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").removeClass("d-none");
