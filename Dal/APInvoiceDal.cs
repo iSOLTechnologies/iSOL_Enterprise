@@ -120,7 +120,15 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
-                        string HeadQuery = @"insert into OPCH(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum,DocTotal , SlpCode , Comments) 
+                        model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.PurchaseType);
+                        model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
+                        model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
+                        model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
+                        model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
+                        model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
+
+                        string HeadQuery = @"insert into OPCH(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum,DocTotal , SlpCode ,
+                                            PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo,SaleOrderNo, Comments)
                                            values(" + Id + ","
                                             + model.HeaderData.Series + ",'"
                                                 + DocType + "','"
@@ -136,7 +144,13 @@ namespace iSOL_Enterprise.Dal
                                                 + Convert.ToDateTime(model.HeaderData.TaxDate) + "','"
                                                 + model.ListAccouting.GroupNum + "',"
                                                 + model.FooterData.Total + ","
-                                                + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
+                                                + Convert.ToInt32(model.FooterData.SlpCode) + ","
+                                                + model.HeaderData.PurchaseType + ","
+                                                + model.HeaderData.TypeDetail + ","
+                                                + model.HeaderData.ProductionOrderNo + ","
+                                                + model.HeaderData.ChallanNo + ","
+                                                + model.HeaderData.DONo + ","
+                                                + model.HeaderData.SaleOrderNo + ",'"
                                                 + model.FooterData.Comments + "')";
 
 
@@ -350,8 +364,14 @@ namespace iSOL_Enterprise.Dal
                         if (model.HeaderData != null)
                     {
 
+                            model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToInt32(model.HeaderData.PurchaseType);
+                            model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
+                            model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
+                            model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
+                            model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
+                            model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
 
-                        string HeadQuery = @" Update OPCH set 
+                            string HeadQuery = @" Update OPCH set 
                                                           DocType = '" + DocType + "'" +
                                                                             ",CardName = '" + model.HeaderData.CardName + "'" +
                                                                             ",CntctCode = '" + model.HeaderData.CntcCode + "'" +
@@ -362,6 +382,12 @@ namespace iSOL_Enterprise.Dal
                                                                             ",DocCur = '" + model.HeaderData.DocCur + "'" +
                                                                             ",GroupNum = '" + model.ListAccouting.GroupNum + "'" +
                                                                             ",SlpCode = " + model.FooterData.SlpCode + "" +
+                                                                            ",PurchaseType = " + model.HeaderData.PurchaseType + "" +
+                                                                            ",TypeDetail = " + model.HeaderData.TypeDetail + "" +
+                                                                            ",ProductionOrderNo = " + model.HeaderData.ProductionOrderNo + "" +
+                                                                            ",ChallanNo = " + model.HeaderData.ChallanNo + "" +
+                                                                            ",DONo = " + model.HeaderData.DONo + "" +
+                                                                           ",SaleOrderNo = " + model.HeaderData.SaleOrderNo + "" +
                                                                             ",Comments = '" + model.FooterData.Comments + "' " +
                                                                             "WHERE Id = '" + model.ID + "'";
 

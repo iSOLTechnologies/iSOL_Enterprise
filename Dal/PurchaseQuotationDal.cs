@@ -258,7 +258,16 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
-                        string HeadQuery = @"insert into OPQT(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,PQTGrpNum,ReqDate, GroupNum ,DocTotal, SlpCode , Comments) 
+                        model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.PurchaseType);
+                        model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
+                        model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
+                        model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
+                        model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
+                        model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
+
+
+                        string HeadQuery = @"insert into OPQT(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,PQTGrpNum,ReqDate, GroupNum ,DocTotal, SlpCode ,
+                                            PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo,SaleOrderNo, Comments)
                                            values(" + Id + ","
                                                 + model.HeaderData.Series + ",'"
                                                 + DocType + "','"
@@ -276,7 +285,13 @@ namespace iSOL_Enterprise.Dal
                                                 + Convert.ToDateTime(model.HeaderData.ReqDate) + "','"
                                                 + model.ListAccouting.GroupNum + "',"
                                                 + model.FooterData.Total + ","
-                                                + Convert.ToInt32(model.FooterData.SlpCode) + ",'"
+                                                + Convert.ToInt32(model.FooterData.SlpCode) + ","
+                                                + model.HeaderData.PurchaseType + ","
+                                                + model.HeaderData.TypeDetail + ","
+                                                + model.HeaderData.ProductionOrderNo + ","
+                                                + model.HeaderData.ChallanNo + ","
+                                                + model.HeaderData.DONo + ","
+                                                + model.HeaderData.SaleOrderNo + ",'"
                                                 + model.FooterData.Comments + "')";
 
 
@@ -526,26 +541,16 @@ namespace iSOL_Enterprise.Dal
 					{
 
 
-                        //string HeadQuery = @"insert into OPQT(Id,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,PQTGrpNum,ReqDate, GroupNum , SlpCode , Comments) 
-                        //                     values(" + Id + ",'"
-                        //						+ DocType + "','"
-                        //						+ CommonDal.generatedGuid() + "','"
-                        //						+ model.HeaderData.CardCode + "','"
-                        //						+ model.HeaderData.DocNum + "','"
-                        //						+ model.HeaderData.CardName + "','"
-                        //						+ model.HeaderData.CntctCode + "','"
-                        //						+ Convert.ToDateTime(model.HeaderData.DocDate) + "','"
-                        //						+ model.HeaderData.NumAtCard + "','"
-                        //						+ Convert.ToDateTime(model.HeaderData.DocDueDate) + "','"
-                        //						+ model.HeaderData.DocCur + "','"
-                        //						+ Convert.ToDateTime(model.HeaderData.TaxDate) + "',"
-                        //						+ model.HeaderData.PQTGrpNum + ",'"
-                        //						+ Convert.ToDateTime(model.HeaderData.ReqDate) + "','"
-                        //						+ model.ListAccouting.GroupNum + "',"
-                        //						+ Convert.ToInt32(model.FooterData.SlpCode) + ",'"
-                        //						+ model.FooterData.Comments + "')";
+                            model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToInt32(model.HeaderData.PurchaseType);
+                            model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
+                            model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
+                            model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
+                            model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
+                            model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
 
-                        model.HeaderData.PQTGrpNum = model.HeaderData.PQTGrpNum == "" ? "NULL" : Convert.ToInt32( model.HeaderData.PQTGrpNum);
+
+
+                            model.HeaderData.PQTGrpNum = model.HeaderData.PQTGrpNum == "" ? "NULL" : Convert.ToInt32( model.HeaderData.PQTGrpNum);
                         string HeadQuery = @" Update OPQT set 
                                                           DocType = '" + DocType + "'" +
                                                        ",PQTGrpNum = " + model.HeaderData.PQTGrpNum + "" +
@@ -559,6 +564,12 @@ namespace iSOL_Enterprise.Dal
                                                        ",DocCur = '" + model.HeaderData.DocCur + "'" +
                                                        ",GroupNum = '" + model.ListAccouting.GroupNum + "'" +
                                                        ",SlpCode = " + model.FooterData.SlpCode + "" +
+                                                       ",PurchaseType = " + model.HeaderData.PurchaseType + "" +
+                                                        ",TypeDetail = " + model.HeaderData.TypeDetail + "" +
+                                                        ",ProductionOrderNo = " + model.HeaderData.ProductionOrderNo + "" +
+                                                        ",ChallanNo = " + model.HeaderData.ChallanNo + "" +
+                                                        ",DONo = " + model.HeaderData.DONo + "" +
+                                                        ",SaleOrderNo = " + model.HeaderData.SaleOrderNo + "" +
                                                        ",Comments = '" + model.FooterData.Comments + "' " +
                                                        "WHERE Id = '" + model.ID + "'";
 

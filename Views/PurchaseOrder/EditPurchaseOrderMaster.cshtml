@@ -317,21 +317,45 @@
                                                                     </div>
                                                                     <div class="form-group row">
 
-                                                                        <div class="col-md-4">
+                                                                        <div class="col-md-6">
                                                                             <label>Production Order #</label>
                                                                             <input id="ProductionOrderNo" value="@row["ProductionOrderNo"]" type="number" class="form-control form-control-sm NotReq">
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </div>
-                                                                        <div class="col-md-4">
+                                                                        <div class="col-md-6">
                                                                             <label>Challan #</label>
                                                                             <input id="ChallanNo" value="@row["ChallanNo"]" type="number" class="form-control form-control-sm NotReq">
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </div>
-                                                                        <div class="col-md-4">
+                                                                        
+                                                                    </div>
+                                                                    <div class="form-group row">
+
+                                                                        <div class="col-md-6">
                                                                             <label>DO #</label>
                                                                             <input id="DONo" value="@row["DONo"]" type="number" class="form-control form-control-sm NotReq">
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </div>
+                                                                        <div class="col-md-6">
+                                                                            <label>Sale Order #</label>
+                                                                            <select id="SaleOrderNo"  class="form-control form-control-sm NotReq" >
+                                                                                       <option guid='' value=''> Select Order </option>
+                                                                                       @foreach (iSOL_Enterprise.Models.SalesQuotation_MasterModels SaleOrder in  ViewBag.SaleOrderList)
+                                                                                       {
+                                                                                           if (row["SaleOrderNo"].Equals(SaleOrder.Id))
+                                                                                           {
+                                                                                               <option  value="@SaleOrder.Id" selected>@SaleOrder.DocNum</option>
+                                                                                           }
+                                                                                           else
+                                                                                           {
+                                                                                               <option  value="@SaleOrder.Id" >@SaleOrder.DocNum</option> 
+                                                                                           }
+                                                                                       }
+
+                                                                            </select>
+                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                         </div>
+
                                                                     </div>
                                                             </div>
                                                              

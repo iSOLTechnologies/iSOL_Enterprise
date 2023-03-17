@@ -307,21 +307,33 @@
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     
-                                                                    <div class="col-md-4">
+                                                                    <div class="col-md-6">
                                                                         <label>Production Order #</label>
                                                                         <input id="ProductionOrderNo" type="number" class="form-control form-control-sm NotReq">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
-                                                                    <div class="col-md-4">
+                                                                    <div class="col-md-6">
                                                                         <label>Challan #</label>
                                                                         <input id="ChallanNo" type="number" class="form-control form-control-sm NotReq">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
-                                                                     <div class="col-md-4">
+                                                                    
+                                                                </div>
+                                                                <div class="form-group row">
+
+                                                                    <div class="col-md-6">
                                                                         <label>DO #</label>
                                                                         <input id="DONo" type="number" class="form-control form-control-sm NotReq">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
+                                                                    <div class="col-md-6">
+                                                                        <label>Sale Order #</label>
+                                                                        <select id="SaleOrderNo"  class="form-control form-control-sm NotReq">
+                                                                                                                                               
+                                                                        </select>
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+
                                                                 </div>
                                                             </div>
 
@@ -1573,6 +1585,7 @@ var html = `   <tr class="rowItemDetail align-items-center itm">
         GetCountrydata();
         GetCurrencydata();
         GetVatGroupData();
+        GetSaleOrders();
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
         GetPayments();

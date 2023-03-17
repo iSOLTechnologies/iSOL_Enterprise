@@ -42,6 +42,7 @@ namespace iSOL_Enterprise.Controllers.Sales
             ViewBag.Countries = cdal.GetCountries();
             ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.Payments = dal.GetPaymentTerms();
+            ViewBag.SaleOrderList = cdal.GetSaleOrders();
             bool flag = CommonDal.Check_IsNotEditable("PCH1", id);
             ViewBag.Status = flag == false ? "Open" : "Closed";
             //ViewBag.Status =   "Open" ;

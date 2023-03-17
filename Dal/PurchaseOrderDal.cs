@@ -302,11 +302,11 @@ namespace iSOL_Enterprise.Dal
                         model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
                         model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
                         model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
-                        
+                        model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
 
 
                         string HeadQuery = @"insert into OPOR(Id,Series,DocType,Guid,CardCode,DocNum,Segment,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum,DocTotal , SlpCode,
-                                            PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo, Comments) 
+                                            PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo,SaleOrderNo, Comments) 
                                            values(" + Id + ","
                                                  + model.HeaderData.Series + ",'"
                                                 + DocType + "','"
@@ -328,7 +328,8 @@ namespace iSOL_Enterprise.Dal
                                                 + model.HeaderData.TypeDetail + ","
                                                 + model.HeaderData.ProductionOrderNo + ","
                                                 + model.HeaderData.ChallanNo + ","
-                                                + model.HeaderData.DONo + ",'"                                                
+                                                + model.HeaderData.DONo + ","                                                
+                                                + model.HeaderData.SaleOrderNo + ",'"                                                
                                                 + model.FooterData.Comments + "')";
 
 
@@ -617,7 +618,7 @@ namespace iSOL_Enterprise.Dal
                             model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
                             model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
                             model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
-
+                            model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
 
                             string HeadQuery = @" Update OPOR set 
                                                           DocType = '" + DocType + "'" +
@@ -635,7 +636,8 @@ namespace iSOL_Enterprise.Dal
                                                         ",TypeDetail = " + model.HeaderData.TypeDetail + "" +
                                                         ",ProductionOrderNo = " + model.HeaderData.ProductionOrderNo + "" +
                                                         ",ChallanNo = " + model.HeaderData.ChallanNo + "" +
-                                                        ",DONo = " + model.HeaderData.DONo + "" +                                                        
+                                                        ",DONo = " + model.HeaderData.DONo + "" +
+                                                        ",SaleOrderNo = " + model.HeaderData.SaleOrderNo + "" +                                                        
                                                        ",Comments = '" + model.FooterData.Comments + "' " +
                                                        "WHERE Id = '" + model.ID + "'";
 
