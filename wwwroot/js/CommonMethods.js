@@ -66,12 +66,7 @@ function GetWareHouseQty(ItemCodeValue, WarehouseValue) {
         }
     });
 
-    //$.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
-
-    //    console.log("Ware" + data);
-    //    return data;
-
-    //});
+    
 
 }
 
@@ -80,43 +75,58 @@ function GetWareHouseQty(ItemCodeValue, WarehouseValue) {
 
 function GetWareHouseData() {
 
-    $.get("Delivery/GetWareHouseData", function (data) {
+
+    return $.ajax({
+        url: 'Delivery/GetWareHouseData',
+        type: 'GET',
+        dataType: 'json',
+        async: false,        
+        success: function (data) {
+
+            $("#Warehouse").html("");
+
+            $.each(data, function () {
+
+                $("#Warehouse").append($('<option>', {
+                    value: this.whscode,
+                    text: this.whsname
+
+                }));
 
 
-        $("#Warehouse").html("");
-
-        $.each(data, function () {
-
-            $("#Warehouse").append($('<option>', {
-                value: this.whscode,
-                text: this.whsname
-
-            }));
-
-
-            WareHouseData += "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
-        });
-
+                WareHouseData += "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
+            });
+        },
+        error: function (jqXhr, textStatus, errorMessage) {
+            console.log(errorMessage);
+        }
     });
+    
 }
 
 
 function InitializeWareHouseData() {
 
-    $.get("Delivery/GetWareHouseData", function (data) {
 
+    return $.ajax({
+        url: 'Delivery/GetWareHouseData',
+        type: 'GET',
+        dataType: 'json',
+        async: false,
+        success: function (data) {
 
+            $.each(data, function () {
 
+                WareHouseData += "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
 
-        $.each(data, function () {
-
-
-
-
-            WareHouseData += "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
-        });
-
+            });
+        },
+        error: function (jqXhr, textStatus, errorMessage) {
+            console.log(errorMessage);
+        }
     });
+
+
 }
 
 

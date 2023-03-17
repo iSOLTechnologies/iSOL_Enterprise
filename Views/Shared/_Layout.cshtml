@@ -3406,11 +3406,13 @@ input[type=number] {
 
 			//debugger
 			var UomEntryRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomEntry");
+			var UomQTYRow = $(ObjItemCode).closest('#ListParameters .itm').find("#QTY");
 			var UomCodeRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomCode");
 			$(UomEntryRow).html('');
 			$(UomEntryRow).append("<option value=" + -1 + " selected>" + 'Manual' + "</option>");
 						$(UomCodeRow).val('Manual');
 			
+			$(UomQTYRow).trigger('change');
 			return $.ajax({
 				url: 'Common/GetItemData',
 				type: 'GET',
