@@ -965,14 +965,17 @@
             BaseType = -1;
     });
 
-    function Edit_GetUomGroup() {   //For Uom Dropdown options
-        $('#ListParameters .itm').each(function (index, item) {
+      function Edit_GetUomGroup() {   //For Uom Dropdown options
+        
+        $('#ListParameters .itm').each( function (index, item) {
 
-            ObjItemCode = $(this).find("#ItemCode");
+            ObjItemCode = $(this).closest('tr').find("#ItemCode");
             let itemno = $(this).find("#ItemCode").val();
+            
+            console.log(itemno);    
             DocModule = "S";
             if (itemno != "" && itemno != null) { GetUomGroup(itemno); }
-
+            
 
         });
     }
@@ -1511,10 +1514,11 @@
             if (Qty.val() <= 0) {
                 Qty.val("");
                 toastr.warning("Quantity can't be 0");
-            } // if (!(sum <= onHand.val())) {
-            //    Qty.val("");
-            //    toastr.warning("Quantity can't be greater than Warehouse quantity");
-            //}
+            }  
+            if (!(sum <= onhand.val())) {
+                qty.val("");
+                toastr.warning("quantity can't be greater than warehouse quantity");
+            }
         //if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
         //    if (Number(Qty.val()) <= Number(BaseQty.val())) {
 

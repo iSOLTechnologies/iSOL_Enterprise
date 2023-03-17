@@ -3315,22 +3315,22 @@ input[type=number] {
 
 		});
 		$(document).on('change keyup', "#ItemCode", function (e) {
-
+			console.log("Inchnage");
 
 		let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
 		let ItemCodeValue = ItemCodeField.val();
 		let WarehouseField = $(this).closest('#ListParameters .itm').find('#Warehouse');
 		let WarehouseValue = WarehouseField.val();
 		let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
-	  if(WarehouseField.val() != "" || WarehouseField.val() != null){
-		   $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
-				console.log("Data is : ",data)
-				onHand.val(data);
+		if(WarehouseField.val() != "" || WarehouseField.val() != null){
+			   $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
+					console.log("Data is : ",data)
+					onHand.val(data);
 
-			});
-			  }
+				});
+		}
  
-	ObjItemCode = $(this).closest('tr').find("#ItemCode");
+			ObjItemCode = $(this).closest('tr').find("#ItemCode");
 			
 			$.get("Common/GetItemData", { itemcode: $(this).val(), DocModule: DocModule }, function (data) {
 
@@ -3350,7 +3350,8 @@ input[type=number] {
 						}
 					
 					GetUomGroup((data.item).itemCode);
-				} else {
+				} else 
+				{
 					$(ObjItemCode).closest('#ListParameters .itm').find("#ItemName").val("");
 					if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
 					$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
@@ -3379,11 +3380,64 @@ input[type=number] {
 
 		function GetUomGroup(itemno) {
 
+			//debugger
 			var UomEntryRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomEntry");
 			var UomCodeRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomCode");
 			$(UomEntryRow).html('');
 			$(UomEntryRow).append("<option value=" + -1 + " selected>" + 'Manual' + "</option>");
 						$(UomCodeRow).val('Manual');
+			
+			return $.ajax({
+				url: 'Common/GetItemData',
+				type: 'GET',
+				dataType: 'json',
+				async: false,
+				data: { itemcode: itemno, DocModule: DocModule },
+				success: function (data) {
+					if((data.item).manBtchNum == "Y")
+						{
+							$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").removeClass("d-none");
+						}
+						else{
+							if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
+								$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
+						}
+				},
+				error: function (jqXhr, textStatus, errorMessage) {
+					console.log(errorMessage);
+					if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
+					$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
+				}
+			});
+
+
+
+			//$.get("Common/GetItemData", { itemcode: itemno, DocModule: DocModule }, function (data) {
+
+			//	if (data.success) {
+							
+			//		//let ItemNameObj = $(ObjItemCode).closest('#ListParameters .itm').find("#ItemName");
+			//		//$(ItemNameObj).val((data.item).itemName);
+					
+				
+			//			if((data.item).manBtchNum == "Y")
+			//			{
+			//				$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").removeClass("d-none");
+			//			}
+			//			else{
+			//				if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
+			//					$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
+			//			}
+					
+			//		//GetUomGroup((data.item).itemCode);
+			//	} else 
+			//	{
+			//		//$(ObjItemCode).closest('#ListParameters .itm').find("#ItemName").val("");
+			//		if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
+			//		$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
+			//	}
+			//});
+
 
 
 			//$.get("SaleQuotation/GetUomGroup", { itemno: itemno }, function (data) {
