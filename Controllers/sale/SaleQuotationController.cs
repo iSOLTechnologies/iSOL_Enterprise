@@ -46,6 +46,7 @@ namespace iSOL_Enterprise.Controllers.Sales
             ViewBag.Payments = dal.GetPaymentTerms();
             ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.Warehouse = Ddal.GetWareHouseData();
+            ViewBag.SaleOrderList = cdal.GetSaleOrders();
             bool flag = CommonDal.Check_IsNotEditable("QUT1", id);
             ViewBag.Status = flag == false ? "Open" : "Closed";
             return View(dal.GetSaleQuotationEditDetails(id));

@@ -79,6 +79,7 @@ function GetWareHouseQty(ItemCodeValue, WarehouseValue) {
 
 
 function GetWareHouseData() {
+
     $.get("Delivery/GetWareHouseData", function (data) {
 
 

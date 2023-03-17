@@ -38,6 +38,7 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Countries = cdal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
             ViewBag.Currency = cdal.GetCurrencydata();
+            ViewBag.SaleOrderList = cdal.GetSaleOrders();
             bool flag = CommonDal.Check_IsNotEditable("DLN1", id);
             ViewBag.Status = flag == false ? "Open" : "Closed";
             return View(dal1.GetDeliveryDetails(id));

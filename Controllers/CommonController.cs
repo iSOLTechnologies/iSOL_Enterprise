@@ -172,5 +172,21 @@ namespace iSOL_Enterprise.Controllers
                 return Json(ex.Message);
             }
         }
+        [HttpGet]
+        public IActionResult GetSaleOrders()
+        {
+            try
+            {
+
+                CommonDal dal = new CommonDal();
+
+                return Json(dal.GetSaleOrders());
+            }
+            catch (Exception ex)
+            {
+
+                return Json(ex.Message);
+            }
+        }
     }
 }

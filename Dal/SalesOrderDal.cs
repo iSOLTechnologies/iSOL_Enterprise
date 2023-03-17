@@ -129,10 +129,11 @@ namespace iSOL_Enterprise.Dal
                         model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal( model.HeaderData.ChallanNo);
                         model.HeaderData.ContainerNo = model.HeaderData.ContainerNo == "" ? "NULL" : Convert.ToDecimal( model.HeaderData.ContainerNo);
                         model.HeaderData.ManualGatePassNo = model.HeaderData.ManualGatePassNo == "" ? "NULL" : Convert.ToDecimal( model.HeaderData.ManualGatePassNo);
+                        model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32( model.HeaderData.SaleOrderNo);
                        
 
                         string HeadQuery = @"insert into ORDR(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum,DocTotal , SlpCode,CETnum,
-                                            PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,ContainerNo,ManualGatePassNo, Comments) 
+                                            PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,ContainerNo,ManualGatePassNo,SaleOrderNo, Comments) 
                                            values(" + Id + ","
 												+ model.HeaderData.Series + ",'"
 												+ DocType + "','"
@@ -155,7 +156,8 @@ namespace iSOL_Enterprise.Dal
                                                 + model.HeaderData.ProductionOrderNo + ","
                                                 + model.HeaderData.ChallanNo + ","
                                                 + model.HeaderData.ContainerNo + ","
-                                                + model.HeaderData.ManualGatePassNo + ",'"
+                                                + model.HeaderData.ManualGatePassNo + ","
+                                                + model.HeaderData.SaleOrderNo + ",'"
                                                 + model.FooterData.Comments + "')";
 
 
@@ -385,6 +387,7 @@ namespace iSOL_Enterprise.Dal
                             model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
                             model.HeaderData.ContainerNo = model.HeaderData.ContainerNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ContainerNo);
                             model.HeaderData.ManualGatePassNo = model.HeaderData.ManualGatePassNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ManualGatePassNo);
+                            model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
 
                             string HeadQuery = @" Update ORDR set 
                                                             DocType = '" + DocType + "'" +
@@ -404,6 +407,7 @@ namespace iSOL_Enterprise.Dal
                                                             ",ChallanNo = " + model.HeaderData.ChallanNo + "" +
                                                             ",ContainerNo = " + model.HeaderData.ContainerNo + "" +
                                                             ",ManualGatePassNo = " + model.HeaderData.ManualGatePassNo + "" +
+                                                            ",SaleOrderNo = " + model.HeaderData.SaleOrderNo + "" +
                                                             ",Comments = '" + model.FooterData.Comments + "' " +
                                                             "WHERE Id = '" + model.ID + "'";
 

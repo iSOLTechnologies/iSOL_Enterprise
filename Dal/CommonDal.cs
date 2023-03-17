@@ -809,5 +809,28 @@ where s.Status=1 and p.Guid=@Guid";
 
 
         }
+        public List<SalesQuotation_MasterModels> GetSaleOrders()
+        {
+            string GetQuery = "select DocEntry,DocNum from ORDR";
+
+
+            List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    list.Add(
+                        new SalesQuotation_MasterModels()
+                        {
+                            Id = rdr["DocEntry"].ToInt(),
+                            DocNum = rdr["DocNum"].ToString()
+                        });
+
+                }
+            }
+
+            return list;
+        }
     }
 }

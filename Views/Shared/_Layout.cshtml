@@ -2139,7 +2139,7 @@ input[type=number] {
 			});
 		}
 
-     function GetVatGroupData() 
+		function GetVatGroupData() 
 		{
 	
 			$.get("SaleQuotation/GetVatGroupData", { DocModule: DocModule }, function (data) {
@@ -2162,7 +2162,31 @@ input[type=number] {
 				});
 		
 			});
-		} 
+		}
+		function GetSaleOrders() 
+		{
+			return $.ajax({
+				url: 'Common/GetSaleOrders',
+				type: 'GET',
+				dataType: 'json',
+				async: false,				
+				success: function (data) 
+				{
+
+					$("#SaleOrderNo").html("");
+					$("#SaleOrderNo").append("<option guid='' value=''> Select Order </option>");
+					$.each(data, function() {
+					$("#SaleOrderNo").append("<option guid=" + this.id + " value=" + this.id + ">" + this.docNum + "</option>");
+					});
+					
+				},
+				error: function (jqXhr, textStatus, errorMessage) {
+					console.log(errorMessage);
+				}
+			});
+			
+		
+		}
 		function GetCountrydata() 
 		{
 	

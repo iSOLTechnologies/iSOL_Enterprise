@@ -287,6 +287,79 @@
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                 </div>
+                                                                <div class="form-group row">
+                                                                    
+                                                                    <div class="col-md-6">
+                                                                        <label>Challan #</label>
+                                                                        <input id="ChallanNo" type="number" class="form-control form-control-sm NotReq">
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <label>Sale Order #</label>
+                                                                        <select id="SaleOrderNo" class="form-control form-control-sm NotReq">
+                                                                        </select>
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+
+
+                                                                </div>
+                                                                
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-6">
+                                                                        <label>Purchase Type</label>
+                                                                        <select id="PurchaseType" class="form-control form-control-sm NotReq">
+                                                                            <option value="0"> Order Base</option>
+                                                                            <option value="1"> General</option>
+                                                                        </select>
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label>Type Detail</label>
+                                                                        <select id="TypeDetail" class="form-control form-control-sm NotReq">
+                                                                            <option value="01">Accessories</option>
+                                                                            <option value="02"> Yarn</option>
+                                                                            <option value="03"> IT</option>
+                                                                            <option value="04"> General</option>
+                                                                            <option value="05"> Engineering</option>
+                                                                            <option value="06"> Weaving</option>
+                                                                            <option value="07"> Dyeing</option>
+                                                                            <option value="08"> Stiching</option>
+                                                                            <option value="09"> Fabric</option>
+                                                                            <option value="10"> Embroidery</option>
+                                                                            <option value="11"> Cartage Expense</option>
+                                                                            <option value="12"> Rolling</option>
+                                                                            <option value="13"> Shearing</option>
+                                                                            <option value="14"> Quilting</option>
+                                                                            <option value="15"> Starching</option>
+                                                                            <option value="16"> Printing</option>
+                                                                            <option value="17"> Washing</option>
+                                                                            <option value="18"> Seersucker</option>
+                                                                            <option value="19"> Sanforized</option>
+                                                                            <option value="20"> Die Cutting</option>
+                                                                        </select>
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+                                                                </div>
+                                                               
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-4">
+                                                                        <label>Container #</label>
+                                                                        <input id="ContainerNo" type="number" class="form-control form-control-sm NotReq">
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <label>Manual Gate Pass #</label>
+                                                                        <input id="ManualGatePassNo" type="number" class="form-control form-control-sm NotReq">
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <label>Production Order #</label>
+                                                                        <input id="ProductionOrderNo" type="number" class="form-control form-control-sm NotReq">
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                    </div>
+
+                                                                </div>
                                                             </div>
 
                                                             <div class="kt-separator kt-separator--space-md kt-separator--border-dashed"></div>
@@ -1729,6 +1802,7 @@
         GetCountrydata();
         GetCurrencydata();
         GetVatGroupData();
+        GetSaleOrders();
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
 
