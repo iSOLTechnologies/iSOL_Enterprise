@@ -1,4 +1,17 @@
 ﻿
+$('#Comments').on('input', function () {
+     
+    var text = $(this).val();
+ 
+         text = text.replace("'", "");
+    
+    $(this).val(text);
+});
+
+
+
+
+ 
 $(document).on('change keyup', '#UPrc,#DicPrc', function (e) {
 
     var quantityField = $(this).closest('#ListParameters .itm').find('#DicPrc');
