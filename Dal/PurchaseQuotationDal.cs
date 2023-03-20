@@ -42,7 +42,7 @@ namespace iSOL_Enterprise.Dal
 					models.CardCode = rdr["CardCode"].ToString();
 					models.Guid = rdr["Guid"].ToString();
 					models.CardName = rdr["CardName"].ToString();
-                    models.IsPosted = rdr["isPosted"].ToString();
+                    models.IsPosted = rdr["isPosted"].ToString(); models.IsEdited = rdr["is_Edited"].ToString();
                     list.Add(models);
 				}
 			}
