@@ -71,7 +71,7 @@ namespace SAP_MVC_DIAPI.BLC
                             string UDF = "";
                             //if (headerTable == "ORDR")
                             //    UDF = ",CETnum";
-                            string headerQuery = @"select DocType,Series,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum,DocTotal ,SlpCode,Comments,Id " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
+                            string headerQuery = @"select DocType,Series,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum,DocTotal ,SlpCode,Comments,Id,Sap_Ref_No " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
                             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
                             {
                                 try
@@ -97,6 +97,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.DocTotal = rdr["DocTotal"].ToDouble();
                                         oDoc.SalesPersonCode = rdr["SlpCode"].ToInt();
                                         oDoc.Comments = rdr["Comments"].ToString();
+                                        oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = rdr["Id"].ToInt();
                                         //if (headerTable == "ORDR")      //For UDF
                                         //    oDoc.UserFields.Fields.Item("U_CETnum").Value = rdr["CETnum"].ToString();
                                         #endregion
@@ -114,7 +115,7 @@ namespace SAP_MVC_DIAPI.BLC
 
 
                                                     if (rdr2["BaseEntry"].ToString() != "")
-                                                        oDoc.Lines.BaseEntry = rdr2["BaseEntry"].ToInt();
+                                                        oDoc.Lines.BaseEntry = rdr["Sap_Ref_No"].ToInt();
                                                     if (rdr2["BaseLine"].ToString() != "")
                                                         oDoc.Lines.BaseLine = rdr2["BaseLine"].ToInt();
                                                     if (rdr2["BaseType"].ToString() != "")
@@ -243,20 +244,20 @@ namespace SAP_MVC_DIAPI.BLC
                                 }
                             }
 
-                            #region Updating Table Row as Posted
-                            string BatchQueryOBTN = @"Update " + headerTable + " set isPosted = 1 where Id =" + ID;    //For Updating master table row as this data is posted to SAP
-                            int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
-                            if (res1 <= 0)
-                            {
-                                tran.Rollback();
+                            //#region Updating Table Row as Posted
+                            //string BatchQueryOBTN = @"Update " + headerTable + " set isPosted = 1 where Id =" + ID;    //For Updating master table row as this data is posted to SAP
+                            //int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
+                            //if (res1 <= 0)
+                            //{
+                            //    tran.Rollback();
 
-                                models.Message = "An Error occured";
-                                models.isSuccess = false;
-                                return models;
-                            }
-                            #endregion
-                            else
-                            {
+                            //    models.Message = "An Error occured";
+                            //    models.isSuccess = false;
+                            //    return models;
+                            //}
+                            //#endregion
+                            //else
+                            //{
 
                                 #region Posting data to SAP
                                 int res = oDoc.Add();
@@ -269,10 +270,37 @@ namespace SAP_MVC_DIAPI.BLC
                                     tran.Rollback();
                                     return models;
                                 }
-                                else
+                                else 
+                                {
+
+                                    string getWBSDocNum = @"select DocEntry from "+headerTable+ " where WBS_DocNum =" +ID;
+                                    tbl_docRow docRowModel = new tbl_docRow();
+                                    using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, getWBSDocNum))
+                                    {
+                                        while (rdr3.Read())
+                                        {                                            
+                                            docRowModel.DocEntry = rdr3["DocEntry"].ToInt();
+
+                                        }
+                                    }
+                                    #region Updating Table Row as Posted
+                                    string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = "+docRowModel.DocEntry + "  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
+                                    int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
+                                    if (res1 <= 0)
+                                    {
+                                        tran.Rollback();
+
+                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.isSuccess = false;
+                                        return models;
+                                    }
+                                    #endregion
                                     tran.Commit();
+                                
+                                
+                                }
                                 #endregion
-                            }
+                            //}
 
                         }
 

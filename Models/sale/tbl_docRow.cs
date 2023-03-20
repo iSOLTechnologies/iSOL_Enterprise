@@ -7,5 +7,6 @@
         public decimal? Quantity { get; set; }
         public decimal? BaseType { get; set; }
         public string? ItemCode { get; set; }
+        public int? DocEntry { get;set; }
     }
 }
