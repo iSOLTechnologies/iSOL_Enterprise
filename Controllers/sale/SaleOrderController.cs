@@ -30,6 +30,7 @@ namespace iSOL_Enterprise.Controllers
         {
             SalesQuotationDal dal = new SalesQuotationDal();
             SalesOrderDal dal1 = new SalesOrderDal();
+            AdministratorDal Adal = new AdministratorDal();
             CommonDal cdal = new CommonDal();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData("S");
@@ -37,6 +38,7 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Payments = dal.GetPaymentTerms();
             ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.SaleOrderList = cdal.GetSaleOrders();
+            ViewBag.GetSeries = Adal.GetSeries(17);
             DeliveryDal Ddal = new DeliveryDal();
             ViewBag.Warehouse = Ddal.GetWareHouseData();
             bool flag = CommonDal.Check_IsNotEditable("RDR1",id);

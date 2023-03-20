@@ -334,6 +334,7 @@ namespace iSOL_Enterprise.Dal
                         model.HeaderData.ContainerNo = model.HeaderData.ContainerNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ContainerNo);
                         model.HeaderData.ManualGatePassNo = model.HeaderData.ManualGatePassNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ManualGatePassNo);
                         model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
+                        model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
 
                         string HeadQuery = @"insert into OQUT(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum ,DocTotal, SlpCode ,
                                             PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,ContainerNo,ManualGatePassNo,SaleOrderNo, Comments) 
@@ -609,6 +610,7 @@ namespace iSOL_Enterprise.Dal
                             model.HeaderData.ContainerNo = model.HeaderData.ContainerNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ContainerNo);
                             model.HeaderData.ManualGatePassNo = model.HeaderData.ManualGatePassNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ManualGatePassNo);
                             model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
+                            model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
 
                             string HeadQuery = @" Update OQUT set 
                                                           DocType = '" + DocType + "'" +
@@ -621,6 +623,7 @@ namespace iSOL_Enterprise.Dal
                                                         ",DocCur = '" + model.HeaderData.DocCur + "'" +
                                                         ",GroupNum = '" + model.ListAccouting.GroupNum + "'" +
                                                         ",SlpCode = " + model.FooterData.SlpCode + "" +
+                                                        ",Series = " + model.HeaderData.Series + "" +
                                                         ",PurchaseType = " + model.HeaderData.PurchaseType + "" +
                                                         ",TypeDetail = " + model.HeaderData.TypeDetail + "" +
                                                         ",ProductionOrderNo = " + model.HeaderData.ProductionOrderNo + "" +

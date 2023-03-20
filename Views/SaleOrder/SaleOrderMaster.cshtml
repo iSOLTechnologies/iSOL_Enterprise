@@ -159,12 +159,12 @@
                                                                         <label>No.</label>
                                                                         <div class="row">
                                                                             <div class="col-md-6">
-                                                                                <select id="Series" class="form-control">
+                                                                                <select id="Series" class="form-control NotReq">
                                                                                     
                                                                                       @foreach (iSOL_Enterprise.Models.Sale.tbl_series i in ViewBag.GetSeries)
                                                                                         {
                                                                                                            
-                                                                                    <option value="@i.Series">@i.SeriesName </option>
+                                                                                        <option value="@i.Series">@i.SeriesName </option>
                                                                                         } 
                                                                                     
                                                                                 
