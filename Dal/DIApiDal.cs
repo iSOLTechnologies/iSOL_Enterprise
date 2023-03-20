@@ -133,7 +133,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                     oDoc.Lines.CountryOrg = rdr2["CountryOrg"].ToString();
                                                     oDoc.Lines.ItemDescription = rdr2["Dscription"].ToString();
                                                     oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
-
+                                                    oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = rdr2["BaseLine"].ToInt();
 
                                                     if (rowTable == "DLN1")
                                                     {
@@ -221,6 +221,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                             throw;
                                                         }
                                                     }
+                                                    
                                                     oDoc.Lines.Add();
                                                 }
                                             }
@@ -273,7 +274,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 else 
                                 {
 
-                                    string getWBSDocNum = @"select DocEntry from "+headerTable+ " where WBS_DocNum =" +ID;
+                                    string getWBSDocNum = @"select DocEntry from "+headerTable+ " where U_WBS_DocNum =" +ID;
                                     tbl_docRow docRowModel = new tbl_docRow();
                                     using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, getWBSDocNum))
                                     {
@@ -284,16 +285,28 @@ namespace SAP_MVC_DIAPI.BLC
                                         }
                                     }
                                     #region Updating Table Row as Posted
-                                    string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = "+docRowModel.DocEntry + "  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
+                                    string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = "+docRowModel.DocEntry + ",is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
                                     int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
                                     if (res1 <= 0)
                                     {
                                         tran.Rollback();
 
                                         models.Message = "Document Posted but Error Occured while updating Documnet !";
-                                        models.isSuccess = false;
+                                        models.isSuccess = true;
                                         return models;
                                     }
+                                    
+                                    string UpdateRowTable = @"Update " + rowTable + " set Sap_Ref_No = " + docRowModel.DocEntry + " where Id =" + ID;
+                                    res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateRowTable).ToInt();
+                                    if (res1 <= 0)
+                                    {
+                                        tran.Rollback();
+
+                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.isSuccess = true;
+                                        return models;
+                                    }
+
                                     #endregion
                                     tran.Commit();
                                 

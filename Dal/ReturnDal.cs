@@ -663,7 +663,7 @@ namespace iSOL_Enterprise.Dal
                                                            ",NumAtCard = '" + model.HeaderData.NumAtCard + "'" +
                                                            ",DocCur = '" + model.HeaderData.DocCur + "'" +
                                                            ",GroupNum = '" + model.ListAccouting.GroupNum + "'" +
-                                                           ",SlpCode = " + model.FooterData.SlpCode + "" +
+                                                           ",SlpCode = " + model.FooterData.SlpCode + " , is_Edited = 1" +
                                                            ",Series = " + model.HeaderData.Series + "" +
                                                            ",PurchaseType = " + model.HeaderData.PurchaseType + "" +
                                                            ",TypeDetail = " + model.HeaderData.TypeDetail + "" +
