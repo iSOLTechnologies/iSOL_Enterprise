@@ -36,6 +36,8 @@ namespace iSOL_Enterprise.Controllers.Sales
             CommonDal cdal = new CommonDal();
             APInvoiceDal dal1 = new APInvoiceDal();
             DeliveryDal Ddal = new DeliveryDal();
+            AdministratorDal Adal = new AdministratorDal();
+            ViewBag.GetSeries = Adal.GetSeries(18);
             ViewBag.Warehouse = Ddal.GetWareHouseData();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData("P");

@@ -303,7 +303,7 @@ namespace iSOL_Enterprise.Dal
                         model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
                         model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
                         model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
-
+                        model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
 
                         string HeadQuery = @"insert into OPOR(Id,Series,DocType,Guid,CardCode,DocNum,Segment,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum,DocTotal , SlpCode,
                                             PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo,SaleOrderNo, Comments) 
@@ -619,6 +619,7 @@ namespace iSOL_Enterprise.Dal
                             model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
                             model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
                             model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
+                            model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
 
                             string HeadQuery = @" Update OPOR set 
                                                           DocType = '" + DocType + "'" +
@@ -632,6 +633,7 @@ namespace iSOL_Enterprise.Dal
                                                        ",DocCur = '" + model.HeaderData.DocCur + "'" +
                                                        ",GroupNum = '" + model.ListAccouting.GroupNum + "'" +
                                                        ",SlpCode = " + model.FooterData.SlpCode + "" +
+                                                       ",Series = " + model.HeaderData.Series + "" +
                                                        ",PurchaseType = " + model.HeaderData.PurchaseType + "" +
                                                         ",TypeDetail = " + model.HeaderData.TypeDetail + "" +
                                                         ",ProductionOrderNo = " + model.HeaderData.ProductionOrderNo + "" +
