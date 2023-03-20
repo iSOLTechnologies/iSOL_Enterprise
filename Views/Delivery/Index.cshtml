@@ -79,6 +79,7 @@
 <!-- Render Body <End> -->
 
 <script>
+    var datatable;
     $(document).on('click', '#btnAdd', function () {
 
         //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
@@ -250,7 +251,9 @@
                     $("#btnPostToSap").attr('disabled', false);
 
                     toastr.success(response.message);
-
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
+                    datatable.ajax.reload();
                 }
                 else {
                     $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
@@ -258,6 +261,7 @@
                     toastr.error(response.message);
                     $(".loading_ic").removeClass('overlay dark');
                     $(".loading_ic").hide();
+                    datatable.ajax.reload();
                 }
 
             });
