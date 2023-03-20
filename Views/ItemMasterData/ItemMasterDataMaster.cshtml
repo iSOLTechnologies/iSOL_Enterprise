@@ -165,15 +165,10 @@
                                                                         </div>
 
                                                                         <div class="col-md-4 d-flex">
-                                                                            <div class="form-check">
-                                                                                <input class="form-check-input"
-                                                                                    type="checkbox" value=""
-                                                                                    id="flexCheckDefault">
-                                                                                <label class="form-check-label"
-                                                                                    for="flexCheckDefault">
-                                                                                    Inventory Item
-                                                                                </label>
-                                                                            </div>
+                                                                            <label class="checkbox checkbox-success">
+																<input type="checkbox" >
+                                                                            <span></span>&nbsp; Inventory Item
+                                                                        </label>
                                                                         </div>
                                                                     </div>
 
@@ -192,7 +187,11 @@
                                                                         </div>
 
                                                                         <div class="col-md-4 d-flex">
-                                                                            <div class="form-check">
+                                                                             <label class="checkbox checkbox-success">
+																<input type="checkbox" >
+                                                                            <span></span>&nbsp; Sales Item
+                                                                        </label>
+                                                                           @* <div class="form-check">
                                                                                 <input class="form-check-input"
                                                                                     type="checkbox" value=""
                                                                                     id="flexCheckDefault">
@@ -200,7 +199,7 @@
                                                                                     for="flexCheckDefault">
                                                                                     Sales Item
                                                                                 </label>
-                                                                            </div>
+                                                                            </div>*@
                                                                         </div>
                                                                     </div>
 
@@ -223,7 +222,7 @@
                                                                         </div>
 
                                                                         <div class="col-md-4 d-flex">
-                                                                            <div class="form-check">
+                                                                           @* <div class="form-check">
                                                                                 <input class="form-check-input"
                                                                                     type="checkbox" value=""
                                                                                     id="flexCheckDefault">
@@ -231,7 +230,11 @@
                                                                                     for="flexCheckDefault">
                                                                                     Purchasing Item
                                                                                 </label>
-                                                                            </div>
+                                                                            </div>*@
+                                                                             <label class="checkbox checkbox-success">
+																<input type="checkbox" >
+                                                                            <span></span>&nbsp; Purchasing Item
+                                                                        </label>
                                                                         </div>
                                                                     </div>
 
@@ -487,7 +490,7 @@
                                                                             class="form-group row justify-content-between">
 
                                                                             <div class="col-md-4 d-flex">
-                                                                                <div class="form-check">
+                                                                                @*<div class="form-check">
                                                                                     <input class="form-check-input"
                                                                                         type="checkbox" value=""
                                                                                         id="flexCheckDefault">
@@ -495,7 +498,11 @@
                                                                                         for="flexCheckDefault">
                                                                                         Withholding Tax Liable
                                                                                     </label>
-                                                                                </div>
+                                                                                </div>*@
+                                                                                 <label class="checkbox checkbox-success">
+																<input type="checkbox" >
+                                                                            <span></span>&nbsp; Withholding Tax Liable
+                                                                        </label>
                                                                             </div>
                                                                         </div>
 
@@ -975,7 +982,103 @@
                                   
                                                                          
                                                             <div class="row mt-5"> 
-                                                            <div class="col-md-6"> 
+                                                            <div class="col-md-8"> 
+
+                                                                <table id="kt_repeater_1" style="overflow:auto">
+                                                                            <thead class="ScrollThead">
+                                                                                <tr>
+                                                                                    <th>#</th>
+                                                                                    <th>Property Name</th>
+                                                                                    <th></th>
+                                                                                    
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody id="Properties" data-repeater-list="" class="ScrollTbody">
+                                                                                <!--  -->
+                                                                                <tr class="rowItemDetail align-items-center itm">
+                                                                                   
+                                                                                    <td>
+                                                                                       1
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        PROPERTY # 1
+                                                                                    </td>
+                                                                                    <td>
+                                                                                       <label class="checkbox checkbox-success">
+																<input type="checkbox" id="propchckbox" >
+																<span></span></label>
+                                                                                    </td>
+                                                                                     </tr> 
+                                                                                     <tr class="rowItemDetail align-items-center itm">
+                                                                                   
+                                                                                    <td>
+                                                                                       1
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        PROPERTY # 2
+                                                                                    </td>
+                                                                                    <td>
+                                                                                       <label class="checkbox checkbox-success">
+																<input type="checkbox" id="propchckbox" >
+																<span></span></label>
+                                                                                    </td>
+                                                                                     </tr>  
+                                                                                     <tr class="rowItemDetail align-items-center itm">
+                                                                                   
+                                                                                    <td>
+                                                                                       1
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        PROPERTY # 3
+                                                                                    </td>
+                                                                                    <td>
+                                                                                            <label class="checkbox checkbox-success">
+                                                                                                <input type="checkbox" id="propchckbox" >
+                                                                                                <span></span>
+                                                                                            </label>
+                                                                                    </td>
+                                                                                     </tr>
+                                                                                   
+                                                                                </tbody>
+                                                                        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*
+
                                                                         <table class="table table-striped">
                                                                             <thead class="thead-light">
                                                                               <tr>
@@ -1001,10 +1104,10 @@
                                                                                 <td> <input id="propchckbox" type="checkbox"> </td> 
                                                                               </tr>
                                                                             </tbody>
-                                                                          </table>
+                                                                          </table>*@
                                                                        
                                                                     </div>
-                                                                    <div class="col-md-6"> 
+                                                                    <div class="col-md-4"> 
 
                                                                         <input type="button" value="Select All" id="PropertiesSelectAll" class="btn btn-primary"> &nbsp;
                                                                         <input type="button" value="Clear All" id="PropertiesClearAll" class="btn btn-outline-primary">  
