@@ -149,7 +149,7 @@
                                                                             <label
                                                                                 class="mr-2 d-flex text-center pt-2 col-md-4">Item
                                                                                 Name </label>
-                                                                            <select
+                                                                            <select id="Series"
                                                                                 class="form-control form-control-sm col-md-3">
                                                                                 <option>1</option>
                                                                                 <option>2</option>
@@ -157,8 +157,8 @@
                                                                             <div id="ErrorMsg"
                                                                                 class="error invalid-feedback">This
                                                                                 field is required.</div>
-                                                                            <input type="text" id="Status"
-                                                                                class="col-md-5 form-control form-control-sm NotReq">
+                                                                            <input type="text" id="ItemCode" 
+                                                                                class="col-md-5 form-control form-control-sm">
                                                                             <div id="ErrorMsg"
                                                                                 class="error invalid-feedback">This
                                                                                 field is required.</div>
@@ -166,7 +166,7 @@
 
                                                                         <div class="col-md-4 d-flex">
                                                                             <label class="checkbox checkbox-success">
-																<input type="checkbox" >
+																<input type="checkbox" id="InvntItem">
                                                                             <span></span>&nbsp; Inventory Item
                                                                         </label>
                                                                         </div>
@@ -179,8 +179,8 @@
                                                                             <label
                                                                                 class="mr-2 d-flex text-center pt-2 col-md-4">Description
                                                                             </label>
-                                                                            <input type="text" id="Status"
-                                                                                class="col-md-8 form-control form-control-sm NotReq">
+                                                                            <input type="text" id="ItemName"
+                                                                                class="col-md-8 form-control form-control-sm ">
                                                                             <div id="ErrorMsg"
                                                                                 class="error invalid-feedback">This
                                                                                 field is required.</div>
@@ -188,7 +188,7 @@
 
                                                                         <div class="col-md-4 d-flex">
                                                                              <label class="checkbox checkbox-success">
-																<input type="checkbox" >
+																<input type="checkbox" id="SellItem" >
                                                                             <span></span>&nbsp; Sales Item
                                                                         </label>
                                                                            @* <div class="form-check">
@@ -214,7 +214,7 @@
                                                                             <div id="ErrorMsg"
                                                                                 class="error invalid-feedback">This
                                                                                 field is required.</div>
-                                                                            <input type="text" id="Status"
+                                                                        <input type="text" id="FrgnName"
                                                                                 class="col-md-8 form-control form-control-sm NotReq">
                                                                             <div id="ErrorMsg"
                                                                                 class="error invalid-feedback">This
@@ -232,7 +232,7 @@
                                                                                 </label>
                                                                             </div>*@
                                                                              <label class="checkbox checkbox-success">
-																<input type="checkbox" >
+																<input type="checkbox" id="PrchseItem">
                                                                             <span></span>&nbsp; Purchasing Item
                                                                         </label>
                                                                         </div>
@@ -245,7 +245,7 @@
                                                                             <label
                                                                                 class="mr-2 d-flex text-center pt-2 col-md-4">Item
                                                                                 Type </label>
-                                                                            <select
+                                                                            <select id="ItemType"
                                                                                 class="form-control form-control-sm col-md-8">
                                                                                 <option>1</option>
                                                                                 <option>2</option>
@@ -264,7 +264,7 @@
                                                                             <label
                                                                                 class="mr-2 d-flex text-center pt-2 col-md-4">Item
                                                                                 Group </label>
-                                                                            <select
+                                                                            <select id="ItmsGrpCod"
                                                                                 class="form-control form-control-sm col-md-8">
                                                                                 <option>1</option>
                                                                                 <option>2</option>
@@ -278,29 +278,11 @@
 
                                                                     <div class="form-group row justify-content-between">
 
-                                                                        <div class="col-md-5 d-flex">
-                                                                            <label
-                                                                                class="mr-2 d-flex text-center pt-2 col-md-4">Price
-                                                                                List </label>
-                                                                            <select
-                                                                                class="form-control form-control-sm col-md-8">
-                                                                                <option>1</option>
-                                                                                <option>2</option>
-                                                                            </select>
-                                                                            <div id="ErrorMsg"
-                                                                                class="error invalid-feedback">This
-                                                                                field is required.</div>
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                    <div class="form-group row justify-content-between">
-
-                                                                        <div class="col-md-5 d-flex">
+                                                                           <div class="col-md-5 d-flex">
                                                                             <label
                                                                                 class="mr-2 d-flex text-center pt-2 col-md-4">UoM
                                                                                 Group </label>
-                                                                            <select
+                                                                            <select id="UgpEntry"
                                                                                 class="form-control form-control-sm form-control-sm col-md-8">
                                                                                 <option>1</option>
                                                                                 <option>2</option>
@@ -309,9 +291,35 @@
                                                                                 class="error invalid-feedback">This
                                                                                 field is required.</div>
                                                                         </div>
+
+
+
+
+
+                                                                    </div>
+
+                                                                    <div class="form-group row justify-content-between">
+
+
+                                                                    <div class="col-md-5 d-flex">
+                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-4">
+                                                                            Price
+                                                                            List
+                                                                        </label>
+                                                                        <select id="ListName"
+                                                                                class="form-control form-control-sm col-md-8">
+                                                                            <option>1</option>
+                                                                            <option>2</option>
+                                                                        </select>
+                                                                        <div id="ErrorMsg"
+                                                                             class="error invalid-feedback">
+                                                                            This
+                                                                            field is required.
+                                                                        </div>
+                                                                    </div>
                                                                         <div class="col-md-7 d-flex">
                                                                             <label class="col-md-3">Unit Price </label>
-                                                                            <select
+                                                                            <select id="PriceUnit"
                                                                                 class="form-control form-control-sm col-md-3">
                                                                                 <option>1</option>
                                                                                 <option>2</option>
@@ -319,21 +327,12 @@
                                                                             <div id="ErrorMsg"
                                                                                 class="error invalid-feedback">This
                                                                                 field is required.</div>
-                                                                            <input type="text" id="Status"
-                                                                                class="col-md-5 form-control form-control-sm NotReq">
+                                                                            <input type="number" id="AvgPrice"
+                                                                                class="col-md-5 form-control form-control-sm">
                                                                         </div>
                                                                     </div>
-
-
-
-
-
-
-
-
+                                                                     
                                                                     <!-- 
-
-
                                                                     <div class="form-group row justify-content-between">
                                                                         <div class="col-md-3 d-flex">
                                                                             <label class="mr-2 d-flex text-center pt-2 col-md-5">GSM</label>
@@ -500,7 +499,7 @@
                                                                                     </label>
                                                                                 </div>*@
                                                                                  <label class="checkbox checkbox-success">
-																<input type="checkbox" >
+																<input type="checkbox" id="WTLiable">
                                                                                 <span></span>&nbsp; Withholding Tax Liable
                                                                         </label>
                                                                             </div>
@@ -513,7 +512,7 @@
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Manufacturer
                                                                                 </label>
-                                                                                <select
+                                                                                <select id="FirmCode"
                                                                                     class="form-control form-control-sm col-md-8">
                                                                                     <option>1</option>
                                                                                     <option>2</option>
@@ -532,7 +531,7 @@
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Shipping
                                                                                     Type </label>
-                                                                                <select
+                                                                                <select id="ShipType"
                                                                                     class="form-control form-control-sm col-md-8">
                                                                                     <option>1</option>
                                                                                     <option>2</option>
@@ -551,10 +550,11 @@
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Managed
                                                                                     Item by </label>
-                                                                                <select
+                                                                                <select id="ManagedItemby"
                                                                                     class="form-control form-control-sm col-md-8">
-                                                                                    <option>1</option>
-                                                                                    <option>2</option>
+                                                                                    <option value="0">None</option>
+                                                                                    <option value="1">Serial Number</option>
+                                                                                    <option value="2">Batches</option>
                                                                                 </select>
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
@@ -563,6 +563,26 @@
 
                                                                         </div>
 
+                                                                    <div class="form-group row justify-content-between d-none" id="MyMngMthd">
+
+                                                                        <div class="col-md-5 d-flex">
+                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-4">
+                                                                                Management Method
+                                                                            </label>
+                                                                            <select id="ManagedItemby"
+                                                                                    class="form-control form-control-sm col-md-8"> 
+                                                                                <option value="A">On Every Transaction</option>
+                                                                                <option value="R">On Every Release</option>
+                                                                            </select>
+                                                                            <div id="ErrorMsg"
+                                                                                 class="error invalid-feedback">
+                                                                                This
+                                                                                field is required.
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+
                                                                         <div
                                                                             class="form-group row justify-content-between">
 
@@ -570,10 +590,10 @@
                                                                                 <div class="form-check">
                                                                                     <input class="form-check-input"
                                                                                         type="radio"
-                                                                                        name="flexRadioDefault"
-                                                                                        id="flexRadioDefault1">
+                                                                                        name="validFor"
+                                                                                          value="Y">
                                                                                     <label class="form-check-label"
-                                                                                        for="flexRadioDefault1">
+                                                                                        for="MyRadio">
                                                                                         Active
                                                                                     </label>
                                                                                 </div>
@@ -587,10 +607,10 @@
                                                                                 <div class="form-check">
                                                                                     <input class="form-check-input"
                                                                                         type="radio"
-                                                                                        name="flexRadioDefault"
-                                                                                        id="flexRadioDefault1">
+                                                                                        name="validFor"
+                                                                                          value="N">
                                                                                     <label class="form-check-label"
-                                                                                        for="flexRadioDefault1">
+                                                                                        for="MyRadio">
                                                                                         Inactive
                                                                                     </label>
                                                                                 </div>
@@ -613,7 +633,7 @@
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Purchasing
                                                                                     UoM Name </label>
-                                                                                <input type="text"
+                                                                                <input type="text" id="BuyUnitMar"
                                                                                     class="col-md-4 form-control form-control-sm">
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
@@ -627,7 +647,7 @@
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Items
                                                                                     Per Purchasing Unit </label>
-                                                                                <input type="text"
+                                                                                <input type="text" id="NumInBuy"
                                                                                     class="col-md-4 form-control form-control-sm">
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
@@ -642,12 +662,12 @@
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Custom
                                                                                     Group </label>
-                                                                                <select
+                                                                                <select id="CstGrpCode"
                                                                                     class="form-control form-control-sm col-md-4">
                                                                                     <option>1</option>
                                                                                     <option>2</option>
                                                                                 </select>&nbsp;&nbsp;
-                                                                                <input type="text"
+                                                                                <input type="text" id="TotalTax"
                                                                                     class="col-md-2 form-control form-control-sm">&nbsp;<label><b>%</b></label>
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
@@ -662,12 +682,12 @@
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Tax
                                                                                     Group </label>
-                                                                                <select
+                                                                                <select id="VatGroupPu"
                                                                                     class="form-control form-control-sm col-md-4">
                                                                                     <option>1</option>
                                                                                     <option>2</option>
                                                                                 </select>&nbsp;&nbsp;
-                                                                                <input type="text"
+                                                                                <input type="text" id="OVTG"
                                                                                     class="col-md-2 form-control form-control-sm">&nbsp;<label><b>%</b></label>
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
@@ -677,11 +697,7 @@
 
                                                                     </div>
 
-                                                                    <div class="tab-pane scrollbar"
-                                                                        id="kt_tabs_SalesData" role="tabpanel"
-                                                                        >
-
-
+                                                                    <div class="tab-pane scrollbar" id="kt_tabs_SalesData" role="tabpanel">
                                                                         <div
                                                                             class="form-group mt-5 row justify-content-between">
 
@@ -689,16 +705,14 @@
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Tax
                                                                                     Group </label>
-                                                                                <select
+                                                                                <select id="VatGroupSa"
                                                                                     class="form-control-sm form-control col-md-4">
                                                                                     <option>1</option>
                                                                                     <option>2</option>
                                                                                 </select>&nbsp;&nbsp;
-                                                                                <input type="text"
+                                                                                <input type="text" id="Rate"
                                                                                     class="col-md-2 form-control form-control-sm">&nbsp;<label><b>%</b></label>
-                                                                                <div id="ErrorMsg"
-                                                                                    class="error invalid-feedback">This
-                                                                                    field is required.</div>
+                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                             </div>
                                                                         </div>
 
@@ -711,7 +725,7 @@
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Sales
                                                                                     UoM Name </label>
-                                                                                <input type="text"
+                                                                                <input type="text" id="SalUnitMar"
                                                                                     class="form-control form-control-sm col-md-4">
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
@@ -725,7 +739,7 @@
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Items
                                                                                     per Sale Unit </label>
-                                                                                <input type="text"
+                                                                                <input type="text" id="NumInSale"
                                                                                     class="form-control form-control-sm col-md-4">
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
@@ -736,8 +750,7 @@
                                                                     </div>
 
                                                                     <div class="tab-pane scrollbar"
-                                                                        id="kt_tabs_InventoryData" role="tabpanel"
-                                                                      >
+                                                                        id="kt_tabs_InventoryData" role="tabpanel">
                                                                         <div
                                                                             class="form-group mt-5 row justify-content-between">
 
@@ -961,7 +974,7 @@
                                                                             class="form-group row justify-content-between">
 
                                                                             <div class="col-md-9 d-flex">
-                                                                                <div class="form-check">
+                                                                                @*<div class="form-check">
                                                                                     <input class="form-check-input"
                                                                                         type="checkbox" value=""
                                                                                         id="flexCheckDefault">
@@ -969,7 +982,11 @@
                                                                                         for="flexCheckDefault">
                                                                                         Withholding Tax Liable
                                                                                     </label>
-                                                                                </div>
+                                                                                </div>*@
+                                                                                 <label class="checkbox checkbox-success">
+																                <input type="checkbox" >
+                                                                                <span></span>&nbsp; Withholding Tax Liable
+                                                                        </label>
                                                                             </div>
                                                                         </div>
 
@@ -2140,13 +2157,7 @@
     $(this).find("#propchckbox").prop("checked", false);
 
 });
-});
-        
-        
-         
-               
-        
-        
+}); 
                 $(document).on('click', '#Itemno', function (e) {
                     IsHeader = false;
                     ObjItemCode = $(this).closest('tr').find("#ItemCode");
@@ -2155,15 +2166,22 @@
                     $('#myItemModal').modal('show');
         
                 });
+                $(document).on('change', '#ManagedItemby', function (e) {
+                    let ManagedItemby = $('#ManagedItemby').val();
+                    if(ManagedItemby == 1 || ManagedItemby == 2){
+                        $('#MyMngMthd').removeClass('d-none');
+                    }else{
+                        $('#MyMngMthd').addClass('d-none');
+                    }        
+                });
 
         $(document).on('click', '#btnBack', function (e) {
-
             window.history.back();
         });
 
         $(document).on('click', '#ListBtnDelete', function () {
             $(this).closest('tr').remove();
-        })
+        });
 
 
     </script>
