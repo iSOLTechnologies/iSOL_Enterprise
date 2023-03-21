@@ -543,7 +543,7 @@
                                                                                 </div>*@
                                                                                  <label class="checkbox checkbox-success">
 																<input type="checkbox" id="WTLiable">
-                                                                                <span></span>&nbsp; Withholding Tax Liable
+                                                                                <span class="border_grey"></span>&nbsp; Withholding Tax Liable
                                                                         </label>
                                                                             </div>
                                                                         </div>
@@ -640,16 +640,16 @@
                                                                                     </label>
                                                                                 </div>*@
                                                                                 <label class="radio radio-success">
-																<input id="ActivevalidFor" type="radio" name="validFor" class="ml-2" value="Y">
+																<input id="ActivevalidFor" type="radio" checked name="validFor" class="ml-2" value="Y">
 																<span></span> Active</label>
                                                                             </div>
 
-                                                                              <div class="col-md-10 row d-none" id="ActivevalidFor1">
+                                                                              <div class="col-md-10 row" id="ActivevalidFor1">
                                                                                  <label class="mt-2 mr-3">From</label>
-                                                                                <input type="text" id="validFrom" class="mr-5 col-md-2 form-control form-control-sm NotReq">
+                                                                                <input type="date" id="validFrom" class="mr-5 col-md-2 form-control form-control-sm NotReq">
                                                                                  
                                                                                 <label class="mt-2 mr-3">To</label>
-                                                                                <input type="text" id="validTo" class="col-md-2 form-control form-control-sm NotReq">
+                                                                                <input type="date" id="validTo" class="col-md-2 form-control form-control-sm NotReq">
                                                                             </div>
 
 
@@ -676,10 +676,10 @@
                                                                             </div>
                                                                               <div class="col-md-10 row d-none" id="InActivevalidFor1">
                                                                                  <label class="mt-2 mr-3">From</label>
-                                                                                <input type="text" id="frozenFrom" class="mr-5 col-md-2 form-control form-control-sm NotReq">
+                                                                                <input type="date" id="frozenFrom" class="mr-5 col-md-2 form-control form-control-sm NotReq">
                                                                                  
                                                                                 <label class="mt-2 mr-3">To</label>
-                                                                                <input type="text" id="frozenTo" class="col-md-2 form-control form-control-sm NotReq">
+                                                                                <input type="date" id="frozenTo" class="col-md-2 form-control form-control-sm NotReq">
                                                                             </div>
                                                                         </div>
 
@@ -839,7 +839,7 @@
                                                                         <div class="col-md-4">
                                                                             <label class="checkbox checkbox-success">
                                                                                 <input type="checkbox" id="ByWh">
-                                                                                <span></span>&nbsp; Manage Inventory by Warehouse
+                                                                                <span class="border_grey"></span>&nbsp; Manage Inventory by Warehouse
                                                                             </label>
                                                                         </div>
                                                                     </div>
@@ -902,7 +902,7 @@
 
                                                                                     <td>
                                                                                         <div class="input-group">
-                                                                                            <input id="WhsCode" class="form-control form-control-sm">
+                                                                                            <input id="WhsCode" class="form-control form-control-sm" readonly>
                                                                                             <div id="WhsCodeSearch" class="input-group-append">
                                                                                                 <span class="input-group-text">
                                                                                                     <i class="la la-search"></i>
@@ -913,7 +913,7 @@
                                                                                     </td>
                                                                                     <td>
 
-                                                                                        <input type="text" id="WhsName" class="form-control form-control-sm" placeholder="Warehouse Name" aria-describedby="basic-addon2">
+                                                                                        <input type="text" readonly id="WhsName" class="form-control form-control-sm" placeholder="Warehouse Name" aria-describedby="basic-addon2">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
@@ -1134,7 +1134,7 @@
                                                                                 </div>*@
                                                                                  <label class="checkbox checkbox-success">
 																                <input type="checkbox" >
-                                                                                <span></span>&nbsp; Withholding Tax Liable
+                                                                                <span class="border_grey"></span>&nbsp; Withholding Tax Liable
                                                                         </label>
                                                                             </div>
                                                                         </div>

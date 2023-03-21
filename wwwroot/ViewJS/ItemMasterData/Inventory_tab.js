@@ -4,7 +4,7 @@
 
                                                                                             <td>
                                                                                                 <div class="input-group">
-                                                                                                    <input id="WhsCode" class="form-control form-control-sm">
+                                                                                                    <input id="WhsCode" class="form-control form-control-sm" readonly>
                                                                                                         <div id="WhsCodeSearch" class="input-group-append">
                                                                                                             <span class="input-group-text">
                                                                                                                 <i class="la la-search"></i>
@@ -15,7 +15,7 @@
                                                                                             </td>
                                                                                             <td>
 
-                                                                                                <input type="text" id="WhsName" class="form-control form-control-sm" placeholder="Warehouse Name" aria-describedby="basic-addon2">
+                                                                                                <input type="text" readonly id="WhsName" class="form-control form-control-sm" placeholder="Warehouse Name" aria-describedby="basic-addon2">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
