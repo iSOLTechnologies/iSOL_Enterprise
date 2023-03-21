@@ -203,7 +203,7 @@ namespace iSOL_Enterprise.Dal
                     }
                     if (model.ListItems != null)
                     {
-                        int LineNo = 1;
+                        int LineNo = 0;
                         foreach (var item in model.ListItems)
                           {
                             //#region If Doc copied data from other Doc
@@ -398,7 +398,7 @@ namespace iSOL_Enterprise.Dal
                     else if (model.ListService != null)
                     {
 
-                        int LineNo = 1;
+                        int LineNo = 0;
                         foreach (var item in model.ListService)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "INV1");
@@ -432,7 +432,7 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
-                        int LineNo = 1;
+                        int LineNo = 0;
                         int ATC1Id = CommonDal.getPrimaryKey(tran, "AbsEntry", "ATC1");
                         foreach (var item in model.ListAttachment)
                         {
@@ -680,7 +680,7 @@ namespace iSOL_Enterprise.Dal
                     else if (model.ListService != null)
                     {
 
-                        int LineNo = 1;
+                        int LineNo = 0;
                         foreach (var item in model.ListService)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "DLN1");
@@ -712,7 +712,7 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
-                        int LineNo = 1;
+                        int LineNo = 0;
                         int ATC1Id = CommonDal.getPrimaryKey(tran, "AbsEntry", "ATC1");
                         foreach (var item in model.ListAttachment)
                         {

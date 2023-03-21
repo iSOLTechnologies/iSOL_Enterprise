@@ -391,7 +391,7 @@ namespace iSOL_Enterprise.Dal
                     }
                     if (model.ListItems != null)
                     {
-                        int LineNo = 1;
+                        int LineNo = 0;
                         foreach (var item in model.ListItems)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
@@ -440,7 +440,7 @@ namespace iSOL_Enterprise.Dal
                     }
                     else if (model.ListService != null)
                     {
-                        int LineNo = 1;
+                        int LineNo = 0;
 
                         foreach (var item in model.ListService)
                         {
@@ -480,7 +480,7 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
-                        int LineNo = 1;
+                        int LineNo = 0;
                         int ATC1Id = CommonDal.getPrimaryKey(tran, "AbsEntry", "ATC1");
                         foreach (var item in model.ListAttachment)
                         {
@@ -722,7 +722,7 @@ namespace iSOL_Enterprise.Dal
                     }
                     else if (model.ListService != null)
                     {
-                        int LineNo = 1;
+                        int LineNo = 0;
 
                         foreach (var item in model.ListService)
                         {
@@ -763,7 +763,7 @@ namespace iSOL_Enterprise.Dal
                     {
 
 
-                        int LineNo = 1;
+                        int LineNo = 0;
                         int ATC1Id = CommonDal.getPrimaryKey(tran, "AbsEntry", "ATC1");
                         foreach (var item in model.ListAttachment)
                         {
