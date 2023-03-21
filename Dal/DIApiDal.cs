@@ -89,7 +89,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.DocType = rdr["DocType"].ToString() == "I" ? BoDocumentTypes.dDocument_Items : BoDocumentTypes.dDocument_Service;
                                         oDoc.CardCode = rdr["CardCode"].ToString();
                                         oDoc.CardName = rdr["CardName"].ToString();
-                                   
+
                                         oDoc.ContactPersonCode = rdr["CntctCode"].ToInt();
                                         oDoc.DocDate = rdr["DocDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["DocDate"].ToString());
                                         oDoc.NumAtCard = rdr["NumAtCard"].ToString();
@@ -100,7 +100,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.DocTotal = rdr["DocTotal"].ToDouble();
                                         oDoc.SalesPersonCode = rdr["SlpCode"].ToInt();
                                         oDoc.Comments = rdr["Comments"].ToString();
-                                        oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = rdr["Id"].ToInt();
+                                        oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
                                         //if (headerTable == "ORDR")      //For UDF
                                         //    oDoc.UserFields.Fields.Item("U_CETnum").Value = rdr["CETnum"].ToString();
                                         #endregion
@@ -116,19 +116,21 @@ namespace SAP_MVC_DIAPI.BLC
                                                 while (rdr2.Read())
                                                 {
                                                     string BaseTable = "";
-                                                    int BaseEntry ;
+                                                    int BaseEntry;
 
                                                     if (rdr2["BaseType"].ToString() != "")
                                                     {
                                                         BaseTable = dal.GetMasterTable(rdr2["BaseType"].ToInt());
-                                                        
-                                                        BaseEntry = Convert.ToInt32(SqlHelper.ExecuteScalar(tran, CommandType.Text, "select Sap_Ref_No from" + BaseTable + "where Id =" + rdr2["BaseEntry"].ToInt()));
-                                                    
+                                                        string GetBaseEntryQuery = "select Sap_Ref_No from " + BaseTable + " where Id =" + rdr2["BaseEntry"].ToInt();
+                                                        BaseEntry = Convert.ToInt32(SqlHelper.ExecuteScalar(tran, CommandType.Text, GetBaseEntryQuery));
+
                                                         oDoc.Lines.BaseEntry = BaseEntry;
-                                                    
+
                                                         oDoc.Lines.BaseLine = rdr2["BaseLine"].ToInt();
-                                                    
+
                                                         oDoc.Lines.BaseType = rdr2["BaseType"].ToInt();
+
+                                                        oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;
                                                     }
                                                     if (rdr2["Price"].ToString() != "")
                                                         oDoc.Lines.Price = rdr2["Price"].ToDouble();
@@ -137,12 +139,11 @@ namespace SAP_MVC_DIAPI.BLC
 
                                                     oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();
                                                     oDoc.Lines.Quantity = rdr2["Quantity"].ToDouble();
-                                                    oDoc.Lines.DiscountPercent = rdr2["DiscPrcnt"].ToDouble();                                                  
+                                                    oDoc.Lines.DiscountPercent = rdr2["DiscPrcnt"].ToDouble();
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
                                                     oDoc.Lines.CountryOrg = rdr2["CountryOrg"].ToString();
                                                     oDoc.Lines.ItemDescription = rdr2["Dscription"].ToString();
                                                     oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
-                                                    oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = rdr2["BaseLine"].ToInt();
 
                                                     if (rowTable == "DLN1")
                                                     {
@@ -230,7 +231,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                             throw;
                                                         }
                                                     }
-                                                    
+
                                                     oDoc.Lines.Add();
                                                 }
                                             }
@@ -255,63 +256,63 @@ namespace SAP_MVC_DIAPI.BLC
                             }
 
                             #region Posting data to SAP
-                                int res = -1;
-                                if (!isOld)
-                                    res = oDoc.Add();
-                                else
-                                    res = oDoc.Update();
-                                
-                                if (res < 0)
-                                {
+                            int res = -1;
+                            if (!isOld)
+                                res = oDoc.Add();
+                            else
+                                res = oDoc.Update();
 
-                                    oCompany.GetLastError(out res, out message);
-                                    models.Message = message;
-                                    models.isSuccess = false;
+                            if (res < 0)
+                            {
+
+                                oCompany.GetLastError(out res, out message);
+                                models.Message = message;
+                                models.isSuccess = false;
+                                tran.Rollback();
+                                return models;
+                            }
+                            else
+                            {
+
+                                string getWBSDocNum = @"select DocEntry from " + headerTable + " where U_WBS_DocNum =" + ID;
+                                tbl_docRow docRowModel = new tbl_docRow();
+                                using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, getWBSDocNum))
+                                {
+                                    while (rdr3.Read())
+                                    {
+                                        docRowModel.DocEntry = rdr3["DocEntry"].ToInt();
+
+                                    }
+                                }
+                                #region Updating Table Row as Posted , Add Sap Base Entry
+                                string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = " + docRowModel.DocEntry + ",is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
+                                int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
+                                if (res1 <= 0)
+                                {
                                     tran.Rollback();
+
+                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                    models.isSuccess = true;
                                     return models;
                                 }
-                                else 
+
+                                string UpdateRowTable = @"Update " + rowTable + " set Sap_Ref_No = " + docRowModel.DocEntry + " where Id =" + ID;
+                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateRowTable).ToInt();
+                                if (res1 <= 0)
                                 {
+                                    tran.Rollback();
 
-                                    string getWBSDocNum = @"select DocEntry from "+headerTable+ " where U_WBS_DocNum =" +ID;
-                                    tbl_docRow docRowModel = new tbl_docRow();
-                                    using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, getWBSDocNum))
-                                    {
-                                        while (rdr3.Read())
-                                        {                                            
-                                            docRowModel.DocEntry = rdr3["DocEntry"].ToInt();
-
-                                        }
-                                    }
-                                    #region Updating Table Row as Posted , Add Sap Base Entry
-                                    string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = "+docRowModel.DocEntry + ",is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
-                                    int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
-                                    if (res1 <= 0)
-                                    {
-                                        tran.Rollback();
-
-                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
-                                        models.isSuccess = true;
-                                        return models;
-                                    }
-                                    
-                                    string UpdateRowTable = @"Update " + rowTable + " set Sap_Ref_No = " + docRowModel.DocEntry + " where Id =" + ID;
-                                    res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateRowTable).ToInt();
-                                    if (res1 <= 0)
-                                    {
-                                        tran.Rollback();
-
-                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
-                                        models.isSuccess = true;
-                                        return models;
-                                    }
-
-                                    #endregion
-                                    tran.Commit();
-                                
-                                
+                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                    models.isSuccess = true;
+                                    return models;
                                 }
-                                #endregion                         
+
+                                #endregion
+                                tran.Commit();
+
+
+                            }
+                            #endregion
 
                         }
 
