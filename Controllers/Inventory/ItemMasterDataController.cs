@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using iSOL_Enterprise.Dal.Inventory;
+using Microsoft.AspNetCore.Mvc;
 
 namespace iSOL_Enterprise.Controllers.Inventory
 {
@@ -10,7 +11,28 @@ namespace iSOL_Enterprise.Controllers.Inventory
         }
         public IActionResult ItemMasterDataMaster()
         {
+            ItemMasterDataDal dal = new ItemMasterDataDal();
+            ViewData["properties"] = dal.GetProperties();
             return View();
+        }
+        public IActionResult GetWareHouseList()
+        {
+
+            ResponseModels response = new ResponseModels();
+            try
+            {
+
+                ItemMasterDataDal dal = new ItemMasterDataDal();
+                response.Data = dal.GetWareHouseList();
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
         }
     }
 }
