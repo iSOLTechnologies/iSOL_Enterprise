@@ -1,4 +1,5 @@
 ﻿using iSOL_Enterprise.Dal.Inventory;
+using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iSOL_Enterprise.Controllers.Inventory

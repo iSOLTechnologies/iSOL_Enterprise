@@ -96,12 +96,17 @@ $(document).on('dblclick', '#MyWareHouseListTable tbody tr', function (e) {
     var selectedRow = $(this).closest('tr');
     var rowData = LookTable.row(selectedRow).data();
 
-    if (!WarehouseAlreadyChecked(rowData['whscode'])) {
+    var isWhsChkd = WarehouseAlreadyChecked(rowData['whscode']);
+    console.log(isWhsChkd);
+    if (isWhsChkd)
+    {
+        toastr.warning("The selected warehouse already exits");
+        
+    }
+    else
+    {
         $(ObjWarehouseCode).closest('#ListParameters .itm').find("#WhsCode").val(rowData['whscode']).trigger('change');
         $(ObjWarehouseCode).closest('#ListParameters .itm').find("#WhsName").val(rowData['whsname']).trigger('change');
-    }
-    else {
-        toastr.warning("The selected warehouse already exits");
     }
     $('#myWarehouseModal').modal('hide');
 
@@ -110,6 +115,7 @@ $(document).on('dblclick', '#MyWareHouseListTable tbody tr', function (e) {
 function WarehouseAlreadyChecked(WhsCode) {
 
     let _WhsCode;
+    let isValid = [];
     console.log(WhsCode);
     $('#ListParameters .itm').each(function () {
 
@@ -117,8 +123,14 @@ function WarehouseAlreadyChecked(WhsCode) {
 
         if (WhsCode == _WhsCode) {
             console.log("same");
-            return true;
+            isValid.push(true);
+        }
+        else {
+            isValid.push(false);
         }
     });
-    return false;
+    if (isValid.includes(true))
+        return true;
+    else
+        return false;
 }
