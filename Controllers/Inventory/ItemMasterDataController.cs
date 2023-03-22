@@ -63,5 +63,18 @@ namespace iSOL_Enterprise.Controllers.Inventory
 
             return Json(response);
         }
+        [HttpPost]
+        public IActionResult AddItemMasterData(string formData)
+        {
+            try
+            {
+                ItemMasterDataDal dal = new ItemMasterDataDal();
+                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddItemMasterData(formData) == true ? Json(new { isInserted = true, message = "Item Added Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

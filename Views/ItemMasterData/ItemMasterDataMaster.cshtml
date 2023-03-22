@@ -12,10 +12,8 @@
 @using iSOL_Enterprise.Models.Inventory
 
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
     <!-- MyStart -->
     <!-- Render Body <Start> -->
-
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid mt-4">
 
         <!--end::Subheader-->
@@ -641,7 +639,7 @@
                                                                                                 <option value="@i.Value">@i.Text </option>                                                                                            
                                                                                         }
                                                                                 </select>&nbsp;&nbsp;
-                                                                                <input type="text" id="OVTG"
+                                                                                <input type="text" id="VatGroupPu1"
                                                                                     class="col-md-2 form-control form-control-sm">&nbsp;<label><b>%</b></label>
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
@@ -666,7 +664,7 @@
                                                                                     <option value="@i.Value">@i.Text </option>
                                                                                 }
                                                                                 </select>&nbsp;&nbsp;
-                                                                                <input type="text" id="Rate"
+                                                                                <input type="text" id="VatGroupSa1"
                                                                                     class="col-md-2 form-control form-control-sm">&nbsp;<label><b>%</b></label>
                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                             </div>
@@ -714,7 +712,7 @@
                                                                                 Set
                                                                                 Inventory Method by
                                                                             </label>
-                                                                            <select id="GLMETHOD"
+                                                                            <select id="GLMethod"
                                                                                     class="form-control-sm form-control col-md-4">
                                                                                 <option value="W">Warehouse</option>
                                                                                 <option value="C">Item Group</option>
@@ -2254,7 +2252,44 @@
         $(document).on('click', '#ListBtnDelete', function () {
             $(this).closest('tr').remove();
         });
+    $(document).on('change', '#Series', function () {
 
+
+        if ($(this).val() == -1)
+            $('#ItemCode').removeAttr("readonly");
+        else {
+            $('#ItemCode').addAttr("readonly");
+
+            return $.ajax({
+                url: '/ItemMasterData/GetNewItemCode',
+                dataType: 'json',
+                type: 'Get',
+
+                data: { Series: $(this).val() },
+
+                success: function (result) {
+
+                    if (result.success) {
+
+                        $('#ItemCode').val(result.itemCode);
+
+                    }
+
+                    if (!(result.success)) {
+                        toastr.error("An error occured while getting ItemCode");
+
+                    }
+
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+                    console.log(errorMessage);
+                }
+
+            }).done(function (result) {
+
+            });
+        }
+    })
   
     </script>
 <script src="~/viewjs/itemmasterdata/inventory_tab.js"></script>
