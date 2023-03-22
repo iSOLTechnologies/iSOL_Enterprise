@@ -5,6 +5,7 @@ using iSOL_Enterprise.Models.sale;
 using Newtonsoft.Json;
 using SAPbobsCOM;
 using SqlHelperExtensions;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -183,7 +184,25 @@ namespace iSOL_Enterprise.Dal.Inventory
     
         }
 
+        public List<ListModel> GetUomName()
+        {
+            string GetQuery = " select UomEntry,UomCode  from OUOM order by UomEntry";
 
+            List<ListModel> list = new List<ListModel>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+                    list.Add(new ListModel()
+                    {
+                        Value = rdr["UomEntry"].ToInt(),
+                        Text = rdr["UomCode"].ToString()
+
+                    });
+                }
+            }
+            return list;
+        }
 
         public bool AddItemMasterData(string formData)
         {
@@ -230,7 +249,7 @@ namespace iSOL_Enterprise.Dal.Inventory
                         List<SqlParameter> param = new List<SqlParameter>();
                         foreach (var Arr in ArrayHeadQuery)
                         {
-                            param.Add(new SqlParameter("@"+Arr.ToString(), Arr));
+                            param.Add(new SqlParameter("\"@" + Arr +"\"", Arr));
                         }
                          
                         #endregion
