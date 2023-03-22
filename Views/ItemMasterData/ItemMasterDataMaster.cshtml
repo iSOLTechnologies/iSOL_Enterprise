@@ -196,6 +196,7 @@
                                                                                         {                                                                                            
                                                                                                 <option value="@i.Series">@i.SeriesName </option>                                                                                            
                                                                                         }
+                                                                                        <option value="-1" selected>Manual</option>   
                                                                             </select>&nbsp;&nbsp;
                                                                             <div id="ErrorMsg"
                                                                                 class="error invalid-feedback">This
@@ -1021,10 +1022,10 @@
                                                                                         Withholding Tax Liable
                                                                                     </label>
                                                                                 </div>*@
-                                                                                 <label class="checkbox checkbox-success">
-																                <input type="checkbox" >
-                                                                                <span class="border_grey"></span>&nbsp; Withholding Tax Liable
-                                                                        </label>
+                                                                            <label class="checkbox checkbox-success">
+                                                                                <input type="checkbox" id="InCostRoll">
+                                                                                <span class="border_grey"></span>&nbsp; Include in Production Std Cost Rollup
+                                                                            </label>
                                                                             </div>
                                                                         </div>
 
@@ -2255,10 +2256,13 @@
     $(document).on('change', '#Series', function () {
 
 
-        if ($(this).val() == -1)
-            $('#ItemCode').removeAttr("readonly");
+        if ($(this).val() == -1) {
+
+            $('#ItemCode').attr("readonly", false);
+            $('#ItemCode').val("");
+        }
         else {
-            $('#ItemCode').addAttr("readonly");
+            $('#ItemCode').attr("readonly", true);
 
             return $.ajax({
                 url: '/ItemMasterData/GetNewItemCode',
