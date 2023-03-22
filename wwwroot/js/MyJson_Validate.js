@@ -101,30 +101,35 @@ function getJsonObj(element) {
 
     $('#' + element + ' input,' + '#' + element + ' select, ' + '#' + element + ' textarea').each(function (index, data) {
 
-        if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')
-
+        if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') {
             if ($(this).is(':checkbox') || $(this).is(':radio'))
                 jsonobj[$(this).attr("id")] = $(this).is(':checked') == true ? 'Y' : 'N';
             else
                 jsonobj[$(this).attr("id")] = $(this).val();
-
+        }
     });
     return jsonobj;
 }
 
+
 function getJsonObjList(element) {
     let listObj = [];
+    console.log(element);
 
-    $('#' + element).each(function (index, item) {
+    $('#' + element).each(function () {
+
+        
         var jsonobj = new Object();
         $(this).find('input , select , textarea').each(function (index, data) {
 
-            if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')
+            console.log($(this).val());
+            if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') { 
 
                 if ($(this).is(':checkbox') || $(this).is(':radio'))
                     jsonobj[$(this).attr("id")] = $(this).is(':checked') == true ? 'Y' : 'N';
                 else
                     jsonobj[$(this).attr("id")] = $(this).val();
+            }
 
         });
 
@@ -132,6 +137,6 @@ function getJsonObjList(element) {
 
 
 
-    })
+    });
     return listObj;
 }

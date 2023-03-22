@@ -2296,9 +2296,9 @@
             });
     });
 
-   $(document).on("keydown", "input", function () {
-       $(this).removeClass('is-invalid');
-    });
+    $(document).on("keydown", "input", function () {
+        $(this).removeClass('is-invalid');
+    });
     $(document).on('change' ,'#InvntItem' , function(){
 
             if( $(this).is(':checked'))
@@ -2375,6 +2375,8 @@
 
     $(document).on('click', '#btnSaveData', function (e) {
 
+       // console.log(getJsonObjList("ListParameters tr"));
+
         var isValid = false;
         
         $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
@@ -2438,7 +2440,7 @@
             Tab_PurchasingData : isPurchaseItem == true ? getJsonObj("kt_tabs_PurchasingData") : null, 
             Tab_SalesData :  isSalesItem == true ? getJsonObj("kt_tabs_SalesData") : null,
             Tab_InventoryData : isInventryItem == true ? getJsonObj("kt_tabs_InventoryData") : null,
-            Tab_InventoryData_WareHouseList : isInventryItem == true && isManageInvByWareHouse == true ? getJsonObjList("ListParameters itm") : null,
+            Tab_InventoryData_WareHouseList: isInventryItem == true && isManageInvByWareHouse == true ? getJsonObjList("ListParameters tr") : null,
             Tab_PlanningData : getJsonObj("kt_tabs_PlanningData"),
             Tab_ProductionData : getJsonObj("kt_tabs_ProductionData"),
             Tab_Properties : getJsonObj("kt_tabs_Properties")
