@@ -140,7 +140,7 @@ namespace iSOL_Enterprise.Dal.Inventory
                 {
                     list.Add(new ListModel()
                     {
-                        ValueDecimal = rdr["Code"].ToInt(),
+                        ValueDecimal = rdr["Code"].ToDecimal(),
                         Text = rdr["Name"].ToString()
 
                     });
