@@ -641,9 +641,9 @@
                                                                                     Group </label>
                                                                                 <select id="VatGroupPu"
                                                                                     class="form-control form-control-sm col-md-4">
-                                                                                     @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.TaxGroup)
+                                                                                      @foreach (iSOL_Enterprise.Models.sale.tbl_OVTG i in ViewBag.CustomsGroup)
                                                                                         {                                                                                            
-                                                                                                <option value="@i.ValueDecimal">@i.Text </option>                                                                                            
+                                                                                                <option guid="@i.Rate" value="i.code">@i.VatName </option>                                                                                            
                                                                                         }
                                                                                 </select>&nbsp;&nbsp;
                                                                                 <input type="text" id="VatGroupPu1"
@@ -666,9 +666,9 @@
                                                                             </label>
                                                                             <select id="VatGroupSa"
                                                                                     class="form-control-sm form-control col-md-4">
-                                                                                @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.TaxGroup)
+                                                                                @foreach (iSOL_Enterprise.Models.sale.tbl_OVTG i in ViewBag.CustomsGroup)
                                                                                 {
-                                                                                    <option value="@i.ValueDecimal">@i.Text </option>
+                                                                                    <option guid="@i.Rate" value="i.code">@i.VatName </option>
                                                                                 }
                                                                             </select>&nbsp;&nbsp;
                                                                             <input type="text" id="VatGroupSa1"
@@ -2272,7 +2272,10 @@
 
 <script>
     $(document).ready(function() {
-            console.log("in ready");
+             $("#CstGrpCode1").val($("#CstGrpCode").attr("guid"));  
+             $("#VatGroupSa1").val($("#VatGroupSa").attr("guid"));  
+             $("#VatGroupPu1").val($("#VatGroupPu").attr("guid"));  
+
 
             $("#BuyUnitMsr").select2({
             placeholder: "Select an option",
@@ -2321,17 +2324,17 @@
 
     $(document).on('change', '#CstGrpCode', function (e) {
 
-     $("#CstGrpCode1").val($("#CstGrpCode").val());  
+     $("#CstGrpCode1").val($("#CstGrpCode").attr("guid"));  
                     
     });    
     $(document).on('change', '#VatGroupSa', function (e) {
 
-                        $("#VatGroupSa1").val($("#VatGroupSa").val());  
+                        $("#VatGroupSa1").val($("#VatGroupSa").attr("guid"));  
                     
     });         
     $(document).on('change', '#VatGroupPu', function (e) {
 
-                        $("#VatGroupPu1").val($("#VatGroupPu").val());  
+                        $("#VatGroupPu1").val($("#VatGroupPu").attr("guid"));  
                     
     });
 
