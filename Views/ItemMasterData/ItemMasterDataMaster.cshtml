@@ -194,8 +194,10 @@
                                                                                 Name </label>
                                                                             <select id="Series"
                                                                                 class="form-control form-control-sm col-md-3">
-                                                                                <option>1</option>
-                                                                                <option>2</option>
+                                                                                        @foreach (iSOL_Enterprise.Models.Sale.tbl_series i in ViewBag.Series)
+                                                                                        {                                                                                            
+                                                                                                <option value="@i.Series">@i.SeriesName </option>                                                                                            
+                                                                                        }
                                                                             </select>&nbsp;&nbsp;
                                                                             <div id="ErrorMsg"
                                                                                 class="error invalid-feedback">This
@@ -209,7 +211,7 @@
 
                                                                         <div class="col-md-4 d-flex">
                                                                             <label class="checkbox checkbox-success">
-																<input type="checkbox" id="InvntItem">
+																            <input type="checkbox" id="InvntItem" value="Y">
                                                                             <span></span>&nbsp; Inventory Item
                                                                         </label>
                                                                         </div>
@@ -231,18 +233,10 @@
 
                                                                         <div class="col-md-4 d-flex">
                                                                              <label class="checkbox checkbox-success">
-																<input type="checkbox" id="SellItem" >
+																             <input type="checkbox" id="SellItem" value="Y">
                                                                             <span></span>&nbsp; Sales Item
                                                                         </label>
-                                                                           @* <div class="form-check">
-                                                                                <input class="form-check-input"
-                                                                                    type="checkbox" value=""
-                                                                                    id="flexCheckDefault">
-                                                                                <label class="form-check-label"
-                                                                                    for="flexCheckDefault">
-                                                                                    Sales Item
-                                                                                </label>
-                                                                            </div>*@
+                                                                           
                                                                         </div>
                                                                     </div>
 
@@ -265,17 +259,9 @@
                                                                         </div>
 
                                                                         <div class="col-md-4 d-flex">
-                                                                           @* <div class="form-check">
-                                                                                <input class="form-check-input"
-                                                                                    type="checkbox" value=""
-                                                                                    id="flexCheckDefault">
-                                                                                <label class="form-check-label"
-                                                                                    for="flexCheckDefault">
-                                                                                    Purchasing Item
-                                                                                </label>
-                                                                            </div>*@
+                                                                           
                                                                              <label class="checkbox checkbox-success">
-																<input type="checkbox" id="PrchseItem">
+                                                                            <input type="checkbox" id="PrchseItem" value="Y">
                                                                             <span></span>&nbsp; Purchasing Item
                                                                         </label>
                                                                         </div>
@@ -290,8 +276,11 @@
                                                                                 Type </label>
                                                                             <select id="ItemType"
                                                                                 class="form-control form-control-sm col-md-8">
-                                                                                <option>1</option>
-                                                                                <option>2</option>
+                                                                                <option value="I">Item</option>
+                                                                                <option value="L">Labor</option>
+                                                                                <option value="T">Travel</option>
+                                                                                <option value="F">Fixed Assets</option>
+                                                                                
                                                                             </select>
                                                                             <div id="ErrorMsg"
                                                                                 class="error invalid-feedback">This
@@ -309,8 +298,10 @@
                                                                                 Group </label>
                                                                             <select id="ItmsGrpCod"
                                                                                 class="form-control form-control-sm col-md-8">
-                                                                                <option>1</option>
-                                                                                <option>2</option>
+                                                                                @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.ItemGroup)
+                                                                                        {                                                                                            
+                                                                                                <option value="@i.Value">@i.Text </option>                                                                                            
+                                                                                        }
                                                                             </select>
                                                                             <div id="ErrorMsg"
                                                                                 class="error invalid-feedback">This
@@ -327,8 +318,7 @@
                                                                                 Group </label>
                                                                             <select id="UgpEntry"
                                                                                 class="form-control form-control-sm form-control-sm col-md-8">
-                                                                                <option>1</option>
-                                                                                <option>2</option>
+                                                                                <option value="-1">Manual</option>                                                                              
                                                                             </select>
                                                                             <div id="ErrorMsg"
                                                                                 class="error invalid-feedback">This
@@ -351,8 +341,10 @@
                                                                         </label>
                                                                         <select id="ListName"
                                                                                 class="form-control form-control-sm col-md-8">
-                                                                            <option>1</option>
-                                                                            <option>2</option>
+                                                                            @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.ListName)
+                                                                                        {                                                                                            
+                                                                                                <option value="@i.Value">@i.Text </option>                                                                                            
+                                                                                        }
                                                                         </select>
                                                                         <div id="ErrorMsg"
                                                                              class="error invalid-feedback">
@@ -375,101 +367,7 @@
                                                                         </div>
                                                                     </div>
                                                                      
-                                                                    <!-- 
-                                                                    <div class="form-group row justify-content-between">
-                                                                        <div class="col-md-3 d-flex">
-                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-5">GSM</label>
-                                                                            <input type="number" id="GSM" class="form-control form-control-sm NotReq" placeholder="0.00000">
-                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                        </div>
-    
-                                                                        <div class="col-md-5 d-flex">
-                                                                            <label class="mr-2 d-flex align-items-center pt-2 col-md-5 justify-content-center">Item Description</label>
-                                                                            <input type="text" id="Status" class="form-control form-control-sm NotReq">
-                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                        </div>
-                                                                        <div class="col-md-3 d-flex">
-                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-5">Gram / Pcs</label>
-                                                                            <input type="number" id="grampcs" class="form-control form-control-sm NotReq" placeholder="0.00000">
-                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                        </div>
-                                                                    </div>
-    
-    
-                                                                    <div class="form-group row justify-content-between">
-                                                                        <div class="col-md-3 d-flex">
-                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-5">No of Pcs/Lbs</label>
-                                                                            <input type="number" id="noofpcslbs" class="form-control form-control-sm NotReq" placeholder="0.00000">
-                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                        </div>
-                                                                        <div class="col-md-5 d-flex">
-                                                                            <label class="mr-2 d-flex align-items-center pt-2 col-md-5 justify-content-center">Oz</label>
-                                                                            <input type="number" id="oz" class="form-control form-control-sm NotReq" placeholder="0.00000">
-                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                        </div>
-                                                                        <div class="col-md-3 d-flex">
-                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-5">Lbs/Pcs</label>
-                                                                            <input id="lbspcs" type="number" class="form-control form-control-sm NotReq" placeholder="0.00000">
-                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                        </div>
-    
-                                                                    </div>
-    
-    
-                                                                    <div class="form-group row justify-content-center">
-    
-    
-                                                                        <div class="col-md-2 text-center">
-                                                                            <label class="pt-2 font-weight-bold">Width</label>
-                                                                        </div>
-    
-                                                                        <div class="col-md-2 text-center">
-                                                                            <label class="pt-2 text-center font-weight-bold">Length</label>
-                                                                        </div>
-                                                                        <div class="col-md-2 text-center">
-                                                                            <label class="pt-2 text-center font-weight-bold">Packing</label>
-                                                                        </div>
-                                                                    </div>
-    
-                                                                    <div class="form-group row justify-content-center">
-    
-                                                                        <label class="mr-1 pt-2">CM</label>
-                                                                        <div class="col-md-2 d-flex">
-    
-                                                                            <input type="number" id="cmw" class="form-control form-control-sm NotReq" placeholder="0.00000">
-                                                                        </div>
-                                                                        <label class="mr-1 ml-1 pt-2 font-weight-bold">X</label>
-                                                                        <div class="col-md-2 d-flex">
-    
-                                                                            <input type="number" id="cml" class="form-control form-control-sm NotReq" placeholder="0.00000">
-                                                                        </div>
-    
-                                                                        <div class="col-md-2 d-flex">
-    
-                                                                            <input type="number" id="cmp" class="form-control form-control-sm NotReq" placeholder="0.00000">
-                                                                        </div>
-                                                                        <label class="mr-1 pt-2">Pcs/Crtn</label>
-                                                                    </div>
-    
-                                                                    <div class="form-group row justify-content-center">
-    
-                                                                        <label class="mr-1 pt-2">Inch</label>
-                                                                        <div class="col-md-2 d-flex">
-    
-                                                                            <input type="number" id="inchw" class="form-control form-control-sm NotReq" placeholder="0.00000">
-                                                                        </div>
-                                                                        <label class="mr-1 ml-1 pt-2 font-weight-bold">X</label>
-                                                                        <div class="col-md-2 d-flex">
-    
-                                                                            <input type="number" id="inchl" class="form-control form-control-sm NotReq" placeholder="0.00000">
-                                                                        </div>
-    
-                                                                        <div class="col-md-2 d-flex">
-    
-                                                                            <input type="number" id="inchp" class="form-control form-control-sm NotReq" placeholder="0.00000">
-                                                                        </div>
-                                                                        <label class="mr-1 pt-2">Pcs/Poly</label>
-                                                                    </div> -->
+                                                                   
                                                                 </div>
 
                                                                 <div
@@ -557,8 +455,10 @@
                                                                                 </label>
                                                                                 <select id="FirmCode"
                                                                                     class="form-control form-control-sm col-md-8">
-                                                                                    <option>1</option>
-                                                                                    <option>2</option>
+                                                                                @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.Manufacturer)
+                                                                                        {                                                                                            
+                                                                                                <option value="@i.Value">@i.Text </option>                                                                                            
+                                                                                        }
                                                                                 </select>
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
@@ -576,8 +476,10 @@
                                                                                     Type </label>
                                                                                 <select id="ShipType"
                                                                                     class="form-control form-control-sm col-md-8">
-                                                                                    <option>1</option>
-                                                                                    <option>2</option>
+                                                                                @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.Shiptype)
+                                                                                        {                                                                                            
+                                                                                                <option value="@i.Value">@i.Text </option>                                                                                            
+                                                                                        }
                                                                                 </select>
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
@@ -629,16 +531,7 @@
                                                                         <div class="form-group row justify-content-between">
 
                                                                             <div class="col-md-2 radio-inline">
-                                                                               @* <div class="form-check">
-                                                                                    <input class="form-check-input"
-                                                                                        type="radio"
-                                                                                        name="validFor"
-                                                                                         id="ActivevalidFor" value="Y">
-                                                                                    <label class="form-check-label"
-                                                                                        for="validFor">
-                                                                                        Active
-                                                                                    </label>
-                                                                                </div>*@
+                                                                              
                                                                                 <label class="radio radio-success">
 																<input id="ActivevalidFor" type="radio" checked name="validFor" class="ml-2" value="Y">
 																<span></span> Active</label>
@@ -660,20 +553,11 @@
                                                                             class="form-group row justify-content-between">
 
                                                                         <div class="col-md-2 radio-inline">
-                                                                               @* <div class="form-check">
-                                                                                    <input class="form-check-input"
-                                                                                        type="radio"
-                                                                                        name="validFor"
-                                                                                       id="InActivevalidFor" value="N">
-                                                                                    <label class="form-check-label"
-                                                                                        for="MyRadio">
-                                                                                        Inactive
-                                                                                    </label>
-                                                                                </div>*@
+                                                                               
                                                                                 <label class="radio radio-success">
-																<input id="InActivevalidFor" type="radio" name="validFor" class="ml-2" value="N">
-																<span></span> InActive</label>
-                                                                            </div>
+																                <input id="InActivevalidFor" type="radio" name="validFor" class="ml-2" value="N">
+																                <span></span> InActive</label>
+                                                                        </div>
                                                                               <div class="col-md-10 row d-none" id="InActivevalidFor1">
                                                                                  <label class="mt-2 mr-3">From</label>
                                                                                 <input type="date" id="frozenFrom" class="mr-5 col-md-2 form-control form-control-sm NotReq">
@@ -726,12 +610,14 @@
 
                                                                             <div class="col-md-8 d-flex">
                                                                                 <label
-                                                                                    class="mr-2 d-flex text-center pt-2 col-md-4">Custom
+                                                                                    class="mr-2 d-flex text-center pt-2 col-md-4">Customs
                                                                                     Group </label>
                                                                                 <select id="CstGrpCode"
                                                                                     class="form-control form-control-sm col-md-4">
-                                                                                    <option>1</option>
-                                                                                    <option>2</option>
+                                                                                @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.CustomsGroup)
+                                                                                        {                                                                                            
+                                                                                                <option value="@i.Value">@i.Text </option>                                                                                            
+                                                                                        }
                                                                                 </select>&nbsp;&nbsp;
                                                                                 <input type="text" id="TotalTax"
                                                                                     class="col-md-2 form-control form-control-sm">&nbsp;<label><b>%</b></label>
@@ -750,8 +636,10 @@
                                                                                     Group </label>
                                                                                 <select id="VatGroupPu"
                                                                                     class="form-control form-control-sm col-md-4">
-                                                                                    <option>1</option>
-                                                                                    <option>2</option>
+                                                                                     @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.TaxGroup)
+                                                                                        {                                                                                            
+                                                                                                <option value="@i.Value">@i.Text </option>                                                                                            
+                                                                                        }
                                                                                 </select>&nbsp;&nbsp;
                                                                                 <input type="text" id="OVTG"
                                                                                     class="col-md-2 form-control form-control-sm">&nbsp;<label><b>%</b></label>
@@ -773,8 +661,10 @@
                                                                                     Group </label>
                                                                                 <select id="VatGroupSa"
                                                                                     class="form-control-sm form-control col-md-4">
-                                                                                    <option>1</option>
-                                                                                    <option>2</option>
+                                                                                @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.TaxGroup)
+                                                                                {
+                                                                                    <option value="@i.Value">@i.Text </option>
+                                                                                }
                                                                                 </select>&nbsp;&nbsp;
                                                                                 <input type="text" id="Rate"
                                                                                     class="col-md-2 form-control form-control-sm">&nbsp;<label><b>%</b></label>
@@ -961,11 +851,12 @@
 
                                                                             <div class="col-md-8 d-flex">
                                                                                 <label
-                                                                                    class="mr-2 d-flex text-center pt-2 col-md-4">planning
+                                                                                    class="mr-2 d-flex text-center pt-2 col-md-4">Planning
                                                                                     Method </label>
                                                                                 <select id="PlaningSys"
                                                                                     class="form-control-sm form-control col-md-4">
-                                                                                    <option>1</option>
+                                                                                    <option value="N">None</option>
+                                                                                    <option value="M">MRP</option>
                                                                                     <option>2</option>
                                                                                 </select>
                                                                                 <div id="ErrorMsg"
@@ -986,8 +877,8 @@
                                                                                     Method </label>
                                                                                 <select id="PrcrmntMtd"
                                                                                     class="form-control-sm form-control col-md-4">
-                                                                                    <option>1</option>
-                                                                                    <option>2</option>
+                                                                                    <option value="B">Buy</option>
+                                                                                    <option value="M">Make</option>
                                                                                 </select>
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
@@ -1031,8 +922,8 @@
                                                                                     Method </label>
                                                                                 <select id="IssueMthd"
                                                                                     class="form-control-sm form-control col-md-4">
-                                                                                    <option>1</option>
-                                                                                    <option>2</option>
+                                                                                    <option value="B">Backflush</option>
+                                                                                    <option value="M">Manual</option>
                                                                                 </select>
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
@@ -1265,951 +1156,951 @@
                                                                     <div class="tab-pane scrollbar"
                                                                         id="kt_tabs_Characteristics" role="tabpanel"
                                                                         style="overflow:auto">
-<div class="row">
+                                                                            <div class="row">
 
-    <div class="col-md-4 mt-5">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Brand/Customer
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-
-
-    <div class="col-md-4 mt-5">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-5">Flap 1
-            </label>
-            <input type="text" id="Status"
-                placeholder="0.00000"
-                class="col-md-7 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4 mt-5">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Brand/Customer
+                                                                                        </label>
+                                                                                <input type="text" id="U_brand"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4 mt-5">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Carton Liner
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
-
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Item Name
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4 mt-5">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-5">Flap 1
+                                                                                        </label>
+                                                                                <input type="text" id="U_flap_one"
+                                                                                            placeholder="0.00000"
+                                                                                            class="col-md-7 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-5">Gazzet 1
-            </label>
-            <input type="text" id="Status"
-                placeholder="0.00000"
-                class="col-md-7 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4 mt-5">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Carton Liner
+                                                                                        </label>
+                                                                                        <select  class="col-md-6 form-control form-control-sm mt-1 NotReq" id="">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Item Name
+                                                                                        </label>
+                                                                                        <input type="text" id="Status"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Lab Material
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-5">Gazzet 1
+                                                                                        </label>
+                                                                                <input type="text" id="U_gazzet_one"
+                                                                                            placeholder="0.00000"
+                                                                                            class="col-md-7 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+
+
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Lab Material
+                                                                                        </label>
+                                                                                        <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
  
 
 
 
-<div class="row">
+                                                                            <div class="row">
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Product Size (B)
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-
-
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-5">Length 1
-            </label>
-            <input type="text" id="Status"
-                placeholder="0.00000"
-                class="col-md-7 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Product Size (B)
+                                                                                        </label>
+                                                                                        <input type="text" id="U_size_b"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Sticker Finish
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-5">Length 1
+                                                                                        </label>
+                                                                                <input type="text" id="U_length_one"
+                                                                                            placeholder="0.00000"
+                                                                                            class="col-md-7 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+
+
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Sticker Finish
+                                                                                        </label>
+                                                                                        <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
  
-<div class="row">
+                                                                            <div class="row">
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Product Size (L)
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-
-
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-5">Gazzet 2
-            </label>
-            <input type="text" id="Status"
-                placeholder="0.00000"
-                class="col-md-7 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Product Size (L)
+                                                                                        </label>
+                                                                                        <input type="text" id="U_size_l"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Pile Yarn Count
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Other Size
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-5">Gazzet 2
+                                                                                        </label>
+                                                                                <input type="text" id="U_gazzet_two"
+                                                                                            placeholder="0.00000"
+                                                                                            class="col-md-7 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-5">Length 2
-            </label>
-            <input type="text" id="Status"
-                placeholder="0.00000"
-                class="col-md-7 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Pile Yarn Count
+                                                                                        </label>
+                                                                                        <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Other Size
+                                                                                        </label>
+                                                                                        <input type="text" id="Status"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label  
-                class="mr-2 d-flex text-center pt-2 col-md-6">Ground Yarn Count
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Size UoM
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-5">Length 2
+                                                                                        </label>
+                                                                                        <input type="text" id="U_length_two"
+                                                                                            placeholder="0.00000"
+                                                                                            class="col-md-7 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-5">Gazzet 3
-            </label>
-            <input type="text" id="Status"
-                placeholder="0.00000"
-                class="col-md-7 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label  
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Ground Yarn Count
+                                                                                        </label>
+                                                                                        <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Size UoM
+                                                                                        </label>
+                                                                                        <input type="text" id="U_size_uom"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Weft Yarn Count
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
-
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Product Weight
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-5">Gazzet 3
+                                                                                        </label>
+                                                                                        <input type="text" id="U_gazzet_three"
+                                                                                            placeholder="0.00000"
+                                                                                            class="col-md-7 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-5">Flap 2
-            </label>
-            <input type="text" id="Status"
-                placeholder="0.00000"
-                class="col-md-7 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Weft Yarn Count
+                                                                                        </label>
+                                                                                        <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Product Weight
+                                                                                        </label>
+                                                                                        <input type="text" id="U_weight"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Fancy Yarn Count
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
-
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">GSM
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-5">Flap 2
+                                                                                        </label>
+                                                                                            <input type="text" id="U_flap_two"
+                                                                                            placeholder="0.00000"
+                                                                                            class="col-md-7 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-5">Width
-            </label>
-            <input type="text" id="Status"
-                placeholder="0.00000"
-                class="col-md-7 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Fancy Yarn Count
+                                                                                        </label>
+                                                                                        <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">GSM
+                                                                                        </label>
+                                                                                        <input type="text" id="U_GSM"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Thread
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
-
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Design
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-5">Width
+                                                                                        </label>
+                                                                                <input type="text" id="U_width"
+                                                                                            placeholder="0.00000"
+                                                                                            class="col-md-7 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-5">Length 3
-            </label>
-            <input type="text" id="Status"
-                placeholder="0.00000"
-                class="col-md-7 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Thread
+                                                                                        </label>
+                                                                                        <select  class="col-md-6 form-control form-control-sm mt-1 NotReq" id="U_thread">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Design
+                                                                                        </label>
+                                                                                        <input type="text" id="U_design"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Lable
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
-
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Process
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-5">Length 3
+                                                                                        </label>
+                                                                                <input type="text" id="U_length_three"
+                                                                                            placeholder="0.00000"
+                                                                                            class="col-md-7 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-5">Height
-            </label>
-            <input type="text" id="Status"
-                placeholder="0.00000"
-                class="col-md-7 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Lable
+                                                                                        </label>
+                                                                                        <select  class="col-md-6 form-control form-control-sm mt-1 NotReq" id="U_label">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Process
+                                                                                        </label>
+                                                                                        <input type="text" id="U_process"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Inlay Card
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
-
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Status
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-5">Height
+                                                                                        </label>
+                                                                                <input type="text" id="U_height"
+                                                                                            placeholder="0.00000"
+                                                                                            class="col-md-7 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-5">Product Size
-            </label>
-            <input type="text" id="Status"
-                placeholder="0.00000"
-                class="col-md-7 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Inlay Card
+                                                                                        </label>
+                                                                                <select class="col-md-6 form-control form-control-sm mt-1 NotReq" id="U_inlay_card">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Status
+                                                                                        </label>
+                                                                                <input type="text" id="U_status"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Header Card
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
-
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Yarn Feelings
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-5">Product Size
+                                                                                        </label>
+                                                                                        <input type="text" id="Status"
+                                                                                            placeholder="0.00000"
+                                                                                            class="col-md-7 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-5">Article
-            </label>
-            <textarea  class="col-md-7 form-control form-control-sm mt-1 NotReq" cols="30" rows="5"></textarea>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Header Card
+                                                                                        </label>
+                                                                                <select class="col-md-6 form-control form-control-sm mt-1 NotReq" id="U_header_card">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Yarn Feelings
+                                                                                        </label>
+                                                                                        <input type="text" id="U_feeling"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+
+
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-5">Article
+                                                                                        </label>
+                                                                                        <textarea id="U_Article"  class="col-md-7 form-control form-control-sm mt-1 NotReq" cols="30" rows="5"></textarea>
             
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Hang Tag
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Hang Tag
+                                                                                        </label>
+                                                                                <select class="col-md-6 form-control form-control-sm mt-1 NotReq" id="U_hang_tag">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Fabric Wrap
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Fabric Wrap
+                                                                                        </label>
+                                                                                        <input type="text" id="Status"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
+                                                                                <div class="col-md-4">
          
-    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Dori
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Dori
+                                                                                        </label>
+                                                                                        <select  class="col-md-6 form-control form-control-sm mt-1 NotReq" id="U_dori">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Fabric Weft
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Fabric Weft
+                                                                                        </label>
+                                                                                        <input type="text" id="Status"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
+                                                                                <div class="col-md-4">
          
-    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Lace
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Lace
+                                                                                        </label>
+                                                                                        <select  class="col-md-6 form-control form-control-sm mt-1 NotReq" id="U_lace">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Fabric Read
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Fabric Read
+                                                                                        </label>
+                                                                                        <input type="text" id="Status"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
+                                                                                <div class="col-md-4">
          
-    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Ribbon
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Ribbon
+                                                                                        </label>
+                                                                                <select class="col-md-6 form-control form-control-sm mt-1 NotReq" id="U_ribbon">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Fabric Pick
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Fabric Pick
+                                                                                        </label>
+                                                                                        <input type="text" id="Status"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
+                                                                                <div class="col-md-4">
          
-    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Zip
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Zip
+                                                                                        </label>
+                                                                                        <select  class="col-md-6 form-control form-control-sm mt-1 NotReq" id="U_zip">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Count
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-
-
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-5">Old
-            </label>
-            <input type="text" id="Status"
-                placeholder="0.00000"
-                class="col-md-7 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Count
+                                                                                        </label>
+                                                                                        <input type="text" id="Status"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Slider
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
-
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Quality
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-5">Old
+                                                                                        </label>
+                                                                                        <input type="text" id="U_Old"
+                                                                                            placeholder="0.00000"
+                                                                                            class="col-md-7 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Slider
+                                                                                        </label>
+                                                                                        <select  class="col-md-6 form-control form-control-sm mt-1 NotReq" id="U_slider">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Quality
+                                                                                        </label>
+                                                                                        <input type="text" id="Status"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+
+
+                                                                                <div class="col-md-4">
          
-    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Elastic
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Elastic
+                                                                                        </label>
+                                                                                        <select  class="col-md-6 form-control form-control-sm mt-1 NotReq" id="U_elastic">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Composition
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Composition
+                                                                                        </label>
+                                                                                        <input type="text" id="Status"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
+                                                                                <div class="col-md-4">
          
-    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Ploy Bag
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Ploy Bag
+                                                                                        </label>
+                                                                                        <select  class="col-md-6 form-control form-control-sm mt-1 NotReq" id="U_poly_bag">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Color Family
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Color Family
+                                                                                        </label>
+                                                                                        <input type="text" id="Status"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
+                                                                                <div class="col-md-4">
          
-    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Sticker
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Sticker
+                                                                                        </label>
+                                                                                <select class="col-md-6 form-control form-control-sm mt-1 NotReq" id="U_sticker">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Colour
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Colour
+                                                                                        </label>
+                                                                                        <input type="text" id="Status"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
+                                                                                <div class="col-md-4">
          
-    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Master Poly
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Master Poly
+                                                                                        </label>
+                                                                                <select class="col-md-6 form-control form-control-sm mt-1 NotReq" id="U_master_poly">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Ply
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Ply
+                                                                                        </label>
+                                                                                        <input type="text" id="Status"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
+                                                                                <div class="col-md-4">
          
-    </div>
+                                                                                </div>
 
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Carton
-            </label>
-            <select  class="col-md-6 form-control form-control-sm mt-1 NotReq">
-                <option>1</option>
-                <option>2</option>
-            </select>
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
-</div>
-<div class="row">
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Carton
+                                                                                        </label>
+                                                                                <select class="col-md-6 form-control form-control-sm mt-1 NotReq" id="U_carton">
+                                                                                            <option>1</option>
+                                                                                            <option>2</option>
+                                                                                        </select>
+                                                                                                                                                            <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
 
-    <div class="col-md-4">
-        <div class="col-md-12 d-flex">
-            <label
-                class="mr-2 d-flex text-center pt-2 col-md-6">Fabric Width
-            </label>
-            <input type="text" id="Status"
-                class="col-md-6 form-control form-control-sm mt-1 NotReq">
-            <div id="ErrorMsg"
-                class="error invalid-feedback">This
-                field is required.</div>
-        </div>
-    </div>
+                                                                                <div class="col-md-4">
+                                                                                    <div class="col-md-12 d-flex">
+                                                                                        <label
+                                                                                            class="mr-2 d-flex text-center pt-2 col-md-6">Fabric Width
+                                                                                        </label>
+                                                                                        <input type="text" id="Status"
+                                                                                            class="col-md-6 form-control form-control-sm mt-1 NotReq">
+                                                                                        <div id="ErrorMsg"
+                                                                                            class="error invalid-feedback">This
+                                                                                            field is required.</div>
+                                                                                    </div>
+                                                                                </div>
 
  
-</div>
+                                                                            </div>
 
 
                                                                     </div>
@@ -2281,8 +2172,8 @@
     <script src="~/Assets/plugins/global/plugins.bundle.js"></script>
     <script src="~/Assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
     <script src="~/Assets/js/scripts.bundle.js"></script>
-    <script src="~/js/commonmethods.js"></script>
-
+    <script src="~/js/myjson_validate.js"></script>
+    
     <script>
         //var vatGroupData = "";
         var ItemServiceType = '1';
@@ -2367,4 +2258,111 @@
   
     </script>
 <script src="~/viewjs/itemmasterdata/inventory_tab.js"></script>
+
+<script>
+
+    $(document).on('click', '#btnSaveData', function (e) {
+
+
+        console.log(getJsonObj("HeaderForm"));
+
+        //$(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+        //$(this).attr('disabled', true);
+        //if (
+        //    ValidateData("HeaderForm")
+
+        //) {
+        //    if (ItemServiceType == '1') {
+        //        if (ValidateListData("ListParameters .itm") && ValidateData("kt_tabs_acct"))
+        //            FormData();
+        //        else {
+        //            $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+        //            $(this).attr('disabled', false);
+        //        }
+        //    }
+        //    else {
+        //        if (ValidateListData("ListParameters2 .itm") && ValidateData("kt_tabs_acct"))
+        //            FormData();
+        //        else {
+        //            $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+        //            $(this).attr('disabled', false);
+        //        }
+        //    }
+        //}
+        //else {
+        //    $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+        //    $(this).attr('disabled', false);
+        //}
+    });
+    function FormData() 
+    {
+            
+        
+        var data =
+        { 
+        HeaderData : getJsonObj("HeaderForm"),
+        ListAccouting : getJsonObj("kt_tabs_acct"),
+        ListItems: ItemServiceType == '1' ?  getJsonObjList("ListParameters .itm") : null,
+        ListService: ItemServiceType == '2' ? getJsonObjList("ListParameters2 .itm") : null,
+        ListAttachment: getJsonObjList("ListParameters3 .itm"),
+        FooterData : getJsonObj("FooterData")
+      
+        }
+      
+       
+       PostData(data);
+
+    
+    }
+
+    function PostData(formData) 
+    {
+      
+        
+      
+        return $.ajax({
+            url: '/SaleQuotation/AddSalesQoutation',
+            dataType: 'json',
+            type: 'POST',
+            
+             data: { formData: JSON.stringify(formData)},
+
+            success: function (result) 
+            {
+                console.log(result);
+                if (result.isInserted) {
+                    toastr.success(result.message);
+
+                    setTimeout(
+                        function () 
+                        {
+
+                            $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                            $('#btnSaveData').attr('disabled', false);
+
+                        }, 800);
+                    setTimeout(function () {
+                        window.history.back();
+                    }, 800);
+
+
+                }
+
+                if (!(result.isInserted)) {
+                    toastr.error(result.message);
+                    $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $('#btnSaveData').attr('disabled', false);
+
+                }
+
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+
+        }).done(function (result) {
+
+        });
+    }
+</script>
     <!-- MyStart -->

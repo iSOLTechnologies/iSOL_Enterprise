@@ -3390,20 +3390,20 @@ input[type=number] {
 
 		});
 		$(document).on('change keyup', "#ItemCode", function (e) {
-			console.log("Inchnage");
+			if(DocModule == "S" || DocModule == "P")
+			{
+			let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
+			let ItemCodeValue = ItemCodeField.val();
+			let WarehouseField = $(this).closest('#ListParameters .itm').find('#Warehouse');
+			let WarehouseValue = WarehouseField.val();
+			let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
+			if(WarehouseField.val() != "" || WarehouseField.val() != null){
+				   $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
+						console.log("Data is : ",data)
+						onHand.val(data);
 
-		let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
-		let ItemCodeValue = ItemCodeField.val();
-		let WarehouseField = $(this).closest('#ListParameters .itm').find('#Warehouse');
-		let WarehouseValue = WarehouseField.val();
-		let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
-		if(WarehouseField.val() != "" || WarehouseField.val() != null){
-			   $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
-					console.log("Data is : ",data)
-					onHand.val(data);
-
-				});
-		}
+					});
+			}
  
 			ObjItemCode = $(this).closest('tr').find("#ItemCode");
 			
@@ -3432,7 +3432,7 @@ input[type=number] {
 					$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
 				}
 			});
-
+			}
 
 		});
 	function GetWhsAddedQty(ItemCode, WhsCode) {

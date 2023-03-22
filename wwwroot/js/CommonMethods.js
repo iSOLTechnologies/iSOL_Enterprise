@@ -291,18 +291,7 @@ function ValidateBatches(element)
     else
         return true;
 }
-//function findItemInArray(arr, value) {
-//    var i = 0;
-//    while (i < arr.length) {
-//        if (arr[i].itemno === value)
-//        {
-//            return true;
-//        } else {
-//            ++i;
-//        }
-//    }
-//    return false;
-//}
+
 
 function getJsonObj(element) {
 
