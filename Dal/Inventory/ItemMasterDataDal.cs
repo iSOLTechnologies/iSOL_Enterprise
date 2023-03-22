@@ -129,19 +129,20 @@ namespace iSOL_Enterprise.Dal.Inventory
             }
             return list;
         }
-        public List<ListModel> GetTaxGroup()
+        public List<tbl_OVTG> GetTaxGroup()
         {
-            string GetQuery = " select  Code, Code +'   -   '+ Name as Name  from OVTG order by Code";
+            string GetQuery = " select  Rate,Code, Code +'   -   '+ Name as Name  from OVTG order by Code";
 
-            List<ListModel> list = new List<ListModel>();
+            List<tbl_OVTG> list = new List<tbl_OVTG>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
             {
                 while (rdr.Read())
                 {
-                    list.Add(new ListModel()
+                    list.Add(new tbl_OVTG()
                     {
-                        ValueDecimal = rdr["Code"].ToDecimal(),
-                        Text = rdr["Name"].ToString()
+                        Rate = rdr["Rate"].ToDecimal(),
+                        code = rdr["Code"].ToString(),
+                        vatName = rdr["Name"].ToString()
 
                     });
                 }
