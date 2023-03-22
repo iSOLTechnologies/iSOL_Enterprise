@@ -13,6 +13,7 @@ namespace iSOL_Enterprise.Controllers.Inventory
         }
         public IActionResult ItemMasterDataMaster()
         {
+
             ItemMasterDataDal dal = new ItemMasterDataDal();
             AdministratorDal addal = new AdministratorDal();
             
@@ -27,6 +28,21 @@ namespace iSOL_Enterprise.Controllers.Inventory
 
 
             return View();
+        }
+        public IActionResult GetNewItemCode(int Series)
+        {
+            try
+            {
+                ItemMasterDataDal dal = new ItemMasterDataDal();
+                ResponseModels response = new ResponseModels();
+                return Json(new { Success = true, ItemCode = dal.GetNewItemCode(Series) });
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         public IActionResult GetWareHouseList()
         {

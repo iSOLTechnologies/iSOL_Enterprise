@@ -144,6 +144,15 @@ namespace iSOL_Enterprise.Dal.Inventory
             }
             return list;
         }
+
+        public string? GetNewItemCode(int Series)
+        {
+            string GetItemCode = "select BeginStr  +  CAST(  NextNumber as nvarchar(20))  as ItemCode  from NNM1 where  NextNumber <= LastNum and ObjectCode = 4 and Series = "+Series;
+
+            string? ItemCode = Convert.ToString(SqlHelper.ExecuteScalar(SqlHelper.defaultSapDB, CommandType.Text, GetItemCode));
+            
+            return ItemCode;
+        }
         public List<tbl_OWHS> GetWareHouseList()
         {
 
