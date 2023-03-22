@@ -624,8 +624,8 @@
                                                                                                 <option value="@i.Value">@i.Text </option>                                                                                            
                                                                                         }
                                                                                 </select>&nbsp;&nbsp;
-                                                                                <input type="text" id="TotalTax"
-                                                                                    class="col-md-2 form-control form-control-sm">&nbsp;<label><b>%</b></label>
+                                                                                <input type="text" id="CstGrpCode1"
+                                                                                    class="col-md-2 form-control form-control-sm" readonly>&nbsp;<label><b>%</b></label>
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
                                                                                     field is required.</div>
@@ -643,11 +643,11 @@
                                                                                     class="form-control form-control-sm col-md-4">
                                                                                      @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.TaxGroup)
                                                                                         {                                                                                            
-                                                                                                <option value="@i.Value">@i.Text </option>                                                                                            
+                                                                                                <option value="@i.ValueDecimal">@i.Text </option>                                                                                            
                                                                                         }
                                                                                 </select>&nbsp;&nbsp;
                                                                                 <input type="text" id="VatGroupPu1"
-                                                                                    class="col-md-2 form-control form-control-sm">&nbsp;<label><b>%</b></label>
+                                                                                    class="col-md-2 form-control form-control-sm" readonly>&nbsp;<label><b>%</b></label>
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
                                                                                     field is required.</div>
@@ -668,11 +668,11 @@
                                                                                     class="form-control-sm form-control col-md-4">
                                                                                 @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.TaxGroup)
                                                                                 {
-                                                                                    <option value="@i.Value">@i.Text </option>
+                                                                                    <option value="@i.ValueDecimal">@i.Text </option>
                                                                                 }
                                                                             </select>&nbsp;&nbsp;
                                                                             <input type="text" id="VatGroupSa1"
-                                                                                   class="col-md-2 form-control form-control-sm">&nbsp;<label><b>%</b></label>
+                                                                                   class="col-md-2 form-control form-control-sm" readonly>&nbsp;<label><b>%</b></label>
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </div>
                                                                     </div>
@@ -2317,6 +2317,23 @@
             $("#BuyUnitMsr").addClass("NotReq");
 
     })
+
+
+    $(document).on('change', '#CstGrpCode', function (e) {
+
+     $("#CstGrpCode1").val($("#CstGrpCode").val());  
+                    
+    });    
+    $(document).on('change', '#VatGroupSa', function (e) {
+
+                        $("#VatGroupSa1").val($("#VatGroupSa").val());  
+                    
+    });         
+    $(document).on('change', '#VatGroupPu', function (e) {
+
+                        $("#VatGroupPu1").val($("#VatGroupPu").val());  
+                    
+    });
 
 
     $(document).on('click', '#btnSaveData', function (e) {
