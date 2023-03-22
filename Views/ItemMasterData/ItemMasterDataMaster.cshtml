@@ -91,6 +91,9 @@
                             background-image: -webkit-linear-gradient(330deg, #808080 0%, #808080 100%);
                             background-image: linear-gradient(120deg, #808080 0%, #808080 100%);
                         }
+                        .select2-container {
+                            width : inherit !important;
+                        }
                             .mr2 {
                                 margin: 0% 2% 0% 2%;
                                 /*width: 5%;*/
@@ -198,19 +201,15 @@
                                                                                         }
                                                                                         <option value="-1" selected>Manual</option>   
                                                                             </select>&nbsp;&nbsp;
-                                                                            <div id="ErrorMsg"
-                                                                                class="error invalid-feedback">This
-                                                                                field is required.</div>
+                                                                            
                                                                             <input type="text" id="ItemCode" 
                                                                                 class="col-md-5 form-control form-control-sm">
-                                                                            <div id="ErrorMsg"
-                                                                                class="error invalid-feedback">This
-                                                                                field is required.</div>
+                                                                            
                                                                         </div>
 
                                                                         <div class="col-md-4 d-flex">
                                                                             <label class="checkbox checkbox-success">
-																            <input type="checkbox" id="InvntItem" value="Y">
+																            <input type="checkbox" id="InvntItem" value="Y" class="NotReq" checked>
                                                                             <span></span>&nbsp; Inventory Item
                                                                         </label>
                                                                         </div>
@@ -224,15 +223,13 @@
                                                                                 class="mr-2 d-flex text-center pt-2 col-md-4">Description
                                                                             </label>
                                                                             <input type="text" id="ItemName"
-                                                                                class="col-md-8 form-control form-control-sm ">
-                                                                            <div id="ErrorMsg"
-                                                                                class="error invalid-feedback">This
-                                                                                field is required.</div>
+                                                                                class="col-md-8 form-control form-control-sm">
+                                                                            
                                                                         </div>
 
                                                                         <div class="col-md-4 d-flex">
                                                                              <label class="checkbox checkbox-success">
-																             <input type="checkbox" id="SellItem" value="Y">
+																             <input type="checkbox" id="SellItem" value="Y" class="NotReq" checked>
                                                                             <span></span>&nbsp; Sales Item
                                                                         </label>
                                                                            
@@ -250,7 +247,7 @@
                                                                             <div id="ErrorMsg"
                                                                                 class="error invalid-feedback">This
                                                                                 field is required.</div>
-                                                                        <input type="text" id="FrgnName"
+                                                                                <input type="text" id="FrgnName"
                                                                                 class="col-md-8 form-control form-control-sm NotReq">
                                                                             <div id="ErrorMsg"
                                                                                 class="error invalid-feedback">This
@@ -260,7 +257,7 @@
                                                                         <div class="col-md-4 d-flex">
                                                                            
                                                                              <label class="checkbox checkbox-success">
-                                                                            <input type="checkbox" id="PrchseItem" value="Y">
+                                                                            <input type="checkbox" id="PrchseItem" value="Y" class="NotReq" checked>
                                                                             <span></span>&nbsp; Purchasing Item
                                                                         </label>
                                                                         </div>
@@ -575,18 +572,27 @@
 
                                                                     <div class="tab-pane" id="kt_tabs_PurchasingData"
                                                                         role="tabpanel">
-                                                                        <div
-                                                                            class="form-group mt-5 row justify-content-between">
+                                                                        <div class="form-group mt-5 row justify-content-between">
 
-                                                                            <div class="col-md-8 d-flex">
-                                                                                <label
-                                                                                    class="mr-2 d-flex text-center pt-2 col-md-4">Purchasing
+                                                                            <div class="col-md-8 flex">
+                                                                                <div class="row">
+
+                                                                                    <div class="col-md-4" style="padding-left :1.5rem !important">
+                                                                                        <label class="mr-2 d-flex text-center pt-2">Purchasing
                                                                                     UoM Name </label>
-                                                                                <input type="text" id="BuyUnitMar"
-                                                                                    class="col-md-4 form-control form-control-sm">
-                                                                                <div id="ErrorMsg"
-                                                                                    class="error invalid-feedback">This
-                                                                                    field is required.</div>
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+
+                                                                                    <select id="BuyUnitMsr"
+                                                                                            class="form-control form-control-sm">
+                                                                                        @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.UomName)
+                                                                                        {
+                                                                                            <option value="@i.Text">@i.Text </option>
+                                                                                        }
+                                                                                    </select>
+                                                                                    </div>
+                                                                                </div>
+
                                                                             </div>
                                                                         </div>
                                                                         <div
@@ -650,59 +656,76 @@
 
                                                                     </div>
 
-                                                                    <div class="tab-pane scrollbar" id="kt_tabs_SalesData" role="tabpanel">
-                                                                        <div
-                                                                            class="form-group mt-5 row justify-content-between">
+                                                                <div class="tab-pane scrollbar" id="kt_tabs_SalesData" role="tabpanel">
+                                                                    <div class="form-group mt-5 row justify-content-between">
 
-                                                                            <div class="col-md-8 d-flex">
-                                                                                <label
-                                                                                    class="mr-2 d-flex text-center pt-2 col-md-4">Tax
-                                                                                    Group </label>
-                                                                                <select id="VatGroupSa"
+                                                                        <div class="col-md-8 d-flex">
+                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-4">
+                                                                                Tax
+                                                                                Group
+                                                                            </label>
+                                                                            <select id="VatGroupSa"
                                                                                     class="form-control-sm form-control col-md-4">
                                                                                 @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.TaxGroup)
                                                                                 {
                                                                                     <option value="@i.Value">@i.Text </option>
                                                                                 }
-                                                                                </select>&nbsp;&nbsp;
-                                                                                <input type="text" id="VatGroupSa1"
-                                                                                    class="col-md-2 form-control form-control-sm">&nbsp;<label><b>%</b></label>
-                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                            </div>
+                                                                            </select>&nbsp;&nbsp;
+                                                                            <input type="text" id="VatGroupSa1"
+                                                                                   class="col-md-2 form-control form-control-sm">&nbsp;<label><b>%</b></label>
+                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </div>
-
-
-
-                                                                        <div
-                                                                            class="form-group row justify-content-between">
-
-                                                                            <div class="col-md-8 d-flex">
-                                                                                <label
-                                                                                    class="mr-2 d-flex text-center pt-2 col-md-4">Sales
-                                                                                    UoM Name </label>
-                                                                                <input type="text" id="SalUnitMar"
-                                                                                    class="form-control form-control-sm col-md-4">
-                                                                                <div id="ErrorMsg"
-                                                                                    class="error invalid-feedback">This
-                                                                                    field is required.</div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div
-                                                                            class="form-group row justify-content-between">
-
-                                                                            <div class="col-md-8 d-flex">
-                                                                                <label
-                                                                                    class="mr-2 d-flex text-center pt-2 col-md-4">Items
-                                                                                    per Sale Unit </label>
-                                                                                <input type="text" id="NumInSale"
-                                                                                    class="form-control form-control-sm col-md-4">
-                                                                                <div id="ErrorMsg"
-                                                                                    class="error invalid-feedback">This
-                                                                                    field is required.</div>
-                                                                            </div>
-                                                                        </div>
-
                                                                     </div>
+
+
+
+                                                                    <div class="form-group row justify-content-between">
+
+                                                                        <div class="col-md-8">
+
+                                                                            <div class="row" >
+
+                                                                                    <div class="col-md-4 " style="padding-left :1.5rem !important">
+                                                                                        <label class="mr-2 d-flex text-center pt-2">
+                                                                                            Sales
+                                                                                            UoM Name
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+
+                                                                                    <select id="SalUnitMsr"
+                                                                                            class="form-control form-control-sm ">
+                                                                                        @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.UomName)
+                                                                                        {
+                                                                                            <option value="@i.Text">@i.Text </option>
+                                                                                        }
+                                                                                    </select>
+                                                                                    </div>
+                                                                            </div>
+
+
+                                                                            
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row justify-content-between">
+
+                                                                        <div class="col-md-8 d-flex">
+                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-4">
+                                                                                Items
+                                                                                per Sale Unit
+                                                                            </label>
+                                                                            <input type="text" id="NumInSale"
+                                                                                   class="form-control form-control-sm col-md-4">
+                                                                            <div id="ErrorMsg"
+                                                                                 class="error invalid-feedback">
+                                                                                This
+                                                                                field is required.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
 
                                                                 <div class="tab-pane scrollbar scrollbar"
                                                                      id="kt_tabs_InventoryData" role="tabpanel" style="overflow:auto">
@@ -737,19 +760,28 @@
 
                                                                     <div class="form-group row justify-content-between">
 
-                                                                        <div class="col-md-8 d-flex">
-                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-4">
-                                                                                UoM
-                                                                                Name
-                                                                            </label>
-                                                                            <input type="text"
-                                                                                   id="InvntryUom"
-                                                                                   class="form-control form-control-sm col-md-4">
-                                                                            <div id="ErrorMsg"
-                                                                                 class="error invalid-feedback">
-                                                                                This
-                                                                                field is required.
+                                                                        <div class="col-md-8">
+
+                                                                            <div class="row">
+
+                                                                                    <div class="col-md-4 " style="padding-left :1.5rem !important">
+                                                                                        <label class="mr-2 d-flex text-center pt-2">
+                                                                                            UoM
+                                                                                            Name
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <div class="col-md-4">
+
+                                                                                    <select id="InvntryUom"
+                                                                                            class="form-control form-control-sm">
+                                                                                        @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.UomName)
+                                                                                        {
+                                                                                            <option value="@i.Text">@i.Text </option>
+                                                                                        }
+                                                                                    </select>
+                                                                                    </div>
                                                                             </div>
+
                                                                         </div>
                                                                     </div>
                                                                     <div class="form-group row justify-content-between">
@@ -842,7 +874,8 @@
 
                                                                     </div>
                                                                 </div>
-                                                                    <div class="tab-pane" id="kt_tabs_PlanningData"
+                                                                    
+                                                                <div class="tab-pane" id="kt_tabs_PlanningData"
                                                                         role="tabpanel">
 
                                                                         <div
@@ -1052,8 +1085,8 @@
                                                                             <tbody id="Properties" >
                                                                                 <!--  -->
                                                                                 @foreach (tbl_OITG item in (List<tbl_OITG>)ViewData["properties"])
-                                                                                    { 
-                                                                                        var Myid = "QryGroup" + item.ItmsTypCod;
+                                                                                {
+                                                                                    var Myid = "QryGroup" + item.ItmsTypCod;
                                                                                         <tr class="rowItemDetail align-items-center itm">
                                                                                    
                                                                                     <td>
@@ -1075,67 +1108,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@*
-
-                                                                        <table class="table table-striped">
-                                                                            <thead class="thead-light">
-                                                                              <tr>
-                                                                                <th scope="col">#</th>
-                                                                                <th scope="col">Property Name</th>
-                                                                                <th scope="col"></th> 
-                                                                              </tr>
-                                                                            </thead>
-                                                                            <tbody id="Properties">
-                                                                              <tr>
-                                                                                <th scope="row">1</th>
-                                                                                <td>Property # 1</td>
-                                                                                <td> <input id="propchckbox" type="checkbox"> </td> 
-                                                                              </tr>
-                                                                              <tr>
-                                                                                <th scope="row">2</th>
-                                                                                <td>Property # 2</td>
-                                                                                <td> <input id="propchckbox" type="checkbox"> </td> 
-                                                                              </tr>
-                                                                              <tr>
-                                                                                <th scope="row">3</th>
-                                                                                <td>Property # 3</td>
-                                                                                <td> <input id="propchckbox" type="checkbox"> </td> 
-                                                                              </tr>
-                                                                            </tbody>
-                                                                          </table>*@
                                                                        
                                                                     </div>
                                                                     <div class="col-md-4"> 
@@ -2182,7 +2154,7 @@
             box.value = new Date().toJSON().slice(0, 10);
         }
 
-
+        
         $(document).on("input", "input[type='number']", function () {
             var value = parseFloat(this.value);
             if (isNaN(value)) {
@@ -2299,12 +2271,59 @@
 <script src="~/viewjs/itemmasterdata/inventory_tab.js"></script>
 
 <script>
+    $(document).ready(function() {
+            console.log("in ready");
+
+            $("#BuyUnitMsr").select2({
+            placeholder: "Select an option",
+            tags: true,
+            tokenSeparators: [',', ' ']
+            });
+            
+            $("#SalUnitMsr").select2({
+            placeholder: "Select an option",
+            tags: true,
+            tokenSeparators: [',', ' ']
+            });
+            $("#InvntryUom").select2({
+            placeholder: "Select an option",
+            tags: true,
+            tokenSeparators: [',', ' ']
+        });
+    });
+
+
+    $(document).on('change' ,'#InvntItem' , function(){
+
+            if( $(this).is(':checked') )
+                $("#InvntryUom").removeClass("NotReq");
+            else
+                $("#InvntryUom").addClass("NotReq");
+
+    });
+    $(document).on('change' ,'#SellItem' , function(){
+
+            if( $(this).is(':checked') )
+                $("#SalUnitMsr").removeClass("NotReq");
+            else
+                $("#SalUnitMsr").addClass("NotReq");
+
+    });
+    $(document).on('change' ,'#PrchseItem' , function(){
+
+            if( $(this).is(':checked') )
+                $("#BuyUnitMsr").removeClass("NotReq");
+            else
+            $("#BuyUnitMsr").addClass("NotReq");
+
+    })
+
 
     $(document).on('click', '#btnSaveData', function (e) {
 
 
         console.log(getJsonObj("HeaderForm"));
-
+        ValidateData("HeaderForm");
         //$(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
         //$(this).attr('disabled', true);
         //if (
