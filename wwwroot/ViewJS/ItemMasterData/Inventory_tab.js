@@ -26,16 +26,16 @@
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input type="number" id="MinStock" class="form-control form-control-sm" placeholder="0.0000" aria-describedby="basic-addon2">
+                                                                                                <input type="number" id="MinStock" class="form-control form-control-sm NotReq" placeholder="0.0000" aria-describedby="basic-addon2">
 
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                                 <input type="number" id="MaxStock" class="form-control form-control-sm" placeholder="0.0000" aria-describedby="basic-addon2">
+                                                                                                 <input type="number" id="MaxStock" class="form-control form-control-sm NotReq" placeholder="0.0000" aria-describedby="basic-addon2">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input type="number" id="MinOrder" class="form-control form-control-sm" placeholder="0.0000" aria-describedby="basic-addon2">
+                                                                                                <input type="number" id="MinOrder" class="form-control form-control-sm NotReq" placeholder="0.0000" aria-describedby="basic-addon2">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>

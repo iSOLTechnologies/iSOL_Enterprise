@@ -750,7 +750,7 @@
                                                                         </div>
                                                                         <div class="col-md-4">
                                                                             <label class="checkbox checkbox-success">
-                                                                                <input type="checkbox" id="ByWh">
+                                                                                <input type="checkbox" id="ByWh" checked>
                                                                                 <span class="border_grey"></span>&nbsp; Manage Inventory by Warehouse
                                                                             </label>
                                                                         </div>
@@ -845,16 +845,16 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input type="number" id="MinStock" class="form-control form-control-sm" placeholder="0.0000" aria-describedby="basic-addon2">
+                                                                                        <input type="number" id="MinStock" class="form-control form-control-sm NotReq" placeholder="0.0000" aria-describedby="basic-addon2">
 
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input type="number" id="MaxStock" class="form-control form-control-sm" placeholder="0.0000" aria-describedby="basic-addon2">
+                                                                                        <input type="number" id="MaxStock" class="form-control form-control-sm NotReq" placeholder="0.0000" aria-describedby="basic-addon2">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input type="number" id="MinOrder" class="form-control form-control-sm" placeholder="0.0000" aria-describedby="basic-addon2">
+                                                                                        <input type="number" id="MinOrder" class="form-control form-control-sm NotReq" placeholder="0.0000" aria-describedby="basic-addon2">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                 </tr>
@@ -2148,6 +2148,13 @@
     <script>
         //var vatGroupData = "";
         var ItemServiceType = '1';
+        var isInventryItem = true; 
+        var isSalesItem = true; 
+        var isPurchaseItem = true; 
+        var isManageInvByWareHouse = true; 
+
+
+
         const boxes = document.querySelectorAll('.d');
 
         for (const box of boxes) {
@@ -2166,24 +2173,21 @@
             }
         });
 
+        $(document).on('click', '#PropertiesSelectAll', function (e) {
 
-
+                                    $("#Properties tr").each(function () {
+                    $(this).find(":checkbox").prop("checked", true);
+                });
+                });
         
-                $(document).on('click', '#PropertiesSelectAll', function (e) {
-
-                    $("#Properties tr").each(function () {
-    $(this).find(":checkbox").prop("checked", true);
-});
-});
-        
-                $(document).on('click', '#PropertiesClearAll', function (e) {
+        $(document).on('click', '#PropertiesClearAll', function (e) {
 
                     $("#Properties tr").each(function () {
             $(this).find(":checkbox").prop("checked", false);
 
-});
-}); 
-                $(document).on('click', '#Itemno', function (e) {
+                });
+                }); 
+        $(document).on('click', '#Itemno', function (e) {
                     IsHeader = false;
                     ObjItemCode = $(this).closest('tr').find("#ItemCode");
                     DocModule = "S";
@@ -2191,7 +2195,7 @@
                     $('#myItemModal').modal('show');
         
                 });
-                $(document).on('change', '#ManagedItemby', function (e) {
+        $(document).on('change', '#ManagedItemby', function (e) {
                     let ManagedItemby = $('#ManagedItemby').val();
                     if(ManagedItemby == 1 || ManagedItemby == 2){
                         $('#MyMngMthd').removeClass('d-none');
@@ -2211,12 +2215,7 @@
             $('#InActivevalidFor1').removeClass('d-none');
 
             }
-        });
-        
-        
-        
-        
-        
+        });        
         
         $(document).on('click', '#btnBack', function (e) {
             window.history.back();
@@ -2225,7 +2224,8 @@
         $(document).on('click', '#ListBtnDelete', function () {
             $(this).closest('tr').remove();
         });
-    $(document).on('change', '#Series', function () {
+        
+        $(document).on('change', '#Series', function () {
 
 
         if ($(this).val() == -1) {
@@ -2272,12 +2272,13 @@
 
 <script>
     $(document).ready(function() {
+             
              $("#CstGrpCode1").val($('#CstGrpCode option:selected').val());  
              $("#VatGroupSa1").val($('#VatGroupSa option:selected').attr("guid"));
-        $("#VatGroupPu1").val($('#VatGroupPu option:selected').attr("guid"));
+             $("#VatGroupPu1").val($('#VatGroupPu option:selected').attr("guid"));
 
 
-        $("#BuyUnitMsr").select2({
+            $("#BuyUnitMsr").select2({
             placeholder: "Select an option",
             tags: true,
             tokenSeparators: [',', ' ']
@@ -2292,33 +2293,64 @@
             placeholder: "Select an option",
             tags: true,
             tokenSeparators: [',', ' ']
-        });
+            });
     });
 
-
+   $(document).on("keydown", "input", function () {
+       $(this).removeClass('is-invalid');
+    });
     $(document).on('change' ,'#InvntItem' , function(){
 
-            if( $(this).is(':checked') )
+            if( $(this).is(':checked'))
+            {
                 $("#InvntryUom").removeClass("NotReq");
+                isInventryItem = true;
+            }
             else
+            {
                 $("#InvntryUom").addClass("NotReq");
-
+                isInventryItem = false;
+            }
     });
     $(document).on('change' ,'#SellItem' , function(){
 
             if( $(this).is(':checked') )
+            {
                 $("#SalUnitMsr").removeClass("NotReq");
+                isSalesItem =  true;
+            }
             else
+            {
                 $("#SalUnitMsr").addClass("NotReq");
+                isSalesItem =  false;
+            }
 
     });
     $(document).on('change' ,'#PrchseItem' , function(){
 
             if( $(this).is(':checked') )
+            {
                 $("#BuyUnitMsr").removeClass("NotReq");
-            else
-            $("#BuyUnitMsr").addClass("NotReq");
+                isPurchaseItem = true;
+            }
+            else 
+            {
+                $("#BuyUnitMsr").addClass("NotReq");
+                isPurchaseItem = false;
+            }
+    });
+    $(document).on('change' ,'#ByWh' , function(){
 
+            if( $(this).is(':checked') )
+            {
+                $("#kt_tabs_inventoryData_Warehouses").removeClass("d-none");
+                isManageInvByWareHouse = true;
+            }
+            else 
+            {
+                $("#kt_tabs_inventoryData_Warehouses").addClass("d-none");
+                isManageInvByWareHouse = false;
+            }
     })
 
 
@@ -2330,7 +2362,7 @@
     $(document).on('change', '#VatGroupSa', function (e) {
 
         $("#VatGroupSa1").val($('#VatGroupSa option:selected').attr("guid"));
-                        //$("#VatGroupSa1").val( $(this).('option:selected').attr("guid") );  
+                          
                     
     });         
     $(document).on('change', '#VatGroupPu', function (e) {
@@ -2343,52 +2375,76 @@
 
     $(document).on('click', '#btnSaveData', function (e) {
 
+        var isValid = false;
+        
+        $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+        $(this).attr('disabled', true);
+        if ( ValidateData("HeaderForm") ) 
+        {
+             
+            
+            if (isPurchaseItem) 
+            {
+                  isValid =  ValidateData("kt_tabs_PurchasingData");
+            }
+            if (isSalesItem) 
+            {
+                  isValid =  ValidateData("kt_tabs_SalesData");
+            }
+            if (isInventryItem) 
+            {
+                  isValid =  ValidateData("kt_tabs_InventoryData");
+            }
+            if (isInventryItem && isManageInvByWareHouse) 
+            {
+                  isValid =  ValidateListData("ListParameters itm");
+            }    
+            
+            $.when( 
+             
+                isValid = ValidateData("kt_tabs_PlanningData"),
+                isValid = ValidateData("kt_tabs_ProductionData"),
+                
 
-        console.log(getJsonObj("HeaderForm"));
-        ValidateData("HeaderForm");
-        //$(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-        //$(this).attr('disabled', true);
-        //if (
-        //    ValidateData("HeaderForm")
+            ).then(function() 
+            {
+                if(isValid)
+                FormData();
+                else
+                {
+                    $("#btnSaveData").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $("#btnSaveData").attr('disabled', false);
+                    toastr.warning("Validations Error");
+                }
+            })
+            
 
-        //) {
-        //    if (ItemServiceType == '1') {
-        //        if (ValidateListData("ListParameters .itm") && ValidateData("kt_tabs_acct"))
-        //            FormData();
-        //        else {
-        //            $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-        //            $(this).attr('disabled', false);
-        //        }
-        //    }
-        //    else {
-        //        if (ValidateListData("ListParameters2 .itm") && ValidateData("kt_tabs_acct"))
-        //            FormData();
-        //        else {
-        //            $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-        //            $(this).attr('disabled', false);
-        //        }
-        //    }
-        //}
-        //else {
-        //    $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-        //    $(this).attr('disabled', false);
-        //}
+        }
+        else 
+        {
+            $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+            $(this).attr('disabled', false);
+        }
+
     });
     function FormData() 
     {
             
-        
         var data =
-        { 
-        HeaderData : getJsonObj("HeaderForm"),
-        ListAccouting : getJsonObj("kt_tabs_acct"),
-        ListItems: ItemServiceType == '1' ?  getJsonObjList("ListParameters .itm") : null,
-        ListService: ItemServiceType == '2' ? getJsonObjList("ListParameters2 .itm") : null,
-        ListAttachment: getJsonObjList("ListParameters3 .itm"),
-        FooterData : getJsonObj("FooterData")
-      
+        {
+            HeaderData: getJsonObj("HeaderForm"),
+            
+            Tab_General : getJsonObj("kt_tabs_General"),
+            Tab_PurchasingData : isPurchaseItem == true ? getJsonObj("kt_tabs_PurchasingData") : null, 
+            Tab_SalesData :  isSalesItem == true ? getJsonObj("kt_tabs_SalesData") : null,
+            Tab_InventoryData : isInventryItem == true ? getJsonObj("kt_tabs_InventoryData") : null,
+            Tab_InventoryData_WareHouseList : isInventryItem == true && isManageInvByWareHouse == true ? getJsonObjList("ListParameters itm") : null,
+            Tab_PlanningData : getJsonObj("kt_tabs_PlanningData"),
+            Tab_ProductionData : getJsonObj("kt_tabs_ProductionData"),
+            Tab_Properties : getJsonObj("kt_tabs_Properties")
+                  
         }
-      
+        console.log(data);
        
        PostData(data);
 
@@ -2401,7 +2457,7 @@
         
       
         return $.ajax({
-            url: '/SaleQuotation/AddSalesQoutation',
+            url: '/ItemMasterData/AddItemMasterData',
             dataType: 'json',
             type: 'POST',
             
