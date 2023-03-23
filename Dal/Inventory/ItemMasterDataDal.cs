@@ -3,6 +3,7 @@ using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Models.Inventory;
 using iSOL_Enterprise.Models.sale;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SAPbobsCOM;
 using SqlHelperExtensions;
 using System;
@@ -205,6 +206,34 @@ namespace iSOL_Enterprise.Dal.Inventory
             return list;
         }
 
+        public SqlParameter GetParameter(string name,dynamic? value,Type type)
+        {
+            SqlParameter param = new SqlParameter();
+            if (type == typeof(int))
+            {
+                int value1 = (int) value ;
+                param = new SqlParameter(name, value1);
+            }
+            else if (type == typeof(string))
+            {
+                string? value1 = value == "" ? null : Convert.ToString(value);
+                param = new SqlParameter(name, value1);
+            }
+            else if (type == typeof(DateTime))
+            {
+                DateTime?   value1 = value == "" ? null : Convert.ToDateTime(value);
+                param = new SqlParameter(name, value1);
+            }
+            else if (type == typeof(char))
+            {
+                char value1 = value == "" ? null : Convert.ToChar(value);
+                param = new SqlParameter(name, value1);
+            }
+           // param = new SqlParameter(name,value);
+            
+            return param;
+        }
+
         public bool AddItemMasterData(string formData)
         {
             try
@@ -225,376 +254,428 @@ namespace iSOL_Enterprise.Dal.Inventory
                     {
                         // string[] ArrayHeadQuery = {"ItemCode", "ItemName", "Series", "InvntItem", "SellItem", "FrgnName", "PrchseItem", "ItemType", "ItmsGrpCod", "UgpEntry", "ListName", "PriceUnit", "AvgPrice", " WTLiable", "FirmCode", "ShipType", "ManagedItemby", "MyMngMthd", "ManagedItemby", "validFor", "validFrom", "validTo", "frozenFrom", "frozenTo", " BuyUnitMar", "NumInBuy", "CstGrpCode", "TotalTax", "VatGroupPu", "VatGroupSa", "SalUnitMar", "NumInSale", "GLMethod", "ByWh", "InvntryUom", "EvalSystem", " PlaningSys", "PrcrmntMtd", "MinOrdrQty", "IssueMthd", "TreeType", "PrdStdCst", "InCostRoll", " QryGroup1", "QryGroup2", "QryGroup3", "QryGroup4", "QryGroup5", "QryGroup6", "QryGroup7", "QryGroup8", "QryGroup9", "QryGroup10", "QryGroup11", "QryGroup12", " QryGroup13", "QryGroup14", "QryGroup15", "QryGroup16", "QryGroup17", "QryGroup18", "QryGroup19", "QryGroup20", "QryGroup21", "QryGroup22", "QryGroup23", " QryGroup24", "QryGroup25", "QryGroup26", "QryGroup27", "QryGroup28", "QryGroup29", "QryGroup30", "QryGroup31", "QryGroup32", "QryGroup33", "QryGroup34", " QryGroup35", "QryGroup36", "QryGroup37", "QryGroup38", "QryGroup39", "QryGroup40", "QryGroup41", "QryGroup42", "QryGroup43", "QryGroup44", "QryGroup45", " QryGroup46", "QryGroup47", "QryGroup48", "QryGroup49", "QryGroup50", "QryGroup51", "QryGroup52", "QryGroup53", "QryGroup54", "QryGroup55", "QryGroup56", " QryGroup57", "QryGroup58", "QryGroup59", "QryGroup60", "QryGroup61", "QryGroup62", "QryGroup63", "QryGroup64" };
                         //,PriceUnit,,@PriceUnit,
-                        model.HeaderData.Series = model.HeaderData.Series == "" ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
-                        model.HeaderData.ItmsGrpCod = model.HeaderData.ItmsGrpCod == "" ? "NULL" : Convert.ToInt32(model.HeaderData.ItmsGrpCod) ;
-                        model.HeaderData.UgpEntry = model.HeaderData.UgpEntry == "" ? "NULL" : Convert.ToInt32(model.HeaderData.UgpEntry);
-                        model.HeaderData.AvgPrice =model.HeaderData.AvgPrice == "" ? "NULL" : Convert.ToInt32(model.HeaderData.AvgPrice) ;
-                        model.Tab_General.ActivevalidFor = model.Tab_General.ActivevalidFor == "Y" ? "Y" : "N";
-                          model.Tab_General.validFrom   =  model.Tab_General.validFrom == "" ? "null" : Convert.ToDateTime(model.Tab_General.validFrom) ;
-                          model.Tab_General.validTo   =  model.Tab_General.validTo == "" ? "null" : Convert.ToDateTime(model.Tab_General.validTo) ;
-                          model.Tab_General.frozenFrom   =  model.Tab_General.frozenFrom == "" ? "null" : Convert.ToDateTime(model.Tab_General.frozenFrom) ;
-                        model.Tab_General.frozenTo   =  model.Tab_General.frozenTo == "" ? "null" : Convert.ToDateTime(model.Tab_General.frozenTo);
-                        model.Tab_PurchasingData.CstGrpCod = model.Tab_PurchasingData.CstGrpCod == "" ? "NULL" : Convert.ToInt16(model.Tab_PurchasingData.CstGrpCod);
-                        string HeadQuery = @"insert into OITM
-                                            
-(ItemCode,
-ItemName,
-Series,
-InvntItem,
-SellItem,
-FrgnName,
-PrchseItem,
-ItemType,
-ItmsGrpCod,
-UgpEntry,
 
-AvgPrice,
-WTLiable,
-FirmCode,
-ShipType, 
-validFor,
-validFrom,
-validTo,
-frozenFrom,
-frozenTo,
-ByWh,
-EvalSystem,
-GLMethod,
-InvntryUom,
-PrcrmntMtd,
-PlaningSys,
-MinOrdrQty,
-InCostRoll,
-IssueMthd,
-TreeType,
-PrdStdCst,
-BuyUnitMsr,
-CstGrpCode,
-NumInBuy,   
-VatGroupPu,
-NumInSale,
-SalUnitMsr,
-VatGourpSa,
-QryGroup1,
-QryGroup2,
-QryGroup3,
-QryGroup4,
-QryGroup5,
-QryGroup6,
-QryGroup7,
-QryGroup8,
-QryGroup9,
-QryGroup10,
-QryGroup11,
-QryGroup12,
-QryGroup13,
-QryGroup14,
-QryGroup15,
-QryGroup16,
-QryGroup17,
-QryGroup18,
-QryGroup19,
-QryGroup20,
-QryGroup21,
-QryGroup22,
-QryGroup23,
-QryGroup24,
-QryGroup25,
-QryGroup26,
-QryGroup27,
-QryGroup28,
-QryGroup29,
-QryGroup30,
-QryGroup31,
-QryGroup32,
-QryGroup33,
-QryGroup34,
-QryGroup35,
-QryGroup36,
-QryGroup37,
-QryGroup38,
-QryGroup39,
-QryGroup40,
-QryGroup41,
-QryGroup42,
-QryGroup43,
-QryGroup44,
-QryGroup45,
-QryGroup46,
-QryGroup47,
-QryGroup48,
-QryGroup49,
-QryGroup50,
-QryGroup51,
-QryGroup52,
-QryGroup53,
-QryGroup54,
-QryGroup55,
-QryGroup56,
-QryGroup57,
-QryGroup58,
-QryGroup59,
-QryGroup60,
-QryGroup61,
-QryGroup62,
-QryGroup63,
-QryGroup64) 
-values("
-+ "'" + model.HeaderData.ItemCode + "','"
-+ model.HeaderData.ItemName + "',"
-+ model.HeaderData.Series + ",'"
-+ model.HeaderData.InvntItem + "','"
-+ model.HeaderData.SellItem + "','"
-+ model.HeaderData.FrgnName + "','"
-+ model.HeaderData.PrchseItem + "','"
-+ model.HeaderData.ItemType + "',"
-+ model.HeaderData.ItmsGrpCod  +","
-+ model.HeaderData.UgpEntry + ","
-+ model.HeaderData.AvgPrice + ",'"
-+ model.Tab_General.WTLiable + "','"
-+ model.Tab_General.FirmCode + "','"
-+ model.Tab_General.ShipType + "','" 
-+ model.Tab_General.ActivevalidFor + "','"
-+ model.Tab_General.validFrom  + "','"
-+ model.Tab_General.validTo  + "','"
-+ model.Tab_General.frozenFrom  + "','"
-+ model.Tab_General.frozenTo + "','"
-+ model.Tab_InventoryData.ByWh + "','"
-+ model.Tab_InventoryData.EvalSystem + "','"
-+ model.Tab_InventoryData.GLMethod + "','"
-+ model.Tab_InventoryData.InvntryUom + "','"
-+ model.Tab_PlanningData.PrcrmntMtd + "','"
-+ model.Tab_PlanningData.PlaningSys + "','"
-+ model.Tab_PlanningData.MinOrdrQty + "','"
-+ model.Tab_ProductionData.InCostRoll + "','"
-+ model.Tab_ProductionData.IssueMthd + "','"
-+ model.Tab_ProductionData.TreeType + "','"
-+ model.Tab_ProductionData.PrdStdCst + "','"
-+ model.Tab_PurchasingData.BuyUnitMsr + "',"
-+ model.Tab_PurchasingData.CstGrpCod  +",'"
-+ model.Tab_PurchasingData.NumInBuy + "','" 
-+ model.Tab_PurchasingData.VatGroupPu + "','"
-+ model.Tab_SalesData.NumInSal + "','"
-+ model.Tab_SalesData.SalUnitMa + "','"
-+ model.Tab_SalesData.VatGroupS + "','"
-+ model.Tab_Properties.QryGroup1 + "','"
-+ model.Tab_Properties.QryGroup2 + "','"
-+ model.Tab_Properties.QryGroup3 + "','"
-+ model.Tab_Properties.QryGroup4 + "','"
-+ model.Tab_Properties.QryGroup5 + "','"
-+ model.Tab_Properties.QryGroup6 + "','"
-+ model.Tab_Properties.QryGroup7 + "','"
-+ model.Tab_Properties.QryGroup8 + "','"
-+ model.Tab_Properties.QryGroup9 + "','"
-+ model.Tab_Properties.QryGroup10 + "','"
-+ model.Tab_Properties.QryGroup11 + "','"
-+ model.Tab_Properties.QryGroup12 + "','"
-+ model.Tab_Properties.QryGroup13 + "','"
-+ model.Tab_Properties.QryGroup14 + "','"
-+ model.Tab_Properties.QryGroup15 + "','"
-+ model.Tab_Properties.QryGroup16 + "','"
-+ model.Tab_Properties.QryGroup17 + "','"
-+ model.Tab_Properties.QryGroup18 + "','"
-+ model.Tab_Properties.QryGroup19 + "','"
-+ model.Tab_Properties.QryGroup20 + "','"
-+ model.Tab_Properties.QryGroup21 + "','"
-+ model.Tab_Properties.QryGroup22 + "','"
-+ model.Tab_Properties.QryGroup23 + "','"
-+ model.Tab_Properties.QryGroup24 + "','"
-+ model.Tab_Properties.QryGroup25 + "','"
-+ model.Tab_Properties.QryGroup26 + "','"
-+ model.Tab_Properties.QryGroup27 + "','"
-+ model.Tab_Properties.QryGroup28 + "','"
-+ model.Tab_Properties.QryGroup29 + "','"
-+ model.Tab_Properties.QryGroup30 + "','"
-+ model.Tab_Properties.QryGroup31 + "','"
-+ model.Tab_Properties.QryGroup32 + "','"
-+ model.Tab_Properties.QryGroup33 + "','"
-+ model.Tab_Properties.QryGroup34 + "','"
-+ model.Tab_Properties.QryGroup35 + "','"
-+ model.Tab_Properties.QryGroup36 + "','"
-+ model.Tab_Properties.QryGroup37 + "','"
-+ model.Tab_Properties.QryGroup38 + "','"
-+ model.Tab_Properties.QryGroup39 + "','"
-+ model.Tab_Properties.QryGroup40 + "','"
-+ model.Tab_Properties.QryGroup41 + "','"
-+ model.Tab_Properties.QryGroup42 + "','"
-+ model.Tab_Properties.QryGroup43 + "','"
-+ model.Tab_Properties.QryGroup44 + "','"
-+ model.Tab_Properties.QryGroup45 + "','"
-+ model.Tab_Properties.QryGroup46 + "','"
-+ model.Tab_Properties.QryGroup47 + "','"
-+ model.Tab_Properties.QryGroup48 + "','"
-+ model.Tab_Properties.QryGroup49 + "','"
-+ model.Tab_Properties.QryGroup50 + "','"
-+ model.Tab_Properties.QryGroup51 + "','"
-+ model.Tab_Properties.QryGroup52 + "','"
-+ model.Tab_Properties.QryGroup53 + "','"
-+ model.Tab_Properties.QryGroup54 + "','"
-+ model.Tab_Properties.QryGroup55 + "','"
-+ model.Tab_Properties.QryGroup56 + "','"
-+ model.Tab_Properties.QryGroup57 + "','"
-+ model.Tab_Properties.QryGroup58 + "','"
-+ model.Tab_Properties.QryGroup59 + "','"
-+ model.Tab_Properties.QryGroup60 + "','"
-+ model.Tab_Properties.QryGroup61 + "','"
-+ model.Tab_Properties.QryGroup62 + "','"
-+ model.Tab_Properties.QryGroup63 + "','"
-+ model.Tab_Properties.QryGroup64 + "')";
+                        #region Comments
+                        //model.HeaderData.Series = model.HeaderData.Series == "" ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
+                        //model.HeaderData.ItmsGrpCod = model.HeaderData.ItmsGrpCod == "" ? "NULL" : Convert.ToInt32(model.HeaderData.ItmsGrpCod);
+                        //model.HeaderData.UgpEntry = model.HeaderData.UgpEntry == "" ? "NULL" : Convert.ToInt32(model.HeaderData.UgpEntry);
+                        //model.HeaderData.AvgPrice = model.HeaderData.AvgPrice == "" ? "NULL" : Convert.ToInt32(model.HeaderData.AvgPrice);
+                        //model.Tab_PurchasingData.CstGrpCod = model.Tab_PurchasingData.CstGrpCod == "" ? "NULL" : Convert.ToInt16(model.Tab_PurchasingData.CstGrpCod);
+                        //model.Tab_General.ActivevalidFor = model.Tab_General.ActivevalidFor == "Y" ? "Y" : "N";
 
-
-                        #region SqlParameters
-                        //List<SqlParameter> param = new List<SqlParameter>(){
-                        ////foreach (var Arr in ArrayHeadQuery)
-                        ////{
-                        ////    param.Add(new SqlParameter("\"@" + Arr +"\"", Arr));
-                        ////}
-                        
-                        //new SqlParameter("@ItemCode", model.HeaderData.ItemCode),
-                        //new SqlParameter("@ItemName", model.HeaderData.ItemName),
-                        //new SqlParameter("@Series",     model.HeaderData.Series),
-                        //new SqlParameter("@InvntItem", model.HeaderData.InvntItem),
-                        //new SqlParameter("@SellItem", model.HeaderData.SellItem),
-                        //new SqlParameter("@FrgnName", model.HeaderData.FrgnName),
-                        //new SqlParameter("@PrchseItem", model.HeaderData.PrchseItem),
-                        //new SqlParameter("@ItemType", model.HeaderData.ItemType),
-                        //new SqlParameter("@ItmsGrpCod", model.HeaderData.ItmsGrpCod),
-                        //new SqlParameter("@UgpEntry", model.HeaderData.UgpEntry),
-                        //new SqlParameter("@ListName", model.HeaderData.ListName),
-                        ////new SqlParameter("@PriceUnit", model.HeaderData.PriceUnit),
-                        //new SqlParameter("@AvgPrice", model.HeaderData.AvgPrice),
-
-                        //new SqlParameter("@WTLiable", model.Tab_General.WTLiable),
-                        //new SqlParameter("@FirmCode", model.Tab_General.FirmCode),
-                        //new SqlParameter("@ShipType", model.Tab_General.ShipType),
-                        //new SqlParameter("@ManagedItemby", model.Tab_General.ManagedItemby),
-                        //new SqlParameter("@validFor", model.Tab_General.ActivevalidFor == "Y" ? "Y" :"N"),
-                        //new SqlParameter("@validFrom", model.Tab_General.validFrom == "" ? "NULL" : Convert.ToDateTime(model.Tab_General.validFrom)),
-                        //new SqlParameter("@validTo", model.Tab_General.validTo == "" ? "NULL" : Convert.ToDateTime(model.Tab_General.validTo)),
-                        //new SqlParameter("@frozenFrom", model.Tab_General.frozenFrom == "" ? "NULL" : Convert.ToDateTime(model.Tab_General.frozenFrom)),
-                        //new SqlParameter("@frozenTo", model.Tab_General.frozenTo == "" ? "NULL" : Convert.ToDateTime(model.Tab_General.frozenTo)),
-                        
-                        ////new SqlParameter("@ BuyUnitMar", model.HeaderData.BuyUnitMar == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.BuyUnitMar)),
-                        //new SqlParameter("@ByWh", model.Tab_InventoryData.ByWh),                        
-                        //new SqlParameter("@EvalSystem", model.Tab_InventoryData.EvalSystem ),
-                        //new SqlParameter("@GLMethod", model.Tab_InventoryData.GLMethod),  
-                        //new SqlParameter("@InvntryUom", model.Tab_InventoryData.InvntryUom ),
-
-                        //new SqlParameter("@PrcrmntMtd", model.Tab_PlanningData.PrcrmntMtd),
-                        //new SqlParameter("@ PlaningSys", model.Tab_PlanningData.PlaningSys),
-                        //new SqlParameter("@MinOrdrQty", model.Tab_PlanningData.MinOrdrQty),
-
-                        //new SqlParameter("@InCostRoll", model.Tab_ProductionData.InCostRoll),
-                        //new SqlParameter("@IssueMthd", model.Tab_ProductionData.IssueMthd ),
-                        //new SqlParameter("@TreeType", model.Tab_ProductionData.TreeType),
-                        //new SqlParameter("@PrdStdCst", model.Tab_ProductionData.PrdStdCst ),
-                          
-
-
-                        //new SqlParameter("@BuyUnitMar", model.Tab_PurchasingData.BuyUnitMsr),
-                        //new SqlParameter("@CstGrpCode", model.Tab_PurchasingData.CstGrpCod),
-                        //new SqlParameter("@NumInBuy", model.Tab_PurchasingData.NumInBuy),
-                        //new SqlParameter("@TotalTax", model.Tab_PurchasingData.TotalTax),
-                        //new SqlParameter("@VatGroupPu", model.Tab_PurchasingData.VatGroupPu),
-
-                        //new SqlParameter("@NumInSale", model.Tab_SalesData.NumInSal),
-                        //new SqlParameter("@SalUnitMar", model.Tab_SalesData.SalUnitMa),
-                        //new SqlParameter("@VatGroupSa", model.Tab_SalesData.VatGroupS),
-
-                        //new SqlParameter("@QryGroup1", model.Tab_Properties.QryGroup1),
-                        //new SqlParameter("@QryGroup2", model.Tab_Properties.QryGroup2),
-                        //new SqlParameter("@QryGroup3", model.Tab_Properties.QryGroup3),
-                        //new SqlParameter("@QryGroup4", model.Tab_Properties.QryGroup4),
-                        //new SqlParameter("@QryGroup5", model.Tab_Properties.QryGroup5),
-                        //new SqlParameter("@QryGroup6", model.Tab_Properties.QryGroup6),
-                        //new SqlParameter("@QryGroup7", model.Tab_Properties.QryGroup7),
-                        //new SqlParameter("@QryGroup8", model.Tab_Properties.QryGroup8),
-                        //new SqlParameter("@QryGroup9", model.Tab_Properties.QryGroup9),
-                        //new SqlParameter("@QryGroup10", model.Tab_Properties.QryGroup10),
-                        //new SqlParameter("@QryGroup11", model.Tab_Properties.QryGroup11),
-                        //new SqlParameter("@QryGroup12", model.Tab_Properties.QryGroup12),
-                        //new SqlParameter("@QryGroup13", model.Tab_Properties.QryGroup13),
-                        //new SqlParameter("@QryGroup14", model.Tab_Properties.QryGroup14),
-                        //new SqlParameter("@QryGroup15", model.Tab_Properties.QryGroup15),
-                        //new SqlParameter("@QryGroup16", model.Tab_Properties.QryGroup16),
-                        //new SqlParameter("@QryGroup17", model.Tab_Properties.QryGroup17),
-                        //new SqlParameter("@QryGroup18", model.Tab_Properties.QryGroup18),
-                        //new SqlParameter("@QryGroup19", model.Tab_Properties.QryGroup19),
-                        //new SqlParameter("@QryGroup20", model.Tab_Properties.QryGroup20),
-                        //new SqlParameter("@QryGroup21", model.Tab_Properties.QryGroup21),
-                        //new SqlParameter("@QryGroup22", model.Tab_Properties.QryGroup22),
-                        //new SqlParameter("@QryGroup23", model.Tab_Properties.QryGroup23),
-                        //new SqlParameter("@QryGroup24", model.Tab_Properties.QryGroup24),
-                        //new SqlParameter("@QryGroup25", model.Tab_Properties.QryGroup25),
-                        //new SqlParameter("@QryGroup26", model.Tab_Properties.QryGroup26),
-                        //new SqlParameter("@QryGroup27", model.Tab_Properties.QryGroup27),
-                        //new SqlParameter("@QryGroup28", model.Tab_Properties.QryGroup28),
-                        //new SqlParameter("@QryGroup29", model.Tab_Properties.QryGroup29),
-                        //new SqlParameter("@QryGroup30", model.Tab_Properties.QryGroup30),
-                        //new SqlParameter("@QryGroup31", model.Tab_Properties.QryGroup31),
-                        //new SqlParameter("@QryGroup32", model.Tab_Properties.QryGroup32),
-                        //new SqlParameter("@QryGroup33", model.Tab_Properties.QryGroup33),
-                        //new SqlParameter("@QryGroup34", model.Tab_Properties.QryGroup34),
-                        //new SqlParameter("@QryGroup35", model.Tab_Properties.QryGroup35),
-                        //new SqlParameter("@QryGroup36", model.Tab_Properties.QryGroup36),
-                        //new SqlParameter("@QryGroup37", model.Tab_Properties.QryGroup37),
-                        //new SqlParameter("@QryGroup38", model.Tab_Properties.QryGroup38),
-                        //new SqlParameter("@QryGroup39", model.Tab_Properties.QryGroup39),
-                        //new SqlParameter("@QryGroup40", model.Tab_Properties.QryGroup40),
-                        //new SqlParameter("@QryGroup41", model.Tab_Properties.QryGroup41),
-                        //new SqlParameter("@QryGroup42", model.Tab_Properties.QryGroup42),
-                        //new SqlParameter("@QryGroup43", model.Tab_Properties.QryGroup43),
-                        //new SqlParameter("@QryGroup44", model.Tab_Properties.QryGroup44),
-                        //new SqlParameter("@QryGroup45", model.Tab_Properties.QryGroup45),
-                        //new SqlParameter("@QryGroup46", model.Tab_Properties.QryGroup46),
-                        //new SqlParameter("@QryGroup47", model.Tab_Properties.QryGroup47),
-                        //new SqlParameter("@QryGroup48", model.Tab_Properties.QryGroup48),
-                        //new SqlParameter("@QryGroup49", model.Tab_Properties.QryGroup49),
-                        //new SqlParameter("@QryGroup50", model.Tab_Properties.QryGroup50),
-                        //new SqlParameter("@QryGroup51", model.Tab_Properties.QryGroup51),
-                        //new SqlParameter("@QryGroup52", model.Tab_Properties.QryGroup52),
-                        //new SqlParameter("@QryGroup53", model.Tab_Properties.QryGroup53),
-                        //new SqlParameter("@QryGroup54", model.Tab_Properties.QryGroup54),
-                        //new SqlParameter("@QryGroup55", model.Tab_Properties.QryGroup55),
-                        //new SqlParameter("@QryGroup56", model.Tab_Properties.QryGroup56),
-                        //new SqlParameter("@QryGroup57", model.Tab_Properties.QryGroup57),
-                        //new SqlParameter("@QryGroup58", model.Tab_Properties.QryGroup58),
-                        //new SqlParameter("@QryGroup59", model.Tab_Properties.QryGroup59),
-                        //new SqlParameter("@QryGroup60", model.Tab_Properties.QryGroup60),
-                        //new SqlParameter("@QryGroup61", model.Tab_Properties.QryGroup61),
-                        //new SqlParameter("@QryGroup62", model.Tab_Properties.QryGroup62),
-                        //new SqlParameter("@QryGroup63", model.Tab_Properties.QryGroup63),
-                        //new SqlParameter("@QryGroup64", model.Tab_Properties.QryGroup64)
-
-                        //};
+                        //string TabGeneralDatesQuery = "";
+                        //string TabGeneralDatesInsert = "";
+                        //if (model.Tab_General.ActivevalidFor == "Y")
+                        //{
+                        //    model.Tab_General.validFrom = model.Tab_General.validFrom == "" ? "NULL" : Convert.ToDateTime(model.Tab_General.validFrom);
+                        //    model.Tab_General.validTo = model.Tab_General.validTo == "" ? "NULL" : Convert.ToDateTime(model.Tab_General.validTo);
+                        //    TabGeneralDatesQuery = "validFrom,validTo,";
+                        //    TabGeneralDatesInsert = model.Tab_General.validFrom + "','" + model.Tab_General.validTo + "','";
+                        //}
+                        //else
+                        //{
+                        //    model.Tab_General.validFrom = "NULL";
+                        //    model.Tab_General.validTo = "NULL";
+                        //    model.Tab_General.frozenFrom   =  model.Tab_General.frozenFrom == "" ? "NULL" : Convert.ToDateTime(model.Tab_General.frozenFrom) ;
+                        //    model.Tab_General.frozenTo   =  model.Tab_General.frozenTo == "" ? "NULL" : Convert.ToDateTime(model.Tab_General.frozenTo);
+                        //    TabGeneralDatesQuery = "frozenFrom,frozenTo,";
+                        //    TabGeneralDatesInsert = model.Tab_General.frozenFrom + "','" + model.Tab_General.frozenTo + "','";
+                        //}
                         #endregion
-                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                        List<SqlParameter> param = new List<SqlParameter>();
+                        string PQ = "";
+                        string PQ_P = "";
+                        string SQ = "";
+                        string SQ_P = "";
+                        string IQ = "";
+                        string IQ_P = "";
+
+                        if (model.Tab_PurchasingData != null)
+                        {
+                            PQ = "BuyUnitMsr,CstGrpCode,NumInBuy,VatGroupPu,";
+                            PQ_P = "@BuyUnitMsr,@CstGrpCode,@NumInBuy,@VatGroupPu,";
+                            param.Add(GetParameter("@BuyUnitMsr", model.Tab_PurchasingData.BuyUnitMsr, typeof(string)));
+                            param.Add(GetParameter("@CstGrpCode", model.Tab_PurchasingData.CstGrpCod, typeof(int)));
+                            param.Add(GetParameter("@NumInBuy", model.Tab_PurchasingData.NumInBuy, typeof(string)));
+                            param.Add(GetParameter("@VatGroupPu", model.Tab_PurchasingData.VatGroupPu, typeof(string)));
+                        }
+                        if (model.Tab_SalesData != null)
+                        {
+                            SQ = "NumInSale,SalUnitMsr,VatGourpSa,";
+                            SQ_P = "@NumInSale,@SalUnitMsr,@VatGourpSa,";
+                            param.Add(GetParameter("@NumInSale", model.Tab_SalesData.NumInSal, typeof(string)));
+                            param.Add(GetParameter("@SalUnitMsr", model.Tab_SalesData.SalUnitMsr, typeof(string)));
+                            param.Add(GetParameter("@VatGourpSa", model.Tab_SalesData.VatGroupS, typeof(string)));
+                        }
+                        if (model.Tab_InventoryData != null)
+                        {
+                            IQ = "ByWh,EvalSystem,GLMethod,InvntryUom,";
+                            IQ_P = "@ByWh,@EvalSystem,@GLMethod,@InvntryUom,";
+                            param.Add(GetParameter("@ByWh", model.Tab_InventoryData.ByWh, typeof(char)));
+                            param.Add(GetParameter("@EvalSystem", model.Tab_InventoryData.EvalSystem, typeof(string)));
+                            param.Add(GetParameter("@GLMethod", model.Tab_InventoryData.GLMethod, typeof(string)));
+                            param.Add(GetParameter("@InvntryUom", model.Tab_InventoryData.InvntryUom, typeof(string)));
+                        }
+
+                        string HeadQuery = @"insert into OITM (ItemCode, ItemName, Series, InvntItem, SellItem, FrgnName, PrchseItem, ItemType, ItmsGrpCod, UgpEntry, AvgPrice, WTLiable, FirmCode, ShipType, validFor, validFrom, validTo, frozenFrom, frozenTo, "+IQ+" PrcrmntMtd, PlaningSys, MinOrdrQty, InCostRoll, IssueMthd, TreeType, PrdStdCst, "+PQ+" "+SQ+" QryGroup1, QryGroup2, QryGroup3, QryGroup4, QryGroup5, QryGroup6, QryGroup7, QryGroup8, QryGroup9, QryGroup10, QryGroup11, QryGroup12, QryGroup13, QryGroup14, QryGroup15, QryGroup16, QryGroup17, QryGroup18, QryGroup19, QryGroup20, QryGroup21, QryGroup22, QryGroup23, QryGroup24, QryGroup25, QryGroup26, QryGroup27, QryGroup28, QryGroup29, QryGroup30, QryGroup31, QryGroup32, QryGroup33, QryGroup34, QryGroup35, QryGroup36, QryGroup37, QryGroup38, QryGroup39, QryGroup40, QryGroup41, QryGroup42, QryGroup43, QryGroup44, QryGroup45, QryGroup46, QryGroup47, QryGroup48, QryGroup49, QryGroup50, QryGroup51, QryGroup52, QryGroup53, QryGroup54, QryGroup55, QryGroup56, QryGroup57, QryGroup58, QryGroup59, QryGroup60, QryGroup61, QryGroup62, QryGroup63, QryGroup64) values( @ItemCode, @ItemName, @Series, @InvntItem, @SellItem, @FrgnName, @PrchseItem, @ItemType, @ItmsGrpCod, @UgpEntry, @AvgPrice, @WTLiable, @FirmCode, @ShipType, @validFor, @validFrom, @validTo, @frozenFrom, @frozenTo,"+IQ_P+" @PrcrmntMtd, @PlaningSys, @MinOrdrQty, @InCostRoll, @IssueMthd, @TreeType, @PrdStdCst, "+PQ_P+" "+SQ_P+" @QryGroup1, @QryGroup2, @QryGroup3, @QryGroup4, @QryGroup5, @QryGroup6, @QryGroup7, @QryGroup8, @QryGroup9, @QryGroup10, @QryGroup11, @QryGroup12, @QryGroup13, @QryGroup14, @QryGroup15, @QryGroup16, @QryGroup17, @QryGroup18, @QryGroup19, @QryGroup20, @QryGroup21, @QryGroup22, @QryGroup23, @QryGroup24, @QryGroup25, @QryGroup26, @QryGroup27, @QryGroup28, @QryGroup29, @QryGroup30, @QryGroup31, @QryGroup32, @QryGroup33, @QryGroup34, @QryGroup35, @QryGroup36, @QryGroup37, @QryGroup38, @QryGroup39, @QryGroup40, @QryGroup41, @QryGroup42, @QryGroup43, @QryGroup44, @QryGroup45, @QryGroup46, @QryGroup47, @QryGroup48, @QryGroup49, @QryGroup50, @QryGroup51, @QryGroup52, @QryGroup53, @QryGroup54, @QryGroup55, @QryGroup56, @QryGroup57, @QryGroup58, @QryGroup59, @QryGroup60, @QryGroup61, @QryGroup62, @QryGroup63, @QryGroup64 )";
+
+                        #region Parameters less query
+                        //string HeadQuery = @"insert into OITM                                            
+                        //                        (ItemCode,      
+                        //                        ItemName,
+                        //                        Series,
+                        //                        InvntItem,
+                        //                        SellItem,
+                        //                        FrgnName,
+                        //                        PrchseItem,
+                        //                        ItemType,
+                        //                        ItmsGrpCod,
+                        //                        UgpEntry,
+                        //                        AvgPrice,
+
+                        //                        WTLiable,
+                        //                        FirmCode,
+                        //                        ShipType, 
+                        //                        validFor,
+                        //                        validFrom,
+                        //                        validTo,
+                        //                        frozenFrom,
+                        //                        frozenTo,
+
+                        //                        ByWh,
+                        //                        EvalSystem,
+                        //                        GLMethod,
+                        //                        InvntryUom,
+
+                        //                        PrcrmntMtd,
+                        //                        PlaningSys,
+                        //                        MinOrdrQty,
+
+                        //                        InCostRoll,
+                        //                        IssueMthd,
+                        //                        TreeType,
+                        //                        PrdStdCst,
+
+                        //                        BuyUnitMsr,
+                        //                        CstGrpCode,
+                        //                        NumInBuy,   
+                        //                        VatGroupPu,
+
+                        //                        NumInSale,
+                        //                        SalUnitMsr,
+                        //                        VatGourpSa,
+
+                        //                        QryGroup1,
+                        //                        QryGroup2,
+                        //                        QryGroup3,
+                        //                        QryGroup4,
+                        //                        QryGroup5,
+                        //                        QryGroup6,
+                        //                        QryGroup7,
+                        //                        QryGroup8,
+                        //                        QryGroup9,
+                        //                        QryGroup10,
+                        //                        QryGroup11,
+                        //                        QryGroup12,
+                        //                        QryGroup13,
+                        //                        QryGroup14,
+                        //                        QryGroup15,
+                        //                        QryGroup16,
+                        //                        QryGroup17,
+                        //                        QryGroup18,
+                        //                        QryGroup19,
+                        //                        QryGroup20,
+                        //                        QryGroup21,
+                        //                        QryGroup22,
+                        //                        QryGroup23,
+                        //                        QryGroup24,
+                        //                        QryGroup25,
+                        //                        QryGroup26,
+                        //                        QryGroup27,
+                        //                        QryGroup28,
+                        //                        QryGroup29,
+                        //                        QryGroup30,
+                        //                        QryGroup31,
+                        //                        QryGroup32,
+                        //                        QryGroup33,
+                        //                        QryGroup34,
+                        //                        QryGroup35,
+                        //                        QryGroup36,
+                        //                        QryGroup37,
+                        //                        QryGroup38,
+                        //                        QryGroup39,
+                        //                        QryGroup40,
+                        //                        QryGroup41,
+                        //                        QryGroup42,
+                        //                        QryGroup43,
+                        //                        QryGroup44,
+                        //                        QryGroup45,
+                        //                        QryGroup46,
+                        //                        QryGroup47,
+                        //                        QryGroup48,
+                        //                        QryGroup49,
+                        //                        QryGroup50,
+                        //                        QryGroup51,
+                        //                        QryGroup52,
+                        //                        QryGroup53,
+                        //                        QryGroup54,
+                        //                        QryGroup55,
+                        //                        QryGroup56,
+                        //                        QryGroup57,
+                        //                        QryGroup58,
+                        //                        QryGroup59,
+                        //                        QryGroup60,
+                        //                        QryGroup61,
+                        //                        QryGroup62,
+                        //                        QryGroup63,
+                        //                        QryGroup64) 
+                        //                        values("
+                        //                        + "'" + model.HeaderData.ItemCode + "','"
+                        //                        + model.HeaderData.ItemName + "',"
+                        //                        + model.HeaderData.Series + ",'"
+                        //                        + model.HeaderData.InvntItem + "','"
+                        //                        + model.HeaderData.SellItem + "','"
+                        //                        + model.HeaderData.FrgnName + "','"
+                        //                        + model.HeaderData.PrchseItem + "','"
+                        //                        + model.HeaderData.ItemType + "',"
+                        //                        + model.HeaderData.ItmsGrpCod  +","
+                        //                        + model.HeaderData.UgpEntry + ","
+                        //                        + model.HeaderData.AvgPrice + ",'"
+
+                        //                        + model.Tab_General.WTLiable + "','"
+                        //                        + model.Tab_General.FirmCode + "','"
+                        //                        + model.Tab_General.ShipType + "','" 
+                        //                        + model.Tab_General.ActivevalidFor + "','"
+                        //                        + model.Tab_General.validFrom  + "','"
+                        //                        + model.Tab_General.validTo  + "','"
+                        //                        + model.Tab_General.frozenFrom  + "','"
+                        //                        + model.Tab_General.frozenTo + "','"
+
+                        //                        + model.Tab_InventoryData.ByWh + "','"
+                        //                        + model.Tab_InventoryData.EvalSystem + "','"
+                        //                        + model.Tab_InventoryData.GLMethod + "','"
+                        //                        + model.Tab_InventoryData.InvntryUom + "','"
+
+                        //                        + model.Tab_PlanningData.PrcrmntMtd + "','"
+                        //                        + model.Tab_PlanningData.PlaningSys + "','"
+                        //                        + model.Tab_PlanningData.MinOrdrQty + "','"
+
+                        //                        + model.Tab_ProductionData.InCostRoll + "','"
+                        //                        + model.Tab_ProductionData.IssueMthd + "','"
+                        //                        + model.Tab_ProductionData.TreeType + "','"
+                        //                        + model.Tab_ProductionData.PrdStdCst + "','"
+
+                        //                        + model.Tab_PurchasingData.BuyUnitMsr + "',"
+                        //                        + model.Tab_PurchasingData.CstGrpCod  +",'"
+                        //                        + model.Tab_PurchasingData.NumInBuy + "','" 
+                        //                        + model.Tab_PurchasingData.VatGroupPu + "','"
+
+                        //                        + model.Tab_SalesData.NumInSal + "','"
+                        //                        + model.Tab_SalesData.SalUnitMa + "','"
+                        //                        + model.Tab_SalesData.VatGroupSa + "','"
+
+                        //                        + model.Tab_Properties.QryGroup1 + "','"
+                        //                        + model.Tab_Properties.QryGroup2 + "','"
+                        //                        + model.Tab_Properties.QryGroup3 + "','"
+                        //                        + model.Tab_Properties.QryGroup4 + "','"
+                        //                        + model.Tab_Properties.QryGroup5 + "','"
+                        //                        + model.Tab_Properties.QryGroup6 + "','"
+                        //                        + model.Tab_Properties.QryGroup7 + "','"
+                        //                        + model.Tab_Properties.QryGroup8 + "','"
+                        //                        + model.Tab_Properties.QryGroup9 + "','"
+                        //                        + model.Tab_Properties.QryGroup10 + "','"
+                        //                        + model.Tab_Properties.QryGroup11 + "','"
+                        //                        + model.Tab_Properties.QryGroup12 + "','"
+                        //                        + model.Tab_Properties.QryGroup13 + "','"
+                        //                        + model.Tab_Properties.QryGroup14 + "','"
+                        //                        + model.Tab_Properties.QryGroup15 + "','"
+                        //                        + model.Tab_Properties.QryGroup16 + "','"
+                        //                        + model.Tab_Properties.QryGroup17 + "','"
+                        //                        + model.Tab_Properties.QryGroup18 + "','"
+                        //                        + model.Tab_Properties.QryGroup19 + "','"
+                        //                        + model.Tab_Properties.QryGroup20 + "','"
+                        //                        + model.Tab_Properties.QryGroup21 + "','"
+                        //                        + model.Tab_Properties.QryGroup22 + "','"
+                        //                        + model.Tab_Properties.QryGroup23 + "','"
+                        //                        + model.Tab_Properties.QryGroup24 + "','"
+                        //                        + model.Tab_Properties.QryGroup25 + "','"
+                        //                        + model.Tab_Properties.QryGroup26 + "','"
+                        //                        + model.Tab_Properties.QryGroup27 + "','"
+                        //                        + model.Tab_Properties.QryGroup28 + "','"
+                        //                        + model.Tab_Properties.QryGroup29 + "','"
+                        //                        + model.Tab_Properties.QryGroup30 + "','"
+                        //                        + model.Tab_Properties.QryGroup31 + "','"
+                        //                        + model.Tab_Properties.QryGroup32 + "','"
+                        //                        + model.Tab_Properties.QryGroup33 + "','"
+                        //                        + model.Tab_Properties.QryGroup34 + "','"
+                        //                        + model.Tab_Properties.QryGroup35 + "','"
+                        //                        + model.Tab_Properties.QryGroup36 + "','"
+                        //                        + model.Tab_Properties.QryGroup37 + "','"
+                        //                        + model.Tab_Properties.QryGroup38 + "','"
+                        //                        + model.Tab_Properties.QryGroup39 + "','"
+                        //                        + model.Tab_Properties.QryGroup40 + "','"
+                        //                        + model.Tab_Properties.QryGroup41 + "','"
+                        //                        + model.Tab_Properties.QryGroup42 + "','"
+                        //                        + model.Tab_Properties.QryGroup43 + "','"
+                        //                        + model.Tab_Properties.QryGroup44 + "','"
+                        //                        + model.Tab_Properties.QryGroup45 + "','"
+                        //                        + model.Tab_Properties.QryGroup46 + "','"
+                        //                        + model.Tab_Properties.QryGroup47 + "','"
+                        //                        + model.Tab_Properties.QryGroup48 + "','"
+                        //                        + model.Tab_Properties.QryGroup49 + "','"
+                        //                        + model.Tab_Properties.QryGroup50 + "','"
+                        //                        + model.Tab_Properties.QryGroup51 + "','"
+                        //                        + model.Tab_Properties.QryGroup52 + "','"
+                        //                        + model.Tab_Properties.QryGroup53 + "','"
+                        //                        + model.Tab_Properties.QryGroup54 + "','"
+                        //                        + model.Tab_Properties.QryGroup55 + "','"
+                        //                        + model.Tab_Properties.QryGroup56 + "','"
+                        //                        + model.Tab_Properties.QryGroup57 + "','"
+                        //                        + model.Tab_Properties.QryGroup58 + "','"
+                        //                        + model.Tab_Properties.QryGroup59 + "','"
+                        //                        + model.Tab_Properties.QryGroup60 + "','"
+                        //                        + model.Tab_Properties.QryGroup61 + "','"
+                        //                        + model.Tab_Properties.QryGroup62 + "','"
+                        //                        + model.Tab_Properties.QryGroup63 + "','"
+                        //                        + model.Tab_Properties.QryGroup64 + "')";
+
+                        #endregion
+                        #region SqlParameters
+                        
+                        
+
+                        param.Add(GetParameter("@ItemCode",model.HeaderData.ItemCode,typeof(string)));                        
+                        param.Add(GetParameter("@ItemName", model.HeaderData.ItemName, typeof(string)));
+                        param.Add(GetParameter("@Series", model.HeaderData.Series, typeof(int)));
+                        param.Add(GetParameter("@InvntItem", model.HeaderData.InvntItem, typeof(string)));
+                        param.Add(GetParameter("@SellItem", model.HeaderData.SellItem, typeof(string)));
+                        param.Add(GetParameter("@FrgnName", model.HeaderData.FrgnName, typeof(string)));
+                        param.Add(GetParameter("@PrchseItem", model.HeaderData.PrchseItem, typeof(string)));
+                        param.Add(GetParameter("@ItemType", model.HeaderData.ItemType, typeof(string)));
+                        param.Add(GetParameter("@ItmsGrpCod", model.HeaderData.ItmsGrpCod, typeof(int)));
+                        param.Add(GetParameter("@UgpEntry", model.HeaderData.UgpEntry, typeof(int)));
+                        param.Add(GetParameter("@AvgPrice", model.HeaderData.AvgPrice, typeof(int)));
+
+                        param.Add(GetParameter("@WTLiable", model.Tab_General.WTLiable, typeof(string)));
+                        param.Add(GetParameter("@FirmCode", model.Tab_General.FirmCode, typeof(string)));
+                        param.Add(GetParameter("@ShipType", model.Tab_General.ShipType, typeof(string)));
+                        param.Add(GetParameter("@validFor", model.Tab_General.ActivevalidFor, typeof(char)));
+                        param.Add(GetParameter("@validFrom", model.Tab_General.validFrom, typeof(string)));
+                        param.Add(GetParameter("@validTo", model.Tab_General.validTo, typeof(string)));
+                        param.Add(GetParameter("@frozenFrom", model.Tab_General.frozenFrom, typeof(string)));
+                        param.Add(GetParameter("@frozenTo", model.Tab_General.frozenTo, typeof(string)));
+
+
+                        
+
+                        param.Add(GetParameter("@PrcrmntMtd", model.Tab_PlanningData.PrcrmntMtd, typeof(string)));
+                        param.Add(GetParameter("@PlaningSys", model.Tab_PlanningData.PlaningSys, typeof(string)));
+                        param.Add(GetParameter("@MinOrdrQty", model.Tab_PlanningData.MinOrdrQty, typeof(string)));
+
+
+                        param.Add(GetParameter("@InCostRoll", model.Tab_ProductionData.InCostRoll, typeof(string)));
+                        param.Add(GetParameter("@IssueMthd", model.Tab_ProductionData.IssueMthd, typeof(string)));
+                        param.Add(GetParameter("@TreeType", model.Tab_ProductionData.TreeType, typeof(string)));
+                        param.Add(GetParameter("@PrdStdCst", model.Tab_ProductionData.PrdStdCst, typeof(string)));
+
+                        
+
+                        
+
+                        param.Add(GetParameter("@QryGroup1", model.Tab_Properties.QryGroup1, typeof(string)));
+                        param.Add(GetParameter("@QryGroup2", model.Tab_Properties.QryGroup2, typeof(string)));
+                        param.Add(GetParameter("@QryGroup3", model.Tab_Properties.QryGroup3, typeof(string)));
+                        param.Add(GetParameter("@QryGroup4", model.Tab_Properties.QryGroup4, typeof(string)));
+                        param.Add(GetParameter("@QryGroup5", model.Tab_Properties.QryGroup5, typeof(string)));
+                        param.Add(GetParameter("@QryGroup6", model.Tab_Properties.QryGroup6, typeof(string)));
+                        param.Add(GetParameter("@QryGroup7", model.Tab_Properties.QryGroup7, typeof(string)));
+                        param.Add(GetParameter("@QryGroup8", model.Tab_Properties.QryGroup8, typeof(string)));
+                        param.Add(GetParameter("@QryGroup9", model.Tab_Properties.QryGroup9, typeof(string)));
+                        param.Add(GetParameter("@QryGroup10", model.Tab_Properties.QryGroup10, typeof(string)));
+                        param.Add(GetParameter("@QryGroup11", model.Tab_Properties.QryGroup11, typeof(string)));
+                        param.Add(GetParameter("@QryGroup12", model.Tab_Properties.QryGroup12, typeof(string)));
+                        param.Add(GetParameter("@QryGroup13", model.Tab_Properties.QryGroup13, typeof(string)));
+                        param.Add(GetParameter("@QryGroup14", model.Tab_Properties.QryGroup14, typeof(string)));
+                        param.Add(GetParameter("@QryGroup15", model.Tab_Properties.QryGroup15, typeof(string)));
+                        param.Add(GetParameter("@QryGroup16", model.Tab_Properties.QryGroup16, typeof(string)));
+                        param.Add(GetParameter("@QryGroup17", model.Tab_Properties.QryGroup17, typeof(string)));
+                        param.Add(GetParameter("@QryGroup18", model.Tab_Properties.QryGroup18, typeof(string)));
+                        param.Add(GetParameter("@QryGroup19", model.Tab_Properties.QryGroup19, typeof(string)));
+                        param.Add(GetParameter("@QryGroup20", model.Tab_Properties.QryGroup20, typeof(string)));
+                        param.Add(GetParameter("@QryGroup21", model.Tab_Properties.QryGroup21, typeof(string)));
+                        param.Add(GetParameter("@QryGroup22", model.Tab_Properties.QryGroup22, typeof(string)));
+                        param.Add(GetParameter("@QryGroup23", model.Tab_Properties.QryGroup23, typeof(string)));
+                        param.Add(GetParameter("@QryGroup24", model.Tab_Properties.QryGroup24, typeof(string)));
+                        param.Add(GetParameter("@QryGroup25", model.Tab_Properties.QryGroup25, typeof(string)));
+                        param.Add(GetParameter("@QryGroup26", model.Tab_Properties.QryGroup26, typeof(string)));
+                        param.Add(GetParameter("@QryGroup27", model.Tab_Properties.QryGroup27, typeof(string)));
+                        param.Add(GetParameter("@QryGroup28", model.Tab_Properties.QryGroup28, typeof(string)));
+                        param.Add(GetParameter("@QryGroup29", model.Tab_Properties.QryGroup29, typeof(string)));
+                        param.Add(GetParameter("@QryGroup30", model.Tab_Properties.QryGroup30, typeof(string)));
+                        param.Add(GetParameter("@QryGroup31", model.Tab_Properties.QryGroup31, typeof(string)));
+                        param.Add(GetParameter("@QryGroup32", model.Tab_Properties.QryGroup32, typeof(string)));
+                        param.Add(GetParameter("@QryGroup33", model.Tab_Properties.QryGroup33, typeof(string)));
+                        param.Add(GetParameter("@QryGroup34", model.Tab_Properties.QryGroup34, typeof(string)));
+                        param.Add(GetParameter("@QryGroup35", model.Tab_Properties.QryGroup35, typeof(string)));
+                        param.Add(GetParameter("@QryGroup36", model.Tab_Properties.QryGroup36, typeof(string)));
+                        param.Add(GetParameter("@QryGroup37", model.Tab_Properties.QryGroup37, typeof(string)));
+                        param.Add(GetParameter("@QryGroup38", model.Tab_Properties.QryGroup38, typeof(string)));
+                        param.Add(GetParameter("@QryGroup39", model.Tab_Properties.QryGroup39, typeof(string)));
+                        param.Add(GetParameter("@QryGroup40", model.Tab_Properties.QryGroup40, typeof(string)));
+                        param.Add(GetParameter("@QryGroup41", model.Tab_Properties.QryGroup41, typeof(string)));
+                        param.Add(GetParameter("@QryGroup42", model.Tab_Properties.QryGroup42, typeof(string)));
+                        param.Add(GetParameter("@QryGroup43", model.Tab_Properties.QryGroup43, typeof(string)));
+                        param.Add(GetParameter("@QryGroup44", model.Tab_Properties.QryGroup44, typeof(string)));
+                        param.Add(GetParameter("@QryGroup45", model.Tab_Properties.QryGroup45, typeof(string)));
+                        param.Add(GetParameter("@QryGroup46", model.Tab_Properties.QryGroup46, typeof(string)));
+                        param.Add(GetParameter("@QryGroup47", model.Tab_Properties.QryGroup47, typeof(string)));
+                        param.Add(GetParameter("@QryGroup48", model.Tab_Properties.QryGroup48, typeof(string)));
+                        param.Add(GetParameter("@QryGroup49", model.Tab_Properties.QryGroup49, typeof(string)));
+                        param.Add(GetParameter("@QryGroup50", model.Tab_Properties.QryGroup50, typeof(string)));
+                        param.Add(GetParameter("@QryGroup51", model.Tab_Properties.QryGroup51, typeof(string)));
+                        param.Add(GetParameter("@QryGroup52", model.Tab_Properties.QryGroup52, typeof(string)));
+                        param.Add(GetParameter("@QryGroup53", model.Tab_Properties.QryGroup53, typeof(string)));
+                        param.Add(GetParameter("@QryGroup54", model.Tab_Properties.QryGroup54, typeof(string)));
+                        param.Add(GetParameter("@QryGroup55", model.Tab_Properties.QryGroup55, typeof(string)));
+                        param.Add(GetParameter("@QryGroup56", model.Tab_Properties.QryGroup56, typeof(string)));
+                        param.Add(GetParameter("@QryGroup57", model.Tab_Properties.QryGroup57, typeof(string)));
+                        param.Add(GetParameter("@QryGroup58", model.Tab_Properties.QryGroup58, typeof(string)));
+                        param.Add(GetParameter("@QryGroup59", model.Tab_Properties.QryGroup59, typeof(string)));
+                        param.Add(GetParameter("@QryGroup60", model.Tab_Properties.QryGroup60, typeof(string)));
+                        param.Add(GetParameter("@QryGroup61", model.Tab_Properties.QryGroup61, typeof(string)));
+                        param.Add(GetParameter("@QryGroup62", model.Tab_Properties.QryGroup62, typeof(string)));
+                        param.Add(GetParameter("@QryGroup63", model.Tab_Properties.QryGroup63, typeof(string)));
+                        param.Add(GetParameter("@QryGroup64", model.Tab_Properties.QryGroup64, typeof(string)));
+
+                        #endregion
+                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery ,param.ToArray()).ToInt();
                         if (res1 <= 0)
                         {
                             tran.Rollback();
                             return false;
                         }
 
-                        if (model.SalesData.WarehouseList != null)
+                        if (model.Tab_InventoryData_WareHouseList != null)
                         {
                             //int LineNo = 0;
-                            foreach (var item in model.SalesData.WarehouseList)
+                            foreach (var item in model.Tab_InventoryData_WareHouseList)
                             {
+
                                 string RowQueryItem1 = @"insert into OITW
                                 (ItemCode,WhsCode,WhsName,Locked,MinStock,MaxStock,MinOrder)
                                 values(@ItemCode,@WhsCode,@WhsName,@Locked,@MinStock,@MaxStock,@MinOrder)";
-
+                               
                                 #region sqlparam
-                                List<SqlParameter> param2 = new List<SqlParameter>
-                                {
-                                     new SqlParameter("@ItemCode",model.HeaderData.ItemCode),
-                                     new SqlParameter("@WhsCode",model.Tab_InventoryData_WarehouseList.WhsCode),
-                                     new SqlParameter("@WhsName",model.Tab_InventoryData_WarehouseList.WhsName),
-                                     new SqlParameter("@Locked",model.Tab_InventoryData_WarehouseList.Locked),
-                                     new SqlParameter("@MinStock",model.Tab_InventoryData_WarehouseList.MinStock),
-                                     new SqlParameter("@MaxStock",model.Tab_InventoryData_WarehouseList.MaxStock),
-                                     new SqlParameter("@MinOrder",model.Tab_InventoryData_WarehouseList.MinOrder)                                     
-                                };
+                                List<SqlParameter> param2 = new List<SqlParameter>();
+                                //{
+                                param2.Add(GetParameter("@ItemCode", model.HeaderData.ItemCode, typeof(string)));
+                                param2.Add(GetParameter("@WhsCode",item.WhsCode, typeof(string)));
+                                param2.Add(GetParameter("@WhsName", item.WhsName, typeof(string)));
+                                param2.Add(GetParameter("@Locked", item.Locked, typeof(char)));
+                                param2.Add(GetParameter("@MinStock",item.MinStock, typeof(int)));
+                                param2.Add(GetParameter("@MaxStock",item.MaxStock, typeof(int)));
+                                param2.Add(GetParameter("@MinOrder",item.MinOrder, typeof(int)));                                //};
+
                                 #endregion
 
                                 res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem1, param2.ToArray()).ToInt();
@@ -616,18 +697,20 @@ values("
                             {
                                 string RowQueryItem2 = @"insert into OITW
                                 (ItemCode,WhsCode,WhsName)
-                                values(@ItemCode,@WhsCode,@WhsName)";
-
+                                values(@ItemCode, @WhsCode, @WhsName)";
+                              
                                 #region sqlparam
-                                List<SqlParameter> param3 = new List<SqlParameter>
-                                {
-                                     new SqlParameter("@ItemCode",model.HeaderData.ItemCode),
-                                     new SqlParameter("@WhsCode",item.whscode),
-                                     new SqlParameter("@WhsName",item.whsname) 
-                                };
+
+                                List<SqlParameter> param3 = new List<SqlParameter>();
+                                //{
+                                param3.Add(GetParameter("@ItemCode", model.HeaderData.ItemCode, typeof(string)));
+                                param3.Add(GetParameter("@WhsCode", item.whscode, typeof(string)));
+                                param3.Add(GetParameter("@WhsName", item.whsname, typeof(string)));
+                                //};
+
                                 #endregion
 
-                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem2, param3.ToArray()).ToInt();
+                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem2,param3.ToArray()).ToInt();
                                 if (res1 <= 0)
                                 {
                                     tran.Rollback();
