@@ -889,7 +889,6 @@
                                                                                     class="form-control-sm form-control col-md-4">
                                                                                     <option value="N">None</option>
                                                                                     <option value="M">MRP</option>
-                                                                                    <option>2</option>
                                                                                 </select>
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
@@ -971,9 +970,15 @@
                                                                             <div class="col-md-9 d-flex">
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">BOM
-                                                                                    Type </label>
-                                                                                <input type="text" id="TreeType" maxlength="1"
-                                                                                    class="form-control form-control-sm col-md-4">
+                                                                                    Type </label> 
+                                                                                   <select id="TreeType"
+                                                                                    class="form-control-sm form-control col-md-4">
+                                                                                    <option selected value="N">Not a BOM</option>
+                                                                                    <option value="A">Assembly</option>
+                                                                                    <option value="S">Sales</option>
+                                                                                    <option value="P">Production</option>
+                                                                                    <option value="T">Template</option>
+                                                                                </select>
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
                                                                                     field is required.</div>
