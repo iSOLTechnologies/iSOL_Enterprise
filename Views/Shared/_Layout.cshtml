@@ -3651,6 +3651,15 @@ input[type=number] {
 			  e.preventDefault();
 			}
 		});
+
+	$('input[type="number"]').each(function() {
+  // Set the maxlength attribute to 11 for each number input
+  $(this).attr('maxlength', '11');
+});
+		  //$(document).on("input", "input[type='number']", function () {
+    //    $(this).attr("maxlength",11);
+    //});
+
 	</script>
 	<!--=============================== Modal Work End ===================================-->
 

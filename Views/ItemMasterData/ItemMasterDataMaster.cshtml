@@ -491,11 +491,11 @@
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Managed
                                                                                     Item by </label>
-                                                                                <select id="ManagedItemby"
+                                                                                <select id="ManBtchNum"
                                                                                     class="form-control form-control-sm col-md-8">
-                                                                                    <option value="0">None</option>
-                                                                                    <option value="1">Serial Number</option>
-                                                                                    <option value="2">Batches</option>
+                                                                                    <option value="N">None</option>
+                                                                                    <option value="Y">Serial Number</option>
+                                                                                    <option value="N">Batches</option>
                                                                                 </select>
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
@@ -602,7 +602,7 @@
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Items
                                                                                     Per Purchasing Unit </label>
-                                                                                <input type="text" id="NumInBuy"
+                                                                                <input type="number" id="NumInBuy"
                                                                                     class="col-md-4 form-control form-control-sm">
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
@@ -715,7 +715,7 @@
                                                                                 Items
                                                                                 per Sale Unit
                                                                             </label>
-                                                                            <input type="text" id="NumInSale"
+                                                                            <input type="number" id="NumInSale"
                                                                                    class="form-control form-control-sm col-md-4">
                                                                             <div id="ErrorMsg"
                                                                                  class="error invalid-feedback">
@@ -972,7 +972,7 @@
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">BOM
                                                                                     Type </label>
-                                                                                <input type="text" id="TreeType"
+                                                                                <input type="text" id="TreeType" maxlength="1"
                                                                                     class="form-control form-control-sm col-md-4">
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
@@ -2188,9 +2188,9 @@
                 });
         }); 
         
-        $(document).on('change', '#ManagedItemby', function (e) {
-                    let ManagedItemby = $('#ManagedItemby').val();
-                    if(ManagedItemby == 1 || ManagedItemby == 2){
+        $(document).on('change', '#ManBtchNum', function (e) {
+                    let ManBtchNum = $('#ManBtchNum').val();
+                    if(ManBtchNum == "N" || ManBtchNum == "Y"){
                         $('#MyMngMthd').removeClass('d-none');
                     }else{
                         $('#MyMngMthd').addClass('d-none');
@@ -2467,10 +2467,8 @@
                     setTimeout(
                         function () 
                         {
-
                             $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                             $('#btnSaveData').attr('disabled', false);
-
                         }, 800);
                     setTimeout(function () {
                         window.history.back();

@@ -92,11 +92,11 @@ namespace iSOL_Enterprise.Controllers.Inventory
                 {
 
                 ResponseModels response = dal.AddItemMasterData(formData);
-                    return Json(new { isSuccess = response.isSuccess, Message = response.Message });
+                    return Json(new { isInserted = response.isSuccess, Message = response.Message });
                 }
                 else
                 {
-                    return Json(new { isSuccess = false, Message = "Data can't be null" });
+                    return Json(new { isInserted = false, Message = "Data can't be null" });
                 }
 
                 
