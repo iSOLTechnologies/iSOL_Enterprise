@@ -832,5 +832,35 @@ where s.Status=1 and p.Guid=@Guid";
 
             return list;
         }
+        public static List<tbl_OWHS> GetWareHouseList(string ItemCode)
+        {
+
+            string GetQuery = "select WhsCode , WhsName ,MinStock,MaxStock,MinOrder,Locked from OITW order by WhsCode where ItemCode ='" +ItemCode +"'";
+
+
+            List<tbl_OWHS> list = new List<tbl_OWHS>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    list.Add(
+                        new tbl_OWHS()
+                        {
+                            whscode = rdr["WhsCode"].ToString(),
+                            whsname = rdr["WhsName"].ToString(),
+                            MinStock = rdr["MinStock"].ToDouble(),
+                            MaxStock = rdr["MaxStock"].ToDouble(),
+                            MinOrder = rdr["MinOrder"].ToDouble(),
+                            Locked = Convert.ToChar( rdr["Locked"]),
+
+                        });
+
+                }
+            }
+
+            return list;
+
+        }
     }
 }

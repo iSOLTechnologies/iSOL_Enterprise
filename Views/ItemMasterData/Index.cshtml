@@ -125,8 +125,7 @@
         {
             $(".loading_ic").addClass('overlay');
             $(".loading_ic").show();
-            $.post("Common/PostToSap", {checkedIDs : checkedIDs , ObjectCode : 23 } , function(response) 
-            {
+            $.post("Common/PostItemMasterData", { checkedIDs: checkedIDs}, function (response) {
                 if (response.success) 
                 {
                     $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
