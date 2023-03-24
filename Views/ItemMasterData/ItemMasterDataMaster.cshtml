@@ -510,7 +510,7 @@
                                                                             <label class="mr-2 d-flex text-center pt-2 col-md-4">
                                                                                 Management Method
                                                                             </label>
-                                                                            <select id="ManagedItemby"
+                                                                            <select id="MngMethod"
                                                                                     class="form-control form-control-sm col-md-8"> 
                                                                                 <option value="A">On Every Transaction</option>
                                                                                 <option value="R">On Every Release</option>
@@ -2175,10 +2175,10 @@
 
         $(document).on('click', '#PropertiesSelectAll', function (e) {
 
-                                    $("#Properties tr").each(function () {
+                $("#Properties tr").each(function () {
                     $(this).find(":checkbox").prop("checked", true);
                 });
-                });
+        });
         
         $(document).on('click', '#PropertiesClearAll', function (e) {
 
@@ -2186,15 +2186,8 @@
             $(this).find(":checkbox").prop("checked", false);
 
                 });
-                }); 
-        $(document).on('click', '#Itemno', function (e) {
-                    IsHeader = false;
-                    ObjItemCode = $(this).closest('tr').find("#ItemCode");
-                    DocModule = "S";
-                    generateItemTable();
-                    $('#myItemModal').modal('show');
+        }); 
         
-                });
         $(document).on('change', '#ManagedItemby', function (e) {
                     let ManagedItemby = $('#ManagedItemby').val();
                     if(ManagedItemby == 1 || ManagedItemby == 2){
@@ -2202,7 +2195,7 @@
                     }else{
                         $('#MyMngMthd').addClass('d-none');
                     }        
-                });
+        });
 
         $(document).on('click', '#ActivevalidFor,#InActivevalidFor', function (e) {
         //console.log("$('input[name=validFor]:checked').val()",$('input[name=validFor]:checked').val());

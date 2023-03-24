@@ -14,6 +14,34 @@ namespace iSOL_Enterprise.Dal.Inventory
 {
     public class ItemMasterDataDal
     {
+
+        public List<SalesQuotation_MasterModels> GetData()
+        {
+            string GetQuery = "select * from OITM order by id DESC";
+
+
+            List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
+                    models.DocStatus = CommonDal.Check_IsNotEditable("QUT1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
+                    models.Id = rdr["Id"].ToInt();
+                    models.DocDate = rdr["DocDueDate"].ToDateTime();
+                    models.PostingDate = rdr["DocDate"].ToDateTime();
+                    models.DocNum = rdr["DocNum"].ToString();
+                    models.CardCode = rdr["CardCode"].ToString();
+                    models.Guid = rdr["Guid"].ToString();
+                    models.CardName = rdr["CardName"].ToString();
+                    models.IsPosted = rdr["isPosted"].ToString(); models.IsEdited = rdr["is_Edited"].ToString();
+                    list.Add(models);
+                }
+            }
+            return list;
+        }
+
         public List<tbl_OITG> GetProperties()
         {
             string GetQuery = "select ItmsTypCod,ItmsGrpNam from OITG ORDER BY ItmsTypCod";
@@ -289,13 +317,16 @@ namespace iSOL_Enterprise.Dal.Inventory
                         string SQ_P = "";
                         string IQ = "";
                         string IQ_P = "";
+                        int Id = CommonDal.getPrimaryKey(tran, "OITM");
 
+                        param.Add(GetParameter("@Id", Id, typeof(int)));
+                        param.Add(GetParameter("@Guid", CommonDal.generatedGuid(), typeof(int)));
                         if (model.Tab_PurchasingData != null)
                         {
                             PQ = "BuyUnitMsr,CstGrpCode,NumInBuy,VatGroupPu,";
                             PQ_P = "@BuyUnitMsr,@CstGrpCode,@NumInBuy,@VatGroupPu,";
                             param.Add(GetParameter("@BuyUnitMsr", model.Tab_PurchasingData.BuyUnitMsr, typeof(string)));
-                            param.Add(GetParameter("@CstGrpCode", model.Tab_PurchasingData.CstGrpCod, typeof(int)));
+                            param.Add(GetParameter("@CstGrpCode", model.Tab_PurchasingData.CstGrpCode, typeof(int)));
                             param.Add(GetParameter("@NumInBuy", model.Tab_PurchasingData.NumInBuy, typeof(string)));
                             param.Add(GetParameter("@VatGroupPu", model.Tab_PurchasingData.VatGroupPu, typeof(string)));
                         }
@@ -303,9 +334,9 @@ namespace iSOL_Enterprise.Dal.Inventory
                         {
                             SQ = "NumInSale,SalUnitMsr,VatGourpSa,";
                             SQ_P = "@NumInSale,@SalUnitMsr,@VatGourpSa,";
-                            param.Add(GetParameter("@NumInSale", model.Tab_SalesData.NumInSal, typeof(string)));
+                            param.Add(GetParameter("@NumInSale", model.Tab_SalesData.NumInSale, typeof(string)));
                             param.Add(GetParameter("@SalUnitMsr", model.Tab_SalesData.SalUnitMsr, typeof(string)));
-                            param.Add(GetParameter("@VatGourpSa", model.Tab_SalesData.VatGroupS, typeof(string)));
+                            param.Add(GetParameter("@VatGourpSa", model.Tab_SalesData.VatGroupSa, typeof(string)));
                         }
                         if (model.Tab_InventoryData != null)
                         {
@@ -317,7 +348,7 @@ namespace iSOL_Enterprise.Dal.Inventory
                             param.Add(GetParameter("@InvntryUom", model.Tab_InventoryData.InvntryUom, typeof(string)));
                         }
 
-                        string HeadQuery = @"insert into OITM (ItemCode, ItemName, Series, InvntItem, SellItem, FrgnName, PrchseItem, ItemType, ItmsGrpCod, UgpEntry, AvgPrice, WTLiable, FirmCode, ShipType, validFor, validFrom, validTo, frozenFrom, frozenTo, "+IQ+" PrcrmntMtd, PlaningSys, MinOrdrQty, InCostRoll, IssueMthd, TreeType, PrdStdCst, "+PQ+" "+SQ+" QryGroup1, QryGroup2, QryGroup3, QryGroup4, QryGroup5, QryGroup6, QryGroup7, QryGroup8, QryGroup9, QryGroup10, QryGroup11, QryGroup12, QryGroup13, QryGroup14, QryGroup15, QryGroup16, QryGroup17, QryGroup18, QryGroup19, QryGroup20, QryGroup21, QryGroup22, QryGroup23, QryGroup24, QryGroup25, QryGroup26, QryGroup27, QryGroup28, QryGroup29, QryGroup30, QryGroup31, QryGroup32, QryGroup33, QryGroup34, QryGroup35, QryGroup36, QryGroup37, QryGroup38, QryGroup39, QryGroup40, QryGroup41, QryGroup42, QryGroup43, QryGroup44, QryGroup45, QryGroup46, QryGroup47, QryGroup48, QryGroup49, QryGroup50, QryGroup51, QryGroup52, QryGroup53, QryGroup54, QryGroup55, QryGroup56, QryGroup57, QryGroup58, QryGroup59, QryGroup60, QryGroup61, QryGroup62, QryGroup63, QryGroup64) values( @ItemCode, @ItemName, @Series, @InvntItem, @SellItem, @FrgnName, @PrchseItem, @ItemType, @ItmsGrpCod, @UgpEntry, @AvgPrice, @WTLiable, @FirmCode, @ShipType, @validFor, @validFrom, @validTo, @frozenFrom, @frozenTo,"+IQ_P+" @PrcrmntMtd, @PlaningSys, @MinOrdrQty, @InCostRoll, @IssueMthd, @TreeType, @PrdStdCst, "+PQ_P+" "+SQ_P+" @QryGroup1, @QryGroup2, @QryGroup3, @QryGroup4, @QryGroup5, @QryGroup6, @QryGroup7, @QryGroup8, @QryGroup9, @QryGroup10, @QryGroup11, @QryGroup12, @QryGroup13, @QryGroup14, @QryGroup15, @QryGroup16, @QryGroup17, @QryGroup18, @QryGroup19, @QryGroup20, @QryGroup21, @QryGroup22, @QryGroup23, @QryGroup24, @QryGroup25, @QryGroup26, @QryGroup27, @QryGroup28, @QryGroup29, @QryGroup30, @QryGroup31, @QryGroup32, @QryGroup33, @QryGroup34, @QryGroup35, @QryGroup36, @QryGroup37, @QryGroup38, @QryGroup39, @QryGroup40, @QryGroup41, @QryGroup42, @QryGroup43, @QryGroup44, @QryGroup45, @QryGroup46, @QryGroup47, @QryGroup48, @QryGroup49, @QryGroup50, @QryGroup51, @QryGroup52, @QryGroup53, @QryGroup54, @QryGroup55, @QryGroup56, @QryGroup57, @QryGroup58, @QryGroup59, @QryGroup60, @QryGroup61, @QryGroup62, @QryGroup63, @QryGroup64 )";
+                        string HeadQuery = @"insert into OITM (Id,Guid,ItemCode, ItemName, Series, InvntItem, SellItem, FrgnName, PrchseItem, ItemType, ItmsGrpCod, UgpEntry, AvgPrice, WTLiable, FirmCode, ShipType,MngMethod, validFor, validFrom, validTo, frozenFrom, frozenTo, " + IQ+" PrcrmntMtd, PlaningSys, MinOrdrQty, InCostRoll, IssueMthd, TreeType, PrdStdCst, "+PQ+" "+SQ+ " QryGroup1, QryGroup2, QryGroup3, QryGroup4, QryGroup5, QryGroup6, QryGroup7, QryGroup8, QryGroup9, QryGroup10, QryGroup11, QryGroup12, QryGroup13, QryGroup14, QryGroup15, QryGroup16, QryGroup17, QryGroup18, QryGroup19, QryGroup20, QryGroup21, QryGroup22, QryGroup23, QryGroup24, QryGroup25, QryGroup26, QryGroup27, QryGroup28, QryGroup29, QryGroup30, QryGroup31, QryGroup32, QryGroup33, QryGroup34, QryGroup35, QryGroup36, QryGroup37, QryGroup38, QryGroup39, QryGroup40, QryGroup41, QryGroup42, QryGroup43, QryGroup44, QryGroup45, QryGroup46, QryGroup47, QryGroup48, QryGroup49, QryGroup50, QryGroup51, QryGroup52, QryGroup53, QryGroup54, QryGroup55, QryGroup56, QryGroup57, QryGroup58, QryGroup59, QryGroup60, QryGroup61, QryGroup62, QryGroup63, QryGroup64) values(@Id,@Guid, @ItemCode, @ItemName, @Series, @InvntItem, @SellItem, @FrgnName, @PrchseItem, @ItemType, @ItmsGrpCod, @UgpEntry, @AvgPrice, @WTLiable, @FirmCode, @ShipType,@MngMethod, @validFor, @validFrom, @validTo, @frozenFrom, @frozenTo," + IQ_P+" @PrcrmntMtd, @PlaningSys, @MinOrdrQty, @InCostRoll, @IssueMthd, @TreeType, @PrdStdCst, "+PQ_P+" "+SQ_P+" @QryGroup1, @QryGroup2, @QryGroup3, @QryGroup4, @QryGroup5, @QryGroup6, @QryGroup7, @QryGroup8, @QryGroup9, @QryGroup10, @QryGroup11, @QryGroup12, @QryGroup13, @QryGroup14, @QryGroup15, @QryGroup16, @QryGroup17, @QryGroup18, @QryGroup19, @QryGroup20, @QryGroup21, @QryGroup22, @QryGroup23, @QryGroup24, @QryGroup25, @QryGroup26, @QryGroup27, @QryGroup28, @QryGroup29, @QryGroup30, @QryGroup31, @QryGroup32, @QryGroup33, @QryGroup34, @QryGroup35, @QryGroup36, @QryGroup37, @QryGroup38, @QryGroup39, @QryGroup40, @QryGroup41, @QryGroup42, @QryGroup43, @QryGroup44, @QryGroup45, @QryGroup46, @QryGroup47, @QryGroup48, @QryGroup49, @QryGroup50, @QryGroup51, @QryGroup52, @QryGroup53, @QryGroup54, @QryGroup55, @QryGroup56, @QryGroup57, @QryGroup58, @QryGroup59, @QryGroup60, @QryGroup61, @QryGroup62, @QryGroup63, @QryGroup64 )";
 
                         #region Parameters less query
                         //string HeadQuery = @"insert into OITM                                            
@@ -559,6 +590,7 @@ namespace iSOL_Enterprise.Dal.Inventory
                         param.Add(GetParameter("@WTLiable", model.Tab_General.WTLiable, typeof(string)));
                         param.Add(GetParameter("@FirmCode", model.Tab_General.FirmCode, typeof(string)));
                         param.Add(GetParameter("@ShipType", model.Tab_General.ShipType, typeof(string)));
+                        param.Add(GetParameter("@MngMethod", model.Tab_General.MngMethod, typeof(char)));
                         param.Add(GetParameter("@validFor", model.Tab_General.ActivevalidFor, typeof(char)));
                         param.Add(GetParameter("@validFrom", model.Tab_General.validFrom, typeof(string)));
                         param.Add(GetParameter("@validTo", model.Tab_General.validTo, typeof(string)));

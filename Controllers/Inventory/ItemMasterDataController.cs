@@ -11,6 +11,24 @@ namespace iSOL_Enterprise.Controllers.Inventory
         {
             return View();
         }
+
+        public IActionResult GetData()
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
+                ItemMasterDataDal dal = new ItemMasterDataDal();
+                response.Data = dal.GetData();
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+        }
         public IActionResult ItemMasterDataMaster()
         {
 
