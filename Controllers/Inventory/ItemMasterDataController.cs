@@ -88,7 +88,18 @@ namespace iSOL_Enterprise.Controllers.Inventory
             try
             {
                 ItemMasterDataDal dal = new ItemMasterDataDal();
-                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddItemMasterData(formData) == true ? Json(new { isInserted = true, message = "Item Added Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
+                if (formData != null)
+                {
+
+                ResponseModels response = dal.AddItemMasterData(formData);
+                    return Json(new { isSuccess = response.isSuccess, Message = response.Message });
+                }
+                else
+                {
+                    return Json(new { isSuccess = false, Message = "Data can't be null" });
+                }
+
+                
             }
             catch (Exception)
             {

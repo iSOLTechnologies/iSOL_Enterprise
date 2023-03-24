@@ -200,37 +200,42 @@
                 }
             },               
                 {
-                    data: 'docDate', title: 'Doc Date', render: function (data, type, row) {
-                        if (data != undefined && data != '') {
+                    data: 'itemCode', title: 'ItemCode',
 
-                            return moment(data).format('DD-MM-YYYY')
-
-                        } else {
-                            // return data;
-                            return '';
-                        }
-                    }
                 },
                 {
-                    data: 'postingDate', title: 'Posting Date', render: function (data, type, row) {
-                        if (data != undefined && data != '') {
+                    data: 'itemName', title: 'itemName',
 
-                            return moment(data).format('DD-MM-YYYY')
-
-                        } else {
-                            // return data;
-                            return '';
-                        }
-                    }
                 },
                 {
-                    data: 'docNum', title: 'DocNum',
+                    data: 'purchaseItem', title: 'PurchaseItem', render: function (data, type, row) {
+                    
+                            if(data == 'Y')                            
+                            return '<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">YES</span>';
+                            else
+                            return `<span class="label label-lg label-light-danger label-inline"> NO </span>`;
+                    
+                    }
 
                 }, {
-                    data: 'cardCode', title: 'Card Code'
+                    data: 'salesItem', title: 'SalesItem', render: function (data, type, row) {
+
+                        if (data == 'Y')
+                            return '<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">YES</span>';
+                        else
+                            return `<span class="label label-lg label-light-danger label-inline"> NO </span>`;
+
+                    }
 
                 }, {
-                    data: 'cardName', title: 'Card Name'
+                    data: 'inventoryItem', title: 'InventoryItem', render: function (data, type, row) {
+
+                        if (data == 'Y')
+                            return '<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">YES</span>';
+                        else
+                            return `<span class="label label-lg label-light-danger label-inline"> NO </span>`;
+
+                    }
 
             }, {
                 data: "docStatus", 'title': 'Status', render: function (data, type, row) {

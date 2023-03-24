@@ -15,27 +15,29 @@ namespace iSOL_Enterprise.Dal.Inventory
     public class ItemMasterDataDal
     {
 
-        public List<SalesQuotation_MasterModels> GetData()
+        public List<ItemMasterModel> GetData()
         {
-            string GetQuery = "select * from OITM order by id DESC";
+            string GetQuery = "select Id,ItemCode,ItemName,PrchseItem,SellItem,InvntItem,isPosted,is_Edited  from OITM order by id DESC";
 
 
-            List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
+            List<ItemMasterModel> list = new List<ItemMasterModel>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {
                 while (rdr.Read())
                 {
 
-                    SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
-                    models.DocStatus = CommonDal.Check_IsNotEditable("QUT1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
+                    ItemMasterModel models = new ItemMasterModel();
+                    models.DocStatus =  "Open" ;
                     models.Id = rdr["Id"].ToInt();
-                    models.DocDate = rdr["DocDueDate"].ToDateTime();
-                    models.PostingDate = rdr["DocDate"].ToDateTime();
-                    models.DocNum = rdr["DocNum"].ToString();
-                    models.CardCode = rdr["CardCode"].ToString();
-                    models.Guid = rdr["Guid"].ToString();
-                    models.CardName = rdr["CardName"].ToString();
-                    models.IsPosted = rdr["isPosted"].ToString(); models.IsEdited = rdr["is_Edited"].ToString();
+                    models.ItemCode = rdr["ItemCode"].ToString();
+                    models.ItemName = rdr["ItemName"].ToString();
+                    models.PurchaseItem = rdr["PrchseItem"].ToString();
+                    models.SalesItem = rdr["SellItem"].ToString();
+                    models.InventoryItem = rdr["InvntItem"].ToString();
+                    
+                    models.IsPosted = rdr["isPosted"].ToString(); 
+                    models.IsEdited = rdr["is_Edited"].ToString();
+
                     list.Add(models);
                 }
             }
@@ -262,10 +264,13 @@ namespace iSOL_Enterprise.Dal.Inventory
             return param;
         }
 
-        public bool AddItemMasterData(string formData)
+        public ResponseModels AddItemMasterData(string formData)
         {
+            ResponseModels response = new ResponseModels();
             try
             {
+                
+
                 var model = JsonConvert.DeserializeObject<dynamic>(formData);
                 //string DocType = model.ListItems == null ? "S" : "I";
 
@@ -320,7 +325,7 @@ namespace iSOL_Enterprise.Dal.Inventory
                         int Id = CommonDal.getPrimaryKey(tran, "OITM");
 
                         param.Add(GetParameter("@Id", Id, typeof(int)));
-                        param.Add(GetParameter("@Guid", CommonDal.generatedGuid(), typeof(int)));
+                        param.Add(GetParameter("@Guid", CommonDal.generatedGuid(), typeof(string)));
                         if (model.Tab_PurchasingData != null)
                         {
                             PQ = "BuyUnitMsr,CstGrpCode,NumInBuy,VatGroupPu,";
@@ -684,7 +689,9 @@ namespace iSOL_Enterprise.Dal.Inventory
                         if (res1 <= 0)
                         {
                             tran.Rollback();
-                            return false;
+                            response.isSuccess = false;
+                            response.Message = "An Error Occured";
+                            return response;
                         }
 
                         if (model.Tab_InventoryData_WareHouseList != null)
@@ -714,7 +721,9 @@ namespace iSOL_Enterprise.Dal.Inventory
                                 if (res1 <= 0)
                                 {
                                     tran.Rollback();
-                                    return false;
+                                    response.isSuccess = false;
+                                    response.Message = "An Error Occured";
+                                    return response;
                                 }
                                 //LineNo += 1;
                             }
@@ -745,8 +754,9 @@ namespace iSOL_Enterprise.Dal.Inventory
                                 res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem2,param3.ToArray()).ToInt();
                                 if (res1 <= 0)
                                 {
-                                    tran.Rollback();
-                                    return false;
+                                    response.isSuccess = false;
+                                    response.Message = "An Error Occured";
+                                    return response;
                                 }
                                 //LineNo += 1;
                             }
@@ -757,22 +767,30 @@ namespace iSOL_Enterprise.Dal.Inventory
                     if (res1 > 0)
                     {
                         tran.Commit();
+                        response.isSuccess = true;
+                        response.Message = "Item Added Successfully !";
+
                     }
 
                 }
-                catch (Exception)
+                catch (Exception e )
                 {
                     tran.Rollback();
-                    return false;
+                    response.isSuccess = false;
+                    response.Message = e.Message;
+                    return response;
                 }
 
-                return res1 > 0 ? true : false;
+
+                return response;
 
             }
-            catch (Exception)
+            catch (Exception e )
             {
 
-                return false;
+                response.isSuccess = false;
+                response.Message = e.Message;
+                return response;
             }
         }
     }
