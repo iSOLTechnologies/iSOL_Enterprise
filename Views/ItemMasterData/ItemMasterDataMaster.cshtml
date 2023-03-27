@@ -193,6 +193,17 @@
                                                                             <label
                                                                                 class="mr-2 d-flex text-center pt-2 col-md-4">Item
                                                                                 Name </label>
+                                                                            <select id="MySeries"
+                                                                                class="form-control form-control-sm col-md-3">
+                                                                                        @foreach (iSOL_Enterprise.Models.Series.tbl_NNM1 i in ViewBag.MySeries)
+                                                                                        {                                                                                            
+                                                                                                <option guid="@i.BeginStr" value="@i.Series">@i.SeriesName </option>                                                                                            
+                                                                                        }
+                                                                                        <option value="-1" selected>Manual</option>   
+                                                                            </select>
+                                                                                    &nbsp;&nbsp;                                                                            
+                                                                            <input type="text" id="ItemCode" class="col-md-5 form-control form-control-sm">
+                                                                                    &nbsp;&nbsp;
                                                                             <select id="Series"
                                                                                 class="form-control form-control-sm col-md-3">
                                                                                         @foreach (iSOL_Enterprise.Models.Sale.tbl_series i in ViewBag.Series)
@@ -200,12 +211,8 @@
                                                                                                 <option value="@i.Series">@i.SeriesName </option>                                                                                            
                                                                                         }
                                                                                         <option value="-1" selected>Manual</option>   
-                                                                            </select>&nbsp;&nbsp;
-                                                                            
-                                                                            <input type="text" id="ItemCode" 
-                                                                                class="col-md-5 form-control form-control-sm">
-                                                                            
-                                                                        </div>
+                                                                            </select> 
+                                                                        </div>
 
                                                                         <div class="col-md-4 d-flex">
                                                                             <label class="checkbox checkbox-success">
@@ -2157,7 +2164,8 @@
         var isSalesItem = true; 
         var isPurchaseItem = true; 
         var isManageInvByWareHouse = true; 
-
+        var isEdit = false;
+        var OldItemId = null;
 
 
         const boxes = document.querySelectorAll('.d');
@@ -2227,7 +2235,7 @@
             $(this).closest('tr').remove();
         });
         
-        $(document).on('change', '#Series', function () {
+        $(document).on('change', '#MySeries', function () {
 
 
         if ($(this).val() == -1) {
@@ -2275,6 +2283,8 @@
 <script>
     $(document).ready(function() {
              
+            
+             
              $("#CstGrpCode1").val($('#CstGrpCode option:selected').val());  
              $("#VatGroupSa1").val($('#VatGroupSa option:selected').attr("guid"));
              $("#VatGroupPu1").val($('#VatGroupPu option:selected').attr("guid"));
@@ -2296,11 +2306,20 @@
             tags: true,
             tokenSeparators: [',', ' ']
             });
+            
+            if (@ViewBag.OldItemId != null) {
+                OldItemId = @ViewBag.OldItemId;
+                isEdit = true;
+                GetOldData();
+                $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
+                
+            }
     });
 
     $(document).on("keydown", "input", function () {
         $(this).removeClass('is-invalid');
     });
+    
     $(document).on('change' ,'#InvntItem' , function(){
 
             if( $(this).is(':checked'))
@@ -2314,6 +2333,7 @@
                 isInventryItem = false;
             }
     });
+    
     $(document).on('change' ,'#SellItem' , function(){
 
             if( $(this).is(':checked') )
@@ -2328,6 +2348,7 @@
             }
 
     });
+    
     $(document).on('change' ,'#PrchseItem' , function(){
 
             if( $(this).is(':checked') )
@@ -2341,6 +2362,7 @@
                 isPurchaseItem = false;
             }
     });
+    
     $(document).on('change' ,'#ByWh' , function(){
 
             if( $(this).is(':checked') )
@@ -2355,25 +2377,25 @@
             }
     })
 
-
     $(document).on('change', '#CstGrpCode', function (e) {
 
         $("#CstGrpCode1").val($(this).val());  
                     
     });    
+
     $(document).on('change', '#VatGroupSa', function (e) {
 
         $("#VatGroupSa1").val($('#VatGroupSa option:selected').attr("guid"));
                           
                     
     });         
+
     $(document).on('change', '#VatGroupPu', function (e) {
         
 
         $("#VatGroupPu1").val($('#VatGroupPu option:selected').attr("guid"));
 
     });
-
 
     $(document).on('click', '#btnSaveData', function (e) {
 
@@ -2431,6 +2453,7 @@
         }
 
     });
+
     function FormData() 
     {
             
@@ -2445,7 +2468,8 @@
             Tab_InventoryData_WareHouseList: isInventryItem == true && isManageInvByWareHouse == true ? getJsonObjList("ListParameters tr") : null,
             Tab_PlanningData : getJsonObj("kt_tabs_PlanningData"),
             Tab_ProductionData : getJsonObj("kt_tabs_ProductionData"),
-            Tab_Properties : getJsonObj("kt_tabs_Properties")
+            Tab_Properties : getJsonObj("kt_tabs_Properties"),
+            Id : OldItemId
                   
         }
         console.log(data);
@@ -2500,6 +2524,74 @@
 
         }).done(function (result) {
 
+        });
+    }
+
+
+
+    function GetOldData() 
+    {
+
+        return $.ajax({
+            url: 'ItemMasterData/GetItemOldData',
+            type: 'GET',
+            dataType: 'json',
+            async : false,
+            data: { ItemID: OldItemId },
+            success: function (data) 
+            {
+                
+                let OITMData = JSON.parse(data.oitmData);  
+                
+                $.each(OITMData[0][0], function (key, value) {
+                   
+                    if ($("#" + key).is(':checkbox') || $(this).is(':radio'))
+                    {
+                         if(value == 'Y')
+                         $("#" + key).prop('checked', true);
+                         else
+                         $("#" + key).prop('checked', false);
+                    }
+                    else if($("#" + key).attr('type') === 'date') 
+                    {
+                        $("#" + key).val(moment(value).format('yyyy-MM-DD'));
+                        
+                    }
+                    else
+                    {
+                         $("#" + key).val(value);
+                    }
+
+                });
+               let j = 0;
+                $.each((data.whsData), function () 
+                {
+                    if(j == 0) 
+                    {
+
+                        $("#WhsCode").val(this.whsCode);
+
+                        $("#WhsName").val(this.whsName);
+
+                        $("#MinStock").val(this.minStock);
+
+                        $("#MaxStock").val(this.maxStock);
+
+                        $("#MinOrder").val(this.minOrder);
+
+
+                    }
+                    else{
+                        AddWarehouseRowData(this);
+                    }
+                    j+=1;
+                    console.log(this);
+
+                });
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
         });
     }
 </script>

@@ -29,7 +29,32 @@ namespace iSOL_Enterprise.Controllers.Inventory
 
             return Json(response);
         }
-        public IActionResult ItemMasterDataMaster()
+        public IActionResult ItemMasterDataMaster(int id)
+        {
+
+            ItemMasterDataDal dal = new ItemMasterDataDal();
+            AdministratorDal addal = new AdministratorDal();
+            
+            ViewData["properties"] = dal.GetProperties();
+            ViewData["Series"] = addal.GetSeries(4);
+            ViewData["MySeries"] = addal.GetMySeries(4);
+            ViewData["ItemGroup"] = dal.GetItemsGroup();
+            ViewData["ListName"] = dal.GetListName();
+            ViewData["Manufacturer"] = dal.GetManufacturer();
+            ViewData["Shiptype"] = dal.GetShipType();
+            ViewData["CustomsGroup"] = dal.GetCustomsGroup();
+            ViewData["TaxGroup"] = dal.GetTaxGroup();
+            ViewData["UomName"] = dal.GetUomName();
+            if (id > 0)
+            {
+                ViewBag.OldItemId = id;
+            }
+            else
+            ViewBag.OldItemId = null;
+
+            return View();
+        }
+        public IActionResult EditItemMasterData(int id)
         {
 
             ItemMasterDataDal dal = new ItemMasterDataDal();
@@ -44,9 +69,24 @@ namespace iSOL_Enterprise.Controllers.Inventory
             ViewData["CustomsGroup"] = dal.GetCustomsGroup();
             ViewData["TaxGroup"] = dal.GetTaxGroup();
             ViewData["UomName"] = dal.GetUomName();
-
+            ViewBag.OldItemId = id;
 
             return View();
+        }
+        public IActionResult GetItemOldData(int ItemID)
+        {
+            try
+            {
+                ItemMasterDataDal dal = new ItemMasterDataDal();
+                string ItemCode = CommonDal.GetItemCode(ItemID);
+                return Json(new {success = true , OITMData =  dal.GetItemOldData(ItemID) , WHSData = CommonDal.GetWareHouseList(ItemCode)});
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         public IActionResult GetNewItemCode(int Series)
         {

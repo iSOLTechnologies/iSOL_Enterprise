@@ -357,7 +357,13 @@ where s.Status=1 and p.Guid=@Guid";
             id = id + 1;
             return id;
         }
-
+        public static string GetItemCode(int ItemID)
+        {
+            string query = "select ItemCode from OITM Where id ="+ItemID;
+            string? ItemCode = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, query).ToString();
+           
+            return ItemCode;
+        }
         public static string generatedGuid()
         {
             string guid = Guid.NewGuid().ToString().Replace("-", Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 5)) + Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 5) + DateTime.Now.ToString("ssmmddhhyyyymm");
@@ -835,11 +841,11 @@ where s.Status=1 and p.Guid=@Guid";
         public static List<tbl_OWHS> GetWareHouseList(string ItemCode)
         {
 
-            string GetQuery = "select WhsCode , WhsName ,MinStock,MaxStock,MinOrder,Locked from OITW order by WhsCode where ItemCode ='" +ItemCode +"'";
+            string GetQuery = "select WhsCode , WhsName ,MinStock,MaxStock,MinOrder,Locked from OITW  where ItemCode ='" +ItemCode + "' order by WhsCode";
 
 
             List<tbl_OWHS> list = new List<tbl_OWHS>();
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {
                 while (rdr.Read())
                 {
@@ -849,10 +855,10 @@ where s.Status=1 and p.Guid=@Guid";
                         {
                             whscode = rdr["WhsCode"].ToString(),
                             whsname = rdr["WhsName"].ToString(),
-                            MinStock = rdr["MinStock"].ToDouble(),
-                            MaxStock = rdr["MaxStock"].ToDouble(),
-                            MinOrder = rdr["MinOrder"].ToDouble(),
-                            Locked = Convert.ToChar( rdr["Locked"]),
+                            MinStock = rdr["MinStock"].ToString() == "" ? 0 : rdr["MinStock"].ToDouble(),
+                            MaxStock = rdr["MaxStock"].ToString() == "" ? 0 : rdr["MaxStock"].ToDouble(),
+                            MinOrder = rdr["MinOrder"].ToString() == "" ? 0 : rdr["MinOrder"].ToDouble(),
+                            Locked =   rdr["Locked"].ToString() == "" ? 'N' : Convert.ToChar( rdr["Locked"]),
 
                         });
 
