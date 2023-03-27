@@ -32,6 +32,7 @@ using System.Data.SqlClient;
 using System.Collections;
 using System.Xml;
 using Microsoft.Extensions.Configuration;
+using SAPbobsCOM;
 
 namespace SqlHelperExtensions
 {
@@ -4475,8 +4476,32 @@ namespace SqlHelperExtensions
         }
 
 
+        public static string? MySeriesUpdate_GetItemCode(int MySeries, SqlTransaction tran)
+        {
+            //    string query1 = "Select NextNumber from NNM1 where Series = " + MySeries + " (TABLOCKX)";
+             
+            string query1 = "select case when BeginStr is  null  then  RIGHT('000000' + CAST(NextNumber AS VARCHAR(6)), 6)  else BeginStr  +  CAST(  NextNumber as nvarchar(20))   end 'ItemCode' from NNM1 WITH (TABLOCKX) where  NextNumber <= LastNum and ObjectCode = 4 and Series = " + MySeries;
+            string? ItemCode = SqlHelper.ExecuteScalar(tran, CommandType.Text, query1).ToString();
+            string query2 = "Update NNM1 set NextNumber = NextNumber+1 Where Series  = " + MySeries;
+            int res = Convert.ToInt32(SqlHelper.ExecuteNonQuery(tran, CommandType.Text, query2));
+            if (res <= 0)
+            {
+                return null;
+            }
+            return ItemCode;
+        }
+        //public static string SetItemCode(string ItemCode,int NextNumber)
+        //{
+              
+        //        string[] str = ItemCode.Split('-');
+        //        string code = str[0];
+        //        ItemCode = code + "-" + NextNumber;
+        //        return ItemCode;
+            
+        //}
 
-        public static string getUpdatedDocumentNumberOnLoad(SqlTransaction tran,string table, string DocStartName)
+
+            public static string getUpdatedDocumentNumberOnLoad(SqlTransaction tran,string table, string DocStartName)
         {
             string query = "select top 1 DocNum From " + table + "  order by Id desc";
              
