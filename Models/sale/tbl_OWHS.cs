@@ -10,5 +10,7 @@
         public double MinOrder { get;set; }
         public char? Locked { get;set; }
 
+        public bool? isEditable { get; set; } = true;
+
     }
 }

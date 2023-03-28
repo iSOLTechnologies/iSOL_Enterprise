@@ -545,6 +545,9 @@ where s.Status=1 and p.Guid=@Guid";
                 case 14:
                 table = "RIN1";
                 break;
+
+                default:
+                return table;
             }
             return table;
         }
@@ -859,7 +862,7 @@ where s.Status=1 and p.Guid=@Guid";
                             MaxStock = rdr["MaxStock"].ToString() == "" ? 0 : rdr["MaxStock"].ToDouble(),
                             MinOrder = rdr["MinOrder"].ToString() == "" ? 0 : rdr["MinOrder"].ToDouble(),
                             Locked =   rdr["Locked"].ToString() == "" ? 'N' : Convert.ToChar( rdr["Locked"]),
-
+                            isEditable = IsWareHouseTransactionAdded(rdr["WhsCode"].ToString(), ItemCode) 
                         });
 
                 }
@@ -868,5 +871,41 @@ where s.Status=1 and p.Guid=@Guid";
             return list;
 
         }
+        public static bool IsWareHouseTransactionAdded(string? WhsCode , string ItemCode)
+        {
+            if (WhsCode != null)
+            {
+
+            
+                    string GetCount = @"select COUNT(*) from OBTQ Inner join OBTN on OBTN.AbsEntry = OBTQ.MdAbsEntry inner join ITL1 on ITL1.SysNumber = OBTN.SysNumber where OBTQ.WhsCode = '"+WhsCode+ "' and OBTQ.ItemCode = '"+ ItemCode + "'";
+                    int count = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, GetCount).ToInt();
+                    if (count > 0)
+                    {
+                        return false;
+                    }
+            }
+
+            return true;
+        }
+
+
+        //public static Array GetTables()
+        //{
+
+        //    "OINV",                 
+        //    "ODLN",                
+        //    "ORDN",                            
+        //    "ORDR",           
+        //    "OPCH",              
+        //    "ORPC",            
+        //    "OPDN",            
+        //    "ORPD",            
+        //    "OPOR",                
+        //    "OQUT",           
+        //    "OPQT"
+
+        //               "ORIN"
+        //    string[] tablesArray = { };
+        //}
     }
 }

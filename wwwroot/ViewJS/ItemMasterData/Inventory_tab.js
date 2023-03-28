@@ -49,11 +49,18 @@
 
 function AddWarehouseRowData(data)
 {
-    let html = `<tr class="rowItemDetail align-items-center itm">
+   
+    if (!(data.isEditable)) {
+        $("#ByWh").attr('disabled', true);
+        let ChkLock = '<input type="checkbox" id="Locked" disabled>';
+        if (data.locked == 'Y')
+            ChkLock = '<input type="checkbox" id="Locked" checked disabled>';
+
+        let html = `<tr class="rowItemDetail align-items-center itm">
 
                                                                                             <td>
                                                                                                 <div class="input-group">
-                                                                                                    <input id="WhsCode" value="`+ data.whsCode +` " class="form-control form-control-sm" readonly>
+                                                                                                    <input id="WhsCode" value="`+ data.whscode + ` " class="form-control form-control-sm" disabled>
                                                                                                         <div id="WhsCodeSearch" class="input-group-append">
                                                                                                             <span class="input-group-text">
                                                                                                                 <i class="la la-search"></i>
@@ -64,36 +71,80 @@ function AddWarehouseRowData(data)
                                                                                             </td>
                                                                                             <td>
 
-                                                                                                <input type="text" readonly id="WhsName" value="`+ data.whsName +` class="form-control form-control-sm" placeholder="Warehouse Name" aria-describedby="basic-addon2">
+                                                                                                <input type="text" disabled id="WhsName" value="`+ data.whsname + `" class="form-control form-control-sm" placeholder="Warehouse Name" aria-describedby="basic-addon2">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
                                                                                                     <label class="checkbox checkbox-success justify-content-center">
-                                                                                                    <input type="checkbox" id="Locked">
+                                                                                                     `+ ChkLock + `
                                                                                                         <span class="border_grey"></span>&nbsp;
                                                                                                 </label>
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input type="number" id="MinStock" value="`+ data.minStock +` class="form-control form-control-sm NotReq" placeholder="0.0000" aria-describedby="basic-addon2">
+                                                                                                <input type="number" id="MinStock"  disabled value="`+ data.minStock + `" class="form-control form-control-sm NotReq" placeholder="0.0000" aria-describedby="basic-addon2">
 
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                                 <input type="number" id="MaxStock" value="`+ data.maxStock +` class="form-control form-control-sm NotReq" placeholder="0.0000" aria-describedby="basic-addon2">
+                                                                                                 <input type="number" id="MaxStock" disabled  value="`+ data.maxStock + `" class="form-control form-control-sm NotReq" placeholder="0.0000" aria-describedby="basic-addon2">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input type="number" id="MinOrder" value="`+ data.minOrder +` class="form-control form-control-sm NotReq" placeholder="0.0000" aria-describedby="basic-addon2">
+                                                                                                <input type="number" id="MinOrder" disabled  value="`+ data.minOrder + `" class="form-control form-control-sm NotReq" placeholder="0.0000" aria-describedby="basic-addon2">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
-                                                                                            <td>
-                                                                                                <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
-                                                                                                    <i class="la la-trash"></i> X
-                                                                                                </a>
-                                                                                            </td>
+                                                                                            
                                                                                         </tr>`;
-    $('#Warehouse_Table tbody').append(html);
+        $('#Warehouse_Table tbody').append(html);
+    }
+    else {
+        let ChkLock = '<input type="checkbox" id="Locked">';
+        if (data.locked == 'Y')
+            ChkLock = '<input type="checkbox" id="Locked" checked>';
+    
+    let html = `<tr class="rowItemDetail align-items-center itm">
+
+                                                                                            <td>
+                                                                                                <div class="input-group">
+                                                                                                    <input id="WhsCode" value="`+ data.whscode +` " class="form-control form-control-sm" readonly>
+                                                                                                        <div id="WhsCodeSearch" class="input-group-append">
+                                                                                                            <span class="input-group-text">
+                                                                                                                <i class="la la-search"></i>
+                                                                                                            </span>
+                                                                                                        </div>
+                                                                                                </div>
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+
+                                                                                                <input type="text" readonly id="WhsName" value="`+ data.whsname +`" class="form-control form-control-sm" placeholder="Warehouse Name" aria-describedby="basic-addon2">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                    <label class="checkbox checkbox-success justify-content-center">
+                                                                                                     `+ ChkLock +`
+                                                                                                        <span class="border_grey"></span>&nbsp;
+                                                                                                </label>
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input type="number" id="MinStock" value="`+ data.minStock +`" class="form-control form-control-sm NotReq" placeholder="0.0000" aria-describedby="basic-addon2">
+
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                 <input type="number" id="MaxStock" value="`+ data.maxStock +`" class="form-control form-control-sm NotReq" placeholder="0.0000" aria-describedby="basic-addon2">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input type="number" id="MinOrder" value="`+ data.minOrder +`" class="form-control form-control-sm NotReq" placeholder="0.0000" aria-describedby="basic-addon2">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            
+                                                                                        </tr>`;
+        $('#Warehouse_Table tbody').append(html);
+    }
 }
 
 $(document).on('click', "#WhsCodeSearch", function () {

@@ -1000,7 +1000,7 @@
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">No.
                                                                                     of Item Components </label>
                                                                                 <input type="number" id="NoofItemComponents"
-                                                                                    class="form-control form-control-sm col-md-4">
+                                                                                    class="form-control form-control-sm col-md-4 NotReq">
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
                                                                                     field is required.</div>
@@ -1015,7 +1015,7 @@
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">No.
                                                                                     of Resources Components </label>
                                                                                 <input type="number" id="NoofResourcesComponents"
-                                                                                    class="form-control form-control-sm col-md-4">
+                                                                                    class="form-control form-control-sm col-md-4 NotReq">
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
                                                                                     field is required.</div>
@@ -1032,7 +1032,7 @@
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">No.
                                                                                     of Route Stages </label>
                                                                                 <input type="number" id="NoofRouteStages"
-                                                                                    class="form-control form-control-sm col-md-4">
+                                                                                    class="form-control form-control-sm col-md-4 NotReq">
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
                                                                                     field is required.</div>
@@ -2307,11 +2307,15 @@
             tokenSeparators: [',', ' ']
             });
             
-            if (@ViewBag.OldItemId != null) {
+            if (@ViewBag.OldItemId != 0) 
+            {
                 OldItemId = @ViewBag.OldItemId;
                 isEdit = true;
-                GetOldData();
+                
                 $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
+                $("#btnSaveData").attr('disabled', true);
+                $("#ItemCode").attr('disabled', true);
+                GetOldData();
                 
             }
     });
@@ -2321,7 +2325,7 @@
     });
     
     $(document).on('change' ,'#InvntItem' , function(){
-
+        
             if( $(this).is(':checked'))
             {
                 $("#InvntryUom").removeClass("NotReq");
@@ -2335,7 +2339,7 @@
     });
     
     $(document).on('change' ,'#SellItem' , function(){
-
+         
             if( $(this).is(':checked') )
             {
                 $("#SalUnitMsr").removeClass("NotReq");
@@ -2350,7 +2354,7 @@
     });
     
     $(document).on('change' ,'#PrchseItem' , function(){
-
+        
             if( $(this).is(':checked') )
             {
                 $("#BuyUnitMsr").removeClass("NotReq");
@@ -2469,10 +2473,10 @@
             Tab_PlanningData : getJsonObj("kt_tabs_PlanningData"),
             Tab_ProductionData : getJsonObj("kt_tabs_ProductionData"),
             Tab_Properties : getJsonObj("kt_tabs_Properties"),
-            Id : OldItemId
+            OldItemId: OldItemId
                   
         }
-        console.log(data);
+        
        
        PostData(data);
 
@@ -2532,7 +2536,7 @@
     function GetOldData() 
     {
 
-        return $.ajax({
+        $.ajax({
             url: 'ItemMasterData/GetItemOldData',
             type: 'GET',
             dataType: 'json',
@@ -2547,10 +2551,16 @@
                    
                     if ($("#" + key).is(':checkbox') || $(this).is(':radio'))
                     {
-                         if(value == 'Y')
+                         if(value == 'Y') {
                          $("#" + key).prop('checked', true);
+                         
+                         }
                          else
-                         $("#" + key).prop('checked', false);
+                         {
+                           
+                            $("#" + key).prop('checked', false);
+                            
+                         }
                     }
                     else if($("#" + key).attr('type') === 'date') 
                     {
@@ -2563,15 +2573,21 @@
                     }
 
                 });
-               let j = 0;
+               //Add Warehouse Data
+                let j = 0;
                 $.each((data.whsData), function () 
                 {
                     if(j == 0) 
                     {
+                        
+                        $("#WhsCode").val(this.whscode);
 
-                        $("#WhsCode").val(this.whsCode);
+                        $("#WhsName").val(this.whsname);
 
-                        $("#WhsName").val(this.whsName);
+                        if(this.locked == 'Y')
+                        $("#Locked").prop('checked', true);
+                        else
+                        $("#Locked").prop('checked', false);
 
                         $("#MinStock").val(this.minStock);
 
@@ -2579,15 +2595,52 @@
 
                         $("#MinOrder").val(this.minOrder);
 
+                        if (!(this.isEditable)) {
+                            $("#WhsCode").attr('disabled', true);
+                            $("#WhsName").attr('disabled', true);
+                            $("#Locked").attr('disabled', true);
+                            $("#MinStock").attr('disabled', true);
+                            $("#MaxStock").attr('disabled', true);
+                            $("#MinOrder").attr('disabled', true);
+                            $("#ByWh").attr('disabled', true);
+                       }
 
                     }
                     else{
                         AddWarehouseRowData(this);
                     }
                     j+=1;
-                    console.log(this);
+                    
 
                 });
+                //EditTable
+                
+                
+                if (!(data.isEditable.value.purchaseItem)) {
+                    $("#PrchseItem").attr('disabled', true);
+                    $("#ItmsGrpCod").attr('disabled', true);
+                }
+                if (!(data.isEditable.value.salesItem)) {
+                    $("#SellItem").attr('disabled', true);
+                    $("#ItmsGrpCod").attr('disabled', true);
+                }
+                if (!(data.isEditable.value.inventoryItem)) {
+                    $("#InvntItem").attr('disabled', true);
+                    $("#ItmsGrpCod").attr('disabled', true);
+                }
+                
+                let PrchseItem = document.getElementById("PrchseItem");
+                let SellItem = document.getElementById("SellItem");
+                let InvntItem = document.getElementById("InvntItem");
+
+                var event = new Event("change", { bubbles: true });
+                PrchseItem.dispatchEvent(event);
+                SellItem.dispatchEvent(event);
+                InvntItem.dispatchEvent(event);
+
+                $("#btnSaveData").attr('disabled', false);
+                
+                
             },
             error: function (jqXhr, textStatus, errorMessage) {
                 console.log(errorMessage);
