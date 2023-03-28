@@ -85,10 +85,8 @@ namespace iSOL_Enterprise.Dal
                 SqlTransaction tran = conn.BeginTransaction();
                 int res1 = 0;
                 int Series = CommonDal.getPrimaryKey(tran, "Series", "NNM1");
-                string HeadQuery = @"INSERT INTO NNM1(ObjectCode,Series,SeriesName,InitialNum,LastNum,BeginStr) 
-                                    VALUES('" + obj.ObjectCode + "','" + Series + "','" + obj.SeriesName + "'," + obj.InitialNum + "," + obj.LastNum + ",'" + obj.BeginStr + "')";
-
-
+                string HeadQuery = @"INSERT INTO NNM1(ObjectCode,Series,SeriesName,InitialNum,LastNum,NextNumber,BeginStr) 
+                                    VALUES('" + obj.ObjectCode + "','" + Series + "','" + obj.SeriesName + "'," + obj.InitialNum + "," + obj.LastNum + "," + obj.InitialNum + ",'" + obj.BeginStr + "')";
                 res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
                 if (res1 <= 0)
                 {
@@ -162,7 +160,7 @@ namespace iSOL_Enterprise.Dal
                     {                        
                         Series = rdr1["Series"].ToInt(),
                         SeriesName = rdr1["SeriesName"].ToString(),
-                        BeginStr = (rdr1["BeginStr"].ToString() + "-" + rdr1["NextNumber"].ToString()).ToString()
+                        BeginStr = (rdr1["BeginStr"].ToString() + rdr1["NextNumber"].ToString()).ToString()
                     });
                 }
             }

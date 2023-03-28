@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="SapBob\" />
+    <Folder Include="Views\GoodReceiptGR\" />
   </ItemGroup>
 
   <ItemGroup>

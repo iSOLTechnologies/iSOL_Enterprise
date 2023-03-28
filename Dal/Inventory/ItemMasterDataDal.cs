@@ -212,7 +212,7 @@ namespace iSOL_Enterprise.Dal.Inventory
 
         public string? GetNewItemCode(int Series)
         {
-            string GetItemCode = "select case when BeginStr is  null  then  RIGHT('000000' + CAST(NextNumber AS VARCHAR(6)), 6)  else BeginStr  +  CAST(  NextNumber as nvarchar(20))   end 'ItemCode' from NNM1 where  NextNumber <= LastNum and ObjectCode = 4 and Series = "+Series;
+            string GetItemCode = "select case when BeginStr is  null  then  RIGHT('000000' + CAST(NextNumber AS VARCHAR(6)), 6)  else BeginStr  +  CAST(  NextNumber as nvarchar(20))   end 'ItemCode' from NNM1 where  NextNumber <= LastNum and Series = "+Series;
 
             string? ItemCode = Convert.ToString(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, GetItemCode));
             

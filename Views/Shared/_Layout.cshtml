@@ -3585,11 +3585,12 @@ input[type=number] {
 			$(selectedRow).addClass('Mainrow_selected');
 			//$('.OperationBtns').attr("data-id", SelectedVal);
 			RowDataPrint = rowData;
-			$(ObjAcctCode).closest('#ListParameters2 .itm').find("#AcctCode").val(rowData['acctCode']);
-			$(ObjAcctCode).closest('#ListParameters2 .itm').find("#AcctName").val(rowData['acctName']);
+			$(ObjAcctCode).closest('tr').find("#AcctCode").val(rowData['acctCode']);
+			$(ObjAcctCode).closest('tr').find("#AcctName").val(rowData['acctName']);
 			$('#myaccountModal').modal('hide');
 			//$(ObjItemCode)
 		});
+
 		//$(document).on('click', '#MyyyyItemmTable tr', function (e) {
 		//       rowdata = null;
 		//       RowDataPrint = null;
@@ -3664,12 +3665,12 @@ input[type=number] {
 //  $(this).attr('maxlength', '11');
 
 //});
-		  $(document).on("input", "input[type='number']", function () {
-				 $(this).attr("maxlength",11);
-				var numInputs = $(this).length;
+		 // $(document).on("input", "input[type='number']", function () {
+			//	 $(this).attr("maxlength",11);
+			//	var numInputs = $(this).length;
 
-			console.log("Length is ::::::::::::::::::", numInputs)
-			});
+			//console.log("Length is ::::::::::::::::::", numInputs)
+			//});
 
 	</script>
 	<!--=============================== Modal Work End ===================================-->
