@@ -29,9 +29,10 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     models.DocStatus =  "Open" ;
                     models.Id = rdr["Id"].ToInt(); 
                     models.DocDate = rdr["DocDate"].ToDateTime();
-                    models.DocNum = rdr["ItemCode"].ToString(); 
+                    models.DocNum = rdr["DocNum"].ToString(); 
                     models.Guid = rdr["Guid"].ToString(); 
-                    models.IsPosted = rdr["isPosted"].ToString(); models.IsEdited = rdr["is_Edited"].ToString();
+                    models.IsPosted = rdr["isPosted"].ToString();
+                    models.IsEdited = rdr["is_Edited"].ToString();
                     list.Add(models);                
                 }
             }
