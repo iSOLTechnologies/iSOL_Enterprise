@@ -501,42 +501,47 @@ where s.Status=1 and p.Guid=@Guid";
             string table = "";
             switch (Basetype)
             {
-                case 13:     
+                case 13:
                 table = "OINV"; //A/R Invoice
                 break;
-                case 15:     
+                case 15:
                 table = "ODLN"; //Delivery
                 break;
-                case 16:    
+                case 16:
                 table = "ORDN"; //Return
                 break;
-                case 17:    
+                case 17:
                 table = "ORDR"; //Sales Order
                 break;
-                case 18:    
+                case 18:
                 table = "OPCH"; //A/P Invoice
                 break;
-                case 19:   
+                case 19:
                 table = "ORPC"; //A/P Credit Memo
                 break;
-                case 20:   
+                case 20:
                 table = "OPDN"; //Goods Receipt PO
                 break;
-                case 21:    
+                case 21:
                 table = "ORPD"; //Goods Return
                 break;
-                case 22:    
+                case 22:
                 table = "OPOR"; //Purchase Order
                 break;
-                case 23:    
+                case 23:
                 table = "OQUT"; //Sales Quotation
                 break;
-                case 540000006:    
+                case 540000006:
                 table = "OPQT"; //Purchase Quotation
                 break;
                 case 14: //AR Credit Memo
                 table = "ORIN";
                 break;
+                case 59: //Goods Receipt GR Item Transaction
+                table = "OIGN";
+                break;
+                default:
+                return table;
             }
             return table;
         }
@@ -547,42 +552,44 @@ where s.Status=1 and p.Guid=@Guid";
             switch (Basetype)
             {
                 case 13:
-                    table = "INV1"; //A/R Invoice
-                    break;
+                table = "INV1"; //A/R Invoice
+                break;
                 case 15:
-                    table = "DLN1"; //Delivery
-                    break;
+                table = "DLN1"; //Delivery
+                break;
                 case 16:
-                    table = "RDN1"; //Return
-                    break;
+                table = "RDN1"; //Return
+                break;
                 case 17:
-                    table = "RDR1"; //Sales Order
-                    break;
+                table = "RDR1"; //Sales Order
+                break;
                 case 18:
-                    table = "PCH1"; //A/P Invoice
-                    break;
+                table = "PCH1"; //A/P Invoice
+                break;
                 case 19:
-                    table = "RPC1"; //A/P Credit Memo
-                    break;
+                table = "RPC1"; //A/P Credit Memo
+                break;
                 case 20:
-                    table = "PDN1"; //Goods Receipt PO
-                    break;
+                table = "PDN1"; //Goods Receipt PO
+                break;
                 case 21:
-                    table = "RPD1"; //Goods Return
-                    break;
+                table = "RPD1"; //Goods Return
+                break;
                 case 22:
-                    table = "POR1"; //Purchase Order
-                    break;
+                table = "POR1"; //Purchase Order
+                break;
                 case 23:
-                    table = "QUT1"; //Sales Quotation
-                    break;
+                table = "QUT1"; //Sales Quotation
+                break;
                 case 540000006:
-                    table = "PQT1"; //Purchase Quotation
-                    break;
+                table = "PQT1"; //Purchase Quotation
+                break;
                 case 14:
                 table = "RIN1";
                 break;
-
+                case 59: //Goods Receipt GR Item Transaction
+                table = "IGN1";
+                break;
                 default:
                 return table;
             }

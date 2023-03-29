@@ -454,6 +454,7 @@ namespace iSOL_Enterprise.Dal
                             item.BaseLine = item.BaseLine == "" ? "NULL" : Convert.ToInt32(item.BaseLine);
                             item.BaseQty = item.BaseQty == "" ? "NULL" : Convert.ToInt32(item.BaseQty);
                             item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
+                            item.BaseType = item.BaseType == "" ? "NULL" : Convert.ToInt32(item.BaseType);
 
                             #region Insert in Rows
                             string RowQueryItem = @"insert into PDN1(Id,LineNum,WhsCode,BaseRef,BaseEntry,BaseLine,BaseQty,BaseType,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
@@ -491,7 +492,7 @@ namespace iSOL_Enterprise.Dal
                             #region OITL Log
                             int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");   //Primary Key
 
-                            string LogQueryOITL = @"insert into OITL(LogEntry,CardCode,ItemCode,ItemName,CardName,DocEntry,DocLine,DocType,DocNum,DocQty,DocDate) 
+                            string LogQueryOITL = @"insert into OITL(LogEntry,CardCode,ItemCode,ItemName,CardName,DocEntry,DocLine,DocType,BaseType,DocNum,DocQty,DocDate) 
                                            values(" + LogEntry + ",'"
                                               + model.HeaderData.CardCode + "','"
                                               + item.ItemCode + "','"
@@ -499,7 +500,8 @@ namespace iSOL_Enterprise.Dal
                                               + model.HeaderData.CardName + "',"
                                               + Id + ","
                                               + LineNo + ","
-                                              + 0 + ", "
+                                              + 20 + ","
+                                              + item.BaseType + ","
                                               + Id + " ,"
                                               + ((Decimal)(item.QTY)) + ",'"
                                               + Convert.ToDateTime(model.HeaderData.DocDate) + "')";

@@ -237,13 +237,21 @@ namespace iSOL_Enterprise.Dal
 
                         foreach (var item in model.ListItems)
                         {
+
+                            item.BaseEntry = item.BaseEntry == "" ? "NULL" : Convert.ToInt32(item.BaseEntry);
+                            item.BaseLine = item.BaseLine == "" ? "NULL" : Convert.ToInt32(item.BaseLine);
+                            item.BaseQty = item.BaseQty == "" ? "NULL" : Convert.ToInt32(item.BaseQty);
+                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
+                            item.BaseType = item.BaseType == "" ? "NULL" : Convert.ToInt32(item.BaseType);
+
+
                             int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "DLN1");
                             #region UpdateWarehouse&GenerateLog
 
 
                             #region OITLLog
-                            string LogQueryOITL = @"insert into OITL(LogEntry,CardCode,ItemCode,ItemName,CardName,DocEntry,DocLine,DocType,DocNum,DocQty,DocDate) 
+                            string LogQueryOITL = @"insert into OITL(LogEntry,CardCode,ItemCode,ItemName,CardName,DocEntry,DocLine,DocType,BaseType,DocNum,DocQty,DocDate) 
                                            values(" + LogEntry + ",'"
                                               //+ DocType + "','"
                                               + model.HeaderData.CardCode + "','"
@@ -252,8 +260,9 @@ namespace iSOL_Enterprise.Dal
                                               + model.HeaderData.CardName + "',"
                                               + Id + ","
                                               + LineNo + ","
-                                              + 0 + ", "
-                                              + Id + " ,"
+                                              + 15 + ","
+                                              + item.BaseType + ","
+                                              + Id + ","
                                               + -1 * ((Decimal)(item.QTY)) + ",'"
                                               // + Convert.ToDateTime(DateTime.Now) + "','"
                                               + Convert.ToDateTime(model.HeaderData.DocDate) + "')";
@@ -386,10 +395,7 @@ namespace iSOL_Enterprise.Dal
                             }
                             #endregion
                             
-                            item.BaseEntry = item.BaseEntry == "" ? "NULL" : Convert.ToInt32(item.BaseEntry);
-                            item.BaseLine = item.BaseLine == "" ? "NULL" : Convert.ToInt32(item.BaseLine);
-                            item.BaseQty = item.BaseQty == "" ? "NULL" : Convert.ToInt32(item.BaseQty);
-                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
+                            
 
 
                             #region Insert into Row 

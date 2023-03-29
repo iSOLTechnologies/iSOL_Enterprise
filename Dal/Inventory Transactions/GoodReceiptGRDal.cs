@@ -153,7 +153,10 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                             #region OITL Log
                             int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");   //Primary Key
 
-                            string LogQueryOITL = @"insert into OITL(LogEntry,ItemCode,ItemName,DocEntry,DocLine,DocType,DocNum,DocQty,DocDate) 
+
+                            item.BaseType = item.BaseType == "" ? "NULL" : Convert.ToInt32(item.BaseType);
+
+                            string LogQueryOITL = @"insert into OITL(LogEntry,ItemCode,ItemName,DocEntry,DocLine,DocType,BaseType,DocNum,DocQty,DocDate) 
                                            values(" + LogEntry + ",'"
                                               //+ model.HeaderData.CardCode + "','"
                                               + item.ItemCode + "','"
@@ -161,8 +164,9 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                                               //+ model.HeaderData.CardName + "',"
                                               + Id + ","
                                               + LineNum + ","
-                                              + 0 + ", "
-                                              + Id + " ,"
+                                              + 59 + ","
+                                              + item.BaseType + ","
+                                              + Id + ","
                                               + ((Decimal)(item.QTY)) + ",'"
                                               + Convert.ToDateTime(model.HeaderData.DocDate) + "')";
 
