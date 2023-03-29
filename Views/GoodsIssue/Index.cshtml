@@ -52,10 +52,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-
+                        
 
                     </tr>
                 </thead>
@@ -88,24 +85,15 @@
         window.location.href = '/GoodsIssue/GoodsIssueMaster';
     })
     function Mastercheck() {
-
-
-
         if (document.getElementById('Mastercheck').checked == true) {
-
             $("#AttTable tr").each(function () {
                 $(this).find("#chckbox").prop("checked", true);
-
             });
-        } else {
-
+        }else {
             $("#AttTable  tr").each(function () {
                 $(this).find("#chckbox").prop("checked", false);
-
             });
-
         }
-
     }
 
     function generateTable() {
@@ -137,14 +125,14 @@
             search: {
                 input: $('#generalSearch'),
             },
-            columns: [ 
+            columns: [
                 {
                     data: "id", 'title': '<span style="width: 30px;"><label class="checkbox checkbox-single checkbox-all"><input id="Mastercheck" onclick="Mastercheck()" type="checkbox">&nbsp;<span></span></label></span>', render: function (data, type, row) {
 
                         if (row.isPosted == "True" && row.isEdited == "False") {
                             return '<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">Posted</span>';
-                        } else {                                                        
-                            return '<span style="width: 30px;"><label class="checkbox checkbox-single checkbox-all"><input guid=' + data + '  id="chckbox" type="checkbox">&nbsp;<span></span></label></span>';                             
+                        } else {
+                            return '<span style="width: 30px;"><label class="checkbox checkbox-single checkbox-all"><input guid=' + data + '  id="chckbox" type="checkbox">&nbsp;<span></span></label></span>';
                         }
 
 
@@ -163,27 +151,9 @@
                     }
                 },
                 {
-                    data: 'postingDate', title: 'Posting Date', render: function (data, type, row) {
-                        if (data != undefined && data != '') {
-
-                            return moment(data).format('DD-MM-YYYY')
-
-                        } else {
-                            // return data;
-                            return '';
-                        }
-                    }
+                    data: 'docNum', title: 'DocNum',
                 },
                 {
-                    data: 'docNum', title: 'DocNum',
-
-                }, {
-                    data: 'cardCode', title: 'Card Code'
-
-                }, {
-                    data: 'cardName', title: 'Card Name'
-
-                }, {
                     data: "docStatus", 'title': 'Status', render: function (data, type, row) {
 
                         if (data == "Open") {
@@ -199,7 +169,8 @@
                             return html;
                         }
                     }
-                }, {
+                },
+                {
                     data: "id", 'title': 'Action', render: function (data, type, row) {
 
                         var html = '<a guid=' + data + ' id="btnFetchGoodReceipt" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
@@ -247,7 +218,7 @@
         });
         if (checkedIDs.length > 0) {
 
-            $.post("Common/PostToSap", { checkedIDs: checkedIDs, ObjectCode: 20 }, function (response) {
+            $.post("Common/PostToSap", { checkedIDs: checkedIDs, ObjectCode: 60 }, function (response) {
                 if (response.success) {
                     $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                     $("#btnPostToSap").attr('disabled', false);
