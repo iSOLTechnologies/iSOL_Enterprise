@@ -277,7 +277,7 @@ namespace iSOL_Enterprise.Dal
                         foreach (var item in model.ListItems)
                         {
                             #region If Doc copied data from other Doc then get data from Delivery then  Update in Sale Order & Delivery
-                            if (model.BaseType != -1 && item.BaseEntry != "" && item.BaseLine != "")
+                            if ((int)(model.BaseType) != -1 && (item.BaseEntry).ToString() != "" && (item.BaseLine).ToString() != "")
                             {
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
                                 string getFromDeliveryQuery = "select BaseEntry,BaseLine,ItemCode from " + table + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine + "and ItemCode = '" + item.ItemCode + "'";

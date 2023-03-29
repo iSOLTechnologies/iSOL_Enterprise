@@ -379,7 +379,7 @@
                                                                                     <th>Qty in Warehouse</th>
                                                                                     <th>Quantity</th>
                                                                                     <th>BaseQty</th>
-                                                                                    <th>OpenQty</th>
+                                                                                    <th class="d-none">OpenQty</th>
                                                                                     <th>Unit Price</th>
                                                                                     <th>Discount %</th>
                                                                                     <th>Tax Code</th>
@@ -440,8 +440,8 @@
                                                                                         <input readonly class="form-control form-control-sm NotReq" id="BaseQty"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
-                                                                                        <input readonly class="form-control form-control-sm NotReq d-none" id="OpenQty"  type="number">
+                                                                                    <td class="d-none">
+                                                                                        <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
@@ -1074,7 +1074,7 @@
                                                                                                             <input id="onHand" value="`+ OnHand + `" class="form-control form-control-sm" readonly type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
-                                                                                        <td>
+                                                                                            <td class="d-none">
                                                                                             <input class="form-control form-control-sm"  value=`+data.OpenQty+` id="QTY"  type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
@@ -1376,7 +1376,7 @@
                                                                                             <input readonly class="form-control form-control-sm NotReq" id="BaseQty"  type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
-                                                                                        <td>
+                                                                                        <td class="d-none">
                                                                                             <input readonly  class="form-control form-control-sm NotReq d-none" id="OpenQty"  type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
@@ -1462,8 +1462,8 @@
                                                                                                 <input readonly class="form-control form-control-sm NotReq" id="BaseQty"  type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
-                                                                                            <td>
-                                                                                                <input readonly  class="form-control form-control-sm NotReq d-none" id="OpenQty"  type="number">
+                                                                                            <td class="d-none">
+                                                                                                <input readonly  class="form-control form-control-sm NotReq " id="OpenQty"  type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
                                                                                 <td>
@@ -1755,7 +1755,7 @@
                                                                                         <input readonly class="form-control form-control-sm NotReq" id="BaseQty"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                        <td class="d-none">
                                                                                         <input readonly class="form-control form-control-sm NotReq" id="OpenQty"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>

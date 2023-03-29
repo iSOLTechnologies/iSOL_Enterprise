@@ -181,7 +181,7 @@ namespace iSOL_Enterprise.Dal
                         {
 
 
-                            if (model.BaseType != -1 && item.BaseEntry != "" && item.BaseLine != "")
+                            if ((int)(model.BaseType) != -1 && (item.BaseEntry).ToString() != "" && (item.BaseLine).ToString() != "")
                             {
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
                                 string Updatequery = @"Update " + table + " set OpenQty = OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + " and LineNum = " + item.BaseLine + "and ItemCode = '"+ item.ItemCode +"'";

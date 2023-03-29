@@ -305,15 +305,16 @@ namespace iSOL_Enterprise.Dal
                                                     while (rdr.Read())
                                                     {
 
-
+                                                       string? ExpDate = rdr["ExpDate"].ToString() == "" ? "" : (Convert.ToDateTime(rdr["ExpDate"]).ToString());
+                                                        string? InDate = rdr["InDate"].ToString() == "" ? "" : (Convert.ToDateTime(rdr["InDate"]).ToString());
 
                                                         string InsertBatchQuery = @"insert into OBTN(AbsEntry,ItemCode,SysNumber,DistNumber,ExpDate,InDate,Quantity)
                                                                     values(" + Convert.ToInt32(rdr["AbsEntry"]) + ",'"
                                                                    + ii.itemno + "',"
                                                                    + Convert.ToInt32(rdr["SysNumber"]) + ",'"
                                                                    + ii.DistNumber + "','"
-                                                                   + rdr["ExpDate"].ToString() == "" ? "NULL" : Convert.ToDateTime(rdr["ExpDate"]) + "','"
-                                                                   + rdr["InDate"].ToString() == "" ? "NULL" : Convert.ToDateTime(rdr["InDate"]) + "',"
+                                                                   + ExpDate + "','"
+                                                                   + InDate + "',"
                                                                    + rdr["Quantity"].ToDecimal() + ");" +
 
                                                                    " insert into OBTQ(AbsEntry,ItemCode,SysNumber,WhsCode,Quantity,MdAbsEntry) " +
@@ -322,7 +323,7 @@ namespace iSOL_Enterprise.Dal
                                                                    + ii.SysNumber + ",'"
                                                                    + ii.whseno + "',"
                                                                    + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + ","
-                                                                   + Convert.ToInt32(rdr["AbsEntry"]) + ",)";
+                                                                   + Convert.ToInt32(rdr["AbsEntry"]) + ")";
 
 
                                                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, InsertBatchQuery).ToInt();
@@ -384,7 +385,7 @@ namespace iSOL_Enterprise.Dal
 
 
                             #region If Doc copied data from other Doc then get data from Goods Receipt  then   Update in Purchase Order &  Goods Receipt
-                            if (model.BaseType != -1 && item.BaseEntry != "" && item.BaseLine != "")
+                            if ((int)(model.BaseType) != -1 && (item.BaseEntry).ToString() != "" && (item.BaseLine).ToString() != "")
                             {
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
                                 string getFromDeliveryQuery = "select BaseEntry,BaseLine,ItemCode from " + table + " where Id =" + item.BaseEntry + "and LineNum =" + item.BaseLine + "and ItemCode = '" + item.ItemCode + "'";
