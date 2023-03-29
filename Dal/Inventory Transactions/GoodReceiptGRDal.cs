@@ -8,12 +8,36 @@ using iSOL_Enterprise.Models;
 using System.Reflection.Emit;
 using Microsoft.SqlServer.Server;
 using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Logging.Abstractions;
+using SAPbobsCOM;
 
 namespace iSOL_Enterprise.Dal.Inventory_Transactions
 {
     public class GoodReceiptGRDal
-    { 
-          public ResponseModels AddGoodReceiptGR(string formData)
+    {
+        public List<SalesQuotation_MasterModels> GetData()
+        {
+            string GetQuery = "select * from OIGN order by id DESC";
+            List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
+                   //models.DocStatus = CommonDal.Check_IsNotEditable("PDN1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
+                    models.DocStatus =  "Open" ;
+                    models.Id = rdr["Id"].ToInt(); 
+                    models.DocDate = rdr["DocDate"].ToDateTime();
+                    models.DocNum = rdr["ItemCode"].ToString(); 
+                    models.Guid = rdr["Guid"].ToString(); 
+                    models.IsPosted = rdr["isPosted"].ToString(); models.IsEdited = rdr["is_Edited"].ToString();
+                    list.Add(models);                
+                }
+            }
+            return list;
+        }
+        public ResponseModels AddGoodReceiptGR(string formData)
         {
             var model = JsonConvert.DeserializeObject<dynamic>(formData);
             ResponseModels response = new ResponseModels();
@@ -91,28 +115,28 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                         {
 
                             string RowQueryItem1 = @"insert into IGN1
-                                (Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemCode,Dscription,WhsCode,Quantity,Price,LineTotal,AcctCode,ItemCost,UomEntry,UomCode,BaseQty,OpenQty)
-                          values(@Id,@LineNum,@BaseRef,@BaseEntry,@BaseLine,@ItemCode,@Dscription,@WhsCode,@Quantity,@Price,@LineTotal,@AcctCode,@ItemCost,@UomEntry,@UomCode,@BaseQty,@OpenQty)";
-
+                                (Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemCode,Dscription,WhsCode,Quantity,Price,LineTotal,AcctCode,UomEntry,UomCode,BaseQty,OpenQty)
+                          values(@Id,@LineNum,@BaseRef,@BaseEntry,@BaseLine,@ItemCode,@Dscription,@WhsCode,@Quantity,@Price,@LineTotal,@AcctCode,@UomEntry,@UomCode,@BaseQty,@OpenQty)";
+                            var BaseRef = item.BaseRef;
                             #region sqlparam
                             List<SqlParameter> param1 = new List<SqlParameter>();
                             param1.Add(cdal.GetParameter("@Id", Id, typeof(int)));
                             param1.Add(cdal.GetParameter("@LineNum", LineNum, typeof(int)));
-                            param1.Add(cdal.GetParameter("@BaseRef", model.item.BaseRef == "" ? "null" : model.item.BaseRef, typeof(string)));
-                            param1.Add(cdal.GetParameter("@BaseEntry", model.item.BaseEntry , typeof(int)));
-                            param1.Add(cdal.GetParameter("@BaseLine", model.item.BaseLine, typeof(int)));
-                            param1.Add(cdal.GetParameter("@ItemCode", model.item.ItemCode, typeof(string)));
-                            param1.Add(cdal.GetParameter("@Dscription", model.item.ItemName, typeof(string)));
-                            param1.Add(cdal.GetParameter("@WhsCode", model.item.WhsCode, typeof(string)));
-                            param1.Add(cdal.GetParameter("@Quantity", model.item.QTY, typeof(decimal)));
-                            param1.Add(cdal.GetParameter("@Price", model.item.UPrc, typeof(decimal)));
-                            param1.Add(cdal.GetParameter("@LineTotal", model.item.TtlPrc, typeof(decimal)));
-                            param1.Add(cdal.GetParameter("@AcctCode", model.item.AcctCode, typeof(string)));
-                            param1.Add(cdal.GetParameter("@ItemCost", model.item.ItemCost, typeof(string)));
-                            param1.Add(cdal.GetParameter("@UomEntry", model.item.UomEntry, typeof(int)));
-                            param1.Add(cdal.GetParameter("@UomCode", model.item.UomCode, typeof(string)));
-                            param1.Add(cdal.GetParameter("@BaseQty", model.item.BaseQty, typeof(string)));
-                            param1.Add(cdal.GetParameter("@OpenQty", model.item.QTY, typeof(decimal)));                             
+                            param1.Add(cdal.GetParameter("@BaseRef", item.BaseRef , typeof(string)));
+                            param1.Add(cdal.GetParameter("@BaseEntry", item.BaseEntry , typeof(int)));
+                            param1.Add(cdal.GetParameter("@BaseLine", item.BaseLine, typeof(int)));
+                            param1.Add(cdal.GetParameter("@ItemCode", item.ItemCode, typeof(string)));
+                            param1.Add(cdal.GetParameter("@Dscription", item.ItemName, typeof(string)));
+                            param1.Add(cdal.GetParameter("@WhsCode", item.WhsCode, typeof(string)));
+                            param1.Add(cdal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
+                            param1.Add(cdal.GetParameter("@Price", item.UPrc, typeof(decimal)));
+                            param1.Add(cdal.GetParameter("@LineTotal", item.TtlPrc, typeof(decimal)));
+                            param1.Add(cdal.GetParameter("@AcctCode", item.AcctCode, typeof(string)));
+                          //param1.Add(cdal.GetParameter("@ItemCost", item.ItemCost, typeof(string)));
+                            param1.Add(cdal.GetParameter("@UomEntry", item.UomEntry, typeof(int)));
+                            param1.Add(cdal.GetParameter("@UomCode", item.UomCode, typeof(string)));
+                            param1.Add(cdal.GetParameter("@BaseQty", item.BaseQty, typeof(string)));
+                            param1.Add(cdal.GetParameter("@OpenQty", item.QTY, typeof(decimal)));                             
 
                             #endregion
 
@@ -124,12 +148,148 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                                 response.Message = "An Error Occured";
                                 return response;
                             }
+
+                            #region OITL Log
+                            int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");   //Primary Key
+
+                            string LogQueryOITL = @"insert into OITL(LogEntry,ItemCode,ItemName,DocEntry,DocLine,DocType,DocNum,DocQty,DocDate) 
+                                           values(" + LogEntry + ",'"
+                                              //+ model.HeaderData.CardCode + "','"
+                                              + item.ItemCode + "','"
+                                              + item.ItemName + "',"
+                                              //+ model.HeaderData.CardName + "',"
+                                              + Id + ","
+                                              + LineNum + ","
+                                              + 0 + ", "
+                                              + Id + " ,"
+                                              + ((Decimal)(item.QTY)) + ",'"
+                                              + Convert.ToDateTime(model.HeaderData.DocDate) + "')";
+
+                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryOITL).ToInt();
+                            if (res1 <= 0)
+                            {
+                                tran.Rollback();
+                                response.isSuccess = false;
+                                response.Message = "An Error Occured";
+                                return response;
+                            }
+
+                            #endregion
+
                             LineNum += 1;
-                        }
+                            if (model.Batches != null)
+                            {
+                                foreach (var batch in model.Batches)
+                                {
+
+                                    if (batch[0].itemno == item.ItemCode)
+                                    {
+
+
+                                        foreach (var ii in batch)
+                                        {
+
+                                            GoodReceiptDal GR_Dal = new GoodReceiptDal();
+                                            string itemno = ii.itemno;
+                                            int SysNumber = CommonDal.getSysNumber(tran, itemno);
+                                            int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
+                                            tbl_OBTN OldBatchData = GR_Dal.GetBatchList(itemno, ii.DistNumber);
+                                            if (OldBatchData.AbsEntry > 0)
+                                            {
+                                                #region Update OBTQ
+
+                                                string BatchQueryOBTN = @"Update OBTQ set Quantity = Quantity +" + ((Decimal)(ii.BQuantity)) + " WHERE AbsEntry = " + OldBatchData.AbsEntry;
+
+                                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
+                                                if (res1 <= 0)
+                                                {
+                                                    tran.Rollback();
+                                                    response.isSuccess = false;
+                                                    response.Message = "An Error Occured";
+                                                    return response;
+                                                }
+                                                SysNumber = OldBatchData.SysNumber;
+                                                AbsEntry = OldBatchData.MdAbsEntry;
+                                                #endregion
+                                            }
+                                            else
+                                            {
+
+                                                #region Insert in OBTN
+                                                string BatchQueryOBTN = @"insert into OBTN(AbsEntry,ItemCode,SysNumber,DistNumber,InDate,ExpDate)
+                                                                                values(" + AbsEntry + ",'"
+                                                                        + itemno + "',"
+                                                                        + SysNumber + ",'"
+                                                                        + ii.DistNumber + "','"
+                                                                        + DateTime.Now + "','"
+                                                                        + Convert.ToDateTime(batch[0].ExpDate) + "')";
+
+
+                                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
+                                                if (res1 <= 0)
+                                                {
+                                                    tran.Rollback();
+                                                    response.isSuccess = false;
+                                                    response.Message = "An Error Occured";
+                                                    return response;
+                                                }
+                                                #endregion
+
+
+                                                #region Insert in OBTQ
+                                                int ObtqAbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTQ");
+                                                string BatchQueryOBTQ = @"insert into OBTQ(AbsEntry,MdAbsEntry,ItemCode,SysNumber,WhsCode,Quantity)
+                                                                                values(" + ObtqAbsEntry + ","
+                                                                        + AbsEntry + ",'"
+                                                                        + ii.itemno + "',"
+                                                                        + SysNumber + ",'"
+                                                                        + ii.whseno + "',"
+                                                                        + ii.BQuantity + ")";
+
+                                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTQ).ToInt();
+                                                if (res1 <= 0)
+                                                {
+                                                    tran.Rollback();
+                                                    response.isSuccess = false;
+                                                    response.Message = "An Error Occured";
+                                                    return response;
+                                                }
+                                                #endregion
+                                            }
+
+                                            #region Insert in ITL1
+                                            string LogQueryITL1 = @"insert into ITL1(LogEntry,ItemCode,SysNumber,Quantity,OrderedQty,MdAbsEntry) 
+                                                   values(" + LogEntry + ",'"
+                                                 + ii.itemno + "','"
+                                                 + SysNumber + "',"
+                                                 + ii.BQuantity + ","
+                                                 + ((Decimal)(ii.BQuantity)) + ","
+                                                 + AbsEntry + ")";
+
+
+                                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryITL1).ToInt();
+                                            if (res1 <= 0)
+                                            {
+                                                tran.Rollback();
+                                                response.isSuccess = false;
+                                                response.Message = "An Error Occured";
+                                                return response;
+                                            }
+                                            #endregion
+                                             }
+
+                                             }
+                                             else
+                                            break;
+
+                                        }
+                                    }
+                                }
 
 
 
                     }
+                   
 
                     if (model.ListAttachment != null)
                     {

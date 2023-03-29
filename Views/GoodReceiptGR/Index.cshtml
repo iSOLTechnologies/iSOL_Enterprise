@@ -2,8 +2,8 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
     ViewBag.title1 = "";
-    ViewBag.title2 = "Goods Issue";
-    ViewData["Title"] = "Goods Issue";
+    ViewBag.title2 = "Good Receipt";
+    ViewData["Title"] = "Good Receipt";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script src="https://code.jquery.com/jquery-3.6.3.slim.js" integrity="sha256-DKU1CmJ8kBuEwumaLuh9Tl/6ZB6jzGOBV/5YpNE2BWc=" crossorigin="anonymous"></script>
@@ -52,9 +52,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                         
 
 
                     </tr>
@@ -85,7 +83,7 @@
     $(document).on('click', '#btnAdd', function () {
 
         //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
-        window.location.href = '/GoodsIssue/GoodsIssueMaster';
+        window.location.href = '/GoodReceiptGR/GoodReceiptGRMaster';
     })
     function Mastercheck() {
 
@@ -119,7 +117,7 @@
             "ajax": {
 
                 // url: '/HrAdmin/GetAttendanceList_MainLines?Date=' + $('#FilterDate').val(),
-                url: '/GoodsIssue/GetData',
+                url: '/GoodReceiptGR/GetData',
             },
 
             layout: {
@@ -161,29 +159,12 @@
                             return '';
                         }
                     }
-                },
-                {
-                    data: 'postingDate', title: 'Posting Date', render: function (data, type, row) {
-                        if (data != undefined && data != '') {
-
-                            return moment(data).format('DD-MM-YYYY')
-
-                        } else {
-                            // return data;
-                            return '';
-                        }
-                    }
-                },
+                } 
                 {
                     data: 'docNum', title: 'DocNum',
 
-                }, {
-                    data: 'cardCode', title: 'Card Code'
-
-                }, {
-                    data: 'cardName', title: 'Card Name'
-
-                }, {
+                },
+                {
                     data: "docStatus", 'title': 'Status', render: function (data, type, row) {
 
                         if (data == "Open") {

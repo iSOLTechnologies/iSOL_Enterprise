@@ -46,12 +46,13 @@ namespace iSOL_Enterprise.Dal
             SqlParameter param = new SqlParameter();
             if (type == typeof(int))
             {
-                int value1 = (int)value;
+                int? value1 = value.ToString() == "" ? null : (int)value;
+                
                 param = new SqlParameter(name, value1);
             }
             else if (type == typeof(string))
             {
-                string? value1 = value == "" ? "null" : Convert.ToString(value);
+                string? value1 = value == "" ? null : Convert.ToString(value);
                 param = new SqlParameter(name, value1);
             }
             else if (type == typeof(DateTime))

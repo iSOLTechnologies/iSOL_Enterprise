@@ -2,6 +2,7 @@
 using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Dal.Inventory;
 using iSOL_Enterprise.Dal.Inventory_Transactions;
+using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -29,23 +30,29 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
             return View();
         }
 
-        [HttpPost]
-        public IActionResult AddGoodsIssue(string formData)
-        {
-            try
-            {
+        // [HttpPost]
+        //public IActionResult AddGoodIssue(string formData)
+        //{
+        //    try
+        //    {
+        //        GoodReceiptGRDal dal = new GoodReceiptGRDal();
+        //        if (formData != null)
+        //        {
+
+        //            ResponseModels response = dal.AddGoodIssue(formData);
+        //            return Json(new { isInserted = response.isSuccess, Message = response.Message });
+        //        }
+        //        else
+        //        {
+        //            return Json(new { isInserted = false, Message = "Data can't be null" });
+        //        }
 
 
-                GoodReceiptGRDal dal = new GoodReceiptGRDal();
-                return formData == null ? Json(new { isInserted = false, message = "Data can't be null !" }) : dal.AddGoodReceiptGR(formData) == true ? Json(new { isInserted = true, message = "Good Receipt Added Successfully !" }) : Json(new { isInserted = false, message = "An Error occured !" });
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
     }
 }

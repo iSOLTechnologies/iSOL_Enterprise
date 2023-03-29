@@ -17,6 +17,24 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
         {
             return View();
         }
+        public IActionResult GetData()
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
+
+                GoodReceiptGRDal dal = new GoodReceiptGRDal();
+                response.Data = dal.GetData();
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+        }
         public IActionResult GoodReceiptGRMaster()
         {
             ItemMasterDataDal Idal = new ItemMasterDataDal(); 
