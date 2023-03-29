@@ -92,7 +92,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     #region Footer Data
                     param.Add(cdal.GetParameter("@Comments", model.FooterData.Comments, typeof(string)));
                     param.Add(cdal.GetParameter("@JrnlMemo", model.FooterData.JrnlMemo, typeof(string)));
-                    param.Add(cdal.GetParameter("@DocTotal", model.FooterData.DocTotal, typeof(decimal)));
+                    param.Add(cdal.GetParameter("@DocTotal", model.FooterData.TotalBeforeDiscount, typeof(decimal)));
                     #endregion
 
 
