@@ -73,8 +73,8 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     model.HeaderData.DocNum = DocNum;
                     #endregion
 
-                    string HeadQuery = @"insert into OIGN (Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Ref2) 
-                                        values(@Id,@Guid,@MySeries,@DocNum,@Series,@DocDate,@GroupNum,@TaxDate,@Ref2)";
+                    string HeadQuery = @"insert into OIGN (Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Ref2,Comments,JrnlMemo) 
+                                        values(@Id,@Guid,@MySeries,@DocNum,@Series,@DocDate,@GroupNum,@TaxDate,@Ref2,@Comments,@JrnlMemo)";
 
 
 
