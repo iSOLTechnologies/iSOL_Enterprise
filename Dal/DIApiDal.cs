@@ -104,13 +104,15 @@ namespace SAP_MVC_DIAPI.BLC
 
                                             #region UDFs
                                             oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
-                                            oDoc.UserFields.Fields.Item("U_manual_cgp").Value = rdr["ManualGatePassNo"].ToString() == "" ? "NULL" : Convert.ToInt32(rdr["ManualGatePassNo"]);
-                                            oDoc.UserFields.Fields.Item("U_Old_SO").Value = rdr["SaleOrderNo"].ToString() == "" ? "NULL" : Convert.ToInt32(rdr["SaleOrderNo"]);
-                                            oDoc.UserFields.Fields.Item("U_Production_ordr").Value = rdr["ProductionOrderNo"].ToString() == "" ? "NULL" : Convert.ToInt32(rdr["ProductionOrderNo"]);
-                                            oDoc.UserFields.Fields.Item("U_Type").Value = rdr["PurchaseType"].ToString() == "" ? "NULL" : Convert.ToInt16(rdr["PurchaseType"]);
-                                            oDoc.UserFields.Fields.Item("U_Challan_no").Value = rdr["ChallanNo"].ToString();
-                                            oDoc.UserFields.Fields.Item("U_Cont_no").Value = rdr["ContainerNo"].ToString();
-                                            oDoc.UserFields.Fields.Item("U_Type_d").Value = rdr["TypeDetail"].ToString();
+                                        if (rdr["ManualGatePassNo"].ToString() != "")                                        
+                                            oDoc.UserFields.Fields.Item("U_manual_cgp").Value = Convert.ToInt32(rdr["ManualGatePassNo"]);
+                                        if (rdr["SaleOrderNo"].ToString() != "")
+                                            oDoc.UserFields.Fields.Item("U_Old_SO").Value = Convert.ToInt32(rdr["SaleOrderNo"]);
+                                            //oDoc.UserFields.Fields.Item("U_Production_ordr").Value = rdr["ProductionOrderNo"].ToString() == "" ? "NULL" : Convert.ToInt32(rdr["ProductionOrderNo"]);
+                                            //oDoc.UserFields.Fields.Item("U_Type").Value = rdr["PurchaseType"].ToString() == "" ? "NULL" : Convert.ToInt16(rdr["PurchaseType"]);
+                                            //oDoc.UserFields.Fields.Item("U_Challan_no").Value = rdr["ChallanNo"].ToString();
+                                            //oDoc.UserFields.Fields.Item("U_Cont_no").Value = rdr["ContainerNo"].ToString();
+                                            //oDoc.UserFields.Fields.Item("U_Type_d").Value = rdr["TypeDetail"].ToString();
                                             #endregion
                                         
                                         #endregion
@@ -166,12 +168,13 @@ namespace SAP_MVC_DIAPI.BLC
                                                                            where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType =15";
                                                         using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
                                                         {
+                                                            int i = 0;
                                                             while (rdr3.Read())
                                                             {
 
                                                                 
                                                                 oDoc.Lines.BatchNumbers.BaseLineNumber = oDoc.Lines.LineNum;
-                                                                oDoc.Lines.BatchNumbers.SetCurrentLine(oDoc.Lines.LineNum);
+                                                                oDoc.Lines.BatchNumbers.SetCurrentLine(i);
                                                                 oDoc.Lines.BatchNumbers.ItemCode = rdr3["ItemCode"].ToString();
                                                                 oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();                                                                
                                                                 oDoc.Lines.BatchNumbers.Quantity = Convert.ToDouble(Convert.ToDouble(rdr3["Quantity"]) > 0 ? Convert.ToDouble(rdr3["Quantity"]) : (-1 * Convert.ToDouble(rdr3["Quantity"])));
@@ -179,7 +182,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                                 if (rdr3["ExpDate"].ToString() != "")
                                                                     oDoc.Lines.BatchNumbers.ExpiryDate = Convert.ToDateTime(rdr3["ExpDate"].ToString());
                                                                 oDoc.Lines.BatchNumbers.Add();
-
+                                                                i += 1;
                                                             }
                                                         }
 
@@ -199,11 +202,11 @@ namespace SAP_MVC_DIAPI.BLC
                                                                            where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType =20";
                                                             using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
                                                             {
-
+                                                                int i = 0;
                                                                 while (rdr3.Read())
                                                                 {
                                                                     oDoc.Lines.BatchNumbers.BaseLineNumber = oDoc.Lines.LineNum;
-                                                                    oDoc.Lines.BatchNumbers.SetCurrentLine(oDoc.Lines.LineNum);
+                                                                    oDoc.Lines.BatchNumbers.SetCurrentLine(i);
                                                                     oDoc.Lines.BatchNumbers.ItemCode = rdr3["ItemCode"].ToString();
                                                                     oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();
                                                                     oDoc.Lines.BatchNumbers.Quantity = Convert.ToDouble(rdr3["Quantity"]) > 0 ? Convert.ToDouble(rdr3["Quantity"]) : (-1 * Convert.ToDouble(rdr3["Quantity"]));
@@ -211,7 +214,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                                     if (rdr3["ExpDate"].ToString() != "")
                                                                         oDoc.Lines.BatchNumbers.ExpiryDate = Convert.ToDateTime(rdr3["ExpDate"].ToString());
                                                                     oDoc.Lines.BatchNumbers.Add();
-
+                                                                    i += 1;
                                                                 }
                                                             }
                                                         }
@@ -865,11 +868,11 @@ namespace SAP_MVC_DIAPI.BLC
                                                                            where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType ="+ObjectCode;
                                                         using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
                                                         {
-
+                                                            int i = 0;
                                                             while (rdr3.Read())
                                                             {
                                                                 oDoc.Lines.BatchNumbers.BaseLineNumber = oDoc.Lines.LineNum;
-                                                                oDoc.Lines.BatchNumbers.SetCurrentLine(oDoc.Lines.LineNum);
+                                                                oDoc.Lines.BatchNumbers.SetCurrentLine(i);
                                                                 oDoc.Lines.BatchNumbers.ItemCode = rdr3["ItemCode"].ToString();
                                                                 oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();
                                                                 oDoc.Lines.BatchNumbers.Quantity = Convert.ToDouble(rdr3["Quantity"]) > 0 ? Convert.ToDouble(rdr3["Quantity"]) : (-1 * Convert.ToDouble(rdr3["Quantity"]));
@@ -877,7 +880,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                                 if (rdr3["ExpDate"].ToString() != "")
                                                                     oDoc.Lines.BatchNumbers.ExpiryDate = Convert.ToDateTime(rdr3["ExpDate"].ToString());
                                                                 oDoc.Lines.BatchNumbers.Add();
-
+                                                                i += 1;
                                                             }
                                                         }
                                                     }
@@ -1092,11 +1095,11 @@ namespace SAP_MVC_DIAPI.BLC
                                                                            where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType ="+ObjectCode;
                                                         using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
                                                         {
-
+                                                            int i = 0;
                                                             while (rdr3.Read())
                                                             {
                                                                 oDoc.Lines.BatchNumbers.BaseLineNumber = oDoc.Lines.LineNum;
-                                                                oDoc.Lines.BatchNumbers.SetCurrentLine(oDoc.Lines.LineNum);
+                                                                oDoc.Lines.BatchNumbers.SetCurrentLine(i);
                                                                 oDoc.Lines.BatchNumbers.ItemCode = rdr3["ItemCode"].ToString();
                                                                 oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();
                                                                 oDoc.Lines.BatchNumbers.Quantity = Convert.ToDouble(Convert.ToDouble(rdr3["Quantity"]) > 0 ? Convert.ToDouble(rdr3["Quantity"]) : (-1 * Convert.ToDouble(rdr3["Quantity"])));
@@ -1104,7 +1107,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                                 if (rdr3["ExpDate"].ToString() != "")
                                                                     oDoc.Lines.BatchNumbers.ExpiryDate = Convert.ToDateTime(rdr3["ExpDate"].ToString());
                                                                 oDoc.Lines.BatchNumbers.Add();
-
+                                                                i += 1;
                                                             }
                                                         }
                                                     }
