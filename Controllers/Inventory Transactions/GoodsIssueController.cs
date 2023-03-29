@@ -17,42 +17,64 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
         {
             return View();
         }
+        public IActionResult GetData()
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
+
+                GoodsIssueDal dal = new GoodsIssueDal();
+                response.Data = dal.GetData();
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+        }
+
+
+
+
         public IActionResult GoodsIssueMaster()
         {
             ItemMasterDataDal Idal = new ItemMasterDataDal(); 
             AdministratorDal dal = new AdministratorDal();
 
-            ViewData["Series"] = dal.GetSeries(59);
-            ViewData["MySeries"] = dal.GetMySeries(59);
+            ViewData["Series"] = dal.GetSeries(60);
+            ViewData["MySeries"] = dal.GetMySeries(60);
 
             ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text"); 
 
             return View();
         }
 
-        // [HttpPost]
-        //public IActionResult AddGoodIssue(string formData)
-        //{
-        //    try
-        //    {
-        //        GoodReceiptGRDal dal = new GoodReceiptGRDal();
-        //        if (formData != null)
-        //        {
+        [HttpPost]
+        public IActionResult AddGoodIssue(string formData)
+        {
+            try
+            {
+                GoodsIssueDal dal = new GoodsIssueDal();
+                if (formData != null)
+                {
 
-        //            ResponseModels response = dal.AddGoodIssue(formData);
-        //            return Json(new { isInserted = response.isSuccess, Message = response.Message });
-        //        }
-        //        else
-        //        {
-        //            return Json(new { isInserted = false, Message = "Data can't be null" });
-        //        }
+                    ResponseModels response = dal.AddGoodsIssue(formData);
+                    return Json(new { isInserted = response.isSuccess, Message = response.Message });
+                }
+                else
+                {
+                    return Json(new { isInserted = false, Message = "Data can't be null" });
+                }
 
 
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //}
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
