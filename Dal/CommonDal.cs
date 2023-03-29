@@ -51,7 +51,7 @@ namespace iSOL_Enterprise.Dal
             }
             else if (type == typeof(string))
             {
-                string? value1 = value == "" ? null : Convert.ToString(value);
+                string? value1 = value == "" ? "null" : Convert.ToString(value);
                 param = new SqlParameter(name, value1);
             }
             else if (type == typeof(DateTime))
@@ -67,6 +67,11 @@ namespace iSOL_Enterprise.Dal
             else if (type == typeof(decimal))
             {
                 decimal value1 = value == "" ? null : Convert.ToDecimal(value);
+                param = new SqlParameter(name, value1);
+            }
+            else if (type == typeof(Int16))
+            {
+                int value1 = Convert.ToInt16(value);
                 param = new SqlParameter(name, value1);
             }
             // param = new SqlParameter(name,value);

@@ -4480,7 +4480,7 @@ namespace SqlHelperExtensions
         {
             //    string query1 = "Select NextNumber from NNM1 where Series = " + MySeries + " (TABLOCKX)";
              
-            string query1 = "select case when BeginStr is  null  then  RIGHT('000000' + CAST(NextNumber AS VARCHAR(6)), 6)  else BeginStr  +  CAST(  NextNumber as nvarchar(20))   end 'ItemCode' from NNM1 WITH (TABLOCKX) where  NextNumber <= LastNum and ObjectCode = 4 and Series = " + MySeries;
+            string query1 = "select case when BeginStr is  null  then  RIGHT('000000' + CAST(NextNumber AS VARCHAR(6)), 6)  else BeginStr  +  CAST(  NextNumber as nvarchar(20))   end 'ItemCode' from NNM1 WITH (TABLOCKX) where  NextNumber <= LastNum and Series = " + MySeries;
             string? ItemCode = SqlHelper.ExecuteScalar(tran, CommandType.Text, query1).ToString();
             string query2 = "Update NNM1 set NextNumber = NextNumber+1 Where Series  = " + MySeries;
             int res = Convert.ToInt32(SqlHelper.ExecuteNonQuery(tran, CommandType.Text, query2));
