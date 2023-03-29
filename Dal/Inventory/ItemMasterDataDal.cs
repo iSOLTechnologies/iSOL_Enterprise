@@ -601,9 +601,9 @@ namespace iSOL_Enterprise.Dal.Inventory
                             param2.Add(cdal.GetParameter("@WhsCode", item.WhsCode, typeof(string)));
                             param2.Add(cdal.GetParameter("@WhsName", item.WhsName, typeof(string)));
                             param2.Add(cdal.GetParameter("@Locked", item.Locked, typeof(char)));
-                            param2.Add(cdal.GetParameter("@MinStock", item.MinStock, typeof(int)));
-                            param2.Add(cdal.GetParameter("@MaxStock", item.MaxStock, typeof(int)));
-                            param2.Add(cdal.GetParameter("@MinOrder", item.MinOrder, typeof(int)));                                //};
+                            param2.Add(cdal.GetParameter("@MinStock", item.MinStock, typeof(decimal)));
+                            param2.Add(cdal.GetParameter("@MaxStock", item.MaxStock, typeof(decimal)));
+                            param2.Add(cdal.GetParameter("@MinOrder", item.MinOrder, typeof(decimal)));                                //};
 
                             #endregion
 
@@ -883,7 +883,7 @@ namespace iSOL_Enterprise.Dal.Inventory
                         {
 
                             string isWhExits = @"select COUNT(*) from OITW where WhsCode='" + item.WhsCode + "' and ItemCode='" + model.HeaderData.ItemCode + "'";
-                            if (SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, isWhExits).ToInt() > 1)
+                            if (SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, isWhExits).ToInt() > 0)
                             {
                                 if (CommonDal.IsWareHouseTransactionAdded(item.WhsCode.ToString(), (model.HeaderData.ItemCode).ToString()))
                                 {
@@ -891,16 +891,16 @@ namespace iSOL_Enterprise.Dal.Inventory
                                 
 
                                     string RowQueryItem1 = @"update OITW set
-                                        WhsName=@WhsName,Locked=@Locked,MinStock=@MinStock,MaxStock=@MaxStock,MinOrder=@MinOrder 
-                                        where WhsCode='" + item.WhsCode + "' ItemCode='" + model.HeaderData.ItemCode + "'";
+                                        Locked=@Locked,MinStock=@MinStock,MaxStock=@MaxStock,MinOrder=@MinOrder 
+                                        where WhsCode='" + item.WhsCode + "' and ItemCode='" + model.HeaderData.ItemCode + "'";
 
                                     #region sqlparam
                                     List<SqlParameter> param2 = new List<SqlParameter>();
 
                                     param2.Add(cdal.GetParameter("@Locked", item.Locked, typeof(char)));
-                                    param2.Add(cdal.GetParameter("@MinStock", item.MinStock, typeof(int)));
-                                    param2.Add(cdal.GetParameter("@MaxStock", item.MaxStock, typeof(int)));
-                                    param2.Add(cdal.GetParameter("@MinOrder", item.MinOrder, typeof(int)));                                //};
+                                    param2.Add(cdal.GetParameter("@MinStock", item.MinStock, typeof(decimal)));
+                                    param2.Add(cdal.GetParameter("@MaxStock", item.MaxStock, typeof(decimal)));
+                                    param2.Add(cdal.GetParameter("@MinOrder", item.MinOrder, typeof(decimal)));                                //};
 
                                     #endregion
 
@@ -927,9 +927,9 @@ namespace iSOL_Enterprise.Dal.Inventory
                                 param2.Add(cdal.GetParameter("@WhsCode", item.WhsCode, typeof(string)));
                                 param2.Add(cdal.GetParameter("@WhsName", item.WhsName, typeof(string)));
                                 param2.Add(cdal.GetParameter("@Locked", item.Locked, typeof(char)));
-                                param2.Add(cdal.GetParameter("@MinStock", item.MinStock, typeof(int)));
-                                param2.Add(cdal.GetParameter("@MaxStock", item.MaxStock, typeof(int)));
-                                param2.Add(cdal.GetParameter("@MinOrder", item.MinOrder, typeof(int)));                                //};
+                                param2.Add(cdal.GetParameter("@MinStock", item.MinStock, typeof(decimal)));
+                                param2.Add(cdal.GetParameter("@MaxStock", item.MaxStock, typeof(decimal)));
+                                param2.Add(cdal.GetParameter("@MinOrder", item.MinOrder, typeof(decimal)));                                //};
 
                                 #endregion
 
@@ -955,40 +955,8 @@ namespace iSOL_Enterprise.Dal.Inventory
                         {
 
                             string isWhExits = @"select COUNT(*) from OITW where WhsCode='" + item.whscode + "'and ItemCode='" + model.HeaderData.ItemCode + "'";
-                            if (SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, isWhExits).ToInt() > 1 )
+                            if (SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, isWhExits).ToInt() == 0 )
                             {
-                                if (CommonDal.IsWareHouseTransactionAdded(item.whscode, (model.HeaderData.ItemCode).ToString()))
-                                {
-
-                              
-                                    string RowQueryItem1 = @"update OITW set
-                                        WhsName=@WhsName,Locked=@Locked,MinStock=@MinStock,MaxStock=@MaxStock,MinOrder=@MinOrder 
-                                        where WhsCode='" + item.whscode + "' ItemCode='" + model.HeaderData.ItemCode + "'";
-
-                                    #region sqlparam
-                                    List<SqlParameter> param2 = new List<SqlParameter>();
-
-                                    param2.Add(cdal.GetParameter("@Locked", item.Locked, typeof(char)));
-                                    param2.Add(cdal.GetParameter("@MinStock", item.MinStock, typeof(int)));
-                                    param2.Add(cdal.GetParameter("@MaxStock", item.MaxStock, typeof(int)));
-                                    param2.Add(cdal.GetParameter("@MinOrder", item.MinOrder, typeof(int)));                                //};
-
-                                    #endregion
-
-                                    res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem1, param2.ToArray()).ToInt();
-                                    if (res1 <= 0)
-                                    {
-                                        tran.Rollback();
-                                        response.isSuccess = false;
-                                        response.Message = "An Error Occured";
-                                        return response;
-                                    }
-                                }
-                            }
-                            else
-                            {
-
-
                                 string RowQueryItem2 = @"insert into OITW
                                 (ItemCode,WhsCode,WhsName)
                                 values(@ItemCode, @WhsCode, @WhsName)";
@@ -1012,6 +980,7 @@ namespace iSOL_Enterprise.Dal.Inventory
                                     return response;
                                 }
                             }
+                            
                             //LineNo += 1;
                         }
                     }

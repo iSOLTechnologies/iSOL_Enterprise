@@ -2314,6 +2314,8 @@
                 
                 $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
                 $("#btnSaveData").attr('disabled', true);
+                $("#MySeries").attr('disabled', true);
+                $("#Series").attr('disabled', true);
                 $("#ItemCode").attr('disabled', true);
                 GetOldData();
                 
@@ -2429,26 +2431,31 @@
             {
                   isValid =  ValidateListData("ListParameters itm");
             }    
-            
-            $.when( 
+            if(isValid) 
+            {
+                $.when( 
              
-                isValid = ValidateData("kt_tabs_PlanningData"),
-                isValid = ValidateData("kt_tabs_ProductionData"),
+                    isValid = ValidateData("kt_tabs_PlanningData"),
+                    isValid = ValidateData("kt_tabs_ProductionData"),
                 
 
-            ).then(function() 
-            {
-                if(isValid)
-                FormData();
-                else
+                ).then(function() 
                 {
-                    $("#btnSaveData").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                    $("#btnSaveData").attr('disabled', false);
-                    toastr.warning("Validations Error");
-                }
-            })
-            
-
+                    if(isValid)
+                    FormData();
+                    else
+                    {
+                        $("#btnSaveData").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                        $("#btnSaveData").attr('disabled', false);
+                        toastr.warning("Validations Error");
+                    }
+                })
+            }
+            else {
+                $("#btnSaveData").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                $("#btnSaveData").attr('disabled', false);
+                toastr.warning("Validations Error");
+            }
         }
         else 
         {
