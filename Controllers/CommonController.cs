@@ -97,16 +97,24 @@ namespace iSOL_Enterprise.Controllers
             return Json(new { success = model.isSuccess, message = model.Message });
         }
 
-        //[HttpPost]
-        //public IActionResult PostGoodReceiptGR(string[] checkedIDs)
-        //{
-        //    DIApiDal dal = new DIApiDal();
-        //    ResponseModels model = new ResponseModels();
-        //    model = dal.PostGoodReceiptGR(checkedIDs);
+        [HttpPost]
+        public IActionResult PostGoodReceiptGR(string[] checkedIDs)
+        {
+            DIApiDal dal = new DIApiDal();
+            ResponseModels model = new ResponseModels();
+            model = dal.PostGoodReceiptGR(checkedIDs,59);
 
-        //    return Json(new { success = model.isSuccess, message = model.Message });
-        //}
+            return Json(new { success = model.isSuccess, message = model.Message });
+        }
+        [HttpPost]
+        public IActionResult PostGoodIssue(string[] checkedIDs)
+        {
+            DIApiDal dal = new DIApiDal();
+            ResponseModels model = new ResponseModels();
+            model = dal.PostGoodIssue(checkedIDs,60);
 
+            return Json(new { success = model.isSuccess, message = model.Message });
+        }
 
         [HttpGet]
         public IActionResult GetCountries()

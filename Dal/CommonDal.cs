@@ -540,6 +540,9 @@ where s.Status=1 and p.Guid=@Guid";
                 case 59: //Goods Receipt GR Item Transaction
                 table = "OIGN";
                 break;
+                case 60: //Goods Issue Item Transaction
+                table = "OIGE";
+                break;
                 default:
                 return table;
             }
@@ -589,6 +592,9 @@ where s.Status=1 and p.Guid=@Guid";
                 break;
                 case 59: //Goods Receipt GR Item Transaction
                 table = "IGN1";
+                break;
+                case 60: //Goods Issue Item Transaction
+                table = "IGE1";
                 break;
                 default:
                 return table;
