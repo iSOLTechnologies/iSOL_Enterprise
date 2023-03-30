@@ -1657,7 +1657,9 @@
 
        let selectedWareHouse =  selectedRow.find("#Warehouse").val();
        let selectedItemCode =  selectedRow.find("#ItemCode").val();
+        ObjBatchCode = $(this).closest('tr').find("#ListbtnSelectBatch");
         $(ObjBatchCode).closest('#ListParameters .itm').find('#ListbtnSelectBatch span i').removeClass("batch_is_valid");
+        
         if (( selectedWareHouse == null || selectedWareHouse == "" || selectedWareHouse == undefined) || (selectedItemCode == null || selectedItemCode == "" || selectedItemCode == undefined) ) 
         {
              toastr.error("Select Item & WareHouse");
@@ -1672,7 +1674,7 @@
             }
 
             BatchSelectUrl = 'Delivery/GetBatchList';
-            ObjBatchCode = $(this).closest('tr').find("#ListbtnSelectBatch");
+            
             AddDataInRowsFromDocumentTable(selectedRow);
             $('#myBatchSelectmodal').modal('show');
 
@@ -1950,7 +1952,7 @@
                                 else {
                                     $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                                     $(this).attr('disabled', false);
-                                    toastr.warning("Batches not Selected !");
+                        toastr.warning("Cannot add row without complete selection of batch/serial numbers !");
                                 }
                         else
                         {
