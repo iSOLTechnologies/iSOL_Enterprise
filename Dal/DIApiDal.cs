@@ -108,13 +108,16 @@ namespace SAP_MVC_DIAPI.BLC
                                             oDoc.UserFields.Fields.Item("U_manual_cgp").Value = Convert.ToInt32(rdr["ManualGatePassNo"]);
                                         if (rdr["SaleOrderNo"].ToString() != "")
                                             oDoc.UserFields.Fields.Item("U_Old_SO").Value = Convert.ToInt32(rdr["SaleOrderNo"]);
-                                            //oDoc.UserFields.Fields.Item("U_Production_ordr").Value = rdr["ProductionOrderNo"].ToString() == "" ? "NULL" : Convert.ToInt32(rdr["ProductionOrderNo"]);
-                                            //oDoc.UserFields.Fields.Item("U_Type").Value = rdr["PurchaseType"].ToString() == "" ? "NULL" : Convert.ToInt16(rdr["PurchaseType"]);
-                                            //oDoc.UserFields.Fields.Item("U_Challan_no").Value = rdr["ChallanNo"].ToString();
-                                            //oDoc.UserFields.Fields.Item("U_Cont_no").Value = rdr["ContainerNo"].ToString();
-                                            //oDoc.UserFields.Fields.Item("U_Type_d").Value = rdr["TypeDetail"].ToString();
+                                        if (rdr["ProductionOrderNo"].ToString() != "")
+                                            oDoc.UserFields.Fields.Item("U_Production_ordr").Value = Convert.ToInt32(rdr["ProductionOrderNo"]);
+                                        if (rdr["PurchaseType"].ToString() != "")
+                                            oDoc.UserFields.Fields.Item("U_Type").Value = Convert.ToInt16(rdr["PurchaseType"]);
+
+                                            oDoc.UserFields.Fields.Item("U_Challan_no").Value = rdr["ChallanNo"].ToString();
+                                            oDoc.UserFields.Fields.Item("U_Cont_no").Value = rdr["ContainerNo"].ToString();
+                                            oDoc.UserFields.Fields.Item("U_Type_d").Value = rdr["TypeDetail"].ToString();
                                             #endregion
-                                        
+
                                         #endregion
 
                                         #region Insert in Row
@@ -1016,7 +1019,7 @@ namespace SAP_MVC_DIAPI.BLC
                 {
                     CommonDal dal = new CommonDal();
 
-                    SAPbobsCOM.Documents oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(BoObjectTypes.oInventoryGenEntry);
+                    SAPbobsCOM.Documents oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(BoObjectTypes.oInventoryGenExit);
                     if (oDoc != null)
                     {
                         string headerTable = dal.GetMasterTable(ObjectCode);
