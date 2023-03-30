@@ -84,32 +84,6 @@ namespace iSOL_Enterprise.Dal
             return list;
         }
 
-        public List<tbl_customer> GetCustomerData()
-        {
-            string GetQuery = "select CardCode,CardName,Currency,Balance from OCRD Where CardType = 'C'";
-
-
-            List<tbl_customer> list = new List<tbl_customer>();
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-            {
-                while (rdr.Read())
-                {
-
-                    list.Add(
-                        new tbl_customer()
-                        {
-                            CardCode = rdr["CardCode"].ToString(),
-                            CardName = rdr["CardName"].ToString(),
-                            Currency = rdr["Currency"].ToString(),
-                            Balance = (decimal)rdr["Balance"],
-                        });
-
-                }
-            }
-
-            return list;
-        }
-
         public List<tbl_account> GetGLAccountData()
         {
             string GetQuery = "select * from OACT";

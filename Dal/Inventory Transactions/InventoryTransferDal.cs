@@ -89,7 +89,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                 if (model.HeaderData != null)
                 {
                     List<SqlParameter> param = new List<SqlParameter>();
-                    int Id = CommonDal.getPrimaryKey(tran, "OIGE");
+                    int Id = CommonDal.getPrimaryKey(tran, "OWTR");
 
                     param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
                     param.Add(cdal.GetParameter("@Guid", CommonDal.generatedGuid(), typeof(string)));
@@ -109,8 +109,8 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     }
                     #endregion
 
-                    string HeadQuery = @"insert into OIGE (Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Ref2,Comments,JrnlMemo,DocTotal) 
-                                        values(@Id,@Guid,@MySeries,@DocNum,@Series,@DocDate,@GroupNum,@TaxDate,@Ref2,@Comments,@JrnlMemo,@DocTotal)";
+                    string HeadQuery = @"insert into OWTR (Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Address,ShipToCode,CardName,CardCode,Name,Comments,JrnlMemo) 
+                                        values(@Id,@Guid,@MySeries,@DocNum,@Series,@DocDate,@GroupNum,@TaxDate,@Address,@ShipToCode,@CardName,@CardCode,@Name,@Comments,@JrnlMemo)";
 
 
 
@@ -123,13 +123,17 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     param.Add(cdal.GetParameter("@DocDate", model.HeaderData.DocDate, typeof(DateTime)));
                     param.Add(cdal.GetParameter("@GroupNum", model.HeaderData.GroupNum, typeof(Int16)));
                     param.Add(cdal.GetParameter("@TaxDate", model.HeaderData.TaxDate, typeof(DateTime)));
-                    param.Add(cdal.GetParameter("@Ref2", model.HeaderData.Ref2, typeof(string)));
+                    param.Add(cdal.GetParameter("@CardCode", model.HeaderData.Ref2, typeof(string)));
+                    param.Add(cdal.GetParameter("@CardName", model.HeaderData.CardName, typeof(string)));
+                    param.Add(cdal.GetParameter("@Name", model.HeaderData.CntcCode, typeof(string)));
+                    param.Add(cdal.GetParameter("@Address", model.HeaderData.Address, typeof(string)));
+                    param.Add(cdal.GetParameter("@ShipToCode", model.HeaderData.ShipToCode, typeof(string)));
                     #endregion
 
                     #region Footer Data
+                    param.Add(cdal.GetParameter("@SlpCode", model.FooterData.JrnlMemo, typeof(string))); 
                     param.Add(cdal.GetParameter("@Comments", model.FooterData.Comments, typeof(string)));
-                    param.Add(cdal.GetParameter("@JrnlMemo", model.FooterData.JrnlMemo, typeof(string)));
-                    param.Add(cdal.GetParameter("@DocTotal", model.FooterData.TotalBeforeDiscount, typeof(decimal)));
+                    param.Add(cdal.GetParameter("@JrnlMemo", model.FooterData.JrnlMemo, typeof(string))); 
                     #endregion
 
 
@@ -152,9 +156,9 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                         foreach (var item in model.ListItems)
                         {
 
-                            string RowQueryItem1 = @"insert into IGE1
-                                (Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemCode,Dscription,WhsCode,Quantity,Price,LineTotal,AcctCode,UomEntry,UomCode,BaseQty,OpenQty)
-                          values(@Id,@LineNum,@BaseRef,@BaseEntry,@BaseLine,@ItemCode,@Dscription,@WhsCode,@Quantity,@Price,@LineTotal,@AcctCode,@UomEntry,@UomCode,@BaseQty,@OpenQty)";
+                            string RowQueryItem1 = @"insert into WTR1
+                                (Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemCode,Dscription,WhsCod,FromWhsCod,Quantity,UomEntry,UomCode,BaseQty,OpenQty)
+                          values(@Id,@LineNum,@BaseRef,@BaseEntry,@BaseLine,@ItemCode,@Dscription,@WhsCod,@FromWhsCod,@Quantity,@UomEntry,@UomCode,@BaseQty,@OpenQty)";
                             var BaseRef = item.BaseRef;
                             #region sqlparam
                             List<SqlParameter> param1 = new List<SqlParameter>();
@@ -166,11 +170,8 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                             param1.Add(cdal.GetParameter("@ItemCode", item.ItemCode, typeof(string)));
                             param1.Add(cdal.GetParameter("@Dscription", item.ItemName, typeof(string)));
                             param1.Add(cdal.GetParameter("@WhsCode", item.WhsCode, typeof(string)));
-                            param1.Add(cdal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
-                            param1.Add(cdal.GetParameter("@Price", item.UPrc, typeof(decimal)));
-                            param1.Add(cdal.GetParameter("@LineTotal", item.TtlPrc, typeof(decimal)));
-                            param1.Add(cdal.GetParameter("@AcctCode", item.AcctCode, typeof(string)));
-                            //param1.Add(cdal.GetParameter("@ItemCost", item.ItemCost, typeof(string)));
+                            param1.Add(cdal.GetParameter("@FromWhsCod", item.FromWhsCod, typeof(string)));
+                            param1.Add(cdal.GetParameter("@Quantity", item.Quantity, typeof(decimal)));  
                             param1.Add(cdal.GetParameter("@UomEntry", item.UomEntry, typeof(int)));
                             param1.Add(cdal.GetParameter("@UomCode", item.UomCode, typeof(string)));
                             param1.Add(cdal.GetParameter("@BaseQty", item.BaseQty, typeof(string)));

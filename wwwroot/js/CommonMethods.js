@@ -87,7 +87,7 @@ function GetWareHouseQty(ItemCodeValue, WarehouseValue) {
 
 
 function GetWareHouseData() {
-
+  
 
     return $.ajax({
         url: 'Delivery/GetWareHouseData',
@@ -108,12 +108,16 @@ function GetWareHouseData() {
 
 
                 WareHouseData += "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
+                Mydata += "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
             });
+           
         },
         error: function (jqXhr, textStatus, errorMessage) {
             console.log(errorMessage);
         }
     });
+
+ 
     
 }
 

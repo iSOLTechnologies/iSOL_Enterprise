@@ -41,6 +41,40 @@ namespace iSOL_Enterprise.Dal
             return res;
         }
 
+
+        public List<tbl_customer> GetBusinessPartners(string DocModule)
+        {
+            string GetQuery = "";
+            if (DocModule == "S")
+            {
+               GetQuery = "select CardCode,CardName,Currency,Balance from OCRD Where CardType = 'C'";
+            }else if (DocModule == "I")
+            {
+              GetQuery = "select CardCode,CardName,Currency,Balance from OCRD";
+            }
+
+
+            List<tbl_customer> list = new List<tbl_customer>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    list.Add(
+                        new tbl_customer()
+                        {
+                            CardCode = rdr["CardCode"].ToString(),
+                            CardName = rdr["CardName"].ToString(),
+                            Currency = rdr["Currency"].ToString(),
+                            Balance = (decimal)rdr["Balance"],
+                        });
+
+                }
+            }
+
+            return list;
+        }
+
         public SqlParameter GetParameter(string name, dynamic? value, Type type)
         {
             SqlParameter param = new SqlParameter();

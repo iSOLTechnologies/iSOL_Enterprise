@@ -490,6 +490,15 @@ input[type=number] {
 												</span>
 											</a>
 										</li> 
+										<li class="menu-item" aria-haspopup="true">
+														<a asp-action="Index" asp-controller="InventoryTransfer" class="menu-link">
+												<i class="menu-bullet menu-bullet-dot">
+													<span></span>
+												</i> <span class="menu-text">Inventory Transfer</span> <span class="menu-label">
+													<!-- <span class="label label-danger label-inline">new</span> -->
+												</span>
+											</a>
+										</li> 
 									</ul>
 								</div>
 							</li>
@@ -3196,8 +3205,8 @@ input[type=number] {
 				ordering: false,
 				ordering: false,
 				"ajax": {
-					url: '/SaleQuotation/GetCustomers',
-
+					url: '/SaleQuotation/GetBusinessPartners', 
+				data: { DocModule: DocModule},
 				},
 				layout: {
 					scroll: false,
@@ -3366,10 +3375,15 @@ input[type=number] {
 			$("#CardCode").val(rowData['cardCode']);
 			$("#CardName").val(rowData['cardName']);
 			$("#DocCur").val(rowData['currency']);
+			$("#Address").val(rowData['address']);
 			GetContactPersons(rowData['cardCode']);
 			$('#myCustModal').modal('hide');
-			$('#btnCopyFrom').attr('disabled', false);
+			$('#btnCopyFrom').attr('disabled', false);			
 			//$(ObjItemCode)
+
+ 
+
+
 		});
 		
 		$(document).on('change keyup',"#CardCode",function(e) {

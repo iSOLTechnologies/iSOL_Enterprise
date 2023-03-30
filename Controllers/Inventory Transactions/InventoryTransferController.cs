@@ -36,39 +36,38 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
         {
             ItemMasterDataDal Idal = new ItemMasterDataDal();
             AdministratorDal dal = new AdministratorDal();
-
-            ViewData["Series"] = dal.GetSeries(59);
-            ViewData["MySeries"] = dal.GetMySeries(59);
-
+            SalesQuotationDal Sdal = new SalesQuotationDal();
+            ViewData["Series"] = dal.GetSeries(67);
+            ViewData["MySeries"] = dal.GetMySeries(67);
+            ViewData["SalesEmployee"] = new SelectList(Sdal.GetSalesEmployee(), "SlpCode", "SlpName");
             ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text");
 
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult AddInventoryTransfer(string formData)
-        //{
-        //    try
-        //    {
-        //        InventoryTransferDal dal = new InventoryTransferDal();
-        //        if (formData != null)
-        //        {
-
-        //            ResponseModels response = dal.AddInventoryTransfer(formData);
-        //            return Json(new { isInserted = response.isSuccess, Message = response.Message });
-        //        }
-        //        else
-        //        {
-        //            return Json(new { isInserted = false, Message = "Data can't be null" });
-        //        }
 
 
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //}
+        [HttpPost]
+        public IActionResult AddInventoryTransfer(string formData)
+        {
+            try
+            {
+                InventoryTransferDal dal = new InventoryTransferDal();
+                if (formData != null)
+                {
+                    ResponseModels response = dal.AddInventoryTransfer(formData);
+                    return Json(new { isInserted = response.isSuccess, Message = response.Message });
+                }
+                else
+                {
+                    return Json(new { isInserted = false, Message = "Data can't be null" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
     }
 }

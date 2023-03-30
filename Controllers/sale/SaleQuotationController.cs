@@ -96,14 +96,14 @@ namespace iSOL_Enterprise.Controllers.Sales
 
             return Json(response);
         }
-        public IActionResult GetCustomers()
+        public IActionResult GetBusinessPartners(string DocModule)
         {
             ResponseModels response = new ResponseModels();
             try
             {
 
-                SalesQuotationDal dal = new SalesQuotationDal();
-                response.Data = dal.GetCustomerData();
+                CommonDal dal = new CommonDal();
+                response.Data = dal.GetBusinessPartners(DocModule);
             }
             catch (Exception ex)
             {
