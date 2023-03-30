@@ -655,26 +655,27 @@ where s.Status=1 and p.Guid=@Guid";
         public List<SalesQuotation_MasterModels> GetBaseDocData(string cardcode, int BaseType)
         {
             string table = GetMasterTable(BaseType);
-
-            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "'"; /*isPosted = 1*/
-
-
+            string rowTable = GetRowTable(BaseType);
+            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "' order by Id desc"; /*isPosted = 1*/
+            
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {
                 while (rdr.Read())
                 {
                     SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
-
-                    models.Id = rdr["Id"].ToInt();
-                    models.DocDate = rdr["DocDueDate"].ToDateTime();
-                    models.PostingDate = rdr["DocDate"].ToDateTime();
-                    models.DocNum = rdr["DocNum"].ToString();
-                    models.DocType = rdr["DocType"].ToString();
-                    models.CardCode = rdr["CardCode"].ToString();
-                    models.Guid = rdr["Guid"].ToString();
-                    models.CardName = rdr["CardName"].ToString();
-                    list.Add(models);
+                    if (!(CommonDal.Check_IsNotEditable(rowTable, rdr["Id"].ToInt())))
+                    {                    
+                        models.Id = rdr["Id"].ToInt();
+                        models.DocDate = rdr["DocDueDate"].ToDateTime();
+                        models.PostingDate = rdr["DocDate"].ToDateTime();
+                        models.DocNum = rdr["DocNum"].ToString();
+                        models.DocType = rdr["DocType"].ToString();
+                        models.CardCode = rdr["CardCode"].ToString();
+                        models.Guid = rdr["Guid"].ToString();
+                        models.CardName = rdr["CardName"].ToString();
+                        list.Add(models);
+                    }
                 }
             }
             return list;

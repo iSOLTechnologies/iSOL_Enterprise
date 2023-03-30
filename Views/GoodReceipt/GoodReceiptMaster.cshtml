@@ -1007,6 +1007,7 @@
     var WareHouseData ="";
     var AddedBatches = [];
     var ObjBatchCode ;
+    var ObjDistNum ;
     const boxes = document.querySelectorAll('.d');
 
     for (const box of boxes) {
@@ -1924,7 +1925,7 @@
         
         let selectedWareHouse =  $("#adWarehouse").val();
         let selectedItemCode =  $("#adItemno").val();
-        ObjBatchCode = $(this).closest('tr').find("#DistNumber");
+        ObjDistNum = $(this).closest('tr').find("#DistNumber");
         if (( selectedWareHouse == null || selectedWareHouse == "" || selectedWareHouse == undefined) || (selectedItemCode == null || selectedItemCode == "" || selectedItemCode == undefined) ) 
         {
              toastr.error("Select Item & WareHouse");
@@ -1989,7 +1990,7 @@
 			$(selectedRow).addClass('Mainrow_selected');
 
 
-        $(ObjBatchCode).closest('#ListParameters6 .itm').find("#DistNumber").val(rowData['distNumber']);
+        $(ObjDistNum).closest('#ListParameters6 .itm').find("#DistNumber").val(rowData['distNumber']);
 			
 			$('#myBatchSearchmodal').modal('hide');
 			
@@ -2121,11 +2122,18 @@
     {
          var html = ` <tr class="rowItemDetail align-items-center itm">
 
-                                                            <td>
-                                                                 <input id="DistNumber" class="form-control form-control-sm">
-                                                               <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                            </td>                
-                                                            <td>
+                                                                <td>
+                                                                                  <div class="input-group">
+                                                                                    <input id="DistNumber" class="form-control form-control-sm">
+                                                                                       <div id="btnSearchBatch" class="input-group-append">
+                                                                                           <span class="input-group-text">
+                                                                                               <i class="la la-search"></i>
+                                                                                           </span>
+                                                                                       </div>
+                                                                                   </div>
+                                                                               <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                            </td>
+                                                                <td>
                                                                  <input id="BQuantity" class="form-control form-control-sm">
                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                             </td>

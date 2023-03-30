@@ -132,7 +132,7 @@ namespace iSOL_Enterprise.Dal
             {
 
 
-                string GetQuery = "select OBTN.DistNumber,OBTN.ExpDate,OBTQ.Quantity,OBTN.InDate,OBTQ.AbsEntry,OBTQ.SysNumber,OBTQ.ItemCode,OBTQ.WhsCode  from OBTQ Inner join OBTN on OBTN.AbsEntry = OBTQ.MdAbsEntry where OBTQ.ItemCode = '" + itemcode + "' and OBTQ.WhsCode = '" + warehouse + "'";
+                string GetQuery = "select OBTN.DistNumber,OBTN.ExpDate,OBTQ.Quantity,OBTN.InDate,OBTQ.AbsEntry,OBTQ.SysNumber,OBTQ.ItemCode,OBTQ.WhsCode  from OBTQ Inner join OBTN on OBTN.AbsEntry = OBTQ.MdAbsEntry where OBTQ.ItemCode = '" + itemcode + "' and OBTQ.WhsCode = '" + warehouse + "' and OBTQ.Quantity <> 0";
 
 
                 List<tbl_OBTN> list = new List<tbl_OBTN>();
