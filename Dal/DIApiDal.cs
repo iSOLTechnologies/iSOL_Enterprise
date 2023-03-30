@@ -70,8 +70,16 @@ namespace SAP_MVC_DIAPI.BLC
 
                         foreach (var ID in checkedIDs)
                         {
-                            string UDF = ",PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,ContainerNo,ManualGatePassNo,SaleOrderNo,";
+                            string UDF = "";
                             bool isOld = false;
+                            if (ObjectCode == 23 || ObjectCode == 17 || ObjectCode == 15 || ObjectCode == 16 || ObjectCode == 13 || ObjectCode == 14)
+                            {
+                                UDF = ",PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,ContainerNo,ManualGatePassNo,SaleOrderNo,";
+                            }
+                            else if (ObjectCode == 540000006 || ObjectCode == 22 || ObjectCode == 20 || ObjectCode == 21 || ObjectCode == 18 || ObjectCode == 19)
+                            {
+                                UDF = ",PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo,SaleOrderNo,";
+                            }
                             
                             string headerQuery = @"select DocType,Series,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum,DocTotal ,
                                                    SlpCode,Comments,Id,Sap_Ref_No " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
@@ -103,19 +111,35 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.Comments = rdr["Comments"].ToString();
 
                                             #region UDFs
-                                            oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
-                                        if (rdr["ManualGatePassNo"].ToString() != "")                                        
-                                            oDoc.UserFields.Fields.Item("U_manual_cgp").Value = Convert.ToInt32(rdr["ManualGatePassNo"]);
-                                        if (rdr["SaleOrderNo"].ToString() != "")
-                                            oDoc.UserFields.Fields.Item("U_Old_SO").Value = Convert.ToInt32(rdr["SaleOrderNo"]);
-                                        if (rdr["ProductionOrderNo"].ToString() != "")
-                                            oDoc.UserFields.Fields.Item("U_Production_ordr").Value = Convert.ToInt32(rdr["ProductionOrderNo"]);
-                                        if (rdr["PurchaseType"].ToString() != "")
-                                            oDoc.UserFields.Fields.Item("U_Type").Value = Convert.ToInt16(rdr["PurchaseType"]);
-
+                                                oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
+                                        
+                                            if (rdr["SaleOrderNo"].ToString() != "")
+                                                oDoc.UserFields.Fields.Item("U_Old_SO").Value = Convert.ToInt32(rdr["SaleOrderNo"]);
+                                            if (rdr["ProductionOrderNo"].ToString() != "")
+                                                oDoc.UserFields.Fields.Item("U_Production_ordr").Value = Convert.ToInt32(rdr["ProductionOrderNo"]);
+                                            if (rdr["PurchaseType"].ToString() != "")
+                                                oDoc.UserFields.Fields.Item("U_Type").Value = Convert.ToInt16(rdr["PurchaseType"]);
                                             oDoc.UserFields.Fields.Item("U_Challan_no").Value = rdr["ChallanNo"].ToString();
-                                            oDoc.UserFields.Fields.Item("U_Cont_no").Value = rdr["ContainerNo"].ToString();
-                                            oDoc.UserFields.Fields.Item("U_Type_d").Value = rdr["TypeDetail"].ToString();
+
+                                            if (ObjectCode == 23 || ObjectCode == 17 || ObjectCode == 15 || ObjectCode == 16 || ObjectCode == 13 || ObjectCode == 14)
+                                            {
+                                                if (rdr["ManualGatePassNo"].ToString() != "")
+                                                    oDoc.UserFields.Fields.Item("U_manual_cgp").Value = Convert.ToInt32(rdr["ManualGatePassNo"]);
+
+                                                oDoc.UserFields.Fields.Item("U_Cont_no").Value = rdr["ContainerNo"].ToString();
+
+                                            }
+                                            else if (ObjectCode == 540000006 || ObjectCode == 22 || ObjectCode == 20 || ObjectCode == 21 || ObjectCode == 18 || ObjectCode == 19)
+                                            {                                            
+                                                    oDoc.UserFields.Fields.Item("U_DO_Num").Value = rdr["DONo"].ToString();
+                                            }
+                                            
+
+
+                                            if (rdr["TypeDetail"].ToInt() >= 1 || rdr["TypeDetail"].ToInt() <= 9)                                        
+                                                oDoc.UserFields.Fields.Item("U_Type_d").Value = "0" + rdr["TypeDetail"].ToString();
+                                            else
+                                                oDoc.UserFields.Fields.Item("U_Type_d").Value =   rdr["TypeDetail"].ToString();
                                             #endregion
 
                                         #endregion
