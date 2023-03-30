@@ -60,17 +60,20 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
 
                     param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
                     param.Add(cdal.GetParameter("@Guid", CommonDal.generatedGuid(), typeof(string)));
-                     
+
                     #region BackendCheck For Series
-                    string? DocNum = SqlHelper.MySeriesUpdate_GetItemCode(MySeries, tran);
-                    if (DocNum == null)
+                    if (MySeries != -1)
                     {
-                        tran.Rollback();
-                        response.isSuccess = false;
-                        response.Message = "An Error Occured";
-                        return response;
-                    }
+                        string? DocNum = SqlHelper.MySeriesUpdate_GetItemCode(MySeries, tran);
+                        if (DocNum == null)
+                        {
+                            tran.Rollback();
+                            response.isSuccess = false;
+                            response.Message = "An Error Occured";
+                            return response;
+                        }
                     model.HeaderData.DocNum = DocNum;
+                    }
                     #endregion
 
                     string HeadQuery = @"insert into OIGN (Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Ref2,Comments,JrnlMemo,DocTotal) 
