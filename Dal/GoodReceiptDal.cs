@@ -534,7 +534,7 @@ namespace iSOL_Enterprise.Dal
                                             string itemno = ii.itemno;
                                             int SysNumber = CommonDal.getSysNumber(tran, itemno);
                                             int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
-                                            tbl_OBTN  OldBatchData = GetBatchList(itemno, ii.DistNumber);
+                                            tbl_OBTN  OldBatchData = GetBatchList(itemno, ii.DistNumber.ToString());
                                             if (OldBatchData.AbsEntry > 0)
                                             {
                                                 #region Update OBTQ

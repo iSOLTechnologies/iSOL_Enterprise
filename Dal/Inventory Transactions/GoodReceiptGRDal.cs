@@ -197,12 +197,11 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
 
                                         foreach (var ii in batch)
                                         {
-
                                             GoodReceiptDal GR_Dal = new GoodReceiptDal();
                                             string itemno = ii.itemno;
                                             int SysNumber = CommonDal.getSysNumber(tran, itemno);
                                             int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
-                                            tbl_OBTN OldBatchData = GR_Dal.GetBatchList(itemno, ii.DistNumber);
+                                            tbl_OBTN OldBatchData = GR_Dal.GetBatchList(itemno, ii.DistNumber.ToString());
                                             if (OldBatchData.AbsEntry > 0)
                                             {
                                                 #region Update OBTQ
