@@ -577,6 +577,9 @@ where s.Status=1 and p.Guid=@Guid";
                 case 60: //Goods Issue Item Transaction
                 table = "OIGE";
                 break;
+                case 67: //Inventory Transfer
+                table = "OWTR";
+                break;
                 default:
                 return table;
             }
@@ -629,6 +632,9 @@ where s.Status=1 and p.Guid=@Guid";
                 break;
                 case 60: //Goods Issue Item Transaction
                 table = "IGE1";
+                break;
+                case 67: //Inventory Transfer
+                table = "WTR1";
                 break;
                 default:
                 return table;
