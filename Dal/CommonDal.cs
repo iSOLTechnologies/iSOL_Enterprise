@@ -50,7 +50,7 @@ namespace iSOL_Enterprise.Dal
                GetQuery = "select CardCode,CardName,Currency,Balance from OCRD Where CardType = 'C'";
             }else if (DocModule == "I")
             {
-              GetQuery = "select CardCode,CardName,Currency,Balance from OCRD";
+                GetQuery = "select a.CardCode,a.CardName,a.Currency,a.Balance,b.Address from OCRD as a Left JOIN OWTR as b on a.Cardcode = b.CardCode";
             }
 
 
@@ -67,6 +67,7 @@ namespace iSOL_Enterprise.Dal
                             CardName = rdr["CardName"].ToString(),
                             Currency = rdr["Currency"].ToString(),
                             Balance = (decimal)rdr["Balance"],
+                            Address = rdr["Address"].ToString()
                         });
 
                 }
