@@ -255,62 +255,19 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                                             if (ii.itemno == item.ItemCode)
                                             {
                                                 int count = Convert.ToInt32(SqlHelper.ExecuteScalar(tran, CommandType.Text, "Select Count(*) from OBTQ Where AbsEntry = " + ii.AbsEntry));
+                                                int SysNumber1 = CommonDal.getSysNumber(tran, ii.itemno);
+                                                int AbsEntry1 = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
+                                                tbl_OBTN OldBatchData1 = GetBatchList(ii.itemno, ii.DistNumber.ToString(), ii.whseno.ToString());
+                                            #region From WareHouse Working
 
-                                                #region From WareHouse Working
+                                           
 
-                                                    #region Record not found in OBTQ For From Whs
-                                                    if (count == 0)
+                                                    #region Record Found in OBTQ For From Whs
+                                                    if (OldBatchData1.AbsEntry > 0)
                                                     {
-                                                        string GetQuery = @"select OBTN.AbsEntry,OBTN.SysNumber,OBTN.ExpDate,OBTN.Quantity,OBTN.DistNumber,OBTN.ExpDate,OBTN.InDate, OBTQ.Quantity as obtqQuantity , OBTQ.MdAbsEntry from OBTQ " +
-                                                                           "Inner join OBTN on OBTN.AbsEntry = OBTQ.MdAbsEntry " +
-                                                                           "where OBTQ.ItemCode = '" + ii.itemno + "' and OBTQ.WhsCode = '" + ii.whseno + "' and OBTQ.SysNumber = '" + ii.SysNumber + "'";
-                                                        using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-                                                        {
-                                                            while (rdr.Read())
-                                                            {
+                                                        #region Update OBTQ
 
-
-                                                                string? ExpDate = rdr["ExpDate"].ToString() == "" ? "" : (Convert.ToDateTime(rdr["ExpDate"]).ToString());
-                                                                string? InDate = rdr["InDate"].ToString() == "" ? "" : (Convert.ToDateTime(rdr["InDate"]).ToString());
-
-                                                                string InsertBatchQuery = @"insert into OBTN(AbsEntry,ItemCode,SysNumber,DistNumber,ExpDate,InDate,Quantity)
-                                                                            values(" + Convert.ToInt32(rdr["AbsEntry"]) + ",'"
-                                                                           + ii.itemno + "',"
-                                                                           + Convert.ToInt32(rdr["SysNumber"]) + ",'"
-                                                                           + ii.DistNumber + "','"
-                                                                           + ExpDate + "','"
-                                                                           + InDate + "',"
-                                                                           + rdr["Quantity"].ToDecimal() + ");" +
-
-                                                                           " insert into OBTQ(AbsEntry,ItemCode,SysNumber,WhsCode,Quantity,MdAbsEntry) " +
-                                                                           "values (" + ii.AbsEntry + ",'"
-                                                                           + ii.itemno + "',"
-                                                                           + ii.SysNumber + ",'"
-                                                                           + ii.whseno + "',"
-                                                                           + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + ","
-                                                                           + Convert.ToInt32(rdr["AbsEntry"]) + ")";
-
-
-                                                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, InsertBatchQuery).ToInt();
-                                                                if (res1 <= 0)
-                                                                {
-                                                                    tran.Rollback();
-                                                                    response.isSuccess = false;
-                                                                    response.Message = "An Error Occured";
-                                                                    return response;
-                                                                }
-
-
-                                                            }
-                                                        }
-
-                                                    }
-                                                    #endregion
-
-                                                    #region Record found in OBTQ For From Whs
-                                                    else
-                                                    {
-                                                        string BatchQueryOBTN = @"Update OBTQ set Quantity = " + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + " WHERE AbsEntry = " + ii.AbsEntry + "";
+                                                        string BatchQueryOBTN = @"Update OBTQ set Quantity = " + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + " WHERE AbsEntry = " + OldBatchData1.AbsEntry;
 
                                                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
                                                         if (res1 <= 0)
@@ -320,14 +277,68 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                                                             response.Message = "An Error Occured";
                                                             return response;
                                                         }
+                                                        SysNumber1 = OldBatchData1.SysNumber;
+                                                        AbsEntry1 = OldBatchData1.MdAbsEntry;
+                                                        #endregion
                                                     }
-                                                #endregion
+                                                    #endregion
 
-                                                #endregion
+                                                    #region Record Not Found in OBTQ For From Whs
+                                                    else
+                                                    {
 
-                                                #region To WareHouse Working
-                                           
-                                                string itemno = ii.itemno;
+                                                        #region Insert in OBTN
+                                                        string BatchQueryOBTN = @"insert into OBTN(AbsEntry,ItemCode,SysNumber,DistNumber,InDate,ExpDate)
+                                                                                                    values(" + AbsEntry1 + ",'"
+                                                                                + ii.itemno + "',"
+                                                                                + SysNumber1 + ",'"
+                                                                                + ii.DistNumber + "','"
+                                                                                + DateTime.Now + "','"
+                                                                                + Convert.ToDateTime(batch[0].ExpDate) + "')";
+
+
+                                                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
+                                                        if (res1 <= 0)
+                                                        {
+                                                            tran.Rollback();
+                                                            response.isSuccess = false;
+                                                            response.Message = "An Error Occured";
+                                                            return response;
+                                                        }
+                                                        #endregion
+
+
+                                                        #region Insert in OBTQ
+                                                        int ObtqAbsEntry1 = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTQ");
+                                                        string BatchQueryOBTQ = @"insert into OBTQ(AbsEntry,MdAbsEntry,ItemCode,SysNumber,WhsCode,Quantity)
+                                                                                                    values(" + ObtqAbsEntry1 + ","
+                                                                                + AbsEntry1 + ",'"
+                                                                                + ii.itemno + "',"
+                                                                                + SysNumber1 + ",'"
+                                                                                + ii.whseno + "',"
+                                                                                + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + ")";
+
+                                                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTQ).ToInt();
+                                                        if (res1 <= 0)
+                                                        {
+                                                            tran.Rollback();
+                                                            response.isSuccess = false;
+                                                            response.Message = "An Error Occured";
+                                                            return response;
+                                                        }
+                                                        #endregion
+                                                    }
+
+
+
+
+                                                    #endregion
+
+                                            #endregion
+                                            
+                                            #region To WareHouse Working
+
+                                            string itemno = ii.itemno;
                                                 int SysNumber = CommonDal.getSysNumber(tran, itemno);
                                                 int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
                                                 tbl_OBTN OldBatchData = GetBatchList(itemno, ii.DistNumber.ToString() , item.WhsCode.ToString());
@@ -400,16 +411,16 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                                                         }
                                                     #endregion
 
-                                                #endregion
+                                            #endregion
                                             
                                                 #region ITL1 log
                                                 string LogQueryITL1 = @"insert into ITL1(LogEntry,ItemCode,SysNumber,Quantity,AllocQty,MdAbsEntry) 
                                                                            values(" + LogEntry + ",'"
                                                                          + item.ItemCode + "','"
-                                                                         + ii.SysNumber + "',"
+                                                                         + SysNumber1 + "',"
                                                                          + -1 * ((Decimal)(ii.selectqty)) + ","
                                                                          + -1 * ((Decimal)(ii.selectqty)) + ","
-                                                                         + ii.AbsEntry + ");" +
+                                                                         + AbsEntry1 + ");" +
 
                                                                         "insert into ITL1(LogEntry,ItemCode,SysNumber,Quantity,OrderedQty,MdAbsEntry)" +
                                                                             "values(" + LogEntry2 + ",'"
@@ -439,7 +450,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                                     }
                                 }
                                 
-                                #endregion
+                               
                             
                           #endregion
 
