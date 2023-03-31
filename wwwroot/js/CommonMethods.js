@@ -108,7 +108,7 @@ function GetWareHouseData() {
 
 
                 WareHouseData += "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
-                Mydata += "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
+          
             });
            
         },
