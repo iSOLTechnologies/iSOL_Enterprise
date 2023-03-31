@@ -184,6 +184,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                     oDoc.Lines.DiscountPercent = rdr2["DiscPrcnt"].ToDouble();
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
                                                     oDoc.Lines.CountryOrg = rdr2["CountryOrg"].ToString();
+                                                    oDoc.Lines.VatGroup = rdr2["VatGroup"].ToString();
                                                     oDoc.Lines.ItemDescription = rdr2["Dscription"].ToString();
                                                     //oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
                                                     oDoc.Lines.WarehouseCode = rdr2["WhsCode"].ToString();
