@@ -1652,7 +1652,8 @@
         $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
         $(this).attr('disabled', true);
 
-        if (ValidateData("HeaderForm") ) { 
+        if (ValidateData("HeaderForm") ) {
+            if (ValidateListData("ListParameters .itm")) {
                 if (ValidateBatches("ListParameters .itm")) {
 
                     FormData();
@@ -1661,7 +1662,12 @@
                     $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                     $(this).attr('disabled', false);
                     toastr.warning("Cannot add row without complete selection of batch/serial numbers !");
-                } 
+                }
+            }
+            else {
+                $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                $(this).attr('disabled', false);
+            }
 
 
         }
