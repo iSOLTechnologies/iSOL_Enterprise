@@ -74,11 +74,11 @@ namespace SAP_MVC_DIAPI.BLC
                             bool isOld = false;
                             if (ObjectCode == 23 || ObjectCode == 17 || ObjectCode == 15 || ObjectCode == 16 || ObjectCode == 13 || ObjectCode == 14)
                             {
-                                UDF = ",PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,ContainerNo,ManualGatePassNo,SaleOrderNo,";
+                                UDF = ",PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,ContainerNo,ManualGatePassNo,SaleOrderNo";
                             }
                             else if (ObjectCode == 540000006 || ObjectCode == 22 || ObjectCode == 20 || ObjectCode == 21 || ObjectCode == 18 || ObjectCode == 19)
                             {
-                                UDF = ",PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo,SaleOrderNo,";
+                                UDF = ",PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo,SaleOrderNo";
                             }
                             
                             string headerQuery = @"select DocType,Series,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum,DocTotal ,
@@ -138,7 +138,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         if (rdr["TypeDetail"].ToString() != "")
                                         {
                                             if (rdr["TypeDetail"].ToInt() >= 1 || rdr["TypeDetail"].ToInt() <= 9)                                        
-                                                oDoc.UserFields.Fields.Item("U_Type_d").Value = "0" + rdr["TypeDetail"].ToInt() + "";
+                                                oDoc.UserFields.Fields.Item("U_Type_d").Value = "0" + Math.Round(rdr["TypeDetail"].ToDouble()) + "";
                                             else
                                                 oDoc.UserFields.Fields.Item("U_Type_d").Value =   rdr["TypeDetail"].ToString();
                                             #endregion
@@ -185,7 +185,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
                                                     oDoc.Lines.CountryOrg = rdr2["CountryOrg"].ToString();
                                                     oDoc.Lines.ItemDescription = rdr2["Dscription"].ToString();
-                                                    oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
+                                                    //oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
                                                     oDoc.Lines.WarehouseCode = rdr2["WhsCode"].ToString();
                                                     if (rowTable == "DLN1")
                                                     {
