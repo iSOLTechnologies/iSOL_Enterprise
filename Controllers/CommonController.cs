@@ -115,6 +115,15 @@ namespace iSOL_Enterprise.Controllers
 
             return Json(new { success = model.isSuccess, message = model.Message });
         }
+        [HttpPost]
+        public IActionResult PostInventoryTransfer(string[] checkedIDs)
+        {
+            DIApiDal dal = new DIApiDal();
+            ResponseModels model = new ResponseModels();
+            model = dal.PostInventoryTransfer(checkedIDs,67);
+
+            return Json(new { success = model.isSuccess, message = model.Message });
+        }
 
         [HttpGet]
         public IActionResult GetCountries()

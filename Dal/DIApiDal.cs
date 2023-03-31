@@ -1273,7 +1273,7 @@ namespace SAP_MVC_DIAPI.BLC
                 {
                     CommonDal dal = new CommonDal();
 
-                    SAPbobsCOM.Documents oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(BoObjectTypes.oStockTransfer);
+                    SAPbobsCOM.StockTransfer oDoc = (SAPbobsCOM.StockTransfer)oCompany.GetBusinessObject(BoObjectTypes.oStockTransfer);
                     if (oDoc != null)
                     {
                         string headerTable = dal.GetMasterTable(ObjectCode);
@@ -1291,7 +1291,7 @@ namespace SAP_MVC_DIAPI.BLC
                             string UDF = "";
                             bool isOld = false;
 
-                            string headerQuery = @"select Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Address,CardName,CardCode,Name,Comments,JrnlMemo,Sap_Ref_No " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
+                            string headerQuery = @"select Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Address,CardName,CardCode,Name,Comments,JrnlMemo,Sap_Ref_No,Filler,ToWhsCode " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
                             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
                             {
                                 try
@@ -1306,7 +1306,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.Series = rdr["Series"].ToInt();
 
                                         oDoc.DocDate = rdr["DocDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["DocDate"].ToString());
-                                        oDoc.GroupNumber = rdr["GroupNum"].ToInt();
+                                        oDoc.PriceList = rdr["GroupNum"].ToInt();
                                         oDoc.TaxDate = rdr["TaxDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["TaxDate"].ToString());
                                         oDoc.Address = rdr["Address"].ToString();
                                         oDoc.CardName = rdr["CardName"].ToString();
@@ -1314,6 +1314,8 @@ namespace SAP_MVC_DIAPI.BLC
                                         //oDoc.BPLName = rdr["Name"].ToString();
                                         oDoc.Comments = rdr["Comments"].ToString();
                                         oDoc.JournalMemo = rdr["JrnlMemo"].ToString();
+                                        oDoc.FromWarehouse = rdr["Filler"].ToString();
+                                        oDoc.ToWarehouse = rdr["ToWhsCode"].ToString();
                                         oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
 
                                         #endregion
@@ -1332,16 +1334,11 @@ namespace SAP_MVC_DIAPI.BLC
                                                     oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;
                                                     oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();
                                                     oDoc.Lines.ItemDescription = rdr2["Dscription"].ToString();
-                                                    oDoc.Lines.War = rdr2["WhsCode"].ToString();
+                                                    oDoc.Lines.WarehouseCode = rdr2["WhsCod"].ToString();
+                                                    oDoc.Lines.FromWarehouseCode = rdr2["FromWhsCod"].ToString();
                                                     oDoc.Lines.Quantity = Convert.ToDouble(rdr2["Quantity"]);
-                                                    if (rdr2["Price"].ToString() != "")
-                                                        oDoc.Lines.Price = rdr2["Price"].ToDouble();
-                                                    if (rdr2["LineTotal"].ToString() != "")
-                                                        oDoc.Lines.LineTotal = rdr2["LineTotal"].ToDouble();
-                                                    oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
-
-
+                                                    
 
                                                     try
                                                     {
@@ -1357,16 +1354,21 @@ namespace SAP_MVC_DIAPI.BLC
                                                             int i = 0;
                                                             while (rdr3.Read())
                                                             {
+                                                                if (Convert.ToDouble(rdr3["Quantity"]) > 0)
+                                                                {
+
+                                                                
                                                                 oDoc.Lines.BatchNumbers.BaseLineNumber = oDoc.Lines.LineNum;
                                                                 oDoc.Lines.BatchNumbers.SetCurrentLine(i);
                                                                 oDoc.Lines.BatchNumbers.ItemCode = rdr3["ItemCode"].ToString();
                                                                 oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();
-                                                                oDoc.Lines.BatchNumbers.Quantity = Convert.ToDouble(Convert.ToDouble(rdr3["Quantity"]) > 0 ? Convert.ToDouble(rdr3["Quantity"]) : (-1 * Convert.ToDouble(rdr3["Quantity"])));
+                                                                oDoc.Lines.BatchNumbers.Quantity = Convert.ToDouble(rdr3["Quantity"]);
                                                                 oDoc.Lines.BatchNumbers.AddmisionDate = rdr3["CreateDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr3["CreateDate"].ToString());
                                                                 if (rdr3["ExpDate"].ToString() != "")
                                                                     oDoc.Lines.BatchNumbers.ExpiryDate = Convert.ToDateTime(rdr3["ExpDate"].ToString());
                                                                 oDoc.Lines.BatchNumbers.Add();
                                                                 i += 1;
+                                                                }
                                                             }
                                                         }
                                                     }
