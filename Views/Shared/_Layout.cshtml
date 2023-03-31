@@ -2475,7 +2475,7 @@ input[type=number] {
 													<th></th>
 													<th></th>
 													<th></th>
-											@*		<th></th>*@
+									                <th></th> 
 												</tr>
 											</thead>
 										</table>
@@ -3204,10 +3204,20 @@ input[type=number] {
 				searching: true,
 				ordering: false,
 				ordering: false,
+
 				"ajax": {
 					url: '/SaleQuotation/GetBusinessPartners', 
 				data: { DocModule: DocModule},
 				},
+				"columnDefs": [
+						{
+							"targets": 3,
+							visible: false,
+							"createdCell": function (td, cellData, rowData, row, col) {
+							$(td).attr('id', "CRD1Address");
+							}
+						} 
+					],
 				layout: {
 					scroll: false,
 					footer: false,
@@ -3229,6 +3239,9 @@ input[type=number] {
 				}, {
 					data: 'balance',
 					title: 'Account Balance'
+				}, {
+					data: 'address',
+					title: 'Address'
 				}
 				//, {
 				//	data: "cardCode",
@@ -3369,8 +3382,11 @@ input[type=number] {
 			var selectedRow = $(this).closest('tr');
 			var rowData = LookTable.row(selectedRow).data();
 			$('#MyyyyCustomerTable tr').removeClass("Mainrow_selected");
+			$('#MyyyyCustomerTable').DataTable().column(3).visible(true);
 			$(selectedRow).addClass('Mainrow_selected');
 			//$('.OperationBtns').attr("data-id", SelectedVal);
+			//console.log("Row Data ::::",rowData)
+
 			RowDataPrint = rowData;
 			$("#CardCode").val(rowData['cardCode']);
 			$("#CardName").val(rowData['cardName']);

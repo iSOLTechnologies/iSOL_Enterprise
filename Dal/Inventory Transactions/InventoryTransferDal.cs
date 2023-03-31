@@ -109,8 +109,8 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     }
                     #endregion
 
-                    string HeadQuery = @"insert into OWTR (Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Address,ShipToCode,CardName,CardCode,Name,Comments,JrnlMemo) 
-                                        values(@Id,@Guid,@MySeries,@DocNum,@Series,@DocDate,@GroupNum,@TaxDate,@Address,@ShipToCode,@CardName,@CardCode,@Name,@Comments,@JrnlMemo)";
+                    string HeadQuery = @"insert into OWTR (Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Address,ShipToCode,CardName,CardCode,Name,Comments,JrnlMemo,Filler,ToWhsCode) 
+                                        values(@Id,@Guid,@MySeries,@DocNum,@Series,@DocDate,@GroupNum,@TaxDate,@Address,@ShipToCode,@CardName,@CardCode,@Name,@Comments,@JrnlMemo,@Filler,@ToWhsCode)";
 
 
 
@@ -128,6 +128,8 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     param.Add(cdal.GetParameter("@Name", model.HeaderData.CntcCode, typeof(string)));
                     param.Add(cdal.GetParameter("@Address", model.HeaderData.Address, typeof(string)));
                     param.Add(cdal.GetParameter("@ShipToCode", model.HeaderData.ShipToCode, typeof(string)));
+                    param.Add(cdal.GetParameter("@Filler", model.HeaderData.Filler, typeof(string)));
+                    param.Add(cdal.GetParameter("@ToWhsCode", model.HeaderData.ToWhsCode, typeof(string)));
                     #endregion
 
                     #region Footer Data
@@ -171,7 +173,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                             param1.Add(cdal.GetParameter("@Dscription", item.ItemName, typeof(string)));
                             param1.Add(cdal.GetParameter("@WhsCode", item.WhsCode, typeof(string)));
                             param1.Add(cdal.GetParameter("@FromWhsCod", item.FromWhsCod, typeof(string)));
-                            param1.Add(cdal.GetParameter("@Quantity", item.Quantity, typeof(decimal)));  
+                            param1.Add(cdal.GetParameter("@Quantity", item.QTY, typeof(decimal)));  
                             param1.Add(cdal.GetParameter("@UomEntry", item.UomEntry, typeof(int)));
                             param1.Add(cdal.GetParameter("@UomCode", item.UomCode, typeof(string)));
                             param1.Add(cdal.GetParameter("@BaseQty", item.BaseQty, typeof(string)));
@@ -515,7 +517,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                 }
 
             }
-
+            #endregion
             catch (Exception e)
             {
                 tran.Rollback();

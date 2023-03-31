@@ -47,10 +47,10 @@ namespace iSOL_Enterprise.Dal
             string GetQuery = "";
             if (DocModule == "S")
             {
-               GetQuery = "select CardCode,CardName,Currency,Balance from OCRD Where CardType = 'C'";
+                GetQuery = "select a.CardCode,a.CardName,a.Currency,a.Balance,b.[Address] from OCRD as a Left JOIN CRD1 as b on a.Cardcode = b.CardCode Where CardType = 'C'";
             }else if (DocModule == "I")
             {
-                GetQuery = "select a.CardCode,a.CardName,a.Currency,a.Balance,b.Address from OCRD as a Left JOIN OWTR as b on a.Cardcode = b.CardCode";
+                GetQuery = "select a.CardCode,a.CardName,a.Currency,a.Balance,b.[Address] from OCRD as a Left JOIN CRD1 as b on a.Cardcode = b.CardCode";
             }
 
 
@@ -59,7 +59,6 @@ namespace iSOL_Enterprise.Dal
             {
                 while (rdr.Read())
                 {
-
                     list.Add(
                         new tbl_customer()
                         {
@@ -69,10 +68,8 @@ namespace iSOL_Enterprise.Dal
                             Balance = (decimal)rdr["Balance"],
                             Address = rdr["Address"].ToString()
                         });
-
                 }
             }
-
             return list;
         }
 
