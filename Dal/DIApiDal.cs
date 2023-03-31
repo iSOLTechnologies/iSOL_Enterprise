@@ -226,7 +226,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                                             string BatchQuery = @" select ITL1.ItemCode,ITL1.SysNumber,ITL1.Quantity,ITL1.AllocQty,OITL.CreateDate, OBTN.ExpDate,OBTN.DistNumber from OITL 
                                                                            inner join ITL1 on OITL.LogEntry = ITL1.LogEntry 
-                                                                           inner join OBTQ on ITL1.MdAbsEntry = OBTQ.AbsEntry 
+                                                                           inner join OBTQ on ITL1.MdAbsEntry = OBTQ.MdAbsEntry 
                                                                            inner join OBTN on OBTQ.MdAbsEntry = OBTN.AbsEntry
                                                                            where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType =20";
                                                             using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
@@ -238,6 +238,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                                     oDoc.Lines.BatchNumbers.SetCurrentLine(i);
                                                                     oDoc.Lines.BatchNumbers.ItemCode = rdr3["ItemCode"].ToString();
                                                                     oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();
+                                                                    
                                                                     oDoc.Lines.BatchNumbers.Quantity = Convert.ToDouble(rdr3["Quantity"]) > 0 ? Convert.ToDouble(rdr3["Quantity"]) : (-1 * Convert.ToDouble(rdr3["Quantity"]));
                                                                     oDoc.Lines.BatchNumbers.AddmisionDate = rdr3["CreateDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr3["CreateDate"].ToString());
                                                                     if (rdr3["ExpDate"].ToString() != "")
