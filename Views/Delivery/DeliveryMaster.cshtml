@@ -2064,6 +2064,7 @@
         ) {
             if (ItemServiceType == '1') {
                 if (ValidateListData("ListParameters .itm") && ValidateData("kt_tabs_acct"))
+                {
                     if (ValidateBatches("ListParameters .itm"))
                         FormData();
                     else {
@@ -2071,6 +2072,7 @@
                         $(this).attr('disabled', false);
                         toastr.warning("Cannot add row without complete selection of batch/serial numbers !");
                     }
+                }
                 else {
                     $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                     $(this).attr('disabled', false);
