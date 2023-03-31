@@ -159,8 +159,8 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                         {
 
                             string RowQueryItem1 = @"insert into WTR1
-                                (Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemCode,Dscription,WhsCod,FromWhsCod,Quantity,UomEntry,UomCode,BaseQty,OpenQty)
-                          values(@Id,@LineNum,@BaseRef,@BaseEntry,@BaseLine,@ItemCode,@Dscription,@WhsCod,@FromWhsCod,@Quantity,@UomEntry,@UomCode,@BaseQty,@OpenQty)";
+                                (Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemCode,Dscription,WhsCode,FromWhsCod,Quantity,UomEntry,UomCode,BaseQty,OpenQty)
+                          values(@Id,@LineNum,@BaseRef,@BaseEntry,@BaseLine,@ItemCode,@Dscription,@WhsCode,@FromWhsCod,@Quantity,@UomEntry,@UomCode,@BaseQty,@OpenQty)";
                             var BaseRef = item.BaseRef;
                             #region sqlparam
                             List<SqlParameter> param1 = new List<SqlParameter>();
@@ -191,7 +191,8 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                             }
 
                             int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");
-                            int LogEntry2 = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");
+                            int LogEntry2 = LogEntry + 1;
+                            //int LogEntry2 = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");
 
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "DLN1");
                             
@@ -206,7 +207,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                                                     values(" + LogEntry + ",'"
                                                   + model.HeaderData.CardCode + "','"
                                                   + item.ItemCode + "','"
-                                                  + item.ItemName + "',"
+                                                  + item.ItemName + "','"
                                                   + model.HeaderData.CardName + "',"
                                                   + Id + ","
                                                   + LineNum + ","
@@ -220,7 +221,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                                                   " values(" + LogEntry2 + ",'"
                                                   + model.HeaderData.CardCode + "','"
                                                   + item.ItemCode + "','"
-                                                  + item.ItemName + "',"
+                                                  + item.ItemName + "','"
                                                   + model.HeaderData.CardName + "',"
                                                   + Id + ","
                                                   + LineNum + ","
@@ -342,7 +343,8 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
 
                                             string itemno = ii.itemno;
                                                 int SysNumber = CommonDal.getSysNumber(tran, itemno);
-                                                int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
+                                            //int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
+                                            int AbsEntry = AbsEntry1 + 1;   //Primary Key
                                                 tbl_OBTN OldBatchData = GetBatchList(itemno, ii.DistNumber.ToString() , item.WhsCode.ToString());
 
                                                     #region Record Found in OBTQ For To Whs
