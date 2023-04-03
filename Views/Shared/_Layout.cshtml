@@ -2197,7 +2197,7 @@ input[type=number] {
 	<script src="~/assets/js/scripts.bundle.js"></script>
 	<script src="~/lib/SweetAlerts/sweetalert2.min.js"></script>
 
-	@*<script src="~/Assets/js/disable.js"></script>*@
+	<script src="~/Assets/js/disable.js"></script>
 
 	<!--end::Global Theme Bundle-->
 	<!--begin::Page Vendors(used by this page)-->
@@ -3755,7 +3755,7 @@ input[type=number] {
 
 		  // Disable scrolling on input elements of type number
 		$('input[type=number]').on('keydown', function(e) {
-			if (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 101) {
+			if (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 101 || e.keyCode === 69) {
 			  e.preventDefault();
 			}
 		});
