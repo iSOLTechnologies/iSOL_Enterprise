@@ -15,7 +15,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
 
         public List<SalesQuotation_MasterModels> GetData()
         {
-            string GetQuery = "select * from OPDN order by id DESC";
+            string GetQuery = "select * from OWTR order by id DESC";
 
 
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
@@ -27,8 +27,8 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                    // models.DocStatus = CommonDal.Check_IsNotEditable("PDN1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
                     models.DocStatus = "Open";
                     models.Id = rdr["Id"].ToInt();
-                    models.DocDate = rdr["DocDueDate"].ToDateTime();
-                    models.PostingDate = rdr["DocDate"].ToDateTime();
+                    models.DocDate = rdr["DocDate"].ToDateTime();
+                    models.PostingDate = rdr["TaxDate"].ToDateTime();
                     models.DocNum = rdr["DocNum"].ToString();
                     models.CardCode = rdr["CardCode"].ToString();
                     models.Guid = rdr["Guid"].ToString();
