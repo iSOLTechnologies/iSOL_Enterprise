@@ -3751,7 +3751,7 @@ input[type=number] {
 
 		  // Disable scrolling on input elements of type number
 		$('input[type=number]').on('keydown', function(e) {
-			if (e.keyCode === 38 || e.keyCode === 40) {
+			if (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 101) {
 			  e.preventDefault();
 			}
 		});
