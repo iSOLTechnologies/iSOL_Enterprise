@@ -758,7 +758,29 @@ where s.Status=1 and p.Guid=@Guid";
                 throw;
             }
 
-        } 
+        }
+        public dynamic GetBaseDocHeaderData(string DocId, int BaseType)
+        {
+            try
+            {
+
+
+                string table =  GetMasterTable(BaseType);
+                DataSet ds = new DataSet();
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                SqlDataAdapter sda = new SqlDataAdapter("select * from " + table + " where id = '" + DocId + "'", conn);
+                sda.Fill(ds);
+                string JSONString = string.Empty;
+                JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
+                return JSONString;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
         public dynamic GetBaseDocItemServiceList_Return(string DocId , int BaseType)
         {
             try

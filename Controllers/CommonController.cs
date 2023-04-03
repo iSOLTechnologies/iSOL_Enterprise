@@ -42,7 +42,7 @@ namespace iSOL_Enterprise.Controllers
             {
                 CommonDal dal = new CommonDal();
 
-                return Json(new { baseDoc = dal.GetBaseDocType(DocId, BaseType), list = dal.GetBaseDocItemServiceList(DocId, BaseType) });
+                return Json(new { baseDoc = dal.GetBaseDocType(DocId, BaseType), list = dal.GetBaseDocItemServiceList(DocId, BaseType) , header = dal.GetBaseDocHeaderData(DocId, BaseType) });
             }
             catch (Exception)
             {

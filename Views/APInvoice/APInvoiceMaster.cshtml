@@ -868,6 +868,17 @@
                 if (i == 0) {
 
                     $.get("Common/GetBaseDocItemService", { DocId: DocID, BaseType: BaseType }, function (data) {
+                        data.header = JSON.parse(data.header);
+                        data.header[0][0].TypeDetail = data.header[0][0].TypeDetail < 9 ? "0"+data.header[0][0].TypeDetail : data.header[0][0].TypeDetail;
+                        $("#CntcCode").val(data.header[0][0].CntctCode);
+                        $("#DocCur").val(data.header[0][0].DocCur);
+                        $("#ChallanNo").val(data.header[0][0].ChallanNo);
+                        $("#SaleOrderNo").val(data.header[0][0].SaleOrderNo);
+                        $("#PurchaseType").val(data.header[0][0].PurchaseType);
+                        $("#TypeDetail").val(data.header[0][0].TypeDetail);
+                        $("#ProductionOrderNo").val(data.header[0][0].ProductionOrderNo);
+                        $("#DONo").val(data.header.DONo);
+
                         let list = JSON.parse(data.list);
 
 
