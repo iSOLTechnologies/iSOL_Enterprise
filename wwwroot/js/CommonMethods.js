@@ -154,54 +154,83 @@ function GetPrice() {
     let Total_Value = 0; 
     $('#FooterTax').val(0);
     $("#Total").val(0);
-    var totalBeforeDiscount = 0;
+    var totalAfterDiscount = 0;
     var totalDiscount = 0;
-    var RoundingValue = 0;
-    var Discount = parseFloat($("#Discount").val() / 100);
-    $('#ListParameters .itm').each(function (index, item) {
-        var dt1 = $(this).closest('#ListParameters .itm').find("#TtlPrc");
-        if (dt1.val() != null)
-            totalBeforeDiscount = Number(totalBeforeDiscount) + Number(dt1.val());
-        Total_Value = totalBeforeDiscount;
+    var totalTax = 0;
+    //var RoundingValue = 0;
+    //var Discount = parseFloat($("#Discount").val() / 100);
+    $('#ListParameters .itm').each(function (index, item)
+    {
+        let TtlPrc = $(this).find("#TtlPrc");
+        let Qty = $(this).find("#QTY");
+        let UPrc = $(this).find("#UPrc");
+        let VatGroup = $(this).find("#VatGroup").find(':selected').attr('guid');
+        let DicPrc = $(this).find("#DicPrc");
+        let Cost = 0;
+        if (Qty.val() != "" && Qty.val() != null && UPrc.val() != "" && UPrc.val() != null)
+        {
+            Cost = parseFloat(Qty.val()) * parseFloat(UPrc.val());
+            totalTax = totalTax + (Cost * (parseFloat(VatGroup / 100)));
+            if (DicPrc.val() != "" && DicPrc.val() != null)
+            {
+                totalDiscount = totalDiscount + (Cost * (parseFloat(DicPrc.val() / 100)));
+            }
+            totalAfterDiscount = parseFloat(totalAfterDiscount) + parseFloat(TtlPrc.val());
+
+        }
+
+        
     });
-    if (totalBeforeDiscount != 0) {
+    if (totalAfterDiscount != 0)
+    {
 
-        $("#TotalBeforeDiscount").val(totalBeforeDiscount);
-        Total_Value = totalBeforeDiscount;
+        $("#TotalBeforeDiscount").val(totalAfterDiscount.toFixed(2) - totalDiscount.toFixed(2));
+        
     }
+    if (totalTax != 0) {
 
+        $("#FooterTax").val(totalTax.toFixed(2));
 
-    if ($('#RoundingChkBox').is(":checked") && $('#Rounding').val() != "") {
+    } if (totalDiscount != 0) {
 
-        RoundingValue = parseFloat($('#Rounding').val());
-
-    }
-    if (Discount != "" && RoundingValue != "") {
-
-        $("#Total").val((totalBeforeDiscount + RoundingValue) - ((totalBeforeDiscount + RoundingValue) * Discount));
-        Total_Value = $("#Total").val();
+        $("#Discount").val(totalDiscount.toFixed(2));
 
     }
-    else if (Discount == "" && RoundingValue != "") {
-        $("#Total").val((totalBeforeDiscount + RoundingValue));
-        Total_Value = $("#Total").val();
-    }
-    else if (Discount != "" && RoundingValue == "") {
+    $("#Total").val(totalAfterDiscount);
+    
+    //if ($('#RoundingChkBox').is(":checked") && $('#Rounding').val() != "") {
 
-        $("#Total").val(parseFloat(totalBeforeDiscount - (totalBeforeDiscount * Discount)));
-        Total_Value = $("#Total").val();
-    }
-    else if (Discount == "" && RoundingValue == "") {
+    //    RoundingValue = parseFloat($('#Rounding').val());
 
-        $("#Total").val(totalBeforeDiscount);
-        Total_Value = $("#Total").val();
-    }
-    let AllAmount = 0;
-        $('#ListParameters .itm').each(function () {
-           AllAmount += parseFloat(parseFloat($(this).find('#QTY').val()) * parseFloat($(this).find('#UPrc').val()))
-    });
+    //}
+    //if (Discount != "" && RoundingValue != "") {
 
-    $('#FooterTax').val(parseFloat(Total_Value - AllAmount).toFixed(2))
+    //    $("#Total").val((totalBeforeDiscount + RoundingValue) - ((totalBeforeDiscount + RoundingValue) * Discount));
+    //    Total_Value = $("#Total").val();
+
+    //}
+    //else if (Discount == "" && RoundingValue != "") {
+    //    $("#Total").val((totalBeforeDiscount + RoundingValue));
+    //    Total_Value = $("#Total").val();
+    //}
+    //else if (Discount != "" && RoundingValue == "") {
+
+    //    $("#Total").val(parseFloat(totalBeforeDiscount - (totalBeforeDiscount * Discount)));
+    //    Total_Value = $("#Total").val();
+    //}
+    //else if (Discount == "" && RoundingValue == "") {
+
+    //    $("#Total").val(totalBeforeDiscount);
+    //    Total_Value = $("#Total").val();
+    //}
+
+    //let AllAmount = 0;
+    //    $('#ListParameters .itm').each(function () {
+    //       AllAmount += parseFloat(parseFloat($(this).find('#QTY').val()) * parseFloat($(this).find('#UPrc').val()))
+    //});
+
+    //$('#FooterTax').val(parseFloat(Total_Value - AllAmount).toFixed(2))
+
     //if (FooterTax != null && FooterTax != "" && FooterTax != undefined) {
     //    console.log("A", $("#Total").val());
     //    let OnePercent = parseFloat($("#Total").val()) / 100;
