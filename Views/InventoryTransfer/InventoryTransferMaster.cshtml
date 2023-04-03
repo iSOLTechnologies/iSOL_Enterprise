@@ -579,9 +579,9 @@
 <script src="~/js/commonmethods.js"></script>
 
 <script>
+//var FromWarehouse = "";
+//var ToWarehouse = "";
         function GetWareHouseDataThroughClass() {
-
-
     return $.ajax({
         url: 'Delivery/GetWareHouseData',
         type: 'GET',
@@ -602,6 +602,63 @@
     });
 
 } 
+
+function Filler(){
+    //ToWhsCode
+    //Filler
+    $('#ListParameters .itm').each(function () {
+           $(this).find('#Warehouse').val($('#Filler').val()) ;
+    });
+}
+function ToWhsCode(){
+    //ToWhsCode
+    //Filler
+    $('#ListParameters .itm').each(function () {
+            $(this).find('#WhsCode').val($('#ToWhsCode').val());
+    });
+}
+
+$(document).on('change', '#Filler', function (e) {
+Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you ant you update the \"To Warehouse\" value for existing lines with this new value ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+              Filler();
+            }
+        })
+  });
+  $(document).on('change', '#ToWhsCode', function (e) {
+Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you ant you update the \"From Warehouse\" value for existing lines with this new value ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+              ToWhsCode();
+
+            }
+        })
+  });
+  //$(document).on('change', '#ListBtnAddd', function (e) {
+
+  //     Filler();
+  //     ToWhsCode();
+  //  });
+
+
+
+
+
     // var vatGroupData = "";
     var WareHouseData = "";
     var ItemServiceType = '1';
@@ -1623,7 +1680,7 @@
 
                                                                                     <td>
                                                                                         <div class="input-group">
-                                                                                            <select class="form-control" id="Warehouse">
+                                                                                                <select class="form-control"  id="Warehouse">
                                                                                                   `+ WareHouseData + `
                                                                                             </select>
                                                                                             <div id="ListbtnSelectBatch" class="input-group-append d-none">
@@ -1640,8 +1697,8 @@
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
 
-                                                                                    <td> 
-                                                                                        <select class="form-control Warehousedata" id="WhsCode">
+                                                                                    <td>
+                                                                                            <select class="form-control Warehousedata" id="WhsCode">
                                                                                               `+ WareHouseData + `
                                                                                             </select>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -1677,6 +1734,10 @@
         //$('#VatGroup').select2('destroy');
         //$('.jsSelect2').select2();
        // addDataInVatGroup();
+
+
+       $('#ListParameters tr:last-child').find('#Warehouse').val($('#Filler').val());
+       $('#ListParameters tr:last-child').find('#WhsCode').val($('#ToWhsCode').val());
     });
 
 
