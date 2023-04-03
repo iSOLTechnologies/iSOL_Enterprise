@@ -1250,15 +1250,13 @@
         $('#myCustModal').modal('show');
 
     });
-        $(document).on('change keyup', '#Rounding,#Discount,#FooterTax', function (e) {
-         GetPrice();
-         
-
-
+        
+    $(document).on('input', '#ListBtnDelete,#Rounding,#Discount,#FooterTax', function (e) {
+         GetPrice();        
      });
 
-    $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#VatGroup,.VT_Option', function (e) {
-
+    $(document).on('input', '#QTY,#UPrc,#DicPrc,#VatGroup,.VT_Option', function (e) {
+        //debugger
         var Qty = $(this).closest('#ListParameters .itm').find('#QTY');
         var UPrc = $(this).closest('#ListParameters .itm').find('#UPrc');
         var DicPrc = $(this).closest('#ListParameters .itm').find('#DicPrc');
@@ -1273,14 +1271,14 @@
         let _WhsCode = $(this).closest('#ListParameters .itm').find('#Warehouse').val()
       
         $.when( GetWhsAddedQty(_ItemCode, _WhsCode) ).then(function(sum) {
-         if(Qty.val() <= 0){
+        if(Qty.val() <= 0){
             Qty.val("");
             toastr.warning("Quantity can't be 0");
-         }// if(!(sum <= onHand.val())){
-           // Qty.val("");
-           // toastr.warning("Quantity can't be greater than Warehouse quantity");
-       // }
-
+        }
+        //if(!(sum <= onHand.val())){
+        //    Qty.val("");
+        //    toastr.warning("Quantity can't be greater than Warehouse quantity");
+        //}
         if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
             if (Number(Qty.val()) <= Number(BaseQty.val())) {
 
@@ -1295,17 +1293,19 @@
 
             }
         }
-      @*  if (!(Number(Qty.val()) <= Number(onHand.val()))) {
-            toastr.warning("Quantity can't be greater than Quantity in Warehouse");
-            Qty.val(0);
-        }*@
+        //if (!(Number(Qty.val()) <= Number(onHand.val()))) {
+        //    toastr.warning("Quantity can't be greater than Quantity in Warehouse");
+        //    Qty.val(0);
+        //}
 
         if ($(DicPrc).val() == "") {
-            var Onepercent = parseFloat($(TtlPrc).val() / 100);
+            var Onepercent = parseFloat((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) / 100);
             var Tax = parseFloat(Onepercent * parseFloat(VatGuid));
-
+            console.log("OnePercent : ",Onepercent);
+            console.log("Tax : ",Tax);
             if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
                 $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) + parseFloat(Tax)).toFixed(2)));
+                 console.log("Row Total Price Dis ==0 : ",$(TtlPrc).val());
                 GetPrice();
                 //document.getElementById("TtlPrc").value = parseFloat(TtlPrc).toFixed(2);
                 //console.log(TtlPrc)
@@ -1314,18 +1314,21 @@
 
         if ($(DicPrc).val() != "") {
             $(TtlPrc).val((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())).toFixed(2));
-            var Onepercent = parseFloat($(TtlPrc).val() / 100);
+            var Onepercent = parseFloat((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) / 100);
             var discountPrice = parseFloat(Onepercent * $(DicPrc).val());
             var Tax = parseFloat(Onepercent * parseFloat(VatGuid))
             console.log("discountPrice:", discountPrice)
             if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
                 $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) - (parseFloat(discountPrice))) + (Tax)).toFixed(2));
+                    console.log("Row Total Price Dis != 0 : ", $(TtlPrc).val());
                 GetPrice();
                 //document.getElementById("TtlPrc").value = parseFloat(TtlPrc).toFixed(2);
                 //console.log(Tax)
             }
         }
-           });
+                GetPrice();
+   });
+
     });
 
     $(document).on('click', '#RoundingChkBox', function (e) {

@@ -151,9 +151,8 @@ function InitializeWareHouseData() {
 function GetPrice() {
 
 
-    let FooterTax = $('#FooterTax').val();
-    console.log("FooterTax", FooterTax);
-
+    let Total_Value = 0; 
+    $('#FooterTax').val(0);
     $("#Total").val(0);
     var totalBeforeDiscount = 0;
     var totalDiscount = 0;
@@ -163,9 +162,14 @@ function GetPrice() {
         var dt1 = $(this).closest('#ListParameters .itm').find("#TtlPrc");
         if (dt1.val() != null)
             totalBeforeDiscount = Number(totalBeforeDiscount) + Number(dt1.val());
+        Total_Value = totalBeforeDiscount;
     });
-    if (totalBeforeDiscount != 0)
+    if (totalBeforeDiscount != 0) {
+
         $("#TotalBeforeDiscount").val(totalBeforeDiscount);
+        Total_Value = totalBeforeDiscount;
+    }
+
 
     if ($('#RoundingChkBox').is(":checked") && $('#Rounding').val() != "") {
 
@@ -175,26 +179,35 @@ function GetPrice() {
     if (Discount != "" && RoundingValue != "") {
 
         $("#Total").val((totalBeforeDiscount + RoundingValue) - ((totalBeforeDiscount + RoundingValue) * Discount));
+        Total_Value = $("#Total").val();
 
     }
     else if (Discount == "" && RoundingValue != "") {
         $("#Total").val((totalBeforeDiscount + RoundingValue));
+        Total_Value = $("#Total").val();
     }
     else if (Discount != "" && RoundingValue == "") {
 
         $("#Total").val(parseFloat(totalBeforeDiscount - (totalBeforeDiscount * Discount)));
+        Total_Value = $("#Total").val();
     }
     else if (Discount == "" && RoundingValue == "") {
 
         $("#Total").val(totalBeforeDiscount);
+        Total_Value = $("#Total").val();
     }
+    let AllAmount = 0;
+        $('#ListParameters .itm').each(function () {
+           AllAmount += parseFloat(parseFloat($(this).find('#QTY').val()) * parseFloat($(this).find('#UPrc').val()))
+    });
 
-    if (FooterTax != null && FooterTax != "" && FooterTax != undefined) {
-        console.log("A", $("#Total").val());
-        let OnePercent = parseFloat($("#Total").val()) / 100;
-        let TaxAmount = parseFloat(OnePercent) * parseFloat(FooterTax);
-        $("#Total").val((parseFloat($("#Total").val()) + parseFloat(TaxAmount)).toFixed(2)); 
-    }
+    $('#FooterTax').val(parseFloat(Total_Value - AllAmount).toFixed(2))
+    //if (FooterTax != null && FooterTax != "" && FooterTax != undefined) {
+    //    console.log("A", $("#Total").val());
+    //    let OnePercent = parseFloat($("#Total").val()) / 100;
+    //    let TaxAmount = parseFloat(OnePercent) * parseFloat(FooterTax);
+    //    $("#Total").val((parseFloat($("#Total").val()) + parseFloat(TaxAmount)).toFixed(2)); 
+    //}
 }
 
 

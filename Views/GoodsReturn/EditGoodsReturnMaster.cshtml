@@ -1277,11 +1277,8 @@
 	generateVendorTable();
 	$('#myVendorModal').modal('show');
 });
-  $(document).on('change keyup', '#Rounding,#Discount,#FooterTax', function (e) {
-         GetPrice();
-         
-
-
+     $(document).on('input', '#ListBtnDelete,#Rounding,#Discount,#FooterTax', function (e) {
+         GetPrice();        
      });
 
     $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#VatGroup,.VT_Option', function (e) {
@@ -1337,7 +1334,7 @@
         }*@
 
         if ($(DicPrc).val() == "") {
-            var Onepercent = parseFloat($(TtlPrc).val() / 100);
+             var Onepercent = parseFloat((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) / 100);
             var Tax = parseFloat(Onepercent * parseFloat(VatGuid));
 
             if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
@@ -1350,7 +1347,7 @@
 
         if ($(DicPrc).val() != "") {
             $(TtlPrc).val((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())).toFixed(2));
-            var Onepercent = parseFloat($(TtlPrc).val() / 100);
+            var Onepercent = parseFloat((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) / 100);
             var discountPrice = parseFloat(Onepercent * $(DicPrc).val());
             var Tax = parseFloat(Onepercent * parseFloat(VatGuid))
             console.log("discountPrice:", discountPrice)
@@ -1361,6 +1358,7 @@
                 //console.log(Tax)
             }
         }
+            GetPrice();
            });
     });
 

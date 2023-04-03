@@ -1728,12 +1728,9 @@
     });
     $(document).on('change keyup', '#Rounding,#Discount,#FooterTax', function (e) {
          GetPrice();
-         
-
-
      });
-    $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#VatGroup,.VT_Option', function (e) {
 
+    $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#VatGroup,.VT_Option', function (e) {
         var Qty = $(this).closest('#ListParameters .itm').find('#QTY');
         var UPrc = $(this).closest('#ListParameters .itm').find('#UPrc');
         var DicPrc = $(this).closest('#ListParameters .itm').find('#DicPrc');
@@ -1770,9 +1767,8 @@
         //}
 
         if ($(DicPrc).val() == "") {
-            var Onepercent = parseFloat($(TtlPrc).val() / 100);
+            var Onepercent = parseFloat((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) / 100);
             var Tax = parseFloat(Onepercent * parseFloat(VatGuid));
-
             if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
                 $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) + parseFloat(Tax)).toFixed(2)));
                 GetPrice();
@@ -1783,7 +1779,7 @@
 
         if ($(DicPrc).val() != "") {
             $(TtlPrc).val((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())).toFixed(2));
-            var Onepercent = parseFloat($(TtlPrc).val() / 100);
+            var Onepercent = parseFloat((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) / 100);
             var discountPrice = parseFloat(Onepercent * $(DicPrc).val());
             var Tax = parseFloat(Onepercent * parseFloat(VatGuid))
             console.log("discountPrice:", discountPrice)
@@ -1794,6 +1790,7 @@
                 //console.log(Tax)
             }
         }
+          GetPrice();
    });
     });
 
