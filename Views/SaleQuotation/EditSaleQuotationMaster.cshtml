@@ -15,7 +15,8 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 <!-- Render Body <Start> -->
-
+<script src="~/Assets/plugins/global/plugins.bundle.js"></script>
+<script src="~/Assets/js/scripts.bundle.js"></script>
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Subheader-->
     <!--end::Subheader-->
@@ -36,6 +37,14 @@
                         <i class="ki ki-long-arrow-back icon-sm"></i>Back
                     </a>
                     <div class="btn-group" >
+                        <div class="dropdown mr-2">
+                            <button class="btn btn-success font-weight-bolder dropdown-toggle" type="button" id="btnCopyTo"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="ki ki-copy icon-sm"></i>Copy To
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnCopyTo" id="btnCopyToOptions" disabled>
+                                <a class="dropdown-item" guid="23">Sales Order</a>
+                            </div>
+                        </div>
 
                         <button type="button" class="btn btn-primary font-weight-bolder" disabled id="btnSaveData">
                             <i class="ki ki-check icon-sm"></i>Update
@@ -1232,7 +1241,14 @@
     }
 
 
- 
+    $("#btnCopyToOptions a").click(function () {
+
+            let base = $(this).attr("guid");
+            let Docid = $("#my_id").val();
+            window.location.href = '/SaleOrder/SaleOrderMaster?DocId='+Docid+'&BaseType='+base;
+        
+
+    });
 
     $(document).on('click', '#Itemno', function (e) {
         IsHeader = false;

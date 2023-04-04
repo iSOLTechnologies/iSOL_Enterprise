@@ -866,6 +866,8 @@
                         {
                             data.header = JSON.parse(data.header);
                         data.header[0][0].TypeDetail = data.header[0][0].TypeDetail < 9 ? "0"+data.header[0][0].TypeDetail : data.header[0][0].TypeDetail;
+                        
+                        $("#CardCode").val(data.header[0][0].CardCode).trigger('change');
                         $("#CntcCode").val(data.header[0][0].CntctCode);
                         $("#DocCur").val(data.header[0][0].DocCur);
                         $("#ChallanNo").val(data.header[0][0].ChallanNo);
@@ -1087,7 +1089,7 @@
                                                                                                             <input id="onHand" value="`+ OnHand + `" class="form-control form-control-sm" readonly type="number">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
-                                                                                            <td class="d-none">
+                                                                                            <td >
                                                                                             <input class="form-control form-control-sm"  value=`+data.OpenQty+` id="QTY"  type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
@@ -1095,7 +1097,7 @@
                                                                                             <input readonly class="form-control form-control-sm NotReq" value=`+ data.Quantity + ` id="BaseQty"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                        <td class="d-none">
                                                                                         <input readonly class="form-control form-control-sm NotReq d-none" id="OpenQty" value=`+data.OpenQty+`  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -1660,6 +1662,12 @@
 
         }
 
+        if(@ViewBag.DocId != 0 && @ViewBag.BaseType !=0)
+        {
+                CopyDocIDs.push(@ViewBag.DocId);
+                BaseType = @ViewBag.BaseType;
+                $("#btnCopytableOk").trigger('click');
+        }
         
     });
 

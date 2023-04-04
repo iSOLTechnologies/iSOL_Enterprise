@@ -911,6 +911,7 @@
                     $.get("Common/GetBaseDocItemService", { DocId: DocID, BaseType: BaseType }, function (data) {
                         data.header = JSON.parse(data.header);
                         data.header[0][0].TypeDetail = data.header[0][0].TypeDetail < 9 ? "0"+data.header[0][0].TypeDetail : data.header[0][0].TypeDetail;
+                        $("#CardCode").val(data.header[0][0].CardCode).trigger('change');
                         $("#CntcCode").val(data.header[0][0].CntctCode);
                         $("#DocCur").val(data.header[0][0].DocCur);
                         $("#ChallanNo").val(data.header[0][0].ChallanNo);
@@ -1704,6 +1705,12 @@
             $(this).removeClass('is-invalid');
         });
 
+        if(@ViewBag.DocId != 0 && @ViewBag.BaseType !=0)
+        {
+                CopyDocIDs.push(@ViewBag.DocId);
+                BaseType = @ViewBag.BaseType;
+                $("#btnCopytableOk").trigger('click');
+        }
         
     });
 

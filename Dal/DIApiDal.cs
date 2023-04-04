@@ -109,7 +109,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.DocTotal = rdr["DocTotal"].ToDouble();
                                         oDoc.SalesPersonCode = rdr["SlpCode"].ToInt();
                                         oDoc.Comments = rdr["Comments"].ToString();
-
+                                        
                                             #region UDFs
                                                 oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
                                         
@@ -173,18 +173,24 @@ namespace SAP_MVC_DIAPI.BLC
 
                                                         oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;
                                                     }
+                                                    oDoc.Lines.Quantity = Convert.ToDouble(rdr2["Quantity"]);
                                                     if (rdr2["Price"].ToString() != "")
+                                                    {
                                                         oDoc.Lines.Price = rdr2["Price"].ToDouble();
+                                                        oDoc.Lines.DiscountPercent = rdr2["DiscPrcnt"].ToDouble();
+                                                        oDoc.Lines.VatGroup = rdr2["VatGroup"].ToString();
+                                                    }
                                                     if (rdr2["LineTotal"].ToString() != "")
-                                                        oDoc.Lines.LineTotal = rdr2["LineTotal"].ToDouble();
+                                                    {
+                                                        oDoc.Lines.LineTotal = oDoc.Lines.Price * oDoc.Lines.Quantity;
+                                                        oDoc.Lines.PriceAfterVAT = rdr2["LineTotal"].ToDouble();
 
+
+                                                    }
                                                     oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();
                                                     //oDoc.Lines.Quantity = Convert.ToDouble(10);// rdr2["Quantity"].ToDouble();
-                                                    oDoc.Lines.Quantity = Convert.ToDouble(rdr2["Quantity"]);
-                                                    oDoc.Lines.DiscountPercent = rdr2["DiscPrcnt"].ToDouble();
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
                                                     oDoc.Lines.CountryOrg = rdr2["CountryOrg"].ToString();
-                                                    oDoc.Lines.VatGroup = rdr2["VatGroup"].ToString();
                                                     oDoc.Lines.ItemDescription = rdr2["Dscription"].ToString();
                                                     //oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
                                                     oDoc.Lines.WarehouseCode = rdr2["WhsCode"].ToString();
@@ -202,11 +208,11 @@ namespace SAP_MVC_DIAPI.BLC
                                                             while (rdr3.Read())
                                                             {
 
-                                                                
+
                                                                 oDoc.Lines.BatchNumbers.BaseLineNumber = oDoc.Lines.LineNum;
                                                                 oDoc.Lines.BatchNumbers.SetCurrentLine(i);
                                                                 oDoc.Lines.BatchNumbers.ItemCode = rdr3["ItemCode"].ToString();
-                                                                oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();                                                                
+                                                                oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();
                                                                 oDoc.Lines.BatchNumbers.Quantity = Convert.ToDouble(Convert.ToDouble(rdr3["Quantity"]) > 0 ? Convert.ToDouble(rdr3["Quantity"]) : (-1 * Convert.ToDouble(rdr3["Quantity"])));
                                                                 oDoc.Lines.BatchNumbers.AddmisionDate = rdr3["CreateDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr3["CreateDate"].ToString());
                                                                 if (rdr3["ExpDate"].ToString() != "")
@@ -239,7 +245,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                                     oDoc.Lines.BatchNumbers.SetCurrentLine(i);
                                                                     oDoc.Lines.BatchNumbers.ItemCode = rdr3["ItemCode"].ToString();
                                                                     oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();
-                                                                    
+
                                                                     oDoc.Lines.BatchNumbers.Quantity = Convert.ToDouble(rdr3["Quantity"]) > 0 ? Convert.ToDouble(rdr3["Quantity"]) : (-1 * Convert.ToDouble(rdr3["Quantity"]));
                                                                     oDoc.Lines.BatchNumbers.AddmisionDate = rdr3["CreateDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr3["CreateDate"].ToString());
                                                                     if (rdr3["ExpDate"].ToString() != "")
@@ -838,7 +844,7 @@ namespace SAP_MVC_DIAPI.BLC
                             string UDF = "";
                             bool isOld = false;
                            
-                            string headerQuery = @"select Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,DocTotal,Ref2,Comments,JrnlMemo " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
+                            string headerQuery = @"select Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,DocTotal,Ref2,Comments,JrnlMemo,Sap_Ref_No " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
                             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
                             {
                                 try
@@ -874,7 +880,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                 while (rdr2.Read())
                                                 {
                                                        
-                                                    oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;                                                    
+                                                    //oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;                                                    
                                                     oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();
                                                     oDoc.Lines.ItemDescription = rdr2["Dscription"].ToString();
                                                     oDoc.Lines.WarehouseCode = rdr2["WhsCode"].ToString();
@@ -894,7 +900,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                                         string BatchQuery = @" select ITL1.ItemCode,ITL1.SysNumber,ITL1.Quantity,ITL1.AllocQty,OITL.CreateDate, OBTN.ExpDate,OBTN.DistNumber from OITL 
                                                                            inner join ITL1 on OITL.LogEntry = ITL1.LogEntry 
-                                                                           inner join OBTQ on ITL1.MdAbsEntry = OBTQ.AbsEntry 
+                                                                           inner join OBTQ on ITL1.MdAbsEntry = OBTQ.MdAbsEntry 
                                                                            inner join OBTN on OBTQ.MdAbsEntry = OBTN.AbsEntry
                                                                            where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType ="+ObjectCode;
                                                         using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))

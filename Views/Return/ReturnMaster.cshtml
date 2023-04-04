@@ -1039,6 +1039,7 @@
                     $.get("Common/GetBaseDocItemServiceReturn", { DocId: DocID, BaseType: BaseType }, function (data) {
                         data.header = JSON.parse(data.header);
                         data.header[0][0].TypeDetail = data.header[0][0].TypeDetail < 9 ? "0" + data.header[0][0].TypeDetail : data.header[0][0].TypeDetail;
+                        $("#CardCode").val(data.header[0][0].CardCode).trigger('change');
                         $("#CntcCode").val(data.header[0][0].CntctCode);
                         $("#DocCur").val(data.header[0][0].DocCur);
                         $("#ChallanNo").val(data.header[0][0].ChallanNo);
@@ -1254,7 +1255,7 @@
                                                                                                         <input class="form-control form-control-sm NotReq" value=`+ data.DiscPrcnt + ` id = "DicPrc"   type = "number">
                                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                                 </td>
-                                                                                                <td>
+                                                                                                    <td>
 
 
                                                                                                     <select  class="form-control jsSelect2" id="VatGroup" value="`+ data.VatGroup + `">
@@ -1800,14 +1801,20 @@
 
         }
 
-        if (Guid != undefined && Guid != '' && Guid != null) {
-            PopulateData();
-        }
+        //if (Guid != undefined && Guid != '' && Guid != null) {
+        //    PopulateData();
+        //}
 
         $(document).on('change', '#ParamCode', function (e) {
 
             $(this).removeClass('is-invalid');
         });
+        if(@ViewBag.DocId != 0 && @ViewBag.BaseType !=0)
+        {
+                CopyDocIDs.push(@ViewBag.DocId);
+                BaseType = @ViewBag.BaseType;
+                $("#btnCopytableOk").trigger('click');
+        }
 
 
     });
