@@ -621,7 +621,7 @@ function ToWhsCode(){
 $(document).on('change', '#Filler', function (e) {
 Swal.fire({
             title: 'Are you sure?',
-            text: "Do you ant you update the \"To Warehouse\" value for existing lines with this new value ?",
+            text: "Do you want you update the \"To Warehouse\" value for existing lines with this new value ?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -634,9 +634,9 @@ Swal.fire({
         })
   });
   $(document).on('change', '#ToWhsCode', function (e) {
-Swal.fire({
+    Swal.fire({
             title: 'Are you sure?',
-            text: "Do you ant you update the \"From Warehouse\" value for existing lines with this new value ?",
+            text: "Do you want you update the \"From Warehouse\" value for existing lines with this new value ?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -1064,7 +1064,6 @@ Swal.fire({
         $('#kt_repeater_2 tbody').append(html);
     }
 
-
     $(document).on('click', '#btnbrowseFile', function (e) {
 
         console.log("brow");
@@ -1449,6 +1448,7 @@ Swal.fire({
         });
         GetPrice();
     });
+    
     $(document).on('click', '#RoundingChkBox', function (e) {
 
         if ($(this).is(":checked")) {
@@ -1464,30 +1464,14 @@ Swal.fire({
 
         DocModule = "I";
         WareshouseChk = true;
-        GetWareHouseDataThroughClass();
-        //DocNumOnLoad();
-        // GetVatGroupData();
-        //GetCountrydata();
+        GetWareHouseDataThroughClass();        
         GetCurrencydata();
         GetWareHouseData();
         GetSaleOrders();
 
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
-       // GetPayments();
-
-
-        //function GetPayments() {
-
-        //    $.get("SaleQuotation/GetPayments", function (data) {
-        //        $("#GroupNum").html("");
-        //        $.each(data, function () {
-
-        //            $("#GroupNum").append($("<option />").val(this.groupNum).text(this.pymntGroup));
-        //        });
-        //    });
-
-        //}
+       
 
 
         $(document).on('change', '#ParamCode', function (e) {
@@ -1565,25 +1549,6 @@ Swal.fire({
             })
         });
     }
-    // function GetBatchData(itemcode,warehouse)
-    // {
-
-
-    //     //$.getJSON("Delivery/GetBatchList",{itemcode :itemcode , warehouse: warehouse }, function(result){
-    //     //    console.log("HI: " + result);
-    //     //});
-
-    //     $.ajax({
-    //             type: "Get",
-    //             url: 'Delivery/GetBatchList',
-    //             data : {itemcode :itemcode , warehouse: warehouse },
-    //	dataType: "json",
-    //             contentType: "application/json; charset=utf-8",
-    // }).done(function (data)
-    // {
-
-    //});
-    // }
 
     function AddDataInRowsFromDocumentTable(selectedRow) {
         $("#slItemno").val(selectedRow.find("#ItemCode").val());
@@ -1645,7 +1610,7 @@ Swal.fire({
         $('#kt_repeater_3 tbody').append(html);
     });
 
- $(document).on('click', '#ListBtnAddd', function (e) {
+    $(document).on('click', '#ListBtnAddd', function (e) {
         var html = `
              
                                                                                                 
