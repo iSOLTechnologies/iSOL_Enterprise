@@ -248,7 +248,7 @@
         });
         if (checkedIDs.length > 0) {
 
-            $.post("Common/PostGoodReceiptGR", { checkedIDs: checkedIDs, ObjectCode: 59 }, function (response) {
+            $.post("Common/PostInventoryTransfer", { checkedIDs: checkedIDs }, function (response) {
                 if (response.success) {
                     $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                     $("#btnPostToSap").attr('disabled', false);
