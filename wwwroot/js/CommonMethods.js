@@ -155,6 +155,7 @@ function GetPrice() {
     $('#FooterTax').val(0);
     $("#Total").val(0);
     var totalAfterDiscount = 0;
+    var totalBeforeDiscount = 0;
     var totalDiscount = 0;
     var totalTax = 0;
     //var RoundingValue = 0;
@@ -167,24 +168,43 @@ function GetPrice() {
         let VatGroup = $(this).find("#VatGroup").find(':selected').attr('guid');
         let DicPrc = $(this).find("#DicPrc");
         let Cost = 0;
+        let DiscountAmount = 0;
+        let PriceAfterDiscount = 0;
+        let VatAmmount = 0;
+        let PriceAfterVat = 0;
         if (Qty.val() != "" && Qty.val() != null && UPrc.val() != "" && UPrc.val() != null)
         {
             Cost = parseFloat(Qty.val()) * parseFloat(UPrc.val());
-            totalTax = totalTax + (Cost * (parseFloat(VatGroup / 100)));
-            if (DicPrc.val() != "" && DicPrc.val() != null)
-            {
-                totalDiscount = totalDiscount + (Cost * (parseFloat(DicPrc.val() / 100)));
+            if (DicPrc.val() != "" && DicPrc.val() != null) {
+                DiscountAmount = Cost * (parseFloat(DicPrc.val() / 100));
+                totalDiscount = totalDiscount + DiscountAmount;
+                PriceAfterDiscount = Cost - DiscountAmount;
             }
-            totalAfterDiscount = parseFloat(totalAfterDiscount) + parseFloat(TtlPrc.val());
+            else
+            {
+                PriceAfterDiscount = Cost;
+            }
+            VatAmmount = PriceAfterDiscount * (parseFloat(VatGroup / 100));
+            PriceAfterVat = PriceAfterDiscount + VatAmmount;
+            TtlPrc.val(PriceAfterVat);
+            totalTax = totalTax + VatAmmount;
+            
+            totalAfterDiscount = parseFloat(totalAfterDiscount) + parseFloat(PriceAfterVat);
+            totalBeforeDiscount = parseFloat(totalBeforeDiscount) + parseFloat(Cost);
 
+            console.log(DiscountAmount);
+            console.log(PriceAfterDiscount);
+            console.log(VatAmmount);
+            console.log(PriceAfterVat);
         }
 
         
     });
-    if (totalAfterDiscount != 0)
+    
+    if (totalBeforeDiscount != 0)
     {
 
-        $("#TotalBeforeDiscount").val(totalAfterDiscount.toFixed(2) - totalDiscount.toFixed(2));
+        $("#TotalBeforeDiscount").val(totalBeforeDiscount);
         
     }
     if (totalTax != 0) {

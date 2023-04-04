@@ -1307,7 +1307,7 @@
             Qty.val(0);
         }*@
 
-        if ($(DicPrc).val() == "") {
+        @*if ($(DicPrc).val() == "") {
              var Onepercent = parseFloat((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) / 100);
             var Tax = parseFloat(Onepercent * parseFloat(VatGuid));
 
@@ -1331,7 +1331,7 @@
                 //document.getElementById("TtlPrc").value = parseFloat(TtlPrc).toFixed(2);
                 //console.log(Tax)
             }
-        }
+        }*@
           GetPrice();
    });
     });
