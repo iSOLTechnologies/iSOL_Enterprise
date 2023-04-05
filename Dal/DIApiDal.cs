@@ -82,7 +82,7 @@ namespace SAP_MVC_DIAPI.BLC
                             }
                             
                             string headerQuery = @"select DocType,Series,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum,DocTotal ,
-                                                   SlpCode,Comments,Id,Sap_Ref_No " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
+                                                   SlpCode,DiscPrcnt,Comments,Id,Sap_Ref_No " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
                             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
                             {
                                 try
@@ -108,7 +108,13 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.GroupNumber = rdr["GroupNum"].ToInt();
                                         oDoc.DocTotal = rdr["DocTotal"].ToDouble();
                                         oDoc.SalesPersonCode = rdr["SlpCode"].ToInt();
+                                        if (rdr["DiscPrcnt"].ToString() != "")
+                                        {
+                                            oDoc.DiscountPercent = rdr["DiscPrcnt"].ToDouble();
+
+                                        }
                                         oDoc.Comments = rdr["Comments"].ToString();
+
                                         
                                             #region UDFs
                                                 oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
@@ -182,10 +188,8 @@ namespace SAP_MVC_DIAPI.BLC
                                                     }
                                                     if (rdr2["LineTotal"].ToString() != "")
                                                     {
-                                                        oDoc.Lines.LineTotal = oDoc.Lines.Price * oDoc.Lines.Quantity;
-                                                        oDoc.Lines.PriceAfterVAT = rdr2["LineTotal"].ToDouble();
-
-
+                                                        oDoc.Lines.LineTotal = rdr2["LineTotal"].ToDouble();
+                                                        //oDoc.Lines.PriceAfterVAT = rdr2["LineTotal"].ToDouble();
                                                     }
                                                     oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();
                                                     //oDoc.Lines.Quantity = Convert.ToDouble(10);// rdr2["Quantity"].ToDouble();
