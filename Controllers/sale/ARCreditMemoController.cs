@@ -17,12 +17,22 @@ namespace iSOL_Enterprise.Controllers
         {
             return View();
         }
-        public IActionResult ARCreditMemoMaster()
+        public IActionResult ARCreditMemoMaster(string DocId = "", int BaseType = 0)
         {
             SalesQuotationDal dal = new SalesQuotationDal();
 			AdministratorDal Adal = new AdministratorDal();
 			ViewBag.GetSeries = Adal.GetSeries(19);
-			ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode","SlpName");
+            if (DocId != "" && BaseType != 0)
+            {
+                ViewBag.DocId = DocId;
+                ViewBag.BaseType = BaseType;
+            }
+            else
+            {
+                ViewBag.DocId = 0;
+                ViewBag.BaseType = 0;
+            }
+            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode","SlpName");
             //ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
             return View();
         }

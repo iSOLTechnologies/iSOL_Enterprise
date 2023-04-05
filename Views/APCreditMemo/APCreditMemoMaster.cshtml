@@ -41,8 +41,7 @@
                             <div class="dropdown-menu" aria-labelledby="btnCopyFrom" id="btnCopyFromOptions" disabled>
                                 <a class="dropdown-item" guid="18"> A/P Invoice</a>
                                 <a class="dropdown-item" guid="21"> Goods Return</a>
-                                <a class="dropdown-item" guid="204"> A/P Down Payment</a>
-                                <a class="dropdown-item" guid="19"> A/P Credit Memo</a>
+                                
                             </div>
                         </div>
 
@@ -867,6 +866,7 @@
                     $.get("Common/GetBaseDocItemService", { DocId: DocID, BaseType: BaseType }, function (data) {
                         data.header = JSON.parse(data.header);
                         data.header[0][0].TypeDetail = data.header[0][0].TypeDetail < 9 ? "0"+data.header[0][0].TypeDetail : data.header[0][0].TypeDetail;
+                        $("#CardCode").val(data.header[0][0].CardCode).trigger('change');
                         $("#CntcCode").val(data.header[0][0].CntctCode);
                         $("#DocCur").val(data.header[0][0].DocCur);
                         $("#ChallanNo").val(data.header[0][0].ChallanNo);
@@ -1614,15 +1614,20 @@
 
         }
 
-        if (Guid != undefined && Guid != '' && Guid != null) {
-            PopulateData();
-        }
+        //if (Guid != undefined && Guid != '' && Guid != null) {
+        //    PopulateData();
+        //}
 
         $(document).on('change', '#ParamCode', function (e) {
 
             $(this).removeClass('is-invalid');
         });
-
+        if(@ViewBag.DocId != 0 && @ViewBag.BaseType !=0)
+        {
+                CopyDocIDs.push(@ViewBag.DocId);
+                BaseType = @ViewBag.BaseType;
+                $("#btnCopytableOk").trigger('click');
+        }
 
 
 

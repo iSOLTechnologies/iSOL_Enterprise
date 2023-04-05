@@ -20,12 +20,22 @@ namespace iSOL_Enterprise.Controllers.Sales
         {
             return View();
         }
-        public IActionResult PurchaseOrderMaster()
+        public IActionResult PurchaseOrderMaster(string DocId = "", int BaseType = 0)
         {
 
             SalesQuotationDal dal = new SalesQuotationDal();
             AdministratorDal Adal = new AdministratorDal();
             ViewBag.GetSeries = Adal.GetSeries(22);
+            if (DocId != "" && BaseType != 0)
+            {
+                ViewBag.DocId = DocId;
+                ViewBag.BaseType = BaseType;
+            }
+            else
+            {
+                ViewBag.DocId = 0;
+                ViewBag.BaseType = 0;
+            }
             ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
 
 

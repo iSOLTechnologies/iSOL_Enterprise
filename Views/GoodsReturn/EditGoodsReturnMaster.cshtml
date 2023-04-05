@@ -36,7 +36,15 @@
                         <i class="ki ki-long-arrow-back icon-sm"></i>Back
                     </a>
                     <div class="btn-group">
-                        
+                        <div class="dropdown mr-2">
+                            <button class="btn btn-success font-weight-bolder dropdown-toggle" type="button" id="btnCopyTo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="ki ki-copy icon-sm"></i>Copy To
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnCopyTo" id="btnCopyToOptions" disabled>
+                                <a class="dropdown-item" guid="21" url="APCreditMemo/APCreditMemoMaster?DocId=">AP Credit Memo</a>
+
+                            </div>
+                        </div>
                         <button type="button" class="btn btn-primary font-weight-bolder" disabled id="btnSaveData">
                             <i class="ki ki-check icon-sm"></i>Update
                         </button>
@@ -1245,7 +1253,14 @@
        // addDataInVatGroup();
     }
 
+        $("#btnCopyToOptions a").click(function () {
 
+                let base = $(this).attr("guid");
+                let Docid = $("#my_id").val();
+                window.location.href = $(this).attr("url")+Docid+'&BaseType='+base;
+
+
+        });
 
    function GetVatGroupData() 
     {
