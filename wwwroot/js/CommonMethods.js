@@ -159,7 +159,10 @@ function GetPrice() {
     var totalDiscount = 0;
     var totalTax = 0;
     //var RoundingValue = 0;
-    //var Discount = parseFloat($("#Discount").val() / 100);
+    let FooterDiscount = $("#Discount").val();
+    console.log(FooterDiscount);
+    let FooterDiscountVal = 0;
+    $("#DiscountVal").val(FooterDiscountVal);
     $('#ListParameters .itm').each(function (index, item)
     {
         let TtlPrc = $(this).find("#TtlPrc");
@@ -186,16 +189,16 @@ function GetPrice() {
             }
             VatAmmount = PriceAfterDiscount * (parseFloat(VatGroup / 100));
             PriceAfterVat = PriceAfterDiscount + VatAmmount;
-            TtlPrc.val(PriceAfterVat);
+            TtlPrc.val(PriceAfterDiscount);
             totalTax = totalTax + VatAmmount;
             
+            totalBeforeDiscount = parseFloat(totalBeforeDiscount) + parseFloat(PriceAfterDiscount);
             totalAfterDiscount = parseFloat(totalAfterDiscount) + parseFloat(PriceAfterVat);
-            totalBeforeDiscount = parseFloat(totalBeforeDiscount) + parseFloat(Cost);
 
-            console.log(DiscountAmount);
-            console.log(PriceAfterDiscount);
-            console.log(VatAmmount);
-            console.log(PriceAfterVat);
+            //console.log(DiscountAmount);
+            //console.log(PriceAfterDiscount);
+            //console.log(VatAmmount);
+            //console.log(PriceAfterVat);
         }
 
         
@@ -207,16 +210,25 @@ function GetPrice() {
         $("#TotalBeforeDiscount").val(totalBeforeDiscount);
         
     }
-    if (totalTax != 0) {
+    if (FooterDiscount != "" && FooterDiscount !=null &&  FooterDiscount != undefined)
+    {
+        FooterDiscountVal = totalBeforeDiscount * (parseFloat(FooterDiscount) / 100);
+        $("#DiscountVal").val(FooterDiscountVal.toFixed(2));
+        totalTax = totalTax -  totalTax * (FooterDiscount / 100);
+        totalAfterDiscount = totalBeforeDiscount + totalTax - FooterDiscountVal;
+    }
+    if (totalTax != 0)
+    {
 
         $("#FooterTax").val(totalTax.toFixed(2));
 
-    } if (totalDiscount != 0) {
-
-        $("#Discount").val(totalDiscount.toFixed(2));
-
     }
-    $("#Total").val(totalAfterDiscount);
+    //if (totalDiscount != 0) {
+
+    //    $("#Discount").val(totalDiscount.toFixed(2));
+
+    //}
+        $("#Total").val(totalAfterDiscount.toFixed(2));
     
     //if ($('#RoundingChkBox').is(":checked") && $('#Rounding').val() != "") {
 
