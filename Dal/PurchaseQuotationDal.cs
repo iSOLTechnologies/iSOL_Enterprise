@@ -265,8 +265,9 @@ namespace iSOL_Enterprise.Dal
                         model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
                         model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
                         model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
+                        model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
 
-                        string HeadQuery = @"insert into OPQT(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,PQTGrpNum,ReqDate, GroupNum ,DocTotal, SlpCode ,
+                        string HeadQuery = @"insert into OPQT(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,PQTGrpNum,ReqDate, GroupNum ,DocTotal, SlpCode ,DiscPrcnt,
                                             PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo,SaleOrderNo, Comments)
                                            values(" + Id + ","
                                                 + model.HeaderData.Series + ",'"
@@ -286,6 +287,7 @@ namespace iSOL_Enterprise.Dal
                                                 + model.ListAccouting.GroupNum + "',"
                                                 + model.FooterData.Total + ","
                                                 + Convert.ToInt32(model.FooterData.SlpCode) + ","
+                                                + model.FooterData.Discount + ","
                                                 + model.HeaderData.PurchaseType + ","
                                                 + model.HeaderData.TypeDetail + ","
                                                 + model.HeaderData.ProductionOrderNo + ","
@@ -548,7 +550,7 @@ namespace iSOL_Enterprise.Dal
                             model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
                             model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
                             model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
-
+                            model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
 
                             model.HeaderData.PQTGrpNum = model.HeaderData.PQTGrpNum == "" ? "NULL" : Convert.ToInt32( model.HeaderData.PQTGrpNum);
                         string HeadQuery = @" Update OPQT set 
@@ -565,6 +567,7 @@ namespace iSOL_Enterprise.Dal
                                                        ",GroupNum = '" + model.ListAccouting.GroupNum + "'" +
                                                        ",SlpCode = " + model.FooterData.SlpCode + " , is_Edited = 1" +
                                                        ",Series = " + model.HeaderData.Series + "" +
+                                                       ",DiscPrcnt = " + model.FooterData.Discount + "" +
                                                        ",PurchaseType = " + model.HeaderData.PurchaseType + "" +
                                                         ",TypeDetail = " + model.HeaderData.TypeDetail + "" +
                                                         ",ProductionOrderNo = " + model.HeaderData.ProductionOrderNo + "" +

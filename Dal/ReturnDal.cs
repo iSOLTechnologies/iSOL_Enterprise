@@ -234,8 +234,8 @@ namespace iSOL_Enterprise.Dal
                         model.HeaderData.ManualGatePassNo = model.HeaderData.ManualGatePassNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ManualGatePassNo);
                         model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
                         model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
-
-                        string HeadQuery = @"insert into ORDN(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum ,DocTotal, SlpCode ,
+                        model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
+                        string HeadQuery = @"insert into ORDN(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum ,DocTotal, SlpCode ,DiscPrcnt,
                                             PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,ContainerNo,ManualGatePassNo,SaleOrderNo, Comments) 
                                            values(" + Id + ","
 												+ model.HeaderData.Series + ",'"
@@ -253,6 +253,7 @@ namespace iSOL_Enterprise.Dal
                                                 + model.ListAccouting.GroupNum + "',"
                                                 + model.FooterData.Total + ","
                                                 + Convert.ToInt32(model.FooterData.SlpCode) + ","
+                                                + model.FooterData.Discount + ","
                                                 + model.HeaderData.PurchaseType + ","
                                                 + model.HeaderData.TypeDetail + ","
                                                 + model.HeaderData.ProductionOrderNo + ","
@@ -655,7 +656,7 @@ namespace iSOL_Enterprise.Dal
                             model.HeaderData.ManualGatePassNo = model.HeaderData.ManualGatePassNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ManualGatePassNo);
                             model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
                             model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
-
+                            model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
                             string HeadQuery = @" Update ORDN set 
                                                           DocType = '" + DocType + "'" +
                                                            ",CardName = '" + model.HeaderData.CardName + "'" +
@@ -668,6 +669,7 @@ namespace iSOL_Enterprise.Dal
                                                            ",GroupNum = '" + model.ListAccouting.GroupNum + "'" +
                                                            ",SlpCode = " + model.FooterData.SlpCode + " , is_Edited = 1" +
                                                            ",Series = " + model.HeaderData.Series + "" +
+                                                           ",DiscPrcnt = " + model.FooterData.Discount + "" +
                                                            ",PurchaseType = " + model.HeaderData.PurchaseType + "" +
                                                            ",TypeDetail = " + model.HeaderData.TypeDetail + "" +
                                                            ",ProductionOrderNo = " + model.HeaderData.ProductionOrderNo + "" +
