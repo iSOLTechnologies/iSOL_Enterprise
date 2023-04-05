@@ -373,6 +373,13 @@ input[type=number] {
 											</span>
 										</li>
 										<li class="menu-item" aria-haspopup="true">
+											<a asp-action="Index" asp-controller="PurchaseRequest" class="menu-link">
+												<i class="menu-bullet menu-bullet-dot">
+													<span></span>
+												</i> <span class="menu-text">Purchase Request</span>
+											</a>
+										</li>
+										<li class="menu-item" aria-haspopup="true">
 											<a asp-action="Index" asp-controller="PurchaseQuotation" class="menu-link">
 												<i class="menu-bullet menu-bullet-dot">
 													<span></span>
@@ -2766,6 +2773,7 @@ input[type=number] {
 		var ObjAcctCode;
 		var ObjBatchCode;
 		var ObjCardCode;
+		var LineVendor;
 		var CopyBtnUrl;
 		var BaseType = -1;
 		var BatchSelectUrl;
@@ -3430,7 +3438,7 @@ input[type=number] {
 
 		$(document).on('dblclick', '#MyyyyVendorTable tbody tr', function (e) {
 			//debugger
-			var LookTable = $('#MyyyyVendorTable').DataTable();;
+			var LookTable = $('#MyyyyVendorTable').DataTable();
 			var selectedRow = $(this).closest('tr');
 			var rowData = LookTable.row(selectedRow).data();
 			$('#MyyyyVendorTable tr').removeClass("Mainrow_selected");
@@ -3443,6 +3451,7 @@ input[type=number] {
 			GetContactPersons(rowData['cardCode']);
 			$('#myVendorModal').modal('hide');
 			$('#btnCopyFrom').attr('disabled', false);
+			LineVendor.val(rowData['cardCode']);
 			//$(ObjItemCode)
 		});
 
