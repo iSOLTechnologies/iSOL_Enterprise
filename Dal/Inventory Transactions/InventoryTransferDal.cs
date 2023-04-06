@@ -109,13 +109,10 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     }
                     #endregion
 
-                    string HeadQuery = @"insert into OWTR (Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Address,ShipToCode,CardName,CardCode,Name,Comments,JrnlMemo,Filler,ToWhsCode) 
-                                        values(@Id,@Guid,@MySeries,@DocNum,@Series,@DocDate,@GroupNum,@TaxDate,@Address,@ShipToCode,@CardName,@CardCode,@Name,@Comments,@JrnlMemo,@Filler,@ToWhsCode)";
-
-
-
+                    string HeadQuery = @"insert into OWTR (Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Address,ShipToCode,CardName,CardCode,Comments,JrnlMemo,Filler,ToWhsCode,CntctCode) 
+                                        values(@Id,@Guid,@MySeries,@DocNum,@Series,@DocDate,@GroupNum,@TaxDate,@Address,@ShipToCode,@CardName,@CardCode,@Comments,@JrnlMemo,@Filler,@ToWhsCode,@CntctCode)";
+                     
                     #region SqlParameters
-
                     #region Header data
                     param.Add(cdal.GetParameter("@MySeries", model.HeaderData.MySeries, typeof(int)));
                     param.Add(cdal.GetParameter("@DocNum", model.HeaderData.DocNum, typeof(string)));
@@ -125,11 +122,11 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     param.Add(cdal.GetParameter("@TaxDate", model.HeaderData.TaxDate, typeof(DateTime)));
                     param.Add(cdal.GetParameter("@CardCode", model.HeaderData.Ref2, typeof(string)));
                     param.Add(cdal.GetParameter("@CardName", model.HeaderData.CardName, typeof(string)));
-                    param.Add(cdal.GetParameter("@Name", model.HeaderData.CntcCode, typeof(string)));
                     param.Add(cdal.GetParameter("@Address", model.HeaderData.Address, typeof(string)));
                     param.Add(cdal.GetParameter("@ShipToCode", model.HeaderData.ShipToCode, typeof(string)));
                     param.Add(cdal.GetParameter("@Filler", model.HeaderData.Filler, typeof(string)));
                     param.Add(cdal.GetParameter("@ToWhsCode", model.HeaderData.ToWhsCode, typeof(string)));
+                    param.Add(cdal.GetParameter("@CntctCode", model.HeaderData.CntcCode, typeof(int)));
                     #endregion
 
                     #region Footer Data
@@ -137,10 +134,6 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     param.Add(cdal.GetParameter("@Comments", model.FooterData.Comments, typeof(string)));
                     param.Add(cdal.GetParameter("@JrnlMemo", model.FooterData.JrnlMemo, typeof(string))); 
                     #endregion
-
-
-
-
                     #endregion
 
                     res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery, param.ToArray()).ToInt();
