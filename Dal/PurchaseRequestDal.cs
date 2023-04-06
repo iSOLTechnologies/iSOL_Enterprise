@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using SqlHelperExtensions;
 using System.Data;
 using System.Data.SqlClient;
+using System.Xml.Linq;
 
 namespace iSOL_Enterprise.Dal
 {
@@ -12,26 +13,25 @@ namespace iSOL_Enterprise.Dal
     {
 		public List<SalesQuotation_MasterModels> GetData()
 		{
-			string GetQuery = "select * from OPQT order by id DESC";
+			string GetQuery = "select * from OPRQ order by id DESC";
 
 
 			List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
 			using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
 			{
 				while (rdr.Read())
-				{
-
-					SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
-					models.DocStatus = CommonDal.Check_IsNotEditable("PQT1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
-					models.Id = rdr["Id"].ToInt();
-					models.DocDate = rdr["DocDueDate"].ToDateTime();
-					models.PostingDate = rdr["DocDate"].ToDateTime();
-					models.DocNum = rdr["DocNum"].ToString();
-					models.CardCode = rdr["CardCode"].ToString();
-					models.Guid = rdr["Guid"].ToString();
-					models.CardName = rdr["CardName"].ToString();
-					models.IsPosted = rdr["isPosted"].ToString(); models.IsEdited = rdr["is_Edited"].ToString();
-					list.Add(models);
+				{ 
+					list.Add(
+						new SalesQuotation_MasterModels()
+						{
+							//DocStatus = CommonDal.Check_IsNotEditable("PQT1", rdr["Id"].ToInt()) == false ? "Open" : "Closed",
+							DocStatus = "Open",
+							Id = rdr["Id"].ToInt(),
+							DocNum = rdr["DocNum"].ToString(),
+							DocDate = rdr["DocDueDate"].ToDateTime(),
+							CardName = rdr["Requester"].ToString(),
+						}
+						);
 				}
 			}
 			return list;
@@ -118,6 +118,8 @@ namespace iSOL_Enterprise.Dal
 		public ResponseModels AddPurchaseRequest(string formData)
 		{
 			var model = JsonConvert.DeserializeObject<dynamic>(formData);
+			string DocType = model.ListItems == null ? "S" : "I";
+
 			ResponseModels response = new ResponseModels();
 			CommonDal cdal = new CommonDal();
 			SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
@@ -132,7 +134,7 @@ namespace iSOL_Enterprise.Dal
 				if (model.HeaderData != null)
 				{
 					List<SqlParameter> param = new List<SqlParameter>();
-					int Id = CommonDal.getPrimaryKey(tran, "OWTR");
+					int Id = CommonDal.getPrimaryKey(tran, "OPRQ");
 
 					param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
 					param.Add(cdal.GetParameter("@Guid", CommonDal.generatedGuid(), typeof(string)));
@@ -152,33 +154,43 @@ namespace iSOL_Enterprise.Dal
 					}
 					#endregion
 
-					string HeadQuery = @"insert into OWTR (Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Address,ShipToCode,CardName,CardCode,Name,Comments,JrnlMemo,Filler,ToWhsCode) 
-                                        values(@Id,@Guid,@MySeries,@DocNum,@Series,@DocDate,@GroupNum,@TaxDate,@Address,@ShipToCode,@CardName,@CardCode,@Name,@Comments,@JrnlMemo,@Filler,@ToWhsCode)";
+					string HeadQuery = @"insert into OPRQ (Id,Guid,DocType,ReqType,Requester,MySeries,DocNum,Series,ReqName,Branch,Department,DocDate,DocDueDate,Notify,Email,TaxDate,ReqDate,OwnerCode,Comments,DiscPrcnt,DocTotal) 
+                                        values(@Id,@Guid,@DocType,@ReqType,@Requester,@MySeries,@DocNum,@Series,@ReqName,@Branch,@Department,@DocDate,@DocDueDate,@Notify,@Email,@TaxDate,@ReqDate,@OwnerCode,@Comments,@DiscPrcnt,@DocTotal)";
 
 
 
 					#region SqlParameters
 
 					#region Header data
+					param.Add(cdal.GetParameter("@DocType", DocType, typeof(char)));
+					 param.Add(cdal.GetParameter("@ReqType", model.HeaderData.ReqType, typeof(int)));
+					param.Add(cdal.GetParameter("@Requester", model.HeaderData.Requester, typeof(string)));
 					param.Add(cdal.GetParameter("@MySeries", model.HeaderData.MySeries, typeof(int)));
 					param.Add(cdal.GetParameter("@DocNum", model.HeaderData.DocNum, typeof(string)));
 					param.Add(cdal.GetParameter("@Series", model.HeaderData.Series, typeof(int)));
+					param.Add(cdal.GetParameter("@ReqName", model.HeaderData.ReqName, typeof(string)));
+					param.Add(cdal.GetParameter("@Branch", model.HeaderData.Branch, typeof(Int16)));
+					param.Add(cdal.GetParameter("@Department", model.HeaderData.Department, typeof(Int16)));
 					param.Add(cdal.GetParameter("@DocDate", model.HeaderData.DocDate, typeof(DateTime)));
-					param.Add(cdal.GetParameter("@GroupNum", model.HeaderData.GroupNum, typeof(Int16)));
+					param.Add(cdal.GetParameter("@DocDueDate", model.HeaderData.DocDueDate, typeof(DateTime)));
+					param.Add(cdal.GetParameter("@Notify", model.HeaderData.Notify, typeof(char)));					
 					param.Add(cdal.GetParameter("@TaxDate", model.HeaderData.TaxDate, typeof(DateTime)));
-					param.Add(cdal.GetParameter("@CardCode", model.HeaderData.Ref2, typeof(string)));
-					param.Add(cdal.GetParameter("@CardName", model.HeaderData.CardName, typeof(string)));
-					param.Add(cdal.GetParameter("@Name", model.HeaderData.CntcCode, typeof(string)));
-					param.Add(cdal.GetParameter("@Address", model.HeaderData.Address, typeof(string)));
-					param.Add(cdal.GetParameter("@ShipToCode", model.HeaderData.ShipToCode, typeof(string)));
-					param.Add(cdal.GetParameter("@Filler", model.HeaderData.Filler, typeof(string)));
-					param.Add(cdal.GetParameter("@ToWhsCode", model.HeaderData.ToWhsCode, typeof(string)));
-					#endregion
+					param.Add(cdal.GetParameter("@ReqDate", model.HeaderData.ReqDate, typeof(DateTime)));
+					if (model.HeaderData.Notify == "Y")
+					{
+						param.Add(cdal.GetParameter("@Email", model.HeaderData.Email, typeof(string)));
+					}
+					else
+					{
+						param.Add(cdal.GetParameter("@Email", "", typeof(string)));
+					}
+					#endregion 
 
 					#region Footer Data
-					param.Add(cdal.GetParameter("@SlpCode", model.FooterData.JrnlMemo, typeof(string)));
+					param.Add(cdal.GetParameter("@OwnerCode", model.FooterData.OwnerCode, typeof(string)));
 					param.Add(cdal.GetParameter("@Comments", model.FooterData.Comments, typeof(string)));
-					param.Add(cdal.GetParameter("@JrnlMemo", model.FooterData.JrnlMemo, typeof(string)));
+					param.Add(cdal.GetParameter("@DiscPrcnt", model.FooterData.FooterTax, typeof(string)));
+					param.Add(cdal.GetParameter("@DocTotal", model.FooterData.Total, typeof(string)));
 					#endregion
 
 
@@ -201,26 +213,24 @@ namespace iSOL_Enterprise.Dal
 						foreach (var item in model.ListItems)
 						{
 
-							string RowQueryItem1 = @"insert into WTR1
-                                (Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemCode,Dscription,WhsCode,FromWhsCod,Quantity,UomEntry,UomCode,BaseQty,OpenQty)
-                          values(@Id,@LineNum,@BaseRef,@BaseEntry,@BaseLine,@ItemCode,@Dscription,@WhsCode,@FromWhsCod,@Quantity,@UomEntry,@UomCode,@BaseQty,@OpenQty)";
+							string RowQueryItem1 = @"insert into PRQ1
+                                (Id,LineNum,ItemCode,LineVendor,PQTReqDate,Quantity,DiscPrcnt,VatGroup,UomEntry,UomCode,LineTotal,CountryOrg)
+                          values(@Id,@LineNum,@ItemCode,@LineVendor,@PQTReqDate,@Quantity,@DiscPrcnt,@VatGroup,@UomEntry,@UomCode,@LineTotal,@CountryOrg)";
 							var BaseRef = item.BaseRef;
 							#region sqlparam
 							List<SqlParameter> param1 = new List<SqlParameter>();
 							param1.Add(cdal.GetParameter("@Id", Id, typeof(int)));
 							param1.Add(cdal.GetParameter("@LineNum", LineNum, typeof(int)));
-							param1.Add(cdal.GetParameter("@BaseRef", item.BaseRef, typeof(string)));
-							param1.Add(cdal.GetParameter("@BaseEntry", item.BaseEntry, typeof(int)));
-							param1.Add(cdal.GetParameter("@BaseLine", item.BaseLine, typeof(int)));
 							param1.Add(cdal.GetParameter("@ItemCode", item.ItemCode, typeof(string)));
-							param1.Add(cdal.GetParameter("@Dscription", item.ItemName, typeof(string)));
-							param1.Add(cdal.GetParameter("@WhsCode", item.WhsCode, typeof(string)));
-							param1.Add(cdal.GetParameter("@FromWhsCod", item.Warehouse, typeof(string)));
+							param1.Add(cdal.GetParameter("@LineVendor", item.LineVendor, typeof(string)));
+							param1.Add(cdal.GetParameter("@PQTReqDate", item.PQTReqDate, typeof(DateTime)));
 							param1.Add(cdal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
+							param1.Add(cdal.GetParameter("@DiscPrcnt", item.DicPrc, typeof(decimal)));
+							param1.Add(cdal.GetParameter("@VatGroup", item.VatGroup, typeof(string)));
 							param1.Add(cdal.GetParameter("@UomEntry", item.UomEntry, typeof(int)));
 							param1.Add(cdal.GetParameter("@UomCode", item.UomCode, typeof(string)));
-							param1.Add(cdal.GetParameter("@BaseQty", item.BaseQty, typeof(string)));
-							param1.Add(cdal.GetParameter("@OpenQty", item.QTY, typeof(decimal)));
+							param1.Add(cdal.GetParameter("@LineTotal", item.TtlPrc, typeof(decimal))); 
+							param1.Add(cdal.GetParameter("@CountryOrg", item.CountryOrg, typeof(string))); 
 
 							#endregion
 
@@ -232,49 +242,33 @@ namespace iSOL_Enterprise.Dal
 								response.Message = "An Error Occured";
 								return response;
 							}
+							LineNum += 1;
 
-							int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");
-							int LogEntry2 = LogEntry + 1;
-							//int LogEntry2 = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");
+						}
+					}
+					else if (model.ListService != null)
+					{
+						int LineNum = 0;
 
-							//int QUT1Id = CommonDal.getPrimaryKey(tran, "DLN1");
+						foreach (var item in model.ListService)
+						{
+							string RowQueryItem1 = @"insert into PRQ1
+                                (Id,LineNum,Dscription,LineVendor,PQTReqDate,AcctCode,VatGroup,LineTotal)
+                          values(@Id,@LineNum,@Dscription,@LineVendor,@PQTReqDate,@AcctCode,@VatGroup,@LineTotal)";
+							 
+							#region sqlparam
+							List<SqlParameter> param1 = new List<SqlParameter>();
+							param1.Add(cdal.GetParameter("@Id", Id, typeof(int)));
+							param1.Add(cdal.GetParameter("@LineNum", LineNum, typeof(int)));
+							param1.Add(cdal.GetParameter("@Dscription", item.Dscription, typeof(string)));
+							param1.Add(cdal.GetParameter("@PQTReqDate", item.PQTReqDate, typeof(DateTime)));
+							param1.Add(cdal.GetParameter("@LineVendor", item.LineVendor, typeof(string)));
+							param1.Add(cdal.GetParameter("@AcctCode", item.AcctCode, typeof(string)));
+							param1.Add(cdal.GetParameter("@LineTotal", item.TotalLC, typeof(decimal)));
+							param1.Add(cdal.GetParameter("@VatGroup", item.VatGroup, typeof(string))); 
+							#endregion
 
-							#region UpdateWarehouse&GenerateLog
-
-							#region OITLLog
-
-							item.BaseType = item.BaseType == "" ? "NULL" : Convert.ToInt32(item.BaseType);
-							//First query is For From & Second Query is for To
-
-							string LogQueryOITL = @"insert into OITL(LogEntry,CardCode,ItemCode,CardName,ItemName,DocEntry,DocLine,DocType,BaseType,DocNum,DocQty,DocDate) 
-                                                    values(" + LogEntry + ",'"
-											  + model.HeaderData.CardCode + "','"
-											  + item.ItemCode + "','"
-											  + item.ItemName + "','"
-											  + model.HeaderData.CardName + "',"
-											  + Id + ","
-											  + LineNum + ","
-											  + 67 + ","
-											  + item.BaseType + ","
-											  + Id + ","
-											  + -1 * ((Decimal)(item.QTY)) + ",'"
-											  + Convert.ToDateTime(model.HeaderData.DocDate) + "');" +
-
-											  " insert into OITL(LogEntry,CardCode,ItemCode,CardName,ItemName,DocEntry,DocLine,DocType,BaseType,DocNum,DocQty,DocDate) " +
-											  " values(" + LogEntry2 + ",'"
-											  + model.HeaderData.CardCode + "','"
-											  + item.ItemCode + "','"
-											  + item.ItemName + "','"
-											  + model.HeaderData.CardName + "',"
-											  + Id + ","
-											  + LineNum + ","
-											  + 67 + ","
-											  + item.BaseType + ","
-											  + Id + ","
-											  + ((Decimal)(item.QTY)) + ",'"
-											  + Convert.ToDateTime(model.HeaderData.DocDate) + "')";
-
-							res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryOITL).ToInt();
+							res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem1, param1.ToArray()).ToInt();
 							if (res1 <= 0)
 							{
 								tran.Rollback();
@@ -282,223 +276,7 @@ namespace iSOL_Enterprise.Dal
 								response.Message = "An Error Occured";
 								return response;
 							}
-
-
-							#endregion
-
 							LineNum += 1;
-							//#region Bataches & Logs working
-
-							//if (model.Batches != null)
-							//{
-
-							//	foreach (var batch in model.Batches)
-							//	{
-
-							//		foreach (var ii in batch)
-							//		{
-
-							//			if (ii.itemno == item.ItemCode)
-							//			{
-							//				int count = Convert.ToInt32(SqlHelper.ExecuteScalar(tran, CommandType.Text, "Select Count(*) from OBTQ Where AbsEntry = " + ii.AbsEntry));
-							//				int SysNumber = CommonDal.getSysNumber(tran, item.ItemCode.ToString());
-							//				int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
-							//				int ObtqAbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTQ"); //Primary Key
-							//				//tbl_OBTN OldBatchData = GetBatchList(tran, item.ItemCode.ToString(), ii.DistNumber.ToString(), item.Warehouse.ToString());
-							//				//#region From WareHouse Working
-
-
-
-							//				//#region Record Found in OBTQ For From Whs
-							//				//if (OldBatchData.AbsEntry > 0)
-							//				//{
-							//				//	#region Update OBTQ
-
-							//				//	string BatchQueryOBTN = @"Update OBTQ set Quantity = " + ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + " WHERE AbsEntry = " + OldBatchData.AbsEntry;
-
-							//				//	res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
-							//				//	if (res1 <= 0)
-							//				//	{
-							//				//		tran.Rollback();
-							//				//		response.isSuccess = false;
-							//				//		response.Message = "An Error Occured";
-							//				//		return response;
-							//				//	}
-							//				//	SysNumber = OldBatchData.SysNumber;
-							//				//	AbsEntry = OldBatchData.MdAbsEntry;
-							//				//	#endregion
-							//				//}
-							//				//#endregion
-
-							//				//#region Record Not Found in OBTQ For From Whs
-							//				//else
-							//				//{
-							//				//	batch[0].ExpDate = batch[0].ExpDate.ToString() == "" ? null : Convert.ToDateTime(batch[0].ExpDate);
-							//				//	#region Insert in OBTN
-							//				//	string BatchQueryOBTN = @"insert into OBTN(AbsEntry,ItemCode,SysNumber,DistNumber,InDate,ExpDate)
-       //    //                                                                                         values(" + AbsEntry + ",'"
-							//				//							+ item.ItemCode + "',"
-							//				//							+ SysNumber + ",'"
-							//				//							+ ii.DistNumber + "','"
-							//				//							+ DateTime.Now + "','"
-							//				//							+ batch[0].ExpDate + "')";
-
-
-							//				//	res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
-							//				//	if (res1 <= 0)
-							//				//	{
-							//				//		tran.Rollback();
-							//				//		response.isSuccess = false;
-							//				//		response.Message = "An Error Occured";
-							//				//		return response;
-							//				//	}
-							//				//	#endregion
-
-
-							//				//	#region Insert in OBTQ
-
-							//				//	string BatchQueryOBTQ = @"insert into OBTQ(AbsEntry,MdAbsEntry,ItemCode,SysNumber,WhsCode,Quantity)
-       //    //                                                                                         values(" + ObtqAbsEntry + ","
-							//				//							+ AbsEntry + ",'"
-							//				//							+ item.ItemCode + "',"
-							//				//							+ SysNumber + ",'"
-							//				//							+ item.Warehouse + "',"
-							//				//							+ ((Decimal)(ii.Quantity) - (Decimal)(ii.selectqty)) + ")";
-
-							//				//	res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTQ).ToInt();
-							//				//	if (res1 <= 0)
-							//				//	{
-							//				//		tran.Rollback();
-							//				//		response.isSuccess = false;
-							//				//		response.Message = "An Error Occured";
-							//				//		return response;
-							//				//	}
-							//				//	#endregion
-							//				//}
-
-
-
-
-							//				//#endregion
-
-							//				//#endregion
-
-							//				//#region To WareHouse Working
-
-							//				//tbl_OBTN OldBatchData1 = GetBatchList(tran, item.ItemCode.ToString(), ii.DistNumber.ToString(), item.WhsCode.ToString());
-
-							//				//#region Record Found in OBTQ For To Whs
-							//				//if (OldBatchData1.AbsEntry > 0)
-							//				//{
-							//				//	#region Update OBTQ
-
-							//				//	string BatchQueryOBTN = @"Update OBTQ set Quantity = Quantity +" + ((Decimal)(ii.selectqty)) + " WHERE AbsEntry = " + OldBatchData1.AbsEntry;
-
-							//				//	res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
-							//				//	if (res1 <= 0)
-							//				//	{
-							//				//		tran.Rollback();
-							//				//		response.isSuccess = false;
-							//				//		response.Message = "An Error Occured";
-							//				//		return response;
-							//				//	}
-							//				//	SysNumber = OldBatchData1.SysNumber;
-							//				//	AbsEntry = OldBatchData1.MdAbsEntry;
-							//				//	#endregion
-							//				//}
-							//				//#endregion
-
-							//				//#region Record Not Found in OBTQ For To Whs
-							//				//else
-							//				//{
-
-							//					//#region Insert in OBTN
-							//					//string BatchQueryOBTN = @"insert into OBTN(AbsEntry,ItemCode,SysNumber,DistNumber,InDate,ExpDate)
-							//					//                                values(" + AbsEntry + ",'"
-							//					//                        + itemno + "',"
-							//					//                        + SysNumber + ",'"
-							//					//                        + ii.DistNumber + "','"
-							//					//                        + DateTime.Now + "','"
-							//					//                        + Convert.ToDateTime(batch[0].ExpDate) + "')";
-
-
-							//					//res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
-							//					//if (res1 <= 0)
-							//					//{
-							//					//    tran.Rollback();
-							//					//    response.isSuccess = false;
-							//					//    response.Message = "An Error Occured";
-							//					//    return response;
-							//					//}
-							//					//#endregion
-
-
-							//			//		#region Insert in OBTQ
-							//			//		int ObtqAbsEntry1 = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTQ");
-							//			//		string BatchQueryOBTQ = @"insert into OBTQ(AbsEntry,MdAbsEntry,ItemCode,SysNumber,WhsCode,Quantity)
-       //   //                                                                                  values(" + ObtqAbsEntry1 + ","
-							//			//								+ AbsEntry + ",'"
-							//			//								+ item.ItemCode + "',"
-							//			//								+ SysNumber + ",'"
-							//			//								+ item.WhsCode + "',"
-							//			//								+ ii.selectqty + ")";
-
-							//			//		res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTQ).ToInt();
-							//			//		if (res1 <= 0)
-							//			//		{
-							//			//			tran.Rollback();
-							//			//			response.isSuccess = false;
-							//			//			response.Message = "An Error Occured";
-							//			//			return response;
-							//			//		}
-							//			//		#endregion
-							//			//	}
-							//			//	#endregion
-
-							//			//	#endregion
-
-							//			//	#region ITL1 log
-							//			//	string LogQueryITL1 = @"insert into ITL1(LogEntry,ItemCode,SysNumber,Quantity,AllocQty,MdAbsEntry) 
-       //   //                                                                 values(" + LogEntry + ",'"
-							//			//							 + item.ItemCode + "','"
-							//			//							 + SysNumber + "',"
-							//			//							 + -1 * ((Decimal)(ii.selectqty)) + ","
-							//			//							 + -1 * ((Decimal)(ii.selectqty)) + ","
-							//			//							 + AbsEntry + ");" +
-
-							//			//							"insert into ITL1(LogEntry,ItemCode,SysNumber,Quantity,OrderedQty,MdAbsEntry)" +
-							//			//								"values(" + LogEntry2 + ",'"
-							//			//							 + item.ItemCode + "','"
-							//			//							 + SysNumber + "',"
-							//			//							 + ii.selectqty + ","
-							//			//							 + ((Decimal)(ii.selectqty)) + ","
-							//			//							 + AbsEntry + ")";
-
-
-							//			//	res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryITL1).ToInt();
-							//			//	if (res1 <= 0)
-							//			//	{
-							//			//		tran.Rollback();
-							//			//		response.isSuccess = false;
-							//			//		response.Message = "An Error Occured";
-							//			//		return response;
-							//			//	}
-
-
-							//			//	#endregion
-							//			//}
-							//			else break;
-
-							//		}
-
-							//	}
-							//}
-
-
-
-							//#endregion
-
-
 						}
 					}
 
@@ -554,12 +332,11 @@ namespace iSOL_Enterprise.Dal
 				{
 					tran.Commit();
 					response.isSuccess = true;
-					response.Message = "Item Added Successfully !";
+					response.Message = "Purchase Request Added Successfully !";
 
 				}
 
-			}
-			#endregion
+			} 
 			catch (Exception e)
 			{
 				tran.Rollback();

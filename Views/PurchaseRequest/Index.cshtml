@@ -21,7 +21,7 @@
                 <span class="card-icon">
                     <i class="flaticon-notepad text-primary"></i>
                 </span>
-                <h3 class="card-label">Purchase Quotation</h3>
+                <h3 class="card-label">Purchase Request</h3>
             </div>
             @* <div class="card-toolbar">
             <button class="bt btn-brand"  type="button">
@@ -51,9 +51,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th></th> 
                         <th></th>
 
 
@@ -162,27 +160,13 @@
                     }
                 },
                 {
-                    data: 'postingDate', title: 'Posting Date', render: function (data, type, row) {
-                        if (data != undefined && data != '') {
-
-                            return moment(data).format('DD-MM-YYYY')
-
-                        } else {
-                            // return data;
-                            return '';
-                        }
-                    }
-                },
-                {
                     data: 'docNum', title: 'DocNum',
 
                 }, {
-                    data: 'cardCode', title: 'Card Code'
+                    data: 'cardName', title: 'Requester'
 
-                }, {
-                    data: 'cardName', title: 'Card Name'
-
-                }, {
+                },
+                {
                     data: "docStatus", 'title': 'Status', render: function (data, type, row) {
 
                         if (data == "Open") {

@@ -54,7 +54,6 @@ namespace iSOL_Enterprise.Controllers.purchase
             ResponseModels response = new ResponseModels();
             try
             {
-
                 PurchaseRequestDal dal = new PurchaseRequestDal();
                 response.Data = dal.GetData();
             }
@@ -90,17 +89,13 @@ namespace iSOL_Enterprise.Controllers.purchase
             ResponseModels response = new ResponseModels();
             try
             {
-
                 PurchaseRequestDal dal = new PurchaseRequestDal();
                 response.Data = dal.GetEmployes();
             }
             catch (Exception ex)
             {
-
                 return Json(response);
             }
-
-
             return Json(response);
         }
 

@@ -206,7 +206,7 @@
 																<div class="form-group row">
 																	<div class="col-md-6">
 																		<label>Department</label>
-																		<select class=" form-control kt-select2 ItemCode NotReq" asp-items="@ViewBag.Department" id="Branch">
+																		<select class=" form-control kt-select2 ItemCode NotReq" asp-items="@ViewBag.Department" id="Department">
 																			<option value="">-- Select Department --</option>
 																		</select>
 																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -334,10 +334,8 @@
 																					<th>Vendor</th>
 																					<th>Warehouse</th>
 																					<th>Qty in Warehouse</th>
-																					<th>Required Date</th>
-																					<th>Quoted Date</th>
+																					<th>Required Date</th> 
 																					<th>Required Qty</th>
-																					<th>Quantity</th>
 																					<th>Info Price</th>
 																					<th>Discount %</th>
 																					<th>Tax Code</th>
@@ -394,15 +392,7 @@
 																					<td>
 																						<input id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
 																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-																					<td>
-																						<input id="ShipDate" type="date" class="form-control form-control-sm" placeholder="Quoted Date">
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-																					<td>
-																						<input class="form-control form-control-sm" id="PQTReqQty" type="number">
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
+																					</td> 
 																					<td>
 																						<input class="form-control form-control-sm" id="QTY" type="number">
 																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -450,12 +440,11 @@
 																				<tr>
 																					<th>Description</th>
 																					<th>Required Date</th>
-																					<th>Quoted Date</th>
+																					<th>Vendor</th>
 																					<th>Gl Account</th>
 																					<th>Gl Account Name</th>
 																					<th>Tax Code</th>
-																					<th>Total LC</th>
-																					<th>Blanket Agreement No.</th>
+																					<th>Total LC</th> 
 																					<!-- @*<th>Supplier </th>
 																						<th>Lot Number</th>
 																						<th>GSM</th>*@ -->
@@ -473,7 +462,15 @@
 																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																					</td>
 																					<td>
-																						<input id="ShipDate" type="date" class="form-control form-control-sm" placeholder="Quoted Date">
+																						<div class="input-group">
+																							 
+																							<input type="text" id="LineVendor" class="form-control form-control-sm " placeholder="Vendor" aria-describedby="basic-addon2">
+																			<div id="CustomerNo" class="input-group-append">
+																				<span class="input-group-text">
+																					<i class="la la-search"></i>
+																				</span>
+																			</div>
+																						</div>
 																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																					</td>
 																					<td>
@@ -498,11 +495,7 @@
 																					<td>
 																						<input class="form-control form-control-sm" id="TotalLC">
 																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-																					<td>
-																						<input class="form-control form-control-sm" id="BlanketAgreementNo">
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
+																					</td> 
 																				</tr>
 																			</tbody>
 																		</table>
@@ -785,9 +778,11 @@
 	$(document).on('click', '#Notify', function (e) {
 		 
 		 if($(this).is(":checked") == true){
+			 $(this).val('Y');
 			 $('#Email').attr('disabled',false);
 		 }else if($(this).is(":checked") == false){ 
-			  $('#Email').attr('disabled',true);
+			 $(this).val('N');
+			 $('#Email').attr('disabled',true);
 		 }
 	});
 
@@ -921,47 +916,52 @@
 	});
 
 	function append_ServiceFirstRow() {
-		var html = ` <tr class="rowItemDetail align-items-center itm">
-																						<td>
-																							<input id="Dscription" class="form-control form-control-sm">
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<input id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<input id="ShipDate" type="date" class="form-control form-control-sm" placeholder="Quoted Date">
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<div class="input-group">
-																								<input type="text" id="AcctCode" class="form-control form-control-sm" placeholder="GL Account" aria-describedby="basic-addon2">
-																								<div id="GLAccountNo" class="input-group-append"> <span class="input-group-text">
-																										<i class="la la-search"></i>
-																									</span> </div>
+		var html = `<tr class="rowItemDetail align-items-center itm">
+																					<td>
+																						<input id="Dscription" class="form-control form-control-sm">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<input id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<div class="input-group">
+																							 
+																							<input type="text" id="LineVendor" class="form-control form-control-sm " placeholder="Vendor" aria-describedby="basic-addon2">
+																			<div id="CustomerNo" class="input-group-append">
+																				<span class="input-group-text">
+																					<i class="la la-search"></i>
+																				</span>
+																			</div>
+																						</div>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<div class="input-group">
+																							<input type="text" id="AcctCode" class="form-control form-control-sm" placeholder="GL Account" aria-describedby="basic-addon2">
+																							<div id="GLAccountNo" class="input-group-append">
+																								<span class="input-group-text">
+																									<i class="la la-search"></i>
+																								</span>
 																							</div>
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<input id="AcctName" class="form-control form-control-sm">
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<select class="form-control" id="VatGroup2">
-																							`+ vatGroupData + `
-																							</select>
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<input class="form-control form-control-sm" id="TotalLC">
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<input class="form-control form-control-sm" id="BlanketAgreementNo">
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-
+																						</div>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<input id="AcctName" class="form-control form-control-sm">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<select class="form-control" id="VatGroup2">
+																							`+ vatGroupData + ` 
+																						</select>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<input class="form-control form-control-sm" id="TotalLC">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td> 
 																					</tr>`;
 		$('#kt_repeater_2 tbody').append(html);
 		//addDataInVatGroup();
@@ -1012,15 +1012,7 @@
 																						<td>
 																							<input id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
 																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<input id="ShipDate" type="date" class="form-control form-control-sm" placeholder="Quoted Date">
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<input class="form-control form-control-sm" id="PQTReqQty" type="number">
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
+																						</td> 
 																						<td>
 																							<input class="form-control form-control-sm" id="QTY" type="number">
 																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -1291,15 +1283,7 @@
 																						<td>
 																							<input id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
 																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<input id="ShipDate" type="date" class="form-control form-control-sm" placeholder="Quoted Date">
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<input class="form-control form-control-sm" id="PQTReqQty" type="number">
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
+																						</td> 
 																						<td>
 																							<input class="form-control form-control-sm" id="QTY" type="number">
 																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -1349,45 +1333,51 @@
 
 	$(document).on('click', '#ListBtnAddRM', function (e) {
 		var html = `<tr class="rowItemDetail align-items-center itm">
-																						<td>
-																							<input id="Dscription" class="form-control form-control-sm">
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<input id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<input id="ShipDate" type="date" class="form-control form-control-sm" placeholder="Quoted Date">
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<div class="input-group">
-																								<input type="text" id="AcctCode" class="form-control form-control-sm" placeholder="GL Account" aria-describedby="basic-addon2">
-																								<div id="GLAccountNo" class="input-group-append"> <span class="input-group-text">
-																										<i class="la la-search"></i>
-																									</span> </div>
+																					<td>
+																						<input id="Dscription" class="form-control form-control-sm">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<input id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<div class="input-group">
+																							 
+																							<input type="text" id="LineVendor" class="form-control form-control-sm " placeholder="Vendor" aria-describedby="basic-addon2">
+																			<div id="CustomerNo" class="input-group-append">
+																				<span class="input-group-text">
+																					<i class="la la-search"></i>
+																				</span>
+																			</div>
+																						</div>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<div class="input-group">
+																							<input type="text" id="AcctCode" class="form-control form-control-sm" placeholder="GL Account" aria-describedby="basic-addon2">
+																							<div id="GLAccountNo" class="input-group-append">
+																								<span class="input-group-text">
+																									<i class="la la-search"></i>
+																								</span>
 																							</div>
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<input id="AcctName" class="form-control form-control-sm">
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<select class="form-control" id="VatGroup2">
-																							`+ vatGroupData + `
-																							</select>
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<input class="form-control form-control-sm" id="TotalLC">
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
-																						<td>
-																							<input class="form-control form-control-sm" id="BlanketAgreementNo">
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
+																						</div>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<input id="AcctName" class="form-control form-control-sm">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<select class="form-control" id="VatGroup2">
+																							`+ vatGroupData + ` 
+																						</select>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<input class="form-control form-control-sm" id="TotalLC">
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>  
 																						<td>
 																							<a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
 																								<i class="la la-trash"></i> X
@@ -1438,7 +1428,6 @@
 	function FormData() {
 		var data = {
 			HeaderData: getJsonObj("HeaderForm"),
-			ListAccouting: getJsonObj("kt_tabs_acct"),
 			ListItems: ItemServiceType == '1' ? getJsonObjList("ListParameters .itm") : null,
 			ListService: ItemServiceType == '2' ? getJsonObjList("ListParameters2 .itm") : null,
 			ListAttachment: getJsonObjList("ListParameters3 .itm"),
