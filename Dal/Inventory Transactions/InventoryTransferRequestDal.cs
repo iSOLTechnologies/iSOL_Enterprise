@@ -89,7 +89,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                 if (model.HeaderData != null)
                 {
                     List<SqlParameter> param = new List<SqlParameter>();
-                    int Id = CommonDal.getPrimaryKey(tran, "OWTR");
+                    int Id = CommonDal.getPrimaryKey(tran, "OWTQ");
 
                     param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
                     param.Add(cdal.GetParameter("@Guid", CommonDal.generatedGuid(), typeof(string)));
