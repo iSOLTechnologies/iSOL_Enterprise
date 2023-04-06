@@ -1020,9 +1020,8 @@
         $('#kt_repeater_1 tbody').append(html);
        
 
-
-       $('#ListParameters tr:last-child').find('#Warehouse').val($('#Filler').val());
-       $('#ListParameters tr:last-child').find('#WhsCode').val($('#ToWhsCode').val());
+        $('#ListParameters tr:last-child').find('#Warehouse' + RowIndex).val($('#Filler').val()).trigger('change');
+        $('#ListParameters tr:last-child').find('#WhsCode' + RowIndex).val($('#ToWhsCode').val()).trigger('change');
        $('#ListParameters tr:last-child').find('#Warehouse'+RowIndex).select2();
        $('#ListParameters tr:last-child').find('#WhsCode'+RowIndex).select2();
        
