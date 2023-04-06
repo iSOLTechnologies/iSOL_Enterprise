@@ -331,6 +331,7 @@ function ValidateListData(element) {
         return true;
 }
 
+
 function ValidateBatches(element)
 {
     console.log("In validate batches");
@@ -395,6 +396,25 @@ function getJsonObjList(element) {
 
             if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')
                 jsonobj[$(this).attr("id")] = $(this).val();
+
+        });
+
+        listObj.push(jsonobj);
+
+
+
+    })
+    return listObj;
+}
+function getJsonObjListKeyName(element) {
+    let listObj = [];
+
+    $('#' + element).each(function (index, item) {
+        var jsonobj = new Object();
+        $(this).find('input , select , textarea').each(function (index, data) {
+
+            if ($(this).attr("name") != undefined || $(this).attr("name") != "" || $(this).attr("name") != '')
+                jsonobj[$(this).attr("name")] = $(this).val();
 
         });
 
