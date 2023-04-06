@@ -578,6 +578,9 @@ where s.Status=1 and p.Guid=@Guid";
                 case 67: //Inventory Transfer
                 table = "OWTR";
                 break;
+                case 1250000001: //Inventory Transfer Request
+                table = "OWTQ";
+                break;
                 default:
                 return table;
             }
@@ -633,6 +636,9 @@ where s.Status=1 and p.Guid=@Guid";
                 break;
                 case 67: //Inventory Transfer
                 table = "WTR1";
+                break;
+                case 1250000001: //Inventory Transfer Request
+                table = "WTQ1";
                 break;
                 default:
                 return table;

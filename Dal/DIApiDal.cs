@@ -1505,6 +1505,240 @@ namespace SAP_MVC_DIAPI.BLC
             }
 
         }
+
+        public ResponseModels PostInventoryTransferRequest(string[] checkedIDs, int ObjectCode)
+        {
+            ResponseModels models = new ResponseModels();
+            try
+            {
+                if (Connect())
+                {
+                    CommonDal dal = new CommonDal();
+
+                    SAPbobsCOM.StockTransfer oDoc = (SAPbobsCOM.StockTransfer)oCompany.GetBusinessObject(BoObjectTypes.oInventoryTransferRequest);
+                    if (oDoc != null)
+                    {
+                        string headerTable = dal.GetMasterTable(ObjectCode);
+                        string rowTable = dal.GetRowTable(ObjectCode);
+                        string message = "";
+
+                        SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                        conn.Open();
+                        SqlTransaction tran = conn.BeginTransaction();
+
+
+
+                        foreach (var ID in checkedIDs)
+                        {
+                            string UDF = "";
+                            bool isOld = false;
+
+                            string headerQuery = @"select Id,Guid,MySeries,DocNum,Series,DocDate,DocDueDate,GroupNum,TaxDate,Address,CardName,CardCode,CntctCode,Comments,JrnlMemo,Sap_Ref_No,Filler,ToWhsCode " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
+                            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
+                            {
+                                try
+                                {
+
+
+                                    while (rdr.Read())
+                                    {
+                                        #region Insert In Header
+                                        isOld = oDoc.GetByKey(rdr["Sap_Ref_No"].ToInt());
+
+                                        oDoc.Series = rdr["Series"].ToInt();
+
+                                        oDoc.DocDate = rdr["DocDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["DocDate"].ToString());
+                                        oDoc.DueDate = rdr["DocDueDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["DocDueDate"].ToString());
+                                        oDoc.PriceList = rdr["GroupNum"].ToInt();
+                                        oDoc.TaxDate = rdr["TaxDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["TaxDate"].ToString());
+                                        oDoc.Address = rdr["Address"].ToString();
+                                        oDoc.CardName = rdr["CardName"].ToString();
+                                        oDoc.CardCode = rdr["CardCode"].ToString();
+                                        if (rdr["CntctCode"].ToString() != "")
+                                        oDoc.ContactPerson = rdr["CntctCode"].ToInt();                                        
+                                        //oDoc.BPLName = rdr["Name"].ToString();
+                                        oDoc.Comments = rdr["Comments"].ToString();
+                                        oDoc.JournalMemo = rdr["JrnlMemo"].ToString();
+                                        oDoc.FromWarehouse = rdr["Filler"].ToString();
+                                        oDoc.ToWarehouse = rdr["ToWhsCode"].ToString();
+                                        oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
+
+                                        #endregion
+
+                                        #region Insert in Row
+                                        string RowQuery = @"select Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemCode,Dscription,WhsCod,FromWhsCod,Quantity,UomEntry,UomCode,BaseQty,OpenQty from " + rowTable + " where Id = " + ID;
+                                        using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, RowQuery))
+                                        {
+                                            try
+                                            {
+
+
+                                                while (rdr2.Read())
+                                                {
+
+                                                    oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;
+                                                    oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();
+                                                    oDoc.Lines.ItemDescription = rdr2["Dscription"].ToString();
+                                                    oDoc.Lines.WarehouseCode = rdr2["WhsCod"].ToString();
+                                                    oDoc.Lines.FromWarehouseCode = rdr2["FromWhsCod"].ToString();
+                                                    oDoc.Lines.Quantity = Convert.ToDouble(rdr2["Quantity"]);
+                                                    oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
+
+
+                                                    try
+                                                    {
+
+
+                                                        string BatchQuery = @" select ITL1.ItemCode,ITL1.SysNumber,ITL1.Quantity,ITL1.AllocQty,OITL.CreateDate, OBTN.ExpDate,OBTN.DistNumber from OITL 
+                                                                           inner join ITL1 on OITL.LogEntry = ITL1.LogEntry 
+                                                                           inner join OBTQ on ITL1.MdAbsEntry = OBTQ.AbsEntry 
+                                                                           inner join OBTN on OBTQ.MdAbsEntry = OBTN.AbsEntry
+                                                                           where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType =" + ObjectCode;
+                                                        using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
+                                                        {
+                                                            int i = 0;
+                                                            while (rdr3.Read())
+                                                            {
+                                                                if (Convert.ToDouble(rdr3["AllocQty"]) > 0)
+                                                                {
+
+
+                                                                    oDoc.Lines.BatchNumbers.BaseLineNumber = oDoc.Lines.LineNum;
+                                                                    oDoc.Lines.BatchNumbers.SetCurrentLine(i);
+                                                                    oDoc.Lines.BatchNumbers.ItemCode = rdr3["ItemCode"].ToString();
+                                                                    oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();
+                                                                    oDoc.Lines.BatchNumbers.Quantity = Convert.ToDouble(rdr3["AllocQty"]);
+                                                                    oDoc.Lines.BatchNumbers.AddmisionDate = rdr3["CreateDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr3["CreateDate"].ToString());
+                                                                    if (rdr3["ExpDate"].ToString() != "")
+                                                                        oDoc.Lines.BatchNumbers.ExpiryDate = Convert.ToDateTime(rdr3["ExpDate"].ToString());
+                                                                    oDoc.Lines.BatchNumbers.Add();
+                                                                    i += 1;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    catch (Exception)
+                                                    {
+
+                                                        throw;
+                                                    }
+
+                                                    oDoc.Lines.Add();
+                                                }
+                                            }
+                                            catch (Exception)
+                                            {
+
+                                                throw;
+                                            }
+                                        }
+                                    }
+                                    #endregion
+
+
+                                }
+                                catch (Exception e)
+                                {
+                                    models.Message = e.Message;
+                                    models.isSuccess = false;
+                                    return models;
+                                    throw;
+                                }
+                            }
+
+                            #region Posting data to SAP
+                            int res = -1;
+                            if (!isOld)
+                                res = oDoc.Add();
+                            else
+                                res = oDoc.Update();
+
+                            if (res < 0)
+                            {
+
+                                oCompany.GetLastError(out res, out message);
+                                models.Message = message;
+                                models.isSuccess = false;
+                                tran.Rollback();
+                                return models;
+                            }
+                            else
+                            {
+
+                                string getWBSDocNum = @"select DocEntry from " + headerTable + " where U_WBS_DocNum =" + ID;
+                                tbl_docRow docRowModel = new tbl_docRow();
+                                using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, getWBSDocNum))
+                                {
+                                    while (rdr3.Read())
+                                    {
+                                        docRowModel.DocEntry = rdr3["DocEntry"].ToInt();
+
+                                    }
+                                }
+                                #region Updating Table Row as Posted , Add Sap Base Entry
+                                string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = " + docRowModel.DocEntry + ",is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
+                                int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
+                                if (res1 <= 0)
+                                {
+                                    tran.Rollback();
+
+                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                    models.isSuccess = true;
+                                    return models;
+                                }
+
+                                string UpdateRowTable = @"Update " + rowTable + " set Sap_Ref_No = " + docRowModel.DocEntry + " where Id =" + ID;
+                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateRowTable).ToInt();
+                                if (res1 <= 0)
+                                {
+                                    tran.Rollback();
+
+                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                    models.isSuccess = true;
+                                    return models;
+                                }
+
+                                #endregion
+                                tran.Commit();
+
+
+                            }
+                            #endregion
+
+                        }
+
+
+                        models.Message = "Inventory Transfer Request Posted Successfully !!";
+                        models.isSuccess = true;
+                        return models;
+
+                    }
+                    else
+                    {
+                        models.Message = "Page not Found !!";
+                        models.isSuccess = false;
+                        return models;
+                    }
+
+                }
+                else
+                {
+                    models.Message = "Connection Failure !!";
+                    models.isSuccess = false;
+                    return models;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                models.Message = "An Error Occured";
+                models.isSuccess = false;
+                return models;
+
+            }
+
+        }
         public int DisConnect()
         {
             oCompany.Disconnect();
