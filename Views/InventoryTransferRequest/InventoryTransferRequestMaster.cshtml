@@ -376,17 +376,20 @@
                                                                                             <select class="form-control" id="Warehouse" name="Warehouse">
                                                                                             </select>
                                                                                             
-                                                                                        </div>
-                                                                                        <div id="ListbtnSelectBatch" class="input-group-append d-none">
-                                                                                                <span class="input-group-text">
-                                                                                                    <i class="la la-warehouse"></i>
-                                                                                                </span>
-                                                                                        </div>
+                                                                                        </div> 
                                                                                     
 
                                                                                     </td>
                                                                                              <td>
-                                                                                                <input id="onHand" name="onHand" class="form-control form-control-sm" readonly type="number">
+                                                                                        <div class="input-group">
+
+                                                                                            <div id="ListbtnSelectBatch" class="input-group-append d-none">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-warehouse"></i>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                            <input id="onHand" name="onHand" class="form-control form-control-sm" readonly type="number">
+                                                                                        </div>
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
 
@@ -973,18 +976,21 @@
                                                                                         <div class="input-group">
                                                                                                     <select class="form-control" name="Warehouse"  id="Warehouse`+ RowIndex + `">
                                                                                                   `+ WareHouseData + `
-                                                                                            </select>
-                                                                                            <div id="ListbtnSelectBatch" class="input-group-append d-none">
-                                                                                                <span class="input-group-text">
-                                                                                                    <i class="la la-warehouse"></i>
-                                                                                                </span>
-                                                                                            </div>
+                                                                                            </select> 
                                                                                         </div>
 
 
                                                                                     </td>
                                                                                              <td>
+                                                                                                   <div class="input-group">
+
+                                                                                                <div id="ListbtnSelectBatch" class="input-group-append d-none">
+                                                                                                    <span class="input-group-text">
+                                                                                                        <i class="la la-warehouse"></i>
+                                                                                                    </span>
+                                                                                                </div>
                                                                                                 <input id="onHand" name="onHand" class="form-control form-control-sm" readonly type="number">
+                                                                                            </div>
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
 
