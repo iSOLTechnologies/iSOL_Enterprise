@@ -37,8 +37,8 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
             ItemMasterDataDal Idal = new ItemMasterDataDal();
             AdministratorDal dal = new AdministratorDal();
             SalesQuotationDal Sdal = new SalesQuotationDal();
-            ViewData["Series"] = dal.GetSeries(67);
-            ViewData["MySeries"] = dal.GetMySeries(67);
+            ViewData["Series"] = dal.GetSeries(1250000001);
+            ViewData["MySeries"] = dal.GetMySeries(1250000001);
             ViewData["SalesEmployee"] = new SelectList(Sdal.GetSalesEmployee(), "SlpCode", "SlpName");
             ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text");
 

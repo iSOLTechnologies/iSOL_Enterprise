@@ -1469,5 +1469,46 @@
 		}).done(function (result) { });
 	}
 
- 
+   $(document).on('change', '#MySeries', function () {
+
+
+        if ($(this).val() == -1) {
+
+            $('#DocNum').attr("readonly", false);
+            $('#DocNum').val("");
+        }
+        else {
+            $('#DocNum').attr("readonly", true);
+
+            return $.ajax({
+                url: '/ItemMasterData/GetNewItemCode',
+                dataType: 'json',
+                type: 'Get',
+
+                data: { Series: $(this).val() },
+
+                success: function (result) {
+
+                    if (result.success) {
+
+                        $('#DocNum').val(result.itemCode);
+
+                    }
+
+                    if (!(result.success)) {
+						toastr.error("An error occured while getting DocNum");
+
+                    }
+
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+                    console.log(errorMessage);
+                }
+
+            }).done(function (result) {
+
+            });
+        }
+    })
+  
 </script>
