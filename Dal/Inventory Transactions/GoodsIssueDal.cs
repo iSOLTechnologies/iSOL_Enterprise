@@ -141,7 +141,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                             param1.Add(cdal.GetParameter("@BaseLine", item.BaseLine, typeof(int)));
                             param1.Add(cdal.GetParameter("@ItemCode", item.ItemCode, typeof(string)));
                             param1.Add(cdal.GetParameter("@Dscription", item.ItemName, typeof(string)));
-                            param1.Add(cdal.GetParameter("@WhsCode", item.WhsCode, typeof(string)));
+                            param1.Add(cdal.GetParameter("@WhsCode", item.Warehouse, typeof(string)));
                             param1.Add(cdal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
                             param1.Add(cdal.GetParameter("@Price", item.UPrc, typeof(decimal)));
                             param1.Add(cdal.GetParameter("@LineTotal", item.TtlPrc, typeof(decimal)));
