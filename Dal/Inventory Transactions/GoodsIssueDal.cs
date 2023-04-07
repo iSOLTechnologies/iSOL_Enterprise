@@ -360,7 +360,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     {
                         tran.Commit();
                         response.isSuccess = true;
-                        response.Message = "Item Added Successfully !";
+                        response.Message = "Goods Issue Added Successfully !";
 
                     }
 
