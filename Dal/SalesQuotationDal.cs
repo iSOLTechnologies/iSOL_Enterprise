@@ -48,15 +48,15 @@ namespace iSOL_Enterprise.Dal
             string GetQuery = "";
             if (DocModule == "S")
             {
-                 GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where SellItem = 'Y'";
+                 GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where SellItem = 'Y' and FrozenFor='N'";
             }
             else if (DocModule == "P")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where PrchseItem = 'Y'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where PrchseItem = 'Y' and FrozenFor='N'";
             }
             else if (DocModule == "I")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where InvntItem = 'Y'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where InvntItem = 'Y' and FrozenFor='N'";
             }
             else
             {
