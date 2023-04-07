@@ -108,7 +108,17 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                         model.HeaderData.DocNum = DocNum;
                     }
                     #endregion
-
+                    else
+                    {
+                        int count = SqlHelper.ExecuteScalar(tran, CommandType.Text, "select Count(*) from OWTR where DocNum ='" + model.HeaderData.DocNum.ToString() + "'");
+                        if (count > 0)
+                        {
+                            tran.Rollback();
+                            response.isSuccess = false;
+                            response.Message = "Duplicate Document Number !";
+                            return response;
+                        }
+                    }
                     string HeadQuery = @"insert into OWTR (Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Address,ShipToCode,CardName,CardCode,Comments,JrnlMemo,Filler,ToWhsCode,CntctCode) 
                                         values(@Id,@Guid,@MySeries,@DocNum,@Series,@DocDate,@GroupNum,@TaxDate,@Address,@ShipToCode,@CardName,@CardCode,@Comments,@JrnlMemo,@Filler,@ToWhsCode,@CntctCode)";
                      
@@ -120,7 +130,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     param.Add(cdal.GetParameter("@DocDate", model.HeaderData.DocDate, typeof(DateTime)));
                     param.Add(cdal.GetParameter("@GroupNum", model.HeaderData.GroupNum, typeof(Int16)));
                     param.Add(cdal.GetParameter("@TaxDate", model.HeaderData.TaxDate, typeof(DateTime)));
-                    param.Add(cdal.GetParameter("@CardCode", model.HeaderData.Ref2, typeof(string)));
+                    param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(string)));
                     param.Add(cdal.GetParameter("@CardName", model.HeaderData.CardName, typeof(string)));
                     param.Add(cdal.GetParameter("@Address", model.HeaderData.Address, typeof(string)));
                     param.Add(cdal.GetParameter("@ShipToCode", model.HeaderData.ShipToCode, typeof(string)));

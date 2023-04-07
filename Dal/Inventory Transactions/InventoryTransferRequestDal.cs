@@ -108,7 +108,17 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                         model.HeaderData.DocNum = DocNum;
                     }
                     #endregion
-
+                    else
+                    {
+                        int count = SqlHelper.ExecuteScalar(tran, CommandType.Text, "select Count(*) from OWTQ where DocNum ='" + model.HeaderData.DocNum.ToString() + "'");
+                        if (count > 0)
+                        {
+                            tran.Rollback();
+                            response.isSuccess = false;
+                            response.Message = "Duplicate Document Number !";
+                            return response;
+                        }
+                    }
                     string HeadQuery = @"insert into OWTQ (Id,Guid,MySeries,DocNum,Series,DocDate,CntctCode,DocDueDate,GroupNum,TaxDate,Address,ShipToCode,CardName,CardCode,Comments,JrnlMemo,Filler,ToWhsCode) 
                                         values(@Id,@Guid,@MySeries,@DocNum,@Series,@DocDate,@CntctCode,@DocDueDate,@GroupNum,@TaxDate,@Address,@ShipToCode,@CardName,@CardCode,@Comments,@JrnlMemo,@Filler,@ToWhsCode)";
 
@@ -125,7 +135,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     param.Add(cdal.GetParameter("@DocDueDate", model.HeaderData.DocDueDate, typeof(DateTime)));
                     param.Add(cdal.GetParameter("@GroupNum", model.HeaderData.GroupNum, typeof(Int16)));
                     param.Add(cdal.GetParameter("@TaxDate", model.HeaderData.TaxDate, typeof(DateTime)));
-                    param.Add(cdal.GetParameter("@CardCode", model.HeaderData.Ref2, typeof(string)));
+                    param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(string)));
                     param.Add(cdal.GetParameter("@CardName", model.HeaderData.CardName, typeof(string)));
                    // param.Add(cdal.GetParameter("@Name", model.HeaderData.CntcCode, typeof(string)));
                     param.Add(cdal.GetParameter("@Address", model.HeaderData.Address, typeof(string)));
