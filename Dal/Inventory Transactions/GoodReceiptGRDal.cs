@@ -74,6 +74,17 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                         }
                     model.HeaderData.DocNum = DocNum;
                     }
+                    else
+                    {
+                        int count = SqlHelper.ExecuteScalar(tran, CommandType.Text, "select Count(*) from OIGN where DocNum ='" + model.HeaderData.DocNum.ToString() + "'");
+                        if (count > 0)
+                        {
+                            tran.Rollback();
+                            response.isSuccess = false;
+                            response.Message = "Duplicate Document Number !";
+                            return response;
+                        }
+                    }
                     #endregion
 
                     string HeadQuery = @"insert into OIGN (Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Ref2,Comments,JrnlMemo,DocTotal) 

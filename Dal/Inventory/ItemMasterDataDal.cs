@@ -445,18 +445,32 @@ namespace iSOL_Enterprise.Dal.Inventory
                         param.Add(cdal.GetParameter("@GLMethod", model.Tab_InventoryData.GLMethod, typeof(string)));
                         param.Add(cdal.GetParameter("@InvntryUom", model.Tab_InventoryData.InvntryUom, typeof(string)));
                     }
-                    #region BackendCheck For Series
-                    string? ItemCode = SqlHelper.MySeriesUpdate_GetItemCode(MySeries, tran);
-                    if (ItemCode == null)
+                    if (MySeries != -1)
                     {
-                        tran.Rollback();
-                        response.isSuccess = false;
-                        response.Message = "An Error Occured";
-                        return response;
-                    }
-                    model.HeaderData.ItemCode = ItemCode;
-                    #endregion
 
+                    #region BackendCheck For Series
+                        string? ItemCode = SqlHelper.MySeriesUpdate_GetItemCode(MySeries, tran);
+                        if (ItemCode == null)
+                        {
+                            tran.Rollback();
+                            response.isSuccess = false;
+                            response.Message = "An Error Occured";
+                            return response;
+                        }
+                    model.HeaderData.ItemCode = ItemCode;
+                    }
+                    #endregion
+                    else
+                    {
+                        int count = SqlHelper.ExecuteScalar(tran, CommandType.Text, "select Count(*) from OITM where ItemCode ='" + model.HeaderData.ItemCode.ToString() + "'");
+                        if (count > 0)
+                        {
+                            tran.Rollback();
+                            response.isSuccess = false;
+                            response.Message = "Duplicate Item Number !";
+                            return response;
+                        }
+                    }
                     string HeadQuery = @"insert into OITM (Id,Guid,ItemCode, ItemName, Series, InvntItem, SellItem, FrgnName, PrchseItem, ItemType, ItmsGrpCod, UgpEntry, AvgPrice, WTLiable, FirmCode, ShipType,MngMethod, validFor, validFrom, validTo, frozenFrom, frozenTo,ManBtchNum, " + IQ + " PrcrmntMtd, PlaningSys, MinOrdrQty, InCostRoll, IssueMthd, TreeType, PrdStdCst, " + PQ + " " + SQ + " QryGroup1, QryGroup2, QryGroup3, QryGroup4, QryGroup5, QryGroup6, QryGroup7, QryGroup8, QryGroup9, QryGroup10, QryGroup11, QryGroup12, QryGroup13, QryGroup14, QryGroup15, QryGroup16, QryGroup17, QryGroup18, QryGroup19, QryGroup20, QryGroup21, QryGroup22, QryGroup23, QryGroup24, QryGroup25, QryGroup26, QryGroup27, QryGroup28, QryGroup29, QryGroup30, QryGroup31, QryGroup32, QryGroup33, QryGroup34, QryGroup35, QryGroup36, QryGroup37, QryGroup38, QryGroup39, QryGroup40, QryGroup41, QryGroup42, QryGroup43, QryGroup44, QryGroup45, QryGroup46, QryGroup47, QryGroup48, QryGroup49, QryGroup50, QryGroup51, QryGroup52, QryGroup53, QryGroup54, QryGroup55, QryGroup56, QryGroup57, QryGroup58, QryGroup59, QryGroup60, QryGroup61, QryGroup62, QryGroup63, QryGroup64 ,MySeries) values(@Id,@Guid, @ItemCode, @ItemName, @Series, @InvntItem, @SellItem, @FrgnName, @PrchseItem, @ItemType, @ItmsGrpCod, @UgpEntry, @AvgPrice, @WTLiable, @FirmCode, @ShipType,@MngMethod, @validFor, @validFrom, @validTo, @frozenFrom, @frozenTo,@ManBtchNum," + IQ_P + " @PrcrmntMtd, @PlaningSys, @MinOrdrQty, @InCostRoll, @IssueMthd, @TreeType, @PrdStdCst, " + PQ_P + " " + SQ_P + " @QryGroup1, @QryGroup2, @QryGroup3, @QryGroup4, @QryGroup5, @QryGroup6, @QryGroup7, @QryGroup8, @QryGroup9, @QryGroup10, @QryGroup11, @QryGroup12, @QryGroup13, @QryGroup14, @QryGroup15, @QryGroup16, @QryGroup17, @QryGroup18, @QryGroup19, @QryGroup20, @QryGroup21, @QryGroup22, @QryGroup23, @QryGroup24, @QryGroup25, @QryGroup26, @QryGroup27, @QryGroup28, @QryGroup29, @QryGroup30, @QryGroup31, @QryGroup32, @QryGroup33, @QryGroup34, @QryGroup35, @QryGroup36, @QryGroup37, @QryGroup38, @QryGroup39, @QryGroup40, @QryGroup41, @QryGroup42, @QryGroup43, @QryGroup44, @QryGroup45, @QryGroup46, @QryGroup47, @QryGroup48, @QryGroup49, @QryGroup50, @QryGroup51, @QryGroup52, @QryGroup53, @QryGroup54, @QryGroup55, @QryGroup56, @QryGroup57, @QryGroup58, @QryGroup59, @QryGroup60, @QryGroup61, @QryGroup62, @QryGroup63, @QryGroup64 , " + MySeries + ")";
 
 
