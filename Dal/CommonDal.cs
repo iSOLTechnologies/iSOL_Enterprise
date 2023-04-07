@@ -103,9 +103,9 @@ namespace iSOL_Enterprise.Dal
                 param = new SqlParameter(name, value1);
             }
             else if (type == typeof(Int16))
-            {
-                int value1 = Convert.ToInt16(value);
-                param = new SqlParameter(name, value1);
+            { 
+				int? value1 = value.ToString() == "" ? null : Convert.ToInt16(value);
+				param = new SqlParameter(name, value1);
             }
             // param = new SqlParameter(name,value);
 

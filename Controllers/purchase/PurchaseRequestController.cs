@@ -26,6 +26,22 @@ namespace iSOL_Enterprise.Controllers.purchase
             return View();
         }
 
+		public IActionResult EditPurchaseRequestMaster(int id)
+		{
+			PurchaseRequestDal Pdal = new PurchaseRequestDal();
+			AdministratorDal dal = new AdministratorDal(); 
+			ViewData["Branch"] = Pdal.GetBranch();
+			ViewData["Department"] = Pdal.GetDepartment();
+			ViewData["Series"] = dal.GetSeries(1470000113);
+			ViewData["MySeries"] = dal.GetMySeries(1470000113);
+			//ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+			//ViewBag.SalesEmployee = dal.GetSalesEmployee();			 
+			//bool flag = CommonDal.Check_IsNotEditable("PRQ1", id);
+			//ViewBag.Status = flag == false ? "Open" : "Closed";
+			ViewBag.Status = "Open";
+
+			return View(Pdal.GetPurchaseRequestEditDetails(id));
+		}
 
 
 		[HttpPost]
@@ -37,6 +53,27 @@ namespace iSOL_Enterprise.Controllers.purchase
 				if (formData != null)
 				{
 					ResponseModels response = dal.AddPurchaseRequest(formData);
+					return Json(new { isInserted = response.isSuccess, Message = response.Message });
+				}
+				else
+				{
+					return Json(new { isInserted = false, Message = "Data can't be null" });
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+		[HttpPost]
+		public IActionResult EditPurchaseRequest(string formData)
+		{
+			try
+			{
+				PurchaseRequestDal dal = new PurchaseRequestDal();
+				if (formData != null)
+				{
+					ResponseModels response = dal.EditPurchaseRequest(formData);
 					return Json(new { isInserted = response.isSuccess, Message = response.Message });
 				}
 				else
