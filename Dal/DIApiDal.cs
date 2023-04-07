@@ -865,7 +865,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.DocDate = rdr["DocDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["DocDate"].ToString());                                        
                                         oDoc.GroupNumber = rdr["GroupNum"].ToInt();
                                         oDoc.TaxDate = rdr["TaxDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["TaxDate"].ToString());
-                                        oDoc.DocTotal = rdr["DocTotal"].ToDouble();
+                                        //oDoc.DocTotal = rdr["DocTotal"].ToDouble();
                                         oDoc.Reference2 = rdr["Ref2"].ToString();
                                         oDoc.Comments = rdr["Comments"].ToString();
                                         oDoc.JournalMemo = rdr["JrnlMemo"].ToString();
@@ -893,7 +893,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                         oDoc.Lines.Price = rdr2["Price"].ToDouble();
                                                     if (rdr2["LineTotal"].ToString() != "")
                                                         oDoc.Lines.LineTotal = rdr2["LineTotal"].ToDouble();
-                                                    oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
+                                                    //oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
                                                    
                                                     
@@ -1092,7 +1092,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.DocDate = rdr["DocDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["DocDate"].ToString());
                                         oDoc.GroupNumber = rdr["GroupNum"].ToInt();
                                         oDoc.TaxDate = rdr["TaxDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["TaxDate"].ToString());
-                                        oDoc.DocTotal = rdr["DocTotal"].ToDouble();
+                                        //oDoc.DocTotal = rdr["DocTotal"].ToDouble();
                                         oDoc.Reference2 = rdr["Ref2"].ToString();
                                         oDoc.Comments = rdr["Comments"].ToString();
                                         oDoc.JournalMemo = rdr["JrnlMemo"].ToString();
@@ -1120,7 +1120,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                         oDoc.Lines.Price = rdr2["Price"].ToDouble();
                                                     if (rdr2["LineTotal"].ToString() != "")
                                                         oDoc.Lines.LineTotal = rdr2["LineTotal"].ToDouble();
-                                                    oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
+                                                   // oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
 
 
