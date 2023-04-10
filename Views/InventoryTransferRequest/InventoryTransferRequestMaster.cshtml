@@ -835,8 +835,8 @@
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
         $("#Filler").select2();
         $("#ToWhsCode").select2();
-        $("#Warehouse").select2();
-        $("#WhsCode").select2();
+        //$("#Warehouse").select2();
+        //$("#WhsCode").select2();
 
 
         $(document).on('change', '#ParamCode', function (e) {
@@ -974,7 +974,7 @@
 
                                                                                     <td>
                                                                                         <div class="input-group">
-                                                                                                    <select class="form-control" name="Warehouse"  id="Warehouse`+ RowIndex + `">
+                                                                                                    <select class="form-control" name="Warehouse"  id="Warehouse">
                                                                                                   `+ WareHouseData + `
                                                                                             </select> 
                                                                                         </div>
@@ -995,7 +995,7 @@
                                                                                             </td>
 
                                                                                     <td>
-                                                                                                <select class="form-control Warehousedata" name="WhsCode" id="WhsCode`+ RowIndex + `">
+                                                                                                <select class="form-control Warehousedata" name="WhsCode" id="WhsCode">
                                                                                               `+ WareHouseData + `
                                                                                             </select>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -1030,10 +1030,10 @@
         $('#kt_repeater_1 tbody').append(html);
        
 
-        $('#ListParameters tr:last-child').find('#Warehouse' + RowIndex).val($('#Filler').val()).trigger('change');
-        $('#ListParameters tr:last-child').find('#WhsCode' + RowIndex).val($('#ToWhsCode').val()).trigger('change');
-       $('#ListParameters tr:last-child').find('#Warehouse'+RowIndex).select2();
-       $('#ListParameters tr:last-child').find('#WhsCode'+RowIndex).select2();
+        $('#ListParameters tr:last-child').find('#Warehouse').val($('#Filler').val()).trigger('change');
+        $('#ListParameters tr:last-child').find('#WhsCode' ).val($('#ToWhsCode').val()).trigger('change');
+       //$('#ListParameters tr:last-child').find('#Warehouse'+RowIndex).select2();
+       //$('#ListParameters tr:last-child').find('#WhsCode'+RowIndex).select2();
        
        //$().select2();
     });
