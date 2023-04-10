@@ -213,7 +213,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                                             string itemno = ii.itemno;
                                             int SysNumber = CommonDal.getSysNumber(tran, itemno);
                                             int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
-                                            tbl_OBTN OldBatchData = GR_Dal.GetBatchList(itemno, ii.DistNumber.ToString());
+                                            tbl_OBTN OldBatchData = GR_Dal.GetBatchList(tran,itemno, ii.DistNumber.ToString());
                                             if (OldBatchData.AbsEntry > 0)
                                             {
                                                 #region Update OBTQ

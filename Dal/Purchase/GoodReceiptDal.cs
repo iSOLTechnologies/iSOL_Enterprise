@@ -312,7 +312,7 @@ namespace iSOL_Enterprise.Dal.Purchase
             return list;
         }
 
-        public tbl_OBTN GetBatchList(string itemcode, string distnumber)
+        public tbl_OBTN GetBatchList(SqlTransaction tran,string itemcode, string distnumber)
         {
             try
             {
@@ -322,7 +322,7 @@ namespace iSOL_Enterprise.Dal.Purchase
 
 
                 tbl_OBTN model = new tbl_OBTN();
-                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+                using (var rdr = SqlHelper.ExecuteReader(tran, CommandType.Text, GetQuery))
                 {
                     while (rdr.Read())
                     {
@@ -536,7 +536,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                             string itemno = ii.itemno;
                                             int SysNumber = CommonDal.getSysNumber(tran, itemno);
                                             int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
-                                            tbl_OBTN OldBatchData = GetBatchList(itemno, ii.DistNumber.ToString());
+                                            tbl_OBTN OldBatchData = GetBatchList(tran,itemno, ii.DistNumber.ToString());
                                             if (OldBatchData.AbsEntry > 0)
                                             {
                                                 #region Update OBTQ
