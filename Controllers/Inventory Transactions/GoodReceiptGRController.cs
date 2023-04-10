@@ -35,20 +35,69 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
 
             return Json(response);
         }
-        public IActionResult GoodReceiptGRMaster()
+        public IActionResult GoodReceiptGRMaster(int id = 0)
         {
             ItemMasterDataDal Idal = new ItemMasterDataDal(); 
             AdministratorDal dal = new AdministratorDal();
-
             ViewData["Series"] = dal.GetSeries(59);
             ViewData["MySeries"] = dal.GetMySeries(59);
+            ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text");
+			if (id > 0)
+			{
+				ViewBag.OldId = id;
+			}
+			else
+				ViewBag.OldId = 0;
 
-            ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text"); 
-
-            return View();
+			return View();
         }
 
-        [HttpPost]
+
+
+
+		public IActionResult GetOldData(int ItemID)
+		{
+			try
+			{
+				GoodReceiptGRDal dal = new GoodReceiptGRDal();
+				 
+				return Json(new
+				{
+					success = true,
+					HeaderData = dal.GetHeaderOldData(ItemID),
+					RowData = dal.GetRowOldData(ItemID) 
+				});
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		[HttpPost]
         public IActionResult AddGoodReceiptGR(string formData)
         {
             try

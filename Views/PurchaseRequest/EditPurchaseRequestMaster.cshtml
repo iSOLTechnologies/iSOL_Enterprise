@@ -497,6 +497,20 @@
 																					<td>
 																						<div class="input-group">
 																							<select class="form-control"  id="Warehouse">
+																								 @foreach (iSOL_Enterprise.Models.sale.tbl_OWHS warehouse in  ViewBag.Warehouse)
+                                                                                                        {
+                                                                                                            if (row1["WhsCode"].Equals(warehouse.whscode))
+                                                                                                            {
+                                                                                                                <option  value="@warehouse.whscode" selected>@warehouse.whsname</option>
+                                                                                                            }
+                                                                                                            else
+                                                                                                            {
+                                                                                                                <option  value="@warehouse.whscode" >@warehouse.whsname</option> 
+                                                                                                            }
+
+
+                                                                                                        }
+
 																							</select>
 
 																						</div>
@@ -524,7 +538,20 @@
 																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																					</td>
 																					<td>
-																						<select class="form-control vtGroup" value="@row1["VatGroup"]" id="VatGroup"> </select>
+																						<select class="form-control" id="VatGroup">
+																							@foreach (iSOL_Enterprise.Models.sale.tbl_OVTG i in ViewBag.Taxes)
+																				{
+																				    if (row1["VatGroup"].ToString().Equals((i.code).ToString()))
+																					{
+																						<option selected guid="@i.Rate" value="@i.code" >@i.vatName</option>
+																					} 
+																					else 
+																					{
+																						<option guid="@i.Rate" value="@i.code" >@i.vatName</option>
+																					}
+
+																				}
+																						</select>
 																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 
 																					</td>
@@ -1299,6 +1326,15 @@
 		GetSaleOrders();
 		//var date = new Date;
 		//$('#DocDate').val(moment(date).format('YYYY-MM-DD'));
+
+
+
+@*		$('table tr').each(function() {
+  $(this).css('background-color', 'yellow');
+});*@
+
+
+
 
 		GetPayments();
 

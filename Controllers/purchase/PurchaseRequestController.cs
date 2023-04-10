@@ -2,6 +2,7 @@
 using iSOL_Enterprise.Dal.Inventory;
 using iSOL_Enterprise.Dal.Inventory_Transactions;
 using iSOL_Enterprise.Dal.Purchase;
+using iSOL_Enterprise.Dal.Sale;
 using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -31,10 +32,14 @@ namespace iSOL_Enterprise.Controllers.purchase
 		{
 			PurchaseRequestDal Pdal = new PurchaseRequestDal();
 			AdministratorDal dal = new AdministratorDal(); 
+			SalesQuotationDal Sdal = new SalesQuotationDal();
+			DeliveryDal Ddal = new DeliveryDal();
 			ViewData["Branch"] = Pdal.GetBranch();
 			ViewData["Department"] = Pdal.GetDepartment();
 			ViewData["Series"] = dal.GetSeries(1470000113);
 			ViewData["MySeries"] = dal.GetMySeries(1470000113);
+			ViewData["Taxes"]= Sdal.GetVatGroupData("P");
+			ViewData["Warehouse"]= Ddal.GetWareHouseData();
 			//ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
 			//ViewBag.SalesEmployee = dal.GetSalesEmployee();			 
 			//bool flag = CommonDal.Check_IsNotEditable("PRQ1", id);

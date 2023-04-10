@@ -39,6 +39,51 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
             }
             return list;
         }
+
+        public dynamic GetHeaderOldData(int ItemID)
+        {
+            try
+            {
+
+                DataSet ds = new DataSet();
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                string headerQuery = @"select MySeries,DocNum,Series,DocDate,TaxDate,GroupNum,Ref2,Comments,JrnlMemo,DocTotal From OIGN where Id =" + ItemID;
+                SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
+                sda.Fill(ds);
+                string JSONString = string.Empty;
+                JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
+                return JSONString;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        public dynamic GetRowOldData(int ItemID)
+        {
+            try
+            {
+                DataSet ds = new DataSet();
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                string headerQuery = @"select ItemCode,Dscription,WhsCode,Quantity,Price,LineTotal,AcctCode,UomEntry,UomCode From IGN1 where Id =" + ItemID;
+                SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
+                sda.Fill(ds);
+                string JSONString = string.Empty;
+                JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
+                return JSONString;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+
         public ResponseModels AddGoodReceiptGR(string formData)
         {
             var model = JsonConvert.DeserializeObject<dynamic>(formData);
