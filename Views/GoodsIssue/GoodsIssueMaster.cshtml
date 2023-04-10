@@ -1333,7 +1333,7 @@
 
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
-        $("#Warehouse").select2();
+        //$("#Warehouse").select2();
 
         $(document).on('change', '#ParamCode', function (e) {
 
@@ -1524,7 +1524,7 @@
 
                                                                                     <td>
                                                                                         <div class="input-group">
-                                                                                                    <select class="form-control" name="Warehouse"  id="Warehouse`+ RowIndex + `">
+                                                                                                    <select class="form-control" name="Warehouse"  id="Warehouse">
                                                                                                   `+ WareHouseData + `
                                                                                             </select> 
                                                                                         </div>
@@ -1591,7 +1591,7 @@
                                                                                 </tr>
         `;
         $('#kt_repeater_1 tbody').append(html);
-        $('#ListParameters tr:last-child').find('#Warehouse' + RowIndex).select2();
+        //$('#ListParameters tr:last-child').find('#Warehouse' + RowIndex).select2();
         
     });
 
