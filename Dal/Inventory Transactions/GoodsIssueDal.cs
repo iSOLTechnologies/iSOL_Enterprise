@@ -177,7 +177,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                                               //+ model.HeaderData.CardName + "',"
                                               + Id + ","
                                               + LineNum + ","
-                                              + 59 + ","
+                                              + 60 + ","
                                               + item.BaseType + ","
                                               + Id + ","
                                               + -1 * ((Decimal)(item.QTY)) + ",'"
