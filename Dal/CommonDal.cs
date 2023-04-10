@@ -566,6 +566,9 @@ where s.Status=1 and p.Guid=@Guid";
                 case 540000006:
                 table = "OPQT"; //Purchase Quotation
                 break;
+                case 1470000113:
+                table = "OPRQ"; //Purchase Request
+                break;
                 case 14: //AR Credit Memo
                 table = "ORIN";
                 break;
@@ -624,6 +627,9 @@ where s.Status=1 and p.Guid=@Guid";
                 break;
                 case 540000006:
                 table = "PQT1"; //Purchase Quotation
+                break;
+                case 1470000113:
+                table = "PRQ1"; //Purchase Request
                 break;
                 case 14:
                 table = "RIN1";

@@ -1,5 +1,7 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Dal;
+using iSOL_Enterprise.Dal.Purchase;
+using iSOL_Enterprise.Dal.Sale;
 using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Models.sale;
 using Microsoft.AspNetCore.Authorization;

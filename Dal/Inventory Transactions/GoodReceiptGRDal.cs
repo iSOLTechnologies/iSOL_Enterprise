@@ -10,6 +10,7 @@ using Microsoft.SqlServer.Server;
 using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.Logging.Abstractions;
 using SAPbobsCOM;
+using iSOL_Enterprise.Dal.Purchase;
 
 namespace iSOL_Enterprise.Dal.Inventory_Transactions
 {

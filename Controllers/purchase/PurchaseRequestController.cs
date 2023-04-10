@@ -1,6 +1,7 @@
 ﻿using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Dal.Inventory;
 using iSOL_Enterprise.Dal.Inventory_Transactions;
+using iSOL_Enterprise.Dal.Purchase;
 using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace iSOL_Enterprise.Dal
+namespace iSOL_Enterprise.Dal.Sale
 {
     public class SalesOrderDal
     {
@@ -94,7 +94,7 @@ namespace iSOL_Enterprise.Dal
             SqlDataAdapter sda = new SqlDataAdapter("select Id,LineNum,ItemCode,ItemName,Quantity,DiscPrcnt,VatGroup ,UomCode,CountryOrg,Dscription,AcctCode,OpenQty from QUT1 where id = " + DocId + "", conn);
             sda.Fill(ds);
             string JSONString = string.Empty;
-            JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
+            JSONString = JsonConvert.SerializeObject(ds.Tables);
             return JSONString;
 
         }
@@ -123,21 +123,21 @@ namespace iSOL_Enterprise.Dal
 
                     if (model.HeaderData != null)
                     {
-                        model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToDecimal( model.HeaderData.PurchaseType);
-                        model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToDecimal( model.HeaderData.TypeDetail);
-                        model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal( model.HeaderData.ProductionOrderNo);
-                        model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal( model.HeaderData.ChallanNo);
-                        model.HeaderData.ContainerNo = model.HeaderData.ContainerNo == "" ? "NULL" : Convert.ToDecimal( model.HeaderData.ContainerNo);
-                        model.HeaderData.ManualGatePassNo = model.HeaderData.ManualGatePassNo == "" ? "NULL" : Convert.ToDecimal( model.HeaderData.ManualGatePassNo);
-                        model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32( model.HeaderData.SaleOrderNo);
-                        model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32( model.HeaderData.Series);
+                        model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.PurchaseType);
+                        model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
+                        model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
+                        model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
+                        model.HeaderData.ContainerNo = model.HeaderData.ContainerNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ContainerNo);
+                        model.HeaderData.ManualGatePassNo = model.HeaderData.ManualGatePassNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ManualGatePassNo);
+                        model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
+                        model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
                         model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
 
                         string HeadQuery = @"insert into ORDR(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum,DocTotal , SlpCode,DiscPrcnt,CETnum,
                                             PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,ContainerNo,ManualGatePassNo,SaleOrderNo, Comments) 
                                            values(" + Id + ","
-												+ model.HeaderData.Series + ",'"
-												+ DocType + "','"
+                                                + model.HeaderData.Series + ",'"
+                                                + DocType + "','"
                                                 + CommonDal.generatedGuid() + "','"
                                                 + model.HeaderData.CardCode + "','"
                                                 + DocNum + "','"
@@ -182,10 +182,10 @@ namespace iSOL_Enterprise.Dal
                         {
 
 
-                            if ((int)(model.BaseType) != -1 && (item.BaseEntry).ToString() != "" && (item.BaseLine).ToString() != "")
+                            if ((int)model.BaseType != -1 && item.BaseEntry.ToString() != "" && item.BaseLine.ToString() != "")
                             {
                                 string table = dal.GetRowTable(Convert.ToInt32(model.BaseType));
-                                string Updatequery = @"Update " + table + " set OpenQty = OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + " and LineNum = " + item.BaseLine + "and ItemCode = '"+ item.ItemCode +"'";
+                                string Updatequery = @"Update " + table + " set OpenQty = OpenQty - " + item.QTY + " where Id =" + item.BaseEntry + " and LineNum = " + item.BaseLine + "and ItemCode = '" + item.ItemCode + "'";
                                 int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
                                 if (res < 0)
                                 {
@@ -234,7 +234,7 @@ namespace iSOL_Enterprise.Dal
 
 
                     }
-                    
+
                     else if (model.ListService != null)
                     {
 
@@ -274,7 +274,7 @@ namespace iSOL_Enterprise.Dal
 
 
                     }
-                    
+
                     if (model.ListAttachment != null)
                     {
 
@@ -441,55 +441,55 @@ namespace iSOL_Enterprise.Dal
 
                                         string oldDataQuery = @"select BaseEntry,BaseType,BaseLine,Quantity from RDR1 where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
 
-                                    tbl_docRow docRowModel = new tbl_docRow();
-                                    using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, oldDataQuery))
-                                    {
-                                        while (rdr.Read())
+                                        tbl_docRow docRowModel = new tbl_docRow();
+                                        using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, oldDataQuery))
                                         {
+                                            while (rdr.Read())
+                                            {
 
-                                            docRowModel.BaseEntry = rdr["BaseEntry"].ToString() == "" ? null : Convert.ToDecimal(rdr["BaseEntry"]);
-                                            docRowModel.BaseLine = rdr["BaseLine"].ToString() == "" ? null : Convert.ToDecimal(rdr["BaseLine"]);
-                                            docRowModel.Quantity = rdr["Quantity"].ToString() == "" ? null : Convert.ToDecimal(rdr["Quantity"]);
-                                            docRowModel.BaseType = rdr["BaseType"].ToString() == "" ? null : Convert.ToDecimal(rdr["BaseType"]);
+                                                docRowModel.BaseEntry = rdr["BaseEntry"].ToString() == "" ? null : Convert.ToDecimal(rdr["BaseEntry"]);
+                                                docRowModel.BaseLine = rdr["BaseLine"].ToString() == "" ? null : Convert.ToDecimal(rdr["BaseLine"]);
+                                                docRowModel.Quantity = rdr["Quantity"].ToString() == "" ? null : Convert.ToDecimal(rdr["Quantity"]);
+                                                docRowModel.BaseType = rdr["BaseType"].ToString() == "" ? null : Convert.ToDecimal(rdr["BaseType"]);
 
 
+                                            }
                                         }
-                                    }
 
 
-                                    #region if doc contains base ref
-                                    if (docRowModel.BaseEntry != null)
-                                    {
-                                        string table = dal.GetRowTable(Convert.ToInt32(docRowModel.BaseType));
-                                        string Updatequery = @"Update " + table + " set OpenQty =(OpenQty + " + docRowModel.Quantity + ") - " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine;
-                                        int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
-                                        if (res <= 0)
+                                        #region if doc contains base ref
+                                        if (docRowModel.BaseEntry != null)
+                                        {
+                                            string table = dal.GetRowTable(Convert.ToInt32(docRowModel.BaseType));
+                                            string Updatequery = @"Update " + table + " set OpenQty =(OpenQty + " + docRowModel.Quantity + ") - " + item.QTY + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine;
+                                            int res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Updatequery).ToInt();
+                                            if (res <= 0)
+                                            {
+                                                tran.Rollback();
+                                                return false;
+                                            }
+                                        }
+                                        #endregion
+                                        //item.DicPrc = item.DicPrc == "" ? "null" : item.DicPrc;
+                                        string UpdateQuery = @"update RDR1 set
+                                                             ItemCode  = '" + item.ItemCode + "'" +
+                                                                    ",ItemName  = '" + item.ItemName + "'" +
+                                                                    ",UomCode   = '" + item.UomCode + "'" +
+                                                                    ",UomEntry   = " + item.UomEntry +
+                                                                    ",Quantity  = '" + item.QTY + "'" +
+                                                                    ",OpenQty   = OpenQty + (" + item.QTY + "- OpenQty)" +
+                                                                    ",Price     = '" + item.UPrc + "'" +
+                                                                    ",LineTotal = '" + item.TtlPrc + "'" +
+                                                                    ",DiscPrcnt = " + item.DicPrc +
+                                                                    ",VatGroup  = '" + item.VatGroup + "'" +
+                                                                    ",CountryOrg= '" + item.CountryOrg + "'" +
+                                                                    " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
+                                        int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateQuery).ToInt();
+                                        if (res2 <= 0)
                                         {
                                             tran.Rollback();
                                             return false;
                                         }
-                                    }
-                                    #endregion
-                                    //item.DicPrc = item.DicPrc == "" ? "null" : item.DicPrc;
-                                    string UpdateQuery = @"update RDR1 set
-                                                             ItemCode  = '" + item.ItemCode + "'" +
-                                                                ",ItemName  = '" + item.ItemName + "'" +
-                                                                ",UomCode   = '" + item.UomCode + "'" +
-                                                                ",UomEntry   = " + item.UomEntry +
-                                                                ",Quantity  = '" + item.QTY + "'" +
-                                                                ",OpenQty   = OpenQty + (" + item.QTY + "- OpenQty)" +
-                                                                ",Price     = '" + item.UPrc + "'" +
-                                                                ",LineTotal = '" + item.TtlPrc + "'" +
-                                                                ",DiscPrcnt = " + item.DicPrc +
-                                                                ",VatGroup  = '" + item.VatGroup + "'" +
-                                                                ",CountryOrg= '" + item.CountryOrg + "'" +
-                                                                " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
-                                    int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateQuery).ToInt();
-                                    if (res2 <= 0)
-                                    {
-                                        tran.Rollback();
-                                        return false;
-                                    }
                                     }
 
                                 }
@@ -497,7 +497,7 @@ namespace iSOL_Enterprise.Dal
                                 #region New Row added
                                 else
                                 {
-                                    int LineNo = CommonDal.getLineNumber(tran, "RDR1", (model.ID).ToString());
+                                    int LineNo = CommonDal.getLineNumber(tran, "RDR1", model.ID.ToString());
 
                                     string RowQueryItem = @"insert into RDR1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode ,UomEntry,CountryOrg)
                                               values(" + model.ID + ","
@@ -595,10 +595,10 @@ namespace iSOL_Enterprise.Dal
 
                         }
                     }
-                        if (res1 > 0)
-                        {
-                            tran.Commit();
-                        }
+                    if (res1 > 0)
+                    {
+                        tran.Commit();
+                    }
                 }
                 catch (Exception)
                 {

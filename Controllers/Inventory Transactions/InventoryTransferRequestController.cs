@@ -4,6 +4,7 @@ using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using iSOL_Enterprise.Dal.Sale;
 
 namespace iSOL_Enterprise.Controllers.Inventory_Transactions
 {
