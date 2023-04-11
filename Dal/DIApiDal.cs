@@ -1111,7 +1111,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                 while (rdr2.Read())
                                                 {
 
-                                                    oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;
+                                                   // oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;
                                                     oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();
                                                     oDoc.Lines.ItemDescription = rdr2["Dscription"].ToString();
                                                     oDoc.Lines.WarehouseCode = rdr2["WhsCode"].ToString();
@@ -1332,7 +1332,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         #endregion
 
                                         #region Insert in Row
-                                        string RowQuery = @"select Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemCode,Dscription,WhsCod,FromWhsCod,Quantity,UomEntry,UomCode,BaseQty,OpenQty from " + rowTable + " where Id = " + ID;
+                                        string RowQuery = @"select Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemCode,Dscription,WhsCode,FromWhsCod,Quantity,UomEntry,UomCode,BaseQty,OpenQty from " + rowTable + " where Id = " + ID;
                                         using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, RowQuery))
                                         {
                                             try
@@ -1342,10 +1342,10 @@ namespace SAP_MVC_DIAPI.BLC
                                                 while (rdr2.Read())
                                                 {
 
-                                                    oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;
+                                                    //oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;
                                                     oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();
                                                     oDoc.Lines.ItemDescription = rdr2["Dscription"].ToString();
-                                                    oDoc.Lines.WarehouseCode = rdr2["WhsCod"].ToString();
+                                                    oDoc.Lines.WarehouseCode = rdr2["WhsCode"].ToString();
                                                     oDoc.Lines.FromWarehouseCode = rdr2["FromWhsCod"].ToString();
                                                     oDoc.Lines.Quantity = Convert.ToDouble(rdr2["Quantity"]);
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
@@ -1356,9 +1356,8 @@ namespace SAP_MVC_DIAPI.BLC
 
 
                                                         string BatchQuery = @" select ITL1.ItemCode,ITL1.SysNumber,ITL1.Quantity,ITL1.AllocQty,OITL.CreateDate, OBTN.ExpDate,OBTN.DistNumber from OITL 
-                                                                           inner join ITL1 on OITL.LogEntry = ITL1.LogEntry 
-                                                                           inner join OBTQ on ITL1.MdAbsEntry = OBTQ.AbsEntry 
-                                                                           inner join OBTN on OBTQ.MdAbsEntry = OBTN.AbsEntry
+                                                                           inner join ITL1 on OITL.LogEntry = ITL1.LogEntry                                                                            
+                                                                           join OBTN on ITL1.MdAbsEntry = OBTN.AbsEntry
                                                                            where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType =" + ObjectCode;
                                                         using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
                                                         {
@@ -1566,7 +1565,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         #endregion
 
                                         #region Insert in Row
-                                        string RowQuery = @"select Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemCode,Dscription,WhsCod,FromWhsCod,Quantity,UomEntry,UomCode,BaseQty,OpenQty from " + rowTable + " where Id = " + ID;
+                                        string RowQuery = @"select Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemCode,Dscription,WhsCode,FromWhsCod,Quantity,UomEntry,UomCode,BaseQty,OpenQty from " + rowTable + " where Id = " + ID;
                                         using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, RowQuery))
                                         {
                                             try
@@ -1576,10 +1575,10 @@ namespace SAP_MVC_DIAPI.BLC
                                                 while (rdr2.Read())
                                                 {
 
-                                                    oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;
+                                                    //oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;
                                                     oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();
                                                     oDoc.Lines.ItemDescription = rdr2["Dscription"].ToString();
-                                                    oDoc.Lines.WarehouseCode = rdr2["WhsCod"].ToString();
+                                                    oDoc.Lines.WarehouseCode = rdr2["WhsCode"].ToString();
                                                     oDoc.Lines.FromWarehouseCode = rdr2["FromWhsCod"].ToString();
                                                     oDoc.Lines.Quantity = Convert.ToDouble(rdr2["Quantity"]);
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
@@ -1590,9 +1589,8 @@ namespace SAP_MVC_DIAPI.BLC
 
 
                                                         string BatchQuery = @" select ITL1.ItemCode,ITL1.SysNumber,ITL1.Quantity,ITL1.AllocQty,OITL.CreateDate, OBTN.ExpDate,OBTN.DistNumber from OITL 
-                                                                           inner join ITL1 on OITL.LogEntry = ITL1.LogEntry 
-                                                                           inner join OBTQ on ITL1.MdAbsEntry = OBTQ.AbsEntry 
-                                                                           inner join OBTN on OBTQ.MdAbsEntry = OBTN.AbsEntry
+                                                                           inner join ITL1 on OITL.LogEntry = ITL1.LogEntry                                                                            
+                                                                           join OBTN on ITL1.MdAbsEntry = OBTN.AbsEntry
                                                                            where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType =" + ObjectCode;
                                                         using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
                                                         {
