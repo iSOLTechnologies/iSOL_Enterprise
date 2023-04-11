@@ -1,5 +1,6 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
+using iSOL_Enterprise.Models.Inventory;
 using SqlHelperExtensions;
 using System.Data;
 
@@ -154,6 +155,25 @@ namespace iSOL_Enterprise.Dal.Business
                     {
                         Value = rdr["territryID"].ToInt(),
                         Text = rdr["descript"].ToString() 
+
+                    });
+                }
+            }
+            return list;
+        }
+        public List<tbl_OITG> GetProperties()
+        {
+            string GetQuery = "select GroupCode,GroupName from OCQG ORDER BY GroupCode";
+
+            List<tbl_OITG> list = new List<tbl_OITG>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+                    list.Add(new tbl_OITG()
+                    {
+                        ItmsTypCod = rdr["GroupCode"].ToInt(),
+                        ItmsGrpNam = rdr["GroupName"].ToString()
 
                     });
                 }

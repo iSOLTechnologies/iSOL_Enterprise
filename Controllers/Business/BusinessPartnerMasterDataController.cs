@@ -28,7 +28,8 @@ namespace iSOL_Enterprise.Controllers.Business
             ViewData["BusinessPartners"] = new SelectList(dal.GetBusinessPartners(), "Value", "Text"); 
             ViewData["Industry"] = new SelectList(dal.GetIndustries(), "Value", "Text"); 
             ViewData["Technician"] = new SelectList(dal.GetTechnicians(), "Value", "Text"); 
-            ViewData["Territory"] = new SelectList(dal.GetTerritories(), "Value", "Text"); 
+            ViewData["Territory"] = new SelectList(dal.GetTerritories(), "Value", "Text");
+            ViewData["properties"] = dal.GetProperties();
             return  View();
         }
     }

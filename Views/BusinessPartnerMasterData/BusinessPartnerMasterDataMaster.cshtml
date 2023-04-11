@@ -559,142 +559,144 @@
                                                                         </div>
                                                                     </div>
 
-                                                                 </div>
+                                                                    <div class="form-group row justify-content-between">
 
-                                                                <div class="form-group row justify-content-between">
+                                                                        <div class="col-md-5 d-flex">
+                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-4">
+                                                                                Password
+                                                                            </label>
+                                                                            <input type="password" id="Password" class="col-md-8 form-control form-control-sm NotReq">
 
-                                                                    <div class="col-md-5 d-flex">
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-4">
-                                                                            Password
-                                                                        </label>
-                                                                        <input type="password" id="Password" class="col-md-8 form-control form-control-sm NotReq">
-
-                                                                        <div id="ErrorMsg"
-                                                                             class="error invalid-feedback">
-                                                                            This
-                                                                            field is required.
+                                                                            <div id="ErrorMsg"
+                                                                                 class="error invalid-feedback">
+                                                                                This
+                                                                                field is required.
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-5 d-flex">
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-4">
-                                                                            Factoring Indicator
-                                                                        </label>
-                                                                        <input type="text" id="Indicator" class="col-md-4 form-control form-control-sm NotReq">
-                                                                        <select id="Name" class="form-control form-control-sm col-md-4 NotReq" asp-items="@ViewBag.Name">
-                                                                            <option value=""> </option>
-                                                                        </select>
-                                                                        <div id="ErrorMsg"
-                                                                             class="error invalid-feedback">
-                                                                            This
-                                                                            field is required.
+                                                                        <div class="col-md-5 d-flex">
+                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-4">
+                                                                                Factoring Indicator
+                                                                            </label>
+                                                                            <input type="text" id="Indicator" class="col-md-4 form-control form-control-sm NotReq">
+                                                                            <select id="Name" class="form-control form-control-sm col-md-4 NotReq" asp-items="@ViewBag.Name">
+                                                                                <option value=""> </option>
+                                                                            </select>
+                                                                            <div id="ErrorMsg"
+                                                                                 class="error invalid-feedback">
+                                                                                This
+                                                                                field is required.
+                                                                            </div>
                                                                         </div>
+
+
                                                                     </div>
+                                                                    
+                                                                    <div class="form-group row justify-content-between">
 
+                                                                        <div class="col-md-5 d-flex">
+                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-4">
+                                                                                Business Partner Project
+                                                                            </label>
+                                                                            <select id="ProjectCod" class="form-control form-control-sm col-md-8 NotReq" asp-items="@ViewBag.ProjectCode">
+                                                                                <option value=""> </option>
+                                                                            </select>
 
-                                                                </div>
-                                                                <div class="form-group row justify-content-between">
-
-                                                                    <div class="col-md-5 d-flex">
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-4">
-                                                                            Business Partner Project
-                                                                        </label>
-                                                                        <select id="ProjectCod" class="form-control form-control-sm col-md-8 NotReq" asp-items="@ViewBag.ProjectCode">
-                                                                            <option value=""> </option>
-                                                                        </select>
-
-                                                                        <div id="ErrorMsg"
-                                                                             class="error invalid-feedback">
-                                                                            This
-                                                                            field is required.
+                                                                            <div id="ErrorMsg"
+                                                                                 class="error invalid-feedback">
+                                                                                This
+                                                                                field is required.
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-5 d-flex">
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-4">
-                                                                            BP Channel Code
-                                                                        </label>
-                                                                        <select id="ChannlBP" class="form-control form-control-sm col-md-8 NotReq" asp-items="@ViewBag.BusinessPartners">
-                                                                            <option value=""> Select Business Partner </option>
-                                                                        </select>
+                                                                        <div class="col-md-5 d-flex">
+                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-4">
+                                                                                BP Channel Code
+                                                                            </label>
+                                                                            <select id="ChannlBP" class="form-control form-control-sm col-md-8 NotReq" asp-items="@ViewBag.BusinessPartners">
+                                                                                <option value=""> Select Business Partner </option>
+                                                                            </select>
 
-                                                                        <div id="ErrorMsg"
-                                                                             class="error invalid-feedback">
-                                                                            This
-                                                                            field is required.
+                                                                            <div id="ErrorMsg"
+                                                                                 class="error invalid-feedback">
+                                                                                This
+                                                                                field is required.
+                                                                            </div>
                                                                         </div>
+
+
                                                                     </div>
+                                                                    
+                                                                    <div class="form-group row justify-content-between">
 
+                                                                        <div class="col-md-5 d-flex">
+                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-4">
+                                                                                Industry
+                                                                            </label>
+                                                                            <select id="IndustryC" class="form-control form-control-sm col-md-8 NotReq" asp-items="@ViewBag.Industry">
+                                                                                <option value=""> </option>
+                                                                            </select>
 
-                                                                </div>
-                                                                <div class="form-group row justify-content-between">
-
-                                                                    <div class="col-md-5 d-flex">
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-4">
-                                                                            Industry
-                                                                        </label>
-                                                                        <select id="IndustryC" class="form-control form-control-sm col-md-8 NotReq" asp-items="@ViewBag.Industry">
-                                                                            <option value=""> </option>
-                                                                        </select>
-
-                                                                        <div id="ErrorMsg"
-                                                                             class="error invalid-feedback">
-                                                                            This
-                                                                            field is required.
+                                                                            <div id="ErrorMsg"
+                                                                                 class="error invalid-feedback">
+                                                                                This
+                                                                                field is required.
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-5 d-flex">
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-4">
-                                                                            Technician
-                                                                        </label>
-                                                                        <select id="DfTcnician" class="form-control form-control-sm col-md-8 NotReq" asp-items="@ViewBag.Technician">
-                                                                            <option value=""> </option>
-                                                                        </select>
+                                                                        <div class="col-md-5 d-flex">
+                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-4">
+                                                                                Technician
+                                                                            </label>
+                                                                            <select id="DfTcnician" class="form-control form-control-sm col-md-8 NotReq" asp-items="@ViewBag.Technician">
+                                                                                <option value=""> </option>
+                                                                            </select>
 
-                                                                        <div id="ErrorMsg"
-                                                                             class="error invalid-feedback">
-                                                                            This
-                                                                            field is required.
+                                                                            <div id="ErrorMsg"
+                                                                                 class="error invalid-feedback">
+                                                                                This
+                                                                                field is required.
+                                                                            </div>
                                                                         </div>
+
+
                                                                     </div>
+                                                                    
+                                                                    <div class="form-group row justify-content-between">
 
+                                                                        <div class="col-md-5 d-flex">
+                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-4">
+                                                                                Type Of Business
+                                                                            </label>
+                                                                            <select id="CmpPrivate" class="form-control form-control-sm col-md-8">
+                                                                                <option value="C"> Company</option>
+                                                                                <option value="I"> Private</option>
+                                                                                <option value="G"> Government</option>
+                                                                                <option value="E"> Employee</option>
+                                                                            </select>
 
-                                                                </div>
-                                                                <div class="form-group row justify-content-between">
-
-                                                                    <div class="col-md-5 d-flex">
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-4">
-                                                                            Type Of Business
-                                                                        </label>
-                                                                        <select id="CmpPrivate" class="form-control form-control-sm col-md-8">
-                                                                            <option value="C"> Company</option>
-                                                                            <option value="I"> Private</option>
-                                                                            <option value="G"> Government</option>
-                                                                            <option value="E"> Employee</option>
-                                                                        </select>
-
-                                                                        <div id="ErrorMsg"
-                                                                             class="error invalid-feedback">
-                                                                            This
-                                                                            field is required.
+                                                                            <div id="ErrorMsg"
+                                                                                 class="error invalid-feedback">
+                                                                                This
+                                                                                field is required.
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-5 d-flex">
-                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-4">
-                                                                            Territory
-                                                                        </label>
-                                                                        <select id="Territory" class="form-control form-control-sm col-md-8 NotReq" asp-items="@ViewBag.Territory">
-                                                                            <option value=""> </option>
-                                                                        </select>
+                                                                        <div class="col-md-5 d-flex">
+                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-4">
+                                                                                Territory
+                                                                            </label>
+                                                                            <select id="Territory" class="form-control form-control-sm col-md-8 NotReq" asp-items="@ViewBag.Territory">
+                                                                                <option value=""> </option>
+                                                                            </select>
 
-                                                                        <div id="ErrorMsg"
-                                                                             class="error invalid-feedback">
-                                                                            This
-                                                                            field is required.
+                                                                            <div id="ErrorMsg"
+                                                                                 class="error invalid-feedback">
+                                                                                This
+                                                                                field is required.
+                                                                            </div>
                                                                         </div>
+
+
                                                                     </div>
-
-
-                                                                </div>
-                                                                <u><span class="font-weight-bold">Personal Data Protection</span></u>
+                                                                
+                                                                    <u><span class="font-weight-bold">Personal Data Protection</span></u>
                                                                 
                                                                     <div class="form-group row justify-content-between">
 
@@ -725,7 +727,8 @@
 
 
                                                                     </div>
-                                                                <div class="form-group row justify-content-between">
+                                                                    
+                                                                    <div class="form-group row justify-content-between">
 
                                                                     <div class="col-md-2 radio-inline">
 
@@ -747,7 +750,7 @@
 
                                                                 </div>
 
-                                                                <div class="form-group row justify-content-between">
+                                                                    <div class="form-group row justify-content-between">
 
                                                                     <div class="col-md-2 radio-inline">
 
@@ -768,6 +771,85 @@
                                                                     </div>
                                                                 </div>
                                                                 </div>
+                                                                
+
+                                                                <div class="tab-pane" id="kt_tabs_Properties"
+                                                                     role="tabpanel">
+
+
+                                                                    <div class="row mt-5">
+                                                                        <div class="col-md-6 BatchTableContainer scrollbar-ripe-malinka">
+
+                                                                            <table class="table">
+                                                                                <thead class="thead-light">
+                                                                                    <tr>
+                                                                                        <th>#</th>
+                                                                                        <th>Property Name</th>
+                                                                                        <th></th>
+
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody id="Properties">
+                                                                                    <!--  -->
+                                                                                    @foreach (tbl_OITG item in (List<tbl_OITG>)ViewData["properties"])
+                                                                                    {
+                                                                                        var Myid = "QryGroup" + item.ItmsTypCod;
+                                                                                        <tr class="rowItemDetail align-items-center itm">
+
+                                                                                            <td>
+                                                                                                @item.ItmsTypCod
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                @item.ItmsGrpNam
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <label class="checkbox checkbox-success">
+                                                                                                    <input type="checkbox" id="@Myid">
+                                                                                                    <span class="border_grey"></span>
+                                                                                                </label>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    }
+                                                                                </tbody>
+                                                                            </table>
+
+
+
+
+                                                                        </div>
+                                                                        <div class="col-md-4">
+
+                                                                            <input type="button" value="Select All" id="PropertiesSelectAll" class="btn btn-primary"> &nbsp;
+                                                                            <input type="button" value="Clear All" id="PropertiesClearAll" class="btn btn-outline-primary">
+
+
+                                                                        </div>
+
+
+
+
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="tab-pane" id="kt_tabs_Remarks"
+                                                                     role="tabpanel">
+                                                                     
+                                                                    <div class="form-group row mt-2">
+                                                                        <div class="col-md-8 d-flex">
+                                                                            <textarea id="Free_Text" class="col-md-10 form-control form-control-sm NotReq" rows="15"> </textarea>
+                                                                            
+
+                                                                            <div id="ErrorMsg"
+                                                                                 class="error invalid-feedback">
+                                                                                This
+                                                                                field is required.
+                                                                            </div>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                                     
                                                             </div>
                                                         </div>
