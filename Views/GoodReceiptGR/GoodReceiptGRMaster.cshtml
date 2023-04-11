@@ -1777,10 +1777,10 @@
                                                                            </td>
                                                                                 </tr>
         `;
-        $('#kt_repeater_1 tbody').append(html);
+        $('#kt_repeater_1 tbody').append(html); 
         //$('#VatGroup').select2('destroy');
         //$('.jsSelect2').select2();
-       // addDataInVatGroup();
+        // addDataInVatGroup();
         //$('#ListParameters tr:last-child').find('#Warehouse' + RowIndex).select2();
         
     });
@@ -2015,7 +2015,7 @@
 
                     if(j == 0) 
                     {
-                         console.log(this);
+                      
 
                         $("#ItemCode").val(this.ItemCode).trigger('change'); 
                         $("#Warehouse").val(this.WhsCode);
@@ -2054,15 +2054,21 @@
                     }
                     else {
                         //AddWarehouseRowData(this);
-
+                           console.log(this);
                         $('#ListBtnAddd').trigger('click'); 
-                        $('#ListParameters tr:last-child').find("#ItemCode").val(this.ItemCode).trigger('change'); 
+                        InitializeWareHouseData();
+                        $('#ListParameters tr:last-child').find("#Warehouse").html(WareHouseData);
+                         
+                        $('#ListParameters tr:last-child').find("#ItemCode").val(this.ItemCode); 
                         $('#ListParameters tr:last-child').find("#Warehouse").val(this.WhsCode);
                         $('#ListParameters tr:last-child').find("#QTY").val(this.Quantity);
                         $('#ListParameters tr:last-child').find("#UPrc").val(this.Price);
                         $('#ListParameters tr:last-child').find("#TtlPrc").val(this.LineTotal);
                         $('#ListParameters tr:last-child').find("#AcctCode").val(this.AcctCode);
                         $('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"` + this.UomEntry + `">` + this.UomCode + `</option>`);
+                        $("#ItemCode").trigger('change');
+                        $("#Warehouse").trigger('change');
+                    
                     }
                     j += 1;
 

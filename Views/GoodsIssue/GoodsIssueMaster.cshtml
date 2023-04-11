@@ -1340,7 +1340,18 @@
             $(this).removeClass('is-invalid');
         });
 
+        if (@ViewBag.OldId != 0) {
+            OldId = @ViewBag.OldId;
+            isEdit = true;
 
+            $(".btn-group").html('');
+            //$("#btnSaveData").html('');
+            //$("#btnSaveData").attr('disabled', true);
+            $("#MySeries").attr('disabled', true);
+            $("#Series").attr('disabled', true);
+            $("#ItemCode").attr('disabled', true);
+            GetOldData();
+        }
     });
 
     $(document).on('change', '#ParamCode, #DurationTypeCode, #Duration,#EffectiveDate', function (e) {
@@ -1736,6 +1747,129 @@
         });
     }
 
+      function GetOldData() 
+    {
 
+        $.ajax({
+            url: 'GoodsIssue/GetOldData',
+            type: 'GET',
+            dataType: 'json',
+            async : false,
+            data: { ItemID: OldId },
+            success: function (data) 
+            {
+                
+                let HeaderData = JSON.parse(data.headerData);  
+                
+                $.each(HeaderData[0][0], function (key, value) {
+                   
+                    if ($("#" + key).is(':checkbox') || $(this).is(':radio'))
+                    {
+                         if(value == 'Y') {
+                         $("#" + key).prop('checked', true);
+                         
+                         }
+                         else
+                         {
+                           
+                            $("#" + key).prop('checked', false);
+                            
+                         }
+                    }
+                    else if($("#" + key).attr('type') === 'date') 
+                    {
+                        $("#" + key).val(moment(value).format('yyyy-MM-DD'));
+                        
+                    }
+                    else
+                    {
+                         $("#" + key).val(value);
+                    }
+                    if(key == "DocTotal"){ 
+                         $("#TotalBeforeDiscount").val(value)
+                    }
+
+
+                });
+               //Row Data
+               let RowData = JSON.parse(data.rowData);  
+                
+                //$.each(RowData[0][0], function (key, value) {
+                //console.log(RowData);
+                let j = 0;
+                $.each(RowData[0], function (key, value) { 
+
+                    if(j == 0) 
+                    {
+                      
+
+                        $("#ItemCode").val(this.ItemCode).trigger('change'); 
+                        $("#Warehouse").val(this.WhsCode);
+                        $("#QTY").val(this.Quantity);
+                        $("#UPrc").val(this.Price);
+                        $("#TtlPrc").val(this.LineTotal);
+                        $("#AcctCode").val(this.AcctCode);
+                        $("#UomEntry").html(`<option value"` + this.UomEntry + `">` + this.UomCode + `</option>`);
+                         
+
+
+                        //ItemCode,Dscription,WhsCode,Quantity,Price,LineTotal,AcctCode,UomEntry,UomCode
+                        //$("#WhsName").val(this.whsname); 
+
+                        //if (this.locked == 'Y')
+                        //    $("#Locked").prop('checked', true);
+                        //else
+                        //    $("#Locked").prop('checked', false);
+
+                        //$("#MinStock").val(this.minStock);
+
+                        //$("#MaxStock").val(this.maxStock);
+
+                        //$("#MinOrder").val(this.minOrder);
+
+                        //if (!(this.isEditable)) {
+                        //    $("#WhsCode").attr('disabled', true);
+                        //    $("#WhsName").attr('disabled', true);
+                        //    $("#Locked").attr('disabled', true);
+                        //    $("#MinStock").attr('disabled', true);
+                        //    $("#MaxStock").attr('disabled', true);
+                        //    $("#MinOrder").attr('disabled', true);
+                        //    $("#ByWh").attr('disabled', true);
+                        //}
+
+                    }
+                    else {
+                        //AddWarehouseRowData(this);
+                           console.log(this);
+                        $('#ListBtnAddd').trigger('click'); 
+                        InitializeWareHouseData();
+                        $('#ListParameters tr:last-child').find("#Warehouse").html(WareHouseData);
+                         
+                        $('#ListParameters tr:last-child').find("#ItemCode").val(this.ItemCode); 
+                        $('#ListParameters tr:last-child').find("#Warehouse").val(this.WhsCode);
+                        $('#ListParameters tr:last-child').find("#QTY").val(this.Quantity);
+                        $('#ListParameters tr:last-child').find("#UPrc").val(this.Price);
+                        $('#ListParameters tr:last-child').find("#TtlPrc").val(this.LineTotal);
+                        $('#ListParameters tr:last-child').find("#AcctCode").val(this.AcctCode);
+                        $('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"` + this.UomEntry + `">` + this.UomCode + `</option>`);
+                        $("#ItemCode").trigger('change');
+                        $("#Warehouse").trigger('change');
+                    
+                    }
+                    j += 1;
+
+
+                });
+                 
+
+                //$("#btnSaveData").attr('disabled', false);
+                
+                
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+        });
+    }
 
 </script>

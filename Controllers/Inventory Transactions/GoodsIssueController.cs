@@ -39,17 +39,43 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
 
 
 
-        public IActionResult GoodsIssueMaster()
+        public IActionResult GoodsIssueMaster(int id = 0)
         {
             ItemMasterDataDal Idal = new ItemMasterDataDal(); 
             AdministratorDal dal = new AdministratorDal();
 
             ViewData["Series"] = dal.GetSeries(60);
             ViewData["MySeries"] = dal.GetMySeries(60);
-
-            ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text"); 
+            ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text");
+            if (id > 0)
+            {
+                ViewBag.OldId = id;
+            }
+            else
+                ViewBag.OldId = 0;
 
             return View();
+        }
+
+        public IActionResult GetOldData(int ItemID)
+        {
+            try
+            {
+                GoodsIssueDal dal = new GoodsIssueDal();
+
+                return Json(new
+                {
+                    success = true,
+                    HeaderData = dal.GetHeaderOldData(ItemID),
+                    RowData = dal.GetRowOldData(ItemID)
+                });
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         [HttpPost]

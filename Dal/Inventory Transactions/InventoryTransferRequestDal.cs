@@ -39,6 +39,48 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
             }
             return list;
         }
+        public dynamic GetHeaderOldData(int ItemID)
+        {
+            try
+            {
+
+                DataSet ds = new DataSet();
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                string headerQuery = @"select MySeries,DocNum,Series,CardCode,CardName,DocDate,CntctCode,DocDueDate,TaxDate,Address,GroupNum,Filler,ToWhsCode,SlpCode,JrnlMemo,Comments From OWTQ where Id =" + ItemID;
+                SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
+                sda.Fill(ds);
+                string JSONString = string.Empty;
+                JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
+                return JSONString;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        public dynamic GetRowOldData(int ItemID)
+        {
+            try
+            {
+                DataSet ds = new DataSet();
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                string headerQuery = @"select ItemCode,Dscription,FromWhsCod,WhsCode,Quantity,UomEntry,UomCode From WTQ1 where Id =" + ItemID;
+                SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
+                sda.Fill(ds);
+                string JSONString = string.Empty;
+                JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
+                return JSONString;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
         public tbl_OBTN GetBatchList(SqlTransaction tran, string itemcode, string distnumber,string WhsCode)
         {
             try
