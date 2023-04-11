@@ -3493,24 +3493,46 @@ input[type=number] {
 			//$(ObjItemCode)
 		});
 
-		function GetContactPersons(cardCode) {
-			$.get("SaleQuotation/GetContactPersons", {
-				cardCode: cardCode
-			}, function (data) {
-
-				// addDataInVatGroup();
+		function GetContactPersons(cardCode) 
+		{
+			return $.ajax({
+			url: 'SaleQuotation/GetContactPersons',
+			type: 'GET',
+			dataType: 'json',
+			async : false,
+			data: { cardCode: cardCode },
+			success: function (data) {
 				$("#CntcCode").html("");
 
-				$("#CntcCode").append("<option value='0' selected>Select Contact Person<option />");
+				$("#CntcCode").append($("<option />").val(0).text("Select Contact Person"));
 				$.each(data, function () {
 					$("#CntcCode").append($("<option />").val(this.value).text(this.text));
 				});
-				$('#CntcCode').select2({
-					placeholder: "Select an option"
-				});
-				//$("#VatGroup").select2();
-				//$("#VatGroup2").select2();
+				$('#CntcCode').select2();
+			},
+			error: function (jqXhr, textStatus, errorMessage) {
+				console.log(errorMessage);
+			}
 			});
+
+
+			//$.get("SaleQuotation/GetContactPersons", {
+			//	cardCode: cardCode
+			//}, function (data) {
+
+			//	// addDataInVatGroup();
+			//	$("#CntcCode").html("");
+
+			//	$("#CntcCode").append($("<option />").val(0).text("Select Contact Person"));
+			//	$.each(data, function () {
+			//		$("#CntcCode").append($("<option />").val(this.value).text(this.text));
+			//	});
+			//	//$('#CntcCode').select2({
+			//	//	placeholder: "Select an option"
+			//	//});
+			//	//$("#VatGroup").select2();
+			//	//$("#VatGroup2").select2();
+			//});
 		}
 		
 		$(document).on('dblclick', '#MyyyyItemmTable tbody tr', function (e) {
@@ -3551,41 +3573,67 @@ input[type=number] {
 			let WarehouseField = $(this).closest('#ListParameters .itm').find('#Warehouse');
 			let WarehouseValue = WarehouseField.val();
 			let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
-			if(WarehouseField.val() != "" || WarehouseField.val() != null){
-				   $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
-						console.log("Data is : ",data)
-						onHand.val(data);
+				if(WarehouseField.val() != "" || WarehouseField.val() != null){
 
+
+					$.ajax({
+						url: 'Common/GetSelectedWareHouseData',
+						type: 'GET',
+						dataType: 'json',
+						async : false,
+						data: { ItemCode: ItemCodeValue, WhsCode: WarehouseValue },
+						success: function (data) {
+							onHand.val(data);
+						},
+						error: function (jqXhr, textStatus, errorMessage) {
+							console.log(errorMessage);
+						}
 					});
-			}
+
+				}
  
 			ObjItemCode = $(this).closest('tr').find("#ItemCode");
 			
-			$.get("Common/GetItemData", { itemcode: $(this).val(), DocModule: DocModule }, function (data) {
 
-				if (data.success) {
+				$.ajax({
+						url: 'Common/GetItemData',
+						type: 'GET',
+						dataType: 'json',
+						async : false,
+						data: { itemcode: $(this).val(), DocModule: DocModule },
+						success: function (data) {
+							if (data.success) {
 							
-					let ItemNameObj = $(ObjItemCode).closest('#ListParameters .itm').find("#ItemName");
-					$(ItemNameObj).val((data.item).itemName);
+						let ItemNameObj = $(ObjItemCode).closest('#ListParameters .itm').find("#ItemName");
+						$(ItemNameObj).val((data.item).itemName);
 					
 				
-						if((data.item).manBtchNum == "Y")
-						{
-							$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").removeClass("d-none");
-						}
-						else{
-							if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
-								$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
-						}
+							if((data.item).manBtchNum == "Y")
+							{
+								$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").removeClass("d-none");
+							}
+							else{
+								if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
+									$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
+							}
 					
-					GetUomGroup((data.item).itemCode);
-				} else 
-				{
-					$(ObjItemCode).closest('#ListParameters .itm').find("#ItemName").val("");
-					if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
-					$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
-				}
-			});
+						GetUomGroup((data.item).itemCode);
+					} else 
+					{
+						$(ObjItemCode).closest('#ListParameters .itm').find("#ItemName").val("");
+						if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
+						$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
+					}
+						},
+						error: function (jqXhr, textStatus, errorMessage) {
+							console.log(errorMessage);
+						}
+					});
+
+
+
+
+				
 			}
 
 		});

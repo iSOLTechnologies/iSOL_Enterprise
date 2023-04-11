@@ -241,7 +241,7 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
                                                                         <label>Contact Person</label>
-                                                                        <select class=" form-control kt-select2 ItemCode NotReq " id="CntcCode" name="param">
+                                                                        <select class="form-control NotReq " id="CntcCode" >
 
                                                                             <!-- @* @foreach (var item in Model.ListItemMaster)
                                                                              {
@@ -1219,14 +1219,14 @@
                     }
                     else 
                     {
-                        //if (key == "CardCode") {                   
-                        //     $("#CardCode").val(value).trigger('change');                                             
-                        //}  
-                      if (key == "CntctCode") {
-                        
-                            GetContactPersons($("#CardCode").val());
-                            $("#CntcCode").val(value);
-                           // console.log("  $(#CntcCode).val(value);",value)
+                       
+                        if (key == "CntctCode") {
+                            
+                           
+                                GetContactPersons($("#CardCode").val());
+                                $("#CntcCode").select2().val(value).trigger("change");
+                          
+                            
                         }
                         else if (key == "DocTotal") {
                             $("#TotalBeforeDiscount").val(value)
@@ -1254,39 +1254,22 @@
                     if(j == 0) 
                     {
                       
- 
                         $("#ItemCode").val(this.ItemCode); 
                         $("#ItemName").val(this.Dscription); 
                         $("#Warehouse").val(this.FromWhsCod);
                         $("#WhsCode").val(this.WhsCode); 
                         $("#QTY").val(this.Quantity);  
                         $("#UomEntry").html(`<option value"` + this.UomEntry + `">` + this.UomCode + `</option>`);
-                        $("#ItemCode").trigger('change');
-                        $("#Warehouse").trigger('change');
-                        //ItemCode,Dscription,WhsCode,Quantity,Price,LineTotal,AcctCode,UomEntry,UomCode
-                        //$("#WhsName").val(this.whsname); 
+                        
+                        $.when(GetWareHouseQty(this.ItemCode, this.FromWhsCod)).done(function (OnHand) 
+                        {
+                             
+                            $("#onHand").val(OnHand);
+                            
 
-                        //if (this.locked == 'Y')
-                        //    $("#Locked").prop('checked', true);
-                        //else
-                        //    $("#Locked").prop('checked', false);
-
-                        //$("#MinStock").val(this.minStock);
-
-                        //$("#MaxStock").val(this.maxStock);
-
-                        //$("#MinOrder").val(this.minOrder);
-
-                        //if (!(this.isEditable)) {
-                        //    $("#WhsCode").attr('disabled', true);
-                        //    $("#WhsName").attr('disabled', true);
-                        //    $("#Locked").attr('disabled', true);
-                        //    $("#MinStock").attr('disabled', true);
-                        //    $("#MaxStock").attr('disabled', true);
-                        //    $("#MinOrder").attr('disabled', true);
-                        //    $("#ByWh").attr('disabled', true);
-                        //}
-
+                        });
+                        
+                        
                     }
                     else
                     {
@@ -1302,8 +1285,13 @@
                         $('#ListParameters tr:last-child').find("#WhsCode").val(this.WhsCode); 
                         $('#ListParameters tr:last-child').find("#QTY").val(this.Quantity);  
                         $('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"` + this.UomEntry + `">` + this.UomCode + `</option>`);
-                       $('#ListParameters tr:last-child').find("#ItemCode").trigger('change');
-                        $('#ListParameters tr:last-child').find("#Warehouse").trigger('change');
+                        $.when(GetWareHouseQty(this.ItemCode, this.FromWhsCod)).done(function (OnHand) 
+                        {
+                             
+                            $('#ListParameters tr:last-child').find("#onHand").val(OnHand);
+                            
+
+                        });
                     
                     }
                     j += 1;
@@ -1314,7 +1302,7 @@
                         $("#Filler").trigger('change');
                         $("#ToWhsCode").trigger('change');
                         $("#CntcCode").trigger('change');
-                //$("#btnSaveData").attr('disabled', false);
+                
                 
                 
             },

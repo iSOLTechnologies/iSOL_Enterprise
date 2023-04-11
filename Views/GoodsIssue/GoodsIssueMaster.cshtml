@@ -1811,36 +1811,16 @@
                         $("#AcctCode").val(this.AcctCode);
                         $("#UomEntry").html(`<option value"` + this.UomEntry + `">` + this.UomCode + `</option>`);
                          
+                        $.when(GetWareHouseQty(this.ItemCode, this.WhsCode)).done(function (OnHand) {
 
+                            $("#onHand").val(Number(OnHand));
 
-                        //ItemCode,Dscription,WhsCode,Quantity,Price,LineTotal,AcctCode,UomEntry,UomCode
-                        //$("#WhsName").val(this.whsname); 
-
-                        //if (this.locked == 'Y')
-                        //    $("#Locked").prop('checked', true);
-                        //else
-                        //    $("#Locked").prop('checked', false);
-
-                        //$("#MinStock").val(this.minStock);
-
-                        //$("#MaxStock").val(this.maxStock);
-
-                        //$("#MinOrder").val(this.minOrder);
-
-                        //if (!(this.isEditable)) {
-                        //    $("#WhsCode").attr('disabled', true);
-                        //    $("#WhsName").attr('disabled', true);
-                        //    $("#Locked").attr('disabled', true);
-                        //    $("#MinStock").attr('disabled', true);
-                        //    $("#MaxStock").attr('disabled', true);
-                        //    $("#MinOrder").attr('disabled', true);
-                        //    $("#ByWh").attr('disabled', true);
-                        //}
+                        });
 
                     }
                     else {
                         //AddWarehouseRowData(this);
-                           console.log(this);
+                          
                         $('#ListBtnAddd').trigger('click'); 
                         InitializeWareHouseData();
                         $('#ListParameters tr:last-child').find("#Warehouse").html(WareHouseData);
@@ -1852,8 +1832,12 @@
                         $('#ListParameters tr:last-child').find("#TtlPrc").val(this.LineTotal);
                         $('#ListParameters tr:last-child').find("#AcctCode").val(this.AcctCode);
                         $('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"` + this.UomEntry + `">` + this.UomCode + `</option>`);
-                        $("#ItemCode").trigger('change');
-                        $("#Warehouse").trigger('change');
+                        
+                        $.when(GetWareHouseQty(this.ItemCode, this.WhsCode)).done(function (OnHand) {
+
+                            $('#ListParameters tr:last-child').find("#onHand").val(Number(OnHand));
+
+                        });
                     
                     }
                     j += 1;

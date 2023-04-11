@@ -1188,8 +1188,9 @@
 
 
     function GetOldData() {
+
         $.ajax({
-            url: 'InventoryTransferRequest/GetOldData',
+            url: 'InventoryTransfer/GetOldData',
             type: 'GET',
             dataType: 'json',
             async: false,
@@ -1217,23 +1218,27 @@
                         $("#" + key).val(moment(value).format('yyyy-MM-DD'));
 
                     }
-                    else 
-                    {  
-                       if (key == "CntctCode") {
-                        
+                    else {
+
+                        if (key == "CntctCode") {
+
+
                             GetContactPersons($("#CardCode").val());
-                            $("#CntcCode").val(value);
-                            console.log("  $(#CntcCode).val(value);",value)
+                            $("#CntcCode").select2().val(value).trigger("change");
+
+
                         }
                         else if (key == "DocTotal") {
                             $("#TotalBeforeDiscount").val(value)
                         }
-                        else{
+                        else {
                             $("#" + key).val(value);
                         }
                     }
-                    
-                    
+
+
+
+
 
 
 
@@ -1248,38 +1253,20 @@
 
                     if (j == 0) {
 
-
                         $("#ItemCode").val(this.ItemCode);
                         $("#ItemName").val(this.Dscription);
                         $("#Warehouse").val(this.FromWhsCod);
                         $("#WhsCode").val(this.WhsCode);
                         $("#QTY").val(this.Quantity);
                         $("#UomEntry").html(`<option value"` + this.UomEntry + `">` + this.UomCode + `</option>`);
-                        $("#ItemCode").trigger('change');
-                        $("#Warehouse").trigger('change');
-                        //ItemCode,Dscription,WhsCode,Quantity,Price,LineTotal,AcctCode,UomEntry,UomCode
-                        //$("#WhsName").val(this.whsname);
 
-                        //if (this.locked == 'Y')
-                        //    $("#Locked").prop('checked', true);
-                        //else
-                        //    $("#Locked").prop('checked', false);
+                        $.when(GetWareHouseQty(this.ItemCode, this.FromWhsCod)).done(function (OnHand) {
 
-                        //$("#MinStock").val(this.minStock);
+                            $("#onHand").val(OnHand);
 
-                        //$("#MaxStock").val(this.maxStock);
 
-                        //$("#MinOrder").val(this.minOrder);
+                        });
 
-                        //if (!(this.isEditable)) {
-                        //    $("#WhsCode").attr('disabled', true);
-                        //    $("#WhsName").attr('disabled', true);
-                        //    $("#Locked").attr('disabled', true);
-                        //    $("#MinStock").attr('disabled', true);
-                        //    $("#MaxStock").attr('disabled', true);
-                        //    $("#MinOrder").attr('disabled', true);
-                        //    $("#ByWh").attr('disabled', true);
-                        //}
 
                     }
                     else {
@@ -1295,8 +1282,12 @@
                         $('#ListParameters tr:last-child').find("#WhsCode").val(this.WhsCode);
                         $('#ListParameters tr:last-child').find("#QTY").val(this.Quantity);
                         $('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"` + this.UomEntry + `">` + this.UomCode + `</option>`);
-                        $('#ListParameters tr:last-child').find("#ItemCode").trigger('change');
-                        $('#ListParameters tr:last-child').find("#Warehouse").trigger('change');
+                        $.when(GetWareHouseQty(this.ItemCode, this.FromWhsCod)).done(function (OnHand) {
+
+                            $('#ListParameters tr:last-child').find("#onHand").val(OnHand);
+
+
+                        });
 
                     }
                     j += 1;
@@ -1304,13 +1295,11 @@
 
                 });
 
+                $("#Filler").trigger('change');
+                $("#ToWhsCode").trigger('change');
+                $("#CntcCode").trigger('change');
 
-                //$("#btnSaveData").attr('disabled', false);
-                
-                        $("#Filler").trigger('change');
-                        $("#ToWhsCode").trigger('change');
-                        $("#CntcCode").trigger('change');
-                  
+
 
             },
             error: function (jqXhr, textStatus, errorMessage) {
