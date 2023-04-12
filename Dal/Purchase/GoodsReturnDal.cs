@@ -194,7 +194,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                     {
 
                         model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.PurchaseType);
-                        model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
+                        model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == null ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
                         model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
                         model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
                         model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
@@ -466,6 +466,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                 tran.Rollback();
                                 return false;
                             }
+                            #endregion
 
                             #region Update OITW If Sap Integration is OFF
 
@@ -486,7 +487,6 @@ namespace iSOL_Enterprise.Dal.Purchase
 
 
                             LineNo += 1;
-                            #endregion
                         }
 
 
@@ -638,7 +638,7 @@ namespace iSOL_Enterprise.Dal.Purchase
 
 
                             model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToInt32(model.HeaderData.PurchaseType);
-                            model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
+                            model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == null ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
                             model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
                             model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
                             model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
@@ -774,6 +774,25 @@ namespace iSOL_Enterprise.Dal.Purchase
                                             tran.Rollback();
                                             return false;
                                         }
+                                        #region Update OITW If Sap Integration is OFF
+
+                                        if (!SqlHelper.SAPIntegration)
+                                        {
+                                            string OldQtyQuery = @"select DocQty from OITL where DocEntry=" + model.ID + " and DocLine = " + item.LineNum + "and DocType =21";
+                                            decimal OldQty = SqlHelper.ExecuteScalar(tran, CommandType.Text, OldQtyQuery).ToDecimal();
+
+                                            string UpdateOITWQuery = @"Update OITW set onHand = onHand - (" + OldQty + ") - @Quantity where WhsCode = '" + item.Warehouse + "' and ItemCode = '" + item.ItemCode + "'";
+                                            List<SqlParameter> param2 = new List<SqlParameter>();
+                                            param2.Add(dal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
+                                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateOITWQuery, param2.ToArray()).ToInt();
+                                            if (res1 <= 0)
+                                            {
+                                                tran.Rollback();
+                                                return false;
+                                            }
+                                        }
+
+                                        #endregion
                                     }
 
                                 }
@@ -819,6 +838,34 @@ namespace iSOL_Enterprise.Dal.Purchase
                                             tran.Rollback();
                                             return false;
                                         }
+                                    }
+
+                                    #endregion
+
+
+                                    int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");
+
+                                    #region OITLLog
+                                    string LogQueryOITL = @"insert into OITL(LogEntry,CardCode,ItemCode,ItemName,CardName,DocEntry,DocLine,DocType,DocNum,DocQty,DocDate) 
+                                           values(" + LogEntry + ",'"
+                                                      //+ DocType + "','"
+                                                      + model.HeaderData.CardCode + "','"
+                                                      + item.ItemCode + "','"
+                                                      + item.ItemName + "','"
+                                                      + model.HeaderData.CardName + "',"
+                                                      + model.ID + ","
+                                                      + LineNo + ","
+                                                      + 21 + ","                                                      
+                                                      + model.ID + ","
+                                                      + -1 * (decimal)item.QTY + ",'"
+                                                      // + Convert.ToDateTime(DateTime.Now) + "','"
+                                                      + Convert.ToDateTime(model.HeaderData.DocDate) + "')";
+
+                                    res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryOITL).ToInt();
+                                    if (res1 <= 0)
+                                    {
+                                        tran.Rollback();
+                                        return false;
                                     }
 
                                     #endregion
