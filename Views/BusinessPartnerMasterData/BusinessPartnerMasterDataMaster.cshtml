@@ -773,6 +773,247 @@
                                                                 </div>
                                                                 
 
+
+                                                                <div class="tab-pane " id="kt_tabs_Accounting"
+                                                                     role="tabpanel">
+
+                                                                    <ul class="p-3 pl-3 nav nav-tabs nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand"
+                                                                        role="tablist">
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link active" data-toggle="tab"
+                                                                               href="#kt_Innertabs_General"
+                                                                               role="tab">General</a>
+                                                                        </li>
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link" data-toggle="tab"
+                                                                               id="tabAccounting"
+                                                                               href="#kt_Innertabs_Tax"
+                                                                               role="tab">Tax</a>
+                                                                        </li>
+
+                                                                    </ul>
+
+
+                                                                    <!-- Inner General Tab--Starts---->
+                                                                    <div class="tab-content">
+                                                                        <div class="tab-pane active scrollbar mt-5"
+                                                                             id="kt_Innertabs_General" role="tabpanel">
+
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-6 d-flex">
+                                                                                    <label class="mr-2 d-flex text-center pt-2 col-md-7">
+                                                                                        Consolidating Business Partner
+                                                                                    </label>
+
+                                                                                    <select id="FatherCard" class="col-md-5 form-control form-control-sm"></select>
+                                                                                    <div id="ErrorMsg"
+                                                                                         class="error invalid-feedback">
+                                                                                        This
+                                                                                        field is required.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row m-3">
+                                                                                <div class="col-md-4 radio-inline">
+
+                                                                                    <label class="radio radio-success">
+                                                                                        <input id="FatherType" type="radio" checked name="validFor" class="ml-2" value="Y">
+                                                                                        <span></span> Payment Consolidating
+                                                                                    </label>
+                                                                                </div>
+
+                                                                                <div class="col-md-4 radio-inline">
+
+                                                                                    <label class="radio radio-success">
+                                                                                        <input id="FatherType" type="radio" name="validFor" class="ml-2" value="Y">
+                                                                                        <span></span> Delivery Consolidating
+                                                                                    </label>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <br>
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-6 d-flex">
+                                                                                    <label class="mr-2 d-flex text-center pt-2 col-md-7">
+                                                                                        Account Receiveable
+                                                                                    </label>
+
+                                                                                    <select id="FatherCard" class="col-md-5 form-control form-control-sm"></select>
+                                                                                    <label class="mr-2 d-flex text-center pt-2 col-md-7">
+                                                                                        Trade Debtors (domestic)
+                                                                                    </label>
+                                                                                    <div id="ErrorMsg"
+                                                                                         class="error invalid-feedback">
+                                                                                        This
+                                                                                        field is required.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-6 d-flex">
+                                                                                    <label class="mr-2 d-flex text-center pt-2 col-md-7">
+                                                                                        Down Payment Clearing Amount
+                                                                                    </label>
+
+                                                                                    <select id="FatherCard" class="col-md-5 form-control form-control-sm"></select>
+                                                                                    <label class="mr-2 d-flex text-center pt-2 col-md-7">
+                                                                                        Advance Customers Payment
+                                                                                    </label>
+                                                                                    <div id="ErrorMsg"
+                                                                                         class="error invalid-feedback">
+                                                                                        This
+                                                                                        field is required.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-6 d-flex">
+                                                                                    <label class="mr-2 d-flex text-center pt-2 col-md-7">
+                                                                                        Down Payment Interim Amount
+                                                                                    </label>
+
+                                                                                    <select id="FatherCard" class="col-md-5 form-control form-control-sm"></select>
+                                                                                    <label class="mr-2 d-flex text-center pt-2 col-md-7">
+                                                                                        Advance Customers Payment
+                                                                                    </label>
+                                                                                    <div id="ErrorMsg"
+                                                                                         class="error invalid-feedback">
+                                                                                        This
+                                                                                        field is required.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <br>
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-4 d-flex">
+                                                                            <label class="checkbox checkbox-success">
+																            <input type="checkbox" id="BlockDunn" value="N" class="NotReq" checked="false">
+                                                                            <span></span>&nbsp; Block Dunning Letters
+                                                                        </label>
+                                                                        </div>
+
+
+                                                                         
+
+                                                                            </div>
+
+
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-6 d-flex">
+                                                                                    <label class="mr-2 d-flex text-center pt-2 col-md-7">
+                                                                                        Dunning Level
+                                                                                    </label>
+
+                                                                                    <select id="DunnLevel" class="col-md-5 form-control form-control-sm"></select>
+                                                                                    <div id="ErrorMsg"
+                                                                                         class="error invalid-feedback">
+                                                                                        This
+                                                                                        field is required.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-6 d-flex">
+                                                                                    <label class="mr-2 d-flex text-center pt-2 col-md-7">
+                                                                                        Dunning Date
+                                                                                    </label>
+
+                                                                                    <input id="DunnDate" type="date" class="col-md-5 form-control form-control-sm">
+                                                                                    <div id="ErrorMsg"
+                                                                                         class="error invalid-feedback">
+                                                                                        This
+                                                                                        field is required.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-6 d-flex">
+                                                                                    <label class="mr-2 d-flex text-center pt-2 col-md-7">
+                                                                                        Connected Vendor Level
+                                                                                    </label>
+
+                                                                                    <select id="DunnLevel" class="col-md-5 form-control form-control-sm"></select>
+                                                                                    <div id="ErrorMsg"
+                                                                                         class="error invalid-feedback">
+                                                                                        This
+                                                                                        field is required.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <br>
+                                                                            <div class="row">
+
+                                                                                <div class="col-md-6 d-flex">
+                                                                                    <label class="mr-2 d-flex text-center pt-2 col-md-7">
+                                                                                        Planing Group
+                                                                                    </label>
+
+                                                                                    <input id="PingGroup" type="text" class="col-md-5 form-control form-control-sm">
+                                                                                    <div id="ErrorMsg"
+                                                                                         class="error invalid-feedback">
+                                                                                        This
+                                                                                        field is required.
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div> 
+                                                                                  <div class="row">
+
+                                                                                <div class="col-md-4 d-flex">
+                                                                            <label class="checkbox checkbox-success">
+																            <input type="checkbox" id="Affilate" value="N" class="NotReq" checked="false">
+                                                                            <span></span>&nbsp; Affilate
+                                                                        </label>
+                                                                        </div>
+
+
+                                                                         
+
+                                                                            </div>
+                                                                                  <div class="row">
+
+                                                                                <div class="col-md-4 d-flex">
+                                                                            <label class="checkbox checkbox-success">
+																            <input type="checkbox" id="UseShpdGd" value="N" class="NotReq" checked="false">
+                                                                            <span></span>&nbsp;  Use Shipped Goods Account
+                                                                        </label>
+                                                                        </div>
+
+
+                                                                         
+
+                                                                            </div> 
+                                                                        </div>
+                                                                        <!-- Inner General Tab--Ends-- -->
+
+                                                                        <div class="tab-pane" id="kt_Innertabs_Tax"
+                                                                             role="tabpanel">
+
+
+                                                                            Welcome to Tax Tab
+
+                                                                        </div>
+                                                                    </div>
+
+
+
+                                                                </div>
+
+
+
+
+
+
                                                                 <div class="tab-pane" id="kt_tabs_Properties"
                                                                      role="tabpanel">
 
@@ -849,6 +1090,67 @@
                                                                         
                                                                     </div>
                                                                 </div>
+
+
+                                                                <div class="tab-pane" id="kt_tabs_attachment" role="tabpanel">
+
+
+
+
+                                                                    <table id="kt_repeater_3" style="overflow:auto">
+                                                                        <thead class="ScrollThead2">
+                                                                            <tr>
+                                                                                <th>TargetPath</th>
+                                                                                <th>FileName</th>
+                                                                                <th>AttachmentDate</th>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody id="ListParameters3" data-repeater-list="" class="ScrollTbody2">
+                                                                            <tr class="rowItemDetail align-items-center itm">
+
+                                                                                <td>
+                                                                                    <input readonly type="file" id="selectedFile" class="position-absolute d-none form-control form-control-sm">
+                                                                                    <input id="selectedFilePath" class="form-control form-control-sm">
+                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input readonly id="selectedFileName" class="form-control form-control-sm">
+                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input readonly id="selectedFileDate" type="date" class="form-control form-control-sm">
+                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <button id="btnbrowseFile" type="button" class="btn btn-light-primary font-weight-bold btn-sm"> <i class="la la-plus"></i> Browse </button>
+                                                                                </td>
+
+
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+
+                                                                    <div style="margin-top:1%" class="form-group form-group-last row">
+                                                                        <div class="col-md-6">
+                                                                            <button type="button" id="ListBtnAddFile" data-repeater-create="" class="btn btn-light-primary font-weight-bold btn-sm">
+                                                                                <i class="la la-plus"></i> Add
+                                                                            </button>
+
+                                                                            <!-- <button type="button" class="btn btn-light-primary font-weight-bold btn-sm">Setup login verification</button> -->
+
+
+                                                                        </div>
+                                                                    </div>
+
+
+
+
+
+                                                                </div>
+
+
                                                             </div>
                                                                     
                                                             </div>
@@ -1384,6 +1686,61 @@
             }
         });
     }
+
+    $(document).on('click', '#ListBtnAddFile', function (e) {
+
+
+
+        var html = `  <tr class="rowItemDetail align-items-center itm">
+
+                                                                                    <td>
+                                                                                        <input readonly type="file" id="selectedFile" class="position-absolute d-none form-control form-control-sm">
+                                                                                        <input id="selectedFilePath" class="form-control form-control-sm">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input readonly id="selectedFileName" class="form-control form-control-sm">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input readonly id="selectedFileDate" type="date" class="form-control form-control-sm">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <button id="btnbrowseFile" type="button" class="btn btn-light-primary font-weight-bold btn-sm"> <i class="la la-plus"></i> Browse </button>
+
+                                                                                    </td>
+                                                                                   <td>
+                                                                            <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
+                                                                            <i class="la la-trash"></i> X
+                                                                           </a>
+                                                                           </td>
+
+                                                                                </tr> `;
+
+        $('#kt_repeater_3 tbody').append(html);
+    });
+    $(document).on('click', '#btnbrowseFile', function (e) {
+
+        console.log("brow");
+        let selectedrow = $(this).closest('tr');
+        var input = selectedrow.find("#selectedFile");
+
+        input.click();
+        //debugger
+        input.change(function () {
+            var SelectedFile = input.val()
+            selectedrow.find("#selectedFileDate").val(new Date().toJSON().slice(0, 10));
+            selectedrow.find("#selectedFilePath").val(SelectedFile);
+            selectedrow.find("#selectedFileName").val(SelectedFile.replace(/^.*[\\\/]/, ''));
+
+            // AddRowInFileTable();
+
+        });
+
+
+        //$(ObjItemCode)
+    });
 </script>
     <!-- MyStart -->
 
