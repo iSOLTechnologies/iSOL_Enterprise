@@ -1,6 +1,7 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Models.Inventory;
+using iSOL_Enterprise.Models.sale;
 using SqlHelperExtensions;
 using System.Data;
 
@@ -26,6 +27,52 @@ namespace iSOL_Enterprise.Dal.Business
                     });
                 }
             }
+            return list;
+        }
+        public List<tbl_OSLP> GetEmailGroup()
+        { 
+            string GetQuery = "select EmlGrpCode,EmlGrpName From OEGP";
+
+
+            List<tbl_OSLP> list = new List<tbl_OSLP>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    list.Add(
+                        new tbl_OSLP()
+                        {
+                            SlpCode = Convert.ToInt32(rdr["EmlGrpCode"]),
+                            SlpName = rdr["EmlGrpName"].ToString()
+                        });
+
+                }
+            }
+
+            return list;
+        }
+        public List<tbl_OSLP> GetStateCode()
+        { 
+            string GetQuery = "select Code,[Name] From OCST";
+
+
+            List<tbl_OSLP> list = new List<tbl_OSLP>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    list.Add(
+                        new tbl_OSLP()
+                        { 
+                            Code = rdr["Code"].ToString(),
+                            SlpName = rdr["Name"].ToString()
+                        });
+
+                }
+            }
+
             return list;
         }
         public List<ListModel> GetShipTypes()

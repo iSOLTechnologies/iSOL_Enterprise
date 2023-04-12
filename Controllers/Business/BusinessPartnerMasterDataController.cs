@@ -12,6 +12,34 @@ namespace iSOL_Enterprise.Controllers.Business
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult GetEmailGroup()
+        {
+            try
+            {
+                BusinessPartnerMasterDataDal dal = new BusinessPartnerMasterDataDal();
+                return Json(dal.GetEmailGroup());
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
+        }
+        [HttpGet]
+        public IActionResult GetStateCode()
+        {
+            try
+            {
+
+                BusinessPartnerMasterDataDal dal = new BusinessPartnerMasterDataDal();
+
+                return Json(dal.GetStateCode());
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
+        }
         public IActionResult BusinessPartnerMasterDataMaster()
         {
             AdministratorDal addal = new AdministratorDal();

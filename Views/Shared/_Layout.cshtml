@@ -2370,11 +2370,15 @@ input[type=number] {
 		}
 		function GetCountrydata() 
 		{
-	
-			$.get("Common/GetCountries", function(data) 
-			{
-		
-		
+			$.ajax({
+				url: 'Common/GetCountries',
+				type: 'GET',
+				dataType: 'json',
+				async: false,				
+				success: function (data) 
+				{
+
+					
 				$("#CountryOrg").html("");
 		
 				$.each(data, function() {
@@ -2387,8 +2391,13 @@ input[type=number] {
 					CountryData = CountryData + "<option  value=" + this.country_code + ">" + this.country_name + "</option>";
 				}
 				});
-		
+					
+				},
+				error: function (jqXhr, textStatus, errorMessage) {
+					console.log(errorMessage);
+				}
 			});
+ 
 		} 
 
 		function GetCurrencydata() 
