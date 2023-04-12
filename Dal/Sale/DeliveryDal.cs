@@ -699,9 +699,9 @@ namespace iSOL_Enterprise.Dal.Sale
                                                                 ",DiscPrcnt = " + item.DicPrc +
                                                                 ",VatGroup  = '" + item.VatGroup + "'" +
                                                                 ",CountryOrg= '" + item.CountryOrg + "'" +
-                                                                " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
+                                                                " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty = Quantity";
                                         int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateQuery).ToInt();
-                                        if (res2 <= 0)
+                                        if (res2 < 0)
                                         {
                                             tran.Rollback();
                                             return false;
@@ -737,6 +737,22 @@ namespace iSOL_Enterprise.Dal.Sale
                                         tran.Rollback();
                                         return false;
                                     }
+                                    #region Update OITW If Sap Integration is OFF
+
+                                    if (!SqlHelper.SAPIntegration)
+                                    {
+                                        string UpdateOITWQuery = @"Update OITW set onHand = onHand - @Quantity where WhsCode = '" + item.Warehouse + "' and ItemCode = '" + item.ItemCode + "'";
+                                        List<SqlParameter> param2 = new List<SqlParameter>();
+                                        param2.Add(dal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
+                                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateOITWQuery, param2.ToArray()).ToInt();
+                                        if (res1 <= 0)
+                                        {
+                                            tran.Rollback();
+                                            return false;
+                                        }
+                                    }
+
+                                    #endregion
 
                                 }
                                 #endregion

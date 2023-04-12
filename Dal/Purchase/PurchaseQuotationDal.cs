@@ -637,9 +637,9 @@ namespace iSOL_Enterprise.Dal.Purchase
                                                             ",PQTReqDate= '" + Convert.ToDateTime(item.PQTReqDate) + "'" +
                                                             ",ShipDate= '" + Convert.ToDateTime(item.ShipDate) + "'" +
                                                             ",PQTReqQty= " + item.PQTReqQty + "" +
-                                                            " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
+                                                            " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty = Quantity";
                                         int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateQuery).ToInt();
-                                        if (res2 <= 0)
+                                        if (res2 < 0)
                                         {
                                             tran.Rollback();
                                             return false;
