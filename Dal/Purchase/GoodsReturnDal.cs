@@ -781,23 +781,24 @@ namespace iSOL_Enterprise.Dal.Purchase
                                 #region New Row added
                                 else
                                 {
-                                    int LineNo = CommonDal.getLineNumber(tran, "RDN1", model.ID.ToString());
+                                    int LineNo = CommonDal.getLineNumber(tran, "RPD1", model.ID.ToString());
+                                    item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
 
-                                    string RowQueryItem = @"insert into RDN1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode ,CountryOrg)
+                                    string RowQueryItem = @"insert into RPD1(Id,LineNum,WhsCode,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
                                               values(" + model.ID + ","
-                                                  + LineNo + ",'"
-                                                  + item.ItemName + "',"
-                                                  + item.UPrc + ","
-                                                  + item.TtlPrc + ",'"
-                                                  + item.ItemCode + "',"
-                                                  + item.QTY + ","
-                                                  + item.QTY + ","
-                                                  + item.DicPrc + ",'"
-                                                  + item.VatGroup + "','"
-                                                  + item.UomCode + "','"
-                                                  + item.CountryOrg + "')";
-
-
+                                                + LineNo + ",'"
+                                                + item.Warehouse + "','"                                                
+                                                + item.ItemName + "',"
+                                                + item.UPrc + ","
+                                                + item.TtlPrc + ","
+                                                + item.QTY + ",'"
+                                                + item.ItemCode + "',"
+                                                + item.QTY + ","
+                                                + item.DicPrc + ",'"
+                                                + item.VatGroup + "','"
+                                                + item.UomCode + "',"
+                                                + item.UomEntry + ",'"
+                                                + item.CountryOrg + "')";
 
                                     int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
                                     if (res2 <= 0)

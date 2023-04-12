@@ -263,54 +263,7 @@ namespace iSOL_Enterprise.Dal.Purchase
             }
 
             return list;
-        }
-
-        public List<tbl_OVTG> GetVatGroupData()
-        {
-            string GetQuery = "select vatName = Code+' - ' +Name , Rate from OVTG ";
-
-
-            List<tbl_OVTG> list = new List<tbl_OVTG>();
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-            {
-                while (rdr.Read())
-                {
-
-                    list.Add(
-                        new tbl_OVTG()
-                        {
-                            vatName = rdr["vatName"].ToString(),
-                            Rate = (decimal)rdr["Rate"]
-                        });
-
-                }
-            }
-
-            return list;
-        }
-        public List<ListModel> GetContactPersons(int cardCode)
-        {
-            string GetQuery = "select OCRD.CardCode,OCPR.Name from ocrd join ocpr on ocrd.CardCode = OCPR.CardCode where ocrd.CardCode = '" + cardCode + "'";
-
-
-            List<ListModel> list = new List<ListModel>();
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-            {
-                while (rdr.Read())
-                {
-
-                    list.Add(
-                        new ListModel()
-                        {
-                            Value = rdr["CardCode"].ToInt(),
-                            Text = rdr["Name"].ToString()
-                        });
-
-                }
-            }
-
-            return list;
-        }
+        }      
 
         public tbl_OBTN GetBatchList(SqlTransaction tran,string itemcode, string distnumber)
         {
@@ -932,21 +885,23 @@ namespace iSOL_Enterprise.Dal.Purchase
                                 else
                                 {
                                     int LineNo = CommonDal.getLineNumber(tran, "PDN1", model.ID.ToString());
-                                    string RowQueryItem = @"insert into PDN1(Id,LineNum,ItemName,Price,LineTotal,ItemCode,Quantity,OpenQty,DiscPrcnt,VatGroup, UomCode , UomEntry ,CountryOrg)
-                                              values(" + model.ID + ","
-                                                  + LineNo + ",'"
-                                                  + item.ItemName + "',"
-                                                  + item.UPrc + ","
-                                                  + item.TtlPrc + ",'"
-                                                  + item.ItemCode + "',"
-                                                  + item.QTY + ","
-                                                  + item.QTY + ","
-                                                  + item.DicPrc + ",'"
-                                                  + item.VatGroup + "','"
-                                                  + item.UomCode + "',"
-                                                  + item.UomEntry + ",'"
-                                                  + item.CountryOrg + "')";
+                                    item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
 
+                                    string RowQueryItem = @"insert into PDN1(Id,LineNum,WhsCode,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
+                                              values(" + model.ID + ","
+                                           + LineNo + ",'"
+                                           + item.Warehouse + "','"                                           
+                                           + item.ItemName + "',"
+                                           + item.UPrc + ","
+                                           + item.TtlPrc + ","
+                                           + item.QTY + ",'"
+                                           + item.ItemCode + "',"
+                                           + item.QTY + ","
+                                           + item.DicPrc + ",'"
+                                           + item.VatGroup + "','"
+                                           + item.UomCode + "',"
+                                           + item.UomEntry + ",'"
+                                           + item.CountryOrg + "')";
 
 
                                     int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
