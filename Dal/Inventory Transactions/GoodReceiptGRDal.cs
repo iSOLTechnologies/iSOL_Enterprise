@@ -242,7 +242,6 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
 
                             #endregion
 
-                            LineNum += 1;
                             if (model.Batches != null)
                             {
                                 foreach (var batch in model.Batches)
@@ -342,14 +341,33 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                                             }
                                             #endregion
                                              }
-
-                                             }
+                                        }
                                              else
                                             break;
-
                                         }
                                     }
+
+
+                            #region Update OITW If Sap Integration is OFF
+
+                            if (!SqlHelper.SAPIntegration)
+                            {
+                                string UpdateOITWQuery = @"Update OITW set onHand = onHand + @Quantity where WhsCode = '" + item.Warehouse + "' and ItemCode = '" + item.ItemCode + "'";
+                                List<SqlParameter> param2 = new List<SqlParameter>();
+                                param2.Add(cdal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
+                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateOITWQuery, param2.ToArray()).ToInt();
+                                if (res1 <= 0)
+                                {
+                                    tran.Rollback();
+                                    response.isSuccess = false;
+                                    response.Message = "An Error Occured";
+                                    return response;
                                 }
+                            }
+
+                            #endregion
+                            LineNum += 1;
+                        }
 
 
 

@@ -12,6 +12,8 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using System.Data;
+using iSOL_Enterprise.Common;
 
 namespace iSOL_Enterprise.Controllers
 {
@@ -31,7 +33,11 @@ namespace iSOL_Enterprise.Controllers
             _configuration = configuration;
             //_accessor = accessor;
             SqlHelperExtensions.SqlHelper.defaultDB = configuration["ConnectionStrings:iSolConStr"].ToString();
+            SqlHelperExtensions.SqlHelper.SAPIntegration = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, @"SELECT TOP (1) [ManageSap] FROM tbl_SapIntegration").ToBool();
+            if (SqlHelper.SAPIntegration)
             SqlHelperExtensions.SqlHelper.defaultSapDB = configuration["ConnectionStrings:SapConStr"].ToString();
+            else
+            SqlHelperExtensions.SqlHelper.defaultDB = configuration["ConnectionStrings:iSolConStr"].ToString();
         }
         [AllowAnonymous]
         public IActionResult Index()

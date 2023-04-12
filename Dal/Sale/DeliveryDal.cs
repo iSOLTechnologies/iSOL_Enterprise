@@ -430,6 +430,24 @@ namespace iSOL_Enterprise.Dal.Sale
                                 tran.Rollback();
                                 return false;
                             }
+
+                            #region Update OITW If Sap Integration is OFF
+
+                            if (!SqlHelper.SAPIntegration)
+                            {
+                                string UpdateOITWQuery = @"Update OITW set onHand = onHand - @Quantity where WhsCode = '" + item.Warehouse + "' and ItemCode = '" + item.ItemCode + "'";
+                                List<SqlParameter> param2 = new List<SqlParameter>();
+                                param2.Add(dal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
+                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateOITWQuery, param2.ToArray()).ToInt();
+                                if (res1 <= 0)
+                                {
+                                    tran.Rollback();
+                                    return false;
+                                }
+                            }
+
+                            #endregion
+
                             LineNo += 1;
                             #endregion
                         }

@@ -75,28 +75,6 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
 			}
 		}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		[HttpPost]
         public IActionResult AddGoodReceiptGR(string formData)
         {

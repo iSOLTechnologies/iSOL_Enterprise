@@ -45,7 +45,7 @@ namespace SqlHelperExtensions
         public static string default2ndDB = String.Empty;
         public static string defaultDB = String.Empty;
         public static string defaultSapDB = String.Empty;
-
+        public static bool SAPIntegration = true;
 
         //public static void Initialize()
         //{
