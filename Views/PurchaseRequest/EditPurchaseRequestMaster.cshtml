@@ -8,6 +8,9 @@
 @using Microsoft.AspNetCore.Http
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 <!-- Render Body <Start> -->
+	
+<script src="~/Assets/plugins/global/plugins.bundle.js"></script>
+<script src="~/Assets/js/scripts.bundle.js"></script>
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 	<!--begin::Subheader-->
 	<!--end::Subheader -->
@@ -140,7 +143,7 @@
 																		<label>No.</label>
 																		<div class="row">
 																			<div class="col-md-6">
-																				<input hidden value="@row["Id"]" id="MyId">
+																					<input hidden value="@row["Id"]" id="my_id">
 																					<select  id="ReqType" class="form-control NotReq">
 																					@if(row["ReqType"] == "12"){
 																						<option selected value="12">User</option> 
@@ -718,7 +721,31 @@
 															<div class="row">
 																<div class="col-md-6">
 																	<label for="inputPassword4" class="form-label">Owner</label>
-																		<input name="OwnerCode" value="@row["OwnerCode"]" type="text" class="form-control" id="OwnerCode">
+																		@*<input name="OwnerCode" value="@row["OwnerCode"]" type="number" class="form-control" id="OwnerCode">*@
+																		<select class=" form-control kt-select2 ItemCode NotReq" id="OwnerCode">
+
+																				@if (row["OwnerCode"].Equals(null))
+																					{
+																					<option value="" selected>-- Select OwnerCode --</option>
+																				}
+																				else
+																				{
+																					<option value="">-- Select OwnerCode --</option>
+																				}
+																				@foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.Technician)
+																				{
+																					if (row["OwnerCode"].ToString().Equals((i.Value).ToString()))
+																					{
+																						<option selected value="@i.Value" >@i.Text </option>
+																					} 
+																					else
+																					{
+																						<option value="@i.Value" >@i.Text </option>
+																					}
+
+																				}
+
+																		</select>
 																</div>
 																<div class="col-md-6">
 																	<label for="inputEmail4" class="form-label">Total Before Discount</label>

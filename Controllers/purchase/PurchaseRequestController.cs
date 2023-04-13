@@ -1,4 +1,5 @@
 ﻿using iSOL_Enterprise.Dal;
+using iSOL_Enterprise.Dal.Business;
 using iSOL_Enterprise.Dal.Inventory;
 using iSOL_Enterprise.Dal.Inventory_Transactions;
 using iSOL_Enterprise.Dal.Purchase;
@@ -18,13 +19,14 @@ namespace iSOL_Enterprise.Controllers.purchase
         public IActionResult PurchaseRequestMaster()
 		{
 		    PurchaseRequestDal PRdal = new PurchaseRequestDal(); 
-			AdministratorDal dal = new AdministratorDal(); 
+			AdministratorDal dal = new AdministratorDal();
+            BusinessPartnerMasterDataDal Bdal = new BusinessPartnerMasterDataDal(); 
 			ViewData["Series"] = dal.GetSeries(1470000113);
 			ViewData["MySeries"] = dal.GetMySeries(1470000113); 
             ViewData["Branch"] = new SelectList(PRdal.GetBranch(), "SlpCode", "SlpName");
             ViewData["Department"] = new SelectList(PRdal.GetDepartment(), "SlpCode", "SlpName");
 			ViewData["GetSeries"] = dal.GetSeries(1470000113);
-
+            ViewData["Technician"] = new SelectList(Bdal.GetTechnicians(), "Value", "Text");
             return View();
         }
 
@@ -34,12 +36,14 @@ namespace iSOL_Enterprise.Controllers.purchase
 			AdministratorDal dal = new AdministratorDal(); 
 			SalesQuotationDal Sdal = new SalesQuotationDal();
 			DeliveryDal Ddal = new DeliveryDal();
+			BusinessPartnerMasterDataDal Bdal = new BusinessPartnerMasterDataDal();
 			ViewData["Branch"] = Pdal.GetBranch();
 			ViewData["Department"] = Pdal.GetDepartment();
 			ViewData["Series"] = dal.GetSeries(1470000113);
 			ViewData["MySeries"] = dal.GetMySeries(1470000113);
-			ViewData["Taxes"]= Sdal.GetVatGroupData("P");
-			ViewData["Warehouse"]= Ddal.GetWareHouseData();
+			ViewData["Taxes"]  = Sdal.GetVatGroupData("P");
+			ViewData["Warehouse"]  = Ddal.GetWareHouseData();
+			ViewData["Technician"] = Bdal.GetTechnicians();
 			//ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
 			//ViewBag.SalesEmployee = dal.GetSalesEmployee();			 
 			//bool flag = CommonDal.Check_IsNotEditable("PRQ1", id);

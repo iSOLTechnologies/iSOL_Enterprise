@@ -655,8 +655,7 @@ where s.Status=1 and p.Guid=@Guid";
         {
             SAPbobsCOM.Documents? oDoc = null;
             switch (ObjectCode)
-            {
-                
+            {                
                 case 23: //Sales Quotation
                 oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oQuotations);
                 break;
@@ -692,12 +691,7 @@ where s.Status=1 and p.Guid=@Guid";
                 break;
                 case 19: //A/P Credit Memo
                 oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseCreditNotes); 
-                break;
-                
-                
-                
-               
-                
+                break;                
             }
             return oDoc;
         }

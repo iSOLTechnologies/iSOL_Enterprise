@@ -562,8 +562,10 @@
 															
 															<div class="row">
 																<div class="col-md-6">
-																	<label for="inputPassword4" class="form-label">Owner</label>
-																	<input name="OwnerCode" type="text" class="form-control" id="OwnerCode">
+																	<label for="inputPassword4" class="form-label">Owner</label>																	 
+																	<select class=" form-control kt-select2 ItemCode NotReq" asp-items="@ViewBag.Technician" id="OwnerCode">
+																			<option value="">-- Select Owner --</option>
+																		</select>
 																</div>
 																<div class="col-md-6">
 																	<label for="inputEmail4" class="form-label">Total Before Discount</label>

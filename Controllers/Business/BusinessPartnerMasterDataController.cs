@@ -60,7 +60,7 @@ namespace iSOL_Enterprise.Controllers.Business
             ViewData["Technician"] = new SelectList(dal.GetTechnicians(), "Value", "Text"); 
             ViewData["Territory"] = new SelectList(dal.GetTerritories(), "Value", "Text");
             ViewData["properties"] = dal.GetProperties();
-            return  View();
+            return View();
         }
         [HttpPost]
         public IActionResult AddBusinessMasterData(string formData)
