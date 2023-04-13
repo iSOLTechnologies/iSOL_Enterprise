@@ -4,15 +4,43 @@
 
     let selectedWareHouse = selectedRow.find("#Warehouse").val();
     let selectedItemCode = selectedRow.find("#ItemCode").val();
+    let QTY = selectedRow.find("#QTY").val();
+    let OldQty = selectedRow.find("#OldQty");
+    let btnClickWork = false;
+
 
     ObjBatchCode = $(this).closest('tr').find("#ListbtnSelectBatch");
-    $(ObjBatchCode).closest('#ListParameters .itm').find('#ListbtnSelectBatch span i').removeClass("batch_is_valid");
+    
 
     if ((selectedWareHouse == null || selectedWareHouse == "" || selectedWareHouse == undefined) || (selectedItemCode == null || selectedItemCode == "" || selectedItemCode == undefined)) {
         toastr.error("Select Item & WareHouse");
     }
-    else {
+    else 
+    {
+        
+        if(OldQty.val() != "" && OldQty.val() != undefined && OldQty.val() != null && QTY != "" && QTY != undefined && QTY != null)
+        {
 
+                   if(QTY != OldQty.val())
+                   {
+                       btnClickWork = true;
+                   }
+          
+        }
+        else if(QTY != "" && QTY != undefined && QTY != null)
+        {
+            btnClickWork = true;
+        }
+        else 
+        {
+            toastr.warning("Quantity can't be 0");
+            btnClickWork = false;
+        }
+        
+    }
+
+    if(btnClickWork)
+    {
         if (SelectedBatches.length > 0) {
             ClearSelectedBatches(selectedItemCode, selectedWareHouse);
 
@@ -22,8 +50,11 @@
         AddDataInRowsFromDocumentTable(selectedRow);
         $('#myBatchSelectmodal').modal('show');
 
+        $(ObjBatchCode).closest('#ListParameters .itm').find('#ListbtnSelectBatch span i').removeClass("batch_is_valid");
         generateBatchSelectTable(selectedItemCode, selectedWareHouse);
     }
+
+
 });
 
 function ClearSelectedBatches(selectedItemCode, selectedWareHouse) {
