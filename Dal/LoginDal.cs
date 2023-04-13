@@ -161,7 +161,7 @@ namespace iSOL_Enterprise.Dal
             try
             {
                 string LoginQuery = @"select u.id,u.FirstName,u.LastName,u.Email,u.Username,u.ContactNumber,u.Password,u.IsLoggedIn,u.DateOfBirth,u.Gender,u.UserPic,u.RoleCode from users u
- where u.email=@Username and u.Password=@Password and IsActive=1";
+                                      where u.email=@Username and u.Password=@Password and IsActive=1";
 
                 SqlParameter[] param = new SqlParameter[]
                 {
