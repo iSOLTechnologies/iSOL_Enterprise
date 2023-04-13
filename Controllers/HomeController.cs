@@ -100,6 +100,24 @@ namespace iSOL_Enterprise.Controllers
                     {
                         if (user.IsSession)
                         {
+
+                            List<Claim> claims = new List<Claim>()
+                            {
+                            new Claim(ClaimTypes.NameIdentifier,Username ?? user.Username),
+
+                                };
+
+                            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
+                                CookieAuthenticationDefaults.AuthenticationScheme);
+
+                            AuthenticationProperties properties = new AuthenticationProperties()
+                            {
+                                AllowRefresh = true,
+                                IsPersistent = false
+                            };
+                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                                new ClaimsPrincipal(claimsIdentity), properties);
+
                             response.Data = true;
                             response.isError = false;
                             response.Message = "/Dashboard/Index";

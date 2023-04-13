@@ -83,15 +83,15 @@ namespace iSOL_Enterprise.Dal
 
 
             public UsersModels Get(UsersModels input)
-        {
-            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-            conn.Open();
-            SqlTransaction tran = conn.BeginTransaction();
-            UsersModels model = new UsersModels();
+            {
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                conn.Open();
+                SqlTransaction tran = conn.BeginTransaction();
+                UsersModels model = new UsersModels();
             try
             {
                 string LoginQuery = @"select r.RoleName,u.id,u.FirstName,u.LastName,u.Email,u.Username,u.ContactNumber,u.Password,u.IsLoggedIn,u.DateOfBirth,u.Gender,u.UserPic,u.RoleCode from users u 
-inner join Roles r on u.RoleCode = r.RoleCode 
+                                      inner join Roles r on u.RoleCode = r.RoleCode 
                                       where u.email=@Username and u.Password=@Password and u.IsActive=1 ";
 
                 SqlParameter[] param = new SqlParameter[]
@@ -140,6 +140,7 @@ inner join Roles r on u.RoleCode = r.RoleCode
                  
 
                 }
+                conn.Close();
                 return model;
             }
             catch (Exception ex)
