@@ -22,22 +22,15 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
             ResponseModels response = new ResponseModels();
             try
             {
-
                 GoodsIssueDal dal = new GoodsIssueDal();
                 response.Data = dal.GetData();
             }
             catch (Exception ex)
             {
-
                 return Json(response);
             }
-
-
             return Json(response);
         }
-
-
-
 
         public IActionResult GoodsIssueMaster(int id = 0)
         {
