@@ -303,7 +303,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                             }
                                             #endregion
                                         }
-                                        else break;
+                                        
 
                                     }
 

@@ -490,8 +490,7 @@ namespace iSOL_Enterprise.Dal.Sale
                                         }
 
                                     }
-                                    else
-                                        break;
+                                    
 
                                 }
                             }

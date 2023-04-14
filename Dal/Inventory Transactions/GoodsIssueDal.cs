@@ -338,7 +338,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                                             }
                                             #endregion
                                         }
-                                        else break;
+                                        
 
                                     }
 

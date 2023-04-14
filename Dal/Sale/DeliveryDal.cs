@@ -372,7 +372,7 @@ namespace iSOL_Enterprise.Dal.Sale
                                             }
                                             #endregion
                                         }
-                                        else break;
+                                        
 
                                     }
 

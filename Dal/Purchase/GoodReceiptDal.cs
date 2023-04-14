@@ -567,8 +567,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                         }
 
                                     }
-                                    else
-                                        break;
+                                    
 
                                 }
                             }
