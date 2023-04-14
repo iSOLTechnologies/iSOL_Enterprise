@@ -124,7 +124,7 @@
                                                                                 text-align: center;
                                                                                 width: 5% !important;
                                                                             }*/
-                            #kt_repeater_1 {
+                        #kt_repeater_1 {
                                 border-collapse: collapse;
                                 width: 100%;
                                 overflow-x: scroll;
@@ -136,7 +136,14 @@
                                 width: 100%;
                                 overflow-x: scroll;
                                 display: block;
-                            }
+                        }
+
+                        #kt_repeater_4 {
+                                border-collapse: collapse;
+                                width: 100%;
+                                overflow-x: scroll;
+                                display: block;
+                        }
 
                         .border_grey {
                             border: 1px solid lightgray !important;
@@ -584,7 +591,7 @@
                                                                                 Factoring Indicator
                                                                             </label>
                                                                             <input type="text" id="Indicator" class="col-md-4 form-control form-control-sm NotReq">
-                                                                            <select id="Name" class="form-control form-control-sm col-md-4 NotReq" asp-items="@ViewBag.Name">
+                                                                            <select id="NameInTabGeneral" class="form-control form-control-sm col-md-4 NotReq" asp-items="@ViewBag.Name">
                                                                                 <option value=""> </option>
                                                                             </select>
                                                                             <div id="ErrorMsg"
@@ -739,7 +746,7 @@
                                                                     <div class="col-md-2 radio-inline">
 
                                                                         <label class="radio radio-success">
-                                                                            <input id="ActivevalidFor" type="radio" checked name="validFor" class="ml-2" value="Y">
+                                                                            <input id="validFor" type="radio" checked name="validFor" class="ml-2" value="Y">
                                                                             <span></span> Active
                                                                         </label>
                                                                     </div>
@@ -761,7 +768,7 @@
                                                                     <div class="col-md-2 radio-inline">
 
                                                                         <label class="radio radio-success">
-                                                                            <input id="InActivevalidFor" type="radio" name="validFor" class="ml-2" value="N">
+                                                                                <input id="frozenFor" type="radio" name="validFor" class="ml-2" value="N">
                                                                             <span></span> InActive
                                                                         </label>
                                                                     </div>
@@ -784,6 +791,11 @@
                                                                         <table id="kt_repeater_1" style="overflow:auto">
                                                                             <thead class="ScrollThead">
                                                                                 <tr>
+                                                                                    <th>Contact ID</th> 
+                                                                                    <th>First Name</th> 
+                                                                                    <th>Middle Name</th> 
+                                                                                    <th>Last Name</th> 
+                                                                                    <th>Title</th> 
                                                                                     <th>Position</th> 
                                                                                     <th>Address</th> 
                                                                                     <th>Telephone 1</th> 
@@ -808,6 +820,26 @@
                                                                                 <!-- @*<tr class="rowItemDetail">*@ -->
                                                                                 <tr class="rowItemDetail align-items-center itm">                                                                                    
                                                                                     
+                                                                                    <td>
+                                                                                        <input id="Name" class="form-control form-control-sm" type="text">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>  
+                                                                                    <td>
+                                                                                        <input id="FirstName" class="form-control form-control-sm" type="text">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>  
+                                                                                    <td>
+                                                                                        <input id="MiddleName" class="form-control form-control-sm" type="text">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>  
+                                                                                    <td>
+                                                                                        <input id="LastName" class="form-control form-control-sm" type="text">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>  
+                                                                                    <td>
+                                                                                        <input id="Title" class="form-control form-control-sm" type="text">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>  
                                                                                     <td>
                                                                                         <input id="Position" class="form-control form-control-sm" type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -905,11 +937,33 @@
                                                                  
                                                                  </div>
 
-
                                                                   
-                                                                <div class="tab-pane scrollbar mt-5"
-                                                                     id="kt_tabs_Addresses" role="tabpanel">
-                                                                      
+                                                                          <div class="tab-pane " id="kt_tabs_Addresses"
+                                                                     role="tabpanel">
+
+                                                                    <ul class="p-3 pl-3 nav nav-tabs nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand"
+                                                                        role="tablist">
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link active" data-toggle="tab"
+                                                                               href="#kt_Innertabs_BillTo"
+                                                                               role="tab">Bill To</a>
+                                                                        </li>
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link" data-toggle="tab"
+                                                                               id="tabAccounting"
+                                                                               href="#kt_Innertabs_ShipTo"
+                                                                               role="tab">Ship To</a>
+                                                                        </li>
+
+                                                                    </ul>
+
+                                                                    <div class="tab-content">
+                                                                    <!-- Inner Bill To Tab--Starts---->
+                                                                        <div class="tab-pane active scrollbar mt-5"
+                                                                             id="kt_Innertabs_BillTo" role="tabpanel">
+                                                                              
+                                                                             
+                                                                            @*BillTO --Starts--*@                                                                            
                                                                         <table id="kt_repeater_2" style="overflow:auto">
                                                                             <thead class="ScrollThead">
                                                                                 <tr> 
@@ -994,15 +1048,119 @@
                                                                         </table>
                                                                         <div style="margin-top:1%" class="form-group form-group-last row">
                                                                             <div class="col-md-6">
-                                                                                <button type="button" id="AddAddress" data-repeater-create="" class="btn btn-light-primary font-weight-bold btn-sm">
+                                                                                <button type="button" id="AddBillToAddress" data-repeater-create="" class="btn btn-light-primary font-weight-bold btn-sm">
                                                                                     <i class="la la-plus"></i> Add
                                                                                 </button>
                                                                             </div>
                                                                         </div>
+                                                                            @*BillTO --End--*@
 
-                                                                    
+                                                                        </div>
+                                                                        <!-- Inner Bill To Tab--Ends-- -->
 
-                                                                </div>
+
+                                                                        <!-- Inner Ship To Tab--Starts-- -->                                                                     
+                                                                       @* <div class="tab-pane" id="kt_Innertabs_ShipTo"
+                                                                             role="tabpanel">
+
+
+                                                                             <!--Ship To ==Starts==-->
+                                                                            <table id="kt_repeater_4" style="overflow:auto">
+                                                                                <thead class="ScrollThead">
+                                                                                    <tr>
+                                                                                        <th>Address Id</th>
+                                                                                        <th>Address Name 2</th>
+                                                                                        <th>Address Name 3</th>
+                                                                                        <th>Street / PO Box</th>
+                                                                                        <th>Block</th>
+                                                                                        <th>City</th>
+                                                                                        <th>Zip Code</th>
+                                                                                        <th>Country</th>
+                                                                                        <th>State</th>
+                                                                                        <th>Country / Region</th>
+                                                                                        <th>Street No.</th>
+                                                                                        <th>Building/Floor/Room</th>
+                                                                                        <th>GLN</th>
+
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody id="ListParameters4" data-repeater-list="" class="ScrollTbody">
+                                                                                    <!--<tr class="rowItemDetail"> -->
+                                                                                    <tr class="rowItemDetail align-items-center itm">
+
+                                                                                        <td>
+                                                                                            <input id="Address" class="form-control form-control-sm" type="text">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input id="Address2" class="form-control form-control-sm" type="text">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input id="Address3" class="form-control form-control-sm" type="text">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input id="Street" class="form-control form-control-sm" type="text">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input id="Block" class="form-control form-control-sm" type="text">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input id="City" class="form-control form-control-sm" type="text">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input id="ZipCode" class="form-control form-control-sm" type="text">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input id="County" class="form-control form-control-sm" type="text">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <select class="form-control form-control-sm" id="State">
+                                                                                            </select>
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <select class="form-control form-control-sm" id="Country">
+                                                                                            </select>
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input id="StreetNo" class="form-control form-control-sm" type="text">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input id="Building" class="form-control form-control-sm" type="text">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input id="GlblLocNum" class="form-control form-control-sm" type="text">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                            <div style="margin-top:1%" class="form-group form-group-last row">
+                                                                                <div class="col-md-6">
+                                                                                    <button type="button" id="AddShipToAddress" data-repeater-create="" class="btn btn-light-primary font-weight-bold btn-sm">
+                                                                                        <i class="la la-plus"></i> Add
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+
+                                                                             <!--Ship To ==Ends==-->
+
+                                                                        </div>*@
+                                                                          <!-- Inner Ship To Tab--Ends-- -->
+                                                                    </div>                                                                     
+                                                                    </div>                                                                     
+                                                                                                                                        
 
                                                                 <div class="tab-pane scrollbar mt-5" id="kt_tabs_PaymentTerms" role="tabpanel">
                                                                     <div class="form-group row col-md-6 mt-3">
@@ -1619,18 +1777,18 @@
                     }        
         });
 
-        $(document).on('click', '#ActivevalidFor,#InActivevalidFor', function (e) {
-        //console.log("$('input[name=validFor]:checked').val()",$('input[name=validFor]:checked').val());
-        if ($('input[name=validFor]:checked').val() === 'Y') {
-            $('#ActivevalidFor1').removeClass('d-none');
-            $('#InActivevalidFor1').addClass('d-none');
+        //$(document).on('click', '#ActivevalidFor,#InActivevalidFor', function (e) {
+        ////console.log("$('input[name=validFor]:checked').val()",$('input[name=validFor]:checked').val());
+        //if ($('input[name=validFor]:checked').val() === 'Y') {
+        //    $('#ActivevalidFor1').removeClass('d-none');
+        //    $('#InActivevalidFor1').addClass('d-none');
 
-            }else if($('input[name=validFor]:checked').val() === 'N') {
-            $('#ActivevalidFor1').addClass('d-none');
-            $('#InActivevalidFor1').removeClass('d-none');
+        //    }else if($('input[name=validFor]:checked').val() === 'N') {
+        //    $('#ActivevalidFor1').addClass('d-none');
+        //    $('#InActivevalidFor1').removeClass('d-none');
 
-            }
-        });        
+        //    }
+        //});        
         
         $(document).on('click', '#btnBack', function (e) {
             window.history.back();
@@ -1696,7 +1854,7 @@
              GetStateCode("State","Y");
              GetPayments(); 
         $('#ListParameters2 .itm:first-child').find("#Country").html(CountryData);
-       // $('#ListParameters2 .itm').find("#Country").val(CountryData);
+        //$('#ListParameters4 .itm:first-child').find("#State").html(VarStateCode);      
 
     });
 
@@ -1811,6 +1969,21 @@
             }
     })
 
+    $(document).on('click', '#validFor,#frozenFor', function (e) {
+
+       if($('#validFor').is(":checked") == true){ 
+			 $('#validFor').val('Y');  
+			 $('#frozenFor').val('N'); 
+              $('#ActivevalidFor1').removeClass('d-none');
+            $('#InActivevalidFor1').addClass('d-none');
+		 }else if($('#validFor').is(":checked") == false){  			 
+			 $('#validFor').val('N');
+			 $('#frozenFor').val('Y');  
+              $('#ActivevalidFor1').addClass('d-none');
+            $('#InActivevalidFor1').removeClass('d-none');
+		 }
+                    
+    });  
     $(document).on('change', '#CstGrpCode', function (e) {
 
         $("#CstGrpCode1").val($(this).val());  
@@ -1898,17 +2071,16 @@
             
         var data =
         {
-            HeaderData: getJsonObj("HeaderForm"),
-            
-            Tab_General : getJsonObj("kt_tabs_General"),
-            Tab_PurchasingData : isPurchaseItem == true ? getJsonObj("kt_tabs_PurchasingData") : null, 
-            Tab_SalesData :  isSalesItem == true ? getJsonObj("kt_tabs_SalesData") : null,
-            Tab_InventoryData : isInventryItem == true ? getJsonObj("kt_tabs_InventoryData") : null,
-            Tab_InventoryData_WareHouseList: isInventryItem == true && isManageInvByWareHouse == true ? getJsonObjList("ListParameters tr") : null,
-            Tab_PlanningData : getJsonObj("kt_tabs_PlanningData"),
-            Tab_ProductionData : getJsonObj("kt_tabs_ProductionData"),
-            Tab_Properties : getJsonObj("kt_tabs_Properties"),
-            OldItemId: OldItemId
+            HeaderData: getJsonObj("HeaderForm"),             
+            Tabs_General: getJsonObj("kt_tabs_General"),
+            Tabs_ContactPersons: getJsonObj("kt_tabs_ContactPersons"),
+            Tabs_Addresses: getJsonObj("kt_tabs_Addresses"),
+            Tabs_PaymentTerms: getJsonObj("kt_tabs_PaymentTerms"),
+            Tabs_Properties: getJsonObj("kt_tabs_Properties"),
+            Tabs_Remarks: getJsonObj("kt_tabs_Remarks"),
+            Tabs_attachment: getJsonObj("kt_tabs_attachment")
+
+
                   
         }
         
@@ -2235,7 +2407,7 @@
     });
 
 
-    $(document).on('click', '#AddAddress', function (e) {
+    $(document).on('click', '#AddBillToAddress', function (e) {
         var html = `
           <tr class="rowItemDetail align-items-center itm">
 
@@ -2304,6 +2476,75 @@
                                                                                 </tr>`;
         $('#kt_repeater_2 tbody').append(html); 
     });
+    // $(document).on('click', '#AddShipToAddress', function (e) {
+    //    var html = `
+    //      <tr class="rowItemDetail align-items-center itm">
+
+    //                                                                                <td>
+    //                                                                                    <input id="Address" class="form-control form-control-sm" type="text">
+    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+    //                                                                                </td>
+    //                                                                                <td>
+    //                                                                                    <input id="Address2" class="form-control form-control-sm" type="text">
+    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+    //                                                                                </td>
+    //                                                                                <td>
+    //                                                                                    <input id="Address3" class="form-control form-control-sm" type="text">
+    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+    //                                                                                </td>
+    //                                                                                <td>
+    //                                                                                    <input id="Street" class="form-control form-control-sm" type="text">
+    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+    //                                                                                </td>
+    //                                                                                <td>
+    //                                                                                    <input id="Block" class="form-control form-control-sm" type="text">
+    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+    //                                                                                </td>
+    //                                                                                <td>
+    //                                                                                    <input id="City" class="form-control form-control-sm" type="text">
+    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+    //                                                                                </td>
+    //                                                                                <td>
+    //                                                                                    <input id="ZipCode" class="form-control form-control-sm" type="text">
+    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+    //                                                                                </td>
+    //                                                                                <td>
+    //                                                                                    <input id="County" class="form-control form-control-sm" type="text">
+    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+    //                                                                                </td>
+    //                                                                                <td>
+    //                                                                                    <select class="form-control form-control-sm" id="State">   
+    //                                                                                    <option value="" selected>-- Select --</option>
+    //                                                                                    `+VarStateCode+`
+    //                                                                                    </select>
+    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+    //                                                                                </td>
+    //                                                                                 <td>
+    //                                                                                    <select class="form-control form-control-sm" id="Country"> 
+    //                                                                                    `+CountryData+`
+    //                                                                                    </select>
+    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+    //                                                                                </td>
+    //                                                                                <td>
+    //                                                                                    <input id="StreetNo" class="form-control form-control-sm" type="text">
+    //                                                                                    <div  id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+    //                                                                                </td>
+    //                                                                                <td> 
+    //                                                                                    <input id="Building" class="form-control form-control-sm" type="text">
+    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+    //                                                                                </td>
+    //                                                                                <td>
+    //                                                                                    <input id="GlblLocNum" class="form-control form-control-sm" type="text">
+    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+    //                                                                                </td> 
+    //                                                                                <td>
+    //                                                                    <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
+    //                                                                    <i class="la la-trash"></i> X
+    //                                                                   </a>
+    //                                                                   </td>
+    //                                                                            </tr>`;
+    //    $('#kt_repeater_4 tbody').append(html); 
+    //});
 </script>
     <!-- MyStart -->
 
