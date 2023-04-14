@@ -474,8 +474,8 @@
                                                                                     <th>Line Num</th>
                                                                                     <th>Item No.</th>
                                                                                     <th>Item Name</th>
-                                                                                        <th>Warehouse</th>
-                                                                                        <th>QTY in Warehouse</th>
+                                                                                    <th>Warehouse</th>
+                                                                                    <th>QTY in Warehouse</th>
                                                                                     <th>Quantity</th>
                                                                                     <th>BaseQty</th>
                                                                                     <th>OpenQty</th>
@@ -618,6 +618,12 @@
                                                                                        </select>  
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
+                                                                                    <td class="d-none"> 
+                                                                                    <input 
+                                                                                    disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)"
+                                                                                    value="@row1["Quantity"]" class="form-control form-control-sm" id="OldQty"  type="number">
+                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                </td>
                                                                                 </tr>
                                                                                 }  
                                                                                 }
@@ -1018,7 +1024,7 @@
 <script src="~/Assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
 <script src="~/Assets/js/scripts.bundle.js"></script>
 <script src="~/js/commonmethods.js"></script>
-
+<script src="~/viewjs/batches/batchesout.js"></script>
 
 
 <!-- Item Modal -->
@@ -1304,6 +1310,7 @@
         var TtlPrc = $(this).closest('#ListParameters .itm').find('#TtlPrc');
         var VatGroup = $(this).closest('#ListParameters .itm').find('#VatGroup');
         let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
+         let OldQty = $(this).closest('#ListParameters .itm').find('#OldQty');
 
         var VatGuid = $('option:selected', VatGroup).attr("guid");
         let BaseQty = $(this).closest('#ListParameters .itm').find('#BaseQty');
@@ -1311,6 +1318,19 @@
            let _ItemCode = $(this).closest('#ListParameters .itm').find('#ItemCode').val()
         let _WhsCode = $(this).closest('#ListParameters .itm').find('#Warehouse').val()
       
+        if(OldQty.val() != "" && OldQty.val() != undefined && OldQty.val() != null)
+               {
+                   
+                   if( parseFloat( Qty.val() ) != parseFloat (OldQty.val()))
+                   {
+                       $(this).closest('tr').find('#ListbtnSelectBatch span i').removeClass("batch_is_valid");
+                   }
+                   else {
+                       $(this).closest('tr').find('#ListbtnSelectBatch span i').addClass("batch_is_valid");
+                   }
+               }
+
+
         $.when( GetWhsAddedQty(_ItemCode, _WhsCode) ).then(function(sum) {
             if (Qty.val() <= 0) {
                 Qty.val("");
@@ -1325,54 +1345,7 @@
                 }
 
             }
-            @*if (!(sum <= onHand.val())) {
-                Qty.val("");
-                toastr.warning("Quantity can't be greater than Warehouse quantity");
-            }*@
-        @*if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
-            if (Number(Qty.val()) <= Number(BaseQty.val())) {
-
-                $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val() - Qty.val());
-            }
-            else {
-
-                toastr.warning("Quantity can't be greater than base quantity");
-                Qty.val(0);
-                $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val());
-
-
-            }
-        }
-        if (!(Number(Qty.val()) <= Number(onHand.val()))) {
-            toastr.warning("Quantity can't be greater than Quantity in Warehouse");
-            Qty.val(0);
-        }*@
-
-        @*if ($(DicPrc).val() == "") {
-             var Onepercent = parseFloat((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) / 100);
-            var Tax = parseFloat(Onepercent * parseFloat(VatGuid));
-
-            if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
-                $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) + parseFloat(Tax)).toFixed(2)));
-                GetPrice();
-                //document.getElementById("TtlPrc").value = parseFloat(TtlPrc).toFixed(2);
-                //console.log(TtlPrc)
-            }
-        }
-
-        if ($(DicPrc).val() != "") {
-            $(TtlPrc).val((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())).toFixed(2));
-            var Onepercent = parseFloat((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) / 100);
-            var discountPrice = parseFloat(Onepercent * $(DicPrc).val());
-            var Tax = parseFloat(Onepercent * parseFloat(VatGuid))
-            console.log("discountPrice:", discountPrice)
-            if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
-                $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) - (parseFloat(discountPrice))) + (Tax)).toFixed(2));
-                GetPrice();
-                //document.getElementById("TtlPrc").value = parseFloat(TtlPrc).toFixed(2);
-                //console.log(Tax)
-            }
-        }*@
+            
             GetPrice();
            });
     });

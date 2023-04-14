@@ -1803,7 +1803,8 @@ Layout = "~/Views/Shared/_Layout.cshtml";
        ListItems: ItemServiceType == '1' ?  getJsonObjList("ListParameters .itm") : null,
        ListService: ItemServiceType == '2' ? getJsonObjList("ListParameters2 .itm") : null,
        ListAttachment: getJsonObjList("ListParameters3 .itm"),
-       FooterData : getJsonObj("FooterData")
+       FooterData : getJsonObj("FooterData"),
+       Batches : SelectedBatches,
      
        }
      

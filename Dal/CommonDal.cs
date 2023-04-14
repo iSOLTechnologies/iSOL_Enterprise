@@ -1,7 +1,9 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
+using iSOL_Enterprise.Models.Logs;
 using iSOL_Enterprise.Models.sale;
 using iSOL_Enterprise.Models.Sale;
+using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
 using SAPbobsCOM;
 using SqlHelperExtensions;
@@ -13,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Reflection;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
@@ -1004,25 +1007,222 @@ where s.Status=1 and p.Guid=@Guid";
 
             return true;
         }
+        public bool OITLLog(SqlTransaction tran ,OITL model)
+        {
+            string LogQueryOITL = @"insert into OITL(LogEntry,CardCode,ItemCode,ItemName,CardName,DocEntry,DocLine,DocType,BaseType,DocNum,DocQty,DocDate) 
+                                           values(" + model.LogEntry + ",'"
+                                              //+ DocType + "','"
+                                              + model.CardCode + "','"
+                                              + model.ItemCode + "','"
+                                              + model.ItemName + "','"
+                                              + model.CardName + "',"
+                                              + model.ID + ","
+                                              + model.DocLine + ","
+                                              + model.DocType + ",'"
+                                              + model.BaseType + "',"
+                                              + model.ID + ","
+                                              + model.Quantity  + ",'"
+                                              + model.DocDate + "')";
+
+            int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryOITL).ToInt();
+            if (res1 <= 0)
+            {
+                tran.Rollback();
+                return false;
+            }
+            return true;
+        }
+        public bool ITL1Log(SqlTransaction tran,int LogEntry, string ItemCode,int SysNumber,int Quantity ,int AbsEntry)
+        {
+            #region ITL1 log
+            string LogQueryITL1 = @"insert into ITL1(LogEntry,ItemCode,SysNumber,Quantity,MdAbsEntry) 
+                                 values(" + LogEntry + ",'"
+                                 + ItemCode + "',"
+                                 + SysNumber + ","
+                                 + Quantity + ","                 
+                                 + AbsEntry + ")";
 
 
-        //public static Array GetTables()
-        //{
+            int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryITL1).ToInt();
+            if (res1 <= 0)
+            {
+                tran.Rollback();
+                return false;
+            }
+            #endregion
+            return true;
+        }
+        public tbl_OBTN GetBatchData(SqlTransaction tran,string ItemCode,string DistNumber)
+        {
+            string OBTNQuery = @"select SysNumber,DistNumber,AbsEntry,ItemCode from OBTN where ItemCode= '" + ItemCode + "' and LOWER(DistNumber) = '" + DistNumber.ToLower() + "'";
+            tbl_OBTN model = new tbl_OBTN();
+            using (var rdr = SqlHelper.ExecuteReader(tran, CommandType.Text, OBTNQuery))
+            {
+                while (rdr.Read())
+                {
+                    model.SysNumber = rdr["SysNumber"].ToInt();
+                    model.DistNumber = rdr["DistNumber"].ToString();
+                    model.AbsEntry = rdr["AbsEntry"].ToInt();
+                    model.ItemCode = rdr["ItemCode"].ToString();
 
-        //    "OINV",                 
-        //    "ODLN",                
-        //    "ORDN",                            
-        //    "ORDR",           
-        //    "OPCH",              
-        //    "ORPC",            
-        //    "OPDN",            
-        //    "ORPD",            
-        //    "OPOR",                
-        //    "OQUT",           
-        //    "OPQT"
+                }
+            }
+            return model;
+        }
+        public tbl_OBTN GetBatchInWareHouseData(SqlTransaction tran, tbl_OBTN OModel, string WhsCode)
+        {
+            string OBTNQuery = @"select AbsEntry,MdAbsEntry,Quantity from OBTQ where ItemCode= '" + OModel.ItemCode + "' and SysNumber = '" + OModel.SysNumber + "' and WhsCode = '" + WhsCode +"'";
+            tbl_OBTN model = new tbl_OBTN();
+            using (var rdr = SqlHelper.ExecuteReader(tran, CommandType.Text, OBTNQuery))
+            {
+                while (rdr.Read())
+                {
 
-        //               "ORIN"
-        //    string[] tablesArray = { };
-        //}
+                    model.Quantity = rdr["Quantity"].ToInt();
+                    model.AbsEntry = rdr["AbsEntry"].ToInt();
+                    model.MdAbsEntry = rdr["MdAbsEntry"].ToInt();
+
+                }
+            }
+            return model;
+        }
+        public bool OutBatches(SqlTransaction tran , dynamic Batches,string ItemCode,int LogEntry)
+        {
+            int res1 = 0;
+            foreach (var batch in Batches)
+            {
+
+                foreach (var ii in batch)
+                {
+
+                    if (ii.itemno == ItemCode)
+                    {
+                        
+                        int SysNumber = CommonDal.getSysNumber(tran, ItemCode);
+                        int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
+                        tbl_OBTN OldBatchData = GetBatchData(tran, ItemCode, ii.DistNumber.ToString());
+                        int count = Convert.ToInt32(SqlHelper.ExecuteScalar(tran, CommandType.Text, "Select Count(*) from OBTQ Where AbsEntry = " + ii.AbsEntry));
+
+                        #region Record not found in OBTQ
+                        if (OldBatchData.AbsEntry > 0)
+                        {
+                            tbl_OBTN OldBatchInWareHouseData = GetBatchInWareHouseData(tran, OldBatchData, ii.whseno.ToString());
+                            
+                            AbsEntry = OldBatchData.AbsEntry;
+                            SysNumber = OldBatchData.SysNumber;
+
+                            if (OldBatchInWareHouseData.AbsEntry > 0)
+                            {
+                                string BatchQueryOBTN = @"Update OBTQ set Quantity = " + ((decimal)ii.Quantity - (decimal)ii.selectqty) + " WHERE AbsEntry = " + OldBatchInWareHouseData.AbsEntry + "";
+
+                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
+                                if (res1 <= 0)
+                                {
+                                    tran.Rollback();
+                                    return false;
+                                }
+                                
+                            }
+                            else
+                            {
+                                int OBTQAbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTQ");
+                                string InsertInOBTQQuery = @"insert into OBTQ(AbsEntry,ItemCode,SysNumber,WhsCode,Quantity,MdAbsEntry) " +
+                                               "values (" + OBTQAbsEntry + ",'"
+                                               + OldBatchData.ItemCode + "',"
+                                               + SysNumber + ",'"
+                                               + ii.whseno + "',"
+                                               + (decimal)(ii.selectqty) + ","
+                                               + OldBatchData.AbsEntry + ")";
+                            }
+                            int Quantity = (-1) * Convert.ToDecimal(ii.selectqty);
+
+                            bool response = ITL1Log(tran, LogEntry, OldBatchData.ItemCode, OldBatchData.SysNumber, Quantity, OldBatchData.AbsEntry);
+                            if (!response)
+                            {
+                                return false;
+                            }
+
+                        }
+                        else
+                        {
+                            int OBTQAbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTQ");
+                            string InsertBatchQuery = @"insert into OBTN(AbsEntry,ItemCode,SysNumber,DistNumber,Quantity)
+                                                                    values(" + AbsEntry + ",'"
+                                               + ii.itemno + "',"
+                                               + SysNumber + ",'"
+                                               + ii.DistNumber + "',"                                              
+                                               + (decimal)ii.selectqty + ");" +
+
+                                               " insert into OBTQ(AbsEntry,ItemCode,SysNumber,WhsCode,Quantity,MdAbsEntry) " +
+                                               "values (" + OBTQAbsEntry + ",'"
+                                               + ii.itemno + "',"
+                                               + SysNumber + ",'"
+                                               + ii.whseno + "',"
+                                               + (decimal)ii.selectqty + ","
+                                               + AbsEntry + ")";
+
+
+                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, InsertBatchQuery).ToInt();
+                            if (res1 <= 0)
+                            {
+                                tran.Rollback();
+                                return false;
+                            }
+                            int Quantity = (-1) * Convert.ToDecimal(ii.selectqty);
+                            bool response = ITL1Log(tran, LogEntry, ii.itemno.ToString(), SysNumber, Quantity, AbsEntry);
+                            if (!response)
+                            {
+                                return false;
+                            }
+                        }
+                        #endregion
+                        
+                    }
+
+                }
+
+            }
+            return true;
+        }
+        public bool ReverseOutTransaction(SqlTransaction tran, int DocEntry , int DocLine , int DocType)
+        {
+
+            int? LogEntry = null;
+            string OldLogData = @"select ITL1.Quantity,ITL1.MdAbsEntry,ITL1.SysNumber,ITL1.LogEntry,OBTN.AbsEntry as OBTNAbsEntry  from OITL 
+                                                                          join ITL1 on OITL.LogEntry = ITL1.LogEntry
+                                                                          join OBTN on OBTN.AbsEntry = ITL1.MdAbsEntry
+                                                                          where DocEntry = '" + DocEntry + "' and DocLine = '" + DocLine + "' and DocType = '"+ DocType + "'";
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, OldLogData))
+            {
+                while (rdr.Read())
+                {
+                    string UpdateOBTQQuery = @"update OBTQ set Quantity = Quantity - " + Convert.ToDecimal(rdr["Quantity"]) + " where AbsEntry = " + Convert.ToInt32( rdr["OBTNAbsEntry"]);
+                    int res3 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateOBTQQuery).ToInt();
+                    if (res3 <= 0)
+                    {
+                        tran.Rollback();
+                        LogEntry = null;
+                        return false;
+                    }
+                    else
+                    {
+                        LogEntry = rdr["LogEntry"].ToInt();
+                    }
+                }
+            }
+            if (LogEntry != null)
+            {
+                string DeleteLogQuery = @"Delete from OITL where LogEntry = " + LogEntry + "; Delete from ITL1 where LogEntry = " + LogEntry;
+                int res4 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, DeleteLogQuery).ToInt();
+                if (res4 <= 0)
+                {
+                    tran.Rollback();
+                    return false;
+                }
+            }
+           return true;
+        }
+
+       
     }
 }
