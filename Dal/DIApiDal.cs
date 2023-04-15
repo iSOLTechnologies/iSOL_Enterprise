@@ -153,7 +153,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         #endregion
 
                                         #region Insert in Row
-                                        string RowQuery = @"select BaseEntry,BaseLine,BaseType,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup,UomEntry ,CountryOrg , Dscription,AcctCode,LineNum,WhsCode from " + rowTable + " where Id = " + ID;
+                                        string RowQuery = @"select BaseEntry,BaseLine,BaseType,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup,UomEntry ,CountryOrg,ItemName , Dscription,AcctCode,LineNum,WhsCode from " + rowTable + " where Id = " + ID;
                                         using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, RowQuery))
                                         {
                                             try
@@ -195,7 +195,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                     //oDoc.Lines.Quantity = Convert.ToDouble(10);// rdr2["Quantity"].ToDouble();
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
                                                     oDoc.Lines.CountryOrg = rdr2["CountryOrg"].ToString();
-                                                    oDoc.Lines.ItemDescription = rdr2["Dscription"].ToString();
+                                                    oDoc.Lines.ItemDescription = rdr2["ItemName"].ToString();
                                                     //oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
                                                     oDoc.Lines.WarehouseCode = rdr2["WhsCode"].ToString();
                                                     if (rowTable == "DLN1")
