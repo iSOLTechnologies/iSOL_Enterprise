@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.Logging.Abstractions;
 using SAPbobsCOM;
 using iSOL_Enterprise.Dal.Purchase;
+using iSOL_Enterprise.Models.Logs;
 
 namespace iSOL_Enterprise.Dal.Inventory_Transactions
 {
@@ -193,8 +194,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                             param1.Add(cdal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
                             param1.Add(cdal.GetParameter("@Price", item.UPrc, typeof(decimal)));
                             param1.Add(cdal.GetParameter("@LineTotal", item.TtlPrc, typeof(decimal)));
-                            param1.Add(cdal.GetParameter("@AcctCode", item.AcctCode, typeof(string)));
-                          //param1.Add(cdal.GetParameter("@ItemCost", item.ItemCost, typeof(string)));
+                            param1.Add(cdal.GetParameter("@AcctCode", item.AcctCode, typeof(string)));                          
                             param1.Add(cdal.GetParameter("@UomEntry", item.UomEntry, typeof(int)));
                             param1.Add(cdal.GetParameter("@UomCode", item.UomCode, typeof(string)));
                             param1.Add(cdal.GetParameter("@BaseQty", item.BaseQty, typeof(string)));
@@ -217,134 +217,39 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
 
                             item.BaseType = item.BaseType == "" ? "NULL" : Convert.ToInt32(item.BaseType);
 
-                            string LogQueryOITL = @"insert into OITL(LogEntry,ItemCode,ItemName,DocEntry,DocLine,DocType,BaseType,DocNum,DocQty,DocDate) 
-                                           values(" + LogEntry + ",'"
-                                              //+ model.HeaderData.CardCode + "','"
-                                              + item.ItemCode + "','"
-                                              + item.ItemName + "',"
-                                              //+ model.HeaderData.CardName + "',"
-                                              + Id + ","
-                                              + LineNum + ","
-                                              + 59 + ","
-                                              + item.BaseType + ","
-                                              + Id + ","
-                                              + ((Decimal)(item.QTY)) + ",'"
-                                              + Convert.ToDateTime(model.HeaderData.DocDate) + "')";
 
-                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryOITL).ToInt();
-                            if (res1 <= 0)
+                            OITL OITLModel = new OITL();
+                            OITLModel.LogEntry = LogEntry;
+                            OITLModel.CardCode = "NULL";
+                            OITLModel.CardName = "NULL";
+                            OITLModel.ItemCode = item.ItemCode.ToString();
+                            OITLModel.ItemName = item.ItemName.ToString();
+                            OITLModel.ID = Id;
+                            OITLModel.DocLine = LineNum;
+                            OITLModel.DocType = 59;
+                            OITLModel.BaseType = item.BaseType;
+                            OITLModel.Quantity = (decimal)item.QTY;
+                            OITLModel.DocDate = Convert.ToDateTime(model.HeaderData.DocDate);
+
+                            if (!cdal.OITLLog(tran, OITLModel))
                             {
-                                tran.Rollback();
                                 response.isSuccess = false;
                                 response.Message = "An Error Occured";
                                 return response;
-                            }
+                            }  
 
                             #endregion
 
                             if (model.Batches != null)
                             {
-                                foreach (var batch in model.Batches)
+                                bool responseBatch = cdal.InBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry);
+                                if (!responseBatch)
                                 {
-
-                                    if (batch[0].itemno == item.ItemCode)
-                                    {
-
-
-                                        foreach (var ii in batch)
-                                        {
-                                            GoodReceiptDal GR_Dal = new GoodReceiptDal();
-                                            string itemno = ii.itemno;
-                                            int SysNumber = CommonDal.getSysNumber(tran, itemno);
-                                            int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
-                                            tbl_OBTN OldBatchData = GR_Dal.GetBatchList(tran,itemno, ii.DistNumber.ToString());
-                                            if (OldBatchData.AbsEntry > 0)
-                                            {
-                                                #region Update OBTQ
-
-                                                string BatchQueryOBTN = @"Update OBTQ set Quantity = Quantity +" + ((Decimal)(ii.BQuantity)) + " WHERE AbsEntry = " + OldBatchData.AbsEntry;
-
-                                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
-                                                if (res1 <= 0)
-                                                {
-                                                    tran.Rollback();
-                                                    response.isSuccess = false;
-                                                    response.Message = "An Error Occured";
-                                                    return response;
-                                                }
-                                                SysNumber = OldBatchData.SysNumber;
-                                                AbsEntry = OldBatchData.MdAbsEntry;
-                                                #endregion
-                                            }
-                                            else
-                                            {
-
-                                                #region Insert in OBTN
-                                                string BatchQueryOBTN = @"insert into OBTN(AbsEntry,ItemCode,SysNumber,DistNumber,InDate,ExpDate)
-                                                                                values(" + AbsEntry + ",'"
-                                                                        + itemno + "',"
-                                                                        + SysNumber + ",'"
-                                                                        + ii.DistNumber + "','"
-                                                                        + DateTime.Now + "','"
-                                                                        + Convert.ToDateTime(batch[0].ExpDate) + "')";
-
-
-                                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
-                                                if (res1 <= 0)
-                                                {
-                                                    tran.Rollback();
-                                                    response.isSuccess = false;
-                                                    response.Message = "An Error Occured";
-                                                    return response;
-                                                }
-                                                #endregion
-
-
-                                                #region Insert in OBTQ
-                                                int ObtqAbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTQ");
-                                                string BatchQueryOBTQ = @"insert into OBTQ(AbsEntry,MdAbsEntry,ItemCode,SysNumber,WhsCode,Quantity)
-                                                                                values(" + ObtqAbsEntry + ","
-                                                                        + AbsEntry + ",'"
-                                                                        + ii.itemno + "',"
-                                                                        + SysNumber + ",'"
-                                                                        + ii.whseno + "',"
-                                                                        + ii.BQuantity + ")";
-
-                                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTQ).ToInt();
-                                                if (res1 <= 0)
-                                                {
-                                                    tran.Rollback();
-                                                    response.isSuccess = false;
-                                                    response.Message = "An Error Occured";
-                                                    return response;
-                                                }
-                                                #endregion
-                                            }
-
-                                            #region Insert in ITL1
-                                            string LogQueryITL1 = @"insert into ITL1(LogEntry,ItemCode,SysNumber,Quantity,OrderedQty,MdAbsEntry) 
-                                                   values(" + LogEntry + ",'"
-                                                 + ii.itemno + "','"
-                                                 + SysNumber + "',"
-                                                 + ii.BQuantity + ","
-                                                 + ((Decimal)(ii.BQuantity)) + ","
-                                                 + AbsEntry + ")";
-
-
-                                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryITL1).ToInt();
-                                            if (res1 <= 0)
-                                            {
-                                                tran.Rollback();
-                                                response.isSuccess = false;
-                                                response.Message = "An Error Occured";
-                                                return response;
-                                            }
-                                            #endregion
-                                             }
-                                        }
-                                            
-                                    }
+                                    response.isSuccess = false;
+                                    response.Message = "An Error Occured";
+                                    return response;
                                 }
+                            }
 
 
                             #region Update OITW If Sap Integration is OFF
@@ -365,6 +270,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                             }
 
                             #endregion
+                            
                             LineNum += 1;
                         }
 

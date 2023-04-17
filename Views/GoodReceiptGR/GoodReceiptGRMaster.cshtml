@@ -2018,6 +2018,7 @@
                       
 
                         $("#ItemCode").val(this.ItemCode).trigger('change'); 
+                        $("#ItemName").val(this.Dscription);
                         $("#Warehouse").val(this.WhsCode);
                         $("#QTY").val(this.Quantity);
                         $("#UPrc").val(this.Price);
@@ -2041,7 +2042,9 @@
                         InitializeWareHouseData();
                         $('#ListParameters tr:last-child').find("#Warehouse").html(WareHouseData);
                          
-                        $('#ListParameters tr:last-child').find("#ItemCode").val(this.ItemCode); 
+                        $('#ListParameters tr:last-child').find("#ItemCode").val(this.ItemCode);
+                        $('#ListParameters tr:last-child').find("#ItemName").val(this.Dscription);
+
                         $('#ListParameters tr:last-child').find("#Warehouse").val(this.WhsCode);
                         $('#ListParameters tr:last-child').find("#QTY").val(this.Quantity);
                         $('#ListParameters tr:last-child').find("#UPrc").val(this.Price);

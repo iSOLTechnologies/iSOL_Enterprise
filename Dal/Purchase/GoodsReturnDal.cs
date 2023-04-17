@@ -688,7 +688,7 @@ namespace iSOL_Enterprise.Dal.Purchase
 
                                             if (Convert.ToDecimal(item.QTY) != Convert.ToDecimal(item.OldQty))
                                             {
-                                                ResponseModels ItemData = dal.GetItemData(item.ItemCode.ToString(), "S");
+                                                ResponseModels ItemData = dal.GetItemData(item.ItemCode.ToString(), "P");
                                                 if (ItemData.Data.ManBtchNum == "Y")
                                                 {
 
