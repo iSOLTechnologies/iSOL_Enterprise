@@ -21,7 +21,7 @@
         if(OldQty.val() != "" && OldQty.val() != undefined && OldQty.val() != null && QTY != "" && QTY != undefined && QTY != null)
         {
 
-                   if(QTY != OldQty.val())
+                    if (parseFloat(QTY) != parseFloat(OldQty.val()))
                    {
                        btnClickWork = true;
                    }

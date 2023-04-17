@@ -785,6 +785,51 @@ namespace iSOL_Enterprise.Dal.Purchase
                                             tran.Rollback();
                                             return false;
                                         }
+                                        #region If Item is Batch Type Generate Log
+                                        else
+                                        {
+                                            if (Convert.ToDecimal(item.QTY) != Convert.ToDecimal(item.OldQty))
+                                            {
+                                                ResponseModels ItemData = dal.GetItemData(item.ItemCode.ToString(), "P");
+                                                if (ItemData.Data.ManBtchNum == "Y")
+                                                {
+
+
+                                                    if (dal.ReverseOutTransaction(tran, Convert.ToInt32(model.ID), Convert.ToInt32(item.LineNum), 20))
+                                                    {
+
+                                                        int LogEntry1 = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");
+
+                                                        #region OITLLog
+                                                        OITL OITLModel = new OITL();
+                                                        OITLModel.LogEntry = LogEntry1;
+                                                        OITLModel.CardCode = model.HeaderData.CardCode.ToString();
+                                                        OITLModel.CardName = model.HeaderData.CardName.ToString();
+                                                        OITLModel.ItemCode = item.ItemCode.ToString();
+                                                        OITLModel.ItemName = item.ItemName.ToString();
+                                                        OITLModel.ID = Convert.ToInt32(model.ID);
+                                                        OITLModel.DocLine = Convert.ToInt32(item.LineNum);
+                                                        OITLModel.DocType = 20;
+                                                        OITLModel.BaseType = "NULL";
+                                                        OITLModel.Quantity = (decimal)item.QTY;
+                                                        OITLModel.DocDate = Convert.ToDateTime(model.HeaderData.DocDate);
+
+                                                        if (!dal.OITLLog(tran, OITLModel))
+                                                            return false;
+
+                                                        if (!dal.InBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry1))
+                                                            return false;
+                                                        #endregion
+
+
+                                                    }
+
+                                                }
+
+                                            }
+
+                                        }
+                                        #endregion
 
                                         #region Update OITW If Sap Integration is OFF
 
@@ -852,29 +897,38 @@ namespace iSOL_Enterprise.Dal.Purchase
                                     }
 
                                     #endregion
+                                    
                                     #region OITL Log
                                     int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");   //Primary Key
 
-                                    string LogQueryOITL = @"insert into OITL(LogEntry,CardCode,ItemCode,ItemName,CardName,DocEntry,DocLine,DocType,DocNum,DocQty,DocDate) 
-                                           values(" + LogEntry + ",'"
-                                                      + model.HeaderData.CardCode + "','"
-                                                      + item.ItemCode + "','"
-                                                      + item.ItemName + "','"
-                                                      + model.HeaderData.CardName + "',"
-                                                      + model.ID + ","
-                                                      + LineNo + ","
-                                                      + 20 + ","                                                   
-                                                      + model.ID + " ,"
-                                                      + (decimal)item.QTY + ",'"
-                                                      + Convert.ToDateTime(model.HeaderData.DocDate) + "')";
+                                    OITL OITLModel = new OITL();
+                                    OITLModel.LogEntry = LogEntry;
+                                    OITLModel.CardCode = model.HeaderData.CardCode.ToString();
+                                    OITLModel.CardName = model.HeaderData.CardName.ToString();
+                                    OITLModel.ItemCode = item.ItemCode.ToString();
+                                    OITLModel.ItemName = item.ItemName.ToString();
+                                    OITLModel.ID = Convert.ToInt32(model.ID);
+                                    OITLModel.DocLine = LineNo;
+                                    OITLModel.DocType = 20;
+                                    OITLModel.BaseType = "NULL";
+                                    OITLModel.Quantity = (decimal)item.QTY;
+                                    OITLModel.DocDate = Convert.ToDateTime(model.HeaderData.DocDate);
 
-                                    res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryOITL).ToInt();
-                                    if (res1 <= 0)
-                                    {
-                                        tran.Rollback();
+                                    if (!dal.OITLLog(tran, OITLModel))
                                         return false;
-                                    }
 
+                                        #region Batches & Log Working
+
+                                        if (model.Batches != null)
+                                        {
+                                            bool response = dal.InBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry);
+                                            if (!response)
+                                            {
+                                                return false;
+                                            }
+
+                                        }
+                                        #endregion
                                     #endregion
 
                                 }

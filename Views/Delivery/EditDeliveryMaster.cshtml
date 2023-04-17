@@ -1101,7 +1101,7 @@ Layout = "~/Views/Shared/_Layout.cshtml";
        var VatGuid = $('option:selected', VatGroup).attr("guid");
        let BaseQty = $(this).closest('#ListParameters .itm').find('#BaseQty');
        
-          let _ItemCode = $(this).closest('#ListParameters .itm').find('#ItemCode').val()
+       let _ItemCode = $(this).closest('#ListParameters .itm').find('#ItemCode').val()
        let _WhsCode = $(this).closest('#ListParameters .itm').find('#Warehouse').val()
         
        if(OldQty.val() != "" && OldQty.val() != undefined && OldQty.val() != null)
