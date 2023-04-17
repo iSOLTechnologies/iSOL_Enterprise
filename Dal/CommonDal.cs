@@ -1086,7 +1086,7 @@ where s.Status=1 and p.Guid=@Guid";
             }
             return model;
         }
-        public bool OutBatches(SqlTransaction tran , dynamic Batches,string ItemCode,int LogEntry)
+        public bool OutBatches(SqlTransaction tran , dynamic Batches,string ItemCode,int LogEntry, string Warehouse, int LineNum)
         {
             int res1 = 0;
             foreach (var batch in Batches)
@@ -1095,7 +1095,7 @@ where s.Status=1 and p.Guid=@Guid";
                 foreach (var ii in batch)
                 {
 
-                    if (ii.itemno == ItemCode)
+                    if (batch[0].itemno == ItemCode && batch[0].whseno == Warehouse && batch[0].linenum == LineNum)
                     {
                         
                         int SysNumber = CommonDal.getSysNumber(tran, ItemCode);

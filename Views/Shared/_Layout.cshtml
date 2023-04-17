@@ -3094,6 +3094,7 @@ input[type=number] {
 
 						jsonobj['itemno'] = $("#slItemno").val();
 						jsonobj['whseno'] = $("#slWarehouse").val();
+						jsonobj['linenum'] = $(ObjBatchCode).closest('tr').index(); 
 						listObj.push(jsonobj);
 					}
 				});

@@ -279,7 +279,7 @@ namespace iSOL_Enterprise.Dal.Purchase
 
                             if (model.Batches != null)
                             {
-                                bool response = dal.OutBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry);
+                                bool response = dal.OutBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry, item.Warehouse.ToString(), LineNo);
                                 if (!response)
                                 {
                                     return false;
@@ -585,7 +585,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                         }
                         if (model.ListItems != null)
                         {
-
+                            int index = 0;
                             foreach (var item in model.ListItems)
                             {
 
@@ -715,7 +715,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                                         if (!dal.OITLLog(tran, OITLModel))
                                                             return false;
 
-                                                        if (!dal.OutBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry1))
+                                                        if (!dal.OutBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry1, item.Warehouse.ToString(), index))
                                                             return false;
                                                         #endregion
 
@@ -816,13 +816,24 @@ namespace iSOL_Enterprise.Dal.Purchase
 
                                     if (!dal.OITLLog(tran, OITLModel))
                                         return false;
-                                    
 
+                                        #region Bataches & Logs working
+
+                                        if (model.Batches != null)
+                                        {
+                                            bool response = dal.OutBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry, item.Warehouse.ToString(), index);
+                                            if (!response)
+                                            {
+                                                return false;
+                                            }
+
+                                        }
+                                        #endregion
                                     #endregion
                                 }
                                 #endregion
+                            ++index;
                             }
-
 
 
                         }

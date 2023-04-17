@@ -1,4 +1,5 @@
-﻿$(document).on('click', '#ListbtnSelectBatch', function () {
+﻿var linenum = 0;
+$(document).on('click', '#ListbtnSelectBatch', function () {
     //debugger
     let selectedRow = $(this).closest('tr');
 
@@ -41,6 +42,8 @@
 
     if(btnClickWork)
     {
+        linenum = $(ObjBatchCode).closest('tr').index();       
+
         if (SelectedBatches.length > 0) {
             ClearSelectedBatches(selectedItemCode, selectedWareHouse);
 
@@ -62,7 +65,7 @@ function ClearSelectedBatches(selectedItemCode, selectedWareHouse) {
 
         $.each(item, function (index, item) {
 
-            if (this.itemno == selectedItemCode && this.whseno == selectedWareHouse) {
+            if (this.itemno == selectedItemCode && this.whseno == selectedWareHouse && this.linenum == linenum) {
                 SelectedBatches.splice(index, 1);
             }
         })
