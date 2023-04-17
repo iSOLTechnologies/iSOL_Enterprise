@@ -1223,14 +1223,14 @@ where s.Status=1 and p.Guid=@Guid";
            return true;
         }
 
-        public bool InBatches(SqlTransaction tran, dynamic Batches,string ItemCode,int LogEntry)
+        public bool InBatches(SqlTransaction tran, dynamic Batches,string ItemCode,int LogEntry,string Warehouse,int LineNum)
         {
             int res1 = 0;
 
             foreach (var batch in Batches)
             {
 
-                if (batch[0].itemno == ItemCode)
+                if (batch[0].itemno == ItemCode && batch[0].whseno == Warehouse && batch[0].linenum == LineNum)
                 {
 
 
@@ -1282,6 +1282,7 @@ where s.Status=1 and p.Guid=@Guid";
                             bool response = ITL1Log(tran, LogEntry, OldBatchData.ItemCode, OldBatchData.SysNumber, Quantity, OldBatchData.AbsEntry);
                             if (!response)
                             {
+                                tran.Rollback();
                                 return false;
                             }
                         }
@@ -1318,6 +1319,7 @@ where s.Status=1 and p.Guid=@Guid";
                             bool response = ITL1Log(tran, LogEntry, ii.itemno.ToString(), SysNumber, Quantity, AbsEntry);
                             if (!response)
                             {
+                                tran.Rollback();
                                 return false;
                             }
 

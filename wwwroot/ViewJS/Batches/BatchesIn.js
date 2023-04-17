@@ -1,7 +1,7 @@
 ﻿var AddedBatches = [];
 var ObjBatchCode;
 var ObjDistNum;
-
+var linenum = 0;
 $(document).on('click', '#ListbtnSelectBatch', function () {
     //debugger
     let selectedRow = $(this).closest('tr');
@@ -44,6 +44,7 @@ $(document).on('click', '#ListbtnSelectBatch', function () {
 
     }
     if (btnClickWork) {
+        linenum = $(ObjBatchCode).closest('tr').index();       
         if (AddedBatches.length > 0) {
             ClearAddedBatches(selectedItemCode, selectedWareHouse);
 
@@ -133,11 +134,13 @@ $(document).on('dblclick', '#myBatchSearchtable tbody tr', function (e) {
 });
 
 function ClearAddedBatches(selectedItemCode, selectedWareHouse) {
+
     $.each(AddedBatches, function (index, item) {
 
         $.each(item, function (index, item) {
-
-            if (this.itemno == selectedItemCode && this.whseno == selectedWareHouse) {
+            
+            if (this.itemno == selectedItemCode && this.whseno == selectedWareHouse && this.linenum == linenum) {
+                
                 AddedBatches.splice(index, 1);
             }
         })
@@ -215,6 +218,7 @@ $(document).on('click', '#btnAddbatchTableOk', function (e) {
                 });
                 jsonobj['itemno'] = $("#adItemno").val();
                 jsonobj['whseno'] = $("#adWarehouse").val();
+                jsonobj['linenum'] = linenum;               
                 listObj.push(jsonobj);
             }
 
@@ -222,6 +226,7 @@ $(document).on('click', '#btnAddbatchTableOk', function (e) {
         });
         AddedBatches.push(listObj);
 
+        console.log(AddedBatches);
 
         $('#myBatchAddmodal').modal('hide');
         const its = document.querySelectorAll('#ListParameters6 .itm');

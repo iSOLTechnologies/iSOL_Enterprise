@@ -242,9 +242,10 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
 
                             if (model.Batches != null)
                             {
-                                bool responseBatch = cdal.InBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry);
+                                bool responseBatch = cdal.InBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry, item.Warehouse.ToString(), LineNum);
                                 if (!responseBatch)
                                 {
+                                    tran.Rollback();
                                     response.isSuccess = false;
                                     response.Message = "An Error Occured";
                                     return response;

@@ -393,9 +393,10 @@ namespace iSOL_Enterprise.Dal.Sale
 
                             if (model.Batches != null)
                             {
-                                bool response = dal.InBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry);
+                                bool response = dal.InBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry, item.Warehouse.ToString(), LineNo);
                                 if (!response)
                                 {
+                                    tran.Rollback();
                                     return false;
                                 }
                                 
@@ -614,7 +615,7 @@ namespace iSOL_Enterprise.Dal.Sale
                         }
                         if (model.ListItems != null)
                         {
-
+                            int index = 0;
                             foreach (var item in model.ListItems)
                             {
 
@@ -740,7 +741,7 @@ namespace iSOL_Enterprise.Dal.Sale
                                                         if (!dal.OITLLog(tran, OITLModel))
                                                             return false;
 
-                                                        if (!dal.InBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry1))
+                                                        if (!dal.InBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry1, item.Warehouse.ToString(), index))
                                                             return false;
                                                         #endregion
 
@@ -851,9 +852,10 @@ namespace iSOL_Enterprise.Dal.Sale
 
                                     if (model.Batches != null)
                                     {
-                                        bool response = dal.InBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry);
+                                        bool response = dal.InBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry, item.Warehouse.ToString(), index);
                                         if (!response)
                                         {
+                                            tran.Rollback();
                                             return false;
                                         }
 
@@ -861,6 +863,7 @@ namespace iSOL_Enterprise.Dal.Sale
                                     #endregion
                                 }
                                 #endregion
+                                ++index;
                             }
 
 
