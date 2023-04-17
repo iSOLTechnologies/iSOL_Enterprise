@@ -1130,7 +1130,7 @@ where s.Status=1 and p.Guid=@Guid";
                                                "values (" + OBTQAbsEntry + ",'"
                                                + OldBatchData.ItemCode + "',"
                                                + SysNumber + ",'"
-                                               + ii.whseno + "',"
+                                               + Warehouse + "',"
                                                + (decimal)(ii.selectqty) + ","
                                                + OldBatchData.AbsEntry + ")";
                             }
@@ -1157,7 +1157,7 @@ where s.Status=1 and p.Guid=@Guid";
                                                "values (" + OBTQAbsEntry + ",'"
                                                + ii.itemno + "',"
                                                + SysNumber + ",'"
-                                               + ii.whseno + "',"
+                                               + Warehouse + "',"
                                                + (decimal)ii.selectqty + ","
                                                + AbsEntry + ")";
 
@@ -1273,7 +1273,7 @@ where s.Status=1 and p.Guid=@Guid";
                                                "values (" + OBTQAbsEntry + ",'"
                                                + ItemCode + "',"
                                                + SysNumber + ",'"
-                                               + ii.whseno + "',"
+                                               + Warehouse + "',"
                                                + (decimal)(ii.BQuantity) + ","
                                                + OldBatchData.AbsEntry + ")";
                             }
@@ -1303,7 +1303,7 @@ where s.Status=1 and p.Guid=@Guid";
                                                "values (" + OBTQAbsEntry + ",'"
                                                + ii.itemno + "',"
                                                + SysNumber + ",'"
-                                               + ii.whseno + "',"
+                                               + Warehouse + "',"
                                                + (decimal)ii.BQuantity + ","
                                                + AbsEntry + ")";
 

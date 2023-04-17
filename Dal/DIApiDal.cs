@@ -203,7 +203,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                                         string BatchQuery = @" select ITL1.ItemCode,ITL1.SysNumber,ITL1.Quantity,ITL1.AllocQty,OITL.CreateDate, OBTN.ExpDate,OBTN.DistNumber from OITL 
                                                                            inner join ITL1 on OITL.LogEntry = ITL1.LogEntry 
-                                                                           inner join OBTQ on ITL1.MdAbsEntry = OBTQ.AbsEntry 
+                                                                           inner join OBTQ on ITL1.MdAbsEntry = OBTQ.MdAbsEntry 
                                                                            inner join OBTN on OBTQ.MdAbsEntry = OBTN.AbsEntry
                                                                            where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType =15";
                                                         using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
@@ -1131,7 +1131,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                                         string BatchQuery = @" select ITL1.ItemCode,ITL1.SysNumber,ITL1.Quantity,ITL1.AllocQty,OITL.CreateDate, OBTN.ExpDate,OBTN.DistNumber from OITL 
                                                                            inner join ITL1 on OITL.LogEntry = ITL1.LogEntry 
-                                                                           inner join OBTQ on ITL1.MdAbsEntry = OBTQ.AbsEntry 
+                                                                           inner join OBTQ on ITL1.MdAbsEntry = OBTQ.MdAbsEntry 
                                                                            inner join OBTN on OBTQ.MdAbsEntry = OBTN.AbsEntry
                                                                            where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType ="+ObjectCode;
                                                         using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
