@@ -473,7 +473,7 @@
                                                                             <label class="mr-2 d-flex text-center pt-2 col-md-4">
                                                                                 Fax
                                                                             </label>
-                                                                            <input type="text" id="Fax" class="col-md-8 form-control form-control-sm NotReq">
+                                                                            <input type="text" id="Fax_H" class="col-md-8 form-control form-control-sm NotReq">
 
                                                                             <div id="ErrorMsg"
                                                                                  class="error invalid-feedback">
@@ -578,7 +578,7 @@
                                                                             <label class="mr-2 d-flex text-center pt-2 col-md-4">
                                                                                 Password
                                                                             </label>
-                                                                            <input type="password" id="Password" class="col-md-8 form-control form-control-sm NotReq">
+                                                                            <input type="password" id="General_Password" class="col-md-8 form-control form-control-sm NotReq">
 
                                                                             <div id="ErrorMsg"
                                                                                  class="error invalid-feedback">
@@ -729,7 +729,7 @@
                                                                             <label class="mr-2 d-flex text-center pt-2 col-md-4">
                                                                                 GLN
                                                                             </label>
-                                                                        <input type="text" id="GlblLocNum" class="col-md-8 form-control form-control-sm NotReq">
+                                                                        <input type="text" id="General_GlblLocNum" class="col-md-8 form-control form-control-sm NotReq">
 
                                                                             <div id="ErrorMsg"
                                                                                  class="error invalid-feedback">
@@ -845,7 +845,7 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td> 
                                                                                     <td>
-                                                                                        <input id="Address" class="form-control form-control-sm" type="text">
+                                                                                        <input id="CP_Address" class="form-control form-control-sm" type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>  
                                                                                     <td>
@@ -865,7 +865,7 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>   
                                                                                     <td>  
-                                                                                        <input id="E_Mail" class="form-control form-control-sm" type="text">
+                                                                                        <input id="E_MailL" class="form-control form-control-sm" type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>    
                                                                                     <td> 
@@ -1060,7 +1060,7 @@
 
 
                                                                         <!-- Inner Ship To Tab--Starts-- -->                                                                     
-                                                                       @* <div class="tab-pane" id="kt_Innertabs_ShipTo"
+                                                                        <div class="tab-pane" id="kt_Innertabs_ShipTo"
                                                                              role="tabpanel">
 
 
@@ -1089,58 +1089,59 @@
                                                                                     <tr class="rowItemDetail align-items-center itm">
 
                                                                                         <td>
-                                                                                            <input id="Address" class="form-control form-control-sm" type="text">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            <input id="ship_Address" class="form-control form-control-sm" type="text">
+                                                                                            <div  class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input id="Address2" class="form-control form-control-sm" type="text">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            <input id="ship_Address2" class="form-control form-control-sm" type="text">
+                                                                                            <div  class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input id="Address3" class="form-control form-control-sm" type="text">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            <input id="ship_Address3" class="form-control form-control-sm" type="text">
+                                                                                            <div  class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input id="Street" class="form-control form-control-sm" type="text">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            <input id="ship_Street" class="form-control form-control-sm" type="text">
+                                                                                            <div  class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input id="Block" class="form-control form-control-sm" type="text">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            <input id="ship_Block" class="form-control form-control-sm" type="text">
+                                                                                            <div  class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input id="City" class="form-control form-control-sm" type="text">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            <input id="ship_City" class="form-control form-control-sm" type="text">
+                                                                                            <div  class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input id="ZipCode" class="form-control form-control-sm" type="text">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            <input id="ship_ZipCode" class="form-control form-control-sm" type="text">
+                                                                                            <div  class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input id="County" class="form-control form-control-sm" type="text">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            <input id="ship_County" class="form-control form-control-sm" type="text">
+                                                                                            <div  class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <select class="form-control form-control-sm" id="State">
+                                                                                            <select class="form-control form-control-sm" id="ship_State">
+                                                                                                <option selected value="">-- Select --</option>
                                                                                             </select>
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            <div  class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <select class="form-control form-control-sm" id="Country">
+                                                                                            <select class="form-control form-control-sm" id="ship_Country">
                                                                                             </select>
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            <div  class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input id="StreetNo" class="form-control form-control-sm" type="text">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            <input id="ship_StreetNo" class="form-control form-control-sm" type="text">
+                                                                                            <div  class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input id="Building" class="form-control form-control-sm" type="text">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            <input id="ship_Building" class="form-control form-control-sm" type="text">
+                                                                                            <div  class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input id="GlblLocNum" class="form-control form-control-sm" type="text">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            <input id="ship_GlblLocNum" class="form-control form-control-sm" type="text">
+                                                                                            <div  class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
 
                                                                                     </tr>
@@ -1156,7 +1157,7 @@
 
                                                                              <!--Ship To ==Ends==-->
 
-                                                                        </div>*@
+                                                                        </div> 
                                                                           <!-- Inner Ship To Tab--Ends-- -->
                                                                     </div>                                                                     
                                                                     </div>                                                                     
@@ -1854,7 +1855,9 @@
              GetStateCode("State","Y");
              GetPayments(); 
         $('#ListParameters2 .itm:first-child').find("#Country").html(CountryData);
-        //$('#ListParameters4 .itm:first-child').find("#State").html(VarStateCode);      
+        $('#ListParameters4 .itm:first-child').find("#ship_Country").html(CountryData);
+        $('#ListParameters4 .itm:first-child').find("#ship_State").html(VarStateCode);  
+  
 
     });
 
@@ -1880,23 +1883,35 @@
 			});
 		} 
          function GetStateCode(id, Nullable) {
+             
+			$.ajax({
+				url: 'BusinessPartnerMasterData/GetStateCode',
+				type: 'GET',
+				dataType: 'json',
+				async: false,				
+				success: function (data) 
+				{
 
-        $.get("BusinessPartnerMasterData/GetStateCode", function (data) {
+                $("#" + id).html("");
+                if (Nullable == "Y") {
+                    $("#" + id).append(`<option selected value="">-- Select --</option>`);
+                }
 		
-				$("#"+id).html("");
-		if(Nullable == "Y"){
-            $("#"+id).append(`<option selected value="">-- Select --</option>`);
-        }
 				$.each(data, function() {
-					 
+					
+				         
 					$("#"+id).append("<option value=" + this.slpCode + ">" + this.slpName + "</option>");
-                VarStateCode += "<option value=" + this.slpCode + ">" + this.slpName + "</option>";
-				 
+                    VarStateCode += "<option value=" + this.slpCode + ">" + this.slpName + "</option>";
 				});
-		
-			});
+					
+				},
+				error: function (jqXhr, textStatus, errorMessage) {
+					console.log(errorMessage);
+				}
+			}); 
 		} 
-          function GetPayments(){
+
+        function GetPayments(){
             
         $.get("SaleQuotation/GetPayments", function (data) 
         {
@@ -2073,12 +2088,13 @@
         {
             HeaderData: getJsonObj("HeaderForm"),             
             Tabs_General: getJsonObj("kt_tabs_General"),
-            Tabs_ContactPersons: getJsonObj("kt_tabs_ContactPersons"),
-            Tabs_Addresses: getJsonObj("kt_tabs_Addresses"),
+            Tabs_ContactPersons: getJsonObjList("ListParameters tr"),
+            Tabs_AddressesBillTo: getJsonObjList("ListParameters2 tr"),
+            //Tabs_AddressesShipTo: getJsonObj("ListParameters4 tr"),
             Tabs_PaymentTerms: getJsonObj("kt_tabs_PaymentTerms"),
             Tabs_Properties: getJsonObj("kt_tabs_Properties"),
             Tabs_Remarks: getJsonObj("kt_tabs_Remarks"),
-            Tabs_attachment: getJsonObj("kt_tabs_attachment")
+            Tabs_attachment: getJsonObjList("ListParameters3 tr")
 
 
                   
@@ -2310,14 +2326,35 @@
         //$(ObjItemCode)
     });
      $(document).on('click', '#AddContactPersons', function (e) {
-        var html = `     <tr class="rowItemDetail align-items-center itm">                                                                                    
+        var html = ` 
+           <tr class="rowItemDetail align-items-center itm">                                                                                    
                                                                                     
+                                                                                    <td>
+                                                                                        <input id="Name" class="form-control form-control-sm" type="text">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>  
+                                                                                    <td>
+                                                                                        <input id="FirstName" class="form-control form-control-sm" type="text">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>  
+                                                                                    <td>
+                                                                                        <input id="MiddleName" class="form-control form-control-sm" type="text">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>  
+                                                                                    <td>
+                                                                                        <input id="LastName" class="form-control form-control-sm" type="text">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>  
+                                                                                    <td>
+                                                                                        <input id="Title" class="form-control form-control-sm" type="text">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>  
                                                                                     <td>
                                                                                         <input id="Position" class="form-control form-control-sm" type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td> 
                                                                                     <td>
-                                                                                        <input id="Address" class="form-control form-control-sm" type="text">
+                                                                                            <input id="CP_Address" class="form-control form-control-sm" type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>  
                                                                                     <td>
@@ -2337,17 +2374,17 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>   
                                                                                     <td>  
-                                                                                        <input id="E_Mail" class="form-control form-control-sm" type="text">
+                                                                                        <input id="E_MailL" class="form-control form-control-sm" type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>    
-                                                                                    <td> 
-                                                                                         <select class="form-control form-control-sm" id="EmlGrpCode">
-                                                                                             <option selected value="">-- Select --</option>
-                                                                                             `+ VarEmlGrpCode + `
-                                                                                        </select>
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>    
-                                                                                    <td>
+                                                                                    </td>
+                                                                                         <td>
+                                                                                             <select class="form-control form-control-sm" id="EmlGrpCode">
+                                                                                                 <option selected value="">-- Select --</option>
+                                                                                                 `+ VarEmlGrpCode + `
+                                                                                            </select>
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
                                                                                         <input id="Pager" class="form-control form-control-sm" type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>    
@@ -2362,14 +2399,14 @@
                                                                                     <td>
                                                                                         <input id="Password" class="form-control form-control-sm" type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td> 
-                                                                                    <td>
-                                                                                        <select class="form-control form-control-sm" id="CountryOrg">
-                                                                                             `+ CountryData + `
-                                                                                        </select>
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>     
-                                                                                    <td>
+                                                                                    </td>
+                                                                                         <td>
+                                                                                            <select class="form-control form-control-sm" id="CountryOrg">
+                                                                                                 `+ CountryData + `
+                                                                                            </select>
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
                                                                                         <input id="BirthDate" class="form-control form-control-sm" type="date">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>      
@@ -2380,11 +2417,11 @@
                                                                                             <option value="F">FeMale</option> 
                                                                                         </select>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>      
+                                                                                    </td>
                                                                                     <td>
                                                                                         <input id="Profession" class="form-control form-control-sm" type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>        
+                                                                                    </td>
                                                                                     <td>
                                                                                         <input id="BirthCity" class="form-control form-control-sm" type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -2395,8 +2432,8 @@
                                                                                             
                                                                                         </select>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td> 
-                                                                                
+                                                                                    </td>     
+                                                                                   
                                                                                     <td>
                                                                         <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
                                                                         <i class="la la-trash"></i> X
@@ -2476,75 +2513,75 @@
                                                                                 </tr>`;
         $('#kt_repeater_2 tbody').append(html); 
     });
-    // $(document).on('click', '#AddShipToAddress', function (e) {
-    //    var html = `
-    //      <tr class="rowItemDetail align-items-center itm">
+     $(document).on('click', '#AddShipToAddress', function (e) {
+        var html = `
+          <tr class="rowItemDetail align-items-center itm">
 
-    //                                                                                <td>
-    //                                                                                    <input id="Address" class="form-control form-control-sm" type="text">
-    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-    //                                                                                </td>
-    //                                                                                <td>
-    //                                                                                    <input id="Address2" class="form-control form-control-sm" type="text">
-    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-    //                                                                                </td>
-    //                                                                                <td>
-    //                                                                                    <input id="Address3" class="form-control form-control-sm" type="text">
-    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-    //                                                                                </td>
-    //                                                                                <td>
-    //                                                                                    <input id="Street" class="form-control form-control-sm" type="text">
-    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-    //                                                                                </td>
-    //                                                                                <td>
-    //                                                                                    <input id="Block" class="form-control form-control-sm" type="text">
-    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-    //                                                                                </td>
-    //                                                                                <td>
-    //                                                                                    <input id="City" class="form-control form-control-sm" type="text">
-    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-    //                                                                                </td>
-    //                                                                                <td>
-    //                                                                                    <input id="ZipCode" class="form-control form-control-sm" type="text">
-    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-    //                                                                                </td>
-    //                                                                                <td>
-    //                                                                                    <input id="County" class="form-control form-control-sm" type="text">
-    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-    //                                                                                </td>
-    //                                                                                <td>
-    //                                                                                    <select class="form-control form-control-sm" id="State">   
-    //                                                                                    <option value="" selected>-- Select --</option>
-    //                                                                                    `+VarStateCode+`
-    //                                                                                    </select>
-    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-    //                                                                                </td>
-    //                                                                                 <td>
-    //                                                                                    <select class="form-control form-control-sm" id="Country"> 
-    //                                                                                    `+CountryData+`
-    //                                                                                    </select>
-    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-    //                                                                                </td>
-    //                                                                                <td>
-    //                                                                                    <input id="StreetNo" class="form-control form-control-sm" type="text">
-    //                                                                                    <div  id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-    //                                                                                </td>
-    //                                                                                <td> 
-    //                                                                                    <input id="Building" class="form-control form-control-sm" type="text">
-    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-    //                                                                                </td>
-    //                                                                                <td>
-    //                                                                                    <input id="GlblLocNum" class="form-control form-control-sm" type="text">
-    //                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-    //                                                                                </td> 
-    //                                                                                <td>
-    //                                                                    <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
-    //                                                                    <i class="la la-trash"></i> X
-    //                                                                   </a>
-    //                                                                   </td>
-    //                                                                            </tr>`;
-    //    $('#kt_repeater_4 tbody').append(html); 
-    //});
+                                                                                    <td>
+                                                                                        <input id="ship_Address" class="form-control form-control-sm" type="text">
+                                                                                        <div  class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input id="ship_Address2" class="form-control form-control-sm" type="text">
+                                                                                        <div  class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input id="ship_Address3" class="form-control form-control-sm" type="text">
+                                                                                        <div  class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input id="ship_Street" class="form-control form-control-sm" type="text">
+                                                                                        <div  class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input id="ship_Block" class="form-control form-control-sm" type="text">
+                                                                                        <div  class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input id="ship_City" class="form-control form-control-sm" type="text">
+                                                                                        <div  class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input id="ship_ZipCode" class="form-control form-control-sm" type="text">
+                                                                                        <div  class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input id="ship_County" class="form-control form-control-sm" type="text">
+                                                                                        <div  class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <select class="form-control form-control-sm" id="ship_State">   
+                                                                                        <option value="" selected>-- Select --</option>
+                                                                                        `+VarStateCode+`
+                                                                                        </select>
+                                                                                        <div  class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                     <td>
+                                                                                        <select class="form-control form-control-sm" id="ship_Country"> 
+                                                                                        `+CountryData+`
+                                                                                        </select>
+                                                                                        <div  class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input id="ship_StreetNo" class="form-control form-control-sm" type="text">
+                                                                                        <div   class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td> 
+                                                                                        <input id="ship_Building" class="form-control form-control-sm" type="text">
+                                                                                        <div  class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input id="ship_GlblLocNum" class="form-control form-control-sm" type="text">
+                                                                                        <div  class="error invalid-feedback">This field is required.</div>
+                                                                                    </td> 
+                                                                                    <td>
+                                                                        <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
+                                                                        <i class="la la-trash"></i> X
+                                                                       </a>
+                                                                       </td>
+                                                                                </tr>`;
+        $('#kt_repeater_4 tbody').append(html); 
+    });
 </script>
     <!-- MyStart -->
 

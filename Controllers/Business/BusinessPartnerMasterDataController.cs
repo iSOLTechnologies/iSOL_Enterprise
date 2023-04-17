@@ -1,6 +1,7 @@
 ﻿using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Dal.Business;
 using iSOL_Enterprise.Dal.Inventory;
+using iSOL_Enterprise.Dal.Purchase;
 using iSOL_Enterprise.Dal.Sale;
 using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,25 @@ namespace iSOL_Enterprise.Controllers.Business
                 return Json(ex.Message);
             }
         }
+        public IActionResult GetData()
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
+
+                BusinessPartnerMasterDataDal dal = new BusinessPartnerMasterDataDal();
+                response.Data = dal.GetData();
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+        }
+
         [HttpGet]
         public IActionResult GetStateCode()
         {
@@ -76,10 +96,8 @@ namespace iSOL_Enterprise.Controllers.Business
                 }
                 else
                 {
-                    return Json(new { isInserted = false, Message = "Data can't be null" });
+                    return Json(new { isInserted = false, Message = "Data can't be null"});
                 }
-
-
             }
             catch (Exception)
             {

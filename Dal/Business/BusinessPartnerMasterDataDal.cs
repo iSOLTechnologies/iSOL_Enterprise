@@ -7,6 +7,10 @@ using SAPbobsCOM;
 using SqlHelperExtensions;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics.Metrics;
+using System.IO;
+using System.Net;
+using System.Reflection.Emit;
 
 namespace iSOL_Enterprise.Dal.Business
 {
@@ -32,6 +36,33 @@ namespace iSOL_Enterprise.Dal.Business
             }
             return list;
         }
+
+        public List<SalesQuotation_MasterModels> GetData()
+        {
+            string GetQuery = "select * from OCRD order by id DESC";
+
+
+            List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
+                   // models.DocStatus = CommonDal.Check_IsNotEditable("PDN1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
+                    models.DocStatus = "Open";
+                    models.Id = rdr["Id"].ToInt();  
+                    models.CardCode = rdr["CardCode"].ToString();
+                    models.CardName = rdr["CardName"].ToString();
+                    models.Guid = rdr["Guid"].ToString();
+                    models.IsPosted = rdr["isPosted"].ToString(); models.IsEdited = rdr["is_Edited"].ToString();
+                    list.Add(models);
+                }
+            }
+            return list;
+        }
+
+
         public List<tbl_OSLP> GetEmailGroup()
         { 
             string GetQuery = "select EmlGrpCode,EmlGrpName From OEGP";
@@ -322,14 +353,14 @@ namespace iSOL_Enterprise.Dal.Business
                         param.Add(cdal.GetParameter("@AddID", model.Tabs_General.AddID, typeof(string)));
                         param.Add(cdal.GetParameter("@Cellular", model.Tabs_General.Cellular, typeof(string)));
                         param.Add(cdal.GetParameter("@VatIdUnCmp", model.Tabs_General.VatIdUnCmp, typeof(string)));
-                        param.Add(cdal.GetParameter("@Fax", model.Tabs_General.Fax, typeof(string)));
+                        param.Add(cdal.GetParameter("@Fax", model.Tabs_General.Fax_H, typeof(string)));
                         param.Add(cdal.GetParameter("@RegNum", model.Tabs_General.RegNum, typeof(string)));
                         param.Add(cdal.GetParameter("@E_Mail", model.Tabs_General.E_Mail, typeof(string)));
                         param.Add(cdal.GetParameter("@Notes", model.Tabs_General.Notes, typeof(string)));
                         param.Add(cdal.GetParameter("@IntrntSite", model.Tabs_General.IntrntSite, typeof(string)));
                         param.Add(cdal.GetParameter("@ShipType", model.Tabs_General.ShipType, typeof(int)));
                         param.Add(cdal.GetParameter("@SlpCode", model.Tabs_General.SlpCode, typeof(int)));
-                        param.Add(cdal.GetParameter("@Password", model.Tabs_General.Password, typeof(string)));
+                        param.Add(cdal.GetParameter("@Password", model.Tabs_General.General_Password, typeof(string)));
                         param.Add(cdal.GetParameter("@Indicator", model.Tabs_General.Indicator, typeof(string)));
                         //param.Add(cdal.GetParameter("@Name", model.Tabs_General.Name, typeof(string)));
                         param.Add(cdal.GetParameter("@ProjectCod", model.Tabs_General.ProjectCod, typeof(string)));
@@ -339,7 +370,7 @@ namespace iSOL_Enterprise.Dal.Business
                         param.Add(cdal.GetParameter("@CmpPrivate", model.Tabs_General.CmpPrivate, typeof(string)));
                         param.Add(cdal.GetParameter("@Territory", model.Tabs_General.Territory, typeof(int)));
                         param.Add(cdal.GetParameter("@AliasName", model.Tabs_General.AliasName, typeof(string)));
-                        param.Add(cdal.GetParameter("@GlblLocNum", model.Tabs_General.GlblLocNum, typeof(string)));
+                        param.Add(cdal.GetParameter("@GlblLocNum", model.Tabs_General.General_GlblLocNum, typeof(string)));
                         param.Add(cdal.GetParameter("@validFor", model.Tabs_General.validFor, typeof(string)));
                         param.Add(cdal.GetParameter("@validFrom", model.Tabs_General.validFrom, typeof(DateTime)));
                         param.Add(cdal.GetParameter("@validTo", model.Tabs_General.validTo, typeof(DateTime)));
@@ -454,42 +485,43 @@ namespace iSOL_Enterprise.Dal.Business
 
                     if (model.Tabs_ContactPersons != null)
                     {
-                        foreach (var item in model.Tabs_attachment)
+                        foreach (var item in model.Tabs_ContactPersons)
                         {
+                            param.Clear();
                             int OCPR_Id = CommonDal.getPrimaryKey(tran, "OCPR");
                         
                         
-                        string OCPR_Query = @"insert into OCPR (id,CntctCode,CardCode,Name,FirstName,MiddleName,LastName,Title,Position,Address,Tel1,Tel2,Cellolar,Fax,E_Mail,EmlGrpCode,Pager,Notes1,Notes2,Password,BirthDate,Gender,Profession,BirthCity) 
-                                        values(@id,@CntctCode,@CardCode,@Name,@FirstName,@MiddleName,@LastName,@Title,@Position,@Address,@Tel1,@Tel2,@Cellolar,@Fax,@E_Mail,@EmlGrpCode,@Pager,@Notes1,@Notes2,@Password,@BirthDate,@Gender,@Profession,@BirthCity)";
+                        string OCPR_Query = @"insert into OCPR (id,CardCode,Name,FirstName,MiddleName,LastName,Title,Position,Address,Tel1,Tel2,Cellolar,Fax,E_MailL,EmlGrpCode,Pager,Notes1,Notes2,Password,BirthDate,Gender,Profession,BirthCity) 
+                                        values(@id,@CardCode,@Name,@FirstName,@MiddleName,@LastName,@Title,@Position,@Address,@Tel1,@Tel2,@Cellolar,@Fax,@E_MailL,@EmlGrpCode,@Pager,@Notes1,@Notes2,@Password,@BirthDate,@Gender,@Profession,@BirthCity)";
 
                         #region Contact Persons data
                         param.Add(cdal.GetParameter("@id", OCPR_Id, typeof(int)));
-                        param.Add(cdal.GetParameter("@CntctCode", model.Tabs_ContactPersons.CntctCode, typeof(int)));
+                        //param.Add(cdal.GetParameter("@CntctCode", model.Tabs_ContactPersons.CntctCode, typeof(int)));
                         param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(string)));
-                        param.Add(cdal.GetParameter("@Name", model.HeaderData.Name, typeof(string)));
-                        param.Add(cdal.GetParameter("@FirstName", model.HeaderData.FirstName, typeof(string)));
-                        param.Add(cdal.GetParameter("@MiddleName", model.HeaderData.MiddleName, typeof(string)));
-                        param.Add(cdal.GetParameter("@LastName", model.HeaderData.LastName, typeof(string)));
-                        param.Add(cdal.GetParameter("@Title", model.HeaderData.Title, typeof(string)));
-                        param.Add(cdal.GetParameter("@Position", model.HeaderData.Position, typeof(string)));
-                        param.Add(cdal.GetParameter("@Address", model.HeaderData.Address, typeof(string)));
-                        param.Add(cdal.GetParameter("@Tel1", model.HeaderData.Tel1, typeof(string)));
-                        param.Add(cdal.GetParameter("@Tel2", model.HeaderData.Tel2, typeof(string)));
-                        param.Add(cdal.GetParameter("@Cellolar", model.HeaderData.Cellolar, typeof(string)));
-                        param.Add(cdal.GetParameter("@Fax", model.HeaderData.Fax, typeof(string)));
-                        param.Add(cdal.GetParameter("@E_Mail", model.HeaderData.E_Mail, typeof(string)));
-                        param.Add(cdal.GetParameter("@EmlGrpCode", model.HeaderData.EmlGrpCode, typeof(string)));
-                        param.Add(cdal.GetParameter("@Pager", model.HeaderData.Pager, typeof(string)));
-                        param.Add(cdal.GetParameter("@Notes1", model.HeaderData.Notes1, typeof(string)));
-                        param.Add(cdal.GetParameter("@Notes2", model.HeaderData.Notes2, typeof(string)));
-                        param.Add(cdal.GetParameter("@Password", model.HeaderData.Password, typeof(string)));
-                       // param.Add(cdal.GetParameter("@CountryOrg", model.HeaderData.CountryOrg, typeof(string)));
-                        param.Add(cdal.GetParameter("@BirthDate", model.HeaderData.BirthDate, typeof(string)));
-                        param.Add(cdal.GetParameter("@Gender", model.HeaderData.Gender, typeof(string)));
-                        param.Add(cdal.GetParameter("@Profession", model.HeaderData.Profession, typeof(string)));
-                        param.Add(cdal.GetParameter("@BirthCity", model.HeaderData.BirthCity, typeof(string)));
+                        param.Add(cdal.GetParameter("@Name", item.Name, typeof(string)));
+                        param.Add(cdal.GetParameter("@FirstName", item.FirstName, typeof(string)));
+                        param.Add(cdal.GetParameter("@MiddleName", item.MiddleName, typeof(string)));
+                        param.Add(cdal.GetParameter("@LastName", item.LastName, typeof(string)));
+                        param.Add(cdal.GetParameter("@Title", item.Title, typeof(string)));
+                        param.Add(cdal.GetParameter("@Position", item.Position, typeof(string)));
+                        param.Add(cdal.GetParameter("@Address", item.CP_Address, typeof(string)));
+                        param.Add(cdal.GetParameter("@Tel1", item.Tel1, typeof(string)));
+                        param.Add(cdal.GetParameter("@Tel2", item.Tel2, typeof(string)));
+                        param.Add(cdal.GetParameter("@Cellolar", item.Cellolar, typeof(string)));
+                        param.Add(cdal.GetParameter("@Fax", item.Fax, typeof(string)));
+                        param.Add(cdal.GetParameter("@E_MailL", item.E_MailL, typeof(string)));
+                        param.Add(cdal.GetParameter("@EmlGrpCode", item.EmlGrpCode, typeof(string)));
+                        param.Add(cdal.GetParameter("@Pager", item.Pager, typeof(string)));
+                        param.Add(cdal.GetParameter("@Notes1", item.Notes1, typeof(string)));
+                        param.Add(cdal.GetParameter("@Notes2", item.Notes2, typeof(string)));
+                        param.Add(cdal.GetParameter("@Password", item.Password, typeof(string)));
+                       // param.Add(cdal.GetParameter("@CountryOrg", item.CountryOrg, t    ypeof(string)));
+                        param.Add(cdal.GetParameter("@BirthDate", item.BirthDate, typeof(string)));
+                        param.Add(cdal.GetParameter("@Gender", item.Gender, typeof(string)));
+                        param.Add(cdal.GetParameter("@Profession", item.Profession, typeof(string)));
+                        param.Add(cdal.GetParameter("@BirthCity", item.BirthCity, typeof(string)));
                             #endregion
-                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, OCPR_Query).ToInt();
+                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, OCPR_Query, param.ToArray()).ToInt();
                             if (res1 <= 0)
                             {
                                 tran.Rollback();
@@ -501,6 +533,87 @@ namespace iSOL_Enterprise.Dal.Business
                         }
                     }
 
+
+
+                    if (model.Tabs_AddressesBillTo != null)
+                    {
+                        foreach (var item in model.Tabs_AddressesBillTo)
+                        {
+                            param.Clear();
+                             
+                            string BillTo_Query = @"insert into CRD1(id,CardCode,Address,Address2,Address3,Street,Block,City,ZipCode,County,State,Country,StreetNo,Building,GlblLocNum,AdresType) values(@id,@CardCode,@Address,@Address2,@Address3,@Street,@Block,@City,@ZipCode,@County,@State,@Country,@StreetNo,@Building,@GlblLocNum,@AdresType)";
+
+                            #region  Address BillTo
+                            //param.Add(cdal.GetParameter("@id", OCPR_Id, typeof(int)));
+                            //param.Add(cdal.GetParameter("@CntctCode", model.Tabs_ContactPersons.CntctCode, typeof(int)));
+                            param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
+                            param.Add(cdal.GetParameter("@Address", item.Address, typeof(string)));
+                            param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(string)));
+                            param.Add(cdal.GetParameter("@Address2", item.Address2, typeof(string)));
+                            param.Add(cdal.GetParameter("@Address3", item.Address3, typeof(string)));
+                            param.Add(cdal.GetParameter("@Street", item.Street, typeof(string)));
+                            param.Add(cdal.GetParameter("@Block", item.Block, typeof(string)));
+                            param.Add(cdal.GetParameter("@City", item.City, typeof(string)));
+                            param.Add(cdal.GetParameter("@ZipCode", item.ZipCode, typeof(string)));
+                            param.Add(cdal.GetParameter("@County", item.County, typeof(string)));
+                            param.Add(cdal.GetParameter("@State", item.State, typeof(string)));
+                            param.Add(cdal.GetParameter("@Country", item.Country, typeof(string)));
+                            param.Add(cdal.GetParameter("@StreetNo", item.StreetNo, typeof(string)));
+                            param.Add(cdal.GetParameter("@Building", item.Building, typeof(string)));
+                            param.Add(cdal.GetParameter("@GlblLocNum", item.GlblLocNum, typeof(string))); 
+                            param.Add(cdal.GetParameter("@AdresType", "B", typeof(char))); 
+                            #endregion
+                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BillTo_Query, param.ToArray()).ToInt();
+                            if (res1 <= 0)
+                            {
+                                tran.Rollback();
+                                response.isSuccess = false;
+                                response.Message = "An Error Occured";
+                                return response;
+
+                            }
+                        }
+                    }
+                    if (model.Tabs_AddressesShipTo != null)
+                    {
+                        foreach (var item in model.Tabs_AddressesShipTo)
+                        {
+                            param.Clear();
+
+                            string ShipTo_Query = @"insert into CRD1(id,CardCode,Address,Address2,Address3,Street,Block,City,ZipCode,County,State,Country,StreetNo,Building,GlblLocNum,AdresType) values(@id,@CardCode,@Address,@Address2,@Address3,@Street,@Block,@City,@ZipCode,@County,@State,@Country,@StreetNo,@Building,@GlblLocNum,@AdresType)";
+
+                            #region  Address BillTo
+                            //param.Add(cdal.GetParameter("@id", OCPR_Id, typeof(int)));
+                            //param.Add(cdal.GetParameter("@CntctCode", model.Tabs_ContactPersons.CntctCode, typeof(int)));
+                            param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
+                            param.Add(cdal.GetParameter("@Address", item.ship_Address, typeof(string)));
+                            param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(string)));
+                            param.Add(cdal.GetParameter("@Address2", item.ship_Address2, typeof(string)));
+                            param.Add(cdal.GetParameter("@Address3", item.ship_Address3, typeof(string)));
+                            param.Add(cdal.GetParameter("@Street", item.ship_Street, typeof(string)));
+                            param.Add(cdal.GetParameter("@Block", item.ship_Block, typeof(string)));
+                            param.Add(cdal.GetParameter("@City", item.ship_City, typeof(string)));
+                            param.Add(cdal.GetParameter("@ZipCode", item.ship_ZipCode, typeof(string)));
+                            param.Add(cdal.GetParameter("@County", item.ship_County, typeof(string)));
+                            param.Add(cdal.GetParameter("@State", item.ship_State, typeof(string)));
+                            param.Add(cdal.GetParameter("@Country", item.ship_Country, typeof(string)));
+                            param.Add(cdal.GetParameter("@StreetNo", item.ship_StreetNo, typeof(string)));
+                            param.Add(cdal.GetParameter("@Building", item.ship_Building, typeof(string)));
+                            param.Add(cdal.GetParameter("@GlblLocNum", item.ship_GlblLocNum, typeof(string)));
+                            param.Add(cdal.GetParameter("@AdresType", "S", typeof(char)));
+                            #endregion
+                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, ShipTo_Query, param.ToArray()).ToInt();
+                            if (res1 <= 0)
+                            {
+                                tran.Rollback();
+                                response.isSuccess = false;
+                                response.Message = "An Error Occured";
+                                return response;
+
+                            }
+                        }
+                    }
+                     
                     if (model.Tabs_attachment != null)
                     {
                         int LineNo = 0;
@@ -517,7 +630,7 @@ namespace iSOL_Enterprise.Dal.Business
                                                         + item.selectedFilePath + "','"
                                                         + item.selectedFileName + "','"
                                                         + Convert.ToDateTime(item.selectedFileDate) + "')";
-                                #region sqlparam
+                                //#region sqlparam
                                 //List<SqlParameter> param3 = new List<SqlParameter>
                                 //            {
                                 //                new SqlParameter("@AbsEntry",ATC1Id),
@@ -526,7 +639,7 @@ namespace iSOL_Enterprise.Dal.Business
                                 //                new SqlParameter("@FileName",item.FileName),
                                 //                new SqlParameter("@Date",item.Date),
                                 //            };
-                                #endregion
+                                //#endregion
 
                                 res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryAttachment).ToInt();
                                 if (res1 <= 0)
