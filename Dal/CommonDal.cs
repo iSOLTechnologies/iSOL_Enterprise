@@ -1052,6 +1052,26 @@ where s.Status=1 and p.Guid=@Guid";
             #endregion
             return true;
         }
+        public bool ITL1RequestLog(SqlTransaction tran, int LogEntry, string ItemCode, int SysNumber, decimal Quantity, int AbsEntry)
+        {
+            #region ITL1 log
+            string LogQueryITL1 = @"insert into ITL1(LogEntry,ItemCode,SysNumber,AllocQty,MdAbsEntry) 
+                                 values(" + LogEntry + ",'"
+                                 + ItemCode + "',"
+                                 + SysNumber + ","
+                                 + Quantity + ","
+                                 + AbsEntry + ")";
+
+
+            int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, LogQueryITL1).ToInt();
+            if (res1 <= 0)
+            {
+                tran.Rollback();
+                return false;
+            }
+            #endregion
+            return true;
+        }
         public tbl_OBTN GetBatchData(SqlTransaction tran,string ItemCode,string DistNumber)
         {
             string OBTNQuery = @"select SysNumber,DistNumber,AbsEntry,ItemCode from OBTN where ItemCode= '" + ItemCode + "' and LOWER(DistNumber) = '" + DistNumber.ToLower() + "'";
@@ -1339,6 +1359,107 @@ where s.Status=1 and p.Guid=@Guid";
                 return true;
             else
                 return false;
+        }
+
+        public bool TransferRequestBatches(SqlTransaction tran, dynamic Batches, string ItemCode, int LogEntry, string Warehouse, int LineNum)
+        {
+            int res1 = 0;
+            foreach (var batch in Batches)
+            {
+
+                foreach (var ii in batch)
+                {
+
+                    if (batch[0].itemno == ItemCode && batch[0].whseno == Warehouse && batch[0].linenum == LineNum)
+                    {
+
+                        int SysNumber = CommonDal.getSysNumber(tran, ItemCode);
+                        int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
+                        tbl_OBTN OldBatchData = GetBatchData(tran, ItemCode, ii.DistNumber.ToString());
+
+
+                        #region Record not found in OBTQ
+                        if (OldBatchData.AbsEntry > 0)
+                        {
+                            tbl_OBTN OldBatchInWareHouseData = GetBatchInWareHouseData(tran, OldBatchData, ii.whseno.ToString());
+
+                            AbsEntry = OldBatchData.AbsEntry;
+                            SysNumber = OldBatchData.SysNumber;
+
+                            if (OldBatchInWareHouseData.AbsEntry > 0)
+                            {
+                                string BatchQueryOBTN = @"Update OBTQ set CommitQty = CommitQty +" + (Decimal)(ii.selectqty) + " WHERE AbsEntry = " + OldBatchInWareHouseData.AbsEntry;
+                                
+                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
+                                if (res1 <= 0)
+                                {
+                                    tran.Rollback();
+                                    return false;
+                                }
+
+                            }
+                            else
+                            {
+                                int OBTQAbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTQ");
+                                string InsertInOBTQQuery = @"insert into OBTQ(AbsEntry,ItemCode,SysNumber,WhsCode,Quantity,CommitQty,MdAbsEntry) " +
+                                               "values (" + OBTQAbsEntry + ",'"
+                                               + OldBatchData.ItemCode + "',"
+                                               + SysNumber + ",'"
+                                               + Warehouse + "',"
+                                               + (Decimal)(ii.Quantity) + ","
+                                               + (Decimal)(ii.selectqty) + ","
+                                               + OldBatchData.AbsEntry + ")";
+                            }
+                            decimal Quantity = Convert.ToDecimal(ii.selectqty);
+
+                            bool response = ITL1RequestLog(tran, LogEntry, OldBatchData.ItemCode, OldBatchData.SysNumber, Quantity, OldBatchData.AbsEntry);
+                            if (!response)
+                            {
+                                return false;
+                            }
+
+                        }
+                        else
+                        {
+                            int OBTQAbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTQ");
+                            string InsertBatchQuery = @"insert into OBTN(AbsEntry,ItemCode,SysNumber,DistNumber,Quantity)
+                                                                    values(" + AbsEntry + ",'"
+                                               + ii.itemno + "',"
+                                               + SysNumber + ",'"
+                                               + ii.DistNumber + "',"
+                                               + (Decimal)ii.selectqty + ");" +
+
+                                               " insert into OBTQ(AbsEntry,ItemCode,SysNumber,WhsCode,Quantity,CommitQty,MdAbsEntry) " +
+                                               "values (" + OBTQAbsEntry + ",'"
+                                               + ii.itemno + "',"
+                                               + SysNumber + ",'"
+                                               + Warehouse + "',"
+                                               + (Decimal)(ii.Quantity) + ","
+                                               + (Decimal)(ii.selectqty) + ","
+                                               + AbsEntry + ")";
+
+
+                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, InsertBatchQuery).ToInt();
+                            if (res1 <= 0)
+                            {
+                                tran.Rollback();
+                                return false;
+                            }
+                            decimal Quantity =  Convert.ToDecimal(ii.selectqty);
+                            bool response = ITL1RequestLog(tran, LogEntry, ii.itemno.ToString(), SysNumber, Quantity, AbsEntry);
+                            if (!response)
+                            {
+                                return false;
+                            }
+                        }
+                        #endregion
+
+                    }
+
+                }
+
+            }
+            return true;
         }
     }
 }
