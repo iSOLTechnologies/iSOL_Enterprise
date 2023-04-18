@@ -537,16 +537,18 @@ namespace iSOL_Enterprise.Dal.Business
 
                     if (model.Tabs_AddressesBillTo != null)
                     {
+                        int LineNum = 0;
                         foreach (var item in model.Tabs_AddressesBillTo)
                         {
                             param.Clear();
                              
-                            string BillTo_Query = @"insert into CRD1(id,CardCode,Address,Address2,Address3,Street,Block,City,ZipCode,County,State,Country,StreetNo,Building,GlblLocNum,AdresType) values(@id,@CardCode,@Address,@Address2,@Address3,@Street,@Block,@City,@ZipCode,@County,@State,@Country,@StreetNo,@Building,@GlblLocNum,@AdresType)";
+                            string BillTo_Query = @"insert into CRD1(id,LineNum,CardCode,Address,Address2,Address3,Street,Block,City,ZipCode,County,State,Country,StreetNo,Building,GlblLocNum,AdresType) values(@id,@LineNum,@CardCode,@Address,@Address2,@Address3,@Street,@Block,@City,@ZipCode,@County,@State,@Country,@StreetNo,@Building,@GlblLocNum,@AdresType)";
 
                             #region  Address BillTo
                             //param.Add(cdal.GetParameter("@id", OCPR_Id, typeof(int)));
                             //param.Add(cdal.GetParameter("@CntctCode", model.Tabs_ContactPersons.CntctCode, typeof(int)));
                             param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
+                            param.Add(cdal.GetParameter("@LineNum", LineNum, typeof(int)));
                             param.Add(cdal.GetParameter("@Address", item.Address, typeof(string)));
                             param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(string)));
                             param.Add(cdal.GetParameter("@Address2", item.Address2, typeof(string)));
@@ -572,20 +574,23 @@ namespace iSOL_Enterprise.Dal.Business
                                 return response;
 
                             }
+                            LineNum++;
                         }
                     }
                     if (model.Tabs_AddressesShipTo != null)
                     {
+                        int ship_LineNum = 0;
                         foreach (var item in model.Tabs_AddressesShipTo)
                         {
                             param.Clear();
 
-                            string ShipTo_Query = @"insert into CRD1(id,CardCode,Address,Address2,Address3,Street,Block,City,ZipCode,County,State,Country,StreetNo,Building,GlblLocNum,AdresType) values(@id,@CardCode,@Address,@Address2,@Address3,@Street,@Block,@City,@ZipCode,@County,@State,@Country,@StreetNo,@Building,@GlblLocNum,@AdresType)";
+                            string ShipTo_Query = @"insert into CRD1(id,LineNum,CardCode,Address,Address2,Address3,Street,Block,City,ZipCode,County,State,Country,StreetNo,Building,GlblLocNum,AdresType) values(@id,@LineNum,@CardCode,@Address,@Address2,@Address3,@Street,@Block,@City,@ZipCode,@County,@State,@Country,@StreetNo,@Building,@GlblLocNum,@AdresType)";
 
                             #region  Address BillTo
                             //param.Add(cdal.GetParameter("@id", OCPR_Id, typeof(int)));
                             //param.Add(cdal.GetParameter("@CntctCode", model.Tabs_ContactPersons.CntctCode, typeof(int)));
                             param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
+                            param.Add(cdal.GetParameter("@LineNum", ship_LineNum, typeof(int)));
                             param.Add(cdal.GetParameter("@Address", item.ship_Address, typeof(string)));
                             param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(string)));
                             param.Add(cdal.GetParameter("@Address2", item.ship_Address2, typeof(string)));
@@ -611,6 +616,7 @@ namespace iSOL_Enterprise.Dal.Business
                                 return response;
 
                             }
+                            ship_LineNum++;
                         }
                     }
                      
