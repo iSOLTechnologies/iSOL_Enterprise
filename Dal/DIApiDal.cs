@@ -319,28 +319,37 @@ namespace SAP_MVC_DIAPI.BLC
                                     }
                                 }
                                 #region Updating Table Row as Posted , Add Sap Base Entry
-                                string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = " + docRowModel.DocEntry + ",is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
-                                int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
-                                if (res1 <= 0)
+                                if (docRowModel.DocEntry != null)
+                                {
+                                    string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = " + docRowModel.DocEntry + ",is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
+                                    int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
+                                    if (res1 <= 0)
+                                    {
+                                        tran.Rollback();
+
+                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.isSuccess = true;
+                                        return models;
+                                    }
+
+                                    string UpdateRowTable = @"Update " + rowTable + " set Sap_Ref_No = " + docRowModel.DocEntry + " where Id =" + ID;
+                                    res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateRowTable).ToInt();
+                                    if (res1 <= 0)
+                                    {
+                                        tran.Rollback();
+
+                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.isSuccess = true;
+                                        return models;
+                                    }
+                                }
+                                else
                                 {
                                     tran.Rollback();
-
                                     models.Message = "Document Posted but Error Occured while updating Documnet !";
                                     models.isSuccess = true;
                                     return models;
                                 }
-
-                                string UpdateRowTable = @"Update " + rowTable + " set Sap_Ref_No = " + docRowModel.DocEntry + " where Id =" + ID;
-                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateRowTable).ToInt();
-                                if (res1 <= 0)
-                                {
-                                    tran.Rollback();
-
-                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
-                                    models.isSuccess = true;
-                                    return models;
-                                }
-
                                 #endregion
                                 tran.Commit();
 
@@ -539,6 +548,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 item.Properties[64] = rdr["QryGroup64"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
 
                                 #endregion
+                                
                                 item.UserFields.Fields.Item("U_WBS_ItemNo").Value = ID;
                                 //Set warehouse management properties
 
@@ -591,10 +601,22 @@ namespace SAP_MVC_DIAPI.BLC
 
                                 }
                             }
-                            #region Updating Table Row as Posted , Add Sap Base Entry
-                            string UpdateHeaderTable = @"Update OITM set isPosted = 1,Sap_ItemCode = '" + itemModel.ItemCode + "',is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
-                            int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
-                            if (res1 <= 0)
+                            if (itemModel.ItemCode != null)
+                            {
+                                #region Updating Table Row as Posted , Add Sap Base Entry
+                                string UpdateHeaderTable = @"Update OITM set isPosted = 1,Sap_ItemCode = '" + itemModel.ItemCode + "',is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
+                                int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
+                                if (res1 <= 0)
+                                {
+                                    tran.Rollback();
+
+                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                    models.isSuccess = true;
+                                    return models;
+                                }
+                            #endregion
+                            }
+                            else
                             {
                                 tran.Rollback();
 
@@ -602,10 +624,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 models.isSuccess = true;
                                 return models;
                             }
-                            #endregion
-
                             tran.Commit();
-
                             models.Message = "Item Added Successfully !";
                             models.isSuccess = true;
 
@@ -983,10 +1002,33 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     }
                                 }
-                                #region Updating Table Row as Posted , Add Sap Base Entry
-                                string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = " + docRowModel.DocEntry + ",is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
-                                int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
-                                if (res1 <= 0)
+                                if (docRowModel.DocEntry != null)
+                                {
+                                    #region Updating Table Row as Posted , Add Sap Base Entry
+                                    string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = " + docRowModel.DocEntry + ",is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
+                                    int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
+                                    if (res1 <= 0)
+                                    {
+                                        tran.Rollback();
+
+                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.isSuccess = true;
+                                        return models;
+                                    }
+
+                                    string UpdateRowTable = @"Update " + rowTable + " set Sap_Ref_No = " + docRowModel.DocEntry + " where Id =" + ID;
+                                    res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateRowTable).ToInt();
+                                    if (res1 <= 0)
+                                    {
+                                        tran.Rollback();
+
+                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.isSuccess = true;
+                                        return models;
+                                    }
+                                    #endregion
+                                }
+                                else
                                 {
                                     tran.Rollback();
 
@@ -994,19 +1036,6 @@ namespace SAP_MVC_DIAPI.BLC
                                     models.isSuccess = true;
                                     return models;
                                 }
-
-                                string UpdateRowTable = @"Update " + rowTable + " set Sap_Ref_No = " + docRowModel.DocEntry + " where Id =" + ID;
-                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateRowTable).ToInt();
-                                if (res1 <= 0)
-                                {
-                                    tran.Rollback();
-
-                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
-                                    models.isSuccess = true;
-                                    return models;
-                                }
-
-                                #endregion
                                 tran.Commit();
 
 
@@ -1210,10 +1239,33 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     }
                                 }
-                                #region Updating Table Row as Posted , Add Sap Base Entry
-                                string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = " + docRowModel.DocEntry + ",is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
-                                int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
-                                if (res1 <= 0)
+                                if (docRowModel.DocEntry != null)
+                                {
+                                    #region Updating Table Row as Posted , Add Sap Base Entry
+                                    string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = " + docRowModel.DocEntry + ",is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
+                                    int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
+                                    if (res1 <= 0)
+                                    {
+                                        tran.Rollback();
+
+                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.isSuccess = true;
+                                        return models;
+                                    }
+
+                                    string UpdateRowTable = @"Update " + rowTable + " set Sap_Ref_No = " + docRowModel.DocEntry + " where Id =" + ID;
+                                    res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateRowTable).ToInt();
+                                    if (res1 <= 0)
+                                    {
+                                        tran.Rollback();
+
+                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.isSuccess = true;
+                                        return models;
+                                    }
+                                    #endregion
+                                }
+                                else
                                 {
                                     tran.Rollback();
 
@@ -1222,18 +1274,7 @@ namespace SAP_MVC_DIAPI.BLC
                                     return models;
                                 }
 
-                                string UpdateRowTable = @"Update " + rowTable + " set Sap_Ref_No = " + docRowModel.DocEntry + " where Id =" + ID;
-                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateRowTable).ToInt();
-                                if (res1 <= 0)
-                                {
-                                    tran.Rollback();
 
-                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
-                                    models.isSuccess = true;
-                                    return models;
-                                }
-
-                                #endregion
                                 tran.Commit();
 
 
@@ -1440,10 +1481,34 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     }
                                 }
-                                #region Updating Table Row as Posted , Add Sap Base Entry
-                                string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = " + docRowModel.DocEntry + ",is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
-                                int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
-                                if (res1 <= 0)
+                                if (docRowModel.DocEntry != null)
+                                {
+                                    #region Updating Table Row as Posted , Add Sap Base Entry
+                                    string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = " + docRowModel.DocEntry + ",is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
+                                    int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
+                                    if (res1 <= 0)
+                                    {
+                                        tran.Rollback();
+
+                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.isSuccess = true;
+                                        return models;
+                                    }
+
+                                    string UpdateRowTable = @"Update " + rowTable + " set Sap_Ref_No = " + docRowModel.DocEntry + " where Id =" + ID;
+                                    res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateRowTable).ToInt();
+                                    if (res1 <= 0)
+                                    {
+                                        tran.Rollback();
+
+                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.isSuccess = true;
+                                        return models;
+                                    }
+
+                                    #endregion
+                                }
+                                else
                                 {
                                     tran.Rollback();
 
@@ -1452,18 +1517,7 @@ namespace SAP_MVC_DIAPI.BLC
                                     return models;
                                 }
 
-                                string UpdateRowTable = @"Update " + rowTable + " set Sap_Ref_No = " + docRowModel.DocEntry + " where Id =" + ID;
-                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateRowTable).ToInt();
-                                if (res1 <= 0)
-                                {
-                                    tran.Rollback();
 
-                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
-                                    models.isSuccess = true;
-                                    return models;
-                                }
-
-                                #endregion
                                 tran.Commit();
 
 
@@ -1673,10 +1727,35 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     }
                                 }
-                                #region Updating Table Row as Posted , Add Sap Base Entry
-                                string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = " + docRowModel.DocEntry + ",is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
-                                int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
-                                if (res1 <= 0)
+
+                                if (docRowModel.DocEntry != null)
+                                {
+                                    #region Updating Table Row as Posted , Add Sap Base Entry
+                                    string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = " + docRowModel.DocEntry + ",is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
+                                    int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
+                                    if (res1 <= 0)
+                                    {
+                                        tran.Rollback();
+
+                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.isSuccess = true;
+                                        return models;
+                                    }
+
+                                    string UpdateRowTable = @"Update " + rowTable + " set Sap_Ref_No = " + docRowModel.DocEntry + " where Id =" + ID;
+                                    res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateRowTable).ToInt();
+                                    if (res1 <= 0)
+                                    {
+                                        tran.Rollback();
+
+                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.isSuccess = true;
+                                        return models;
+                                    }
+
+                                    #endregion
+                                }
+                                else
                                 {
                                     tran.Rollback();
 
@@ -1684,19 +1763,6 @@ namespace SAP_MVC_DIAPI.BLC
                                     models.isSuccess = true;
                                     return models;
                                 }
-
-                                string UpdateRowTable = @"Update " + rowTable + " set Sap_Ref_No = " + docRowModel.DocEntry + " where Id =" + ID;
-                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateRowTable).ToInt();
-                                if (res1 <= 0)
-                                {
-                                    tran.Rollback();
-
-                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
-                                    models.isSuccess = true;
-                                    return models;
-                                }
-
-                                #endregion
                                 tran.Commit();
 
 
@@ -1736,6 +1802,296 @@ namespace SAP_MVC_DIAPI.BLC
 
             }
 
+        }
+
+        public ResponseModels PostBusinnesPartner(string[] checkedIDs,int ObjectCode)
+        {
+            ResponseModels models = new ResponseModels();
+            try
+            {
+                if (Connect())
+                {
+                    CommonDal dal = new CommonDal();
+
+                    SAPbobsCOM.BusinessPartners oDoc = (SAPbobsCOM.BusinessPartners)oCompany.GetBusinessObject(BoObjectTypes.oBusinessPartners);
+                    if (oDoc != null)
+                    {
+                        string headerTable = dal.GetMasterTable(ObjectCode);
+                        string rowTable = dal.GetRowTable(ObjectCode);
+                        string message = "";
+
+                        SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                        conn.Open();
+                        SqlTransaction tran = conn.BeginTransaction();
+
+
+
+                        foreach (var ID in checkedIDs)
+                        {
+                            string UDF = "";
+                            bool isOld = false;
+
+                            string headerQuery = @"select Id,Guid,MySeries,CardCode,CardType,Series,CardName,CardFName,GroupCode,Currency,LicTradNum,
+                                            Phone1,CntctPrsn,Phone2,AddID,Cellular,VatIdUnCmp,Fax,RegNum,E_Mail,Notes,IntrntSite,ShipType,SlpCode,Password,Indicator,ProjectCod,ChannlBP,
+                                            IndustryC,DfTcnician,CmpPrivate,Territory,AliasName,GlblLocNum,validFor,validFrom,validTo,frozenFor,frozenFrom,frozenTo,FrozenComm, 
+                                            GroupNum ,Discount,CreditLine,BankCountr,BankCode,DflAccount,DflSwift,DflBranch,BankCtlKey,DflIBAN,MandateID,SignDate,
+                                            QryGroup1, QryGroup2, QryGroup3, QryGroup4, QryGroup5, QryGroup6,QryGroup7,QryGroup8, QryGroup9, QryGroup10, QryGroup11, 
+                                            QryGroup12, QryGroup13, QryGroup14, QryGroup15, QryGroup16, QryGroup17, QryGroup18, QryGroup19, QryGroup20,QryGroup21, QryGroup22,
+                                            QryGroup23, QryGroup24, QryGroup25, QryGroup26, QryGroup27, QryGroup28, QryGroup29, QryGroup30, QryGroup31, QryGroup32, QryGroup33,
+                                            QryGroup34, QryGroup35, QryGroup36, QryGroup37, QryGroup38, QryGroup39, QryGroup40, QryGroup41, QryGroup42, QryGroup43, QryGroup44, QryGroup45, QryGroup46, 
+                                            QryGroup47, QryGroup48, QryGroup49, QryGroup50, QryGroup51, QryGroup52, QryGroup53, QryGroup54, QryGroup55, QryGroup56, QryGroup57, QryGroup58, QryGroup59, 
+                                            QryGroup60, QryGroup61, QryGroup62, QryGroup63, QryGroup64,Sap_ItemCode from OCRD where Id =" + ID;
+                            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
+                            {
+                                try
+                                {
+
+
+                                    while (rdr.Read())
+                                    {
+                                        #region Insert In Header
+                                        isOld = oDoc.GetByKey(rdr["Sap_Ref_No"].ToString());
+
+                                        oDoc.Series = rdr["Series"].ToInt();
+
+                                        oDoc.CardCode = rdr["CardCode"].ToString();
+                                        oDoc.CardName = rdr["CardName"].ToString();
+                                        oDoc.CardForeignName = rdr["CardFName"].ToString();
+                                        oDoc.CardType = rdr["CardCode"].ToString() == "C" ? BoCardTypes.cCustomer : rdr["CardCode"].ToString() == "S" ? BoCardTypes.cSupplier : BoCardTypes.cLid;
+                                        oDoc.GroupCode = rdr["GroupCode"].ToInt();
+                                        oDoc.Currency = rdr["Currency"].ToString();
+                                        oDoc.Phone1 = rdr["Phone1"].ToString();
+                                        oDoc.ContactPerson = rdr["CntctPrsn"].ToString();
+                                        oDoc.Phone2 = rdr["Phone2"].ToString();
+                                        oDoc.AdditionalID = rdr["AddID"].ToString();
+                                        oDoc.Cellular = rdr["Cellular"].ToString();
+                                        oDoc.VatIDNum = rdr["VatIdUnCmp"].ToString();
+                                        oDoc.Fax = rdr["Fax"].ToString();
+                                        oDoc.CompanyRegistrationNumber = rdr["RegNum"].ToString();
+                                        oDoc.EmailAddress = rdr["E_Mail"].ToString();
+                                        oDoc.Notes = rdr["Notes"].ToString();
+                                        oDoc.Website = rdr["IntrntSite"].ToString();
+                                        oDoc.ShippingType = rdr["ShipType"].ToInt();
+                                        oDoc.SalesPersonCode = rdr["SlpCode"].ToInt();
+                                        oDoc.Password = rdr["Password"].ToString();
+                                        oDoc.Indicator = rdr["Indicator"].ToString();
+                                        oDoc.ProjectCode = rdr["ProjectCod"].ToString();
+                                        oDoc.ChannelBP = rdr["ChannlBP"].ToString();
+                                        oDoc.Industry = rdr["IndustryC"].ToInt();
+                                        oDoc.DefaultTechnician = rdr["DfTcnician"].ToInt();
+                                        oDoc.BusinessType = rdr["CmpPrivate"].ToString();
+                                        oDoc.Territory = rdr["Territory"].ToInt();
+                                        oDoc.AliasName = rdr["AliasName"].ToString();
+                                        oDoc.GlobalLocationNumber = rdr["GlblLocNum"].ToString();
+
+                                        if (rdr["validFor"].ToString() == "Y")
+                                        {
+                                            oDoc.ValidFrom = Convert.ToDateTime(rdr["validFrom"]);
+                                            oDoc.ValidTo = Convert.ToDateTime(rdr["validTo"]);
+                                            oDoc.Valid = BoYesNoEnum.tYES;
+                                        }
+                                        else
+                                        {
+                                            oDoc.Frozen = BoYesNoEnum.tYES;
+                                            oDoc.FrozenFrom = Convert.ToDateTime(rdr["frozenFrom"]);
+                                            oDoc.FrozenTo = Convert.ToDateTime(rdr["frozenTo"]);
+                                        }
+                                        oDoc.FrozenRemarks = rdr["FrozenComm"].ToString();
+                                        oDoc.DiscountPercent = rdr["Discount"].ToDouble();
+                                        oDoc.CreditLimit = rdr["CreditLine"].ToDouble();
+                                        oDoc.BankCountry = rdr["BankCountr"].ToString();
+                                        oDoc.DefaultBankCode = rdr["BankCode"].ToString();
+                                        oDoc.DefaultAccount = rdr["DflAccount"].ToString();
+                                        oDoc.BillofExchangeonCollection = rdr["DflSwift"].ToString();
+                                        oDoc.DefaultBranch = rdr["DflBranch"].ToString();
+                                        oDoc.InstructionKey = rdr["BankCtlKey"].ToString();
+                                        oDoc.IBAN = rdr["DflIBAN"].ToString();
+
+
+
+                                        oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
+
+                                            #region Properties
+                                        oDoc.Properties[1] = rdr["QryGroup1"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[2] = rdr["QryGroup2"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[3] = rdr["QryGroup3"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[4] = rdr["QryGroup4"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[5] = rdr["QryGroup5"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[6] = rdr["QryGroup6"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[7] = rdr["QryGroup7"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[8] = rdr["QryGroup8"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[9] = rdr["QryGroup9"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[10] = rdr["QryGroup10"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[11] = rdr["QryGroup11"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[12] = rdr["QryGroup12"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[13] = rdr["QryGroup13"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[14] = rdr["QryGroup14"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[15] = rdr["QryGroup15"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[16] = rdr["QryGroup16"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[17] = rdr["QryGroup17"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[18] = rdr["QryGroup18"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[19] = rdr["QryGroup19"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[20] = rdr["QryGroup20"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[21] = rdr["QryGroup21"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[22] = rdr["QryGroup22"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[23] = rdr["QryGroup23"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[24] = rdr["QryGroup24"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[25] = rdr["QryGroup25"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[26] = rdr["QryGroup26"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[27] = rdr["QryGroup27"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[28] = rdr["QryGroup28"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[29] = rdr["QryGroup29"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[30] = rdr["QryGroup30"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[31] = rdr["QryGroup31"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[32] = rdr["QryGroup32"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[33] = rdr["QryGroup33"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[34] = rdr["QryGroup34"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[35] = rdr["QryGroup35"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[36] = rdr["QryGroup36"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[37] = rdr["QryGroup37"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[38] = rdr["QryGroup38"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[39] = rdr["QryGroup39"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[40] = rdr["QryGroup40"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[41] = rdr["QryGroup41"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[42] = rdr["QryGroup42"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[43] = rdr["QryGroup43"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[44] = rdr["QryGroup44"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[45] = rdr["QryGroup45"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[46] = rdr["QryGroup46"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[47] = rdr["QryGroup47"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[48] = rdr["QryGroup48"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[49] = rdr["QryGroup49"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[50] = rdr["QryGroup50"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[51] = rdr["QryGroup51"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[52] = rdr["QryGroup52"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[53] = rdr["QryGroup53"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[54] = rdr["QryGroup54"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[55] = rdr["QryGroup55"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[56] = rdr["QryGroup56"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[57] = rdr["QryGroup57"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[58] = rdr["QryGroup58"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[59] = rdr["QryGroup59"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[60] = rdr["QryGroup60"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[61] = rdr["QryGroup61"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[62] = rdr["QryGroup62"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[63] = rdr["QryGroup63"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        oDoc.Properties[64] = rdr["QryGroup64"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+
+                                        #endregion
+
+                                        #endregion
+
+                                        #region Insert Contact Persons
+                                        ContactEmployees contactPerson = (ContactEmployees)oDoc.ContactEmployees;
+                                        string ContactPersonsQuery = @"select id,CardCode,Name,FirstName,MiddleName,LastName,Title,Position,Address,Tel1,Tel2,Cellolar,Fax,E_MailL,EmlGrpCode,Pager,Notes1,Notes2,Password,BirthDate,Gender,Profession,BirthCity from OCPR ";
+
+                                        #endregion
+                                    }
+
+
+                                }
+                                catch (Exception e)
+                                {
+                                    models.Message = e.Message;
+                                    models.isSuccess = false;
+                                    return models;
+                                    throw;
+                                }
+                            }
+
+                            #region Posting data to SAP
+                            int res = -1;
+                            if (!isOld)
+                                res = oDoc.Add();
+                            else
+                                res = oDoc.Update();
+
+                            if (res < 0)
+                            {
+
+                                oCompany.GetLastError(out res, out message);
+                                models.Message = message;
+                                models.isSuccess = false;
+                                tran.Rollback();
+                                return models;
+                            }
+                            else
+                            {
+
+                                string getWBSDocNum = @"select DocEntry from " + headerTable + " where U_WBS_DocNum =" + ID;
+                                tbl_docRow docRowModel = new tbl_docRow();
+                                using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, getWBSDocNum))
+                                {
+                                    while (rdr3.Read())
+                                    {
+                                        docRowModel.DocEntry = rdr3["DocEntry"].ToInt();
+
+                                    }
+                                }
+                                #region Updating Table Row as Posted , Add Sap Base Entry
+                                if (docRowModel.DocEntry != null)
+                                {
+
+                                    string UpdateHeaderTable = @"Update OCRD set isPosted = 1,Sap_Ref_No = " + docRowModel.DocEntry + ",is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
+                                    int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
+                                    if (res1 <= 0)
+                                    {
+                                        tran.Rollback();
+
+                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.isSuccess = true;
+                                        return models;
+                                    }
+                                }
+                                else
+                                {
+                                    tran.Rollback();
+
+                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                    models.isSuccess = true;
+                                    return models;
+                                }
+
+
+                                #endregion
+                                tran.Commit();
+
+
+                            }
+                            #endregion
+
+                        }
+
+
+                        models.Message = "Business Partner Posted Successfully !!";
+                        models.isSuccess = true;
+                        return models;
+
+                    }
+                    else
+                    {
+                        models.Message = "Page not Found !!";
+                        models.isSuccess = false;
+                        return models;
+                    }
+
+                }
+                else
+                {
+                    models.Message = "Connection Failure !!";
+                    models.isSuccess = false;
+                    return models;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                models.Message = "An Error Occured";
+                models.isSuccess = false;
+                return models;
+
+            }
         }
         public int DisConnect()
         {
