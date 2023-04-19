@@ -2411,22 +2411,27 @@ input[type=number] {
 
 		function GetCurrencydata() 
 		{
-	
-			$.get("Common/GetCurrencies", function(data) 
-			{
 		
+			$.ajax({
+				url: 'Common/GetCurrencies',
+				type: 'GET',
+				dataType: 'json',
+				async: false,				
+				success: function (data) 
+				{
+					$("#DocCur").html("");
 		
-				$("#DocCur").html("");
-		
-				$("#DocCur").append("<option value=''> Select Currency </option>");
-				$.each(data, function() 
-				{					
-					$("#DocCur").append("<option value=" + this.curr_name + ">" + this.curr_code + "</option>");
+					$("#DocCur").append("<option value=''> Select Currency </option>");
+					$.each(data, function() 
+					{					
+						$("#DocCur").append("<option value=" + this.curr_name + ">" + this.curr_code + "</option>");
 
 				
-				});
-		
+					});
+
+				}
 			});
+
 		} 
 
 

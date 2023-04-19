@@ -2517,9 +2517,8 @@
                         //  console.log(key," : ",value);
                         //if (key == "GroupCode")    {  $("#GroupCode").val(value) }
                          if (key == "Currency")  
-                        {
-                            console.log(key, " : ", value);
-                            $("#DocCur").val("'" + value + "'");
+                        {                            
+                            $("#DocCur").val(value);
                         }
                         else if (key == "Password") 
                         { 
@@ -2569,6 +2568,7 @@
                             $("#City").val(this.City);
                             $("#ZipCode").val(this.ZipCode);
                             $("#County").val(this.County);
+                            console.log(this.State);
                             $("#State").val(this.State);
                             $("#Country").val(this.Country);
                             $("#StreetNo").val(this.StreetNo);
