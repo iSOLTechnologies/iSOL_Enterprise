@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net;
 
 namespace SAP_MVC_DIAPI.BLC
 {
@@ -1816,8 +1817,7 @@ namespace SAP_MVC_DIAPI.BLC
                     SAPbobsCOM.BusinessPartners oDoc = (SAPbobsCOM.BusinessPartners)oCompany.GetBusinessObject(BoObjectTypes.oBusinessPartners);
                     if (oDoc != null)
                     {
-                        string headerTable = dal.GetMasterTable(ObjectCode);
-                        string rowTable = dal.GetRowTable(ObjectCode);
+                        string headerTable = dal.GetMasterTable(ObjectCode);                        
                         string message = "";
 
                         SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
@@ -1911,7 +1911,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
 
-                                            #region Properties
+                                        #region Properties
                                         oDoc.Properties[1] = rdr["QryGroup1"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
                                         oDoc.Properties[2] = rdr["QryGroup2"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
                                         oDoc.Properties[3] = rdr["QryGroup3"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
@@ -1982,9 +1982,110 @@ namespace SAP_MVC_DIAPI.BLC
                                         #endregion
 
                                         #region Insert Contact Persons
-                                        ContactEmployees contactPerson = (ContactEmployees)oDoc.ContactEmployees;
-                                        string ContactPersonsQuery = @"select id,CardCode,Name,FirstName,MiddleName,LastName,Title,Position,Address,Tel1,Tel2,Cellolar,Fax,E_MailL,EmlGrpCode,Pager,Notes1,Notes2,Password,BirthDate,Gender,Profession,BirthCity from OCPR ";
 
+                                        ContactEmployees contactPerson = (ContactEmployees)oDoc.ContactEmployees;
+
+                                        string ContactPersonsQuery = @"select id,CardCode,Name,FirstName,MiddleName,LastName,Title,Position,Address,Tel1,Tel2,Cellolar,Fax,E_MailL,EmlGrpCode,
+                                                                       Pager,Notes1,Notes2,Password,BirthDate,Gender,Profession,BirthCity from OCPR where CardCode =" + rdr["CardCode"].ToString() + "'";
+
+                                        using (var rdr1 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, ContactPersonsQuery))
+                                        {
+                                            while (rdr1.Read())
+                                            {
+                                                contactPerson.Name = rdr["Name"].ToString();
+                                                contactPerson.FirstName = rdr["FirstName"].ToString();
+                                                contactPerson.MiddleName = rdr["MiddleName"].ToString();
+                                                contactPerson.LastName = rdr["LastName"].ToString();
+                                                contactPerson.Title = rdr["Title"].ToString();
+                                                contactPerson.Position = rdr["Position"].ToString();
+                                                contactPerson.Address = rdr["Address"].ToString();
+                                                contactPerson.Phone1 = rdr["Tel1"].ToString();
+                                                contactPerson.Phone2 = rdr["Tel2"].ToString();
+                                                contactPerson.MobilePhone = rdr["Cellolar"].ToString();
+                                                contactPerson.Fax = rdr["Fax"].ToString();
+                                                contactPerson.E_Mail = rdr["E_MailL"].ToString();
+                                                contactPerson.EmailGroupCode = rdr["EmlGrpCode"].ToString();
+                                                contactPerson.Pager = rdr["Pager"].ToString();
+                                                contactPerson.Remarks1 = rdr["Notes1"].ToString();
+                                                contactPerson.Remarks2 = rdr["Notes2"].ToString();
+                                                contactPerson.Password = rdr["Password"].ToString();
+                                                if (rdr["BirthDate"].ToString() != "")
+                                                    contactPerson.DateOfBirth = Convert.ToDateTime(rdr["BirthDate"]);
+                                                contactPerson.Gender = rdr["Gender"].ToString() == "M" ? BoGenderTypes.gt_Male : rdr["Gender"].ToString() == "F" ? BoGenderTypes.gt_Female : BoGenderTypes.gt_Undefined;
+                                                contactPerson.Profession = rdr["Profession"].ToString();
+                                                contactPerson.CityOfBirth = rdr["BirthCity"].ToString();
+
+                                                contactPerson.Add();
+
+                                            }
+
+
+                                        }
+
+                                        #endregion
+
+                                        #region Address Bill To
+
+                                        SAPbobsCOM.BPAddresses billtoAddress = (BPAddresses)oDoc.Addresses;
+                                        string BillToAddressQuery = @"id,LineNum,CardCode,Address,Address2,Address3,Street,Block,City,ZipCode,County,State,Country,StreetNo,
+                                                                      Building,GlblLocNum,AdresType where id =" + ID + " and AdresType ='B'";
+
+                                        using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BillToAddressQuery))
+                                        {
+                                            while (rdr2.Read())
+                                            {
+
+                                                billtoAddress.AddressType = BoAddressType.bo_BillTo;
+                                                billtoAddress.AddressName = rdr["Address"].ToString();
+                                                billtoAddress.AddressName2 = rdr["Address2"].ToString();
+                                                billtoAddress.AddressName3 = rdr["Address3"].ToString();
+                                                billtoAddress.Street = rdr["Street"].ToString();
+                                                billtoAddress.Block = rdr["Block"].ToString();
+                                                billtoAddress.City = rdr["City"].ToString();
+                                                billtoAddress.ZipCode = rdr["ZipCode"].ToString();
+                                                billtoAddress.County = rdr["County"].ToString();
+                                                billtoAddress.State = rdr["State"].ToString();
+                                                billtoAddress.Country = rdr["Country"].ToString();
+                                                billtoAddress.StreetNo = rdr["StreetNo"].ToString();
+                                                billtoAddress.BuildingFloorRoom = rdr["Building"].ToString();
+                                                billtoAddress.GlobalLocationNumber = rdr["GlblLocNum"].ToString();
+                                        
+                                        
+                                                billtoAddress.Add();
+                                            }
+                                        }
+                                        #endregion
+
+                                        #region Address Shipp To
+
+                                        SAPbobsCOM.BPAddresses ShiptoAddress = (BPAddresses)oDoc.Addresses;
+                                        string ShipToAddressQuery = @"id,LineNum,CardCode,Address,Address2,Address3,Street,Block,City,ZipCode,County,State,Country,StreetNo,
+                                                                      Building,GlblLocNum,AdresType where id =" + ID + " and AdresType ='S'";
+
+                                        using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, ShipToAddressQuery))
+                                        {
+                                            while (rdr3.Read())
+                                            {
+
+                                                ShiptoAddress.AddressType = BoAddressType.bo_ShipTo;
+                                                ShiptoAddress.AddressName = rdr["Address"].ToString();
+                                                ShiptoAddress.AddressName2 = rdr["Address2"].ToString();
+                                                ShiptoAddress.AddressName3 = rdr["Address3"].ToString();
+                                                ShiptoAddress.Street = rdr["Street"].ToString();
+                                                ShiptoAddress.Block = rdr["Block"].ToString();
+                                                ShiptoAddress.City = rdr["City"].ToString();
+                                                ShiptoAddress.ZipCode = rdr["ZipCode"].ToString();
+                                                ShiptoAddress.County = rdr["County"].ToString();
+                                                ShiptoAddress.State = rdr["State"].ToString();
+                                                ShiptoAddress.Country = rdr["Country"].ToString();
+                                                ShiptoAddress.StreetNo = rdr["StreetNo"].ToString();
+                                                ShiptoAddress.BuildingFloorRoom = rdr["Building"].ToString();
+                                                ShiptoAddress.GlobalLocationNumber = rdr["GlblLocNum"].ToString();
+
+
+                                                ShiptoAddress.Add();
+                                            }
+                                        }
                                         #endregion
                                     }
 

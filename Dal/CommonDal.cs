@@ -587,6 +587,9 @@ where s.Status=1 and p.Guid=@Guid";
                 case 1250000001: //Inventory Transfer Request
                 table = "OWTQ";
                 break;
+                case 2: //Business Partner 
+                table = "OCRD";
+                break;
                 default:
                 return table;
             }

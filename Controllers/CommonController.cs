@@ -133,6 +133,15 @@ namespace iSOL_Enterprise.Controllers
 
             return Json(new { success = model.isSuccess, message = model.Message });
         }
+        [HttpPost]
+        public IActionResult PostBusinnesPartner(string[] checkedIDs)
+        {
+            DIApiDal dal = new DIApiDal();
+            ResponseModels model = new ResponseModels();
+            model = dal.PostBusinnesPartner(checkedIDs, 2);
+
+            return Json(new { success = model.isSuccess, message = model.Message });
+        }
         [HttpGet]
         public IActionResult GetCountries()
         {

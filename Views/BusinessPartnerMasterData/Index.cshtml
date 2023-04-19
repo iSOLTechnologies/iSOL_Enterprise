@@ -216,7 +216,7 @@
         });
         if (checkedIDs.length > 0) {
 
-            $.post("Common/PostToSap", { checkedIDs: checkedIDs, ObjectCode: 20 }, function (response) {
+            $.post("Common/PostBusinnesPartner", { checkedIDs: checkedIDs}, function (response) {
                 if (response.success) {
                     $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                     $("#btnPostToSap").attr('disabled', false);

@@ -521,6 +521,7 @@ namespace iSOL_Enterprise.Dal.Business
                         param.Add(cdal.GetParameter("@Profession", item.Profession, typeof(string)));
                         param.Add(cdal.GetParameter("@BirthCity", item.BirthCity, typeof(string)));
                             #endregion
+                            
                             res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, OCPR_Query, param.ToArray()).ToInt();
                             if (res1 <= 0)
                             {
