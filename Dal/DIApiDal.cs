@@ -319,9 +319,17 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     }
                                 }
-                                #region Updating Table Row as Posted , Add Sap Base Entry
-                                if (docRowModel.DocEntry != null)
+                                
+                                if (docRowModel.DocEntry == null || docRowModel.DocEntry.ToString() == "")
                                 {
+                                    string getWBSDocNumApprvl = @"select DocEntry from ODRF where U_WBS_DocNum =" + ID + " and ElCoStatus=1 and ObjType="+ObjectCode;
+                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(tran,CommandType.Text,getWBSDocNumApprvl).ToInt();
+                                }
+                                if (docRowModel.DocEntry !=null)
+                                {
+
+                                #region Updating Table Row as Posted , Add Sap Base Entry
+                                    
                                     string UpdateHeaderTable = @"Update " + headerTable + " set isPosted = 1,Sap_Ref_No = " + docRowModel.DocEntry + ",is_Edited = 0  where Id =" + ID;    //For Updating master table row as this data is posted to SAP
                                     int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateHeaderTable).ToInt();
                                     if (res1 <= 0)
@@ -339,19 +347,20 @@ namespace SAP_MVC_DIAPI.BLC
                                     {
                                         tran.Rollback();
 
-                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
                                         return models;
                                     }
+                                    #endregion
                                 }
                                 else
                                 {
                                     tran.Rollback();
-                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
+
+                                    models.Message = "Document Posted but Error Occured while updating Document !";
                                     models.isSuccess = true;
                                     return models;
                                 }
-                                #endregion
                                 tran.Commit();
 
 
@@ -840,7 +849,6 @@ namespace SAP_MVC_DIAPI.BLC
 
         }
 
-
         public ResponseModels PostGoodReceiptGR(string[] checkedIDs, int ObjectCode)
         {
             ResponseModels models = new ResponseModels();
@@ -1003,6 +1011,11 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     }
                                 }
+                                if (docRowModel.DocEntry == null || docRowModel.DocEntry.ToString() == "")
+                                {
+                                    string getWBSDocNumApprvl = @"select DocEntry from ODRF where U_WBS_DocNum =" + ID + " and ElCoStatus=1 and ObjType=" + ObjectCode;
+                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(tran, CommandType.Text, getWBSDocNumApprvl).ToInt();
+                                }
                                 if (docRowModel.DocEntry != null)
                                 {
                                     #region Updating Table Row as Posted , Add Sap Base Entry
@@ -1012,7 +1025,7 @@ namespace SAP_MVC_DIAPI.BLC
                                     {
                                         tran.Rollback();
 
-                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
                                         return models;
                                     }
@@ -1023,7 +1036,7 @@ namespace SAP_MVC_DIAPI.BLC
                                     {
                                         tran.Rollback();
 
-                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
                                         return models;
                                     }
@@ -1033,7 +1046,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 {
                                     tran.Rollback();
 
-                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                    models.Message = "Document Posted but Error Occured while updating Document !";
                                     models.isSuccess = true;
                                     return models;
                                 }
@@ -1240,6 +1253,11 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     }
                                 }
+                                if (docRowModel.DocEntry == null || docRowModel.DocEntry.ToString() == "")
+                                {
+                                    string getWBSDocNumApprvl = @"select DocEntry from ODRF where U_WBS_DocNum =" + ID + " and ElCoStatus=1 and ObjType=" + ObjectCode;
+                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(tran, CommandType.Text, getWBSDocNumApprvl).ToInt();
+                                }
                                 if (docRowModel.DocEntry != null)
                                 {
                                     #region Updating Table Row as Posted , Add Sap Base Entry
@@ -1249,7 +1267,7 @@ namespace SAP_MVC_DIAPI.BLC
                                     {
                                         tran.Rollback();
 
-                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
                                         return models;
                                     }
@@ -1260,7 +1278,7 @@ namespace SAP_MVC_DIAPI.BLC
                                     {
                                         tran.Rollback();
 
-                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
                                         return models;
                                     }
@@ -1270,7 +1288,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 {
                                     tran.Rollback();
 
-                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                    models.Message = "Document Posted but Error Occured while updating Document !";
                                     models.isSuccess = true;
                                     return models;
                                 }
@@ -1482,6 +1500,11 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     }
                                 }
+                                if (docRowModel.DocEntry == null || docRowModel.DocEntry.ToString() == "")
+                                {
+                                    string getWBSDocNumApprvl = @"select DocEntry from ODRF where U_WBS_DocNum =" + ID + " and ElCoStatus=1 and ObjType=" + ObjectCode;
+                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(tran, CommandType.Text, getWBSDocNumApprvl).ToInt();
+                                }
                                 if (docRowModel.DocEntry != null)
                                 {
                                     #region Updating Table Row as Posted , Add Sap Base Entry
@@ -1491,7 +1514,7 @@ namespace SAP_MVC_DIAPI.BLC
                                     {
                                         tran.Rollback();
 
-                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
                                         return models;
                                     }
@@ -1502,7 +1525,7 @@ namespace SAP_MVC_DIAPI.BLC
                                     {
                                         tran.Rollback();
 
-                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
                                         return models;
                                     }
@@ -1513,7 +1536,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 {
                                     tran.Rollback();
 
-                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                    models.Message = "Document Posted but Error Occured while updating Document !";
                                     models.isSuccess = true;
                                     return models;
                                 }
@@ -1728,7 +1751,11 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     }
                                 }
-
+                                if (docRowModel.DocEntry == null || docRowModel.DocEntry.ToString() == "")
+                                {
+                                    string getWBSDocNumApprvl = @"select DocEntry from ODRF where U_WBS_DocNum =" + ID + " and ElCoStatus=1 and ObjType=" + ObjectCode;
+                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(tran, CommandType.Text, getWBSDocNumApprvl).ToInt();
+                                }
                                 if (docRowModel.DocEntry != null)
                                 {
                                     #region Updating Table Row as Posted , Add Sap Base Entry
@@ -1738,7 +1765,7 @@ namespace SAP_MVC_DIAPI.BLC
                                     {
                                         tran.Rollback();
 
-                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
                                         return models;
                                     }
@@ -1749,7 +1776,7 @@ namespace SAP_MVC_DIAPI.BLC
                                     {
                                         tran.Rollback();
 
-                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
                                         return models;
                                     }
@@ -1760,7 +1787,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 {
                                     tran.Rollback();
 
-                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                    models.Message = "Document Posted but Error Occured while updating Document !";
                                     models.isSuccess = true;
                                     return models;
                                 }
@@ -2129,6 +2156,11 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     }
                                 }
+                                if (docRowModel.DocEntry == null || docRowModel.DocEntry.ToString() == "")
+                                {
+                                    string getWBSDocNumApprvl = @"select DocEntry from ODRF where U_WBS_DocNum =" + ID + " and ElCoStatus=1 and ObjType=" + ObjectCode;
+                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(tran, CommandType.Text, getWBSDocNumApprvl).ToInt();
+                                }
                                 #region Updating Table Row as Posted , Add Sap Base Entry
                                 if (docRowModel.DocEntry != null)
                                 {
@@ -2139,7 +2171,7 @@ namespace SAP_MVC_DIAPI.BLC
                                     {
                                         tran.Rollback();
 
-                                        models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                        models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
                                         return models;
                                     }
@@ -2148,7 +2180,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 {
                                     tran.Rollback();
 
-                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                    models.Message = "Document Posted but Error Occured while updating Document !";
                                     models.isSuccess = true;
                                     return models;
                                 }
