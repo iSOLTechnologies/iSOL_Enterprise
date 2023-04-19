@@ -1,6 +1,7 @@
 ﻿using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Dal.Business;
 using iSOL_Enterprise.Dal.Inventory;
+using iSOL_Enterprise.Dal.Inventory_Transactions;
 using iSOL_Enterprise.Dal.Purchase;
 using iSOL_Enterprise.Dal.Sale;
 using iSOL_Enterprise.Models;
@@ -62,7 +63,29 @@ namespace iSOL_Enterprise.Controllers.Business
                 return Json(ex.Message);
             }
         }
-        public IActionResult BusinessPartnerMasterDataMaster()
+        public IActionResult GetOldData(string guid)
+        {
+            try
+            {
+                BusinessPartnerMasterDataDal dal = new BusinessPartnerMasterDataDal();
+                int id = dal.GetId(guid);
+                string? CardCode = dal.GetCardCode(guid);
+                return Json(new
+                {
+                    success = true,
+                    GetHeader_General_PaymentTerms_Properties_Remarks = dal.GetHeaderGeneralPaymentTermsPropertiesRemarks(guid),
+                    Get_ContactPersons = dal.Get_ContactPersons(CardCode),
+                    Get_Addresses = dal.Get_Addresses(id)
+                });
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public IActionResult BusinessPartnerMasterDataMaster(string id = "0")
         {
             AdministratorDal addal = new AdministratorDal();
             BusinessPartnerMasterDataDal dal = new BusinessPartnerMasterDataDal();
@@ -80,6 +103,15 @@ namespace iSOL_Enterprise.Controllers.Business
             ViewData["Technician"] = new SelectList(dal.GetTechnicians(), "Value", "Text"); 
             ViewData["Territory"] = new SelectList(dal.GetTerritories(), "Value", "Text");
             ViewData["properties"] = dal.GetProperties();
+            if (id != "0")
+            {
+                ViewBag.OldId = id;
+            }
+            else
+            {
+                ViewBag.OldId = "0";
+
+            }
             return View();
         }
         [HttpPost]

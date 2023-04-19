@@ -5,11 +5,13 @@ using iSOL_Enterprise.Models.sale;
 using Newtonsoft.Json;
 using SAPbobsCOM;
 using SqlHelperExtensions;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics.Metrics;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Reflection.Emit;
 
 namespace iSOL_Enterprise.Dal.Business
@@ -49,9 +51,9 @@ namespace iSOL_Enterprise.Dal.Business
                 {
 
                     SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
-                   // models.DocStatus = CommonDal.Check_IsNotEditable("PDN1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
+                    // models.DocStatus = CommonDal.Check_IsNotEditable("PDN1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
                     models.DocStatus = "Open";
-                    models.Id = rdr["Id"].ToInt();  
+                    models.Id = rdr["Id"].ToInt();
                     models.CardCode = rdr["CardCode"].ToString();
                     models.CardName = rdr["CardName"].ToString();
                     models.Guid = rdr["Guid"].ToString();
@@ -64,7 +66,7 @@ namespace iSOL_Enterprise.Dal.Business
 
 
         public List<tbl_OSLP> GetEmailGroup()
-        { 
+        {
             string GetQuery = "select EmlGrpCode,EmlGrpName From OEGP";
 
 
@@ -87,7 +89,7 @@ namespace iSOL_Enterprise.Dal.Business
             return list;
         }
         public List<tbl_OSLP> GetStateCode()
-        { 
+        {
             string GetQuery = "select Code,[Name] From OCST";
 
 
@@ -99,7 +101,7 @@ namespace iSOL_Enterprise.Dal.Business
 
                     list.Add(
                         new tbl_OSLP()
-                        { 
+                        {
                             Code = rdr["Code"].ToString(),
                             SlpName = rdr["Name"].ToString()
                         });
@@ -197,7 +199,7 @@ namespace iSOL_Enterprise.Dal.Business
                     list.Add(new ListModel()
                     {
                         Value = rdr["IndCode"].ToInt(),
-                        Text = rdr["IndName"].ToString() 
+                        Text = rdr["IndName"].ToString()
 
                     });
                 }
@@ -216,7 +218,7 @@ namespace iSOL_Enterprise.Dal.Business
                     list.Add(new ListModel()
                     {
                         Value = rdr["empID"].ToInt(),
-                        Text = rdr["LastName"].ToString() +" "+ rdr["firstName"].ToString()
+                        Text = rdr["LastName"].ToString() + " " + rdr["firstName"].ToString()
 
                     });
                 }
@@ -235,7 +237,7 @@ namespace iSOL_Enterprise.Dal.Business
                     list.Add(new ListModel()
                     {
                         Value = rdr["territryID"].ToInt(),
-                        Text = rdr["descript"].ToString() 
+                        Text = rdr["descript"].ToString()
 
                     });
                 }
@@ -265,12 +267,84 @@ namespace iSOL_Enterprise.Dal.Business
 
 
 
+        public int GetId(string guid)
+        {
+            return Convert.ToInt32(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select Id from OCRD where GUID ='" + guid.ToString() + "'"));
+
+        }
+        public string? GetCardCode(string guid)
+        {
+            return SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select CardCode from OCRD where GUID ='" + guid.ToString() + "'").ToString();
+
+        }
 
 
+        public dynamic GetHeaderGeneralPaymentTermsPropertiesRemarks(string guid)
+        {
+            try
+            {
+
+                DataSet ds = new DataSet();
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                string headerQuery = @"select * From OCRD where [GUID] ='" + guid + "'";
+                SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
+                sda.Fill(ds);
+                string JSONString = string.Empty;
+                JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
+                return JSONString;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
 
 
+        public dynamic Get_Addresses(int id)
+        {
+            try
+            {
+
+                DataSet ds = new DataSet();
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                string headerQuery = @"select * From CRD1 where id = " + id;
+                SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
+                sda.Fill(ds);
+                string JSONString = string.Empty;
+                JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
+                return JSONString;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
 
 
+        public dynamic Get_ContactPersons(string CardCode)
+        {
+            try
+            {
+                DataSet ds = new DataSet();
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                string headerQuery = @"select * From OCPR where CardCode  ='" + CardCode + "'";
+                SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
+                sda.Fill(ds);
+                string JSONString = string.Empty;
+                JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
+                return JSONString;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
 
         public ResponseModels AddBusinessMasterData(string formData)
         {
@@ -325,8 +399,8 @@ namespace iSOL_Enterprise.Dal.Business
                     string TabPaymentTerms = "GroupNum ,Discount,CreditLine,BankCountr,BankCode,DflAccount,DflSwift,DflBranch,BankCtlKey,DflIBAN,MandateID,SignDate";
                     string TabProperties = "QryGroup1,QryGroup2,QryGroup3,QryGroup4,QryGroup5,QryGroup6,QryGroup7,QryGroup8,QryGroup9,QryGroup10,QryGroup11,QryGroup12,QryGroup13,QryGroup14,QryGroup15,QryGroup16,QryGroup17,QryGroup18,QryGroup19,QryGroup20,QryGroup21,QryGroup22,QryGroup23,QryGroup24,QryGroup25,QryGroup26,QryGroup27,QryGroup28,QryGroup29,QryGroup30,QryGroup31,QryGroup32,QryGroup33,QryGroup34,QryGroup35,QryGroup36,QryGroup37,QryGroup38,QryGroup39,QryGroup40,QryGroup41,QryGroup42,QryGroup43,QryGroup44,QryGroup45,QryGroup46,QryGroup47,QryGroup48,QryGroup49,QryGroup50,QryGroup51,QryGroup52,QryGroup53,QryGroup54,QryGroup55,QryGroup56,QryGroup57,QryGroup58,QryGroup59,QryGroup60,QryGroup61,QryGroup62,QryGroup63,QryGroup64";
                     string TabRemarks = "Free_Text";
-                    
-                    string HeadQuery = @"insert into OCRD ("+TabHeader+","+TabGeneral+","+TabPaymentTerms+ ","+TabProperties+ ","+ TabRemarks + ") " +
+
+                    string HeadQuery = @"insert into OCRD (" + TabHeader + "," + TabGeneral + "," + TabPaymentTerms + "," + TabProperties + "," + TabRemarks + ") " +
                                         "values(@Id,@Guid,@MySeries,@CardCode,@CardType,@Series,@CardName,@CardFName,@GroupCode,@Currency,@LicTradNum,@Phone1,@CntctPrsn,@Phone2,@AddID,@Cellular,@VatIdUnCmp,@Fax,@RegNum,@E_Mail,@Notes,@IntrntSite,@ShipType,@SlpCode,@Password,@Indicator,@ProjectCod,@ChannlBP,@IndustryC,@DfTcnician,@CmpPrivate,@Territory,@AliasName,@GlblLocNum,@validFor,@validFrom,@validTo,@frozenFor,@frozenFrom,@frozenTo,@FrozenComm,@GroupNum ,@Discount,@CreditLine,@BankCountr,@BankCode,@DflAccount,@DflSwift,@DflBranch,@BankCtlKey,@DflIBAN,@MandateID,@SignDate,@QryGroup1,@QryGroup2,@QryGroup3,@QryGroup4,@QryGroup5,@QryGroup6,@QryGroup7,@QryGroup8,@QryGroup9,@QryGroup10,@QryGroup11,@QryGroup12,@QryGroup13,@QryGroup14,@QryGroup15,@QryGroup16,@QryGroup17,@QryGroup18,@QryGroup19,@QryGroup20,@QryGroup21,@QryGroup22,@QryGroup23,@QryGroup24,@QryGroup25,@QryGroup26,@QryGroup27,@QryGroup28,@QryGroup29,@QryGroup30,@QryGroup31,@QryGroup32,@QryGroup33,@QryGroup34,@QryGroup35,@QryGroup36,@QryGroup37,@QryGroup38,@QryGroup39,@QryGroup40,@QryGroup41,@QryGroup42,@QryGroup43,@QryGroup44,@QryGroup45,@QryGroup46,@QryGroup47,@QryGroup48,@QryGroup49,@QryGroup50,@QryGroup51,@QryGroup52,@QryGroup53,@QryGroup54,@QryGroup55,@QryGroup56,@QryGroup57,@QryGroup58,@QryGroup59,@QryGroup60,@QryGroup61,@QryGroup62,@QryGroup63,@QryGroup64,@Free_Text)";
 
 
@@ -334,66 +408,66 @@ namespace iSOL_Enterprise.Dal.Business
                     #region SqlParameters
 
                     #region Header data
-                    param.Add(cdal.GetParameter("@MySeries" , model.HeaderData.MySeries, typeof(string)));
-                    param.Add(cdal.GetParameter("@CardCode" , model.HeaderData.CardCode, typeof(string)));
-                    param.Add(cdal.GetParameter("@CardType" , model.HeaderData.CardType, typeof(string)));
-                    param.Add(cdal.GetParameter("@Series" , model.HeaderData.Series,     typeof(string)));
-                    param.Add(cdal.GetParameter("@CardName" , model.HeaderData.CardName, typeof(string)));
-                    param.Add(cdal.GetParameter("@CardFName" , model.HeaderData.CardFName, typeof(string)));
-                    param.Add(cdal.GetParameter("@GroupCode" , model.HeaderData.GroupCode, typeof(int)));
-                    param.Add(cdal.GetParameter("@Currency", model.HeaderData.Currency,    typeof(string)));
+                    param.Add(cdal.GetParameter("@MySeries", model.HeaderData.MySeries, typeof(string)));
+                    param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(string)));
+                    param.Add(cdal.GetParameter("@CardType", model.HeaderData.CardType, typeof(string)));
+                    param.Add(cdal.GetParameter("@Series", model.HeaderData.Series, typeof(string)));
+                    param.Add(cdal.GetParameter("@CardName", model.HeaderData.CardName, typeof(string)));
+                    param.Add(cdal.GetParameter("@CardFName", model.HeaderData.CardFName, typeof(string)));
+                    param.Add(cdal.GetParameter("@GroupCode", model.HeaderData.GroupCode, typeof(int)));
+                    param.Add(cdal.GetParameter("@Currency", model.HeaderData.DocCur, typeof(string)));
                     param.Add(cdal.GetParameter("@LicTradNum", model.HeaderData.LicTradNum, typeof(string)));
                     #endregion
 
 
                     #region General data
-                        param.Add(cdal.GetParameter("@Phone1", model.Tabs_General.Phone1, typeof(string))); 
-                        param.Add(cdal.GetParameter("@CntctPrsn", model.Tabs_General.CntctPrsn, typeof(string))); 
-                        param.Add(cdal.GetParameter("@Phone2", model.Tabs_General.Phone2, typeof(string)));
-                        param.Add(cdal.GetParameter("@AddID", model.Tabs_General.AddID, typeof(string)));
-                        param.Add(cdal.GetParameter("@Cellular", model.Tabs_General.Cellular, typeof(string)));
-                        param.Add(cdal.GetParameter("@VatIdUnCmp", model.Tabs_General.VatIdUnCmp, typeof(string)));
-                        param.Add(cdal.GetParameter("@Fax", model.Tabs_General.Fax_H, typeof(string)));
-                        param.Add(cdal.GetParameter("@RegNum", model.Tabs_General.RegNum, typeof(string)));
-                        param.Add(cdal.GetParameter("@E_Mail", model.Tabs_General.E_Mail, typeof(string)));
-                        param.Add(cdal.GetParameter("@Notes", model.Tabs_General.Notes, typeof(string)));
-                        param.Add(cdal.GetParameter("@IntrntSite", model.Tabs_General.IntrntSite, typeof(string)));
-                        param.Add(cdal.GetParameter("@ShipType", model.Tabs_General.ShipType, typeof(int)));
-                        param.Add(cdal.GetParameter("@SlpCode", model.Tabs_General.SlpCode, typeof(int)));
-                        param.Add(cdal.GetParameter("@Password", model.Tabs_General.General_Password, typeof(string)));
-                        param.Add(cdal.GetParameter("@Indicator", model.Tabs_General.Indicator, typeof(string)));
-                        //param.Add(cdal.GetParameter("@Name", model.Tabs_General.Name, typeof(string)));
-                        param.Add(cdal.GetParameter("@ProjectCod", model.Tabs_General.ProjectCod, typeof(string)));
-                        param.Add(cdal.GetParameter("@ChannlBP", model.Tabs_General.ChannlBP, typeof(string)));
-                        param.Add(cdal.GetParameter("@IndustryC", model.Tabs_General.IndustryC, typeof(int)));
-                        param.Add(cdal.GetParameter("@DfTcnician", model.Tabs_General.DfTcnician, typeof(int)));
-                        param.Add(cdal.GetParameter("@CmpPrivate", model.Tabs_General.CmpPrivate, typeof(string)));
-                        param.Add(cdal.GetParameter("@Territory", model.Tabs_General.Territory, typeof(int)));
-                        param.Add(cdal.GetParameter("@AliasName", model.Tabs_General.AliasName, typeof(string)));
-                        param.Add(cdal.GetParameter("@GlblLocNum", model.Tabs_General.General_GlblLocNum, typeof(string)));
-                        param.Add(cdal.GetParameter("@validFor", model.Tabs_General.validFor, typeof(string)));
-                        param.Add(cdal.GetParameter("@validFrom", model.Tabs_General.validFrom, typeof(DateTime)));
-                        param.Add(cdal.GetParameter("@validTo", model.Tabs_General.validTo, typeof(DateTime)));
-                        param.Add(cdal.GetParameter("@frozenFor", model.Tabs_General.frozenFor, typeof(string)));
-                        param.Add(cdal.GetParameter("@frozenFrom", model.Tabs_General.frozenFrom, typeof(DateTime)));
-                        param.Add(cdal.GetParameter("@frozenTo", model.Tabs_General.frozenTo, typeof(DateTime)));
-                        param.Add(cdal.GetParameter("@FrozenComm", model.Tabs_General.FrozenComm, typeof(string)));
+                    param.Add(cdal.GetParameter("@Phone1", model.Tabs_General.Phone1, typeof(string)));
+                    param.Add(cdal.GetParameter("@CntctPrsn", model.Tabs_General.CntctPrsn, typeof(string)));
+                    param.Add(cdal.GetParameter("@Phone2", model.Tabs_General.Phone2, typeof(string)));
+                    param.Add(cdal.GetParameter("@AddID", model.Tabs_General.AddID, typeof(string)));
+                    param.Add(cdal.GetParameter("@Cellular", model.Tabs_General.Cellular, typeof(string)));
+                    param.Add(cdal.GetParameter("@VatIdUnCmp", model.Tabs_General.VatIdUnCmp, typeof(string)));
+                    param.Add(cdal.GetParameter("@Fax", model.Tabs_General.Fax_H, typeof(string)));
+                    param.Add(cdal.GetParameter("@RegNum", model.Tabs_General.RegNum, typeof(string)));
+                    param.Add(cdal.GetParameter("@E_Mail", model.Tabs_General.E_Mail, typeof(string)));
+                    param.Add(cdal.GetParameter("@Notes", model.Tabs_General.Notes, typeof(string)));
+                    param.Add(cdal.GetParameter("@IntrntSite", model.Tabs_General.IntrntSite, typeof(string)));
+                    param.Add(cdal.GetParameter("@ShipType", model.Tabs_General.ShipType, typeof(int)));
+                    param.Add(cdal.GetParameter("@SlpCode", model.Tabs_General.SlpCode, typeof(int)));
+                    param.Add(cdal.GetParameter("@Password", model.Tabs_General.General_Password, typeof(string)));
+                    param.Add(cdal.GetParameter("@Indicator", model.Tabs_General.Indicator, typeof(string)));
+                    //param.Add(cdal.GetParameter("@Name", model.Tabs_General.Name, typeof(string)));
+                    param.Add(cdal.GetParameter("@ProjectCod", model.Tabs_General.ProjectCod, typeof(string)));
+                    param.Add(cdal.GetParameter("@ChannlBP", model.Tabs_General.ChannlBP, typeof(string)));
+                    param.Add(cdal.GetParameter("@IndustryC", model.Tabs_General.IndustryC, typeof(int)));
+                    param.Add(cdal.GetParameter("@DfTcnician", model.Tabs_General.DfTcnician, typeof(int)));
+                    param.Add(cdal.GetParameter("@CmpPrivate", model.Tabs_General.CmpPrivate, typeof(string)));
+                    param.Add(cdal.GetParameter("@Territory", model.Tabs_General.Territory, typeof(int)));
+                    param.Add(cdal.GetParameter("@AliasName", model.Tabs_General.AliasName, typeof(string)));
+                    param.Add(cdal.GetParameter("@GlblLocNum", model.Tabs_General.General_GlblLocNum, typeof(string)));
+                    param.Add(cdal.GetParameter("@validFor", model.Tabs_General.validFor, typeof(string)));
+                    param.Add(cdal.GetParameter("@validFrom", model.Tabs_General.validFrom, typeof(DateTime)));
+                    param.Add(cdal.GetParameter("@validTo", model.Tabs_General.validTo, typeof(DateTime)));
+                    param.Add(cdal.GetParameter("@frozenFor", model.Tabs_General.frozenFor, typeof(string)));
+                    param.Add(cdal.GetParameter("@frozenFrom", model.Tabs_General.frozenFrom, typeof(DateTime)));
+                    param.Add(cdal.GetParameter("@frozenTo", model.Tabs_General.frozenTo, typeof(DateTime)));
+                    param.Add(cdal.GetParameter("@FrozenComm", model.Tabs_General.FrozenComm, typeof(string)));
                     #endregion
-                    
+
                     #region Payment Terms data
                     param.Add(cdal.GetParameter("@GroupNum", model.Tabs_PaymentTerms.GroupNum, typeof(int)));
                     param.Add(cdal.GetParameter("@Discount", model.Tabs_PaymentTerms.Discount, typeof(decimal)));
-                    param.Add(cdal.GetParameter("@CreditLine" , model.Tabs_PaymentTerms.CreditLine, typeof(decimal)));
-                    param.Add(cdal.GetParameter("@BankCountr" , model.Tabs_PaymentTerms.BankCountr, typeof(string)));
-                    param.Add(cdal.GetParameter("@BankCode" , model.Tabs_PaymentTerms.BankCode, typeof(string)));
+                    param.Add(cdal.GetParameter("@CreditLine", model.Tabs_PaymentTerms.CreditLine, typeof(decimal)));
+                    param.Add(cdal.GetParameter("@BankCountr", model.Tabs_PaymentTerms.BankCountr, typeof(string)));
+                    param.Add(cdal.GetParameter("@BankCode", model.Tabs_PaymentTerms.BankCode, typeof(string)));
                     //param.Add(cdal.GetParameter("@BankCode1" , model.Tabs_PaymentTerms.BankCode1, typeof(string)));
-                    param.Add(cdal.GetParameter("@DflAccount" , model.Tabs_PaymentTerms.DflAccount, typeof(string)));
-                    param.Add(cdal.GetParameter("@DflSwift" , model.Tabs_PaymentTerms.DflSwift, typeof(string)));
+                    param.Add(cdal.GetParameter("@DflAccount", model.Tabs_PaymentTerms.DflAccount, typeof(string)));
+                    param.Add(cdal.GetParameter("@DflSwift", model.Tabs_PaymentTerms.DflSwift, typeof(string)));
                     //param.Add(cdal.GetParameter("@BankAccountName" , model.Tabs_PaymentTerms.BankAccountName, typeof(string)));
-                    param.Add(cdal.GetParameter("@DflBranch" , model.Tabs_PaymentTerms.DflBranch, typeof(string)));
-                    param.Add(cdal.GetParameter("@BankCtlKey" , model.Tabs_PaymentTerms.BankCtlKey, typeof(string)));
-                    param.Add(cdal.GetParameter("@DflIBAN" , model.Tabs_PaymentTerms.DflIBAN, typeof(string)));
-                    param.Add(cdal.GetParameter("@MandateID" , model.Tabs_PaymentTerms.MandateID, typeof(string)));
+                    param.Add(cdal.GetParameter("@DflBranch", model.Tabs_PaymentTerms.DflBranch, typeof(string)));
+                    param.Add(cdal.GetParameter("@BankCtlKey", model.Tabs_PaymentTerms.BankCtlKey, typeof(string)));
+                    param.Add(cdal.GetParameter("@DflIBAN", model.Tabs_PaymentTerms.DflIBAN, typeof(string)));
+                    param.Add(cdal.GetParameter("@MandateID", model.Tabs_PaymentTerms.MandateID, typeof(string)));
                     param.Add(cdal.GetParameter("@SignDate", model.Tabs_PaymentTerms.SignDate, typeof(DateTime)));
                     #endregion
 
@@ -489,39 +563,38 @@ namespace iSOL_Enterprise.Dal.Business
                         {
                             param.Clear();
                             int OCPR_Id = CommonDal.getPrimaryKey(tran, "OCPR");
-                        
-                        
-                        string OCPR_Query = @"insert into OCPR (id,CardCode,Name,FirstName,MiddleName,LastName,Title,Position,Address,Tel1,Tel2,Cellolar,Fax,E_MailL,EmlGrpCode,Pager,Notes1,Notes2,Password,BirthDate,Gender,Profession,BirthCity) 
+
+
+                            string OCPR_Query = @"insert into OCPR (id,CardCode,Name,FirstName,MiddleName,LastName,Title,Position,Address,Tel1,Tel2,Cellolar,Fax,E_MailL,EmlGrpCode,Pager,Notes1,Notes2,Password,BirthDate,Gender,Profession,BirthCity) 
                                         values(@id,@CardCode,@Name,@FirstName,@MiddleName,@LastName,@Title,@Position,@Address,@Tel1,@Tel2,@Cellolar,@Fax,@E_MailL,@EmlGrpCode,@Pager,@Notes1,@Notes2,@Password,@BirthDate,@Gender,@Profession,@BirthCity)";
 
-                        #region Contact Persons data
-                        param.Add(cdal.GetParameter("@id", OCPR_Id, typeof(int)));
-                        //param.Add(cdal.GetParameter("@CntctCode", model.Tabs_ContactPersons.CntctCode, typeof(int)));
-                        param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(string)));
-                        param.Add(cdal.GetParameter("@Name", item.Name, typeof(string)));
-                        param.Add(cdal.GetParameter("@FirstName", item.FirstName, typeof(string)));
-                        param.Add(cdal.GetParameter("@MiddleName", item.MiddleName, typeof(string)));
-                        param.Add(cdal.GetParameter("@LastName", item.LastName, typeof(string)));
-                        param.Add(cdal.GetParameter("@Title", item.Title, typeof(string)));
-                        param.Add(cdal.GetParameter("@Position", item.Position, typeof(string)));
-                        param.Add(cdal.GetParameter("@Address", item.CP_Address, typeof(string)));
-                        param.Add(cdal.GetParameter("@Tel1", item.Tel1, typeof(string)));
-                        param.Add(cdal.GetParameter("@Tel2", item.Tel2, typeof(string)));
-                        param.Add(cdal.GetParameter("@Cellolar", item.Cellolar, typeof(string)));
-                        param.Add(cdal.GetParameter("@Fax", item.Fax, typeof(string)));
-                        param.Add(cdal.GetParameter("@E_MailL", item.E_MailL, typeof(string)));
-                        param.Add(cdal.GetParameter("@EmlGrpCode", item.EmlGrpCode, typeof(string)));
-                        param.Add(cdal.GetParameter("@Pager", item.Pager, typeof(string)));
-                        param.Add(cdal.GetParameter("@Notes1", item.Notes1, typeof(string)));
-                        param.Add(cdal.GetParameter("@Notes2", item.Notes2, typeof(string)));
-                        param.Add(cdal.GetParameter("@Password", item.Password, typeof(string)));
-                       // param.Add(cdal.GetParameter("@CountryOrg", item.CountryOrg, t    ypeof(string)));
-                        param.Add(cdal.GetParameter("@BirthDate", item.BirthDate, typeof(string)));
-                        param.Add(cdal.GetParameter("@Gender", item.Gender, typeof(string)));
-                        param.Add(cdal.GetParameter("@Profession", item.Profession, typeof(string)));
-                        param.Add(cdal.GetParameter("@BirthCity", item.BirthCity, typeof(string)));
+                            #region Contact Persons data
+                            param.Add(cdal.GetParameter("@id", OCPR_Id, typeof(int)));
+                            //param.Add(cdal.GetParameter("@CntctCode", model.Tabs_ContactPersons.CntctCode, typeof(int)));
+                            param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(string)));
+                            param.Add(cdal.GetParameter("@Name", item.Name, typeof(string)));
+                            param.Add(cdal.GetParameter("@FirstName", item.FirstName, typeof(string)));
+                            param.Add(cdal.GetParameter("@MiddleName", item.MiddleName, typeof(string)));
+                            param.Add(cdal.GetParameter("@LastName", item.LastName, typeof(string)));
+                            param.Add(cdal.GetParameter("@Title", item.Title, typeof(string)));
+                            param.Add(cdal.GetParameter("@Position", item.Position, typeof(string)));
+                            param.Add(cdal.GetParameter("@Address", item.CP_Address, typeof(string)));
+                            param.Add(cdal.GetParameter("@Tel1", item.Tel1, typeof(string)));
+                            param.Add(cdal.GetParameter("@Tel2", item.Tel2, typeof(string)));
+                            param.Add(cdal.GetParameter("@Cellolar", item.Cellolar, typeof(string)));
+                            param.Add(cdal.GetParameter("@Fax", item.Fax, typeof(string)));
+                            param.Add(cdal.GetParameter("@E_MailL", item.E_MailL, typeof(string)));
+                            param.Add(cdal.GetParameter("@EmlGrpCode", item.EmlGrpCode, typeof(string)));
+                            param.Add(cdal.GetParameter("@Pager", item.Pager, typeof(string)));
+                            param.Add(cdal.GetParameter("@Notes1", item.Notes1, typeof(string)));
+                            param.Add(cdal.GetParameter("@Notes2", item.Notes2, typeof(string)));
+                            param.Add(cdal.GetParameter("@Password", item.Password, typeof(string)));
+                            // param.Add(cdal.GetParameter("@CountryOrg", item.CountryOrg, t    ypeof(string)));
+                            param.Add(cdal.GetParameter("@BirthDate", item.BirthDate, typeof(string)));
+                            param.Add(cdal.GetParameter("@Gender", item.Gender, typeof(string)));
+                            param.Add(cdal.GetParameter("@Profession", item.Profession, typeof(string)));
+                            param.Add(cdal.GetParameter("@BirthCity", item.BirthCity, typeof(string)));
                             #endregion
-                            
                             res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, OCPR_Query, param.ToArray()).ToInt();
                             if (res1 <= 0)
                             {
@@ -534,15 +607,13 @@ namespace iSOL_Enterprise.Dal.Business
                         }
                     }
 
-
-
                     if (model.Tabs_AddressesBillTo != null)
                     {
                         int LineNum = 0;
                         foreach (var item in model.Tabs_AddressesBillTo)
                         {
                             param.Clear();
-                             
+
                             string BillTo_Query = @"insert into CRD1(id,LineNum,CardCode,Address,Address2,Address3,Street,Block,City,ZipCode,County,State,Country,StreetNo,Building,GlblLocNum,AdresType) values(@id,@LineNum,@CardCode,@Address,@Address2,@Address3,@Street,@Block,@City,@ZipCode,@County,@State,@Country,@StreetNo,@Building,@GlblLocNum,@AdresType)";
 
                             #region  Address BillTo
@@ -563,8 +634,8 @@ namespace iSOL_Enterprise.Dal.Business
                             param.Add(cdal.GetParameter("@Country", item.Country, typeof(string)));
                             param.Add(cdal.GetParameter("@StreetNo", item.StreetNo, typeof(string)));
                             param.Add(cdal.GetParameter("@Building", item.Building, typeof(string)));
-                            param.Add(cdal.GetParameter("@GlblLocNum", item.GlblLocNum, typeof(string))); 
-                            param.Add(cdal.GetParameter("@AdresType", "B", typeof(char))); 
+                            param.Add(cdal.GetParameter("@GlblLocNum", item.GlblLocNum, typeof(string)));
+                            param.Add(cdal.GetParameter("@AdresType", "B", typeof(char)));
                             #endregion
                             res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BillTo_Query, param.ToArray()).ToInt();
                             if (res1 <= 0)
@@ -620,7 +691,7 @@ namespace iSOL_Enterprise.Dal.Business
                             ship_LineNum++;
                         }
                     }
-                     
+
                     if (model.Tabs_attachment != null)
                     {
                         int LineNo = 0;
