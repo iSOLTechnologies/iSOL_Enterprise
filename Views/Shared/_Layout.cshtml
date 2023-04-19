@@ -206,19 +206,6 @@ input[type=number] {
 								</a>
 							</li>
 
-
-
-
-							
-
-
-
-
-
-
-
-
-
 							<li class="menu-section">
 								<h4 class="menu-text">Administration</h4> <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
 							</li>
@@ -258,9 +245,6 @@ input[type=number] {
 								</div>
 							</li>
 
-
-
-
 							<li class="menu-section">
 								<h4 class="menu-text">Sale</h4> <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
 							</li>
@@ -289,6 +273,7 @@ input[type=number] {
 												</span>
 											</a>
 										</li>
+										
 										<li class="menu-item" aria-haspopup="true">
 											<a asp-action="Index" asp-controller="SaleOrder" class="menu-link">
 												<i class="menu-bullet menu-bullet-dot">
@@ -351,7 +336,6 @@ input[type=number] {
 									</ul>
 								</div>
 							</li>
-
 
 							<li class="menu-section">
 								<h4 class="menu-text">Purchase</h4> <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
@@ -426,6 +410,7 @@ input[type=number] {
 									</ul>
 								</div>
 							</li>
+							
 							<li class="menu-section">
 								<h4 class="menu-text">Business</h4> <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
 							</li>
@@ -457,7 +442,7 @@ input[type=number] {
 							</li>
 
 
-							 <li class="menu-section">
+							<li class="menu-section">
 								<h4 class="menu-text">Inventory</h4> <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
 							</li>
 							<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
@@ -485,91 +470,115 @@ input[type=number] {
 												</span>
 											</a>
 										</li> 
-										<li class="menu-item" aria-haspopup="true">
-
-
-
-
-
-
-											<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+										
+										<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+												<a href="javascript:;" class="menu-link menu-toggle">
+													<span class="svg-icon menu-icon">
+													<!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
+																<i class="menu-bullet menu-bullet-dot">
+																	<span></span>
+																</i>
+													<!--end::Svg Icon-->
+													</span> 
+												<span class="menu-text">Inventory Transaction</span> <i class="menu-arrow"></i>
+												</a>
+											<div class="menu-submenu">
+												<i class="menu-arrow"></i>
+												<ul class="menu-subnav">
+													<li class="menu-item menu-item-parent" aria-haspopup="true">
+														<span class="menu-link">
+															<span class="menu-text">Applications</span>
+														</span>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a asp-action="Index" asp-controller="GoodReceiptGR" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot">
+																<span></span>
+															</i> <span class="menu-text">Good Receipt</span> <span class="menu-label">
+																<!-- <span class="label label-danger label-inline">new</span> -->
+															</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a asp-action="Index" asp-controller="GoodsIssue" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot">
+																<span></span>
+															</i> <span class="menu-text">Goods Issue</span> <span class="menu-label">
+																<!-- <span class="label label-danger label-inline">new</span> -->
+															</span>
+														</a>
+													</li> 
+													<li class="menu-item" aria-haspopup="true">
+																	<a asp-action="Index" asp-controller="InventoryTransferRequest" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot">
+																<span></span>
+															</i> <span class="menu-text">Inventory Transfer Request</span> <span class="menu-label">
+																<!-- <span class="label label-danger label-inline">new</span> -->
+															</span>
+														</a>
+													</li> 
+													<li class="menu-item" aria-haspopup="true">
+																	<a asp-action="Index" asp-controller="InventoryTransfer" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot">
+																<span></span>
+															</i> <span class="menu-text">Inventory Transfer</span> <span class="menu-label">
+																<!-- <span class="label label-danger label-inline">new</span> -->
+															</span>
+														</a>
+													</li> 
+												</ul>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</li> 
+							
+							<li class="menu-section">
+								<h4 class="menu-text">Reports</h4> <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+							</li>
+							<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 								<a href="javascript:;" class="menu-link menu-toggle">
 									<span class="svg-icon menu-icon">
-										<!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
-													<i class="menu-bullet menu-bullet-dot">
-														<span></span>
-													</i>
+										<!--begin::Svg Icon | path:assets/media/svg/icons/Code/Compiling.svg-->
+										<i class="icon-md fas fa-chart-bar"></i>
 										<!--end::Svg Icon-->
-									</span> <span class="menu-text">Inventory Transaction</span> <i class="menu-arrow"></i>
+									</span> <span class="menu-text">Reports</span> <i class="menu-arrow"></i>
 								</a>
 								<div class="menu-submenu">
 									<i class="menu-arrow"></i>
 									<ul class="menu-subnav">
 										<li class="menu-item menu-item-parent" aria-haspopup="true">
 											<span class="menu-link">
-												<span class="menu-text">Applications</span>
+												<span class="menu-text">Subheaders</span>
 											</span>
 										</li>
 										<li class="menu-item" aria-haspopup="true">
-											<a asp-action="Index" asp-controller="GoodReceiptGR" class="menu-link">
+											<a asp-action="Index" asp-controller="AccesoriesConsumptionReport" class="menu-link">
 												<i class="menu-bullet menu-bullet-dot">
 													<span></span>
-												</i> <span class="menu-text">Good Receipt</span> <span class="menu-label">
-													<!-- <span class="label label-danger label-inline">new</span> -->
-												</span>
+												</i> <span class="menu-text">Accesories Consumption Report</span>
 											</a>
 										</li>
 										<li class="menu-item" aria-haspopup="true">
-											<a asp-action="Index" asp-controller="GoodsIssue" class="menu-link">
+											<a asp-action="Index" asp-controller="PurchaseTrackingReportV1" class="menu-link">
 												<i class="menu-bullet menu-bullet-dot">
 													<span></span>
-												</i> <span class="menu-text">Goods Issue</span> <span class="menu-label">
-													<!-- <span class="label label-danger label-inline">new</span> -->
-												</span>
+												</i> <span class="menu-text">Purchase Tracking Report V1</span>
 											</a>
-										</li> 
+										</li>
 										<li class="menu-item" aria-haspopup="true">
-														<a asp-action="Index" asp-controller="InventoryTransferRequest" class="menu-link">
+											<a asp-action="Index" asp-controller="SaleOrderWiseYarnReport" class="menu-link">
 												<i class="menu-bullet menu-bullet-dot">
 													<span></span>
-												</i> <span class="menu-text">Inventory Transfer Request</span> <span class="menu-label">
-													<!-- <span class="label label-danger label-inline">new</span> -->
-												</span>
+												</i> <span class="menu-text">Sale Order Wise Yarn Report</span>
 											</a>
-										</li> 
-										<li class="menu-item" aria-haspopup="true">
-														<a asp-action="Index" asp-controller="InventoryTransfer" class="menu-link">
-												<i class="menu-bullet menu-bullet-dot">
-													<span></span>
-												</i> <span class="menu-text">Inventory Transfer</span> <span class="menu-label">
-													<!-- <span class="label label-danger label-inline">new</span> -->
-												</span>
-											</a>
-										</li> 
+										</li>
 									</ul>
 								</div>
 							</li>
-
-
-
-
-
-											 
-											
-											 
-										</li> 
-									</ul>
-								</div>
-							</li>
-
-
-						
-							
-
-
-
-
 						</ul>
+					</div>						
+						
 						<!--end::Menu Nav-->
 					</div>
 					<!--end::Menu Container-->
