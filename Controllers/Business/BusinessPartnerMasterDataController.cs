@@ -73,9 +73,9 @@ namespace iSOL_Enterprise.Controllers.Business
                 return Json(new
                 {
                     success = true,
-                    GetHeader_General_PaymentTerms_Properties_Remarks = dal.GetHeaderGeneralPaymentTermsPropertiesRemarks(guid),
-                    Get_ContactPersons = dal.Get_ContactPersons(CardCode),
-                    Get_Addresses = dal.Get_Addresses(id)
+                    Header_General_PaymentTerms_Properties_Remarks = dal.GetHeaderGeneralPaymentTermsPropertiesRemarks(guid),
+                    Tab_ContactPersons = dal.Get_ContactPersons(CardCode),
+                    Tab_Addresses = dal.Get_Addresses(id)
                 });
 
             }
