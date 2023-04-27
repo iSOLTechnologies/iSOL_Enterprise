@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -28,7 +29,14 @@ builder.Services.AddSession(options =>
 //});
 
 
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("https://localhost:44381");
+                      });
+});
 
 builder.Services.AddAuthentication
     (
@@ -69,7 +77,7 @@ app.UseCookiePolicy();
 
 app.UseRouting();
 
-
+app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();

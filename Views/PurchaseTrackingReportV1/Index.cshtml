@@ -1,5 +1,115 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
+    ViewBag.title1 = "";
+    ViewBag.title2 = "Purchase Tracking Report V1";
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<!-- Render Body <Start> -->
+<!--begin::Subheader-->
+<script src="~/Assets/plugins/global/plugins.bundle.js"></script>
+
+<link href="~/css/commonstyle.css" rel="stylesheet" />
+<!--end::Subheader-->
+<!--begin::Entry-->
+<div class="container-fluid mt-5">
+
+    <!--begin::Card-->
+    <div class="card card-custom">
+        <div class="card-header">
+            <div class="card-title">
+                <span class="card-icon">
+                    <i class="flaticon-notepad text-primary"></i>
+                </span>
+                <h3 class="card-label">Purchase Tracking Report V1</h3>
+            </div>
+            @* <div class="card-toolbar">
+            <button class="bt btn-brand"  type="button">
+            Add
+            </button>
+
+            <!--end::Button-->
+            </div>*@
+
+        </div>
+        <div class="card-body ">
+            <!--begin: Datatable-->
+            <div class="row">
+                <div class="col-md-4 d-flex">
+                    <label>Doc Number </label>
+                    <input type="number" class="form-control form-control-sm" id="DocNum" />
+
+                </div>
+                <div class="col-md-2">
+                    <button type="button" id="btnGenerateReport" class="btn btn-primary font-weight-bolder">
+                        + Get Report
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="loading_ic">
+
+                <div class="spinner-border text-primary">
+                    <span class="sr-only">Loading...</span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!--end: Datatable-->
+        </div>
+    </div>
+
+</div>
+<!--end::Entry-->
+<!-- Render Body <End> -->
+
+<script>
+
+
+    $(document).on('click', '#btnGenerateReport', function () {
+
+        $(this).attr('disabled', true);
+
+        $(".loading_ic").addClass('overlay');
+        $(".loading_ic").show();
+
+        $.ajax({
+            url: '@ViewBag.Url' + 'Report/PurchaseTrackingReportV1',
+            type: 'GET',
+            dataType: 'json',
+            async: true,
+            data: { DocNum: $('#DocNum').val() },
+            success: function (result) {
+
+                $('#btnGenerateReport').attr('disabled', false);
+                $(".loading_ic").removeClass('overlay dark');
+                $(".loading_ic").hide();
+
+                if (result.isSuccess) {
+                    window.open('@ViewBag.Url' + result.Data, '_blank');
+                }
+                else if (result.isError) {
+                    toastr.error("An Error Occurred in Report Generation !!");
+                }
+
+
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                $(".loading_ic").removeClass('overlay dark');
+                $(".loading_ic").hide();
+                console.log(errorMessage);
+            }
+        });
+
+
+    });
+
+
+</script>
