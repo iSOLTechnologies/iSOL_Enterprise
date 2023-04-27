@@ -80,42 +80,54 @@
 
     $(document).on('click', '#btnGenerateReport', function () {
 
-        $(this).attr('disabled', true);
+        if ($('#DtFrom').val() != null &&
+            $('#DtFrom').val() != "" && 
+            $('#DtFrom').val() != undefined &&
+            $('#DtTo').val() != null &&
+            $('#DtTo').val() != "" &&
+            $('#DtTo').val() != undefined
+           ) 
+        {
 
-        $(".loading_ic").addClass('overlay');
-        $(".loading_ic").show();
+            $(this).attr('disabled', true);
 
-        $.ajax({
-            url: '@ViewBag.Url' + 'Report/SaleOrderWiseYarnReport',
-            type: 'GET',
-            dataType: 'json',
-            async: true,
-            data: { DateFrom: $('#DtFrom').val(), DateTo: $('#DtTo').val() },
-            success: function (result) 
-            {
-                $('#btnGenerateReport').attr('disabled', false);
-                $(".loading_ic").removeClass('overlay dark');
-                $(".loading_ic").hide();
+            $(".loading_ic").addClass('overlay');
+            $(".loading_ic").show();
 
-                if (result.isSuccess) {
-                    window.open('@ViewBag.Url' + result.Data, '_blank');
+            $.ajax({
+                url: '@ViewBag.Url' + 'Report/SaleOrderWiseYarnReport',
+                type: 'GET',
+                dataType: 'json',
+                async: true,
+                data: { DateFrom: $('#DtFrom').val(), DateTo: $('#DtTo').val() },
+                success: function (result) 
+                {
+                    $('#btnGenerateReport').attr('disabled', false);
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
+
+                    if (result.isSuccess) {
+                        window.open('@ViewBag.Url' + result.Data, '_blank');
+                    }
+                    else if (result.isError) {
+                        toastr.error("An Error Occurred in Report Generation !!");
+                    }
+
+
+
+
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
+                    console.log(errorMessage);
                 }
-                else if (result.isError) {
-                    toastr.error("An Error Occurred in Report Generation !!");
-                }
+            });
 
-
-
-
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                $(".loading_ic").removeClass('overlay dark');
-                $(".loading_ic").hide();
-                console.log(errorMessage);
-            }
-        });
-
-
+        }
+        else {
+            toastr.warning("Date From & Date To can't be empty")
+        }
     });
 
 

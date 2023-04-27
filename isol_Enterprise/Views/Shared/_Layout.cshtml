@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http; 
+﻿@using Microsoft.AspNetCore.Http;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor context;
 
 <!DOCTYPE html>
@@ -37,25 +37,27 @@
 </head>
 <style>
 	input[type=number] {
-  -moz-appearance: textfield; /* Firefox */
-}
+		-moz-appearance: textfield; /* Firefox */
+	}
 
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+		input[type=number]::-webkit-outer-spin-button,
+		input[type=number]::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
 
-input[type=number]:hover,
-input[type=number]:focus {
-  outline: none;
-}
-input[type=number] {
-  -moz-appearance: textfield !important; /* Firefox */
-  -webkit-appearance: none !important; /* Safari and Chrome */
-  margin: 0 !important; /* Optional: Remove the default margin */
-  overflow: hidden !important; /* Prevent the element from overflowing */
-}
+		input[type=number]:hover,
+		input[type=number]:focus {
+			outline: none;
+		}
+
+	input[type=number] {
+		-moz-appearance: textfield !important; /* Firefox */
+		-webkit-appearance: none !important; /* Safari and Chrome */
+		margin: 0 !important; /* Optional: Remove the default margin */
+		overflow: hidden !important; /* Prevent the element from overflowing */
+	}
+
 	.Input_selected {
 		background-color: #1A99C8 !important;
 		border: none;
@@ -101,12 +103,13 @@ input[type=number] {
 			background-image: -webkit-linear-gradient(330deg, #808080 0%, #808080 100%) !important;
 			background-image: linear-gradient(120deg, #808080 0%, #808080 100%) !important;
 		}
-		.batch_not_valid {
-			color :red;
-		}
-		/*.batch_is_valid {
-			color :#1BC5BD;
-		}*/
+
+	.batch_not_valid {
+		color: red;
+	}
+	/*.batch_is_valid {
+				color :#1BC5BD;
+			}*/
 </style>
 <!--end::Head-->
 <!--begin::Body-->
@@ -180,6 +183,7 @@ input[type=number] {
 					<!--end::Toolbar-->
 				</div>
 				<!--end::Brand-->
+
 				<!--begin::Aside Menu-->
 				<div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
 					<!--begin::Menu Container-->
@@ -239,8 +243,8 @@ input[type=number] {
 												</i> <span class="menu-text">Document Numbering</span>
 											</a>
 										</li>
-										
-										
+
+
 									</ul>
 								</div>
 							</li>
@@ -273,7 +277,7 @@ input[type=number] {
 												</span>
 											</a>
 										</li>
-										
+
 										<li class="menu-item" aria-haspopup="true">
 											<a asp-action="Index" asp-controller="SaleOrder" class="menu-link">
 												<i class="menu-bullet menu-bullet-dot">
@@ -410,7 +414,7 @@ input[type=number] {
 									</ul>
 								</div>
 							</li>
-							
+
 							<li class="menu-section">
 								<h4 class="menu-text">Business</h4> <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
 							</li>
@@ -469,19 +473,19 @@ input[type=number] {
 													<!-- <span class="label label-danger label-inline">new</span> -->
 												</span>
 											</a>
-										</li> 
-										
+										</li>
+
 										<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
-												<a href="javascript:;" class="menu-link menu-toggle">
-													<span class="svg-icon menu-icon">
+											<a href="javascript:;" class="menu-link menu-toggle">
+												<span class="svg-icon menu-icon">
 													<!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
-																<i class="menu-bullet menu-bullet-dot">
-																	<span></span>
-																</i>
+													<i class="menu-bullet menu-bullet-dot">
+														<span></span>
+													</i>
 													<!--end::Svg Icon-->
-													</span> 
+												</span>
 												<span class="menu-text">Inventory Transaction</span> <i class="menu-arrow"></i>
-												</a>
+											</a>
 											<div class="menu-submenu">
 												<i class="menu-arrow"></i>
 												<ul class="menu-subnav">
@@ -507,32 +511,32 @@ input[type=number] {
 																<!-- <span class="label label-danger label-inline">new</span> -->
 															</span>
 														</a>
-													</li> 
+													</li>
 													<li class="menu-item" aria-haspopup="true">
-																	<a asp-action="Index" asp-controller="InventoryTransferRequest" class="menu-link">
+														<a asp-action="Index" asp-controller="InventoryTransferRequest" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot">
 																<span></span>
 															</i> <span class="menu-text">Inventory Transfer Request</span> <span class="menu-label">
 																<!-- <span class="label label-danger label-inline">new</span> -->
 															</span>
 														</a>
-													</li> 
+													</li>
 													<li class="menu-item" aria-haspopup="true">
-																	<a asp-action="Index" asp-controller="InventoryTransfer" class="menu-link">
+														<a asp-action="Index" asp-controller="InventoryTransfer" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot">
 																<span></span>
 															</i> <span class="menu-text">Inventory Transfer</span> <span class="menu-label">
 																<!-- <span class="label label-danger label-inline">new</span> -->
 															</span>
 														</a>
-													</li> 
+													</li>
 												</ul>
 											</div>
 										</li>
 									</ul>
 								</div>
-							</li> 
-							
+							</li>
+
 							<li class="menu-section">
 								<h4 class="menu-text">Reports</h4> <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
 							</li>
@@ -577,15 +581,18 @@ input[type=number] {
 								</div>
 							</li>
 						</ul>
-					</div>						
-						
 						<!--end::Menu Nav-->
 					</div>
 					<!--end::Menu Container-->
+					
+					
 				</div>
 				<!--end::Aside Menu-->
+				
+				
 			</div>
 			<!--end::Aside-->
+		
 			<!--begin::Wrapper-->
 			<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
 				<!--begin::Header-->
@@ -1419,6 +1426,8 @@ input[type=number] {
 		</div>
 		<!--end::Page-->
 	</div>
+
+
 	<!--end::Main-->
 	<!-- begin::User Panel-->
 	<div id="kt_quick_user" style="height:500px;" class="offcanvas offcanvas-right p-10">
@@ -2313,10 +2322,10 @@ input[type=number] {
 		jQuery(document).ready(function () {
 			KTDatatablesDataSourceHtml.init();
 			MyToFixed();
-		 
+
 		});
-		  var vatGroupData = "";
-		  
+		var vatGroupData = "";
+
 		function InitializeGetVatGroupData() {
 
 			$.get("SaleQuotation/GetVatGroupData", { DocModule: DocModule }, function (data) {
@@ -2329,110 +2338,102 @@ input[type=number] {
 			});
 		}
 
-		function GetVatGroupData() 
-		{
-	
+		function GetVatGroupData() {
+
 			$.get("SaleQuotation/GetVatGroupData", { DocModule: DocModule }, function (data) {
-		
-		        vatGroupData = data;
+
+				vatGroupData = data;
 				$("#VatGroup").html("");
 				$("#VatGroup2").html("");
-		
-				$.each(data, function() {
 
-                if (this.code == "S1" && this.vatName == "S1 - Sales Tax Output Export") {
-					$("#VatGroup").append("<option selected guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>");
-					$("#VatGroup2").append("<option selected guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>");
-					vatGroupData += "<option selected guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>";
-				}else{
-					$("#VatGroup").append("<option guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>");
-					$("#VatGroup2").append("<option guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>");
-					vatGroupData += "<option guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>";
-				}
+				$.each(data, function () {
+
+					if (this.code == "S1" && this.vatName == "S1 - Sales Tax Output Export") {
+						$("#VatGroup").append("<option selected guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>");
+						$("#VatGroup2").append("<option selected guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>");
+						vatGroupData += "<option selected guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>";
+					} else {
+						$("#VatGroup").append("<option guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>");
+						$("#VatGroup2").append("<option guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>");
+						vatGroupData += "<option guid=" + this.rate + " value=" + this.code + ">" + this.vatName + "</option>";
+					}
 				});
-		
+
 			});
 		}
-		function GetSaleOrders() 
-		{
+		function GetSaleOrders() {
 			return $.ajax({
 				url: 'Common/GetSaleOrders',
 				type: 'GET',
 				dataType: 'json',
-				async: false,				
-				success: function (data) 
-				{
+				async: false,
+				success: function (data) {
 
 					$("#SaleOrderNo").html("");
 					$("#SaleOrderNo").append("<option guid='' value=''> Select Order </option>");
-					$.each(data, function() {
-					$("#SaleOrderNo").append("<option guid=" + this.id + " value=" + this.id + ">" + this.docNum + "</option>");
+					$.each(data, function () {
+						$("#SaleOrderNo").append("<option guid=" + this.id + " value=" + this.id + ">" + this.docNum + "</option>");
 					});
-					
+
 				},
 				error: function (jqXhr, textStatus, errorMessage) {
 					console.log(errorMessage);
 				}
 			});
-			
-		
+
+
 		}
-		function GetCountrydata() 
-		{
+		function GetCountrydata() {
 			$.ajax({
 				url: 'Common/GetCountries',
 				type: 'GET',
 				dataType: 'json',
-				async: false,				
-				success: function (data) 
-				{
+				async: false,
+				success: function (data) {
 
-					
-				$("#CountryOrg").html("");
-		
-				$.each(data, function() {
-					
-				if(this.country_code == "PK" && this.country_name == "Pakistan"){
-					$("#CountryOrg").append("<option selected value=" + this.country_code + ">" + this.country_name + "</option>");
-					CountryData = CountryData + "<option selected value=" + this.country_code + ">" + this.country_name + "</option>";
-				}else{
-					$("#CountryOrg").append("<option value=" + this.country_code + ">" + this.country_name + "</option>");
-					CountryData = CountryData + "<option  value=" + this.country_code + ">" + this.country_name + "</option>";
-				}
-				});
-					
+
+					$("#CountryOrg").html("");
+
+					$.each(data, function () {
+
+						if (this.country_code == "PK" && this.country_name == "Pakistan") {
+							$("#CountryOrg").append("<option selected value=" + this.country_code + ">" + this.country_name + "</option>");
+							CountryData = CountryData + "<option selected value=" + this.country_code + ">" + this.country_name + "</option>";
+						} else {
+							$("#CountryOrg").append("<option value=" + this.country_code + ">" + this.country_name + "</option>");
+							CountryData = CountryData + "<option  value=" + this.country_code + ">" + this.country_name + "</option>";
+						}
+					});
+
 				},
 				error: function (jqXhr, textStatus, errorMessage) {
 					console.log(errorMessage);
 				}
 			});
- 
-		} 
 
-		function GetCurrencydata() 
-		{
-		
+		}
+
+		function GetCurrencydata() {
+
 			$.ajax({
 				url: 'Common/GetCurrencies',
 				type: 'GET',
 				dataType: 'json',
-				async: false,				
-				success: function (data) 
-				{
+				async: false,
+				success: function (data) {
 					$("#DocCur").html("");
-		
+
 					$("#DocCur").append("<option value=''> Select Currency </option>");
-					$.each(data, function() 
-					{					
+					$.each(data, function () {
 						$("#DocCur").append("<option value=" + this.curr_name + ">" + this.curr_code + "</option>");
 
-				
+
 					});
 
 				}
 			});
 
-		} 
+		}
 
 
 		function Back_his() {
@@ -2547,7 +2548,7 @@ input[type=number] {
 													<th></th>
 													<th></th>
 													<th></th>
-									                <th></th> 
+													<th></th>
 												</tr>
 											</thead>
 										</table>
@@ -2972,14 +2973,14 @@ input[type=number] {
 						},
 						{
 							data: 'expDate', title: 'Exp Date', render: function (data, type, row) {
-								 if (data != undefined && data != '' && data != null) {
-									
-									console.log("Exp Date",data);
-								 	return moment(data).format('DD-MM-YYYY')
+								if (data != undefined && data != '' && data != null) {
 
-								 } else { 
+									console.log("Exp Date", data);
+									return moment(data).format('DD-MM-YYYY')
+
+								} else {
 									return data;
-								 }
+								}
 							}
 						},
 						{
@@ -3058,17 +3059,15 @@ input[type=number] {
 			let selectedRow = $(this).closest('tr');
 			let rowData = LookTable.row(selectedRow).data();
 
-			if($("#batchquantity").val() != $("#adTotalNeeded").val()) 
-            {
-                let qty = $(this).val();
-                if(qty.length > 0) 
-                {
-                    qty = qty.substring(0, (qty.length-1));
-                    console.log("qty" ,qty);
-                    $("#adTotalNeeded").val(Number(qty) + Number($("#adTotalNeeded").val()));
-                }
+			if ($("#batchquantity").val() != $("#adTotalNeeded").val()) {
+				let qty = $(this).val();
+				if (qty.length > 0) {
+					qty = qty.substring(0, (qty.length - 1));
+					console.log("qty", qty);
+					$("#adTotalNeeded").val(Number(qty) + Number($("#adTotalNeeded").val()));
+				}
 
-            }
+			}
 
 			if (rowData['quantity'] < $(this).val()) {
 				$(this).val(0);
@@ -3108,13 +3107,13 @@ input[type=number] {
 
 						jsonobj['itemno'] = $("#slItemno").val();
 						jsonobj['whseno'] = $("#slWarehouse").val();
-						jsonobj['linenum'] = $(ObjBatchCode).closest('tr').index(); 
+						jsonobj['linenum'] = $(ObjBatchCode).closest('tr').index();
 						listObj.push(jsonobj);
 					}
 				});
 				SelectedBatches.push(listObj);
-				 $(ObjBatchCode).closest('#ListParameters .itm').find('#ListbtnSelectBatch span i').addClass("batch_is_valid");
-				 $(ObjBatchCode).closest('#ListParameters .itm').find('#ListbtnSelectBatch span i').removeClass("batch_not_valid");
+				$(ObjBatchCode).closest('#ListParameters .itm').find('#ListbtnSelectBatch span i').addClass("batch_is_valid");
+				$(ObjBatchCode).closest('#ListParameters .itm').find('#ListbtnSelectBatch span i').removeClass("batch_not_valid");
 				//$('#MyyyyBatchSelectTable').find("tbody").remove();
 				$('#myBatchSelectmodal').modal('hide');
 				//$('#MyyyyBatchSelectTable').DataTable().clear().destroy();
@@ -3126,7 +3125,7 @@ input[type=number] {
 			}
 
 		});
-		
+
 		function generateCopyDataTable() {
 			CopydataTable = $('#MyyyyCopyDataTable').DataTable({
 				responsive: true,
@@ -3135,7 +3134,7 @@ input[type=number] {
 				ordering: false,
 				"ajax": {
 					url: CopyBtnUrl,
-					data: { cardcode: $("#CardCode").val() , BaseType : BaseType }
+					data: { cardcode: $("#CardCode").val(), BaseType: BaseType }
 				},
 				layout: {
 					scroll: false,
@@ -3215,13 +3214,13 @@ input[type=number] {
 				ordering: false,
 				ordering: false,
 				"columnDefs": [
-						{
-							"targets": 3,
-							visible: false,
-							"createdCell": function (td, cellData, rowData, row, col) {
-								$(td).attr('id', "ItemType");
-							}
-						}, 
+					{
+						"targets": 3,
+						visible: false,
+						"createdCell": function (td, cellData, rowData, row, col) {
+							$(td).attr('id', "ItemType");
+						}
+					},
 				],
 				"ajax": {
 					url: '/SaleQuotation/GetItems',
@@ -3248,26 +3247,26 @@ input[type=number] {
 				}, {
 					data: 'onHand',
 					title: 'In Stock'
-				},{
+				}, {
 					data: 'manBtchNum',
 					title: 'ItemType'
 				}
-				//, {
-				//	data: "itemCode",
-				//	'title': 'Action',
-				//	render: function (data, type, row) {
-				//		var html = '<a guid=' + data + ' id="btnFetchItemCode" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
-				//		html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
-				//		html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
-				//		html += '       <rect x="0" y="0" width="24" height="24" />';
-				//		html += '      <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953) " />';
-				//		html += '      <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />';
-				//		html += '   </g>';
-				//		html += '</svg><!--end:: Svg Icon--></span> ';
-				//		html += '               </a>';
-				//		return html;
-				//	}
-				//},
+					//, {
+					//	data: "itemCode",
+					//	'title': 'Action',
+					//	render: function (data, type, row) {
+					//		var html = '<a guid=' + data + ' id="btnFetchItemCode" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+					//		html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
+					//		html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
+					//		html += '       <rect x="0" y="0" width="24" height="24" />';
+					//		html += '      <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953) " />';
+					//		html += '      <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />';
+					//		html += '   </g>';
+					//		html += '</svg><!--end:: Svg Icon--></span> ';
+					//		html += '               </a>';
+					//		return html;
+					//	}
+					//},
 				],
 			});
 		}
@@ -3280,18 +3279,18 @@ input[type=number] {
 				ordering: false,
 
 				"ajax": {
-					url: '/SaleQuotation/GetBusinessPartners', 
-				data: { DocModule: DocModule},
+					url: '/SaleQuotation/GetBusinessPartners',
+					data: { DocModule: DocModule },
 				},
 				"columnDefs": [
-						{
-							"targets": 3,
-							visible: false,
-							"createdCell": function (td, cellData, rowData, row, col) {
+					{
+						"targets": 3,
+						visible: false,
+						"createdCell": function (td, cellData, rowData, row, col) {
 							$(td).attr('id', "CRD1Address");
-							}
-						} 
-					],
+						}
+					}
+				],
 				layout: {
 					scroll: false,
 					footer: false,
@@ -3317,22 +3316,22 @@ input[type=number] {
 					data: 'address',
 					title: 'Address'
 				}
-				//, {
-				//	data: "cardCode",
-				//	'title': 'Action',
-				//	render: function (data, type, row) {
-				//		var html = '<a guid=' + data + ' id="btnFetchCardCode" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
-				//		html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
-				//		html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
-				//		html += '       <rect x="0" y="0" width="24" height="24" />';
-				//		html += '      <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953) " />';
-				//		html += '      <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />';
-				//		html += '   </g>';
-				//		html += '</svg><!--end:: Svg Icon--></span> ';
-				//		html += '               </a>';
-				//		return html;
-				//	}
-				//},
+					//, {
+					//	data: "cardCode",
+					//	'title': 'Action',
+					//	render: function (data, type, row) {
+					//		var html = '<a guid=' + data + ' id="btnFetchCardCode" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+					//		html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
+					//		html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
+					//		html += '       <rect x="0" y="0" width="24" height="24" />';
+					//		html += '      <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953) " />';
+					//		html += '      <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />';
+					//		html += '   </g>';
+					//		html += '</svg><!--end:: Svg Icon--></span> ';
+					//		html += '               </a>';
+					//		return html;
+					//	}
+					//},
 				],
 			});
 		}
@@ -3368,22 +3367,22 @@ input[type=number] {
 					data: 'balance',
 					title: 'Account Balance'
 				}
-				//, {
-				//	data: "cardCode",
-				//	'title': 'Action',
-				//	render: function (data, type, row) {
-				//		var html = '<a guid=' + data + ' id="btnFetchVendorCardCode" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
-				//		html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
-				//		html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
-				//		html += '       <rect x="0" y="0" width="24" height="24" />';
-				//		html += '      <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953) " />';
-				//		html += '      <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />';
-				//		html += '   </g>';
-				//		html += '</svg><!--end:: Svg Icon--></span> ';
-				//		html += '               </a>';
-				//		return html;
-				//	}
-				//},
+					//, {
+					//	data: "cardCode",
+					//	'title': 'Action',
+					//	render: function (data, type, row) {
+					//		var html = '<a guid=' + data + ' id="btnFetchVendorCardCode" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+					//		html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
+					//		html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
+					//		html += '       <rect x="0" y="0" width="24" height="24" />';
+					//		html += '      <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953) " />';
+					//		html += '      <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />';
+					//		html += '   </g>';
+					//		html += '</svg><!--end:: Svg Icon--></span> ';
+					//		html += '               </a>';
+					//		return html;
+					//	}
+					//},
 				],
 			});
 		}
@@ -3468,34 +3467,34 @@ input[type=number] {
 			$("#Address").val(rowData['address']);
 			GetContactPersons(rowData['cardCode']);
 			$('#myCustModal').modal('hide');
-			$('#btnCopyFrom').attr('disabled', false);			
+			$('#btnCopyFrom').attr('disabled', false);
 			//$(ObjItemCode)
 
- 
+
 
 
 		});
-		
-		$(document).on('change keyup',"#CardCode",function(e) {
+
+		$(document).on('change keyup', "#CardCode", function (e) {
 
 
-			$.get("Common/GetCustomerData",{cardcode : $(this).val() , DocModule : DocModule},function(data) {
+			$.get("Common/GetCustomerData", { cardcode: $(this).val(), DocModule: DocModule }, function (data) {
 
-				
-				if(data.success) {
-				$("#CardName").val((data.customer).cardName);
-				$("#DocCur").val((data.customer).currency);
+
+				if (data.success) {
+					$("#CardName").val((data.customer).cardName);
+					$("#DocCur").val((data.customer).currency);
 					GetContactPersons((data.customer).cardCode);
 					$('#btnCopyFrom').attr('disabled', false);
-				}else{
-				$("#CardName").val("");
-				$("#DocCur").val("");
-				GetContactPersons("");
-				$('#btnCopyFrom').attr('disabled', true);
+				} else {
+					$("#CardName").val("");
+					$("#DocCur").val("");
+					GetContactPersons("");
+					$('#btnCopyFrom').attr('disabled', true);
 				}
 			});
 
-			
+
 		});
 
 		$(document).on('dblclick', '#MyyyyVendorTable tbody tr', function (e) {
@@ -3517,26 +3516,25 @@ input[type=number] {
 			//$(ObjItemCode)
 		});
 
-		function GetContactPersons(cardCode) 
-		{
+		function GetContactPersons(cardCode) {
 			return $.ajax({
-			url: 'SaleQuotation/GetContactPersons',
-			type: 'GET',
-			dataType: 'json',
-			async : false,
-			data: { cardCode: cardCode },
-			success: function (data) {
-				$("#CntcCode").html("");
+				url: 'SaleQuotation/GetContactPersons',
+				type: 'GET',
+				dataType: 'json',
+				async: false,
+				data: { cardCode: cardCode },
+				success: function (data) {
+					$("#CntcCode").html("");
 
-				$("#CntcCode").append($("<option />").val(0).text("Select Contact Person"));
-				$.each(data, function () {
-					$("#CntcCode").append($("<option />").val(this.value).text(this.text));
-				});
-				$('#CntcCode').select2();
-			},
-			error: function (jqXhr, textStatus, errorMessage) {
-				console.log(errorMessage);
-			}
+					$("#CntcCode").append($("<option />").val(0).text("Select Contact Person"));
+					$.each(data, function () {
+						$("#CntcCode").append($("<option />").val(this.value).text(this.text));
+					});
+					$('#CntcCode').select2();
+				},
+				error: function (jqXhr, textStatus, errorMessage) {
+					console.log(errorMessage);
+				}
 			});
 
 
@@ -3558,14 +3556,14 @@ input[type=number] {
 			//	//$("#VatGroup2").select2();
 			//});
 		}
-		
+
 		$(document).on('dblclick', '#MyyyyItemmTable tbody tr', function (e) {
 			// debugger
 			var LookTable = $('#MyyyyItemmTable').DataTable();
 			$('#MyyyyItemmTable').DataTable().column(3).visible(true);
 			var selectedRow = $(this).closest('tr');
 			var rowData = LookTable.row(selectedRow).data();
-			
+
 			$('#MyyyyItemmTable tr').removeClass("Mainrow_selected");
 			$(selectedRow).addClass('Mainrow_selected');
 			//$('.OperationBtns').attr("data-id", SelectedVal);
@@ -3573,38 +3571,37 @@ input[type=number] {
 			$(ObjItemCode).closest('#ListParameters .itm').find("#ItemCode").val(rowData['itemCode']).change();
 			$(ObjItemCode).closest('#ListParameters .itm').find("#ItemName").val(rowData['itemName']).change();
 			//Get UOM group Data
-			
-				
-				if(rowData['manBtchNum'] == "Y"){
+
+
+			if (rowData['manBtchNum'] == "Y") {
 
 				$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").removeClass("d-none");
-				}
-				else {
-					if (!($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
-						$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
-				}
-			
+			}
+			else {
+				if (!($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
+					$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
+			}
+
 			GetUomGroup(rowData['itemCode']);
 
 			$('#myItemModal').modal('hide');
 
 		});
 		$(document).on('change keyup', "#ItemCode", function (e) {
-			if(DocModule == "S" || DocModule == "P")
-			{
-			let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
-			let ItemCodeValue = ItemCodeField.val();
-			let WarehouseField = $(this).closest('#ListParameters .itm').find('#Warehouse');
-			let WarehouseValue = WarehouseField.val();
-			let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
-				if(WarehouseField.val() != "" || WarehouseField.val() != null){
+			if (DocModule == "S" || DocModule == "P") {
+				let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
+				let ItemCodeValue = ItemCodeField.val();
+				let WarehouseField = $(this).closest('#ListParameters .itm').find('#Warehouse');
+				let WarehouseValue = WarehouseField.val();
+				let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
+				if (WarehouseField.val() != "" || WarehouseField.val() != null) {
 
 
 					$.ajax({
 						url: 'Common/GetSelectedWareHouseData',
 						type: 'GET',
 						dataType: 'json',
-						async : false,
+						async: false,
 						data: { ItemCode: ItemCodeValue, WhsCode: WarehouseValue },
 						success: function (data) {
 							onHand.val(data);
@@ -3615,69 +3612,68 @@ input[type=number] {
 					});
 
 				}
- 
-			ObjItemCode = $(this).closest('tr').find("#ItemCode");
-			
+
+				ObjItemCode = $(this).closest('tr').find("#ItemCode");
+
 
 				$.ajax({
-						url: 'Common/GetItemData',
-						type: 'GET',
-						dataType: 'json',
-						async : false,
-						data: { itemcode: $(this).val(), DocModule: DocModule },
-						success: function (data) {
-							if (data.success) {
-							
-						let ItemNameObj = $(ObjItemCode).closest('#ListParameters .itm').find("#ItemName");
-						$(ItemNameObj).val((data.item).itemName);
-					
-				
-							if((data.item).manBtchNum == "Y")
-							{
+					url: 'Common/GetItemData',
+					type: 'GET',
+					dataType: 'json',
+					async: false,
+					data: { itemcode: $(this).val(), DocModule: DocModule },
+					success: function (data) {
+						if (data.success) {
+
+							let ItemNameObj = $(ObjItemCode).closest('#ListParameters .itm').find("#ItemName");
+							$(ItemNameObj).val((data.item).itemName);
+
+
+							if ((data.item).manBtchNum == "Y") {
 								$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").removeClass("d-none");
 							}
-							else{
-								if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
+							else {
+								if (!($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
 									$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
 							}
-					
-						GetUomGroup((data.item).itemCode);
-					} else 
-					{
-						$(ObjItemCode).closest('#ListParameters .itm').find("#ItemName").val("");
-						if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
-						$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
-					}
-						},
-						error: function (jqXhr, textStatus, errorMessage) {
-							console.log(errorMessage);
+
+							GetUomGroup((data.item).itemCode);
+						} else {
+							$(ObjItemCode).closest('#ListParameters .itm').find("#ItemName").val("");
+							if (!($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
+								$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
 						}
-					});
+					},
+					error: function (jqXhr, textStatus, errorMessage) {
+						console.log(errorMessage);
+					}
+				});
 
 
 
 
-				
+
 			}
 
 		});
-	function GetWhsAddedQty(ItemCode, WhsCode) {
-    let sum = 0;
-    let _ItemCode;
-    let _WhsCode;
-    let _Qty;
-    $('#ListParameters .itm').each(function () {
-        _ItemCode = $(this).find('#ItemCode').val();
-        _WhsCode = $(this).find('#Warehouse').val();
-        _Qty = $(this).find('#QTY').val();
+		function GetWhsAddedQty(ItemCode, WhsCode) {
+			let sum = 0;
+			let _ItemCode;
+			let _WhsCode;
+			let _Qty;
+			$('#ListParameters .itm').each(function () {
+				_ItemCode = $(this).find('#ItemCode').val();
+				_WhsCode = $(this).find('#Warehouse').val();
+				_Qty = $(this).find('#QTY').val();
 
-        if (ItemCode == _ItemCode && WhsCode == _WhsCode) {
-            if (_Qty != "" && _Qty != undefined && _Qty != null)  {
-            sum = parseFloat(sum) + parseFloat(_Qty);}
-        }
-    });
-    return sum;
-}
+				if (ItemCode == _ItemCode && WhsCode == _WhsCode) {
+					if (_Qty != "" && _Qty != undefined && _Qty != null) {
+						sum = parseFloat(sum) + parseFloat(_Qty);
+					}
+				}
+			});
+			return sum;
+		}
 
 		function GetUomGroup(itemno) {
 
@@ -3685,17 +3681,17 @@ input[type=number] {
 			var UomEntryRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomEntry");
 			var UomQTYRow = $(ObjItemCode).closest('#ListParameters .itm').find("#QTY");
 			let _WhsCode = $(ObjItemCode).closest('#ListParameters .itm').find('#Warehouse').val();
-			 let onHand = $(ObjItemCode).closest('#ListParameters .itm').find('#onHand');
+			let onHand = $(ObjItemCode).closest('#ListParameters .itm').find('#onHand');
 			console.log(UomQTYRow);
-			
+
 			var UomCodeRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomCode");
 			$(UomEntryRow).html('');
 			$(UomEntryRow).append("<option value=" + -1 + " selected>" + 'Manual' + "</option>");
-						$(UomCodeRow).val('Manual');
-			
+			$(UomCodeRow).val('Manual');
+
 
 			//$(UomQTYRow).trigger('change');
-			
+
 			return $.ajax({
 				url: 'Common/GetItemData',
 				type: 'GET',
@@ -3704,33 +3700,31 @@ input[type=number] {
 				data: { itemcode: itemno, DocModule: DocModule },
 				success: function (data) {
 					//Trigger for QTY check is it available in warehouse
-					if($(UomQTYRow).val() != "" && $(UomQTYRow).val() != undefined && $(UomQTYRow).val() != null && WareshouseChk == true)
-							{
-								$.when( GetWhsAddedQty(itemno, _WhsCode) ).then(function(sum) {
-								
-									console.log(sum);
+					if ($(UomQTYRow).val() != "" && $(UomQTYRow).val() != undefined && $(UomQTYRow).val() != null && WareshouseChk == true) {
+						$.when(GetWhsAddedQty(itemno, _WhsCode)).then(function (sum) {
 
-								if(!(sum <= onHand.val())){
-									$(UomQTYRow).val("");
-									toastr.warning("Quantity can't be greater than Warehouse quantity");
-								}
-								
-								});
+							console.log(sum);
+
+							if (!(sum <= onHand.val())) {
+								$(UomQTYRow).val("");
+								toastr.warning("Quantity can't be greater than Warehouse quantity");
+							}
+
+						});
 
 					}
-					if((data.item).manBtchNum == "Y")
-						{
-							$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").removeClass("d-none");
-						}
-						else{
-							if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
-								$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
-						}
+					if ((data.item).manBtchNum == "Y") {
+						$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").removeClass("d-none");
+					}
+					else {
+						if (!($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
+							$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
+					}
 				},
 				error: function (jqXhr, textStatus, errorMessage) {
 					console.log(errorMessage);
-					if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
-					$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
+					if (!($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
+						$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
 				}
 			});
 
@@ -3739,11 +3733,11 @@ input[type=number] {
 			//$.get("Common/GetItemData", { itemcode: itemno, DocModule: DocModule }, function (data) {
 
 			//	if (data.success) {
-							
+
 			//		//let ItemNameObj = $(ObjItemCode).closest('#ListParameters .itm').find("#ItemName");
 			//		//$(ItemNameObj).val((data.item).itemName);
-					
-				
+
+
 			//			if((data.item).manBtchNum == "Y")
 			//			{
 			//				$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").removeClass("d-none");
@@ -3752,9 +3746,9 @@ input[type=number] {
 			//				if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
 			//					$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
 			//			}
-					
+
 			//		//GetUomGroup((data.item).itemCode);
-			//	} else 
+			//	} else
 			//	{
 			//		//$(ObjItemCode).closest('#ListParameters .itm').find("#ItemName").val("");
 			//		if(! ($(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").hasClass("d-none")))
@@ -3860,36 +3854,36 @@ input[type=number] {
 			var charCode = event.which;
 
 			// Check if the character is a special character or not
-			//if (charCode == 33 || charCode == 35 || charCode == 36 || charCode == 37 || charCode == 38 
-			// || charCode == 42 || charCode == 64 || charCode == 94 || charCode == 95 || charCode == 126 
-			// || charCode == 45 || charCode == 39 || charCode == 37 ||) 
+			//if (charCode == 33 || charCode == 35 || charCode == 36 || charCode == 37 || charCode == 38
+			// || charCode == 42 || charCode == 64 || charCode == 94 || charCode == 95 || charCode == 126
+			// || charCode == 45 || charCode == 39 || charCode == 37 ||)
 			if (!((charCode >= 48 && charCode <= 57) || (charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || charCode == 46 || charCode == 45 || charCode == 64)) {
 				// Prevent the character from being entered into the input field
 				event.preventDefault();
 			}
 		});
-		$('input[type=number]').on('wheel', function(e) {
+		$('input[type=number]').on('wheel', function (e) {
 			e.preventDefault();
 		});
 
-		  // Disable scrolling on input elements of type number
-		$('input[type=number]').on('keydown', function(e) {
+		// Disable scrolling on input elements of type number
+		$('input[type=number]').on('keydown', function (e) {
 			if (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 101 || e.keyCode === 69) {
-			  e.preventDefault();
+				e.preventDefault();
 			}
 		});
 
-//	$('input[type="number"]').each(function() {
-//  // Set the maxlength attribute to 11 for each number input
-//  $(this).attr('maxlength', '11');
+		//	$('input[type="number"]').each(function() {
+		//  // Set the maxlength attribute to 11 for each number input
+		//  $(this).attr('maxlength', '11');
 
-//});
-		 // $(document).on("input", "input[type='number']", function () {
-			//	 $(this).attr("maxlength",11);
-			//	var numInputs = $(this).length;
+		//});
+				 // $(document).on("input", "input[type='number']", function () {
+					//	 $(this).attr("maxlength",11);
+					//	var numInputs = $(this).length;
 
-			//console.log("Length is ::::::::::::::::::", numInputs)
-			//});
+					//console.log("Length is ::::::::::::::::::", numInputs)
+					//});
 
 	</script>
 	<!--=============================== Modal Work End ===================================-->

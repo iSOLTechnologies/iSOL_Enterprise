@@ -38,7 +38,7 @@
             <!--begin: Datatable-->
             <div class="row">
                 <div class="col-md-4 d-flex">
-                    <label>Doc Number </label>
+                    <label>Sales Order </label>
                     <input type="number" class="form-control form-control-sm" id="DocNum"/>
 
                 </div>
@@ -75,7 +75,10 @@
 
     $(document).on('click', '#btnGenerateReport', function () {
       
-      $(this).attr('disabled',true);
+        if ($('#DocNum').val() != null && $('#DocNum').val() != "" && $('#DocNum').val() != undefined)
+        {
+
+        $(this).attr('disabled',true);
 
         $(".loading_ic").addClass('overlay');
         $(".loading_ic").show();
@@ -110,9 +113,12 @@
                 $(".loading_ic").hide();
                 console.log(errorMessage);
             }
-      });
+        });
 
-        
+        }
+        else {
+            toastr.warning("Sales Order Number can't be empty")
+        }
     });
 
    
