@@ -55,11 +55,11 @@ namespace iSOL_Enterprise.Controllers.Production
             {
                 BillOfMaterialDal dal = new BillOfMaterialDal();
                 int id = dal.GetId(guid);
-                string? CardCode = dal.GetCardCode(guid);
+                
                 return Json(new
                 {
                     success = true,
-                    Header = dal.GetOldHeaderData(guid),
+                    Header = dal.GetOldHeaderData(id),
                     TabItems = dal.GetOldItemsData(CardCode)
                 });
 

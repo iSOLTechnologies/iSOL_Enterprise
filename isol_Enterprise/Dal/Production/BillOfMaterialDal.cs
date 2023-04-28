@@ -39,6 +39,15 @@ namespace iSOL_Enterprise.Dal.Production
             }
             return list;
         }
+        public int GetId(string guid)
+        {
+            return Convert.ToInt32(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select Id from OITT where GUID ='" + guid.ToString() + "'"));
+
+        }
+        public dynamic GetOldHeaderData(int id)
+        {
+            return "";
+        }
         public string GetTreeType(char TreeType)
         {
             switch(TreeType)
