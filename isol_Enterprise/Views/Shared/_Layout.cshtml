@@ -537,6 +537,42 @@
 								</div>
 							</li>
 
+
+							<li class="menu-section">
+								<h4 class="menu-text">Production</h4> <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+							</li>
+							<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+								<a href="javascript:;" class="menu-link menu-toggle">
+									<span class="svg-icon menu-icon" style="margin-left: -10px;">
+										<img src="~/assets/images/drill.png"  style="height : 25px"/>
+										<!--begin::Svg Icon | path:assets/media/svg/icons/Code/Compiling.svg-->
+										
+										<!--end::Svg Icon-->
+									</span> 
+									<span class="menu-text ml-3">Production</span> <i class="menu-arrow"></i>
+								</a>
+								<div class="menu-submenu">
+									<i class="menu-arrow"></i>
+									<ul class="menu-subnav">
+										<li class="menu-item menu-item-parent" aria-haspopup="true">
+											<span class="menu-link">
+												<span class="menu-text">Subheaders</span>
+											</span>
+										</li>
+										<li class="menu-item" aria-haspopup="true">
+											<a asp-action="Index" asp-controller="BillOfMaterial" class="menu-link">
+												<i class="menu-bullet menu-bullet-dot">
+													<span></span>
+												</i> <span class="menu-text">Bill Of Material</span>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</li>
+
+
+
+
 							<li class="menu-section">
 								<h4 class="menu-text">Reports</h4> <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
 							</li>
@@ -3568,8 +3604,15 @@
 			$(selectedRow).addClass('Mainrow_selected');
 			//$('.OperationBtns').attr("data-id", SelectedVal);
 			RowDataPrint = rowData;
+			if(HeaderItemCodeClick) {
+				$("#ItemmCode").val(rowData['itemCode']);
+				$("#ItemDescription").val(rowData['itemName']);
+				HeaderItemCodeClick = false;
+			}
+			else {
 			$(ObjItemCode).closest('#ListParameters .itm').find("#ItemCode").val(rowData['itemCode']).change();
 			$(ObjItemCode).closest('#ListParameters .itm').find("#ItemName").val(rowData['itemName']).change();
+			
 			//Get UOM group Data
 
 
@@ -3582,7 +3625,32 @@
 					$(ObjItemCode).closest('#ListParameters .itm').find("#ListbtnSelectBatch").addClass("d-none");
 			}
 
+				let WarehouseField = $(ObjItemCode).closest('#ListParameters .itm').find('#Warehouse');
+				let WarehouseValue = WarehouseField.val();
+				let onHand = $(ObjItemCode).closest('#ListParameters .itm').find('#onHand');
+				if (WarehouseField.val() != "" || WarehouseField.val() != null) {
+
+
+					$.ajax({
+						url: 'Common/GetSelectedWareHouseData',
+						type: 'GET',
+						dataType: 'json',
+						async: false,
+						data: { ItemCode: rowData['itemCode'], WhsCode: WarehouseValue },
+						success: function (data) {
+							onHand.val(data);
+						},
+						error: function (jqXhr, textStatus, errorMessage) {
+							console.log(errorMessage);
+						}
+					});
+
+				}
+
+
 			GetUomGroup(rowData['itemCode']);
+			
+			}
 
 			$('#myItemModal').modal('hide');
 

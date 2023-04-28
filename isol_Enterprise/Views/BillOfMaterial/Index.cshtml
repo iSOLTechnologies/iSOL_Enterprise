@@ -1,0 +1,257 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewBag.title1 = "";
+    ViewBag.title2 = "Bill Of Material";
+    ViewData["Title"] = "BillOfMaterial";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://code.jquery.com/jquery-3.6.3.slim.js" integrity="sha256-DKU1CmJ8kBuEwumaLuh9Tl/6ZB6jzGOBV/5YpNE2BWc=" crossorigin="anonymous"></script>
+<!-- Render Body <Start> -->
+<!--begin::Subheader-->
+<link href="~/css/commonstyle.css" rel="stylesheet" />
+<!--end::Subheader-->
+<!--begin::Entry-->
+<div class="container mt-5">
+
+    <!--begin::Card-->
+    <div class="card card-custom">
+        <div class="card-header">
+            <div class="card-title">
+                <span class="card-icon">
+                    <i class="flaticon-notepad text-primary"></i>
+                </span>
+                <h3 class="card-label">Bill Of Material</h3>
+            </div>
+            @* <div class="card-toolbar">
+            <button class="bt btn-brand"  type="button">
+            Add
+            </button>
+
+            <!--end::Button-->
+            </div>*@
+            <div class="card-toolbar">
+                <div class="btn-group">
+                    <button type="button" id="btnPostToSap" class="btn btn-success font-weight-bolder mr-2">
+                        <i class="fas fa-database"></i>  Post To SAP
+                    </button>
+
+                    <button type="button" id="btnAdd" class="btn btn-primary font-weight-bolder">
+                        + Add Record
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <!--begin: Datatable-->
+            <table class="table table-striped- table-bordered table-hover table-checkable " id="AttTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+
+
+                    </tr>
+                </thead>
+            </table>
+
+            <div class="loading_ic">
+
+                <div class="spinner-border text-primary">
+                    <span class="sr-only">Loading...</span>
+
+                </div>
+
+
+            </div>
+
+
+            <!--end: Datatable-->
+        </div>
+    </div>
+
+</div>
+<!--end::Entry-->
+<!-- Render Body <End> -->
+
+<script>
+    var datatable;
+    $(document).on('click', '#btnAdd', function () {
+
+        //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
+        window.location.href = '/BillOfMaterial/BillOfMaterialMaster';
+    })
+    function Mastercheck() {
+        if (document.getElementById('Mastercheck').checked == true) {
+            $("#AttTable tr").each(function () {
+                $(this).find("#chckbox").prop("checked", true);
+            });
+        } else {
+            $("#AttTable  tr").each(function () {
+                $(this).find("#chckbox").prop("checked", false);
+            });
+        }
+    }
+
+    function generateTable() {
+
+        datatable = $('#AttTable').DataTable({
+            responsive: true,
+            searching: true,
+            ordering: false,
+            //   order: [[2, 'asc']],
+            ordering: false,
+            "ajax": {
+
+                // url: '/HrAdmin/GetAttendanceList_MainLines?Date=' + $('#FilterDate').val(),
+                url: '/BillOfMaterial/GetData',
+            },
+
+            layout: {
+                scroll: false, // enable/disable datatable scroll both horizontal and vertical when needed.
+                // height: 450, // datatable's body's fixed height
+                footer: false, // display/hide footer
+            },
+
+            // column sorting
+            sortable: true,
+
+            pagination: true,
+            destroy: true,
+            //   async: false,
+            search: {
+                input: $('#generalSearch'),
+            },
+            columns: [
+                {
+                    data: "id", 'title': '<span style="width: 30px;"><label class="checkbox checkbox-single checkbox-all"><input id="Mastercheck" onclick="Mastercheck()" type="checkbox">&nbsp;<span></span></label></span>', render: function (data, type, row) {
+
+                        if (row.isPosted == "True" && row.isEdited == "False") {
+                            return '<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">Posted</span>';
+                        } else {
+                            return '<span style="width: 30px;"><label class="checkbox checkbox-single checkbox-all"><input guid=' + data + '  id="chckbox" type="checkbox">&nbsp;<span></span></label></span>';
+                        }
+
+
+                    }
+                },
+                {
+                    data: 'docDate', title: 'Created Date', render: function (data, type, row) {
+                        if (data != undefined && data != '') {
+
+                            return moment(data).format('DD-MM-YYYY')
+
+                        } else {
+                            // return data;
+                            return '';
+                        }
+                    }
+                },
+                {
+                    data: 'cardCode', title: 'Item Code',
+                },
+                {
+                    data: 'cardName', title: 'Tree Type',
+                },
+                {
+                    data: 'quanity', title: 'Quantity',
+                },
+                {
+                    data: 'warehouse', title: 'Warehouse',
+                },
+                {
+                    data: "docStatus", 'title': 'Status', render: function (data, type, row) {
+
+                        if (data == "Open") {
+                            //var html = `<span class="badge badge-success" style="background-color: #28a745;">Open</span>`;
+                            var html = `<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">Open</span>`;
+                            return html;
+
+
+
+                        } else {
+                            //var html = ` <span class="badge badge-danger">Closed</span>`;
+                            var html = `<span class="label label-lg label-light-danger label-inline">Closed</span>`;
+                            return html;
+                        }
+                    }
+                },
+                {
+                    data: "id", 'title': 'Action', render: function (data, type, row) {
+
+                        var html = '<a guid=' + data + ' id="btnFetchBillOfMaterial" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+                        html += '<i id="showeyes" class=" fa fa-eye"></i> ';
+                        html += '               </a>';
+                        return html;
+
+                    }
+                },],
+        });
+
+    }
+
+    $(document).ready(function () {
+
+        generateTable();
+    });
+    $(document).on('click', '#btnFetchBillOfMaterial', function (e) {
+
+
+        var guid = $(this).attr("guid");
+        window.location.href = '/BillOfMaterial/BillOfMaterialMaster/' + guid + '';
+
+    });
+
+    //$(document).on('click', '#btnPostToSap', function () {
+    //    $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+    //    $(this).attr('disabled', true);
+    //    let checkedIDs = [];
+    //    $(".loading_ic").addClass('overlay');
+    //    $(".loading_ic").show();
+    //    $('#AttTable tbody tr').each(function (index, item) {
+
+    //        let CheckBoxObj = $(this).find('#chckbox');
+
+    //        if ($(CheckBoxObj).is(":checked"))
+    //            checkedIDs.push($(CheckBoxObj).attr('guid'));
+
+
+    //    });
+    //    if (checkedIDs.length > 0) {
+
+    //        $.post("Common/PostGoodIssue", { checkedIDs: checkedIDs, ObjectCode: 60 }, function (response) {
+    //            if (response.success) {
+    //                $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+    //                $("#btnPostToSap").attr('disabled', false);
+    //                $(".loading_ic").removeClass('overlay dark');
+    //                $(".loading_ic").hide();
+    //                toastr.success(response.message);
+    //                datatable.ajax.reload();
+    //            }
+    //            else {
+    //                $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+    //                $("#btnPostToSap").attr('disabled', false);
+    //                toastr.error(response.message);
+    //                $(".loading_ic").removeClass('overlay dark');
+    //                $(".loading_ic").hide();
+    //                datatable.ajax.reload();
+    //            }
+
+    //        });
+    //    }
+    //    else {
+    //        $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+    //        $("#btnPostToSap").attr('disabled', false);
+    //        toastr.warning("Documents not Selected !!");
+    //        $(".loading_ic").removeClass('overlay dark');
+    //        $(".loading_ic").hide();
+    //    }
+
+    //});
+</script>
