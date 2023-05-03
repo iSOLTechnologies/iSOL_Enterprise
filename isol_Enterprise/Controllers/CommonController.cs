@@ -241,5 +241,21 @@ namespace iSOL_Enterprise.Controllers
                 return Json(ex.Message);
             }
         }
+        [HttpGet]
+        public IActionResult GetProdGuid(string ItemCode)
+        {
+            try
+            {
+
+                CommonDal dal = new CommonDal();
+                
+                return Json(new { success = true ,guid = dal.GetProdGuid(ItemCode) });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(ex.Message);
+            }
+        }
     }
 }

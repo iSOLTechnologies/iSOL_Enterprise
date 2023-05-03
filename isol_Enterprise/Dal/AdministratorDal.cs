@@ -78,12 +78,13 @@ namespace iSOL_Enterprise.Dal
 
         public bool InsertSeries(tbl_NNM1 obj)
         {
+            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+            conn.Open();
+            SqlTransaction tran = conn.BeginTransaction();
             try
             {
-                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-                conn.Open();
-                SqlTransaction tran = conn.BeginTransaction();
-                int res1 = 0;
+                
+                 int res1 = 0;
                 int Series = CommonDal.getPrimaryKey(tran, "Series", "NNM1");
                 string HeadQuery = @"INSERT INTO NNM1(ObjectCode,Series,SeriesName,InitialNum,LastNum,NextNumber,BeginStr) 
                                     VALUES('" + obj.ObjectCode + "','" + Series + "','" + obj.SeriesName + "'," + obj.InitialNum + "," + obj.LastNum + "," + obj.InitialNum + ",'" + obj.BeginStr + "')";
@@ -103,6 +104,7 @@ namespace iSOL_Enterprise.Dal
             }
             catch (Exception)
             {
+                tran.Rollback();
                 return false;
                 throw;
             }

@@ -406,6 +406,20 @@ function getJsonObjList(element) {
     })
     return listObj;
 }
+function getJsonObjKeyName(element) {
+
+    var jsonobj = new Object();
+
+
+
+    $('#' + element + ' input,' + '#' + element + ' select, ' + '#' + element + ' textarea').each(function (index, data) {
+
+        if ($(this).attr("name") != undefined || $(this).attr("name") != "" || $(this).attr("name") != '')
+            jsonobj[$(this).attr("name")] = $(this).val();
+
+    });
+    return jsonobj;
+}
 function getJsonObjListKeyName(element) {
     let listObj = [];
 

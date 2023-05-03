@@ -17,7 +17,7 @@ using iSOL_Enterprise.Common;
 
 namespace iSOL_Enterprise.Controllers
 {
-    [Authorize]
+    
     [ResponseCache(Location = ResponseCacheLocation.None,NoStore = true)]
     public class HomeController : Controller
     {

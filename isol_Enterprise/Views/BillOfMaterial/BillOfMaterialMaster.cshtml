@@ -156,7 +156,7 @@
                                                                             </div>
                                                                              
                                                                              <label class="pt-2 ml-3" style="width:200px">X Quantity</label>
-                                                                             <input id="Quantity" name="Quantity" type="number" class="form-control form-control-sm" placeholder="0000" aria-describedby="basic-addon2">
+                                                                             <input id="Qauntity" name="Quantity" type="number" class="form-control form-control-sm" placeholder="0000" aria-describedby="basic-addon2">
                                                                         </div>
                                                                     </div>
 
@@ -210,7 +210,7 @@
 
                                                                     <div class="col-md-6">
                                                                         <label>Planned Average Production Size</label>
-                                                                        <input id="PLAvgSize" name="PLAvgSize" type="number" class="form-control form-control-sm" placeholder="0000" aria-describedby="basic-addon2">
+                                                                        <input id="PlAvgSize" name="PLAvgSize" type="number" class="form-control form-control-sm" placeholder="0000" aria-describedby="basic-addon2">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                     <div class="col-md-6">
@@ -257,8 +257,7 @@
                                                                                     <th>Unit Price</th>
                                                                                     <th>Total</th>
                                                                                     <th>Comments</th>
-                                                                                    <th>UOM Code</th>
-                                                                                    
+                                                                                    <th>UOM Code</th>                                                                                    
                                                                                     
                                                                                 </tr>
                                                                             </thead>
@@ -349,7 +348,10 @@
                                                                                         <select class="form-control NotReq" id="UomEntry" name="UomEntry"> </select><input id="UomCode" name="UomCode" class="position-absolute d-none NotReq" />
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    
+                                                                                    <td class="d-none">
+                                                                                        <input id="LineNum" name="LineNum" class="form-control form-control-sm NotReq" type="number">
+                                                                                        <div class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -504,7 +506,7 @@
     $(document).on('click', '#CodeNo', function (e) {
         
         HeaderItemCodeClick = true;
-        DocModule = "I";
+        DocModule = "PR";
         generateItemTable();
         $('#myItemModal').modal('show');
 
@@ -533,7 +535,7 @@
     $(document).ready(function () {
 
 
-        DocModule = "P";
+        DocModule = "PR";
         GetWareHouseDataThroughClass();
         
         GetWareHouseData();
@@ -547,7 +549,7 @@
 
         if ("@ViewBag.OldId" != "0") {
             
-            $("#btnSaveData").hide();
+            $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
             $("#btnSaveData").attr('disabled', true);
 
             OldId = "@ViewBag.OldId";
@@ -630,7 +632,7 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input id="BuyUnitMsr" name="ItemName" class="form-control form-control-sm NotReq" type="text" disabled>
+                                                                                            <input id="BuyUnitMsr" name="BuyUnitMsr" class="form-control form-control-sm NotReq" type="text" disabled>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
@@ -683,11 +685,15 @@
                                                                                         <select class="form-control NotReq" id="UomEntry" name="UomEntry"> </select><input id="UomCode" name="UomCode" class="position-absolute d-none NotReq" />
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                         <td>
+                                                                                    <td class="d-none">
+                                                                                              <input id="LineNum" name="LineNum" class="form-control form-control-sm NotReq" type="number">
+                                                                                          <div class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
                                                                                         <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
                                                                                         <i class="la la-trash"></i> X
                                                                                        </a>
-                                                                                       </td>
+                                                                                   </td>
                                                                                 </tr>
         `;
         $('#kt_repeater_1 tbody').append(html);
@@ -729,6 +735,7 @@
             HeaderData: getJsonObj("HeaderForm"),
             ListItems: getJsonObjListKeyName("ListParameters .itm"),
             FooterData: getJsonObj("FooterData"),
+            OldId: OldId
             //BaseType : BaseType
         }
        //console.log(data);
@@ -785,15 +792,15 @@
         });
     }
 
-      function GetOldData() 
+    function GetOldData() 
     {
 
         $.ajax({
-            url: 'GoodsIssue/GetOldData',
+            url: 'BillOfMaterial/GetOldData',
             type: 'GET',
             dataType: 'json',
             async : false,
-            data: { ItemID: OldId },
+            data: { guid: OldId },
             success: function (data) 
             {
                 
@@ -821,19 +828,21 @@
                     }
                     else
                     {
+                        if(key == "Code")
+                            $("#ItemmCode").val(value);
+                        if(key == "Name")
+                            $("#ItemDescription").val(value);
+
+
+
                          $("#" + key).val(value);
                     }
-                    if(key == "DocTotal"){ 
-                         $("#TotalBeforeDiscount").val(value)
-                    }
+                    
 
 
                 });
                //Row Data
-               let RowData = JSON.parse(data.rowData);  
-                
-                //$.each(RowData[0][0], function (key, value) {
-                //console.log(RowData);
+                let RowData = JSON.parse(data.rowData);                  
                 let j = 0;
                 $.each(RowData[0], function (key, value) { 
 
@@ -841,16 +850,18 @@
                     {
                       
 
-                        $("#ItemCode").val(this.ItemCode).trigger('change'); 
-                        $("#ItemName").val(this.Dscription); 
-                        $("#Warehouse").val(this.WhsCode);
+                        $("#ItemCode").val(this.Code).trigger('change'); 
+                        $("#ItemName").val(this.ItemName); 
+                        $("#Warehouse").val(this.Warehouse);
                         $("#QTY").val(this.Quantity);
                         $("#UPrc").val(this.Price);
                         $("#TtlPrc").val(this.LineTotal);
-                        $("#AcctCode").val(this.AcctCode);
-                        $("#UomEntry").html(`<option value"` + this.UomEntry + `">` + this.UomCode + `</option>`);
+                        $("#LineNum").val(this.ChildNum);
+                        $("#Comment").val(this.Comment);
+
+                        $("#UomEntry").html(`<option value"-1">Manual</option>`);
                          
-                        $.when(GetWareHouseQty(this.ItemCode, this.WhsCode)).done(function (OnHand) {
+                        $.when(GetWareHouseQty(this.Father, this.Warehouse)).done(function (OnHand) {
 
                             $("#onHand").val(Number(OnHand));
 
@@ -864,16 +875,18 @@
                         InitializeWareHouseData();
                         $('#ListParameters tr:last-child').find("#Warehouse").html(WareHouseData);
                          
-                        $('#ListParameters tr:last-child').find("#ItemCode").val(this.ItemCode); 
-                        $('#ListParameters tr:last-child').find("#ItemName").val(this.Dscription);
-                        $('#ListParameters tr:last-child').find("#Warehouse").val(this.WhsCode);
+                        $('#ListParameters tr:last-child').find("#ItemCode").val(this.Code);
+                        $('#ListParameters tr:last-child').find("#ItemName").val(this.ItemName);
+                        $('#ListParameters tr:last-child').find("#Warehouse").val(this.Warehouse);
                         $('#ListParameters tr:last-child').find("#QTY").val(this.Quantity);
                         $('#ListParameters tr:last-child').find("#UPrc").val(this.Price);
                         $('#ListParameters tr:last-child').find("#TtlPrc").val(this.LineTotal);
-                        $('#ListParameters tr:last-child').find("#AcctCode").val(this.AcctCode);
-                        $('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"` + this.UomEntry + `">` + this.UomCode + `</option>`);
+                        $('#ListParameters tr:last-child').find("#LineNum").val(this.ChildNum);
+                        $('#ListParameters tr:last-child').find("#Comment").val(this.Comment);
+
+                        $('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"-1">Manual</option>`);
                         
-                        $.when(GetWareHouseQty(this.ItemCode, this.WhsCode)).done(function (OnHand) {
+                        $.when(GetWareHouseQty(this.ItemCode, this.Warehouse)).done(function (OnHand) {
 
                             $('#ListParameters tr:last-child').find("#onHand").val(Number(OnHand));
 
@@ -886,7 +899,7 @@
                 });
                  
 
-                //$("#btnSaveData").attr('disabled', false);
+                $("#btnSaveData").attr('disabled', false);
                 
                 
             },

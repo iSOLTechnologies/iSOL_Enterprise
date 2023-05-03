@@ -566,6 +566,13 @@
 												</i> <span class="menu-text">Bill Of Material</span>
 											</a>
 										</li>
+										<li class="menu-item" aria-haspopup="true">
+											<a asp-action="Index" asp-controller="ProductionOrder" class="menu-link">
+												<i class="menu-bullet menu-bullet-dot">
+													<span></span>
+												</i> <span class="menu-text">Production Order</span>
+											</a>
+										</li>
 									</ul>
 								</div>
 							</li>
@@ -2601,6 +2608,52 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	<button type="button" style="display:none;" id="mySalesOrderbtn" onclick="generateSalesOrderTable()" data-toggle="modal" data-target="#mySalesOrderModal"></button>
+	<div class="modal fade" id="mySalesOrderModal" role="dialog">
+		<div class="modal-dialog modal-dialog-centered modal-xl">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="card-title">List Of Sales Orer</h5>
+					<button type="button" class="close text-danger" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<!-- General Form Elements -->
+					<div class="container">
+						<div class="card-body">
+							<!--begin: Datatable-->
+							<div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+								<div class="row">
+									<div class="col-sm-12">
+										<!--begin: Datatable-->
+										<table class="table table-striped- table-bordered table-hover table-checkable " id="MyyyySalesOrderTable">
+											<thead>
+												<tr>
+													<th></th>
+													<th></th>
+													<th></th>
+													<th></th>
+													
+												</tr>
+											</thead>
+										</table>
+									</div>
+								</div>
+							</div>
+							<!--end: Datatable-->
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
 	<button type="button" style="display:none;" id="myCustomerbtn" onclick="generateVendorTable()" data-toggle="modal" data-target="#myCustModal"></button>
 	<div class="modal fade" id="myVendorModal" role="dialog">
 		<div class="modal-dialog modal-dialog-centered modal-xl">
@@ -3035,6 +3088,7 @@
 
 
 		}
+		
 		$(document).on('click', '#btnSelectBatch', function (e) {
 			//debugger
 			var LookTable = $('#MyyyyBatchSelectTable').DataTable();
@@ -3371,7 +3425,80 @@
 				],
 			});
 		}
+		
+		function generateSalesOrderTable() {
 
+		$.ajax({
+			url: 'Common/GetSaleOrders',
+			type: 'GET',
+			dataType: 'json',
+			async : false,
+			success: function (data) 
+			{
+				
+				datatable = $('#MyyyySalesOrderTable').DataTable({
+				responsive: true,
+				searching: true,
+				ordering: false,
+				ordering: false,
+				data : data,
+				"columnDefs": [
+					{
+						"targets": 0,
+						visible: false,
+						"createdCell": function (td, cellData, rowData, row, col) {
+							$(td).attr('id', "DocEntry");
+						}
+					}
+				],
+				layout: {
+					scroll: false,
+					footer: false,
+				},
+				// column sorting
+				sortable: true,
+				pagination: true,
+				destroy: true,
+				//   async: false,
+				search: {
+					input: $('#generalSearch'),
+				},
+				columns: [{
+					data: 'id',
+					title: 'Doc Entry',
+				}, {
+					data: 'docNum',
+					title: '#'
+				},{
+				data: 'docDate', title: 'Date', render: function (data, type, row) {
+								if (data != undefined && data != '' && data != null) {
+
+									return moment(data).format('DD-MM-YYYY')
+
+								} else {
+									return data;
+								}
+							}
+				},{
+					data: 'cardName',
+					title: 'Customer'
+				}
+					
+				],
+			});
+
+
+			},
+			error: function (jqXhr, textStatus, errorMessage) {
+				console.log(errorMessage);
+			}
+		 });
+
+
+
+
+			
+		}
 		function generateVendorTable() {
 			datatable = $('#MyyyyVendorTable').DataTable({
 				responsive: true,
@@ -3510,7 +3637,15 @@
 
 
 		});
+		$(document).on('dblclick', '#MyyyySalesOrderTable tbody tr', function (e) {
+			console.log("Hi")
+			var LookTable = $('#MyyyySalesOrderTable').DataTable();;
+			var selectedRow = $(this).closest('tr');
+			var rowData = LookTable.row(selectedRow).data();
+			$("#SalesOrderCode").val(rowData['docNum']);
+			$('#mySalesOrderModal').modal('hide');
 
+		});
 		$(document).on('change keyup', "#CardCode", function (e) {
 
 
@@ -3604,7 +3739,8 @@
 			$(selectedRow).addClass('Mainrow_selected');
 			//$('.OperationBtns').attr("data-id", SelectedVal);
 			RowDataPrint = rowData;
-			if(HeaderItemCodeClick) {
+			if(HeaderItemCodeClick) 
+			{
 				$("#ItemmCode").val(rowData['itemCode']);
 				$("#ItemDescription").val(rowData['itemName']);
 				HeaderItemCodeClick = false;

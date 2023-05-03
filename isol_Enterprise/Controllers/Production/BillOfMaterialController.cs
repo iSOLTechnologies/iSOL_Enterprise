@@ -15,13 +15,13 @@ namespace iSOL_Enterprise.Controllers.Production
             return View();
         }
 
-        public IActionResult BillOfMaterialMaster(int id = 0)
+        public IActionResult BillOfMaterialMaster(string id = "")
         {
             ItemMasterDataDal Idal = new ItemMasterDataDal();
             BusinessPartnerMasterDataDal Bdal = new BusinessPartnerMasterDataDal();
             ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text");
             ViewData["ProjectCode"] = new SelectList(Bdal.GetProjectCodes(), "Value", "Text");
-            if (id > 0)
+            if (id != "")
             {
                 ViewBag.OldId = id;
             }
@@ -59,8 +59,8 @@ namespace iSOL_Enterprise.Controllers.Production
                 return Json(new
                 {
                     success = true,
-                    Header = dal.GetOldHeaderData(id),
-                    TabItems = dal.GetOldItemsData(CardCode)
+                    HeaderData = dal.GetOldHeaderData(id),
+                    RowData = dal.GetOldItemsData(id)
                 });
 
             }

@@ -54,9 +54,13 @@ namespace iSOL_Enterprise.Dal.Sale
             {
                 GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where PrchseItem = 'Y' and FrozenFor='N'";
             }
-            else if (DocModule == "I")
+            else if (DocModule == "I" || DocModule == "PR")
             {
                 GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where InvntItem = 'Y' and FrozenFor='N'";
+            }
+            else if (DocModule == "PRO")
+            {
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITT inner join OITM on ItemCode = OITT.Code";
             }
             else
             {

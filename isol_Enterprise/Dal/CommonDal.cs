@@ -51,11 +51,11 @@ namespace iSOL_Enterprise.Dal
             if (DocModule == "S")
             {
                 GetQuery = "select a.CardCode,a.CardName,a.Currency,a.Balance,b.[Address] from OCRD as a Left JOIN CRD1 as b on a.Cardcode = b.CardCode Where CardType = 'C'";
-            }else if (DocModule == "I")
+            }else if (DocModule == "I" || DocModule == "PR" || DocModule == "PRO")
             {
                 GetQuery = "select a.CardCode,a.CardName,a.Currency,a.Balance,b.[Address] from OCRD as a Left JOIN CRD1 as b on a.Cardcode = b.CardCode";
             }
-
+            
 
             List<tbl_customer> list = new List<tbl_customer>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
@@ -943,7 +943,7 @@ where s.Status=1 and p.Guid=@Guid";
         }
         public List<SalesQuotation_MasterModels> GetSaleOrders()
         {
-            string GetQuery = "select DocEntry,DocNum from ORDR";
+            string GetQuery = "select DocEntry,DocNum,CardName,DocDate from ORDR";
 
 
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
@@ -956,8 +956,10 @@ where s.Status=1 and p.Guid=@Guid";
                         new SalesQuotation_MasterModels()
                         {
                             Id = rdr["DocEntry"].ToInt(),
-                            DocNum = rdr["DocNum"].ToString()
-                        });
+                            DocNum = rdr["DocNum"].ToString(),
+                            DocDate = rdr["DocDate"].ToString() != "" ? Convert.ToDateTime(rdr["DocDate"]) : null,
+                            CardName = rdr["CardName"].ToString()
+                        }) ;
 
                 }
             }
@@ -1463,6 +1465,24 @@ where s.Status=1 and p.Guid=@Guid";
 
             }
             return true;
+        }
+   
+        public string? GetProdGuid(string ItemCode)
+        {
+            string query = @"select Guid from OITT where Code = '" +ItemCode+ "'";
+            string Guid = "";
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, query))
+            {
+                while (rdr.Read())
+                {
+
+                    Guid = rdr["Guid"].ToString();
+                    
+                }
+            }
+            
+
+            return Guid;
         }
     }
 }
