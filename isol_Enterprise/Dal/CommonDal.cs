@@ -1113,7 +1113,7 @@ where s.Status=1 and p.Guid=@Guid";
         }
         public bool OutBatches(SqlTransaction tran , dynamic Batches,string ItemCode,int LogEntry, string Warehouse, int LineNum)
         {
-            int res1 = 0;
+            int res1 = 1;
             foreach (var batch in Batches)
             {
 
@@ -1250,7 +1250,7 @@ where s.Status=1 and p.Guid=@Guid";
 
         public bool InBatches(SqlTransaction tran, dynamic Batches,string ItemCode,int LogEntry,string Warehouse,int LineNum)
         {
-            int res1 = 0;
+            int res1 = 1;
 
             foreach (var batch in Batches)
             {

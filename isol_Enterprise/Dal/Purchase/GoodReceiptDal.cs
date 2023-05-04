@@ -3,6 +3,7 @@ using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Models.Logs;
 using iSOL_Enterprise.Models.sale;
 using Microsoft.Extensions.Logging.Abstractions;
+using MongoDB.Bson;
 using Newtonsoft.Json;
 using SqlHelperExtensions;
 using System.Data;
@@ -469,8 +470,9 @@ namespace iSOL_Enterprise.Dal.Purchase
 
                             #region Batches & Log Working
 
-                            if (model.Batches != null)
+                            if (model.Batches != null )
                             {
+                                
                                 bool response = dal.InBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry , item.Warehouse.ToString(),LineNo);
                                 if (!response)
                                 {
