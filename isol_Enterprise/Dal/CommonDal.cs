@@ -81,33 +81,33 @@ namespace iSOL_Enterprise.Dal
             SqlParameter param = new SqlParameter();
             if (type == typeof(int))
             {
-                int? value1 = value.ToString() == "" ? null : (int)value;
+                int? value1 = value.ToString() == "" || value == null ? null : (int)value;
                 
                 param = new SqlParameter(name, value1);
             }
             else if (type == typeof(string))
             {
-                string? value1 = value == "" ? null : Convert.ToString(value);
+                string? value1 = value == "" || value == null ?  null : Convert.ToString(value);
                 param = new SqlParameter(name, value1);
             }
             else if (type == typeof(DateTime))
             {
-                DateTime? value1 = value == "" ? null : Convert.ToDateTime(value);
+                DateTime? value1 = value == "" || value == null ? null : Convert.ToDateTime(value);
                 param = new SqlParameter(name, value1);
             }
             else if (type == typeof(char))
             {
-                char value1 = value == "" ? null : Convert.ToChar(value);
+                char? value1 = value == "" || value == null ? null : Convert.ToChar(value);
                 param = new SqlParameter(name, value1);
             }
             else if (type == typeof(decimal))
             {
-                decimal value1 = value == "" ? null : Convert.ToDecimal(value);
+                decimal? value1 = value == "" || value == null ? null : Convert.ToDecimal(value);
                 param = new SqlParameter(name, value1);
             }
             else if (type == typeof(Int16))
             { 
-				int? value1 = value.ToString() == "" ? null : Convert.ToInt16(value);
+				int? value1 = value.ToString() == "" || value == null ? null : Convert.ToInt16(value);
 				param = new SqlParameter(name, value1);
             }
             // param = new SqlParameter(name,value);
