@@ -258,7 +258,7 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
                                                                         <label>Priority</label>
-                                                                        <input id="Priority" name="Priority" type="number" class="form-control form-control-sm" placeholder="0000" aria-describedby="basic-addon2">
+                                                                        <input id="Priority" name="Priority" type="number" class="form-control form-control-sm" MaxValue="32000" placeholder="0000" aria-describedby="basic-addon2" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                     <div class="col-md-6">
@@ -458,13 +458,13 @@
 
                                                                     
                                                                     <div class="col-md-6">
-                                                                        <label for="inputRemarks" class="form-label" name="Comments">Remarks</label>
-                                                                        <textarea id="Comments" class="form-control" rows="3"></textarea>
+                                                                        <label for="inputRemarks" class="form-label" >Remarks</label>
+                                                                        <textarea id="Comments" name="Comments" class="form-control" rows="3"></textarea>
                                                                     </div>
                                                                     
                                                                     <div class="col-md-6">
-                                                                        <label for="inputRemarks" class="form-label" name="PickRmrk">Pick & Pack Remarks</label>
-                                                                        <textarea id="Comments" class="form-control" rows="3"></textarea>
+                                                                        <label for="inputRemarks" class="form-label" >Pick & Pack Remarks</label>
+                                                                        <textarea id="PickRmrk" class="form-control" name="PickRmrk" rows="3"></textarea>
                                                                     </div>
 
                                                                 </div>
@@ -650,15 +650,17 @@
 
         if ("@ViewBag.OldId" != "0") {
             
-            //$("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
-            $("#btnSaveData").hide();
+            $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
             $("#btnSaveData").attr('disabled', true);
-
+            
             OldId = "@ViewBag.OldId";
             isEdit = true;
 
             $("#ItemmCode").attr('disabled', true);
             $("#ItemDescription").attr('disabled', true);
+            $("#MySeries").attr('disabled', true);
+            $("#Series").attr('disabled', true);
+            $("#DocNum").attr('disabled', true);
             $("#CodeNo").hide();
             GetOldData();
         }
@@ -690,8 +692,19 @@
 
         window.history.back();
     });
-    $(document).on("keydown", "input", function () {
+    $(document).on("keydown", "input", function () 
+    {
         $(this).removeClass('is-invalid');
+        
+        if(this.type = 'number')
+        {
+            let maxValue = $(this).attr('MaxValue');           
+            if(maxValue != "" && maxValue != undefined && maxValue != 'NaN')
+                if(parseFloat($(this).val()) > parseFloat(maxValue))
+                    $(this).val(maxValue);
+        }
+
+
     });
     
 
@@ -1068,11 +1081,19 @@
                     }
                     else
                     {
-                       
-
-
-
-                         $("#" + key).val(value);
+                            if(key == 'ItemCode')
+                            $("#ItemmCode").val(value).trigger('change');
+                            else if(key == 'PlannedQty')
+                            $("#PlannedQtyH").val(value);
+                            else if(key == 'Warehouse')
+                            $("#ToWH").val(value);
+                            else if (key == 'OriginNum')
+                            $("#SalesOrderCode").val(value);
+                            else if (key == 'ProdName')
+                            $("#ItemDescription").val(value);
+                            
+                            else
+                            $("#" + key).val(value);
                     }
                     
 
@@ -1087,18 +1108,16 @@
                     {
                       
 
-                        $("#ItemCode").val(this.Code).trigger('change'); 
+                        $("#ItemCode").val(this.ItemCode); 
                         $("#ItemName").val(this.ItemName); 
-                        $("#Warehouse").val(this.Warehouse);
-                        $("#QTY").val(this.Quantity);
-                        $("#UPrc").val(this.Price);
-                        $("#TtlPrc").val(this.LineTotal);
+                        $("#Warehouse").val(this.wareHouse);
+                        $("#QTY").val(this.Quantity);                        
+                        $("#PlannedQty").val(this.PlannedQty);
+                        $("#IssueMthd").val(this.IssueType);
                         $("#LineNum").val(this.LineNum);
                         $("#Comment").val(this.Comment);
-
-                        $("#UomEntry").html(`<option value"-1">Manual</option>`);
-                         
-                        $.when(GetWareHouseQty(this.Father, this.Warehouse)).done(function (OnHand) {
+                                                 
+                        $.when(GetWareHouseQty(this.ItemCode, this.wareHouse)).done(function (OnHand) {
 
                             $("#onHand").val(Number(OnHand));
 
@@ -1107,23 +1126,22 @@
                     }
                     else {
                         //AddWarehouseRowData(this);
-                          
+                        
                         $('#ListBtnAddd').trigger('click'); 
                         InitializeWareHouseData();
                         $('#ListParameters tr:last-child').find("#Warehouse").html(WareHouseData);
                          
-                        $('#ListParameters tr:last-child').find("#ItemCode").val(this.Code);
+                        $('#ListParameters tr:last-child').find("#ItemCode").val(this.ItemCode);
                         $('#ListParameters tr:last-child').find("#ItemName").val(this.ItemName);
-                        $('#ListParameters tr:last-child').find("#Warehouse").val(this.Warehouse);
-                        $('#ListParameters tr:last-child').find("#QTY").val(this.Quantity);
-                        $('#ListParameters tr:last-child').find("#UPrc").val(this.Price);
-                        $('#ListParameters tr:last-child').find("#TtlPrc").val(this.LineTotal);
+                        $('#ListParameters tr:last-child').find("#Warehouse").val(this.wareHouse);
+                        $('#ListParameters tr:last-child').find("#QTY").val(this.Quantity);                        
+                        $('#ListParameters tr:last-child').find("#PlannedQty").val(this.PlannedQty);
+                        $('#ListParameters tr:last-child').find("#IssueMthd").val(this.IssueType);
                         $('#ListParameters tr:last-child').find("#LineNum").val(this.LineNum);
                         $('#ListParameters tr:last-child').find("#Comment").val(this.Comment);
 
-                        $('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"-1">Manual</option>`);
                         
-                        $.when(GetWareHouseQty(this.ItemCode, this.Warehouse)).done(function (OnHand) {
+                        $.when(GetWareHouseQty(this.ItemCode, this.wareHouse)).done(function (OnHand) {
 
                             $('#ListParameters tr:last-child').find("#onHand").val(Number(OnHand));
 
