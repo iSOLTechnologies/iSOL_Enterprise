@@ -573,6 +573,13 @@
 												</i> <span class="menu-text">Production Order</span>
 											</a>
 										</li>
+										<li class="menu-item" aria-haspopup="true">
+											<a asp-action="Index" asp-controller="ReceiptFromProduction" class="menu-link">
+												<i class="menu-bullet menu-bullet-dot">
+													<span></span>
+												</i> <span class="menu-text">Receipt From Production</span>
+											</a>
+										</li>
 									</ul>
 								</div>
 							</li>
@@ -2548,7 +2555,7 @@
 													<th></th>
 													<th></th>
 													<th></th>
-													@*<th></th>*@
+													
 												</tr>
 											</thead>
 										</table>
@@ -2924,6 +2931,7 @@
 		var ObjAcctCode;
 		var ObjBatchCode;
 		var ObjCardCode;
+		var ObjSaleOrderCode = "";
 		var LineVendor;
 		var CopyBtnUrl;
 		var BaseType = -1;
@@ -3500,6 +3508,7 @@
 
 			
 		}
+		
 		function generateVendorTable() {
 			datatable = $('#MyyyyVendorTable').DataTable({
 				responsive: true,
@@ -3638,12 +3647,16 @@
 
 
 		});
+		
 		$(document).on('dblclick', '#MyyyySalesOrderTable tbody tr', function (e) {
 			console.log("Hi")
 			var LookTable = $('#MyyyySalesOrderTable').DataTable();;
 			var selectedRow = $(this).closest('tr');
 			var rowData = LookTable.row(selectedRow).data();
-			$("#SalesOrderCode").val(rowData['docNum']);
+			if(ObjSaleOrderCode == "" || ObjSaleOrderCode == '')
+				$("#SalesOrderCode").val(rowData['docNum']);
+			else
+			$(ObjSaleOrderCode).val(rowData['docNum']);
 			$('#mySalesOrderModal').modal('hide');
 
 		});
@@ -3994,7 +4007,7 @@
 
 		}
 		$(document).on('click', '#btnFetchAcctCode', function (e) {
-			debugger
+			
 			console.log("abc")
 			var LookTable = $('#MyyyyAccountTable').DataTable();;
 			var selectedRow = $(this).closest('tr');
