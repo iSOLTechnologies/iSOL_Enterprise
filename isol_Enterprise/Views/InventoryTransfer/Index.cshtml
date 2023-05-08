@@ -221,7 +221,7 @@
     $(document).on('click', '#btnFetchInventory', function (e) {
 
         var guid = $(this).attr("guid");
-        window.location.href = '/InventoryTransfer/InventoryTransferMaster/' + guid + '';
+        window.location.href = '/InventoryTransfer/InventoryTransferMaster/?id=' + guid + '';
 
     });
 
