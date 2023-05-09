@@ -37,13 +37,20 @@
         <div class="card-body ">
             <!--begin: Datatable-->
             <div class="row">
-                <div class="col-md-4 d-flex">
-                    <label>Sales Order </label>
-                    <input type="number" class="form-control form-control-sm" id="DocNum" />
+                <div class="col-md-4">
 
+                    <div class="input-group">
+                        <input type="text" id="SalesOrderCode" name="OriginNum" class="form-control form-control-sm " placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+                        <div id="SalesOrderNo" class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="la la-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                 </div>
                 <div class="col-md-2">
-                    <button type="button" id="btnGenerateReport" class="btn btn-primary font-weight-bolder">
+                    <button type="button" id="btnGenerateReport" class="btn btn-primary btn-sm font-weight-bolder">
                         + Get Report
                     </button>
                 </div>
@@ -72,10 +79,16 @@
 
 <script>
 
+    $(document).on('click', '#SalesOrderNo', function (e) {
+
+        generateSalesOrderTable();
+        $('#mySalesOrderModal').modal('show');
+
+    });
 
     $(document).on('click', '#btnGenerateReport', function () {
         
-        if ($('#DocNum').val() != null && $('#DocNum').val() != "" && $('#DocNum').val() != undefined) {
+        if ($('#SalesOrderCode').val() != null && $('#SalesOrderCode').val() != "" && $('#SalesOrderCode').val() != undefined) {
 
             $(this).attr('disabled', true);
 
@@ -87,7 +100,7 @@
                 type: 'GET',
                 dataType: 'json',
                 async: true,
-                data: { DocNum: $('#DocNum').val() },
+                data: { DocNum: $('#SalesOrderCode').val() },
                 success: function (result) {
 
                     $('#btnGenerateReport').attr('disabled', false);
@@ -107,6 +120,7 @@
                     $(".loading_ic").removeClass('overlay dark');
                     $(".loading_ic").hide();
                     console.log(errorMessage);
+                    $('#btnGenerateReport').attr('disabled', false);
                 }
             });
         }
