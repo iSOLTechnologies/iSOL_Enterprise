@@ -162,33 +162,33 @@ namespace iSOL_Enterprise.Dal.Production
                         int LineNum = 0;
                         foreach (var item in model.ListItems)
                         {
+                            string Tabitem = "Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,UomEntry,UomCode,OpenQty";
+                            string TabitemP = "@Id,@LineNum,@BaseRef,@BaseType,@ItemCode,@Dscription,@WhsCode,@Quantity,@TranType,@Price,@LineTotal,@AcctCode,@UomEntry,@UomCode,@OpenQty";
+                            string ITT1_Query = @"insert into IGN1 (" + Tabitem + ") " +
+                                                 "values(" + TabitemP + ")";
 
-                            string RowQueryItem1 = @"insert into IGN1
-                                (Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemCode,Dscription,WhsCode,Quantity,Price,LineTotal,AcctCode,UomEntry,UomCode,BaseQty,OpenQty)
-                          values(@Id,@LineNum,@BaseRef,@BaseEntry,@BaseLine,@ItemCode,@Dscription,@WhsCode,@Quantity,@Price,@LineTotal,@AcctCode,@UomEntry,@UomCode,@BaseQty,@OpenQty)";
-                            var BaseRef = item.BaseRef;
+                            
                             #region sqlparam
                             List<SqlParameter> param1 = new List<SqlParameter>();
                             param1.Add(cdal.GetParameter("@Id", Id, typeof(int)));
                             param1.Add(cdal.GetParameter("@LineNum", LineNum, typeof(int)));
-                            param1.Add(cdal.GetParameter("@BaseRef", item.BaseRef, typeof(string)));
-                            param1.Add(cdal.GetParameter("@BaseEntry", item.BaseEntry, typeof(int)));
-                            param1.Add(cdal.GetParameter("@BaseLine", item.BaseLine, typeof(int)));
+                            param1.Add(cdal.GetParameter("@BaseRef", item.BaseType, typeof(string)));                            
+                            param1.Add(cdal.GetParameter("@BaseType", 202, typeof(int)));                            
                             param1.Add(cdal.GetParameter("@ItemCode", item.ItemCode, typeof(string)));
                             param1.Add(cdal.GetParameter("@Dscription", item.ItemName, typeof(string)));
                             param1.Add(cdal.GetParameter("@WhsCode", item.Warehouse, typeof(string)));
                             param1.Add(cdal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
+                            param1.Add(cdal.GetParameter("@TranType", item.TranType, typeof(char)));
                             param1.Add(cdal.GetParameter("@Price", item.UPrc, typeof(decimal)));
                             param1.Add(cdal.GetParameter("@LineTotal", item.TtlPrc, typeof(decimal)));
                             param1.Add(cdal.GetParameter("@AcctCode", item.AcctCode, typeof(string)));
                             param1.Add(cdal.GetParameter("@UomEntry", item.UomEntry, typeof(int)));
-                            param1.Add(cdal.GetParameter("@UomCode", item.UomCode, typeof(string)));
-                            param1.Add(cdal.GetParameter("@BaseQty", item.BaseQty, typeof(string)));
+                            param1.Add(cdal.GetParameter("@UomCode", item.UomCode, typeof(string)));                            
                             param1.Add(cdal.GetParameter("@OpenQty", item.QTY, typeof(decimal)));
 
                             #endregion
 
-                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem1, param1.ToArray()).ToInt();
+                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, ITT1_Query, param1.ToArray()).ToInt();
                             if (res1 <= 0)
                             {
                                 tran.Rollback();
@@ -197,46 +197,7 @@ namespace iSOL_Enterprise.Dal.Production
                                 return response;
                             }
 
-                            #region OITL Log
-                            int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");   //Primary Key
-
-
-                            item.BaseType = item.BaseType == "" ? "NULL" : Convert.ToInt32(item.BaseType);
-
-
-                            OITL OITLModel = new OITL();
-                            OITLModel.LogEntry = LogEntry;
-                            OITLModel.CardCode = "NULL";
-                            OITLModel.CardName = "NULL";
-                            OITLModel.ItemCode = item.ItemCode.ToString();
-                            OITLModel.ItemName = item.ItemName.ToString();
-                            OITLModel.ID = Id;
-                            OITLModel.DocLine = LineNum;
-                            OITLModel.DocType = 59;
-                            OITLModel.BaseType = item.BaseType;
-                            OITLModel.Quantity = (decimal)item.QTY;
-                            OITLModel.DocDate = Convert.ToDateTime(model.HeaderData.DocDate);
-
-                            if (!cdal.OITLLog(tran, OITLModel))
-                            {
-                                response.isSuccess = false;
-                                response.Message = "An Error Occured";
-                                return response;
-                            }
-
-                            #endregion
-
-                            if (model.Batches != null)
-                            {
-                                bool responseBatch = cdal.InBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry, item.Warehouse.ToString(), LineNum);
-                                if (!responseBatch)
-                                {
-                                    tran.Rollback();
-                                    response.isSuccess = false;
-                                    response.Message = "An Error Occured";
-                                    return response;
-                                }
-                            }
+                            
 
 
                             #region Update OITW If Sap Integration is OFF
@@ -308,7 +269,7 @@ namespace iSOL_Enterprise.Dal.Production
                 {
                     tran.Commit();
                     response.isSuccess = true;
-                    response.Message = "Good Receipt Added Successfully !";
+                    response.Message = "Receipt From Production Added Successfully !";
 
                 }
 
