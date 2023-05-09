@@ -357,6 +357,126 @@ namespace iSOL_Enterprise.Dal.Production
         public ResponseModels EditReceiptFromProduction(dynamic model)
         {
             ResponseModels response = new ResponseModels();
+            CommonDal cdal = new CommonDal();
+            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+            conn.Open();
+            SqlTransaction tran = conn.BeginTransaction();
+            int res1 = 0;
+            try
+            {
+                int Id = GetId(model.OldId.ToString());
+
+                if (model.HeaderData != null)
+                {
+                    List<SqlParameter> param = new List<SqlParameter>();
+                    string TabHeader = @"DocDate =@DocDate,Ref2=@Ref2,Comments=@Comments,JrnlMemo=@JrnlMemo,DocTotal=@DocTotal,is_Edited=1";
+
+                    string HeadQuery = @"Update OIGN set " + TabHeader + " where GUID = '" + model.OldId + "'";
+
+                    #region SqlParameters
+
+                    #region Header data                    
+                    param.Add(cdal.GetParameter("@DocDate", model.HeaderData.DocDate, typeof(DateTime)));
+                    param.Add(cdal.GetParameter("@Ref2", model.HeaderData.Ref2, typeof(string)));
+                    #endregion
+
+                    #region Footer Data
+                    param.Add(cdal.GetParameter("@Comments", model.FooterData.Comments, typeof(string)));
+                    param.Add(cdal.GetParameter("@JrnlMemo", model.FooterData.JrnlMemo, typeof(string)));
+                    param.Add(cdal.GetParameter("@DocTotal", model.FooterData.TotalBeforeDiscount, typeof(decimal)));
+                    #endregion
+
+                    param.Add(cdal.GetParameter("@BaseType", 102, typeof(int)));
+
+
+                    #endregion
+
+                    res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery, param.ToArray()).ToInt();
+                    if (res1 <= 0)
+                    {
+                        tran.Rollback();
+                        response.isSuccess = false;
+                        response.Message = "An Error Occured";
+                        return response;
+                    }
+
+                    if (model.ListItems != null)
+                    {
+                        int LineNum = 0;
+                        foreach (var item in model.ListItems)
+                        {
+                            param.Clear();
+                            string ITT1_Query = "";
+                            if (item.LineNum != null && item.LineNum != "")
+                            {
+
+                                string Tabitem = @"BaseRef=@BaseRef,BaseType=@BaseType,ItemCode=@ItemCode,Dscription=@Dscription,WhsCode=@WhsCode,Quantity=@Quantity,
+                                                   TranType=@TranType,Price=@Price,LineTotal=@LineTotal,AcctCode=@AcctCode,UomEntry=@UomEntry,UomCode=@UomCode,OpenQty=@OpenQty";
+
+                                ITT1_Query = @"update WOR1 set " + Tabitem + " where id=" + Id + " and LineNum=" + item.LineNum;
+                            }
+                            else
+                            {
+                                string Tabitem = "Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,UomEntry,UomCode,OpenQty";
+                                string TabitemP = "@Id,@LineNum,@BaseRef,@BaseType,@ItemCode,@Dscription,@WhsCode,@Quantity,@TranType,@Price,@LineTotal,@AcctCode,@UomEntry,@UomCode,@OpenQty";
+                                ITT1_Query = @"insert into IGN1 (" + Tabitem + ") " +
+                                                     "values(" + TabitemP + ")";
+                                LineNum = CommonDal.getLineNumber(tran, "IGN1", Id.ToString());
+                            }
+
+
+                            #region sqlparam
+                            List<SqlParameter> param1 = new List<SqlParameter>();
+                            param1.Add(cdal.GetParameter("@Id", Id, typeof(int)));
+                            param1.Add(cdal.GetParameter("@LineNum", LineNum, typeof(int)));
+                            param1.Add(cdal.GetParameter("@BaseRef", item.BaseType, typeof(string)));
+                            param1.Add(cdal.GetParameter("@BaseType", 202, typeof(int)));
+                            param1.Add(cdal.GetParameter("@ItemCode", item.ItemCode, typeof(string)));
+                            param1.Add(cdal.GetParameter("@Dscription", item.ItemName, typeof(string)));
+                            param1.Add(cdal.GetParameter("@WhsCode", item.Warehouse, typeof(string)));
+                            param1.Add(cdal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
+                            param1.Add(cdal.GetParameter("@TranType", item.TranType, typeof(char)));
+                            param1.Add(cdal.GetParameter("@Price", item.UPrc, typeof(decimal)));
+                            param1.Add(cdal.GetParameter("@LineTotal", item.TtlPrc, typeof(decimal)));
+                            param1.Add(cdal.GetParameter("@AcctCode", item.AcctCode, typeof(string)));
+                            param1.Add(cdal.GetParameter("@UomEntry", item.UomEntry, typeof(int)));
+                            param1.Add(cdal.GetParameter("@UomCode", item.UomCode, typeof(string)));
+                            param1.Add(cdal.GetParameter("@OpenQty", item.QTY, typeof(decimal)));
+
+                            #endregion
+
+                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, ITT1_Query, param.ToArray()).ToInt();
+                            if (res1 <= 0)
+                            {
+                                tran.Rollback();
+                                response.isSuccess = false;
+                                response.Message = "An Error Occured";
+                                return response;
+
+                            }
+
+                        }
+                    }
+
+
+                }
+                if (res1 > 0)
+                {
+                    tran.Commit();
+                    response.isSuccess = true;
+                    response.Message = "Receipt From Production Updated Successfully !";
+
+                }
+
+            }
+
+            catch (Exception e)
+            {
+                tran.Rollback();
+                response.isSuccess = false;
+                response.Message = e.Message;
+                return response;
+            }
             return response;
         }
     }
