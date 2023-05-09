@@ -14,6 +14,7 @@
         public string? CardCode { get; set; }
         public string? CardName { get; set; }
         public string? Warehouse { get; set; }
+        public string? Comments { get; set; }
         public string? DocStatus { get; set; }
         public string? IsPosted { get; set; }
         public string? IsEdited { get; set; }

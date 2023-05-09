@@ -1,5 +1,4 @@
 ﻿
-
 using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Models.Logs;
@@ -12,6 +11,32 @@ namespace iSOL_Enterprise.Dal.Production
 {
     public class ReceiptFromProductionDal
     {
+        public List<SalesQuotation_MasterModels> GetData()
+        {
+            string GetQuery = "select Id,Guid,DocNum,DocDate,Comments,JrnlMemo,isPosted,is_Edited from OIGN where BaseType = '102'  order by id DESC";
+
+
+            List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    SalesQuotation_MasterModels models = new SalesQuotation_MasterModels();
+
+                    models.DocStatus = "Open";
+                    models.Id = rdr["Id"].ToInt();
+                    models.CardCode = rdr["DocNum"].ToString();                    
+                    models.DocDate = Convert.ToDateTime(rdr["DocDate"]);
+                    models.Comments = rdr["Comments"].ToString();
+                    models.Guid = rdr["Guid"].ToString();                   
+                    models.IsPosted = rdr["isPosted"].ToString();
+                    models.IsEdited = rdr["is_Edited"].ToString();
+                    list.Add(models);
+                }
+            }
+            return list;
+        }
 
         public List<SalesQuotation_MasterModels> GetProductionOrdersData()
         {
@@ -42,6 +67,51 @@ namespace iSOL_Enterprise.Dal.Production
             }
 
             return list;
+        }
+
+        public int GetId(string guid)
+        {
+            return Convert.ToInt32(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select Id from OIGN where GUID ='" + guid.ToString() + "'"));
+
+        }
+        public dynamic GetOldHeaderData(int id)
+        {
+            try
+            {
+                DataSet ds = new DataSet();
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                string headerQuery = @"select MySeries,DocNum,Series,DocDate,Ref2,Comments,JrnlMemo,DocTotal From OIGN where Id =" + id;
+                SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
+                sda.Fill(ds);
+                string JSONString = string.Empty;
+                JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
+                return JSONString;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public dynamic GetOldItemsData(int id)
+        {
+            try
+            {
+                DataSet ds = new DataSet();
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                string headerQuery = @"select Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode From IGN1 where Id =" + id;
+                SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
+                sda.Fill(ds);
+                string JSONString = string.Empty;
+                JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
+                return JSONString;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         public ResponseModels AddUpdateReceiptFromProduction(string formData)
@@ -95,6 +165,7 @@ namespace iSOL_Enterprise.Dal.Production
 
                     param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
                     param.Add(cdal.GetParameter("@Guid", CommonDal.generatedGuid(), typeof(string)));
+                    param.Add(cdal.GetParameter("@DocEntry", Id, typeof(string)));
 
                     #region BackendCheck For Series
                     if (MySeries != -1)
@@ -122,8 +193,8 @@ namespace iSOL_Enterprise.Dal.Production
                     }
                     #endregion
 
-                    string HeadQuery = @"insert into OIGN (Id,Guid,MySeries,DocNum,Series,DocDate,Ref2,Comments,JrnlMemo,DocTotal,BaseType) 
-                                        values(@Id,@Guid,@MySeries,@DocNum,@Series,@DocDate,@Ref2,@Comments,@JrnlMemo,@DocTotal,@BaseType)";
+                    string HeadQuery = @"insert into OIGN (Id,Guid,DocEntry,MySeries,DocNum,Series,DocDate,Ref2,Comments,JrnlMemo,DocTotal,BaseType) 
+                                        values(@Id,@Guid,@DocEntry,@MySeries,@DocNum,@Series,@DocDate,@Ref2,@Comments,@JrnlMemo,@DocTotal,@BaseType)";
 
 
 

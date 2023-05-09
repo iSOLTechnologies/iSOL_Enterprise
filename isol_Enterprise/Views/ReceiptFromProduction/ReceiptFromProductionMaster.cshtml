@@ -301,7 +301,7 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input id="ItemName" class="form-control form-control-sm NotReq" type="text" disabled>
+                                                                                        <input id="ItemName" name="ItemName" class="form-control form-control-sm NotReq" type="text" disabled>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                             
@@ -380,7 +380,10 @@
                                                                                        <input id="UomCode"  value="-1" name="UomCode" class="position-absolute d-none"/>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td> 
-                                                                                    
+                                                                                    <td class="d-none">
+                                                                                        <input id="LineNum" name="LineNum" class="form-control form-control-sm NotReq" type="number">
+                                                                                        <div class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -461,9 +464,6 @@
                                                             </div>
                                                         </div>
 
-
-
-
                                                         <div class="container" id="FooterData">
                                                             <br />
                                                             <br />                                                                                                                  
@@ -491,11 +491,6 @@
                                                             </div>
                                                             <hr />
                                                         </div>
-
-
-
-
-
 
                                                     </div>
 
@@ -594,6 +589,7 @@
     var WareHouseData ="";    
     var RowIndex = 0;
     var ObjProdOrder = "";
+    var OldId = null;
     const boxes = document.querySelectorAll('.d');
 
     for (const box of boxes) {
@@ -672,9 +668,7 @@
 			});
 		}
 
-    
-
-        $(document).on('dblclick', '#MyyyyProductionOrderTable tbody tr', function (e) {
+    $(document).on('dblclick', '#MyyyyProductionOrderTable tbody tr', function (e) {
 		  
 			var LookTable = $('#MyyyyProductionOrderTable').DataTable();
 			var selectedRow = $(this).closest('tr');
@@ -838,16 +832,17 @@
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
              
 
-        if (@ViewBag.OldId != 0) {
-            OldId = @ViewBag.OldId;
+        if ("@ViewBag.OldId" != "0") {
+
+            $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
+            $("#btnSaveData").attr('disabled', true);
+            
+            OldId = "@ViewBag.OldId";
             isEdit = true;
 
-            $(".btn-group").html('');
-            //$("#btnSaveData").html('');
-            //$("#btnSaveData").attr('disabled', true);
+           
             $("#MySeries").attr('disabled', true);
-            $("#Series").attr('disabled', true);
-            
+            $("#Series").attr('disabled', true);            
             GetOldData();
         }
     });
@@ -878,7 +873,6 @@
        $(this).closest('tr').remove();
 
     });
- 
 
     $(document).on('click', '#ListBtnDeleteRM', function () 
     {
@@ -918,8 +912,7 @@
                                                                             </tr> `;
 
         $('#kt_repeater_3 tbody').append(html);
-    });
-    
+    });    
      
     $(document).on('click', '#ListBtnAddd', function (e) {
         RowIndex +=1;
@@ -1029,6 +1022,10 @@
                                                                                            <input id="UomCode"  value="-1" name="UomCode" class="position-absolute d-none"/>
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
+                                                                                        <td class="d-none">
+                                                                                            <input id="LineNum" name="LineNum" class="form-control form-control-sm NotReq" type="number">
+                                                                                            <div class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
                                                                                         <td>
                                                                                             <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
                                                                                                 <i class="la la-trash"></i> X
@@ -1042,7 +1039,6 @@
         //$('#ListParameters tr:last-child').find('#Warehouse' + RowIndex).select2();
         
     });
-    
     
     $(document).on('click', '#btnSaveData', function (e) {
 
@@ -1069,8 +1065,7 @@
             $(this).attr('disabled', false);
         }
     });
-    
-   
+       
     function FormData() 
     {
             
@@ -1086,7 +1081,7 @@
         }
       
       //console.log(data);
-       //PostData(data);
+       PostData(data);
 
     
     }
@@ -1139,114 +1134,108 @@
     }
 
     //==================== End Post Data Working===========================//
-   
-      function GetOldData() 
-    {
+
+    function GetOldData() {
 
         $.ajax({
-            url: 'GoodReceiptGR/GetOldData',
+            url: 'ReceiptFromProduction/GetOldData',
             type: 'GET',
             dataType: 'json',
-            async : false,
-            data: { ItemID: OldId },
-            success: function (data) 
-            {
-                
-                let HeaderData = JSON.parse(data.headerData);  
-                
+            async: false,
+            data: { guid: OldId },
+            success: function (data) {
+
+                let HeaderData = JSON.parse(data.headerData);
+
                 $.each(HeaderData[0][0], function (key, value) {
-                   
-                    if ($("#" + key).is(':checkbox') || $(this).is(':radio'))
-                    {
-                         if(value == 'Y') {
-                         $("#" + key).prop('checked', true);
-                         
-                         }
-                         else
-                         {
-                           
+
+                    if ($("#" + key).is(':checkbox') || $(this).is(':radio')) {
+                        if (value == 'Y') {
+                            $("#" + key).prop('checked', true);
+
+                        }
+                        else {
+
                             $("#" + key).prop('checked', false);
-                            
-                         }
+
+                        }
                     }
-                    else if($("#" + key).attr('type') === 'date') 
-                    {
+                    else if ($("#" + key).attr('type') === 'date') {
                         $("#" + key).val(moment(value).format('yyyy-MM-DD'));
-                        
+
                     }
-                    else
-                    {
-                         $("#" + key).val(value);
+                    else {                        
+
+                        $("#" + key).val(value);
                     }
-                    if(key == "DocTotal"){ 
-                         $("#TotalBeforeDiscount").val(value)
-                    }
+
 
 
                 });
-               //Row Data
-               let RowData = JSON.parse(data.rowData);  
-                
-                //$.each(RowData[0][0], function (key, value) {
-                //console.log(RowData);
+                //Row Data
+                let RowData = JSON.parse(data.rowData);
                 let j = 0;
-                $.each(RowData[0], function (key, value) { 
+                $.each(RowData[0], function (key, value) {
 
-                    if(j == 0) 
-                    {
-                      
+                    if (j == 0) {
+                        console.log(this);
 
-                        $("#ItemCode").val(this.ItemCode).trigger('change'); 
+                        $("#BaseType").val(this.BaseRef);
+                        $("#ItemCode").val(this.ItemCode);
                         $("#ItemName").val(this.Dscription);
-                        $("#Warehouse").val(this.WhsCode);
+                        $("#Warehouse").val(this.Warehouse);
                         $("#QTY").val(this.Quantity);
+                        $("#TranType").val(this.TranType);
                         $("#UPrc").val(this.Price);
                         $("#TtlPrc").val(this.LineTotal);
-                        $("#AcctCode").val(this.AcctCode);
-                        $("#UomEntry").html(`<option value"` + this.UomEntry + `">` + this.UomCode + `</option>`);
-                         
-                        $.when(GetWareHouseQty(this.ItemCode, this.WhsCode)).done(function (OnHand) {
+                        $("#AcctCode").val(this.AcctCode).trigger('change');
+                        $("#LineNum").val(this.LineNum);
+                        
+                        $("#UomEntry").html(`<option value"-1">Manual</option>`);
+
+                        $.when(GetWareHouseQty(this.ItemCode, this.Warehouse)).done(function (OnHand) {
 
                             $("#onHand").val(Number(OnHand));
 
                         });
 
-                        
-
                     }
                     else {
                         //AddWarehouseRowData(this);
-                        
-                        $('#ListBtnAddd').trigger('click'); 
+
+                        $('#ListBtnAddd').trigger('click');
                         InitializeWareHouseData();
                         $('#ListParameters tr:last-child').find("#Warehouse").html(WareHouseData);
-                         
+
+                        $('#ListParameters tr:last-child').find("#BaseType").val(this.BaseRef);
                         $('#ListParameters tr:last-child').find("#ItemCode").val(this.ItemCode);
                         $('#ListParameters tr:last-child').find("#ItemName").val(this.Dscription);
-
-                        $('#ListParameters tr:last-child').find("#Warehouse").val(this.WhsCode);
+                        $('#ListParameters tr:last-child').find("#Warehouse").val(this.Warehouse);
                         $('#ListParameters tr:last-child').find("#QTY").val(this.Quantity);
+                        $('#ListParameters tr:last-child').find("#TranType").val(this.TranType);
                         $('#ListParameters tr:last-child').find("#UPrc").val(this.Price);
                         $('#ListParameters tr:last-child').find("#TtlPrc").val(this.LineTotal);
+                        $('#ListParameters tr:last-child').find("#LineNum").val(this.ChildNum);
                         $('#ListParameters tr:last-child').find("#AcctCode").val(this.AcctCode);
-                        $('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"` + this.UomEntry + `">` + this.UomCode + `</option>`);
                         
-                        $.when(GetWareHouseQty(this.ItemCode, this.WhsCode)).done(function (OnHand) {
+                        $('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"-1">Manual</option>`);
+
+                        $.when(GetWareHouseQty(this.ItemCode, this.Warehouse)).done(function (OnHand) {
 
                             $('#ListParameters tr:last-child').find("#onHand").val(Number(OnHand));
 
                         });
-                    
+
                     }
                     j += 1;
 
 
                 });
-                 
 
-                //$("#btnSaveData").attr('disabled', false);
-                
-                
+
+                $("#btnSaveData").attr('disabled', false);
+
+
             },
             error: function (jqXhr, textStatus, errorMessage) {
                 console.log(errorMessage);

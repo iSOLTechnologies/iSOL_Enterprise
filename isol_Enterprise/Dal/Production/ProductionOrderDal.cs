@@ -268,7 +268,7 @@ namespace iSOL_Enterprise.Dal.Production
                     List<SqlParameter> param = new List<SqlParameter>();
                     string TabHeader = @"Type=@Type,Status=@Status,PostDate=@PostDate,StartDate=@StartDate,ProdName=@ProdName,DueDate=@DueDate,
                                          PlannedQty=@PlannedQty,Warehouse=@Warehouse,Priority=@Priority,LinkToObj=@LinkToObj,OriginNum=@OriginNum,
-                                         CardCode=@CardCode,Project=@Project,Comments=@Comments,PickRmrk=@PickRmrk";
+                                         CardCode=@CardCode,Project=@Project,Comments=@Comments,PickRmrk=@PickRmrk,is_Edited=1 ";
 
                     
                     

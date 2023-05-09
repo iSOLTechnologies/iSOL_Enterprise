@@ -31,7 +31,25 @@ namespace iSOL_Enterprise.Controllers.Production
 
             return View();
         }
+        [HttpGet]
+        public IActionResult GetData()
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
 
+                ReceiptFromProductionDal dal = new ReceiptFromProductionDal();
+                response.Data = dal.GetData();
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+        }
         public IActionResult GetProductionOrders()
         {
             ResponseModels response = new ResponseModels();
@@ -50,6 +68,30 @@ namespace iSOL_Enterprise.Controllers.Production
 
             return Json(response);
         }
+
+        public IActionResult GetOldData(string guid)
+        {
+            try
+            {
+                ReceiptFromProductionDal dal = new ReceiptFromProductionDal();
+                int id = dal.GetId(guid);
+
+                return Json(new
+                {
+                    success = true,
+                    HeaderData = dal.GetOldHeaderData(id),
+                    RowData = dal.GetOldItemsData(id)
+                });
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
         [HttpPost]
         public IActionResult AddUpdateReceiptFromProduction(string formData)
         {

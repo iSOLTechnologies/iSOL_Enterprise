@@ -51,9 +51,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th></th>                        
                         <th></th>
 
 
@@ -110,7 +108,7 @@
             "ajax": {
 
                 // url: '/HrAdmin/GetAttendanceList_MainLines?Date=' + $('#FilterDate').val(),
-                url: '/BillOfMaterial/GetData',
+                url: '/ReceiptFromProduction/GetData',
             },
 
             layout: {
@@ -157,14 +155,8 @@
                     data: 'cardCode', title: 'Item Code',
                 },
                 {
-                    data: 'cardName', title: 'Tree Type',
-                },
-                {
-                    data: 'quanity', title: 'Quantity',
-                },
-                {
-                    data: 'warehouse', title: 'Warehouse',
-                },
+                    data: 'comments', title: 'Remarks',
+                },                
                 {
                     data: "docStatus", 'title': 'Status', render: function (data, type, row) {
 
@@ -210,7 +202,7 @@
 
 
         var guid = $(this).attr("guid");
-        window.location.href = '/BillOfMaterial/BillOfMaterialMaster/?id=' + guid + '';
+        window.location.href = '/ReceiptFromProduction/ReceiptFromProductionMaster/?id=' + guid + '';
 
     });
 
@@ -260,4 +252,6 @@
     //    }
 
     //});
+
+
 </script>

@@ -268,7 +268,7 @@ namespace iSOL_Enterprise.Dal.Production
                 {
                     List<SqlParameter> param = new List<SqlParameter>();
                     
-                    string TabHeader = "Qauntity= @Quantity,ToWH =@ToWH,PriceList=@PriceList,TreeType=@TreeType,OcrCode=@OcrCode,Project=@Project,PlAvgSize=@PlAvgSize";
+                    string TabHeader = "Qauntity= @Quantity,ToWH =@ToWH,PriceList=@PriceList,TreeType=@TreeType,OcrCode=@OcrCode,Project=@Project,PlAvgSize=@PlAvgSize,is_Edited=1";
                     
                     string HeadQuery = @"Update OITT set " + TabHeader + " where guid = '" + model.OldId + "'";
 
