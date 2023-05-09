@@ -1191,7 +1191,7 @@
                         $("#AcctCode").val(this.AcctCode).trigger('change');
                         $("#LineNum").val(this.LineNum);
                         
-                        $("#UomEntry").html(`<option value"-1">Manual</option>`);
+                        //$("#UomEntry").html(`<option value"-1">Manual</option>`);
 
                         $.when(GetWareHouseQty(this.ItemCode, this.Warehouse)).done(function (OnHand) {
 
@@ -1218,7 +1218,7 @@
                         $('#ListParameters tr:last-child').find("#LineNum").val(this.ChildNum);
                         $('#ListParameters tr:last-child').find("#AcctCode").val(this.AcctCode);
                         
-                        $('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"-1">Manual</option>`);
+                        //$('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"-1">Manual</option>`);
 
                         $.when(GetWareHouseQty(this.ItemCode, this.Warehouse)).done(function (OnHand) {
 

@@ -413,7 +413,7 @@ namespace iSOL_Enterprise.Dal.Production
                                 string Tabitem = @"BaseRef=@BaseRef,BaseType=@BaseType,ItemCode=@ItemCode,Dscription=@Dscription,WhsCode=@WhsCode,Quantity=@Quantity,
                                                    TranType=@TranType,Price=@Price,LineTotal=@LineTotal,AcctCode=@AcctCode,UomEntry=@UomEntry,UomCode=@UomCode,OpenQty=@OpenQty";
 
-                                ITT1_Query = @"update WOR1 set " + Tabitem + " where id=" + Id + " and LineNum=" + item.LineNum;
+                                ITT1_Query = @"update IGN1 set " + Tabitem + " where id=" + Id + " and LineNum=" + item.LineNum;
                             }
                             else
                             {
@@ -445,7 +445,7 @@ namespace iSOL_Enterprise.Dal.Production
 
                             #endregion
 
-                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, ITT1_Query, param.ToArray()).ToInt();
+                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, ITT1_Query, param1.ToArray()).ToInt();
                             if (res1 <= 0)
                             {
                                 tran.Rollback();
