@@ -383,42 +383,49 @@
                                                                     role="tablist">
                                                                     <li class="nav-item">
                                                                         <a class="nav-link active" data-toggle="tab"
+                                                                            id = "btnTabGeneral"
                                                                             href="#kt_tabs_General"
                                                                             role="tab">General</a>
                                                                     </li>
                                                                     <li class="nav-item">
                                                                         <a class="nav-link" data-toggle="tab"
-                                                                            id="tabAccounting"
+                                                                            id = "btnTabPurchasingData"
                                                                             href="#kt_tabs_PurchasingData"
                                                                             role="tab">Purchasing Data</a>
                                                                     </li>
                                                                     <li class="nav-item">
                                                                         <a class="nav-link" data-toggle="tab"
+                                                                            id = "btnTabSalesData"
                                                                             href="#kt_tabs_SalesData" role="tab">Sales
                                                                             Data</a>
                                                                     </li>
                                                                     <li class="nav-item">
                                                                         <a class="nav-link" data-toggle="tab"
+                                                                            id = "btnTabInventoryData"
                                                                             href="#kt_tabs_InventoryData"
                                                                             role="tab">Inventory Data</a>
                                                                     </li>
                                                                     <li class="nav-item">
                                                                         <a class="nav-link" data-toggle="tab"
+                                                                            id = "btnTabPlanningData"
                                                                             href="#kt_tabs_PlanningData"
                                                                             role="tab">Planning Data</a>
                                                                     </li>
                                                                     <li class="nav-item">
                                                                         <a class="nav-link" data-toggle="tab"
+                                                                            id = "btnTabProductionData"
                                                                             href="#kt_tabs_ProductionData"
                                                                             role="tab">Production Data</a>
                                                                     </li>
                                                                     <li class="nav-item">
                                                                         <a class="nav-link" data-toggle="tab"
+                                                                            id = "btnTabProperties"
                                                                             href="#kt_tabs_Properties"
                                                                             role="tab">Properties</a>
                                                                     </li>
                                                                     <li class="nav-item">
                                                                         <a class="nav-link" data-toggle="tab"
+                                                                       id="btnTabCharacteristics"
                                                                             href="#kt_tabs_Characteristics"
                                                                             role="tab">Characteristics</a>
                                                                     </li>
@@ -2408,7 +2415,7 @@
 
        // console.log(getJsonObjList("ListParameters tr"));
 
-        var isValid = false;
+        var isValid = true;
         
         $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
         $(this).attr('disabled', true);
@@ -2419,44 +2426,66 @@
             if (isPurchaseItem) 
             {
                   isValid =  ValidateData("kt_tabs_PurchasingData");
+                  if(!isValid)
+                  {
+                    $("#btnTabPurchasingData").trigger('click');
+                    $("#btnSaveData").attr('disabled', false);
+                  }
             }
-            if (isSalesItem) 
+            if (isSalesItem && isValid) 
             {
                   isValid =  ValidateData("kt_tabs_SalesData");
+                  if(!isValid)
+                  {
+                    $("#btnTabSalesData").trigger('click');
+                    $("#btnSaveData").attr('disabled', false);
+                  }
             }
-            if (isInventryItem) 
+            if (isInventryItem && isValid) 
             {
                   isValid =  ValidateData("kt_tabs_InventoryData");
+                  if(!isValid)
+                  {
+                    $("#btnTabInventoryData").trigger('click');
+                    $("#btnSaveData").attr('disabled', false);
+                  }
             }
-            if (isInventryItem && isManageInvByWareHouse) 
+            if (isInventryItem && isManageInvByWareHouse && isValid) 
             {
                   isValid =  ValidateListData("ListParameters itm");
+                  if(!isValid)
+                  {
+                    $("#btnSaveData").attr('disabled', false);
+                  }
             }    
             if(isValid) 
             {
-                $.when( 
-             
-                    isValid = ValidateData("kt_tabs_PlanningData"),
-                    isValid = ValidateData("kt_tabs_ProductionData"),
-                
+                    isValid = ValidateData("kt_tabs_PlanningData");
 
-                ).then(function() 
-                {
-                    if(isValid)
-                    FormData();
-                    else
+                    if(!isValid)
                     {
-                        $("#btnSaveData").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                        $("#btnTabPlanningData").trigger('click');
                         $("#btnSaveData").attr('disabled', false);
-                        toastr.warning("Validations Error");
                     }
-                })
+                    else 
+                    {
+                        isValid = ValidateData("kt_tabs_ProductionData");
+                        if(!isValid)
+                        {
+                            $("#btnTabProductionData").trigger('click');
+                            $("#btnSaveData").attr('disabled', false);
+                        }
+                        else
+                        FormData();
+                    }
+
             }
-            else {
-                $("#btnSaveData").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+            else 
+            {
+
                 $("#btnSaveData").attr('disabled', false);
-                toastr.warning("Validations Error");
             }
+               
         }
         else 
         {
