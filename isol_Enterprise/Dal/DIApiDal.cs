@@ -2248,7 +2248,7 @@ namespace SAP_MVC_DIAPI.BLC
                 if (Connect())
                 {
                     CommonDal dal = new CommonDal();
-                    SAPbobsCOM.Documents oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(BoObjectTypes.oBPFiscalRegistryID);
+                    SAPbobsCOM.ProductTrees oDoc = (SAPbobsCOM.ProductTrees)oCompany.GetBusinessObject(BoObjectTypes.oProductTrees);
                     //SAPbobsCOM.StockTransfer oDoc = (SAPbobsCOM.StockTransfer)oCompany.GetBusinessObject(BoObjectTypes.oStockTransfer);
                     if (oDoc != null)
                     {
@@ -2267,7 +2267,7 @@ namespace SAP_MVC_DIAPI.BLC
                             string UDF = "";
                             bool isOld = false;
 
-                            string headerQuery = @"select Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Address,CardName,CardCode,Name,Comments,JrnlMemo,Sap_Ref_No,Filler,ToWhsCode " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
+                            string headerQuery = @"select Id,Guid,Code,Qauntity,ToWH,Name,PriceList,TreeType,OcrCode,Project,PlAvgSize,CreateDate,Sap_Ref_No " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
                             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
                             {
                                 try
@@ -2277,26 +2277,26 @@ namespace SAP_MVC_DIAPI.BLC
                                     while (rdr.Read())
                                     {
                                         #region Insert In Header
-                                        isOld = oDoc.GetByKey(rdr["Sap_Ref_No"].ToInt());
+                                        isOld = oDoc.GetByKey(rdr["Sap_Ref_No"].ToString());
 
-                                        oDoc.Series = rdr["Series"].ToInt();
-
-                                        oDoc.DocDate = rdr["DocDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["DocDate"].ToString());
+                                        oDoc.TreeCode = rdr["Code"].ToString();
+                                        oDoc.Quantity = rdr["Qauntity"].ToDouble();
+                                        oDoc.Warehouse = rdr["ToWH"].ToString();
+                                        oDoc.ProductDescription = rdr["Name"].ToString();
+                                        if (rdr["PriceList"].ToString() != "")                                        
+                                            oDoc.PriceList = rdr["PriceList"].ToInt();
+                                        oDoc.TreeType = rdr["TreeType"].ToString() == "A" ? BoItemTreeTypes.iAssemblyTree : rdr["TreeType"].ToString() == "S" ? BoItemTreeTypes.iSalesTree : rdr["TreeType"].ToString() == "P" ? BoItemTreeTypes.iProductionTree : BoItemTreeTypes.iTemplateTree;
+                                        oDoc.DistributionRule = rdr["OcrCode"].ToString();
+                                        oDoc.Project = rdr["Project"].ToString();
+                                        if (rdr["PlAvgSize"].ToString() != "")
+                                            oDoc.PlanAvgProdSize = rdr["PlAvgSize"].ToDouble();
                                         
-                                        oDoc.TaxDate = rdr["TaxDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["TaxDate"].ToString());
-                                        oDoc.Address = rdr["Address"].ToString();
-                                        oDoc.CardName = rdr["CardName"].ToString();
-                                        oDoc.CardCode = rdr["CardCode"].ToString();
-                                        //oDoc.BPLName = rdr["Name"].ToString();
-                                        oDoc.Comments = rdr["Comments"].ToString();
-                                        oDoc.JournalMemo = rdr["JrnlMemo"].ToString();
-                                       
                                         oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
 
                                         #endregion
 
                                         #region Insert in Row
-                                        string RowQuery = @"select Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemCode,Dscription,WhsCode,FromWhsCod,Quantity,UomEntry,UomCode,BaseQty,OpenQty from " + rowTable + " where Id = " + ID;
+                                        string RowQuery = @"select Id,Father,ChildNum,VisOrder,Type,Code,ItemName,Quantity,Uom,Warehouse,IssueMthd,PriceList,Price,LineTotal,Comment from " + rowTable + " where Id = " + ID;
                                         using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, RowQuery))
                                         {
                                             try
@@ -2307,14 +2307,20 @@ namespace SAP_MVC_DIAPI.BLC
                                                 {
 
                                                     //oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;
-                                                    oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();
-                                                    oDoc.Lines.ItemDescription = rdr2["Dscription"].ToString();
-                                                    oDoc.Lines.WarehouseCode = rdr2["WhsCode"].ToString();
-                                                    oDoc.Lines.Quantity = Convert.ToDouble(rdr2["Quantity"]);
-                                                    oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
                                                     
-
-                                                    oDoc.Lines.Add();
+                                                    oDoc.Items.ItemCode = rdr2["ItemCode"].ToString();
+                                                    oDoc.Items.ItemName = rdr2["ItemName"].ToString();
+                                                    if (rdr2["Quantity"].ToString() != "")
+                                                        oDoc.Items.Quantity = Convert.ToDouble(rdr2["Quantity"]);
+                                                    oDoc.Items.Warehouse = rdr2["Warehouse"].ToString();
+                                                    oDoc.Items.IssueMethod = rdr["IssueType"].ToString() == "B" ? BoIssueMethod.im_Backflush : BoIssueMethod.im_Manual;
+                                                    if (rdr2["PriceList"].ToString() != "")
+                                                        oDoc.Items.PriceList = rdr["PriceList"].ToInt();
+                                                    if (rdr2["Price"].ToString() != "")
+                                                        oDoc.Items.Price = Convert.ToDouble(rdr2["Price"]);
+                                                    oDoc.Items.Comment = rdr2["Comment"].ToString();
+                                                    
+                                                    oDoc.Items.Add();
                                                 }
                                             }
                                             catch (Exception)
@@ -2368,7 +2374,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 }
                                 if (docRowModel.DocEntry == null || docRowModel.DocEntry.ToString() == "")
                                 {
-                                    string getWBSDocNumApprvl = @"select DocEntry from ODRF where U_WBS_DocNum =" + ID + " and ElCoStatus=1 and ObjType=102";
+                                    string getWBSDocNumApprvl = @"select DocEntry from ODRF where U_WBS_DocNum =" + ID + " and ElCoStatus=1 and ObjType=102 or ObjType=66";
                                     docRowModel.DocEntry = SqlHelper.ExecuteScalar(tran, CommandType.Text, getWBSDocNumApprvl).ToInt();
                                 }
                                 if (docRowModel.DocEntry != null)
@@ -2417,7 +2423,7 @@ namespace SAP_MVC_DIAPI.BLC
                         }
 
 
-                        models.Message = "Inventory Transfer Posted Successfully !!";
+                        models.Message = "Bill Of Material Posted Successfully !!";
                         oCompany.Disconnect();
                         models.isSuccess = true;
                         return models;
