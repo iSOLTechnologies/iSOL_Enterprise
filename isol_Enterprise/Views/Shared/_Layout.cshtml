@@ -580,6 +580,13 @@
 												</i> <span class="menu-text">Receipt From Production</span>
 											</a>
 										</li>
+										<li class="menu-item" aria-haspopup="true">
+											<a asp-action="Index" asp-controller="IssueForProduction" class="menu-link">
+												<i class="menu-bullet menu-bullet-dot">
+													<span></span>
+												</i> <span class="menu-text">Issue For Production</span>
+											</a>
+										</li>
 									</ul>
 								</div>
 							</li>
@@ -1457,7 +1464,7 @@
 							<!--end::Page Title-->
 							<!--begin::Actions-->
 							<div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
-							<span class="text-muted font-weight-bold mr-4">@ViewBag.title1<span class="text-primary">@ViewBag.title2 </span></span>
+							<span class="text-muted font-weight-bold mr-4">@ViewBag.title1<span class="text-primary" id="HeaderTitle2">@ViewBag.title2 </span></span>
 
 							<!--end::Actions-->
 						</div>

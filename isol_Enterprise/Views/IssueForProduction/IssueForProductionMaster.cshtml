@@ -1,7 +1,7 @@
 ﻿@{
-     ViewBag.title1 = "Receipt From Production / ";
+     ViewBag.title1 = "Issue For Production / ";
     ViewBag.title2 = "Add";
-    ViewData["Title"] = "ReceiptFromProductionMaster";
+    ViewData["Title"] = "IssueForProductionMaster";
     Layout = "~/Views/Shared/_Layout.cshtml";
 } 
 @model iSOL_Enterprise.Models.RoleModels
@@ -33,15 +33,12 @@
                         <i class="ki ki-long-arrow-back icon-sm"></i>Back
                     </a>
                        <div class="btn-group">
-                    
-                        </div>
                         
-
                         <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
                             <i class="ki ki-check icon-sm"></i>Save
                         </button>
 
-                    </div>
+                        </div>
                 </div>
             </div>
             <div class="card-body">
@@ -828,8 +825,8 @@
             
             OldId = "@ViewBag.OldId";
             isEdit = true;
-
             $("#HeaderTitle2").text('Update');
+            
             $("#MySeries").attr('disabled', true);
             $("#Series").attr('disabled', true);            
             GetOldData();
@@ -931,7 +928,7 @@
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input id="ItemName" name="ItemName" class="form-control form-control-sm NotReq"  type="text" disabled>
+                                                                                                <input id="ItemName" name="ItemName" class="form-control form-control-sm NotReq"  type="text" disabled>
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
 
@@ -1078,7 +1075,7 @@
     function PostData(formData) 
     {                  
         return $.ajax({
-            url: '/ReceiptFromProduction/AddUpdateReceiptFromProduction',
+            url: '/IssueForProduction/AddUpdateIssueForProduction',
             dataType: 'json',
             type: 'POST',
             
@@ -1127,7 +1124,7 @@
     function GetOldData() {
 
         $.ajax({
-            url: 'ReceiptFromProduction/GetOldData',
+            url: 'IssueForProduction/GetOldData',
             type: 'GET',
             dataType: 'json',
             async: false,

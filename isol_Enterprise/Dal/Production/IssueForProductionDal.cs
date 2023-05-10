@@ -1,7 +1,5 @@
-﻿
-using iSOL_Enterprise.Common;
+﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
-using iSOL_Enterprise.Models.Logs;
 using Newtonsoft.Json;
 using SqlHelperExtensions;
 using System.Data;
@@ -9,11 +7,12 @@ using System.Data.SqlClient;
 
 namespace iSOL_Enterprise.Dal.Production
 {
-    public class ReceiptFromProductionDal
+    public class IssueForProductionDal
     {
+
         public List<SalesQuotation_MasterModels> GetData()
         {
-            string GetQuery = "select Id,Guid,DocNum,DocDate,Comments,JrnlMemo,isPosted,is_Edited from OIGN where BaseType = '102'  order by id DESC";
+            string GetQuery = "select Id,Guid,DocNum,DocDate,Comments,JrnlMemo,isPosted,is_Edited from OIGE where BaseType = '202'  order by id DESC";
 
 
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
@@ -26,10 +25,10 @@ namespace iSOL_Enterprise.Dal.Production
 
                     models.DocStatus = "Open";
                     models.Id = rdr["Id"].ToInt();
-                    models.CardCode = rdr["DocNum"].ToString();                    
+                    models.CardCode = rdr["DocNum"].ToString();
                     models.DocDate = Convert.ToDateTime(rdr["DocDate"]);
                     models.Comments = rdr["Comments"].ToString();
-                    models.Guid = rdr["Guid"].ToString();                   
+                    models.Guid = rdr["Guid"].ToString();
                     models.IsPosted = rdr["isPosted"].ToString();
                     models.IsEdited = rdr["is_Edited"].ToString();
                     list.Add(models);
@@ -38,40 +37,11 @@ namespace iSOL_Enterprise.Dal.Production
             return list;
         }
 
-        public List<SalesQuotation_MasterModels> GetProductionOrdersData()
-        {
-            List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
-            string GetQuery = "";
-
-            GetQuery = "select DocNum,OriginNum,ItemCode,ProdName,Warehouse,PlannedQty from OWOR order by DocEntry desc";
-
-
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
-            {
-                while (rdr.Read())
-                {
-
-                    list.Add(
-                        new SalesQuotation_MasterModels()
-                        {
-                            DocNum = rdr["DocNum"].ToString(),
-                            OriginNum = rdr["OriginNum"].ToString(),
-                            ItemCode = rdr["ItemCode"].ToString(),
-                            ItemName = rdr["ProdName"].ToString(),
-                            Warehouse = rdr["Warehouse"].ToString(),
-                            PlannedQty = rdr["PlannedQty"].ToDecimal(),
-
-                        });
-
-                }
-            }
-
-            return list;
-        }
+        
 
         public int GetId(string guid)
         {
-            return Convert.ToInt32(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select Id from OIGN where GUID ='" + guid.ToString() + "'"));
+            return Convert.ToInt32(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select Id from OIGE where GUID ='" + guid.ToString() + "'"));
 
         }
         public dynamic GetOldHeaderData(int id)
@@ -80,7 +50,7 @@ namespace iSOL_Enterprise.Dal.Production
             {
                 DataSet ds = new DataSet();
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-                string headerQuery = @"select MySeries,DocNum,Series,DocDate,Ref2,Comments,JrnlMemo,DocTotal From OIGN where Id =" + id;
+                string headerQuery = @"select MySeries,DocNum,Series,DocDate,Ref2,Comments,JrnlMemo,DocTotal From OIGE where Id =" + id;
                 SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
                 sda.Fill(ds);
                 string JSONString = string.Empty;
@@ -99,7 +69,7 @@ namespace iSOL_Enterprise.Dal.Production
             {
                 DataSet ds = new DataSet();
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-                string headerQuery = @"select Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode From IGN1 where Id =" + id;
+                string headerQuery = @"select Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode From IGE1 where Id =" + id;
                 SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
                 sda.Fill(ds);
                 string JSONString = string.Empty;
@@ -114,7 +84,7 @@ namespace iSOL_Enterprise.Dal.Production
 
         }
 
-        public ResponseModels AddUpdateReceiptFromProduction(string formData)
+        public ResponseModels AddUpdateIssueForProduction(string formData)
         {
             ResponseModels response = new ResponseModels();
 
@@ -125,11 +95,11 @@ namespace iSOL_Enterprise.Dal.Production
                 var model = JsonConvert.DeserializeObject<dynamic>(formData);
                 if (model.OldId != null)
                 {
-                    response = EditReceiptFromProduction(model);
+                    response = EditIssueForProduction(model);
                 }
                 else
                 {
-                    response = AddReceiptFromProduction(model);
+                    response = AddIssueForProduction(model);
                 }
 
                 return response;
@@ -145,7 +115,7 @@ namespace iSOL_Enterprise.Dal.Production
             }
 
         }
-        public ResponseModels AddReceiptFromProduction(dynamic model)
+        public ResponseModels AddIssueForProduction(dynamic model)
         {
             ResponseModels response = new ResponseModels();
             CommonDal cdal = new CommonDal();
@@ -156,12 +126,12 @@ namespace iSOL_Enterprise.Dal.Production
             int res1 = 0;
             try
             {
-                
+
                 if (model.HeaderData != null)
                 {
 
                     List<SqlParameter> param = new List<SqlParameter>();
-                    int Id = CommonDal.getPrimaryKey(tran, "OIGN");
+                    int Id = CommonDal.getPrimaryKey(tran, "OIGE");
 
                     param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
                     param.Add(cdal.GetParameter("@Guid", CommonDal.generatedGuid(), typeof(string)));
@@ -182,7 +152,7 @@ namespace iSOL_Enterprise.Dal.Production
                     }
                     else
                     {
-                        int count = SqlHelper.ExecuteScalar(tran, CommandType.Text, "select Count(*) from OIGN where DocNum ='" + model.HeaderData.DocNum.ToString() + "'");
+                        int count = SqlHelper.ExecuteScalar(tran, CommandType.Text, "select Count(*) from OIGE where DocNum ='" + model.HeaderData.DocNum.ToString() + "'");
                         if (count > 0)
                         {
                             tran.Rollback();
@@ -193,7 +163,7 @@ namespace iSOL_Enterprise.Dal.Production
                     }
                     #endregion
 
-                    string HeadQuery = @"insert into OIGN (Id,Guid,DocEntry,MySeries,DocNum,Series,DocDate,Ref2,Comments,JrnlMemo,DocTotal,BaseType) 
+                    string HeadQuery = @"insert into OIGE (Id,Guid,DocEntry,MySeries,DocNum,Series,DocDate,Ref2,Comments,JrnlMemo,DocTotal,BaseType) 
                                         values(@Id,@Guid,@DocEntry,@MySeries,@DocNum,@Series,@DocDate,@Ref2,@Comments,@JrnlMemo,@DocTotal,@BaseType)";
 
 
@@ -204,7 +174,7 @@ namespace iSOL_Enterprise.Dal.Production
                     param.Add(cdal.GetParameter("@MySeries", model.HeaderData.MySeries, typeof(int)));
                     param.Add(cdal.GetParameter("@DocNum", model.HeaderData.DocNum, typeof(string)));
                     param.Add(cdal.GetParameter("@Series", model.HeaderData.Series, typeof(int)));
-                    param.Add(cdal.GetParameter("@DocDate", model.HeaderData.DocDate, typeof(DateTime)));                    
+                    param.Add(cdal.GetParameter("@DocDate", model.HeaderData.DocDate, typeof(DateTime)));
                     param.Add(cdal.GetParameter("@Ref2", model.HeaderData.Ref2, typeof(string)));
                     #endregion
 
@@ -214,7 +184,7 @@ namespace iSOL_Enterprise.Dal.Production
                     param.Add(cdal.GetParameter("@DocTotal", model.FooterData.TotalBeforeDiscount, typeof(decimal)));
                     #endregion
 
-                    param.Add(cdal.GetParameter("@BaseType", 102, typeof(int)));
+                    param.Add(cdal.GetParameter("@BaseType", 202, typeof(int)));
 
 
                     #endregion
@@ -235,16 +205,16 @@ namespace iSOL_Enterprise.Dal.Production
                         {
                             string Tabitem = "Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,UomEntry,UomCode,OpenQty";
                             string TabitemP = "@Id,@LineNum,@BaseRef,@BaseType,@ItemCode,@Dscription,@WhsCode,@Quantity,@TranType,@Price,@LineTotal,@AcctCode,@UomEntry,@UomCode,@OpenQty";
-                            string ITT1_Query = @"insert into IGN1 (" + Tabitem + ") " +
+                            string ITT1_Query = @"insert into IGE1 (" + Tabitem + ") " +
                                                  "values(" + TabitemP + ")";
 
-                            
+
                             #region sqlparam
                             List<SqlParameter> param1 = new List<SqlParameter>();
                             param1.Add(cdal.GetParameter("@Id", Id, typeof(int)));
                             param1.Add(cdal.GetParameter("@LineNum", LineNum, typeof(int)));
-                            param1.Add(cdal.GetParameter("@BaseRef", item.BaseType, typeof(string)));                            
-                            param1.Add(cdal.GetParameter("@BaseType", 102, typeof(int)));                            
+                            param1.Add(cdal.GetParameter("@BaseRef", item.BaseType, typeof(string)));
+                            param1.Add(cdal.GetParameter("@BaseType", 202, typeof(int)));
                             param1.Add(cdal.GetParameter("@ItemCode", item.ItemCode, typeof(string)));
                             param1.Add(cdal.GetParameter("@Dscription", item.ItemName, typeof(string)));
                             param1.Add(cdal.GetParameter("@WhsCode", item.Warehouse, typeof(string)));
@@ -254,7 +224,7 @@ namespace iSOL_Enterprise.Dal.Production
                             param1.Add(cdal.GetParameter("@LineTotal", item.TtlPrc, typeof(decimal)));
                             param1.Add(cdal.GetParameter("@AcctCode", item.AcctCode, typeof(string)));
                             param1.Add(cdal.GetParameter("@UomEntry", item.UomEntry, typeof(int)));
-                            param1.Add(cdal.GetParameter("@UomCode", item.UomCode, typeof(string)));                            
+                            param1.Add(cdal.GetParameter("@UomCode", item.UomCode, typeof(string)));
                             param1.Add(cdal.GetParameter("@OpenQty", item.QTY, typeof(decimal)));
 
                             #endregion
@@ -268,7 +238,7 @@ namespace iSOL_Enterprise.Dal.Production
                                 return response;
                             }
 
-                            
+
 
 
                             #region Update OITW If Sap Integration is OFF
@@ -316,7 +286,7 @@ namespace iSOL_Enterprise.Dal.Production
                                                         + item.selectedFilePath + "','"
                                                         + item.selectedFileName + "','"
                                                         + Convert.ToDateTime(item.selectedFileDate) + "')";
-                                
+
                                 res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryAttachment).ToInt();
                                 if (res1 <= 0)
                                 {
@@ -340,7 +310,7 @@ namespace iSOL_Enterprise.Dal.Production
                 {
                     tran.Commit();
                     response.isSuccess = true;
-                    response.Message = "Receipt From Production Added Successfully !";
+                    response.Message = "Issue For Production Added Successfully !";
 
                 }
 
@@ -354,7 +324,7 @@ namespace iSOL_Enterprise.Dal.Production
             }
             return response;
         }
-        public ResponseModels EditReceiptFromProduction(dynamic model)
+        public ResponseModels EditIssueForProduction(dynamic model)
         {
             ResponseModels response = new ResponseModels();
             CommonDal cdal = new CommonDal();
@@ -371,7 +341,7 @@ namespace iSOL_Enterprise.Dal.Production
                     List<SqlParameter> param = new List<SqlParameter>();
                     string TabHeader = @"DocDate =@DocDate,Ref2=@Ref2,Comments=@Comments,JrnlMemo=@JrnlMemo,DocTotal=@DocTotal,is_Edited=1";
 
-                    string HeadQuery = @"Update OIGN set " + TabHeader + " where GUID = '" + model.OldId + "'";
+                    string HeadQuery = @"Update OIGE set " + TabHeader + " where GUID = '" + model.OldId + "'";
 
                     #region SqlParameters
 
@@ -386,7 +356,7 @@ namespace iSOL_Enterprise.Dal.Production
                     param.Add(cdal.GetParameter("@DocTotal", model.FooterData.TotalBeforeDiscount, typeof(decimal)));
                     #endregion
 
-                    param.Add(cdal.GetParameter("@BaseType", 102, typeof(int)));
+                    param.Add(cdal.GetParameter("@BaseType", 202, typeof(int)));
 
 
                     #endregion
@@ -413,13 +383,13 @@ namespace iSOL_Enterprise.Dal.Production
                                 string Tabitem = @"BaseRef=@BaseRef,BaseType=@BaseType,ItemCode=@ItemCode,Dscription=@Dscription,WhsCode=@WhsCode,Quantity=@Quantity,
                                                    TranType=@TranType,Price=@Price,LineTotal=@LineTotal,AcctCode=@AcctCode,UomEntry=@UomEntry,UomCode=@UomCode,OpenQty=@OpenQty";
 
-                                ITT1_Query = @"update IGN1 set " + Tabitem + " where id=" + Id + " and LineNum=" + item.LineNum;
+                                ITT1_Query = @"update IGE1 set " + Tabitem + " where id=" + Id + " and LineNum=" + item.LineNum;
                             }
                             else
                             {
                                 string Tabitem = "Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,UomEntry,UomCode,OpenQty";
                                 string TabitemP = "@Id,@LineNum,@BaseRef,@BaseType,@ItemCode,@Dscription,@WhsCode,@Quantity,@TranType,@Price,@LineTotal,@AcctCode,@UomEntry,@UomCode,@OpenQty";
-                                ITT1_Query = @"insert into IGN1 (" + Tabitem + ") " +
+                                ITT1_Query = @"insert into IGE1 (" + Tabitem + ") " +
                                                      "values(" + TabitemP + ")";
                                 LineNum = CommonDal.getLineNumber(tran, "IGN1", Id.ToString());
                             }
@@ -430,7 +400,7 @@ namespace iSOL_Enterprise.Dal.Production
                             param1.Add(cdal.GetParameter("@Id", Id, typeof(int)));
                             param1.Add(cdal.GetParameter("@LineNum", LineNum, typeof(int)));
                             param1.Add(cdal.GetParameter("@BaseRef", item.BaseType, typeof(string)));
-                            param1.Add(cdal.GetParameter("@BaseType", 102, typeof(int)));
+                            param1.Add(cdal.GetParameter("@BaseType", 202, typeof(int)));
                             param1.Add(cdal.GetParameter("@ItemCode", item.ItemCode, typeof(string)));
                             param1.Add(cdal.GetParameter("@Dscription", item.ItemName, typeof(string)));
                             param1.Add(cdal.GetParameter("@WhsCode", item.Warehouse, typeof(string)));
@@ -464,7 +434,7 @@ namespace iSOL_Enterprise.Dal.Production
                 {
                     tran.Commit();
                     response.isSuccess = true;
-                    response.Message = "Receipt From Production Updated Successfully !";
+                    response.Message = "Issue For Production Updated Successfully !";
 
                 }
 
