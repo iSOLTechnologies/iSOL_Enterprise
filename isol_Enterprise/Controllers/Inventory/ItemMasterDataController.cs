@@ -29,7 +29,7 @@ namespace iSOL_Enterprise.Controllers.Inventory
 
             return Json(response);
         }
-        public IActionResult ItemMasterDataMaster(int id = 0)
+        public IActionResult ItemMasterDataMaster(string id = "")
         {
 
             ItemMasterDataDal dal = new ItemMasterDataDal();
@@ -45,7 +45,7 @@ namespace iSOL_Enterprise.Controllers.Inventory
             ViewData["CustomsGroup"] = dal.GetCustomsGroup();
             ViewData["TaxGroup"] = dal.GetTaxGroup();
             ViewData["UomName"] = dal.GetUomName();
-            if (id > 0)
+            if (id != "")
             {
                 ViewBag.OldItemId = id;
             }
@@ -55,7 +55,7 @@ namespace iSOL_Enterprise.Controllers.Inventory
             return View();
         }
         
-        public IActionResult GetItemOldData(int ItemID)
+        public IActionResult GetItemOldData(string ItemID)
         {
             try
             {

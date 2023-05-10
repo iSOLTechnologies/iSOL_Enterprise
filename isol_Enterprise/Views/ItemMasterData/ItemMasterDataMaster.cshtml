@@ -2315,9 +2315,9 @@
 
             $("#VatGroupPu").select2();
 
-            if (@ViewBag.OldItemId != 0) 
+            if ("@ViewBag.OldItemId" != "0") 
             {
-                OldItemId = @ViewBag.OldItemId;
+                OldItemId = "@ViewBag.OldItemId";
                 isEdit = true;
                 
                 $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');

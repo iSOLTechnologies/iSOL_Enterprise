@@ -19,6 +19,7 @@ using System.Reflection;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace iSOL_Enterprise.Dal
 {
@@ -429,9 +430,10 @@ where s.Status=1 and p.Guid=@Guid";
             id = id + 1;
             return id;
         }
-        public static string GetItemCode(int ItemID)
+        public static string GetItemCode(string guid)
         {
-            string query = "select ItemCode from OITM Where id ="+ItemID;
+            guid = HttpUtility.UrlDecode(guid);
+            string query = "select ItemCode from OITM Where guid ='"+ guid + "'";
             string? ItemCode = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, query).ToString();
            
             return ItemCode;

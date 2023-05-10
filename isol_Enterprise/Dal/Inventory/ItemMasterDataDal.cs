@@ -20,7 +20,7 @@ namespace iSOL_Enterprise.Dal.Inventory
 
         public List<ItemMasterModel> GetData()
         {
-            string GetQuery = "select Id,ItemCode,ItemName,PrchseItem,SellItem,InvntItem,isPosted,is_Edited  from OITM order by id DESC";
+            string GetQuery = "select Id,Guid,ItemCode,ItemName,PrchseItem,SellItem,InvntItem,isPosted,is_Edited  from OITM order by id DESC";
 
 
             List<ItemMasterModel> list = new List<ItemMasterModel>();
@@ -37,7 +37,7 @@ namespace iSOL_Enterprise.Dal.Inventory
                     models.PurchaseItem = rdr["PrchseItem"].ToString();
                     models.SalesItem = rdr["SellItem"].ToString();
                     models.InventoryItem = rdr["InvntItem"].ToString();
-
+                    models.Guid = rdr["Guid"].ToString();
                     models.IsPosted = rdr["isPosted"].ToString();
                     models.IsEdited = rdr["is_Edited"].ToString();
 
@@ -46,7 +46,7 @@ namespace iSOL_Enterprise.Dal.Inventory
             }
             return list;
         }
-        public dynamic GetItemOldData(int ItemID)
+        public dynamic GetItemOldData(string ItemID)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace iSOL_Enterprise.Dal.Inventory
                                             QryGroup21, QryGroup22, QryGroup23, QryGroup24, QryGroup25, QryGroup26, QryGroup27, QryGroup28, QryGroup29, QryGroup30, QryGroup31, QryGroup32, QryGroup33,
                                             QryGroup34, QryGroup35, QryGroup36, QryGroup37, QryGroup38, QryGroup39, QryGroup40, QryGroup41, QryGroup42, QryGroup43, QryGroup44, QryGroup45, QryGroup46, 
                                             QryGroup47, QryGroup48, QryGroup49, QryGroup50, QryGroup51, QryGroup52, QryGroup53, QryGroup54, QryGroup55, QryGroup56, QryGroup57, QryGroup58, QryGroup59, 
-                                            QryGroup60, QryGroup61, QryGroup62, QryGroup63, QryGroup64 from OITM where Id =" + ItemID;
+                                            QryGroup60, QryGroup61, QryGroup62, QryGroup63, QryGroup64 from OITM where guid ='" + ItemID + "'";
                 SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
                 sda.Fill(ds);
                 string JSONString = string.Empty;
@@ -739,7 +739,7 @@ namespace iSOL_Enterprise.Dal.Inventory
                         {
                             SQ = "NumInSale=@NumInSale,SalUnitMsr=@SalUnitMsr,VatGourpSa=@VatGourpSa,";
 
-                            param.Add(cdal.GetParameter("@NumInSale", model.Tab_SalesData.NumInSale, typeof(int)));
+                            param.Add(cdal.GetParameter("@NumInSale", model.Tab_SalesData.NumInSale, typeof(decimal)));
                             param.Add(cdal.GetParameter("@SalUnitMsr", model.Tab_SalesData.SalUnitMsr, typeof(string)));
                             param.Add(cdal.GetParameter("@VatGourpSa", model.Tab_SalesData.VatGroupSa, typeof(string)));
                         }
@@ -764,7 +764,20 @@ namespace iSOL_Enterprise.Dal.Inventory
                         param.Add(cdal.GetParameter("@ItmsGrpCod", model.HeaderData.ItmsGrpCod, typeof(int)));
                     }
 
-                    string HeadQuery = @"update OITM set ItemName=@ItemName, Series=@Series, " + InvntItem + " " + SellItem + " FrgnName=@FrgnName, " + PrchseItem + " ItemType=@ItemType, " + ItmsGrpCod + " UgpEntry=@UgpEntry, AvgPrice=@AvgPrice, WTLiable=@WTLiable, FirmCode=@FirmCode, ShipType=@ShipType,MngMethod=@MngMethod, validFor=@validFor, validFrom=@validFrom, validTo=@validTo, frozenFrom=@frozenFrom, frozenTo=@frozenTo,ManBtchNum=@ManBtchNum, " + IQ + " PrcrmntMtd=@PrcrmntMtd, PlaningSys=@PlaningSys, MinOrdrQty=@MinOrdrQty, InCostRoll=@InCostRoll, IssueMthd=@IssueMthd, TreeType=@TreeType, PrdStdCst=@PrdStdCst, " + PQ + " " + SQ + " QryGroup1=@QryGroup1, QryGroup2=@QryGroup2, QryGroup3=@QryGroup3, QryGroup4=@QryGroup4, QryGroup5=@QryGroup5, QryGroup6=@QryGroup6, QryGroup7=@QryGroup7, QryGroup8=@QryGroup8, QryGroup9=@QryGroup9, QryGroup10=@QryGroup10, QryGroup11=@QryGroup11, QryGroup12=@QryGroup12, QryGroup13=@QryGroup13, QryGroup14=@QryGroup14, QryGroup15=@QryGroup15, QryGroup16=@QryGroup16, QryGroup17=@QryGroup17, QryGroup18=@QryGroup18, QryGroup19=@QryGroup19, QryGroup20=@QryGroup20, QryGroup21=@QryGroup21, QryGroup22=@QryGroup22, QryGroup23=@QryGroup23, QryGroup24=@QryGroup24, QryGroup25=@QryGroup25, QryGroup26=@QryGroup26, QryGroup27=@QryGroup27, QryGroup28=@QryGroup28, QryGroup29=@QryGroup29, QryGroup30=@QryGroup30, QryGroup31=@QryGroup31, QryGroup32=@QryGroup32, QryGroup33=@QryGroup33, QryGroup34=@QryGroup34, QryGroup35=@QryGroup35, QryGroup36=@QryGroup36, QryGroup37=@QryGroup37, QryGroup38=@QryGroup38, QryGroup39=@QryGroup39, QryGroup40=@QryGroup40, QryGroup41=@QryGroup41, QryGroup42=@QryGroup42, QryGroup43=@QryGroup43, QryGroup44=@QryGroup44, QryGroup45=@QryGroup45, QryGroup46=@QryGroup46, QryGroup47=@QryGroup47, QryGroup48=@QryGroup48, QryGroup49=@QryGroup49, QryGroup50=@QryGroup50, QryGroup51=@QryGroup51, QryGroup52=@QryGroup52, QryGroup53=@QryGroup53, QryGroup54=@QryGroup54, QryGroup55=@QryGroup55, QryGroup56=@QryGroup56, QryGroup57=@QryGroup57, QryGroup58=@QryGroup58, QryGroup59=@QryGroup59, QryGroup60=@QryGroup60, QryGroup61=@QryGroup61, QryGroup62=@QryGroup62, QryGroup63=@QryGroup63, QryGroup64=@QryGroup64  where id=" + model.OldItemId;
+                    string HeadQuery = @"update OITM set ItemName=@ItemName, Series=@Series, " + InvntItem + " " + SellItem + " FrgnName=@FrgnName, " + PrchseItem + " ItemType=@ItemType, " + ItmsGrpCod + " UgpEntry=@UgpEntry," +
+                            " AvgPrice=@AvgPrice, WTLiable=@WTLiable, FirmCode=@FirmCode, ShipType=@ShipType,MngMethod=@MngMethod, validFor=@validFor, validFrom=@validFrom, " +
+                            "validTo=@validTo, frozenFrom=@frozenFrom, frozenTo=@frozenTo,ManBtchNum=@ManBtchNum, " + IQ + " PrcrmntMtd=@PrcrmntMtd, PlaningSys=@PlaningSys, " +
+                            "MinOrdrQty=@MinOrdrQty, InCostRoll=@InCostRoll, IssueMthd=@IssueMthd, TreeType=@TreeType, PrdStdCst=@PrdStdCst, " + PQ + " " + SQ + " " +
+                            "QryGroup1=@QryGroup1, QryGroup2=@QryGroup2, QryGroup3=@QryGroup3, QryGroup4=@QryGroup4, QryGroup5=@QryGroup5, QryGroup6=@QryGroup6, QryGroup7=@QryGroup7, " +
+                            "QryGroup8=@QryGroup8, QryGroup9=@QryGroup9, QryGroup10=@QryGroup10, QryGroup11=@QryGroup11, QryGroup12=@QryGroup12, QryGroup13=@QryGroup13, QryGroup14=@QryGroup14," +
+                            " QryGroup15=@QryGroup15, QryGroup16=@QryGroup16, QryGroup17=@QryGroup17, QryGroup18=@QryGroup18, QryGroup19=@QryGroup19, QryGroup20=@QryGroup20, QryGroup21=@QryGroup21, " +
+                            "QryGroup22=@QryGroup22, QryGroup23=@QryGroup23, QryGroup24=@QryGroup24, QryGroup25=@QryGroup25, QryGroup26=@QryGroup26, QryGroup27=@QryGroup27, QryGroup28=@QryGroup28, " +
+                            "QryGroup29=@QryGroup29, QryGroup30=@QryGroup30, QryGroup31=@QryGroup31, QryGroup32=@QryGroup32, QryGroup33=@QryGroup33, QryGroup34=@QryGroup34, QryGroup35=@QryGroup35, " +
+                            "QryGroup36=@QryGroup36, QryGroup37=@QryGroup37, QryGroup38=@QryGroup38, QryGroup39=@QryGroup39, QryGroup40=@QryGroup40, QryGroup41=@QryGroup41, QryGroup42=@QryGroup42, " +
+                            "QryGroup43=@QryGroup43, QryGroup44=@QryGroup44, QryGroup45=@QryGroup45, QryGroup46=@QryGroup46, QryGroup47=@QryGroup47, QryGroup48=@QryGroup48, QryGroup49=@QryGroup49, " +
+                            "QryGroup50=@QryGroup50, QryGroup51=@QryGroup51, QryGroup52=@QryGroup52, QryGroup53=@QryGroup53, QryGroup54=@QryGroup54, QryGroup55=@QryGroup55, QryGroup56=@QryGroup56, " +
+                            "QryGroup57=@QryGroup57, QryGroup58=@QryGroup58, QryGroup59=@QryGroup59, QryGroup60=@QryGroup60, QryGroup61=@QryGroup61, QryGroup62=@QryGroup62, QryGroup63=@QryGroup63, " +
+                            "QryGroup64=@QryGroup64  where guid= '" + model.OldItemId + "'";
 
 
 
