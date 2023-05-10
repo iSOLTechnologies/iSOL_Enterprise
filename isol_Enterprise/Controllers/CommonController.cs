@@ -142,6 +142,25 @@ namespace iSOL_Enterprise.Controllers
 
             return Json(new { success = model.isSuccess, message = model.Message });
         }
+        [HttpPost]
+        public IActionResult PostBOM(string[] checkedIDs)
+        {
+            DIApiDal dal = new DIApiDal();
+            ResponseModels model = new ResponseModels();
+            model = dal.PostBOM(checkedIDs);
+
+            return Json(new { success = model.isSuccess, message = model.Message });
+        }
+        [HttpPost]
+        public IActionResult PostProductionOrder(string[] checkedIDs)
+        {
+            DIApiDal dal = new DIApiDal();
+            ResponseModels model = new ResponseModels();
+            model = dal.PostProductionOrder(checkedIDs);
+
+            return Json(new { success = model.isSuccess, message = model.Message });
+        }
+
         [HttpGet]
         public IActionResult GetCountries()
         {

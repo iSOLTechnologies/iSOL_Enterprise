@@ -214,50 +214,50 @@
 
     });
 
-    //$(document).on('click', '#btnPostToSap', function () {
-    //    $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-    //    $(this).attr('disabled', true);
-    //    let checkedIDs = [];
-    //    $(".loading_ic").addClass('overlay');
-    //    $(".loading_ic").show();
-    //    $('#AttTable tbody tr').each(function (index, item) {
+    $(document).on('click', '#btnPostToSap', function () {
+        $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+        $(this).attr('disabled', true);
+        let checkedIDs = [];
+        $(".loading_ic").addClass('overlay');
+        $(".loading_ic").show();
+        $('#AttTable tbody tr').each(function (index, item) {
 
-    //        let CheckBoxObj = $(this).find('#chckbox');
+            let CheckBoxObj = $(this).find('#chckbox');
 
-    //        if ($(CheckBoxObj).is(":checked"))
-    //            checkedIDs.push($(CheckBoxObj).attr('guid'));
+            if ($(CheckBoxObj).is(":checked"))
+                checkedIDs.push($(CheckBoxObj).attr('guid'));
 
 
-    //    });
-    //    if (checkedIDs.length > 0) {
+        });
+        if (checkedIDs.length > 0) {
 
-    //        $.post("Common/PostGoodIssue", { checkedIDs: checkedIDs, ObjectCode: 60 }, function (response) {
-    //            if (response.success) {
-    //                $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-    //                $("#btnPostToSap").attr('disabled', false);
-    //                $(".loading_ic").removeClass('overlay dark');
-    //                $(".loading_ic").hide();
-    //                toastr.success(response.message);
-    //                datatable.ajax.reload();
-    //            }
-    //            else {
-    //                $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-    //                $("#btnPostToSap").attr('disabled', false);
-    //                toastr.error(response.message);
-    //                $(".loading_ic").removeClass('overlay dark');
-    //                $(".loading_ic").hide();
-    //                datatable.ajax.reload();
-    //            }
+            $.post("Common/PostBOM", { checkedIDs: checkedIDs}, function (response) {
+                if (response.success) {
+                    $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $("#btnPostToSap").attr('disabled', false);
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
+                    toastr.success(response.message);
+                    datatable.ajax.reload();
+                }
+                else {
+                    $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $("#btnPostToSap").attr('disabled', false);
+                    toastr.error(response.message);
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
+                    datatable.ajax.reload();
+                }
 
-    //        });
-    //    }
-    //    else {
-    //        $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-    //        $("#btnPostToSap").attr('disabled', false);
-    //        toastr.warning("Documents not Selected !!");
-    //        $(".loading_ic").removeClass('overlay dark');
-    //        $(".loading_ic").hide();
-    //    }
+            });
+        }
+        else {
+            $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+            $("#btnPostToSap").attr('disabled', false);
+            toastr.warning("Documents not Selected !!");
+            $(".loading_ic").removeClass('overlay dark');
+            $(".loading_ic").hide();
+        }
 
-    //});
+    });
 </script>
