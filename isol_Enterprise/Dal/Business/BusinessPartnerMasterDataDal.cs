@@ -13,6 +13,7 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Web;
 
 namespace iSOL_Enterprise.Dal.Business
 {
@@ -269,6 +270,7 @@ namespace iSOL_Enterprise.Dal.Business
 
         public int GetId(string guid)
         {
+            guid = HttpUtility.UrlDecode(guid);
             return Convert.ToInt32(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select Id from OCRD where GUID ='" + guid.ToString() + "'"));
 
         }

@@ -6,6 +6,7 @@ using System.Data;
 using iSOL_Enterprise.Common;
 using System.Reflection;
 using SAPbobsCOM;
+using System.Web;
 
 namespace iSOL_Enterprise.Dal.Production
 {
@@ -42,6 +43,7 @@ namespace iSOL_Enterprise.Dal.Production
         }
         public int GetId(string guid)
         {
+            guid = HttpUtility.UrlDecode(guid);
             return Convert.ToInt32(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select Id from OITT where GUID ='" + guid.ToString() + "'"));
 
         }

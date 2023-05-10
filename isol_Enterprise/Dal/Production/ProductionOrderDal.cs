@@ -42,6 +42,7 @@ namespace iSOL_Enterprise.Dal.Production
         }
         public int GetId(string guid)
         {
+            guid = HttpUtility.UrlDecode(guid);
             return Convert.ToInt32(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select Id from OWOR where GUID ='" + guid.ToString() + "'"));
 
         }
