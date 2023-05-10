@@ -2,10 +2,12 @@
 using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Dal.Inventory;
 using iSOL_Enterprise.Dal.Inventory_Transactions;
+using iSOL_Enterprise.Dal.Production;
 using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 
 namespace iSOL_Enterprise.Controllers.Inventory_Transactions
 {
@@ -35,14 +37,14 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
 
             return Json(response);
         }
-        public IActionResult GoodReceiptGRMaster(int id = 0)
+        public IActionResult GoodReceiptGRMaster(string id = "")
         {
             ItemMasterDataDal Idal = new ItemMasterDataDal(); 
             AdministratorDal dal = new AdministratorDal();
             ViewData["Series"] = dal.GetSeries(59);
             ViewData["MySeries"] = dal.GetMySeries(59);
             ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text");
-			if (id > 0)
+			if (id != "")
 			{
 				ViewBag.OldId = id;
 			}
@@ -55,17 +57,18 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
 
 
 
-		public IActionResult GetOldData(int ItemID)
+		public IActionResult GetOldData(string ItemID)
 		{
 			try
 			{
 				GoodReceiptGRDal dal = new GoodReceiptGRDal();
-				 
-				return Json(new
+                ReceiptFromProductionDal bdal = new ReceiptFromProductionDal();
+                int id = bdal.GetId(ItemID);
+                return Json(new
 				{
 					success = true,
-					HeaderData = dal.GetHeaderOldData(ItemID),
-					RowData = dal.GetRowOldData(ItemID) 
+					HeaderData = dal.GetHeaderOldData(id),
+					RowData = dal.GetRowOldData(id) 
 				});
 			}
 			catch (Exception)
