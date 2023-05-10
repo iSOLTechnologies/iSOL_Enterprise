@@ -98,20 +98,20 @@ namespace iSOL_Enterprise.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostGoodReceiptGR(string[] checkedIDs)
+        public IActionResult PostGoodReceiptGR(string[] checkedIDs , int BaseType = 0)
         {
             DIApiDal dal = new DIApiDal();
             ResponseModels model = new ResponseModels();
-            model = dal.PostGoodReceiptGR(checkedIDs,59);
+            model = dal.PostGoodReceiptGR(checkedIDs,59,BaseType);
 
             return Json(new { success = model.isSuccess, message = model.Message });
         }
         [HttpPost]
-        public IActionResult PostGoodIssue(string[] checkedIDs)
+        public IActionResult PostGoodIssue(string[] checkedIDs, int BaseType = 0)
         {
             DIApiDal dal = new DIApiDal();
             ResponseModels model = new ResponseModels();
-            model = dal.PostGoodIssue(checkedIDs,60);
+            model = dal.PostGoodIssue(checkedIDs,60,BaseType);
 
             return Json(new { success = model.isSuccess, message = model.Message });
         }

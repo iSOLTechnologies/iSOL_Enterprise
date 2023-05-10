@@ -8,10 +8,6 @@ $('#Comments').on('input', function () {
     $(this).val(text);
 });
 
-
-
-
- 
 $(document).on('change keyup', '#UPrc,#DicPrc', function (e) {
 
     var quantityField = $(this).closest('#ListParameters .itm').find('#DicPrc');
@@ -49,8 +45,7 @@ $(document).on('change keyup', '#Warehouse', function (e) {
     let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
 
     $(this).closest('#ListParameters .itm').find("#QTY").val("");
-    //console.log("ItemCodeValue", ItemCodeValue);
-    //console.log("WarehouseValue", WarehouseValue.toString());
+    
     $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
 
         onHand.val(data);
@@ -195,10 +190,6 @@ function GetPrice() {
             totalBeforeDiscount = parseFloat(totalBeforeDiscount) + parseFloat(PriceAfterDiscount);
             totalAfterDiscount = parseFloat(totalAfterDiscount) + parseFloat(PriceAfterVat);
 
-            //console.log(DiscountAmount);
-            //console.log(PriceAfterDiscount);
-            //console.log(VatAmmount);
-            //console.log(PriceAfterVat);
         }
 
         
@@ -223,52 +214,10 @@ function GetPrice() {
         $("#FooterTax").val(totalTax.toFixed(2));
 
     }
-    //if (totalDiscount != 0) {
-
-    //    $("#Discount").val(totalDiscount.toFixed(2));
-
-    //}
+    
         $("#Total").val(totalAfterDiscount.toFixed(2));
     
-    //if ($('#RoundingChkBox').is(":checked") && $('#Rounding').val() != "") {
-
-    //    RoundingValue = parseFloat($('#Rounding').val());
-
-    //}
-    //if (Discount != "" && RoundingValue != "") {
-
-    //    $("#Total").val((totalBeforeDiscount + RoundingValue) - ((totalBeforeDiscount + RoundingValue) * Discount));
-    //    Total_Value = $("#Total").val();
-
-    //}
-    //else if (Discount == "" && RoundingValue != "") {
-    //    $("#Total").val((totalBeforeDiscount + RoundingValue));
-    //    Total_Value = $("#Total").val();
-    //}
-    //else if (Discount != "" && RoundingValue == "") {
-
-    //    $("#Total").val(parseFloat(totalBeforeDiscount - (totalBeforeDiscount * Discount)));
-    //    Total_Value = $("#Total").val();
-    //}
-    //else if (Discount == "" && RoundingValue == "") {
-
-    //    $("#Total").val(totalBeforeDiscount);
-    //    Total_Value = $("#Total").val();
-    //}
-
-    //let AllAmount = 0;
-    //    $('#ListParameters .itm').each(function () {
-    //       AllAmount += parseFloat(parseFloat($(this).find('#QTY').val()) * parseFloat($(this).find('#UPrc').val()))
-    //});
-
-    //$('#FooterTax').val(parseFloat(Total_Value - AllAmount).toFixed(2))
-
-    //if (FooterTax != null && FooterTax != "" && FooterTax != undefined) {
-    //    console.log("A", $("#Total").val());
-    //    let OnePercent = parseFloat($("#Total").val()) / 100;
-    //    let TaxAmount = parseFloat(OnePercent) * parseFloat(FooterTax);
-    //    $("#Total").val((parseFloat($("#Total").val()) + parseFloat(TaxAmount)).toFixed(2)); 
-    //}
+    
 }
 
 
@@ -416,7 +365,8 @@ function getJsonObjKeyName(element) {
 
         if ($(this).attr("name") != undefined || $(this).attr("name") != "" || $(this).attr("name") != '')
             jsonobj[$(this).attr("name")] = $(this).val();
-
+        else if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')
+            jsonobj[$(this).attr("id")] = $(this).val();
     });
     return jsonobj;
 }
@@ -429,7 +379,8 @@ function getJsonObjListKeyName(element) {
 
             if ($(this).attr("name") != undefined || $(this).attr("name") != "" || $(this).attr("name") != '')
                 jsonobj[$(this).attr("name")] = $(this).val();
-
+            else if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')
+                jsonobj[$(this).attr("id")] = $(this).val();
         });
 
         listObj.push(jsonobj);

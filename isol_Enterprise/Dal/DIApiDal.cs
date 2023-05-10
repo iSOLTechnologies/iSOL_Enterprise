@@ -849,7 +849,7 @@ namespace SAP_MVC_DIAPI.BLC
 
         }
 
-        public ResponseModels PostGoodReceiptGR(string[] checkedIDs, int ObjectCode)
+        public ResponseModels PostGoodReceiptGR(string[] checkedIDs, int ObjectCode , int BaseType)
         {
             ResponseModels models = new ResponseModels();
             try
@@ -898,7 +898,8 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.Comments = rdr["Comments"].ToString();
                                         oDoc.JournalMemo = rdr["JrnlMemo"].ToString();
                                         oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
-                                       
+                                        if (BaseType == 102)
+                                        oDoc.BaseType = 102;
                                         #endregion
 
                                         #region Insert in Row
@@ -925,40 +926,40 @@ namespace SAP_MVC_DIAPI.BLC
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
                                                    
                                                     
-
-                                                    try
-                                                    {
-
-
-                                                        string BatchQuery = @" select ITL1.ItemCode,ITL1.SysNumber,ITL1.Quantity,ITL1.AllocQty,OITL.CreateDate, OBTN.ExpDate,OBTN.DistNumber from OITL 
-                                                                           inner join ITL1 on OITL.LogEntry = ITL1.LogEntry 
-                                                                           inner join OBTQ on ITL1.MdAbsEntry = OBTQ.MdAbsEntry 
-                                                                           inner join OBTN on OBTQ.MdAbsEntry = OBTN.AbsEntry
-                                                                           where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType ="+ObjectCode;
-                                                        using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
+                                                    if(BaseType != 102) { 
+                                                        try
                                                         {
-                                                            int i = 0;
-                                                            while (rdr3.Read())
+
+
+                                                            string BatchQuery = @" select ITL1.ItemCode,ITL1.SysNumber,ITL1.Quantity,ITL1.AllocQty,OITL.CreateDate, OBTN.ExpDate,OBTN.DistNumber from OITL 
+                                                                               inner join ITL1 on OITL.LogEntry = ITL1.LogEntry 
+                                                                               inner join OBTQ on ITL1.MdAbsEntry = OBTQ.MdAbsEntry 
+                                                                               inner join OBTN on OBTQ.MdAbsEntry = OBTN.AbsEntry
+                                                                               where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType ="+ObjectCode;
+                                                            using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
                                                             {
-                                                                oDoc.Lines.BatchNumbers.BaseLineNumber = oDoc.Lines.LineNum;
-                                                                oDoc.Lines.BatchNumbers.SetCurrentLine(i);
-                                                                oDoc.Lines.BatchNumbers.ItemCode = rdr3["ItemCode"].ToString();
-                                                                oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();
-                                                                oDoc.Lines.BatchNumbers.Quantity = Convert.ToDouble(rdr3["Quantity"]) > 0 ? Convert.ToDouble(rdr3["Quantity"]) : (-1 * Convert.ToDouble(rdr3["Quantity"]));
-                                                                oDoc.Lines.BatchNumbers.AddmisionDate = rdr3["CreateDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr3["CreateDate"].ToString());
-                                                                if (rdr3["ExpDate"].ToString() != "")
-                                                                    oDoc.Lines.BatchNumbers.ExpiryDate = Convert.ToDateTime(rdr3["ExpDate"].ToString());
-                                                                oDoc.Lines.BatchNumbers.Add();
-                                                                i += 1;
+                                                                int i = 0;
+                                                                while (rdr3.Read())
+                                                                {
+                                                                    oDoc.Lines.BatchNumbers.BaseLineNumber = oDoc.Lines.LineNum;
+                                                                    oDoc.Lines.BatchNumbers.SetCurrentLine(i);
+                                                                    oDoc.Lines.BatchNumbers.ItemCode = rdr3["ItemCode"].ToString();
+                                                                    oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();
+                                                                    oDoc.Lines.BatchNumbers.Quantity = Convert.ToDouble(rdr3["Quantity"]) > 0 ? Convert.ToDouble(rdr3["Quantity"]) : (-1 * Convert.ToDouble(rdr3["Quantity"]));
+                                                                    oDoc.Lines.BatchNumbers.AddmisionDate = rdr3["CreateDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr3["CreateDate"].ToString());
+                                                                    if (rdr3["ExpDate"].ToString() != "")
+                                                                        oDoc.Lines.BatchNumbers.ExpiryDate = Convert.ToDateTime(rdr3["ExpDate"].ToString());
+                                                                    oDoc.Lines.BatchNumbers.Add();
+                                                                    i += 1;
+                                                                }
                                                             }
                                                         }
-                                                    }
-                                                    catch (Exception)
-                                                    {
+                                                        catch (Exception)
+                                                        {
 
-                                                        throw;
+                                                            throw;
+                                                        }
                                                     }
-
                                                     oDoc.Lines.Add();
                                                 }
                                             }
@@ -1091,7 +1092,7 @@ namespace SAP_MVC_DIAPI.BLC
 
         }
 
-        public ResponseModels PostGoodIssue(string[] checkedIDs, int ObjectCode)
+        public ResponseModels PostGoodIssue(string[] checkedIDs, int ObjectCode, int BaseType)
         {
             ResponseModels models = new ResponseModels();
             try
@@ -1140,7 +1141,8 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.Comments = rdr["Comments"].ToString();
                                         oDoc.JournalMemo = rdr["JrnlMemo"].ToString();
                                         oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
-
+                                        if (BaseType == 202)
+                                            oDoc.BaseType = 202;
                                         #endregion
 
                                         #region Insert in Row
@@ -1167,6 +1169,8 @@ namespace SAP_MVC_DIAPI.BLC
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
 
 
+                                                    if (BaseType != 202)
+                                                    {
 
                                                     try
                                                     {
@@ -1200,7 +1204,8 @@ namespace SAP_MVC_DIAPI.BLC
 
                                                         throw;
                                                     }
-
+                                                    
+                                                    }
                                                     oDoc.Lines.Add();
                                                 }
                                             }
