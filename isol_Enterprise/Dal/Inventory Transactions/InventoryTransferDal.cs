@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using SqlHelperExtensions;
 using System.Data;
 using System.Data.SqlClient;
+using System.Web;
 
 namespace iSOL_Enterprise.Dal.Inventory_Transactions
 {
@@ -39,6 +40,12 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                 }
             }
             return list;
+        }
+        public int GetId(string guid)
+        {
+            guid = HttpUtility.UrlDecode(guid);
+            return Convert.ToInt32(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select Id from OWTR where GUID ='" + guid.ToString() + "'"));
+
         }
         public dynamic GetHeaderOldData(int ItemID)
         {

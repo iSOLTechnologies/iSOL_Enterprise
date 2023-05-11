@@ -1227,8 +1227,8 @@
             $(this).removeClass('is-invalid');
         });
 
-        if (@ViewBag.OldId != 0) {
-            OldId = @ViewBag.OldId;
+        if ("@ViewBag.OldId" != 0) {
+            OldId = "@ViewBag.OldId";
             isEdit = true;
 
             $(".btn-group").html('');

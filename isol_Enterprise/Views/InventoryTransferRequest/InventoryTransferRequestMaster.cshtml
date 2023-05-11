@@ -837,8 +837,8 @@
         $("#ToWhsCode").select2();
         //$("#Warehouse").select2();
         //$("#WhsCode").select2();
-          if (@ViewBag.OldId != 0) {
-            OldId = @ViewBag.OldId;
+          if ("@ViewBag.OldId" != 0) {
+            OldId = "@ViewBag.OldId";
             isEdit = true;
 
             $(".btn-group").html('');
@@ -1189,7 +1189,7 @@
     function GetOldData() {
 
         $.ajax({
-            url: 'InventoryTransfer/GetOldData',
+            url: 'InventoryTransferRequest/GetOldData',
             type: 'GET',
             dataType: 'json',
             async: false,

@@ -33,7 +33,7 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
 
             return Json(response);
         }
-        public IActionResult InventoryTransferMaster(int id = 0)
+        public IActionResult InventoryTransferMaster(string id = "")
         {
             ItemMasterDataDal Idal = new ItemMasterDataDal();
             AdministratorDal dal = new AdministratorDal();
@@ -42,7 +42,7 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
             ViewData["MySeries"] = dal.GetMySeries(67);
             ViewData["SalesEmployee"] = new SelectList(Sdal.GetSalesEmployee(), "SlpCode", "SlpName");
             ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text");
-            if (id > 0)
+            if (id != "")
             {
                 ViewBag.OldId = id;
             }
@@ -50,17 +50,17 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
                 ViewBag.OldId = 0;
             return View();
         }
-        public IActionResult GetOldData(int ItemID)
+        public IActionResult GetOldData(string ItemID)
         {
             try
             {
                 InventoryTransferDal dal = new InventoryTransferDal();
-
+                int id = dal.GetId(ItemID);
                 return Json(new
                 {
                     success = true,
-                    HeaderData = dal.GetHeaderOldData(ItemID),
-                    RowData = dal.GetRowOldData(ItemID)
+                    HeaderData = dal.GetHeaderOldData(id),
+                    RowData = dal.GetRowOldData(id)
                 });
 
             }

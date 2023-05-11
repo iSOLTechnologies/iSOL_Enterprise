@@ -2,6 +2,7 @@
 using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Dal.Inventory;
 using iSOL_Enterprise.Dal.Inventory_Transactions;
+using iSOL_Enterprise.Dal.Production;
 using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +33,7 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
             return Json(response);
         }
 
-        public IActionResult GoodsIssueMaster(int id = 0)
+        public IActionResult GoodsIssueMaster(string id = "")
         {
             ItemMasterDataDal Idal = new ItemMasterDataDal(); 
             AdministratorDal dal = new AdministratorDal();
@@ -40,7 +41,7 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
             ViewData["Series"] = dal.GetSeries(60);
             ViewData["MySeries"] = dal.GetMySeries(60);
             ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text");
-            if (id > 0)
+            if (id != "")
             {
                 ViewBag.OldId = id;
             }
@@ -50,17 +51,18 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
             return View();
         }
 
-        public IActionResult GetOldData(int ItemID)
+        public IActionResult GetOldData(string ItemID)
         {
             try
             {
                 GoodsIssueDal dal = new GoodsIssueDal();
-
+                IssueForProductionDal bdal = new IssueForProductionDal();
+                int id = bdal.GetId(ItemID);
                 return Json(new
                 {
                     success = true,
-                    HeaderData = dal.GetHeaderOldData(ItemID),
-                    RowData = dal.GetRowOldData(ItemID)
+                    HeaderData = dal.GetHeaderOldData(id),
+                    RowData = dal.GetRowOldData(id)
                 });
 
             }
