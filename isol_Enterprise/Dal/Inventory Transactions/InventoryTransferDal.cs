@@ -275,17 +275,17 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                             }
 
                             OITL OITLModel2 = new OITL();
-                            OITLModel.LogEntry = LogEntry2;
-                            OITLModel.CardCode = model.HeaderData.CardCode.ToString();
-                            OITLModel.CardName = model.HeaderData.CardName.ToString();
-                            OITLModel.ItemCode = item.ItemCode.ToString();
-                            OITLModel.ItemName = item.ItemName.ToString();
-                            OITLModel.ID = Id;
-                            OITLModel.DocLine = LineNum;
-                            OITLModel.DocType = 67;
-                            OITLModel.BaseType = item.BaseType;
-                            OITLModel.Quantity = ((Decimal)(item.QTY));
-                            OITLModel.DocDate = Convert.ToDateTime(model.HeaderData.DocDate);
+                            OITLModel2.LogEntry = LogEntry2;
+                            OITLModel2.CardCode = model.HeaderData.CardCode.ToString();
+                            OITLModel2.CardName = model.HeaderData.CardName.ToString();
+                            OITLModel2.ItemCode = item.ItemCode.ToString();
+                            OITLModel2.ItemName = item.ItemName.ToString();
+                            OITLModel2.ID = Id;
+                            OITLModel2.DocLine = LineNum;
+                            OITLModel2.DocType = 67;
+                            OITLModel2.BaseType = item.BaseType;
+                            OITLModel2.Quantity = ((Decimal)(item.QTY));
+                            OITLModel2.DocDate = Convert.ToDateTime(model.HeaderData.DocDate);
 
                             if (!cdal.OITLLog(tran, OITLModel2))
                             {

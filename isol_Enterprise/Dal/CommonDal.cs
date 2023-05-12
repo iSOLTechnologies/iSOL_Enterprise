@@ -78,7 +78,7 @@ namespace iSOL_Enterprise.Dal
         }
 
         public SqlParameter GetParameter(string name, dynamic? value, Type type)
-        {
+         {
             SqlParameter param = new SqlParameter();
             if (type == typeof(int))
             {
@@ -93,7 +93,7 @@ namespace iSOL_Enterprise.Dal
             }
             else if (type == typeof(DateTime))
             {
-                DateTime? value1 = value == "" || value == null ? null : Convert.ToDateTime(value);
+                DateTime? value1 = value.ToString() == "" || value == null ? null : Convert.ToDateTime(value);
                 param = new SqlParameter(name, value1);
             }
             else if (type == typeof(char))

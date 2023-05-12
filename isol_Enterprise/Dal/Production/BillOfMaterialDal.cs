@@ -143,7 +143,11 @@ namespace iSOL_Enterprise.Dal.Production
             int res1 = 0;
             try
             {
+                int count = SqlHelper.ExecuteScalar(tran, CommandType.Text, "select count(*) from OITT where Code='" + (model.HeaderData.ItemmCode).ToString() + "'");
+                if (count == 0)
+                {
 
+                
                 if (model.HeaderData != null)
                 {
                     List<SqlParameter> param = new List<SqlParameter>();
@@ -240,7 +244,12 @@ namespace iSOL_Enterprise.Dal.Production
                     response.Message = "Bill Of Material Added Successfully !";
 
                 }
-
+                }
+                else
+                {
+                    response.isSuccess = false;
+                    response.Message = "BOM for this ITEM already added !";
+                }
             }
 
             catch (Exception e)
