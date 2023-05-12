@@ -343,8 +343,9 @@
                                                                                     <th>Type</th>
                                                                                     <th>Item No.</th>
                                                                                     <th>Item Description</th>
-                                                                                    <th>Base Qty</th>
                                                                                     <th>Base Ratio</th>
+                                                                                    <th>Ratio</th>
+                                                                                    <th>Base Qty</th>
                                                                                     <th>Planned Qty</th>
                                                                                     <th>Warehouse</th>
                                                                                     <th>Available</th>
@@ -383,13 +384,18 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input class="form-control form-control-sm" id="BaseQty" name="BaseQty" type="number" readonly value="1">
+                                                                                        <input class="form-control form-control-sm NotReq" id="BaseRatio" name="BaseRatio" type="text" value="1" disabled>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input class="form-control form-control-sm NotReq" id="BaseRatio" name="BaseRatio" type="number" value="1" disabled>
+                                                                                        <input class="form-control form-control-sm NotReq" id="Ratio" name="Ratio" type="number" value="1" disabled>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
+                                                                                    <td>
+                                                                                        <input class="form-control form-control-sm" id="BaseQty" name="BaseQty" type="number" value="1">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    
                                                                                     <td>
                                                                                         <input class="form-control form-control-sm" id="PlannedQty" name="PlannedQty" type="number" readonly>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -624,7 +630,52 @@
     $(document).on('input', '#PlannedQtyH', function (e) {
         UpdatePlannedQtyRow();
     });
-    
+    $(document).on('input', '#BaseQty', function (e) 
+    {
+        var value = parseFloat(this.value);
+        var decimalCount = (this.value.split(".")[1] || []).length;
+        if (decimalCount > 4) {
+            this.value = value.toFixed(4);
+        }
+
+        $(this).closest('tr').find("#PlannedQty").val( ($("#PlannedQtyH").val() * value).toFixed(4));
+
+        let decimalPart = value.toString().substring(value.toString().indexOf(".")+1);
+        let divisorPart = Math.ceil (decimalPart / value);  //To get divisor Part
+        let BaseRatio = (decimalPart.toString() + "/" + divisorPart).toString();
+
+        $(this).closest('tr').find("#BaseRatio").val(BaseRatio);
+
+        UpdateRatio();  //To Update Ratios of all rows
+        
+
+    });
+    function GetSumRowsBaseQty() 
+    {   let sum = 0;
+        $('#ListParameters .itm').each(function () 
+        {
+            let value = parseFloat($(this).find("#BaseQty").val());
+            let decimalPart = value.toString().substring(value.toString().indexOf(".")+1);
+            sum = sum + value;
+
+        });
+        return sum;
+    }
+    function UpdateRatio() {
+
+        $.when(GetSumRowsBaseQty()).then(function (sum) {
+
+            $('#ListParameters .itm').each(function () {
+
+                let value = $(this).find('#BaseQty').val();
+
+                $(this).find('#Ratio').val(((value / sum) * 100).toFixed(4));
+
+            });
+            
+        });
+    }
+
     function UpdatePlannedQtyRow(){
     
         $('#ListParameters .itm').each(function () {
@@ -689,25 +740,41 @@
     });
 
     } 
+    
     $(document).on('click', '#btnBack', function (e) {
 
         window.history.back();
     });
+    
     $(document).on("keydown", "input", function () 
     {
         $(this).removeClass('is-invalid');
         
-        if(this.type = 'number')
-        {
-            let maxValue = $(this).attr('MaxValue');           
-            if(maxValue != "" && maxValue != undefined && maxValue != 'NaN')
-                if(parseFloat($(this).val()) > parseFloat(maxValue))
-                    $(this).val(maxValue);
-        }
+        //if(this.type = 'number')
+        //{
+        //    let maxValue = $(this).attr('MaxValue');           
+        //    if(maxValue != "" && maxValue != undefined && maxValue != 'NaN')
+        //        if(parseFloat($(this).val()) > parseFloat(maxValue))
+        //            $(this).val(maxValue);
+        //}
 
 
     });
-    
+    $(document).on("input", "input[type='number']", function () {
+        var value = parseFloat(this.value);
+        if (isNaN(value)) {
+            return;
+        }
+        
+
+        let maxValue = $(this).attr('MaxValue');           
+            if(maxValue != "" && maxValue != undefined && maxValue != 'NaN')
+            {
+                if(parseFloat($(this).val()) > parseFloat(maxValue))
+                    $(this).val(maxValue);
+
+            }
+    });
 
     $(document).on('click', '#ListBtnDelete', function () {
         $(this).closest('tr').remove();
@@ -786,13 +853,18 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                            <input class="form-control form-control-sm" id="BaseQty" name="BaseQty" type="number" readonly>
+                                                                                        <input class="form-control form-control-sm NotReq" id="BaseRatio" name="BaseRatio" type="text" value="1" disabled>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                            <input class="form-control form-control-sm NotReq" id="BaseRatio" name="BaseRatio" type="number" disabled value="1">
+                                                                                        <input class="form-control form-control-sm NotReq" id="Ratio" name="Ratio" type="number" value="1" disabled>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
+                                                                                    <td>
+                                                                                        <input class="form-control form-control-sm" id="BaseQty" name="BaseQty" type="number" value="1">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    
                                                                                     <td>
                                                                                         <input class="form-control form-control-sm" id="PlannedQty" name="PlannedQty" type="number" readonly>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -1035,7 +1107,7 @@
 
                 });
                  
-
+                UpdateRatio();
                 $("#btnSaveData").attr('disabled', false);
                 
                 
