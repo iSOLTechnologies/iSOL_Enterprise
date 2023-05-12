@@ -4077,12 +4077,21 @@
 		$('input').on('keypress', function (event) {
 			// Get the character code of the pressed key
 			var charCode = event.which;
-
+			console.log(charCode);
 			// Check if the character is a special character or not
 			//if (charCode == 33 || charCode == 35 || charCode == 36 || charCode == 37 || charCode == 38
 			// || charCode == 42 || charCode == 64 || charCode == 94 || charCode == 95 || charCode == 126
 			// || charCode == 45 || charCode == 39 || charCode == 37 ||)
-			if (!((charCode >= 48 && charCode <= 57) || (charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || charCode == 46 || charCode == 45 || charCode == 64)) {
+			if (!(
+				 (charCode >= 48 && charCode <= 57) || 
+				 (charCode >= 65 && charCode <= 90)  || 
+				 (charCode >= 97 && charCode <= 122) || 
+				  charCode == 46 || charCode == 45 || charCode == 64 || 
+				  charCode == 35 || charCode == 40 || charCode == 34 || 
+				  charCode == 37 || charCode == 12 || charCode == 39 || 
+				  charCode == 36 || charCode == 38 || charCode == 33)
+				) 
+			{
 				// Prevent the character from being entered into the input field
 				event.preventDefault();
 			}

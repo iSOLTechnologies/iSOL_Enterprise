@@ -632,22 +632,24 @@
     });
     $(document).on('input', '#BaseQty', function (e) 
     {
-        var value = parseFloat(this.value);
-        var decimalCount = (this.value.split(".")[1] || []).length;
-        if (decimalCount > 4) {
-            this.value = value.toFixed(4);
+        if (this.value != null && this.value != "" && this.value != undefined)
+        {
+            var value = parseFloat(this.value);
+            var decimalCount = (this.value.split(".")[1] || []).length;
+            if (decimalCount > 4) {
+                this.value = value.toFixed(4);
+            }
+
+            $(this).closest('tr').find("#PlannedQty").val( ($("#PlannedQtyH").val() * value).toFixed(4));
+
+            let decimalPart = value.toString().substring(value.toString().indexOf(".")+1);
+            let divisorPart = Math.ceil (decimalPart / value);  //To get divisor Part
+            let BaseRatio = (decimalPart.toString() + "/" + divisorPart).toString();
+
+            $(this).closest('tr').find("#BaseRatio").val(BaseRatio);
+
+            UpdateRatio();  //To Update Ratios of all rows
         }
-
-        $(this).closest('tr').find("#PlannedQty").val( ($("#PlannedQtyH").val() * value).toFixed(4));
-
-        let decimalPart = value.toString().substring(value.toString().indexOf(".")+1);
-        let divisorPart = Math.ceil (decimalPart / value);  //To get divisor Part
-        let BaseRatio = (decimalPart.toString() + "/" + divisorPart).toString();
-
-        $(this).closest('tr').find("#BaseRatio").val(BaseRatio);
-
-        UpdateRatio();  //To Update Ratios of all rows
-        
 
     });
     function GetSumRowsBaseQty() 
