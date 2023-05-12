@@ -709,6 +709,10 @@ where s.Status=1 and p.Guid=@Guid";
             string table = GetMasterTable(BaseType);
             string rowTable = GetRowTable(BaseType);
             string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "' order by Id desc"; /*isPosted = 1*/
+            if (BaseType == 1470000113)
+            {
+                GetQuery = "select * from " + table + " order by Id desc"; /*isPosted = 1*/
+            }
             
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
@@ -761,6 +765,11 @@ where s.Status=1 and p.Guid=@Guid";
             DataSet ds = new DataSet();
             SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
             SqlDataAdapter sda = new SqlDataAdapter("select Id,WhsCode,LineNum,ItemCode,ItemName,Quantity,DiscPrcnt,Price,VatGroup,UomCode,CountryOrg,Dscription,AcctCode,OpenQty,LineTotal from " + table+" where id = '" + DocId + "' and OpenQty <> 0", conn);
+                if (BaseType == 1470000113)
+                {
+
+                 sda = new SqlDataAdapter("select Id,WhsCode,LineNum,ItemCode,Quantity,DiscPrcnt,Price,VatGroup,UomCode,CountryOrg,Dscription,AcctCode,OpenQty,LineTotal from " + table+" where id = '" + DocId + "' and OpenQty <> 0", conn);
+                }
             sda.Fill(ds);
             string JSONString = string.Empty;
             JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
