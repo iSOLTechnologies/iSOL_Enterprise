@@ -1,6 +1,7 @@
 ﻿using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Dal.Inventory;
 using iSOL_Enterprise.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iSOL_Enterprise.Controllers.Inventory
@@ -12,6 +13,7 @@ namespace iSOL_Enterprise.Controllers.Inventory
             return View();
         }
 
+        
         public IActionResult GetData()
         {
             ResponseModels response = new ResponseModels();
