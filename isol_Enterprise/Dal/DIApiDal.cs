@@ -322,8 +322,8 @@ namespace SAP_MVC_DIAPI.BLC
                                 
                                 if (docRowModel.DocEntry == null || docRowModel.DocEntry.ToString() == "")
                                 {
-                                    string getWBSDocNumApprvl = @"select DocEntry from ODRF where U_WBS_DocNum ='" + ID + "'   and ObjType="+ObjectCode;
-                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(tran,CommandType.Text,getWBSDocNumApprvl).ToInt();
+                                    string getWBSDocNumApprvl = @"select Top(1) DocEntry from ODRF where U_WBS_DocNum ='" + ID + "'   and ObjType=" + ObjectCode + " order by DocEntry desc";
+                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(SqlHelper.defaultSapDB,CommandType.Text,getWBSDocNumApprvl).ToInt();
                                 }
                                 if (docRowModel.DocEntry !=null)
                                 {
@@ -1016,8 +1016,8 @@ namespace SAP_MVC_DIAPI.BLC
                                 }
                                 if (docRowModel.DocEntry == null || docRowModel.DocEntry.ToString() == "")
                                 {
-                                    string getWBSDocNumApprvl = @"select DocEntry from ODRF where U_WBS_DocNum ='" + ID + "'   and ObjType=" + ObjectCode;
-                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(tran, CommandType.Text, getWBSDocNumApprvl).ToInt();
+                                    string getWBSDocNumApprvl = @"select Top(1) DocEntry from ODRF where U_WBS_DocNum ='" + ID + "'   and ObjType=" + ObjectCode + " order by DocEntry desc";
+                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(SqlHelper.defaultSapDB, CommandType.Text, getWBSDocNumApprvl).ToInt();
                                 }
                                 if (docRowModel.DocEntry != null)
                                 {
@@ -1263,8 +1263,8 @@ namespace SAP_MVC_DIAPI.BLC
                                 }
                                 if (docRowModel.DocEntry == null || docRowModel.DocEntry.ToString() == "")
                                 {
-                                    string getWBSDocNumApprvl = @"select DocEntry from ODRF where U_WBS_DocNum ='" + ID + "'   and ObjType=" + ObjectCode;
-                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(tran, CommandType.Text, getWBSDocNumApprvl).ToInt();
+                                    string getWBSDocNumApprvl = @"select Top(1) DocEntry from ODRF where U_WBS_DocNum ='" + ID + "'   and ObjType=" + ObjectCode + " order by DocEntry desc";
+                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(SqlHelper.defaultSapDB, CommandType.Text, getWBSDocNumApprvl).ToInt();
                                 }
                                 if (docRowModel.DocEntry != null)
                                 {
@@ -1511,8 +1511,8 @@ namespace SAP_MVC_DIAPI.BLC
                                 }
                                 if (docRowModel.DocEntry == null || docRowModel.DocEntry.ToString() == "")
                                 {
-                                    string getWBSDocNumApprvl = @"select DocEntry from ODRF where U_WBS_DocNum ='" + ID + "'   and ObjType=" + ObjectCode;
-                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(tran, CommandType.Text, getWBSDocNumApprvl).ToInt();
+                                    string getWBSDocNumApprvl = @"select Top(1) DocEntry from ODRF where U_WBS_DocNum ='" + ID + "'   and ObjType=" + ObjectCode + " order by DocEntry desc";
+                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(SqlHelper.defaultSapDB, CommandType.Text, getWBSDocNumApprvl).ToInt();
                                 }
                                 if (docRowModel.DocEntry != null)
                                 {
@@ -1763,8 +1763,8 @@ namespace SAP_MVC_DIAPI.BLC
                                 }
                                 if (docRowModel.DocEntry == null || docRowModel.DocEntry.ToString() == "")
                                 {
-                                    string getWBSDocNumApprvl = @"select DocEntry from ODRF where U_WBS_DocNum ='" + ID + "'   and ObjType=" + ObjectCode;
-                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(tran, CommandType.Text, getWBSDocNumApprvl).ToInt();
+                                    string getWBSDocNumApprvl = @"select Top(1) DocEntry from ODRF where U_WBS_DocNum ='" + ID + "'   and ObjType=" + ObjectCode + " order by DocEntry desc";
+                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(SqlHelper.defaultSapDB, CommandType.Text, getWBSDocNumApprvl).ToInt();
                                 }
                                 if (docRowModel.DocEntry != null)
                                 {
@@ -2169,8 +2169,8 @@ namespace SAP_MVC_DIAPI.BLC
                                 }
                                 if (docRowModel.DocEntry == null || docRowModel.DocEntry.ToString() == "")
                                 {
-                                    string getWBSDocNumApprvl = @"select DocEntry from ODRF where U_WBS_DocNum ='" + ID + "'   and ObjType=" + ObjectCode;
-                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(tran, CommandType.Text, getWBSDocNumApprvl).ToInt();
+                                    string getWBSDocNumApprvl = @"select Top(1) DocEntry from ODRF where U_WBS_DocNum ='" + ID + "'   and ObjType=" + ObjectCode + " order by DocEntry desc";
+                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(SqlHelper.defaultSapDB, CommandType.Text, getWBSDocNumApprvl).ToInt();
                                 }
                                 #region Updating Table Row as Posted , Add Sap Base Entry
                                 if (docRowModel.DocEntry != null)
@@ -2374,8 +2374,9 @@ namespace SAP_MVC_DIAPI.BLC
                                 }
                                 if (docRowModel.DocEntry == null || docRowModel.DocEntry.ToString() == "")
                                 {
-                                    string getWBSDocNumApprvl = @"select DocEntry from ODRF where U_WBS_DocNum ='" + ID + "'   and ObjType=102 or ObjType=66";
-                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(tran, CommandType.Text, getWBSDocNumApprvl).ToInt();
+                                    
+                                    string getWBSDocNumApprvl = @"select Top(1) DocEntry from ODRF where U_WBS_DocNum ='" + ID + "'   and ObjType=102 or ObjType=66 order by DocEntry desc";
+                                    docRowModel.DocEntry = SqlHelper.ExecuteScalar(SqlHelper.defaultSapDB, CommandType.Text, getWBSDocNumApprvl).ToInt();
                                 }
                                 if (docRowModel.DocEntry != null)
                                 {
