@@ -258,7 +258,7 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
                                                                         <label>Priority</label>
-                                                                        <input id="Priority" name="Priority" type="number" class="form-control form-control-sm" MaxValue="32000" placeholder="0000" aria-describedby="basic-addon2" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                                                        <input id="Priority" name="Priority" type="number" class="form-control form-control-sm" MaxValue="32000" placeholder="0000" aria-describedby="basic-addon2" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="100">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                     <div class="col-md-6">
@@ -670,7 +670,17 @@
             $('#ListParameters .itm').each(function () {
 
                 let value = $(this).find('#BaseQty').val();
+                let decimalPart = value.toString().substring(value.toString().indexOf(".")+1);
+                if(decimalPart <= 0)
+                {
+                    $(this).find("#BaseRatio").val('1000/1000');
+                }
+                else {
+                let divisorPart = Math.ceil (decimalPart / value);  //To get divisor Part
+                let BaseRatio = (decimalPart.toString() + "/" + divisorPart).toString();
 
+                $(this).find("#BaseRatio").val(BaseRatio);
+                }
                 $(this).find('#Ratio').val(((value / sum) * 100).toFixed(4));
 
             });
@@ -1060,15 +1070,15 @@
                     if(j == 0) 
                     {
                       
-
-                        $("#ItemCode").val(this.Code).trigger('change'); 
+                        $("#ItemCode").val(this.Code); 
                         $("#ItemName").val(this.ItemName); 
-                        $("#Warehouse").val(this.Warehouse);
+                        $("#Warehouse").val(this.Warehouse);                       
                         $("#BaseQty").val(this.Quantity);
-                        $("#BaseRatio").val(this.Quantity);
-                        $("#PlannedQty").val(this.Quantity * $("#PlannedQtyH").val());
-                        $("#TtlPrc").val(this.LineTotal);
+                        $("#PlannedQty").val(this.Quantity * $("#PlannedQtyH").val());                        
                         $("#LineNum").val(this.ChildNum);
+                        $("#Comment").val(this.Comment);
+
+                        
                          
                         $.when(GetWareHouseQty(this.Father, this.Warehouse)).done(function (OnHand) {
 
@@ -1084,16 +1094,17 @@
                         InitializeWareHouseData();
                         $('#ListParameters tr:last-child').find("#Warehouse").html(WareHouseData);
                          
+
+
                         $('#ListParameters tr:last-child').find("#ItemCode").val(this.Code);
                         $('#ListParameters tr:last-child').find("#ItemName").val(this.ItemName);
                         $('#ListParameters tr:last-child').find("#Warehouse").val(this.Warehouse);
-                        $('#ListParameters tr:last-child').find("#BaseQty").val(this.Quantity);
-                        $('#ListParameters tr:last-child').find("#BaseRatio").val(this.Quantity);
-                        $('#ListParameters tr:last-child').find("#PlannedQty").val(this.Quantity * $("#PlannedQtyH").val());
-                        $('#ListParameters tr:last-child').find("#UPrc").val(this.Price);
-                        $('#ListParameters tr:last-child').find("#TtlPrc").val(this.LineTotal);
+                        $('#ListParameters tr:last-child').find("#BaseQty").val(this.Quantity);                        
+                        $('#ListParameters tr:last-child').find("#PlannedQty").val(this.Quantity * $("#PlannedQtyH").val());                        
                         $('#ListParameters tr:last-child').find("#LineNum").val(this.ChildNum);
                         $('#ListParameters tr:last-child').find("#Comment").val(this.Comment);
+
+                        
 
                         
                         
@@ -1185,10 +1196,9 @@
 
                         $("#ItemCode").val(this.ItemCode); 
                         $("#ItemName").val(this.ItemName); 
-                        $("#Warehouse").val(this.wareHouse);
-                        $("#QTY").val(this.Quantity);                        
-                        $("#PlannedQty").val(this.PlannedQty);
-                        $("#IssueMthd").val(this.IssueType);
+                        $("#Warehouse").val(this.wareHouse);                       
+                        $("#BaseQty").val(this.BaseQty).trigger('change');
+                        $("#PlannedQty").val(this.PlannedQty);                        
                         $("#LineNum").val(this.LineNum);
                         $("#Comment").val(this.Comment);
                                                  
@@ -1206,12 +1216,12 @@
                         InitializeWareHouseData();
                         $('#ListParameters tr:last-child').find("#Warehouse").html(WareHouseData);
                          
+
                         $('#ListParameters tr:last-child').find("#ItemCode").val(this.ItemCode);
                         $('#ListParameters tr:last-child').find("#ItemName").val(this.ItemName);
                         $('#ListParameters tr:last-child').find("#Warehouse").val(this.wareHouse);
-                        $('#ListParameters tr:last-child').find("#QTY").val(this.Quantity);                        
-                        $('#ListParameters tr:last-child').find("#PlannedQty").val(this.PlannedQty);
-                        $('#ListParameters tr:last-child').find("#IssueMthd").val(this.IssueType);
+                        $('#ListParameters tr:last-child').find("#BaseQty").val(this.BaseQty);                        
+                        $('#ListParameters tr:last-child').find("#PlannedQty").val(this.PlannedQty);                        
                         $('#ListParameters tr:last-child').find("#LineNum").val(this.LineNum);
                         $('#ListParameters tr:last-child').find("#Comment").val(this.Comment);
 
@@ -1229,8 +1239,8 @@
                 });
                  
 
+                UpdateRatio();
                 $("#btnSaveData").attr('disabled', false);
-                
                 
             },
             error: function (jqXhr, textStatus, errorMessage) {

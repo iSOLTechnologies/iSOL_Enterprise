@@ -18,6 +18,7 @@ using System.Net.Mail;
 using System.Reflection;
 using System.Security.AccessControl;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -82,8 +83,17 @@ namespace iSOL_Enterprise.Dal
             SqlParameter param = new SqlParameter();
             if (type == typeof(int))
             {
-                int? value1 = value.ToString() == "" || value == null ? null : (int)value;
-                
+                int? value1 = null;
+                Type type1 = value.GetType();
+                if (value is decimal)
+                {
+                    value1 = value.ToString() == "" || value == null ? null : (int)(Math.Floor(value));
+                    
+                }
+                else
+                {
+                    value1 = value.ToString() == "" || value == null ? null : (int)(value);
+                }
                 param = new SqlParameter(name, value1);
             }
             else if (type == typeof(string))
@@ -107,8 +117,22 @@ namespace iSOL_Enterprise.Dal
                 param = new SqlParameter(name, value1);
             }
             else if (type == typeof(Int16))
-            { 
-				int? value1 = value.ToString() == "" || value == null ? null : Convert.ToInt16(value);
+            {
+
+                Int16? value1 = null;
+                //if (value is decimal)
+                //{
+                decimal decimalValue = Convert.ToDecimal(value); // Parse the decimal string value
+                Int16 intValue = Convert.ToInt16(decimalValue);
+
+                value1 = value.ToString() == "" || value == null ? null : intValue;
+
+                //}
+                //else
+                //{
+                //    value1 = value.ToString() == "" || value == null ? null : Convert.ToInt16(value);
+                //}
+
 				param = new SqlParameter(name, value1);
             }
             // param = new SqlParameter(name,value);
