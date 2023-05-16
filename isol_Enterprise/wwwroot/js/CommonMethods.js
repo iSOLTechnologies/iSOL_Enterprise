@@ -56,7 +56,7 @@ $(document).on('change keyup', '#Warehouse', function (e)
 });
 function InitializeWarehouseSelect2Event(elements) {
 
-    elements.on('select2:select','.FromWarehouse , #Warehouse', function (e) {
+        elements.on('select2:select','.FromWarehouse , #Warehouse', function (e) {
         //console.log("Hi");
         // debugger
         let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');

@@ -419,19 +419,18 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                            <div class="input-group">
-                                                                                                <select class="form-control" id="Warehouse">
-                                                                                                     
-                                                                                                </select>
+                                                                                       <div class="input-group">
+                                                                                           <select class="form-control WhsSelect" id="Warehouse">
+                                                                                                
+                                                                                           </select>
 
-                                                                                            </div>
+                                                                                       </div>
 
-
-                                                                                        </td>
-                                                                                         <td>
-                                                                                            <input id="onHand" class="form-control form-control-sm" readonly type="number">
-                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        </td>
+                                                                                    </td>
+                                                                                     <td>
+                                                                                        <input id="onHand" class="form-control form-control-sm" readonly type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
                                                                                     <td>
                                                                                         <input class="form-control form-control-sm" id="QTY" type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -899,7 +898,7 @@
                                     if(j == 0) 
                                     {
                                          append_ItemFirstRow("C");
-
+                                         
                                          
                                          $("#BaseRef").val((data.baseDoc)[0].docNum);
                                          $("#BaseEntry").val(this.Id);
@@ -930,6 +929,7 @@
                                         AddItemRowData((data.baseDoc)[0].docNum, this);
 
                                     }
+                                InitializeWarehouseSelect2Event($('#ListParameters tr:last-child'));
                                 j+=1;
                                 if(j == list[0].length)
                                 {
@@ -999,9 +999,10 @@
                         
                                     
                                   AddItemRowData((data.baseDoc)[0].docNum, this);
+                                  InitializeWarehouseSelect2Event($('#ListParameters tr:last-child'));
                                   counter +=1;
                                   if(counter == list[0].length)
-                                    Edit_GetUomGroup(); GetPrice();   //For Uom Dropdown options
+                                   Edit_GetUomGroup(); GetPrice();   //For Uom Dropdown options
                                     
                             });
                         }
@@ -1077,7 +1078,7 @@
                                                                                         </td>
                                                                                              <td>
                                                                                                 <div class="input-group">
-                                                                                                        <select value="`+ data.WhsCode + `" class="form-control" id="Warehouse">
+                                                                                                        <select value="`+ data.WhsCode + `" class="form-control WhsSelect" id="Warehouse">
                                                                                                         `+ WareHouseData + `
                                                                                                     </select>
 
@@ -1371,7 +1372,7 @@
                                                                             </td>
                                                                                  <td>
                                                                                                 <div class="input-group">
-                                                                                                    <select class="form-control" id="Warehouse">
+                                                                                                    <select class="form-control WhsSelect" id="Warehouse">
                                                                                                         `+ WareHouseData + `
                                                                                                     </select>
 
@@ -1457,7 +1458,7 @@
                                                                                         </td>
                                                                                             <td>
                                                                                                     <div class="input-group">
-                                                                                                        <select class="form-control" id="Warehouse">
+                                                                                                            <select class="form-control WhsSelect" id="Warehouse">
                                                                                                             `+ WareHouseData + `
                                                                                                         </select>
 
@@ -1514,6 +1515,8 @@
                                                                                </tr>`;
             $('#kt_repeater_1 tbody').append(html);
         }
+        
+        
         // addDataInVatGroup();
     }
 
@@ -1645,7 +1648,7 @@
         Guid = $("#Guid").val();
         $('#IncrementalDuration').prop('checked', true);
         GetPayments();
-      
+        InitializeWarehouseSelect2Event($('#ListParameters tr:last-child'));
 
 
 
@@ -1761,7 +1764,7 @@
                                                                                         </td>
                                                                                              <td>
                                                                                                 <div class="input-group">
-                                                                                                    <select class="form-control" id="Warehouse">
+                                                                                                    <select class="form-control WhsSelect" id="Warehouse">
                                                                                                         `+ WareHouseData + `
                                                                                                     </select>
 
@@ -1824,9 +1827,13 @@
                                                                            </td>
                                                                                     </tr>`;
         $('#kt_repeater_1 tbody').append(html);
-        //$('#VatGroup').select2('destroy');
-        //$('.jsSelect2').select2();
-        // addDataInVatGroup();
+        InitializeWarehouseSelect2Event($('#ListParameters tr:last-child'));
+        
+    });
+    $(document).on('mouseover', '.WhsSelect', function (e) {
+        
+        $(this).select2();
+        $(this).focus();
     });
 
     $(document).on('click', '#ListBtnAddRM', function (e) {
