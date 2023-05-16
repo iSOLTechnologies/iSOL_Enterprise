@@ -351,7 +351,7 @@
 
                                                                                     <td>
                                                                                         <div class="input-group">
-                                                                                            <select class="form-control" id="Warehouse" name="Warehouse">
+                                                                                            <select class="form-control FromWarehouse" id="Warehouse" name="Warehouse">
                                                                                             </select>
                                                                                             
                                                                                         </div>
@@ -373,7 +373,7 @@
                                                                                             </td>
 
                                                                                     <td> 
-                                                                                        <select class="form-control Warehousedata " id="WhsCode" name="WhsCode">
+                                                                                        <select class="form-control Warehousedata ToWarehouse" id="WhsCode" name="WhsCode">
                                                                                             </select>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td> 
@@ -814,8 +814,8 @@
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
         $("#Filler").select2();
         $("#ToWhsCode").select2();
-        //$("#Warehouse").select2();
-        //$("#WhsCode").select2();
+        InitializeWarehouseSelect2Event($('#ListParameters tr:last-child'));
+        
         if ("@ViewBag.OldId" != 0) {
             OldId = "@ViewBag.OldId";
             isEdit = true;
@@ -967,7 +967,7 @@
 
                                                                                     <td>
                                                                                         <div class="input-group">
-                                                                                                    <select class="form-control" name="Warehouse"  id="Warehouse">
+                                                                                                        <select class="form-control FromWarehouse" name="Warehouse"  id="Warehouse">
                                                                                                   `+ WareHouseData + `
                                                                                             </select> 
                                                                                         </div>
@@ -988,7 +988,7 @@
                                                                                             </td>
 
                                                                                     <td>
-                                                                                                <select class="form-control Warehousedata" name="WhsCode" id="WhsCode">
+                                                                                                <select class="form-control Warehousedata ToWarehouse" name="WhsCode" id="WhsCode">
                                                                                               `+ WareHouseData + `
                                                                                             </select>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -1026,12 +1026,15 @@
 
         $('#ListParameters tr:last-child').find('#Warehouse').val($('#Filler').val()).trigger('change');
         $('#ListParameters tr:last-child').find('#WhsCode').val($('#ToWhsCode').val()).trigger('change');
-       //$('#ListParameters tr:last-child').find('#Warehouse'+RowIndex).select2();
-       //$('#ListParameters tr:last-child').find('#WhsCode'+RowIndex).select2();
+        InitializeWarehouseSelect2Event($('#ListParameters tr:last-child'));
        
-       //$().select2();
     });
-
+    $(document).on('mouseover', '.FromWarehouse , .ToWarehouse', function (e) {
+        
+        $(this).select2();
+        $(this).focus();
+    });
+    
     $(document).on('change', '#UomEntry', function (e) {
 
         let UomCode = $(this).find("option:selected").text();

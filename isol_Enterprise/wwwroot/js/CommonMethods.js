@@ -37,7 +37,9 @@ $(document).on('change keyup', '#Discount', function (e) {
 })
 
 
-$(document).on('change keyup', '#Warehouse', function (e) {
+$(document).on('change keyup', '#Warehouse', function (e)
+{
+    debugger
     let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
     let ItemCodeValue = ItemCodeField.val();
     let WarehouseField = $(this).closest('#ListParameters .itm').find('#Warehouse');
@@ -52,7 +54,27 @@ $(document).on('change keyup', '#Warehouse', function (e) {
 
     });
 });
+function InitializeWarehouseSelect2Event(elements) {
 
+    elements.on('select2:select','.FromWarehouse , #Warehouse', function (e) {
+        //console.log("Hi");
+        // debugger
+        let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
+        let ItemCodeValue = ItemCodeField.val();
+        let WarehouseField = $(this).closest('#ListParameters .itm').find('#Warehouse');
+        let WarehouseValue = WarehouseField.val();
+        let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
+
+        $(this).closest('#ListParameters .itm').find("#QTY").val("");
+
+        $.get("Common/GetSelectedWareHouseData", { ItemCode: ItemCodeValue, WhsCode: WarehouseValue }, function (data) {
+
+            onHand.val(data);
+
+        });
+    });
+
+}
 
 
 
