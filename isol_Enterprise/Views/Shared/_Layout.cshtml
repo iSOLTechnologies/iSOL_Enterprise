@@ -2649,6 +2649,7 @@
 													<th></th>
 													<th></th>
 													<th></th>
+													<th></th>
 													
 												</tr>
 											</thead>
@@ -3496,8 +3497,11 @@
 								}
 							}
 				},{
+					data: 'cardCode',
+					title: 'Customer Code'
+				},{
 					data: 'cardName',
-					title: 'Customer'
+					title: 'Customer Name'
 				}
 					
 				],
@@ -3656,17 +3660,21 @@
 		});
 		
 		$(document).on('dblclick', '#MyyyySalesOrderTable tbody tr', function (e) {
-			console.log("Hi")
+			//console.log("Hi")
 			var LookTable = $('#MyyyySalesOrderTable').DataTable();;
 			var selectedRow = $(this).closest('tr');
 			var rowData = LookTable.row(selectedRow).data();
 			if(ObjSaleOrderCode == "" || ObjSaleOrderCode == '')
+			{
 				$("#SalesOrderCode").val(rowData['docNum']);
+				$("#CardCode").val(rowData['cardCode']);
+			}
 			else
 			$(ObjSaleOrderCode).val(rowData['docNum']);
 			$('#mySalesOrderModal').modal('hide');
 
 		});
+		
 		$(document).on('change keyup', "#CardCode", function (e) {
 
 
@@ -3812,6 +3820,7 @@
 			$('#myItemModal').modal('hide');
 
 		});
+		
 		$(document).on('change keyup', "#ItemCode", function (e) {
 			if (DocModule == "S" || DocModule == "P") {
 				let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
@@ -3881,6 +3890,7 @@
 			}
 
 		});
+		
 		function GetWhsAddedQty(ItemCode, WhsCode) {
 			let sum = 0;
 			let _ItemCode;
@@ -4013,6 +4023,7 @@
 
 
 		}
+		
 		$(document).on('click', '#btnFetchAcctCode', function (e) {
 			
 			console.log("abc")
@@ -4044,6 +4055,7 @@
 		//       $('.OperationBtns').attr("data-id", SelectedVal);
 		//       RowDataPrint = rowData;
 		//   });
+		
 		$(document).on('click', '#MyyyyCustomerTable tr', function (e) {
 			rowdata = null;
 			RowDataPrint = null;
@@ -4059,6 +4071,7 @@
 			$('.OperationBtns').attr("data-id", SelectedVal);
 			RowDataPrint = rowData;
 		});
+		
 		$(document).on('click', '#MyyyyAccountTable tr', function (e) {
 			rowdata = null;
 			RowDataPrint = null;
@@ -4074,10 +4087,11 @@
 			$('.OperationBtns').attr("data-id", SelectedVal);
 			RowDataPrint = rowData;
 		});
+		
 		$('input').on('keydown keypress', function (event) {
 			// Get the character code of the pressed key
 			var charCode = (event.which) ? event.which : event.keyCode;
-			console.log(charCode);
+			//console.log(charCode);
 			// Check if the character is a special character or not
 			//if (charCode == 33 || charCode == 35 || charCode == 36 || charCode == 37 || charCode == 38
 			// || charCode == 42 || charCode == 64 || charCode == 94 || charCode == 95 || charCode == 126
@@ -4089,20 +4103,23 @@
 				  charCode == 46 || charCode == 45 || charCode == 64 || 
 				  charCode == 35 || charCode == 40 || charCode == 34 || 
 				  charCode == 37 || charCode == 12 || charCode == 39 || 
-				  charCode == 36 || charCode == 38 || charCode == 33 || charCode == 12 || charCode == 53 || charCode == 101 || charCode == 8 || charCode == 190)
+				  charCode == 36 || charCode == 38 || charCode == 33 || 
+				  charCode == 12 || charCode == 53 || charCode == 101 ||
+				  charCode == 8  || charCode == 190 || charCode == 96)
 				) 
 			{
 				// Prevent the character from being entered into the input field
 				event.preventDefault();
 			}
 		});
+		
 		$('input[type=number]').on('wheel', function (e) {
 			e.preventDefault();
 		});
 
 		// Disable scrolling on input elements of type number
 		$('input[type=number]').on('keydown', function (e) {
-			if (e.keyCode === 38 || e.keyCode === 40 || e.keyCode === 101 || e.keyCode === 69) {
+			if (e.keyCode === 38 || e.keyCode === 40  || e.keyCode === 69) {
 				e.preventDefault();
 			}
 		});

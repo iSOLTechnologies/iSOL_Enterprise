@@ -978,7 +978,7 @@ where s.Status=1 and p.Guid=@Guid";
         }
         public List<SalesQuotation_MasterModels> GetSaleOrders()
         {
-            string GetQuery = "select DocEntry,DocNum,CardName,DocDate from ORDR";
+            string GetQuery = "select DocEntry,DocNum,CardName,DocDate,CardCode from ORDR";
 
 
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
@@ -993,7 +993,8 @@ where s.Status=1 and p.Guid=@Guid";
                             Id = rdr["DocEntry"].ToInt(),
                             DocNum = rdr["DocNum"].ToString(),
                             DocDate = rdr["DocDate"].ToString() != "" ? Convert.ToDateTime(rdr["DocDate"]) : null,
-                            CardName = rdr["CardName"].ToString()
+                            CardName = rdr["CardName"].ToString(),
+                            CardCode = rdr["CardCode"].ToString()
                         }) ;
 
                 }
