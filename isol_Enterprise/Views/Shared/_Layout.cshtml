@@ -2317,7 +2317,7 @@
 	<script src="~/assets/js/scripts.bundle.js"></script>
 	<script src="~/lib/SweetAlerts/sweetalert2.min.js"></script>
 
-	<script src="~/Assets/js/disable.js"></script>
+	@*<script src="~/Assets/js/disable.js"></script>*@
 
 	<!--end::Global Theme Bundle-->
 	<!--begin::Page Vendors(used by this page)-->
@@ -2482,7 +2482,7 @@
 
 					$("#DocCur").append("<option value=''> Select Currency </option>");
 					$.each(data, function () {
-						$("#DocCur").append("<option value=" + this.curr_name + ">" + this.curr_code + "</option>");
+						$("#DocCur").append("<option value=" + this.curr_code + ">" + this.curr_name + "</option>");
 
 
 					});
@@ -4105,7 +4105,7 @@
 				  charCode == 37 || charCode == 12 || charCode == 39 || 
 				  charCode == 36 || charCode == 38 || charCode == 33 || 
 				  charCode == 12 || charCode == 53 || charCode == 101 ||
-				  charCode == 8  || charCode == 190 || charCode == 96)
+				  charCode == 8  || charCode == 190 || charCode == 96 || charCode == 32)
 				) 
 			{
 				// Prevent the character from being entered into the input field
