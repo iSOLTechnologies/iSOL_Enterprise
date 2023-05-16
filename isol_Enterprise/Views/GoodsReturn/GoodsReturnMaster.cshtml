@@ -873,7 +873,7 @@
                     $.get("Common/GetBaseDocItemServiceReturn", { DocId: DocID, BaseType: BaseType }, function (data) {
                         data.header = JSON.parse(data.header);
                         data.header[0][0].TypeDetail = data.header[0][0].TypeDetail < 9 ? "0" + data.header[0][0].TypeDetail : data.header[0][0].TypeDetail;
-                        $("#CardCode").val(data.header[0][0].CardCode));
+                        $("#CardCode").val(data.header[0][0].CardCode);
                         $("#CntcCode").val(data.header[0][0].CntctCode);
                         $("#DocCur").val(data.header[0][0].DocCur);
                         $("#ChallanNo").val(data.header[0][0].ChallanNo);
