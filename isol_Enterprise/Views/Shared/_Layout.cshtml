@@ -4091,7 +4091,7 @@
 		$('input').on('keydown keypress', function (event) {
 			// Get the character code of the pressed key
 			var charCode = (event.which) ? event.which : event.keyCode;
-			//console.log(charCode);
+			console.log(charCode);
 			// Check if the character is a special character or not
 			//if (charCode == 33 || charCode == 35 || charCode == 36 || charCode == 37 || charCode == 38
 			// || charCode == 42 || charCode == 64 || charCode == 94 || charCode == 95 || charCode == 126
@@ -4105,7 +4105,7 @@
 				  charCode == 37 || charCode == 12 || charCode == 39 || 
 				  charCode == 36 || charCode == 38 || charCode == 33 || 
 				  charCode == 12 || charCode == 53 || charCode == 101 ||
-				  charCode == 8  || charCode == 190 || charCode == 96 || charCode == 32)
+				  charCode == 8  || charCode == 190 || charCode == 96 || charCode == 32 || charCode == 9)
 				) 
 			{
 				// Prevent the character from being entered into the input field
