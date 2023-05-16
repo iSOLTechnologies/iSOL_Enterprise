@@ -2606,6 +2606,7 @@
 													<th></th>
 													<th></th>
 													<th></th>
+													<th></th>
 												</tr>
 											</thead>
 										</table>
@@ -3396,6 +3397,13 @@
 						"createdCell": function (td, cellData, rowData, row, col) {
 							$(td).attr('id', "CRD1Address");
 						}
+					},
+					{
+						"targets": 4,
+						visible: false,
+						"createdCell": function (td, cellData, rowData, row, col) {
+							$(td).attr('id', "Currency");
+						}
 					}
 				],
 				layout: {
@@ -3422,6 +3430,9 @@
 				}, {
 					data: 'address',
 					title: 'Address'
+				}, {
+					data: 'currency',
+					title: 'Currency'
 				}
 					//, {
 					//	data: "cardCode",
@@ -3640,6 +3651,7 @@
 			var rowData = LookTable.row(selectedRow).data();
 			$('#MyyyyCustomerTable tr').removeClass("Mainrow_selected");
 			$('#MyyyyCustomerTable').DataTable().column(3).visible(true);
+			$('#MyyyyCustomerTable').DataTable().column(4).visible(true);
 			$(selectedRow).addClass('Mainrow_selected');
 			//$('.OperationBtns').attr("data-id", SelectedVal);
 			//console.log("Row Data ::::",rowData)
@@ -3680,7 +3692,7 @@
 
 			$.get("Common/GetCustomerData", { cardcode: $(this).val(), DocModule: DocModule }, function (data) {
 
-
+				//console.log(data);
 				if (data.success) {
 					$("#CardName").val((data.customer).cardName);
 					$("#DocCur").val((data.customer).currency);
@@ -4105,7 +4117,8 @@
 				  charCode == 37 || charCode == 12 || charCode == 39 || 
 				  charCode == 36 || charCode == 38 || charCode == 33 || 
 				  charCode == 12 || charCode == 53 || charCode == 101 ||
-				  charCode == 8  || charCode == 190 || charCode == 96 || charCode == 32 || charCode == 9)
+				  charCode == 8  || charCode == 190 || charCode == 96 ||
+				  charCode == 32 || charCode == 9 || charCode == 189)
 				) 
 			{
 				// Prevent the character from being entered into the input field
