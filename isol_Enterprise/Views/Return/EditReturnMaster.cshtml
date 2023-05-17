@@ -524,7 +524,7 @@
                                                                                                     <div class="input-group">
                                                                                                         <select disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)"
                                                                                                
-                                                                                               class="form-control" id="Warehouse">
+                                                                                               class="form-control WhsSelect" id="Warehouse">
                                                                                                
                                                                                                         @foreach (iSOL_Enterprise.Models.sale.tbl_OWHS warehouse in  ViewBag.Warehouse)
                                                                                                         {
@@ -1370,7 +1370,7 @@
                                                                             </td>
                                                                             <td>
                                                                                             <div class="input-group">
-                                                                                                <select class="form-control" id="Warehouse">
+                                                                                                <select class="form-control WhsSelect" id="Warehouse">
                                                                                                     `+ WareHouseData + `
                                                                                                 </select>
 
@@ -1823,7 +1823,7 @@
                                                                                         </td>
                                                                                         <td>
                                                                                             <div class="input-group">
-                                                                                                <select class="form-control" id="Warehouse">
+                                                                                                <select class="form-control WhsSelect" id="Warehouse">
                                                                                                     `+ WareHouseData + `
                                                                                                 </select>
                                                                                                 <div id="ListbtnSelectBatch" class="input-group-append d-none ">
@@ -1892,10 +1892,16 @@
                                                                            </td>
                                                                                     </tr>`;
         $('#kt_repeater_1 tbody').append(html);
-        //$('#VatGroup').select2('destroy');
-        //$('.jsSelect2').select2();
-        // addDataInVatGroup();
+        
     });
+
+    $(document).on('mouseover', '.WhsSelect', function (e) {
+        
+        $(this).select2();
+        $(this).focus();
+        InitializeWarehouseSelect2Event($(this).closest('tr'));
+    });
+
        $(document).on('change', '#UomEntry', function (e) 
     {
         
