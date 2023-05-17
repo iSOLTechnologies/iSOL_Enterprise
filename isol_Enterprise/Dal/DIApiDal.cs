@@ -155,6 +155,11 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         #region Insert in Row
                                         string RowQuery = @"select BaseEntry,BaseLine,BaseType,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup,UomEntry ,CountryOrg,ItemName , Dscription,AcctCode,LineNum,WhsCode from " + rowTable + " where Id = " + ID;
+                                        if (ObjectCode == 540000006)
+                                        {
+                                         RowQuery = @"select BaseEntry,BaseLine,BaseType,Price,LineTotal,ItemCode,PQTReqDate,ShipDate,PQTReqQty,Quantity,DiscPrcnt,VatGroup,UomEntry ,CountryOrg,ItemName , Dscription,AcctCode,LineNum,WhsCode from " + rowTable + " where Id = " + ID;
+                                        }
+
                                         using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, RowQuery))
                                         {
                                             try
@@ -199,7 +204,13 @@ namespace SAP_MVC_DIAPI.BLC
                                                     oDoc.Lines.ItemDescription = rdr2["ItemName"].ToString();
                                                     //oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
                                                     oDoc.Lines.WarehouseCode = rdr2["WhsCode"].ToString();
-                                                    if (rowTable == "DLN1")
+                                                    if (ObjectCode == 540000006)
+                                                    {
+                                                        oDoc.Lines.RequiredDate = rdr["PQTReqDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["PQTReqDate"].ToString());
+                                                        oDoc.Lines.ShipDate = rdr["ShipDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["ShipDate"].ToString());
+                                                        oDoc.Lines.RequiredQuantity = rdr["PQTReqQty"].ToDouble();
+                                                    }
+                                                        if (rowTable == "DLN1")
                                                     {
 
                                                         string BatchQuery = @" select ITL1.ItemCode,ITL1.SysNumber,ITL1.Quantity,ITL1.AllocQty,OITL.CreateDate, OBTN.ExpDate,OBTN.DistNumber from OITL 
@@ -470,6 +481,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         #region UDFs
                                         oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
 
+                                        #endregion
 
                                         #endregion
 
