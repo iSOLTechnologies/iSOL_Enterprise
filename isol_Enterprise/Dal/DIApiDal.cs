@@ -84,7 +84,14 @@ namespace SAP_MVC_DIAPI.BLC
                             
                             string headerQuery = @"select DocType,Series,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,GroupNum,DocTotal ,
                                                    SlpCode,DiscPrcnt,Comments,Id,Sap_Ref_No " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
-                            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
+
+                            if (ObjectCode == 540000006)
+                            {                                
+
+                                headerQuery = @"select DocType,Series,CardCode,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate ,PQTGrpNum,ReqDate,GroupNum,DocTotal ,
+                                                   SlpCode,DiscPrcnt,PurchaseType,TypeDetail,ProductionOrderNo,Comments,Id,Sap_Ref_No " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
+                            }
+                                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
                             {
                                 try
                                 {
@@ -151,10 +158,17 @@ namespace SAP_MVC_DIAPI.BLC
                                             #endregion
                                         }
 
-                                        #endregion
 
-                                        #region Insert in Row
-                                        string RowQuery = @"select BaseEntry,BaseLine,BaseType,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup,UomEntry ,CountryOrg,ItemName , Dscription,AcctCode,LineNum,WhsCode from " + rowTable + " where Id = " + ID;
+                                        if (ObjectCode == 540000006)
+                                        {
+                                            oDoc.RequriedDate = rdr["ReqDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["ReqDate"].ToString());
+
+                                        }
+
+                                            #endregion
+
+                                            #region Insert in Row
+                                            string RowQuery = @"select BaseEntry,BaseLine,BaseType,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup,UomEntry ,CountryOrg,ItemName , Dscription,AcctCode,LineNum,WhsCode from " + rowTable + " where Id = " + ID;
                                         if (ObjectCode == 540000006)
                                         {
                                          RowQuery = @"select BaseEntry,BaseLine,BaseType,Price,LineTotal,ItemCode,PQTReqDate,ShipDate,PQTReqQty,Quantity,DiscPrcnt,VatGroup,UomEntry ,CountryOrg,ItemName , Dscription,AcctCode,LineNum,WhsCode from " + rowTable + " where Id = " + ID;
