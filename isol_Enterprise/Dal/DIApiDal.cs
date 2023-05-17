@@ -197,7 +197,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                                         oDoc.Lines.BaseType = rdr2["BaseType"].ToInt();
 
-                                                        oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;
+                                                       // oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;
                                                     }
                                                     oDoc.Lines.Quantity = Convert.ToDouble(rdr2["Quantity"]);
                                                     if (rdr2["Price"].ToString() != "")
