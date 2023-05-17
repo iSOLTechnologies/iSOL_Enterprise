@@ -77,6 +77,15 @@ namespace iSOL_Enterprise.Controllers
 
             return Json(new { success = model.isSuccess, message = model.Message });
         }
+        [HttpPost]
+        public IActionResult PostPurchaseRequest(string [] checkedIDs, int ObjectCode)
+        {
+            DIApiDal dal = new DIApiDal();
+            ResponseModels model = new ResponseModels();
+            model = dal.PostPurchaseRequest(checkedIDs,ObjectCode);
+
+            return Json(new { success = model.isSuccess, message = model.Message });
+        }
 
         [HttpPost]
         public IActionResult PostPlanningSheet(string[] checkedIDs)

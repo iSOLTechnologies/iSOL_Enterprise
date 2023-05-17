@@ -706,6 +706,9 @@ where s.Status=1 and p.Guid=@Guid";
                 case 14: //AR Credit Memo
                 oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oCreditNotes);
                 break;
+                case 1470000113: //Purchase Request
+                oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseRequest);
+                break;
                 case 540000006: //Purchase Quotation
                 oDoc = (SAPbobsCOM.Documents)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseQuotations);
                 break;
