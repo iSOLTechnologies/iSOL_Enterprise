@@ -206,9 +206,9 @@ namespace SAP_MVC_DIAPI.BLC
                                                     oDoc.Lines.WarehouseCode = rdr2["WhsCode"].ToString();
                                                     if (ObjectCode == 540000006)
                                                     {
-                                                        oDoc.Lines.RequiredDate = rdr["PQTReqDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["PQTReqDate"].ToString());
-                                                        oDoc.Lines.ShipDate = rdr["ShipDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["ShipDate"].ToString());
-                                                        oDoc.Lines.RequiredQuantity = rdr["PQTReqQty"].ToDouble();
+                                                        oDoc.Lines.RequiredDate = rdr2["PQTReqDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr2["PQTReqDate"].ToString());
+                                                        oDoc.Lines.ShipDate = rdr2["ShipDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr2["ShipDate"].ToString());
+                                                        oDoc.Lines.RequiredQuantity = rdr2["PQTReqQty"].ToDouble();
                                                     }
                                                         if (rowTable == "DLN1")
                                                     {
