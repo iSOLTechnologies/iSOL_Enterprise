@@ -345,7 +345,7 @@
 																					</td>
 																					                            <td>
                                                                                                 <div class="input-group">
-                                                                                                    <select  class="form-control" id="Warehouse">                                                                                                        
+                                                                                                    <select  class="form-control WhsSelect" id="Warehouse">                                                                                                        
                                                                                                     </select>
 
                                                                                                 </div>
@@ -744,7 +744,7 @@
 																						</td>
 																						                            <td>
                                                                                                 <div class="input-group">
-                                                                                                        <select class="form-control" id="Warehouse">
+                                                                                                        <select class="form-control WhsSelect" id="Warehouse">
                                                                                                         `+ WareHouseData + `
                                                                                                     </select>
 
@@ -1006,7 +1006,7 @@
 																						</td>
 																						                            <td>
                                                                                                 <div class="input-group">
-                                                                                                        <select class="form-control" id="Warehouse">
+																											<select class="form-control WhsSelect" id="Warehouse">
                                                                                                         `+ WareHouseData + `
                                                                                                     </select>
 
@@ -1072,9 +1072,14 @@
 																						</td>
 																					</tr>`;
 		$('#kt_repeater_1 tbody').append(html);
-		//$('#VatGroup').select2('destroy');
-		//$('.jsSelect2').select2();
-		// addDataInVatGroup();
+		
+	});
+
+	$(document).on('mouseover', '.WhsSelect', function (e) {
+
+		$(this).select2();
+		$(this).focus();
+		InitializeWarehouseSelect2Event($(this).closest('tr'));
 	});
 
 	$(document).on('click', '#ListBtnAddRM', function (e) {
