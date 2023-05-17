@@ -44,7 +44,7 @@ namespace iSOL_Enterprise.Controllers.purchase
 			ViewData["Taxes"]  = Sdal.GetVatGroupData("P");
 			ViewData["Warehouse"]  = Ddal.GetWareHouseData();
 			ViewData["Technician"] = Bdal.GetTechnicians();
-			//ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+			//ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName",-1);
 			//ViewBag.SalesEmployee = dal.GetSalesEmployee();			 
 			//bool flag = CommonDal.Check_IsNotEditable("PRQ1", id);
 			//ViewBag.Status = flag == false ? "Open" : "Closed";

@@ -32,7 +32,7 @@ namespace iSOL_Enterprise.Controllers
                 ViewBag.DocId = 0;
                 ViewBag.BaseType = 0;
             }
-            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName",-1);
             return View();
         }
 

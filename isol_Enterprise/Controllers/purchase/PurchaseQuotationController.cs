@@ -28,7 +28,7 @@ namespace iSOL_Enterprise.Controllers.Sales
             SalesQuotationDal dal = new SalesQuotationDal();
             AdministratorDal Adal = new AdministratorDal();
             ViewBag.GetSeries = Adal.GetSeries(540000006);
-            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName",-1);
 
 
             return View();

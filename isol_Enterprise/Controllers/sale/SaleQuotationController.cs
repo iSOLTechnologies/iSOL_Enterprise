@@ -27,7 +27,7 @@ namespace iSOL_Enterprise.Controllers.Sales
             AdministratorDal Adal = new AdministratorDal();
             SalesQuotationDal dal = new SalesQuotationDal();
 
-            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName",-1);
             ViewBag.GetSeries = Adal.GetSeries(23);
 
 
@@ -41,7 +41,7 @@ namespace iSOL_Enterprise.Controllers.Sales
             AdministratorDal Adal = new AdministratorDal();
             CommonDal cdal = new CommonDal();
             DeliveryDal Ddal = new DeliveryDal();
-            //ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName");
+            //ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName",-1);
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData("S");
             ViewBag.Countries = cdal.GetCountries();
