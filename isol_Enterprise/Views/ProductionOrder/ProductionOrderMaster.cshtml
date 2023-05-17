@@ -642,11 +642,11 @@
 
             $(this).closest('tr').find("#PlannedQty").val( ($("#PlannedQtyH").val() * value).toFixed(4));
 
-            let decimalPart = value.toString().substring(value.toString().indexOf(".")+1);
-            let divisorPart = Math.ceil (decimalPart / value);  //To get divisor Part
-            let BaseRatio = (decimalPart.toString() + "/" + divisorPart).toString();
+            //let decimalPart = value.toString().substring(value.toString().indexOf(".")+1);
+            //let divisorPart = Math.ceil (decimalPart / value);  //To get divisor Part
+            //let BaseRatio = (decimalPart.toString() + "/" + divisorPart).toString();
 
-            $(this).closest('tr').find("#BaseRatio").val(BaseRatio);
+            //$(this).closest('tr').find("#BaseRatio").val(BaseRatio);
 
             UpdateRatio();  //To Update Ratios of all rows
         }
@@ -657,7 +657,7 @@
         $('#ListParameters .itm').each(function () 
         {
             let value = parseFloat($(this).find("#BaseQty").val());
-            let decimalPart = value.toString().substring(value.toString().indexOf(".")+1);
+            let decimalPart = value.toString().split(".")[1];
             sum = sum + value;
 
         });
@@ -670,17 +670,44 @@
             $('#ListParameters .itm').each(function () {
 
                 let value = $(this).find('#BaseQty').val();
-                let decimalPart = value.toString().substring(value.toString().indexOf(".")+1);
-                if(decimalPart <= 0)
-                {
-                    $(this).find("#BaseRatio").val('1000/1000');
-                }
-                else {
-                let divisorPart = Math.ceil (decimalPart / value);  //To get divisor Part
-                let BaseRatio = (decimalPart.toString() + "/" + divisorPart).toString();
+               // let decimalPart = value.toString().substring(value.toString().indexOf(".")+1);
+                let decimalPart = value.toString().split(".")[1];
+                let divisor = 0;
+                let dividend = 0;
+                let FloorPart =  Math.floor(value);
+                console.log(decimalPart);
+                console.log(FloorPart);
 
-                $(this).find("#BaseRatio").val(BaseRatio);
+                if(decimalPart != 0 && FloorPart!=0 && decimalPart != undefined)
+                {                    
+                    divisor = decimalPart / value.toString().substring(value.toString().indexOf("."));
+                    dividend = Number(decimalPart) + Number( FloorPart * divisor );
+                    
                 }
+                else if (FloorPart == 0 && decimalPart != undefined && decimalPart != 0) {
+                    divisor = decimalPart / value.toString().substring(value.toString().indexOf("."));
+                    dividend = decimalPart;
+                    
+                }
+                else if(FloorPart != 0 && decimalPart == undefined)
+                {
+                    divisor = 10000;
+                    dividend = Number( FloorPart * divisor );
+                }
+                //if(decimalPart <= 0)
+                //{                    
+                //    $(this).find("#BaseRatio").val(dividend + "/10000");
+                //}
+                //else 
+                //{
+
+                //let divisorPart = Math.ceil (decimalPart / value);  //To get divisor Part
+                //let BaseRatio = (decimalPart.toString() + "/" + divisorPart).toString();
+
+                //$(this).find("#BaseRatio").val(BaseRatio);
+                //}
+                
+                $(this).find("#BaseRatio").val(dividend + "/" + divisor);
                 $(this).find('#Ratio').val(((value / sum) * 100).toFixed(4));
 
             });

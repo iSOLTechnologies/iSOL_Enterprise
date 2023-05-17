@@ -5,6 +5,6 @@
         public string? ItemCode { get; set; }
         public string? ItemName { get; set; }
         public string? ManBtchNum { get; set; }
-        public decimal OnHand { get; set; }
+        public decimal? OnHand { get; set; }
     }
 }

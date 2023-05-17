@@ -86,6 +86,11 @@ namespace iSOL_Enterprise.Controllers.Sales
             {
 
                 SalesQuotationDal dal = new SalesQuotationDal();
+                if (DocModule == "PRO")
+                {
+                response.Data = dal.GetBOMData(DocModule);
+                }
+                else
                 response.Data = dal.GetItemsData(DocModule);
             }
             catch (Exception ex)

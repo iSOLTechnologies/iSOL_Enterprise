@@ -45,6 +45,8 @@ namespace iSOL_Enterprise.Dal.Sale
         public List<tbl_item> GetItemsData(string DocModule)
         {
             List<tbl_item> list = new List<tbl_item>();
+            string ConString = SqlHelper.defaultSapDB;
+
             string GetQuery = "";
             if (DocModule == "S")
             {
@@ -57,18 +59,14 @@ namespace iSOL_Enterprise.Dal.Sale
             else if (DocModule == "I" || DocModule == "PR")
             {
                 GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where InvntItem = 'Y' and FrozenFor='N'";
-            }
-            else if (DocModule == "PRO")
-            {
-                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITT inner join OITM on ItemCode = OITT.Code";
-            }
+            }            
             else
             {
                 return list;
             }
 
 
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            using (var rdr = SqlHelper.ExecuteReader(ConString, CommandType.Text, GetQuery))
             {
                 while (rdr.Read())
                 {
@@ -88,6 +86,38 @@ namespace iSOL_Enterprise.Dal.Sale
             return list;
         }
 
+
+
+        public List<tbl_item> GetBOMData(string DocModule)
+        {
+            List<tbl_item> list = new List<tbl_item>();
+            string ConString = SqlHelper.defaultSapDB;
+
+            string GetQuery = "";
+            
+                GetQuery = "select Code,Name from OITT ";
+                ConString = SqlHelper.defaultDB;
+           
+
+            using (var rdr = SqlHelper.ExecuteReader(ConString, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    list.Add(
+                        new tbl_item()
+                        {
+                            ItemCode = rdr["Code"].ToString(),
+                            ItemName = rdr["Name"].ToString(),
+                            ManBtchNum = "",
+                            OnHand = null,
+                        });
+
+                }
+            }
+
+            return list;
+        }
         public List<tbl_account> GetGLAccountData()
         {
             string GetQuery = "select * from OACT";
