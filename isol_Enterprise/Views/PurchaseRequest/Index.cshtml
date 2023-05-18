@@ -232,8 +232,18 @@
         });
         if (checkedIDs.length > 0) {
 
+
             $.post("Common/PostPurchaseRequest", { checkedIDs: checkedIDs, ObjectCode: 1470000113 }, function (response) {
-                if (response.success) {
+                if (response.isWarning) {
+                    $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $("#btnPostToSap").attr('disabled', false);
+
+                    toastr.warning(response.message);
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
+                    datatable.ajax.reload();
+                }
+                else if (response.success) {
                     $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                     $("#btnPostToSap").attr('disabled', false);
 
@@ -252,6 +262,9 @@
                 }
 
             });
+
+
+            
         }
         else {
             $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');

@@ -75,7 +75,7 @@ namespace iSOL_Enterprise.Controllers
             ResponseModels model = new ResponseModels();
             model = dal.PostToSap(checkedIDs,ObjectCode);
 
-            return Json(new { success = model.isSuccess, message = model.Message });
+            return Json(new { isSuccess = model.isSuccess, isWarning = model.isWarning, message = model.Message });
         }
         [HttpPost]
         public IActionResult PostPurchaseRequest(string [] checkedIDs, int ObjectCode)
@@ -84,7 +84,7 @@ namespace iSOL_Enterprise.Controllers
             ResponseModels model = new ResponseModels();
             model = dal.PostPurchaseRequest(checkedIDs,ObjectCode);
 
-            return Json(new { success = model.isSuccess, message = model.Message });
+            return Json(new { isSuccess = model.isSuccess, isWarning = model.isWarning, message = model.Message });
         }
 
         [HttpPost]
@@ -94,7 +94,7 @@ namespace iSOL_Enterprise.Controllers
             ResponseModels model = new ResponseModels();
             model = dal.PostPlanningSheet(checkedIDs);
 
-            return Json(new { success = model.isSuccess, message = model.Message });
+            return Json(new { isSuccess = model.isSuccess, isWarning = model.isWarning, message = model.Message });
         }
         [HttpPost]
         public IActionResult PostItemMasterData(string[] checkedIDs)
@@ -103,7 +103,7 @@ namespace iSOL_Enterprise.Controllers
             ResponseModels model = new ResponseModels();
             model = dal.PostItemMasterData(checkedIDs);
 
-            return Json(new { success = model.isSuccess, message = model.Message });
+            return Json(new { isSuccess = model.isSuccess, isWarning = model.isWarning, message = model.Message });
         }
 
         [HttpPost]
@@ -113,7 +113,7 @@ namespace iSOL_Enterprise.Controllers
             ResponseModels model = new ResponseModels();
             model = dal.PostGoodReceiptGR(checkedIDs,59,BaseType);
 
-            return Json(new { success = model.isSuccess, message = model.Message });
+            return Json(new { isSuccess = model.isSuccess, isWarning = model.isWarning, message = model.Message });
         }
         [HttpPost]
         public IActionResult PostGoodIssue(string[] checkedIDs, int BaseType = 0)
@@ -122,7 +122,7 @@ namespace iSOL_Enterprise.Controllers
             ResponseModels model = new ResponseModels();
             model = dal.PostGoodIssue(checkedIDs,60,BaseType);
 
-            return Json(new { success = model.isSuccess, message = model.Message });
+            return Json(new { isSuccess = model.isSuccess, isWarning = model.isWarning, message = model.Message });
         }
         [HttpPost]
         public IActionResult PostInventoryTransfer(string[] checkedIDs)
@@ -131,7 +131,7 @@ namespace iSOL_Enterprise.Controllers
             ResponseModels model = new ResponseModels();
             model = dal.PostInventoryTransfer(checkedIDs,67);
 
-            return Json(new { success = model.isSuccess, message = model.Message });
+            return Json(new { isSuccess = model.isSuccess, isWarning = model.isWarning, message = model.Message });
         }
         [HttpPost]
         public IActionResult PostInventoryTransferRequest(string[] checkedIDs)
@@ -140,7 +140,7 @@ namespace iSOL_Enterprise.Controllers
             ResponseModels model = new ResponseModels();
             model = dal.PostInventoryTransferRequest(checkedIDs, 1250000001);
 
-            return Json(new { success = model.isSuccess, message = model.Message });
+            return Json(new { isSuccess = model.isSuccess, isWarning = model.isWarning, message = model.Message });
         }
         [HttpPost]
         public IActionResult PostBusinnesPartner(string[] checkedIDs)
@@ -149,7 +149,7 @@ namespace iSOL_Enterprise.Controllers
             ResponseModels model = new ResponseModels();
             model = dal.PostBusinnesPartner(checkedIDs, 2);
 
-            return Json(new { success = model.isSuccess, message = model.Message });
+            return Json(new { isSuccess = model.isSuccess, isWarning = model.isWarning, message = model.Message });
         }
         [HttpPost]
         public IActionResult PostBOM(string[] checkedIDs)
@@ -158,7 +158,7 @@ namespace iSOL_Enterprise.Controllers
             ResponseModels model = new ResponseModels();
             model = dal.PostBOM(checkedIDs);
 
-            return Json(new { success = model.isSuccess, message = model.Message });
+            return Json(new { isSuccess = model.isSuccess, isWarning = model.isWarning, message = model.Message });
         }
         [HttpPost]
         public IActionResult PostProductionOrder(string[] checkedIDs)
@@ -167,7 +167,7 @@ namespace iSOL_Enterprise.Controllers
             ResponseModels model = new ResponseModels();
             model = dal.PostProductionOrder(checkedIDs);
 
-            return Json(new { success = model.isSuccess, message = model.Message });
+            return Json(new { isSuccess = model.isSuccess, isWarning = model.isWarning, message = model.Message });
         }
 
         [HttpGet]

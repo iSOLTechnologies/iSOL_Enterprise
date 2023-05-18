@@ -243,12 +243,22 @@
         if (checkedIDs.length > 0) {
 
             $.post("Common/PostInventoryTransfer", { checkedIDs: checkedIDs }, function (response) {
-                if (response.success) {
+                if (response.isWarning) {
                     $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                     $("#btnPostToSap").attr('disabled', false);
+
+                    toastr.warning(response.message);
                     $(".loading_ic").removeClass('overlay dark');
                     $(".loading_ic").hide();
+                    datatable.ajax.reload();
+                }
+                else if (response.isSuccess) {
+                    $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $("#btnPostToSap").attr('disabled', false);
+
                     toastr.success(response.message);
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
                     datatable.ajax.reload();
                 }
                 else {

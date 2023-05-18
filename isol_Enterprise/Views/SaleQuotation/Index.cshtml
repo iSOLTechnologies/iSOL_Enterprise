@@ -123,46 +123,41 @@
         });
         if(checkedIDs.length > 0 ) 
         {
+            
             $(".loading_ic").addClass('overlay');
             $(".loading_ic").show();
 
-            $.ajax
-            ({
-                url: 'Common/PostToSap',
-                type: 'GET',
-                dataType: 'json',
-                async: false,
-                data: { checkedIDs: checkedIDs, ObjectCode: 23 },
-                success: function (response) {
+            $.post("Common/PostToSap", {checkedIDs : checkedIDs , ObjectCode : 23 } , function(response) 
+            {
+                if (response.isWarning) {
+                    $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $("#btnPostToSap").attr('disabled', false);
 
-                        if  (response.isWarning)
-                            toastr.success(response.message);
-
-                        else if (response.isSuccess)
-                            toastr.success(response.message);
-
-                        else 
-                            toastr.error(response.message);
-                        
-
-                        $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                        $("#btnPostToSap").attr('disabled', false);
-                        $(".loading_ic").removeClass('overlay dark');
-                        $(".loading_ic").hide();
-                        datatable.ajax.reload();
-                },
-                error: function (jqXhr, textStatus, errorMessage) 
-                {
-                        toastr.error('Server Error !');
-                        $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                        $("#btnPostToSap").attr('disabled', false);
-                        $(".loading_ic").removeClass('overlay dark');
-                        $(".loading_ic").hide();
-                        datatable.ajax.reload();
-                        //console.log(errorMessage);
+                    toastr.warning(response.message);
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
+                    datatable.ajax.reload();
                 }
-            });
+                else if (response.isSuccess) {
+                    $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $("#btnPostToSap").attr('disabled', false);
 
+                    toastr.success(response.message);
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
+                    datatable.ajax.reload();
+                }
+                else 
+                {
+                    $("#btnPostToSap").removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $("#btnPostToSap").attr('disabled', false);
+                    toastr.error(response.message);
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
+                    datatable.ajax.reload();
+                }
+
+            });
         }
         else
         {
