@@ -189,7 +189,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                     {
                                                         BaseTable = dal.GetMasterTable(rdr2["BaseType"].ToInt());
                                                         string GetBaseEntryQuery = "select Sap_Ref_No from " + BaseTable + " where Id =" + rdr2["BaseEntry"].ToInt();
-                                                        BaseEntry = Convert.ToInt32(SqlHelper.ExecuteScalar(tran, CommandType.Text, GetBaseEntryQuery));
+                                                        BaseEntry = SqlHelper.ExecuteScalar(tran, CommandType.Text, GetBaseEntryQuery).ToInt();
 
                                                         oDoc.Lines.BaseEntry = BaseEntry;
 
@@ -328,6 +328,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 oCompany.GetLastError(out res, out message);
                                 models.Message = message;
                                 models.isSuccess = false;
+                                models.isWarning = true;
                                 tran.Rollback();
                                 return models;
                             }
@@ -374,6 +375,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
+                                        models.isWarning = true;
                                         return models;
                                     }
                                     #endregion
@@ -384,6 +386,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     models.Message = "Document Posted but Error Occured while updating Document !";
                                     models.isSuccess = true;
+                                    models.isWarning = true;
                                     return models;
                                 }
                                 tran.Commit();
@@ -567,6 +570,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 oCompany.GetLastError(out res, out message);
                                 models.Message = message;
                                 models.isSuccess = false;
+                                models.isWarning = true;
                                 tran.Rollback();
                                 return models;
                             }
@@ -602,6 +606,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         models.Message = "Document Posted but Error Occured while updating Documnet !";
                                         models.isSuccess = true;
+                                        models.isWarning = true;
                                         return models;
                                     }
 
@@ -623,6 +628,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     models.Message = "Document Posted but Error Occured while updating Document !";
                                     models.isSuccess = true;
+                                    models.isWarning = true;
                                     return models;
                                 }
                                 tran.Commit();
@@ -860,7 +866,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                             models.Message = oCompany.GetLastErrorDescription();
                             models.isSuccess = false;
-
+                            models.isWarning = true;
                             return models;
                         }
                         else
@@ -886,6 +892,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     models.Message = "Document Posted but Error Occured while updating Documnet !";
                                     models.isSuccess = true;
+                                    models.isWarning = true;
                                     return models;
                                 }
                             #endregion
@@ -896,6 +903,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                 models.Message = "Document Posted but Error Occured while updating Documnet !";
                                 models.isSuccess = true;
+                                models.isWarning = true;
                                 return models;
                             }
                             tran.Commit();
@@ -1261,6 +1269,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 oCompany.GetLastError(out res, out message);
                                 models.Message = message;
                                 models.isSuccess = false;
+                                models.isWarning = true;
                                 tran.Rollback();
                                 return models;
                             }
@@ -1293,6 +1302,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
+                                        models.isWarning = true;
                                         return models;
                                     }
 
@@ -1304,6 +1314,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
+                                        models.isWarning = true;
                                         return models;
                                     }
                                     #endregion
@@ -1314,6 +1325,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     models.Message = "Document Posted but Error Occured while updating Document !";
                                     models.isSuccess = true;
+                                    models.isWarning = true;
                                     return models;
                                 }
                                 tran.Commit();
@@ -1508,6 +1520,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 oCompany.GetLastError(out res, out message);
                                 models.Message = message;
                                 models.isSuccess = false;
+                                models.isWarning = true;
                                 tran.Rollback();
                                 return models;
                             }
@@ -1540,6 +1553,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
+                                        models.isWarning = true;
                                         return models;
                                     }
 
@@ -1551,6 +1565,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
+                                        models.isWarning = true;
                                         return models;
                                     }
                                     #endregion
@@ -1561,6 +1576,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     models.Message = "Document Posted but Error Occured while updating Document !";
                                     models.isSuccess = true;
+                                    models.isWarning = true;
                                     return models;
                                 }
 
@@ -1756,6 +1772,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 oCompany.GetLastError(out res, out message);
                                 models.Message = message;
                                 models.isSuccess = false;
+                                models.isWarning = true;
                                 tran.Rollback();
                                 return models;
                             }
@@ -1788,6 +1805,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
+                                        models.isWarning = true;
                                         return models;
                                     }
 
@@ -1799,6 +1817,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
+                                        models.isWarning = true;
                                         return models;
                                     }
 
@@ -1810,6 +1829,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     models.Message = "Document Posted but Error Occured while updating Document !";
                                     models.isSuccess = true;
+                                    models.isWarning = true;
                                     return models;
                                 }
 
@@ -2008,6 +2028,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 oCompany.GetLastError(out res, out message);
                                 models.Message = message;
                                 models.isSuccess = false;
+                                models.isWarning = true;
                                 tran.Rollback();
                                 return models;
                             }
@@ -2040,6 +2061,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
+                                        models.isWarning = true;
                                         return models;
                                     }
 
@@ -2051,6 +2073,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
+                                        models.isWarning = true;
                                         return models;
                                     }
 
@@ -2061,6 +2084,7 @@ namespace SAP_MVC_DIAPI.BLC
                                     tran.Rollback();
 
                                     models.Message = "Document Posted but Error Occured while updating Document !";
+                                    models.isWarning = true;
                                     models.isSuccess = true;
                                     return models;
                                 }
@@ -2414,6 +2438,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 oCompany.GetLastError(out res, out message);
                                 models.Message = message;
                                 models.isSuccess = false;
+                                models.isWarning = true;
                                 tran.Rollback();
                                 return models;
                             }
@@ -2435,6 +2460,7 @@ namespace SAP_MVC_DIAPI.BLC
                                     string getWBSDocNumApprvl = @"select Top(1) DocEntry from ODRF where U_WBS_DocNum ='" + ID + "'   and ObjType=" + ObjectCode + " order by DocEntry desc";
                                     docRowModel.DocEntry = SqlHelper.ExecuteScalar(SqlHelper.defaultSapDB, CommandType.Text, getWBSDocNumApprvl).ToInt();
                                 }
+
                                 #region Updating Table Row as Posted , Add Sap Base Entry
                                 if (docRowModel.DocEntry != null)
                                 {
@@ -2447,6 +2473,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
+                                        models.isWarning = true;
                                         return models;
                                     }
                                 }
@@ -2456,6 +2483,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     models.Message = "Document Posted but Error Occured while updating Document !";
                                     models.isSuccess = true;
+                                    models.isWarning = true;
                                     return models;
                                 }
 
@@ -2619,6 +2647,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 oCompany.GetLastError(out res, out message);
                                 models.Message = message;
                                 models.isSuccess = false;
+                                models.isWarning = true;
                                 tran.Rollback();
                                 return models;
                             }
@@ -2663,6 +2692,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
+                                        models.isWarning = true;
                                         return models;
                                     }
 
@@ -2674,6 +2704,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     models.Message = "Document Posted but Error Occured while updating Document !";
                                     models.isSuccess = true;
+                                    models.isWarning = true;
                                     return models;
                                 }
 
@@ -2839,6 +2870,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 oCompany.GetLastError(out res, out message);
                                 models.Message = message;
                                 models.isSuccess = false;
+                                models.isWarning = true;
                                 tran.Rollback();
                                 return models;
                             }
@@ -2882,6 +2914,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         models.Message = "Document Posted but Error Occured while updating Document !";
                                         models.isSuccess = true;
+                                        models.isWarning = true;
                                         return models;
                                     }
 
@@ -2893,6 +2926,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     models.Message = "Document Posted but Error Occured while updating Document !";
                                     models.isSuccess = true;
+                                    models.isWarning = true;
                                     return models;
                                 }
 

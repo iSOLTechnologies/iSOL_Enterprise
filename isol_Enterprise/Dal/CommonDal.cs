@@ -735,7 +735,7 @@ where s.Status=1 and p.Guid=@Guid";
         {
             string table = GetMasterTable(BaseType);
             string rowTable = GetRowTable(BaseType);
-            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "' order by Id desc"; /*isPosted = 1*/
+            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "' and isPosted = 1 order by Id desc"; /*isPosted = 1*/
             if (BaseType == 1470000113)
             {
                 GetQuery = "select * from " + table + " order by Id desc"; /*isPosted = 1*/

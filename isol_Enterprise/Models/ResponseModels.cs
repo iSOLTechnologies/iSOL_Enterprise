@@ -35,6 +35,7 @@ namespace iSOL_Enterprise.Models
 
         public bool isInfo { get; set; }
         public bool isSuccess { get; set; }
+        public bool isWarning { get; set; } = false;
         public bool isLoggedIn { get; set; }
         public bool? isLogOut { get; set; }
         public string LookupCode { get; set; }
