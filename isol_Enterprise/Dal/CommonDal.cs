@@ -1588,6 +1588,41 @@ where s.Status=1 and p.Guid=@Guid";
             }
             return true;
         }
+
+        public bool AddApproval(SqlTransaction tran,ApprovalModel model)
+        {
+            try
+            {
+                
+                string TabHeader = "Id,ObjectCode,DocId";
+                string TabHeaderP = "@Id,@ObjectCode,@DocId";
+
+                string HeadQuery = @"insert into tbl_DocumentsApprovals (" + TabHeader + ") " +
+                                    "values(" + TabHeaderP + ")";
+
+                List<SqlParameter> param = new List<SqlParameter>();
+
+                #region Header data
+                param.Add(GetParameter("@Id", model.Id, typeof(int)));
+                param.Add(GetParameter("@ObjectCode", model.ObjectCode, typeof(int)));
+                param.Add(GetParameter("@DocId", model.DocId, typeof(int)));               
+                #endregion
+
+                int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery, param.ToArray()).ToInt();
+                if (res1 <= 0)
+                {
+                    tran.Rollback();
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                tran.Rollback();
+                return false;
+                
+            }
+        }
    
         public string? GetProdGuid(string ItemCode)
         {

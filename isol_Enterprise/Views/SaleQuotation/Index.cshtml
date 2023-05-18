@@ -65,7 +65,7 @@
                     <span class="sr-only">Loading...</span>                    
                 </div>               
             </div>
-
+            
 
 
             <!--end: Datatable-->
@@ -199,8 +199,9 @@
             columns: [
                 {
                 data: "id", 'title': '<span style="width: 30px;"><label class="checkbox checkbox-single checkbox-all"><input id="Mastercheck" onclick="Mastercheck()" type="checkbox">&nbsp;<span></span></label></span>', render: function (data, type, row) {
-
-                        if (row.isPosted == "True" && row.isEdited == "False")
+                        if(row.isApproved ==0)
+                        return "";
+                        else if (row.isPosted == "True" && row.isEdited == "False") 
                         {
                             return '<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">Posted</span>';
                         } else {
@@ -262,6 +263,12 @@
             }, {
                 data: "id", 'title': 'Action', render: function (data, type, row) {
 
+
+                    if(row.isApproved ==0)
+                    return `<span class="label label-lg label-light-warning label-inline">Pending Approval</span>`;
+                    else
+                    {
+
                     var html = '<a guid=' + data + ' id="btnFetchSaleQuotation" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
                     html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
                     html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
@@ -272,7 +279,7 @@
                     html += '</svg><!--end:: Svg Icon--></span> ';
                     html += '               </a>';
                     return html;
-
+                    }
                 }
             },],
         });

@@ -102,22 +102,22 @@ namespace iSOL_Enterprise.Common
             }
             return false;
         }
-        public static bool GetApprovalStatus(this object val,SqlTransaction tran)
+        public static int  GetApprovalStatus(this object val,SqlTransaction tran)
         {
             try
             {
-                if (val == null) return false;
+                if (val == null) return 1;
 
                 bool Approve = false;
                 string HeadQuery = @" Select Approve from Pages WHERE ObjectCode = " + val;
 
                 Approve = SqlHelper.ExecuteScalar(tran, CommandType.Text, HeadQuery).ToBool();
                 
-                return Approve;
+                return Approve == true ?  0 : 1;
             }
             catch (Exception)
             {
-                return false;
+                return 1;
                 throw;
             }
 

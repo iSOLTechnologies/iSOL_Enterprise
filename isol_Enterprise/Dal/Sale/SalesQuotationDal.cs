@@ -36,6 +36,7 @@ namespace iSOL_Enterprise.Dal.Sale
                     models.Guid = rdr["Guid"].ToString();
                     models.CardName = rdr["CardName"].ToString();
                     models.IsPosted = rdr["isPosted"].ToString(); models.IsEdited = rdr["is_Edited"].ToString();
+                    models.isApproved = rdr["isApproved"].ToBool();
                     list.Add(models);
                 }
             }
@@ -319,7 +320,7 @@ namespace iSOL_Enterprise.Dal.Sale
             {
                 var model = JsonConvert.DeserializeObject<dynamic>(formData);
                 string DocType = model.ListItems == null ? "S" : "I";
-
+                CommonDal dal = new CommonDal();
 
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
                 conn.Open();
@@ -342,8 +343,28 @@ namespace iSOL_Enterprise.Dal.Sale
                         model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
                         model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
 
+                        int ObjectCode = 23;
+                        int isApproved = ObjectCode.GetApprovalStatus(tran);
+                        #region Insert in Approval Table
+
+                        if (isApproved == 0)
+                        {
+                            ApprovalModel approvalModel = new()
+                            {
+                                Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                                ObjectCode = ObjectCode,
+                                DocId = Id
+
+                            };
+                            bool response =dal.AddApproval(tran,approvalModel);
+                            if (!response)
+                                return false;
+                        }
+
+                        #endregion
+
                         string HeadQuery = @"insert into OQUT(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum ,DocTotal, SlpCode,DiscPrcnt,
-                                            PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,ContainerNo,ManualGatePassNo,SaleOrderNo, Comments) 
+                                            PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,ContainerNo,ManualGatePassNo,SaleOrderNo,isApproved, Comments) 
                                            values(" + Id + ","
                                                 + model.HeaderData.Series + ",'"
                                                 + DocType + "','"
@@ -367,8 +388,9 @@ namespace iSOL_Enterprise.Dal.Sale
                                                 + model.HeaderData.ChallanNo + ","
                                                 + model.HeaderData.ContainerNo + ","
                                                 + model.HeaderData.ManualGatePassNo + ","
-                                                + model.HeaderData.SaleOrderNo + ",'"
-                                                + model.FooterData.Comments + "')";
+                                                + model.HeaderData.SaleOrderNo + ","
+                                                + isApproved + ",'"
+                                                + model.FooterData.Comments + "')"; 
 
                         #region SqlParameters
                         //List<SqlParameter> param = new List<SqlParameter>   
@@ -395,6 +417,8 @@ namespace iSOL_Enterprise.Dal.Sale
                             tran.Rollback();
                             return false;
                         }
+
+                        
                     }
                     if (model.ListItems != null)
                     {
