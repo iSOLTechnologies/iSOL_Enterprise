@@ -1,5 +1,8 @@
-﻿using System;
+﻿using SqlHelperExtensions;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 namespace iSOL_Enterprise.Common
 {
@@ -99,7 +102,26 @@ namespace iSOL_Enterprise.Common
             }
             return false;
         }
+        public static bool GetApprovalStatus(this object val,SqlTransaction tran)
+        {
+            try
+            {
+                if (val == null) return false;
 
+                bool Approve = false;
+                string HeadQuery = @" Select Approve from Pages WHERE ObjectCode = " + val;
+
+                Approve = SqlHelper.ExecuteScalar(tran, CommandType.Text, HeadQuery).ToBool();
+                
+                return Approve;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+
+        }
         //public static string GetErrorMessages(this ModelStateDictionary modelState)
         //{
         //    var messages = new List<string>();

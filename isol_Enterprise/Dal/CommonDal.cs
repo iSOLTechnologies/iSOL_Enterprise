@@ -562,60 +562,101 @@ where s.Status=1 and p.Guid=@Guid";
             string table = "";
             switch (Basetype)
             {
-                case 13:
-                table = "OINV"; //A/R Invoice
-                break;
-                case 15:
-                table = "ODLN"; //Delivery
-                break;
-                case 16:
-                table = "ORDN"; //Return
-                break;
-                case 17:
-                table = "ORDR"; //Sales Order
-                break;
-                case 18:
-                table = "OPCH"; //A/P Invoice
-                break;
-                case 19:
-                table = "ORPC"; //A/P Credit Memo
-                break;
-                case 20:
-                table = "OPDN"; //Goods Receipt PO
-                break;
-                case 21:
-                table = "ORPD"; //Goods Return
-                break;
-                case 22:
-                table = "OPOR"; //Purchase Order
-                break;
+
+                #region Sales
+
                 case 23:
-                table = "OQUT"; //Sales Quotation
-                break;
-                case 540000006:
-                table = "OPQT"; //Purchase Quotation
-                break;
-                case 1470000113:
-                table = "OPRQ"; //Purchase Request
-                break;
+                    table = "OQUT"; //Sales Quotation
+                    break;
+                case 17:
+                    table = "ORDR"; //Sales Order
+                    break;
+                case 15:
+                    table = "ODLN"; //Delivery
+                    break;
+                case 16:
+                    table = "ORDN"; //Return
+                    break;
+                case 13:
+                    table = "OINV"; //A/R Invoice
+                    break;
                 case 14: //AR Credit Memo
-                table = "ORIN";
-                break;
-                case 59: //Goods Receipt GR Item Transaction
-                table = "OIGN";
-                break;
-                case 60: //Goods Issue Item Transaction
-                table = "OIGE";
-                break;
-                case 67: //Inventory Transfer
-                table = "OWTR";
-                break;
-                case 1250000001: //Inventory Transfer Request
-                table = "OWTQ";
-                break;
+                    table = "ORIN";
+                    break;
+
+                #endregion
+
+                #region Purchase 
+
+                case 1470000113:
+                    table = "OPRQ"; //Purchase Request
+                    break;
+                case 540000006:
+                    table = "OPQT"; //Purchase Quotation
+                    break;
+                case 22:
+                    table = "OPOR"; //Purchase Order
+                    break;
+                case 20:
+                    table = "OPDN"; //Goods Receipt PO
+                    break;
+                case 21:
+                    table = "ORPD"; //Goods Return
+                    break;
+                case 18:
+                    table = "OPCH"; //A/P Invoice
+                    break;
+                case 19:
+                    table = "ORPC"; //A/P Credit Memo
+                    break;
+                #endregion
+
+                #region Bussiness Partner
+
                 case 2: //Business Partner 
-                table = "OCRD";
-                break;
+                    table = "OCRD";
+                    break;
+
+                #endregion
+
+                #region Inventory
+
+                case 4: //Item Master Dat
+                    table = "OITM";
+                    break;
+                case 59: //Goods Receipt GR Item Transaction
+                    table = "OIGN";
+                    break;
+                case 60: //Goods Issue Item Transaction
+                    table = "OIGE";
+                    break;
+
+                case 1250000001: //Inventory Transfer Request
+                    table = "OWTQ";
+                    break;
+                case 67: //Inventory Transfer
+                    table = "OWTR";
+                    break;
+
+                #endregion
+
+                #region Production 
+
+                case 66: //Bill of Material
+                    table = "OITT";
+                    break;
+                case 202: //Production Order
+                    table = "OWOR";
+                    break;
+                case 102: //Receipt From Production
+                    table = "OIGN";
+                    break;
+                case 302: //Receipt From Production
+                    table = "OIGE";
+                    break;
+
+                #endregion
+
                 default:
                 return table;
             }
@@ -627,57 +668,99 @@ where s.Status=1 and p.Guid=@Guid";
             string table = "";
             switch (Basetype)
             {
-                case 13:
-                table = "INV1"; //A/R Invoice
-                break;
-                case 15:
-                table = "DLN1"; //Delivery
-                break;
-                case 16:
-                table = "RDN1"; //Return
-                break;
-                case 17:
-                table = "RDR1"; //Sales Order
-                break;
-                case 18:
-                table = "PCH1"; //A/P Invoice
-                break;
-                case 19:
-                table = "RPC1"; //A/P Credit Memo
-                break;
-                case 20:
-                table = "PDN1"; //Goods Receipt PO
-                break;
-                case 21:
-                table = "RPD1"; //Goods Return
-                break;
-                case 22:
-                table = "POR1"; //Purchase Order
-                break;
+                #region Sales
+
                 case 23:
-                table = "QUT1"; //Sales Quotation
-                break;
-                case 540000006:
-                table = "PQT1"; //Purchase Quotation
-                break;
+                    table = "QUT1"; //Sales Quotation
+                    break;
+                case 17:
+                    table = "RDR1"; //Sales Order
+                    break;
+                case 15:
+                    table = "DLN1"; //Delivery
+                    break;
+                case 16:
+                    table = "RDN1"; //Return
+                    break;
+                case 13:
+                    table = "INV1"; //A/R Invoice
+                    break;
+                case 14: //AR Credit Memo
+                    table = "RIN1";
+                    break;
+
+                #endregion
+
+                #region Purchase 
+
                 case 1470000113:
-                table = "PRQ1"; //Purchase Request
-                break;
-                case 14:
-                table = "RIN1";
-                break;
+                    table = "PRQ1"; //Purchase Request
+                    break;
+                case 540000006:
+                    table = "PQT1"; //Purchase Quotation
+                    break;
+                case 22:
+                    table = "POR1"; //Purchase Order
+                    break;
+                case 20:
+                    table = "PDN1"; //Goods Receipt PO
+                    break;
+                case 21:
+                    table = "RPD1"; //Goods Return
+                    break;
+                case 18:
+                    table = "PCH1"; //A/P Invoice
+                    break;
+                case 19:
+                    table = "RPC1"; //A/P Credit Memo
+                    break;
+                #endregion
+
+                #region Bussiness Partner
+
+                case 2: //Business Partner 
+                    table = "CRD1";
+                    break;
+
+                #endregion
+
+                #region Inventory
+
+                case 4: //Item Master Dat
+                    table = "ITM1";
+                    break;
                 case 59: //Goods Receipt GR Item Transaction
-                table = "IGN1";
-                break;
+                    table = "IGN1";
+                    break;
                 case 60: //Goods Issue Item Transaction
-                table = "IGE1";
-                break;
-                case 67: //Inventory Transfer
-                table = "WTR1";
-                break;
+                    table = "IGE1";
+                    break;
+
                 case 1250000001: //Inventory Transfer Request
-                table = "WTQ1";
-                break;
+                    table = "WTQ1";
+                    break;
+                case 67: //Inventory Transfer
+                    table = "WTR1";
+                    break;
+
+                #endregion
+
+                #region Production 
+
+                case 66: //Bill of Material
+                    table = "ITT1";
+                    break;
+                case 202: //Production Order
+                    table = "WOR1";
+                    break;
+                case 102: //Receipt From Production
+                    table = "IGN1";
+                    break;
+                case 302: //Receipt From Production
+                    table = "IGE1";
+                    break;
+
+                #endregion
                 default:
                 return table;
             }

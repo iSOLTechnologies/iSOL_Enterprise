@@ -132,6 +132,25 @@ namespace iSOL_Enterprise.Dal
             }
             return list;
         }
+        public List<tbl_pages> GetPagesApprovals()
+        {  
+
+            string GetQuery = "select id,ObjectCode,PageName,Approve from Pages";
+            List<tbl_pages> list = new List<tbl_pages>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+                    list.Add(new tbl_pages()
+                    {   SerialNo = rdr["Id"].ToInt(),
+                        ObjectCode = rdr["ObjectCode"].ToInt(),
+                        PageName= rdr["PageName"].ToString(),                        
+                        Approve = rdr["Approve"].ToBool(),                        
+                    }); 
+                }
+            }
+            return list;
+        }
 
         public List<tbl_series> GetSeries(int ObjectCode)
         {
@@ -201,5 +220,38 @@ namespace iSOL_Enterprise.Dal
             }
 
         }
-}
+        public bool UpdateApprovalStatus(int id,string approvalType)
+        {
+            try
+            {
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                conn.Open();
+                SqlTransaction tran = conn.BeginTransaction();
+                int res1 = 0;
+
+                string HeadQuery = @" Update Pages set 
+                                                        Approve = " + approvalType +
+                                                       "WHERE id = " + id;
+
+
+                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                if (res1 <= 0)
+                {
+                    tran.Rollback();
+                    return false;
+                }
+                else
+                    tran.Commit();
+                    conn.Close();
+                    return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+
+        }
+        
+    }
 }

@@ -1,0 +1,170 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://code.jquery.com/jquery-3.6.3.slim.js" integrity="sha256-DKU1CmJ8kBuEwumaLuh9Tl/6ZB6jzGOBV/5YpNE2BWc=" crossorigin="anonymous"></script>
+<!-- Render Body <Start> -->
+<!--begin::Entry-->
+<div class="container mt-5">
+
+    <!--begin::Card-->
+    <div class="card card-custom">
+        <div class="card-header">
+            <div class="card-title">
+                <span class="card-icon">
+                    <i class="flaticon-notepad text-primary"></i>
+                </span>
+                <h3 class="card-label">Approvals Setup</h3>
+            </div>
+            @* <div class="card-toolbar">
+            <button class="bt btn-brand"  type="button">
+            Add
+            </button>
+
+            <!--end::Button-->
+            </div>*@
+            <div class="card-toolbar">
+                <div class="btn-group">
+                    @*<button type="button" id="btnAdd" class="btn btn-primary font-weight-bolder">
+                        + Add Record
+                    </button>*@
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <!--begin: Datatable-->
+            <table class="table table-striped- table-bordered table-hover table-checkable " id="AttTable">
+                <thead>
+                    <tr>
+                        <th></th>                        
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                       
+
+
+                    </tr>
+                </thead>
+            </table>
+            
+
+
+            <!--end: Datatable-->
+        </div>
+    </div>
+
+</div>
+<!--end::Entry-->
+<!-- Render Body <End> -->
+
+<script>
+    //$(document).on('click', '#btnAdd', function () {
+
+    //    //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
+    //    window.location.href = '/Delivery/DeliveryMaster';
+    //})
+    var datatable;
+    function generateTable() {
+
+        datatable = $('#AttTable').DataTable({
+            responsive: true,
+            searching: true,
+            ordering: false,
+         // order: [[2, 'asc']],
+            ordering: false,
+            "ajax": {
+
+                // url: '/HrAdmin/GetAttendanceList_MainLines?Date=' + $('#FilterDate').val(),
+                url: '/ApprovalsSetup/GetPagesApprovals',
+            },
+
+            layout: {
+                scroll: false, // enable/disable datatable scroll both horizontal and vertical when needed.
+                // height: 450, // datatable's body's fixed height
+                footer: false, // display/hide footer
+            },
+
+            // column sorting
+            sortable: true,
+
+            pagination: true,
+            destroy: true,
+            //   async: false,
+            search: {
+                input: $('#generalSearch'),
+            },
+            columns: [
+                 
+                {
+                    data: 'serialNo', title: '#',
+
+                }, {
+                    data: 'pageName', title: 'Page Name'
+
+                }, {
+
+                    
+                    data: "approve", 'title': 'Manage Approvals', render: function (data, type, row) {
+
+
+
+                        return GetSelectList(row.approvalTypes, data);
+
+
+                    }
+                }, {
+                    data: "serialNo", 'title': 'Action', render: function (data, type, row) {
+
+                        var html = '<a guid=' + data + ' id="btnSaveApprovalType" class="btn btn-success btn-sm mx-3">';
+                        html += '<i class="fas fa-save"></i>';
+                        html += ' Save</a>';
+                        return html;
+
+                    }
+                },],
+        });
+
+    }
+
+    $(document).ready(function () {
+
+        generateTable();
+    });
+
+    function GetSelectList(ApprovalTypes,SelectedValue) 
+    {
+        
+        let selectObj = "<select class='form-control'>";
+        console.log(SelectedValue);
+        $.each(ApprovalTypes, function () {   
+            if (this.value == SelectedValue)
+                selectObj += " <option value=" + this.value + " selected>" + this.text + "</option>";
+            else
+                selectObj += " <option value=" + this.value + ">" + this.text + "</option>";
+        })
+        selectObj += "</select>";
+        return selectObj;
+    }
+    $(document).on('click', '#btnSaveApprovalType', function (e) {
+
+        var LookTable = $('#AttTable').DataTable();
+        var selectedRow = $(this).closest('tr');
+        var rowData = LookTable.row(selectedRow).data();
+        let approval = $(selectedRow).find("select");
+        approval = $(approval).val();
+        
+        $.post("ApprovalsSetup/UpdateApprovalStatus", { id: $(this).attr('guid'), approvalType : approval }, function (data) {
+            if (data.success == true) 
+            {
+                toastr.success(data.message);
+                datatable.ajax.reload();
+            }
+            else
+                toastr.error(data.message);
+
+        })
+
+    });
+</script>
