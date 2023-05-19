@@ -35,6 +35,8 @@ namespace iSOL_Enterprise.Dal.Purchase
                     models.Guid = rdr["Guid"].ToString();
                     models.CardName = rdr["CardName"].ToString();
                     models.IsPosted = rdr["isPosted"].ToString(); models.IsEdited = rdr["is_Edited"].ToString();
+                    models.isApproved = rdr["isApproved"].ToBool();
+                    models.apprSeen = rdr["apprSeen"].ToBool();
                     list.Add(models);
                 }
             }
@@ -285,7 +287,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                 var model = JsonConvert.DeserializeObject<dynamic>(formData);
                 string DocType = model.ListItems == null ? "S" : "I";
 
-
+                CommonDal dal = new CommonDal();
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
                 conn.Open();
                 SqlTransaction tran = conn.BeginTransaction();
@@ -294,6 +296,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                 {
                     int Id = CommonDal.getPrimaryKey(tran, "OPOR");
                     string DocNum = SqlHelper.getUpdatedDocumentNumberOnLoad(tran, "OPOR", "PO");
+                    string Guid = CommonDal.generatedGuid();
                     if (model.HeaderData != null)
                     {
 
@@ -305,12 +308,34 @@ namespace iSOL_Enterprise.Dal.Purchase
                         model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
                         model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
                         model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
+
+                        int ObjectCode = 22;
+                        int isApproved = ObjectCode.GetApprovalStatus(tran);
+                        #region Insert in Approval Table
+
+                        if (isApproved == 0)
+                        {
+                            ApprovalModel approvalModel = new()
+                            {
+                                Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                                ObjectCode = ObjectCode,
+                                DocEntry = Id,
+                                DocNum = DocNum,
+                                Guid = Guid
+
+                            };
+                            bool response = dal.AddApproval(tran, approvalModel);
+                            if (!response)
+                                return false;
+                        }
+
+                        #endregion
                         string HeadQuery = @"insert into OPOR(Id,Series,DocType,Guid,CardCode,DocNum,Segment,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum,DocTotal , SlpCode,DiscPrcnt,
-                                            PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo,SaleOrderNo, Comments) 
+                                            PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo,SaleOrderNo,isApproved, Comments) 
                                            values(" + Id + ","
                                                  + model.HeaderData.Series + ",'"
                                                 + DocType + "','"
-                                                + CommonDal.generatedGuid() + "','"
+                                                + Guid + "','"
                                                 + model.HeaderData.CardCode + "','"
                                                 + DocNum + "','"
                                                 + model.HeaderData.Segment + "','"
@@ -330,7 +355,8 @@ namespace iSOL_Enterprise.Dal.Purchase
                                                 + model.HeaderData.ProductionOrderNo + ","
                                                 + model.HeaderData.ChallanNo + ","
                                                 + model.HeaderData.DONo + ","
-                                                + model.HeaderData.SaleOrderNo + ",'"
+                                                + model.HeaderData.SaleOrderNo + ","
+                                                + isApproved + ",'"
                                                 + model.FooterData.Comments + "')";
 
 
@@ -363,7 +389,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                     }
                     if (model.ListItems != null)
                     {
-                        CommonDal dal = new CommonDal();
+                        
                         int LineNo = 0;
                         foreach (var item in model.ListItems)
                         {
@@ -623,6 +649,27 @@ namespace iSOL_Enterprise.Dal.Purchase
                             model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
                             model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
 
+                            int ObjectCode = 22;
+                            int isApproved = ObjectCode.GetApprovalStatus(tran);
+                            #region Insert in Approval Table
+
+                            if (isApproved == 0)
+                            {
+                                ApprovalModel approvalModel = new()
+                                {
+                                    Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                                    ObjectCode = ObjectCode,
+                                    DocEntry = model.ID,
+                                    DocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select DocNum from OPOR where id=" + model.ID).ToString(),
+                                    Guid = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select GUID from OPOR where id=" + model.ID).ToString()
+                                };
+                                bool response = dal.AddApproval(tran, approvalModel);
+                                if (!response)
+                                    return false;
+                            }
+
+                            #endregion
+
                             string HeadQuery = @" Update OPOR set 
                                                           DocType = '" + DocType + "'" +
                                                        ",Segment = '" + model.HeaderData.Segment + "'" +
@@ -643,6 +690,8 @@ namespace iSOL_Enterprise.Dal.Purchase
                                                         ",ChallanNo = " + model.HeaderData.ChallanNo + "" +
                                                         ",DONo = " + model.HeaderData.DONo + "" +
                                                         ",SaleOrderNo = " + model.HeaderData.SaleOrderNo + "" +
+                                                        ",isApproved = " + isApproved + "" +
+                                                        ",apprSeen = " + 0 + "" +
                                                        ",Comments = '" + model.FooterData.Comments + "' " +
                                                        "WHERE Id = '" + model.ID + "'";
 

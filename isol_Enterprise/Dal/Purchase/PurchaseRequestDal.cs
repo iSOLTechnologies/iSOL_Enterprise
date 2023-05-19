@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using SqlHelperExtensions;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection;
 using System.Xml.Linq;
 
 namespace iSOL_Enterprise.Dal.Purchase
@@ -46,6 +47,8 @@ namespace iSOL_Enterprise.Dal.Purchase
                             DocNum = rdr["DocNum"].ToString(),
                             DocDate = rdr["DocDueDate"].ToDateTime(),
                             CardName = rdr["Requester"].ToString(),
+                            isApproved = rdr["isApproved"].ToBool(),
+                            apprSeen = rdr["apprSeen"].ToBool()
                         }
                         );
                 }
@@ -151,9 +154,38 @@ namespace iSOL_Enterprise.Dal.Purchase
                 {
                     List<SqlParameter> param = new List<SqlParameter>();
                     int Id = CommonDal.getPrimaryKey(tran, "OPRQ");
-
+                    string DocNum = model.HeaderData.DocNum;
+                    string Guid = CommonDal.generatedGuid();
                     param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
-                    param.Add(cdal.GetParameter("@Guid", CommonDal.generatedGuid(), typeof(string)));
+                    param.Add(cdal.GetParameter("@Guid", Guid, typeof(string)));
+
+
+                    int ObjectCode = 1470000113;
+                    int isApproved = ObjectCode.GetApprovalStatus(tran);
+                    #region Insert in Approval Table
+
+                    if (isApproved == 0)
+                    {
+                        ApprovalModel approvalModel = new()
+                        {
+                            Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                            ObjectCode = ObjectCode,
+                            DocEntry = Id,
+                            DocNum = DocNum,
+                            Guid = Guid
+
+                        };
+                        bool resp = cdal.AddApproval(tran, approvalModel);
+                        if (!resp)
+                        {
+                            response.isSuccess = false;
+                            response.Message = "An Error Occured";
+                            return response;
+                        }
+                            
+                    }
+
+                    #endregion
 
                     #region BackendCheck For Series
                     if (MySeries != -1)
@@ -170,8 +202,8 @@ namespace iSOL_Enterprise.Dal.Purchase
                     }
                     #endregion
 
-                    string HeadQuery = @"insert into OPRQ (Id,Guid,DocType,ReqType,Requester,MySeries,DocNum,Series,ReqName,Branch,Department,DocDate,DocDueDate,Notify,Email,TaxDate,ReqDate,OwnerCode,Comments,DocTotal) 
-                                        values(@Id,@Guid,@DocType,@ReqType,@Requester,@MySeries,@DocNum,@Series,@ReqName,@Branch,@Department,@DocDate,@DocDueDate,@Notify,@Email,@TaxDate,@ReqDate,@OwnerCode,@Comments,@DocTotal)";
+                    string HeadQuery = @"insert into OPRQ (Id,Guid,DocType,ReqType,Requester,MySeries,DocNum,Series,ReqName,Branch,Department,DocDate,DocDueDate,Notify,Email,TaxDate,ReqDate,OwnerCode,Comments,DocTotal,isApproved) 
+                                        values(@Id,@Guid,@DocType,@ReqType,@Requester,@MySeries,@DocNum,@Series,@ReqName,@Branch,@Department,@DocDate,@DocDueDate,@Notify,@Email,@TaxDate,@ReqDate,@OwnerCode,@Comments,@DocTotal,@isApproved)";
 
 
 
@@ -206,6 +238,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                     param.Add(cdal.GetParameter("@OwnerCode", model.FooterData.OwnerCode, typeof(string)));
                     param.Add(cdal.GetParameter("@Comments", model.FooterData.Comments, typeof(string)));
                     param.Add(cdal.GetParameter("@DocTotal", model.FooterData.Total, typeof(string)));
+                    param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
                     #endregion
 
 
@@ -386,8 +419,34 @@ namespace iSOL_Enterprise.Dal.Purchase
                     List<SqlParameter> param = new List<SqlParameter>();
 
                     param.Add(cdal.GetParameter("@Id", model.HeaderData.MyId, typeof(int)));
+                    int ObjectCode = 1470000113;
+                    int isApproved = ObjectCode.GetApprovalStatus(tran);
+                    #region Insert in Approval Table
 
-                    string HeadQuery = @"Update OPRQ set ReqType = @ReqType,Requester = @Requester,ReqName = @ReqName,Branch = @Branch,Department = @Department,DocDate = @DocDate,DocDueDate = @DocDueDate,Notify = @Notify,Email = @Email,TaxDate = @TaxDate,ReqDate = @ReqDate,OwnerCode = @OwnerCode,Comments = @Comments,DocTotal = @DocTotal Where Id = @Id";
+                    if (isApproved == 0)
+                    {
+                        ApprovalModel approvalModel = new()
+                        {
+                            Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                            ObjectCode = ObjectCode,
+                            DocEntry = model.ID,
+                            DocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select DocNum from OPRQ where id=" + model.ID).ToString(),
+                            Guid = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select GUID from OPRQ where id=" + model.ID).ToString()
+                        };
+                        bool resp = cdal.AddApproval(tran, approvalModel);
+                        if (!resp)
+                        {
+                            response.isSuccess = false;
+                            response.Message = "An Error Occured";
+                            return response;
+                        }
+                            
+                    }
+
+                    #endregion
+
+                    string HeadQuery = @"Update OPRQ set ReqType = @ReqType,Requester = @Requester,ReqName = @ReqName,Branch = @Branch,Department = @Department,DocDate = @DocDate,DocDueDate = @DocDueDate,Notify = @Notify,
+                                        Email = @Email,TaxDate = @TaxDate,ReqDate = @ReqDate,OwnerCode = @OwnerCode,Comments = @Comments,DocTotal = @DocTotal,isApproved =@isApproved,apprSeen =0 Where Id = @Id";
 
 
                     #region SqlParameters
@@ -418,6 +477,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                     param.Add(cdal.GetParameter("@OwnerCode", model.FooterData.OwnerCode, typeof(string)));
                     param.Add(cdal.GetParameter("@Comments", model.FooterData.Comments, typeof(string)));
                     param.Add(cdal.GetParameter("@DocTotal", model.FooterData.Total, typeof(string)));
+                    param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
                     #endregion
 
 
