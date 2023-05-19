@@ -39,6 +39,9 @@
                 <thead>
                     <tr>
                         <th></th>                        
+                        <th></th>                        
+                        <th></th>                        
+                        <th></th>                        
                         <th></th>
                         <th></th>
                         <th></th>
@@ -101,6 +104,35 @@
                 {
                     data: 'id', title: '#',
 
+                }, {
+
+                     title : 'Subject' , data: function (row, type, set) {
+
+                        return "<b>Request for Approving Document Generation</b>";
+
+                    }
+                }, {
+                    data: 'date', title: 'Date', render: function (data, type, row) {
+                        if (data != undefined && data != '') {
+
+                            return moment(data).format('DD-MM-YYYY')
+
+                        } else {
+                            // return data;
+                            return '';
+                        }
+                    }
+                }, {
+                    data: 'date', title: 'Time', render: function (data, type, row) {
+                        if (data != undefined && data != '') {
+
+                            return moment(data).format('HH:mm:ss')
+
+                        } else {
+                            // return data;
+                            return '';
+                        }
+                    }
                 }, {
                     data: 'pageName', title: 'Page Name'
 
