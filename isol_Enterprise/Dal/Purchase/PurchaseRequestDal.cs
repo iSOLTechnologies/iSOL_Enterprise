@@ -190,7 +190,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                     #region BackendCheck For Series
                     if (MySeries != -1)
                     {
-                        string? DocNum = SqlHelper.MySeriesUpdate_GetItemCode(MySeries, tran);
+                         DocNum = SqlHelper.MySeriesUpdate_GetItemCode(MySeries, tran);
                         if (DocNum == null)
                         {
                             tran.Rollback();
