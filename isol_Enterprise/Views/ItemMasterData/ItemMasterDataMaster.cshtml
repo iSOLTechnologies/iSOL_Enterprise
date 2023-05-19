@@ -366,7 +366,7 @@
                                                                                 class="error invalid-feedback">This
                                                                                 field is required.</div>
                                                                             <input type="number" id="AvgPrice"
-                                                                                class="col-md-5 form-control form-control-sm">
+                                                                                class="col-md-5 form-control form-control-sm NotReq">
                                                                         </div>
                                                                     </div>
                                                                      
@@ -742,6 +742,7 @@
 
                                                                 <div class="tab-pane scrollbar scrollbar"
                                                                      id="kt_tabs_InventoryData" role="tabpanel" style="overflow:auto">
+                                                                     <div class="container-fluid" id="kt_tabs_InventoryData_Header">
                                                                     <div class="form-group mt-5 row justify-content-between">
 
                                                                         <div class="col-md-8 d-flex">
@@ -769,8 +770,6 @@
                                                                         </div>
                                                                     </div>
 
-
-
                                                                     <div class="form-group row justify-content-between">
 
                                                                         <div class="col-md-8">
@@ -797,6 +796,7 @@
 
                                                                         </div>
                                                                     </div>
+                                                                   
                                                                     <div class="form-group row justify-content-between">
 
                                                                         <div class="col-md-8 d-flex">
@@ -818,6 +818,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                    </div>
                                                                     <div class="" id="kt_tabs_inventoryData_Warehouses">
                                                                         <table id="Warehouse_Table">
                                                                             <thead class="ScrollThead2">
@@ -837,7 +838,7 @@
                                                                                     <td>
                                                                                         <div class="input-group">
                                                                                             <input id="WhsCode" class="form-control form-control-sm" readonly>
-                                                                                            <div id="WhsCodeSearch" class="input-group-append">
+                                                                                            <div id="WhsCodeSearch" class="input-group-append ">
                                                                                                 <span class="input-group-text">
                                                                                                     <i class="la la-search"></i>
                                                                                                 </span>
@@ -2445,7 +2446,7 @@
             }
             if (isInventryItem && isValid) 
             {
-                  isValid =  ValidateData("kt_tabs_InventoryData");
+                  isValid =  ValidateData("kt_tabs_InventoryData_Header");
                   if(!isValid)
                   {
                     $("#btnTabInventoryData").trigger('click');
@@ -2454,9 +2455,10 @@
             }
             if (isInventryItem && isManageInvByWareHouse && isValid) 
             {
-                  isValid =  ValidateListData("ListParameters itm");
+                  isValid =  ValidateListData("ListParameters tr");
                   if(!isValid)
                   {
+                    $("#btnTabInventoryData").trigger('click');
                     $("#btnSaveData").attr('disabled', false);
                   }
             }    
@@ -2507,7 +2509,7 @@
             Tab_General : getJsonObj("kt_tabs_General"),
             Tab_PurchasingData : isPurchaseItem == true ? getJsonObj("kt_tabs_PurchasingData") : null, 
             Tab_SalesData :  isSalesItem == true ? getJsonObj("kt_tabs_SalesData") : null,
-            Tab_InventoryData : isInventryItem == true ? getJsonObj("kt_tabs_InventoryData") : null,
+            Tab_InventoryData: isInventryItem == true ? getJsonObj("kt_tabs_InventoryData_Header") : null,
             Tab_InventoryData_WareHouseList: isInventryItem == true && isManageInvByWareHouse == true ? getJsonObjList("ListParameters tr") : null,
             Tab_PlanningData : getJsonObj("kt_tabs_PlanningData"),
             Tab_ProductionData : getJsonObj("kt_tabs_ProductionData"),
