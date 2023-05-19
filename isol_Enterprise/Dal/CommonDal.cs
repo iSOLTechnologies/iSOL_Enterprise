@@ -580,8 +580,8 @@ where s.Status=1 and p.Guid=@Guid";
                 case 13:
                     table = "OINV"; //A/R Invoice
                     break;
-                case 14: //AR Credit Memo
-                    table = "ORIN";
+                case 14: 
+                    table = "ORIN"; //AR Credit Memo
                     break;
 
                 #endregion
