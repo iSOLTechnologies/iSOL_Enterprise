@@ -663,7 +663,7 @@ where s.Status=1 and p.Guid=@Guid";
             return table;
         }
 
-        public string GetRowTable(int Basetype)
+        public string GetRowTable(int? Basetype )
         {
             string table = "";
             switch (Basetype)
