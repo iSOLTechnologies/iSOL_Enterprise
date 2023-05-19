@@ -36,6 +36,8 @@ namespace iSOL_Enterprise.Dal.Sale
                     models.Guid = rdr["Guid"].ToString();
                     models.CardName = rdr["CardName"].ToString();
                     models.IsPosted = rdr["isPosted"].ToString(); models.IsEdited = rdr["is_Edited"].ToString();
+                    models.isApproved = rdr["isApproved"].ToBool();
+                    models.apprSeen = rdr["apprSeen"].ToBool();
                     list.Add(models);
                 }
             }
@@ -156,6 +158,8 @@ namespace iSOL_Enterprise.Dal.Sale
 
                     int Id = CommonDal.getPrimaryKey(tran, "ORIN");
                     string DocNum = SqlHelper.getUpdatedDocumentNumberOnLoad(tran, "ORIN", "ARCM");
+                    string Guid = CommonDal.generatedGuid();
+
                     if (model.HeaderData != null)
                     {
                         model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.PurchaseType);
@@ -168,12 +172,34 @@ namespace iSOL_Enterprise.Dal.Sale
                         model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
                         model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
 
+                        int ObjectCode = 14;
+                        int isApproved = ObjectCode.GetApprovalStatus(tran);
+                        #region Insert in Approval Table
+
+                        if (isApproved == 0)
+                        {
+                            ApprovalModel approvalModel = new()
+                            {
+                                Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                                ObjectCode = ObjectCode,
+                                DocEntry = Id,
+                                DocNum = DocNum,
+                                Guid = Guid
+
+                            };
+                            bool response = dal.AddApproval(tran, approvalModel);
+                            if (!response)
+                                return false;
+                        }
+
+                        #endregion
+
                         string HeadQuery = @"insert into ORIN(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum ,DocTotal, SlpCode ,DiscPrcnt,
-                                            PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,ContainerNo,ManualGatePassNo,SaleOrderNo, Comments) 
+                                            PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,ContainerNo,ManualGatePassNo,SaleOrderNo,isApproved, Comments) 
                                            values(" + Id + ","
                                                 + model.HeaderData.Series + ",'"
-                                               + DocType + "','"
-                                           + CommonDal.generatedGuid() + "','"
+                                                + DocType + "','"
+                                                + Guid + "','"
                                                 + model.HeaderData.CardCode + "','"
                                                 + DocNum + "','"
                                                 + model.HeaderData.CardName + "','"
@@ -193,7 +219,8 @@ namespace iSOL_Enterprise.Dal.Sale
                                                 + model.HeaderData.ChallanNo + ","
                                                 + model.HeaderData.ContainerNo + ","
                                                 + model.HeaderData.ManualGatePassNo + ","
-                                                + model.HeaderData.SaleOrderNo + ",'"
+                                                + model.HeaderData.SaleOrderNo + ","
+                                                + isApproved + ",'"
                                                 + model.FooterData.Comments + "')";
 
 
@@ -464,6 +491,28 @@ namespace iSOL_Enterprise.Dal.Sale
                             model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
                             model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
                             model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
+
+                            int ObjectCode = 14;
+                            int isApproved = ObjectCode.GetApprovalStatus(tran);
+                            #region Insert in Approval Table
+
+                            if (isApproved == 0)
+                            {
+                                ApprovalModel approvalModel = new()
+                                {
+                                    Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                                    ObjectCode = ObjectCode,
+                                    DocEntry = model.ID,
+                                    DocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select DocNum from ORIN where id=" + model.ID).ToString(),
+                                    Guid = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select GUID from ORIN where id=" + model.ID).ToString()
+                                };
+                                bool response = dal.AddApproval(tran, approvalModel);
+                                if (!response)
+                                    return false;
+                            }
+
+                            #endregion
+
                             string HeadQuery = @" Update ORIN set 
                                                           DocType = '" + DocType + "'" +
                                                        ",CardName = '" + model.HeaderData.CardName + "'" +
@@ -484,6 +533,8 @@ namespace iSOL_Enterprise.Dal.Sale
                                                        ",ContainerNo = " + model.HeaderData.ContainerNo + "" +
                                                        ",ManualGatePassNo = " + model.HeaderData.ManualGatePassNo + "" +
                                                        ",SaleOrderNo = " + model.HeaderData.SaleOrderNo +
+                                                       ",isApproved = " + isApproved + "" +
+                                                       ",apprSeen = " + 0 + "" +
                                                        ",Comments = '" + model.FooterData.Comments + "' " +
                                                        "WHERE Id = '" + model.ID + "'";
 
