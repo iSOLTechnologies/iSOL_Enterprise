@@ -37,6 +37,7 @@ namespace iSOL_Enterprise.Dal.Sale
                     models.CardName = rdr["CardName"].ToString();
                     models.IsPosted = rdr["isPosted"].ToString(); models.IsEdited = rdr["is_Edited"].ToString();
                     models.isApproved = rdr["isApproved"].ToBool();
+                    models.apprSeen = rdr["apprSeen"].ToBool();
                     list.Add(models);
                 }
             }
@@ -330,6 +331,7 @@ namespace iSOL_Enterprise.Dal.Sale
                 {
                     int Id = CommonDal.getPrimaryKey(tran, "OQUT");
                     string DocNum = SqlHelper.getUpdatedDocumentNumberOnLoad(tran, "OQUT", "SQ");
+                    string Guid = CommonDal.generatedGuid();
                     if (model.HeaderData != null)
                     {
 
@@ -353,7 +355,9 @@ namespace iSOL_Enterprise.Dal.Sale
                             {
                                 Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
                                 ObjectCode = ObjectCode,
-                                DocId = Id
+                                DocEntry = Id,
+                                DocNum = DocNum,
+                                Guid = Guid
 
                             };
                             bool response =dal.AddApproval(tran,approvalModel);
@@ -368,7 +372,7 @@ namespace iSOL_Enterprise.Dal.Sale
                                            values(" + Id + ","
                                                 + model.HeaderData.Series + ",'"
                                                 + DocType + "','"
-                                                + CommonDal.generatedGuid() + "','"
+                                                + Guid + "','"
                                                 + model.HeaderData.CardCode + "','"
                                                 + DocNum + "','"
                                                 + model.HeaderData.CardName + "','"

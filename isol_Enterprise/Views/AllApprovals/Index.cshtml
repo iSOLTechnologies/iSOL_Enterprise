@@ -105,7 +105,7 @@
                     data: 'pageName', title: 'Page Name'
 
                 },{
-                    data: 'docId', title: 'DocNum'
+                    data: 'docNum', title: 'DocNum'
 
                 },{
                     data: 'requestedBy', title: 'Requested By'
@@ -116,24 +116,25 @@
 
                         if(row.seen == 0)
                         {
-                            let html = `<div class="d-flex justify-content-between">
-                                         <button class="btn btn-sm btn-success"><i class="fas fa-check"></i> Accept</button>
-                                         <button class="btn btn-sm btn-danger"><i class="fas fa-times"></i> Reject</button>
+                            let html = `<div class="d-flex justify-content-around p-2">
+                                                <button class="btn btn-sm btn-success" id="btnAccept" onclick=RejectAcceptDoc(`+ row.docEntry + `,` + row.objectCode + `,` + 1 + `,` + row.id + `)><i class="fas fa-check"></i> Accept</button>
+                                                <button class="btn btn-sm btn-warning"  id="btnReject" onclick=RejectAcceptDoc(`+ row.docEntry + `,` + row.objectCode + `,` + 0 + `,` + row.id + `)><i class="fas fa-times"></i> Reject</button>
                                         </div>`;
                              return html;
                         }
                         else if(data == 0)
                         {
-                            let html = `<span class="label label-lg label-light-danger label-inline">Rejected</span>`;
+                            let html = `<div class="d-flex justify-content-center p-2"><span class="label label-lg label-light-warning label-inline">Rejected</span></div>`;
                             return html;
                         }
                         else if (data == 1) 
                         {
-                            let html = `<span class="label label-lg label-light-success label-inline">Accepted</span>`;
+                            let html = `<div class="d-flex justify-content-center p-2"><span class="label label-lg label-light-success label-inline">Accepted</span></div>`;
                             return html;
                         }
                         
-                    }
+                    },
+                    "width": "200px"
                 }, ],
         });
 
@@ -144,38 +145,54 @@
         generateTable();
     });
 
-    function GetSelectList(ApprovalTypes,SelectedValue) 
+
+    function RejectAcceptDoc(DocEntry,ObjectType,Status,id)
     {
-        
-        let selectObj = "<select class='form-control'>";
-        console.log(SelectedValue);
-        $.each(ApprovalTypes, function () {   
-            if (this.value == SelectedValue)
-                selectObj += " <option value=" + this.value + " selected>" + this.text + "</option>";
-            else
-                selectObj += " <option value=" + this.value + ">" + this.text + "</option>";
-        })
-        selectObj += "</select>";
-        return selectObj;
-    }
-    $(document).on('click', '#btnSaveApprovalType', function (e) {
-
-        var LookTable = $('#AttTable').DataTable();
-        var selectedRow = $(this).closest('tr');
-        var rowData = LookTable.row(selectedRow).data();
-        let approval = $(selectedRow).find("select");
-        approval = $(approval).val();
-        
-        $.post("ApprovalsSetup/UpdateApprovalStatus", { id: $(this).attr('guid'), approvalType : approval }, function (data) {
-            if (data.success == true) 
-            {
-                toastr.success(data.message);
-                datatable.ajax.reload();
+        $.ajax({
+            url: 'AllApprovals/RejectAcceptDoc',
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            data: { DocEntry: DocEntry, ObjectType: ObjectType, Status: Status ,id : id},
+            success: function (response) {
+                if (response.isSuccess) {
+                    if(status == 1)
+                        toastr.success(response.message);
+                    if(status == 0)
+                        toastr.warning(response.message);
+                        datatable.ajax.reload();
+                }
+                else 
+                {
+                    toastr.error(response.message);
+                }
+              
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
             }
-            else
-                toastr.error(data.message);
+        });
 
-        })
+    }
+    
+    //$(document).on('click', '#btnAccept', function (e) {
 
-    });
+    //    var LookTable = $('#AttTable').DataTable();
+    //    var selectedRow = $(this).closest('tr');
+    //    var rowData = LookTable.row(selectedRow).data();
+    //    let approval = $(selectedRow).find("select");
+    //    approval = $(approval).val();
+        
+    //    $.post("AllApprovals/RejectAcceptDoc", { id: $(this).attr('guid'), approvalType : approval }, function (data) {
+    //        if (data.success == true) 
+    //        {
+    //            toastr.success(data.message);
+    //            datatable.ajax.reload();
+    //        }
+    //        else
+    //            toastr.error(data.message);
+
+    //    })
+
+    //});
 </script>

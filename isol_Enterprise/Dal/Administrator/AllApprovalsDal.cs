@@ -2,6 +2,7 @@
 using iSOL_Enterprise.Models;
 using SqlHelperExtensions;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace iSOL_Enterprise.Dal.Administrator
 {
@@ -10,7 +11,7 @@ namespace iSOL_Enterprise.Dal.Administrator
 
         public List<ApprovalModel> GetAllApprovals()
         {
-            string GetQuery = @"select da.Id,da.DocId,da.ObjectCode,da.RequestedBy,da.Status,da.Date,Pages.PageName,da.seen as Seen from tbl_DocumentsApprovals da
+            string GetQuery = @"select da.Id,da.DocEntry,da.ObjectCode,da.RequestedBy,da.DocNum,da.Status,da.Guid,da.Date,Pages.PageName,da.seen as Seen from tbl_DocumentsApprovals da
                                 inner join Pages on da.ObjectCode = Pages.ObjectCode";
 
 
@@ -24,7 +25,9 @@ namespace iSOL_Enterprise.Dal.Administrator
                     {
                         Id = rdr["Id"].ToInt(),
                         ObjectCode = rdr["ObjectCode"].ToInt(),
-                        DocId = rdr["Id"].ToInt(),
+                        DocEntry = rdr["DocEntry"].ToInt(),
+                        DocNum = rdr["DocNum"].ToString(),
+                        Guid = rdr["Guid"].ToString(),
                         RequestedBy = rdr["RequestedBy"].ToString(),
                         PageName = rdr["PageName"].ToString(),
                         Date = rdr["Date"].ToDateTime(),
@@ -37,6 +40,54 @@ namespace iSOL_Enterprise.Dal.Administrator
                 }
             }
             return list;
+        }
+        public ResponseModels RejectAcceptDoc(int DocEntry, int ObjectType, int Status , int id)
+         {
+            ResponseModels response = new ResponseModels();
+            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+            conn.Open();
+            SqlTransaction tran = conn.BeginTransaction();
+            CommonDal dal = new CommonDal();
+            try
+            {
+
+                int res = 0;
+                #region Update Table Document Approvals
+                string Query = @"update tbl_DocumentsApprovals set seen = 1 , Status = "+Status + " where id="+id;
+                res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, Query).ToInt();
+                if (res <= 0)
+                {
+                    tran.Rollback();
+                    response.isSuccess = false;
+                    response.isError = true;
+                    response.Message = "An Error Occured !";
+                    
+                    return response;
+                }
+                string DocTabe = dal.GetMasterTable(ObjectType);
+                string UpdateDocStQuery = @"update " + DocTabe + " set isApproved =" + Status + ", apprSeen = 1 where id = " + DocEntry;
+                res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateDocStQuery).ToInt();
+                if (res <= 0)
+                {
+                    tran.Rollback();
+                    response.isSuccess = false;
+                    response.isError = true;
+                    response.Message = "An Error Occured !";
+                    
+                    return response;
+                }
+
+                #endregion
+                response.isSuccess = true;
+                response.Message = Status == 1 ? "Document Accepted Successfully !" : "Document Rejected Successfully !";
+                tran.Commit();
+                return response;
+            }
+            catch (Exception)
+            {
+                tran.Rollback();
+                throw;
+            }
         }
     }
 }

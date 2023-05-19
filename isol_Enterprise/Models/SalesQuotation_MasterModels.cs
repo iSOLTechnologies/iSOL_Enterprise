@@ -21,6 +21,7 @@
         public decimal? Quanity { get; set; }
         public decimal? PlannedQty { get; set; }
         public bool isApproved { get; set; }
+        public bool apprSeen { get; set; }
         public List<SalesQuotation_DetailsModels> ListSalesQuotationDetails { get; set; }
     }
 }

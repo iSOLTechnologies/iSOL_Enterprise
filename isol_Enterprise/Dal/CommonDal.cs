@@ -1594,8 +1594,8 @@ where s.Status=1 and p.Guid=@Guid";
             try
             {
                 
-                string TabHeader = "Id,ObjectCode,DocId";
-                string TabHeaderP = "@Id,@ObjectCode,@DocId";
+                string TabHeader = "Id,ObjectCode,DocEntry,DocNum,Guid";
+                string TabHeaderP = "@Id,@ObjectCode,@DocEntry,@DocNum,@Guid";
 
                 string HeadQuery = @"insert into tbl_DocumentsApprovals (" + TabHeader + ") " +
                                     "values(" + TabHeaderP + ")";
@@ -1605,7 +1605,9 @@ where s.Status=1 and p.Guid=@Guid";
                 #region Header data
                 param.Add(GetParameter("@Id", model.Id, typeof(int)));
                 param.Add(GetParameter("@ObjectCode", model.ObjectCode, typeof(int)));
-                param.Add(GetParameter("@DocId", model.DocId, typeof(int)));               
+                param.Add(GetParameter("@DocEntry", model.DocEntry, typeof(int)));               
+                param.Add(GetParameter("@DocNum", model.DocNum, typeof(string)));               
+                param.Add(GetParameter("@Guid", model.Guid, typeof(string)));               
                 #endregion
 
                 int res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery, param.ToArray()).ToInt();

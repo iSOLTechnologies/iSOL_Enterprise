@@ -29,5 +29,22 @@ namespace iSOL_Enterprise.Controllers.administrator
 
             return Json(response);
         }
+
+        [HttpPost]
+        public IActionResult RejectAcceptDoc(int DocEntry, int ObjectType,int Status, int id)
+        {
+            try
+            {
+                AllApprovalsDal dal = new AllApprovalsDal();
+                ResponseModels response = dal.RejectAcceptDoc(DocEntry, ObjectType, Status , id);                
+                return Json(response);
+
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "An error Occured !!" });
+                throw;
+            }
+        }
     }
 }
