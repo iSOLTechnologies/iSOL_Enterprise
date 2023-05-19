@@ -11,8 +11,8 @@ namespace iSOL_Enterprise.Dal.Administrator
 
         public List<ApprovalModel> GetAllApprovals()
         {
-            string GetQuery = @"select da.Id,da.DocEntry,da.ObjectCode,da.RequestedBy,da.DocNum,da.Status,da.Guid,da.Date,Pages.PageName,da.seen as Seen from tbl_DocumentsApprovals da
-                                inner join Pages on da.ObjectCode = Pages.ObjectCode";
+            string GetQuery = @"select Top(1000) da.Id,da.DocEntry,da.ObjectCode,da.RequestedBy,da.DocNum,da.Status,da.Guid,da.Date,Pages.PageName,da.seen as Seen from tbl_DocumentsApprovals da
+                                inner join Pages on da.ObjectCode = Pages.ObjectCode order by da.Id desc";
 
 
             List<ApprovalModel> list = new List<ApprovalModel>();

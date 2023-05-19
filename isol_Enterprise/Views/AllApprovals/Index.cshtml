@@ -137,7 +137,13 @@
                     "width": "200px"
                 }, ],
         });
+        datatable.on('order.dt search.dt', function () {
+            let i = 1;
 
+            datatable.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data("<span><b>" + (i++) + "</b></span>");
+            });
+        }).draw();
     }
 
     $(document).ready(function () {
@@ -156,9 +162,9 @@
             data: { DocEntry: DocEntry, ObjectType: ObjectType, Status: Status ,id : id},
             success: function (response) {
                 if (response.isSuccess) {
-                    if(status == 1)
+                    if (Status == 1)
                         toastr.success(response.message);
-                    if(status == 0)
+                    if (Status == 0)
                         toastr.warning(response.message);
                         datatable.ajax.reload();
                 }

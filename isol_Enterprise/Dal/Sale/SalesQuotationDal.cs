@@ -593,7 +593,7 @@ namespace iSOL_Enterprise.Dal.Sale
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
                 conn.Open();
                 SqlTransaction tran = conn.BeginTransaction();
-
+                CommonDal dal = new CommonDal();
                 //string GetDocNum = CommonDal.getDocType(tran, "OQUT", model.ID.ToString());
                 int res1 = 0;
                 try
@@ -648,6 +648,28 @@ namespace iSOL_Enterprise.Dal.Sale
                             model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
                             model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
                             model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
+
+                            int ObjectCode = 23;
+                            int isApproved = ObjectCode.GetApprovalStatus(tran);
+                            #region Insert in Approval Table
+
+                            if (isApproved == 0)
+                            {
+                                ApprovalModel approvalModel = new()
+                                {
+                                    Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                                    ObjectCode = ObjectCode,
+                                    DocEntry = model.ID,
+                                    DocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select DocNum from OQUT where id="+ model.ID).ToString(),
+                                    Guid = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select GUID from OQUT where id=" + model.ID).ToString()
+                                };
+                                bool response = dal.AddApproval(tran, approvalModel);
+                                if (!response)
+                                    return false;
+                            }
+
+                            #endregion
+
                             string HeadQuery = @" Update OQUT set 
                                                           DocType = '" + DocType + "'" +
                                                         ",CardName = '" + model.HeaderData.CardName + "'" +
@@ -668,6 +690,8 @@ namespace iSOL_Enterprise.Dal.Sale
                                                         ",ContainerNo = " + model.HeaderData.ContainerNo + "" +
                                                         ",ManualGatePassNo = " + model.HeaderData.ManualGatePassNo + "" +
                                                         ",SaleOrderNo = " + model.HeaderData.SaleOrderNo + "" +
+                                                        ",isApproved = " + isApproved + "" +
+                                                        ",apprSeen = " + 0 + "" +
                                                         ",Comments = '" + model.FooterData.Comments + "' " +
                                                         "WHERE Id = '" + model.ID + "'";
 
