@@ -704,7 +704,7 @@ namespace SAP_MVC_DIAPI.BLC
                             while (rdr.Read())
                             {
                                 isOld = item.GetByKey(rdr["Sap_ItemCode"].ToString());
-                                
+                                item.ItemCode = rdr["ItemCode"].ToString();
                                 item.ItemName = rdr["ItemName"].ToString();
                                 item.Series = rdr["Series"].ToInt();
                                 item.InventoryItem = rdr["InvntItem"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
@@ -839,6 +839,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 
                                 item.UserFields.Fields.Item("U_WBS_ItemNo").Value = ID;
                                 //Set warehouse management properties
+                                SAPbobsCOM.ItemWarehouseInfo warehouseInfo = item.WhsInfo;
 
                                 if (rdr["ByWh"].ToString() == "Y")
                                 {
@@ -848,13 +849,12 @@ namespace SAP_MVC_DIAPI.BLC
                                     foreach (var warehouse in CommonDal.GetWareHouseList(rdr["ItemCode"].ToString()))
                                     {
 
-                                        item.WhsInfo.WarehouseCode = warehouse.whscode;
-
-                                        item.WhsInfo.MinimalStock = warehouse.MinStock;
-                                        item.WhsInfo.MaximalStock = warehouse.MaxStock;
-                                        item.WhsInfo.MinimalOrder = warehouse.MinOrder;
-                                        item.WhsInfo.Locked = warehouse.Locked == 'Y' ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
-                                        item.WhsInfo.Add();
+                                        warehouseInfo.WarehouseCode = warehouse.whscode;
+                                        warehouseInfo.MinimalStock = warehouse.MinStock;
+                                        warehouseInfo.MaximalStock = warehouse.MaxStock;
+                                        warehouseInfo.MinimalOrder = warehouse.MinOrder;
+                                        warehouseInfo.Locked = warehouse.Locked == 'Y' ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
+                                        warehouseInfo.Add();
                                     }
 
 
