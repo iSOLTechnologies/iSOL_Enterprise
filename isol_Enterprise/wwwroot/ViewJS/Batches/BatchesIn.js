@@ -242,7 +242,7 @@ $(document).on('click', '#btnAddbatchTableOk', function (e) {
         toastr.warning("Added Quantity is less than required quantity!");
         $(ObjBatchCode).closest('#ListParameters .itm').find('#ListbtnSelectBatch span i').removeClass("batch_is_valid");
     }
-
+    console.log(listObj);
 });
 
 function append_addBatchTablerow() {
