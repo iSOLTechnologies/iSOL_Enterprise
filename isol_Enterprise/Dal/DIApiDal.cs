@@ -224,14 +224,14 @@ namespace SAP_MVC_DIAPI.BLC
                                                         oDoc.Lines.ShipDate = rdr2["ShipDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr2["ShipDate"].ToString());
                                                         oDoc.Lines.RequiredQuantity = rdr2["PQTReqQty"].ToDouble();
                                                     }
-                                                        if (rowTable == "DLN1")
+                                                    if (rowTable == "DLN1" || rowTable == "RPD1" || rowTable == "RPC1")
                                                     {
 
                                                         string BatchQuery = @" select ITL1.ItemCode,ITL1.SysNumber,ITL1.Quantity,ITL1.AllocQty,OITL.CreateDate, OBTN.ExpDate,OBTN.DistNumber from OITL 
                                                                            inner join ITL1 on OITL.LogEntry = ITL1.LogEntry 
                                                                            inner join OBTQ on ITL1.MdAbsEntry = OBTQ.MdAbsEntry 
                                                                            inner join OBTN on OBTQ.MdAbsEntry = OBTN.AbsEntry
-                                                                           where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType =15";
+                                                                           where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType ="+ObjectCode;
                                                         using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
                                                         {
                                                             int i = 0;
@@ -254,7 +254,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                                     }
 
-                                                    if (rowTable == "PDN1")
+                                                    if (rowTable == "PDN1" || rowTable == "RDN1" || rowTable == "RIN1")
                                                     {
 
                                                         try
@@ -265,7 +265,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                                            inner join ITL1 on OITL.LogEntry = ITL1.LogEntry 
                                                                            inner join OBTQ on ITL1.MdAbsEntry = OBTQ.MdAbsEntry 
                                                                            inner join OBTN on OBTQ.MdAbsEntry = OBTN.AbsEntry
-                                                                           where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType =20";
+                                                                           where DocLine = '" + rdr2["LineNum"].ToString() + "' and DocNum = '" + rdr["Id"].ToString() + "' and DocType ="+ ObjectCode;
                                                             using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BatchQuery))
                                                             {
                                                                 int i = 0;

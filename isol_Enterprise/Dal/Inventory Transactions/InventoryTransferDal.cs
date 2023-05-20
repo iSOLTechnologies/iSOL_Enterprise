@@ -311,7 +311,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                                         return response;
                                     }
 
-                                    bool responseBatch2 = cdal.InBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry2, item.WhsCode.ToString(), LineNum);
+                                    bool responseBatch2 = cdal.InBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry2, item.WhsCode.ToString(), LineNum , item.Warehouse.ToString());
                                     if (!responseBatch2)
                                     {
                                         tran.Rollback();

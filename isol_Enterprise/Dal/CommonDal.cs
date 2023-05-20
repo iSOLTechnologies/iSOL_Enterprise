@@ -1370,14 +1370,15 @@ where s.Status=1 and p.Guid=@Guid";
            return true;
         }
 
-        public bool InBatches(SqlTransaction tran, dynamic Batches,string ItemCode,int LogEntry,string Warehouse,int LineNum)
+        public bool InBatches(SqlTransaction tran, dynamic Batches,string ItemCode,int LogEntry,string Warehouse,int LineNum , string? FromWarehouse = null)
         {
             int res1 = 1;
 
             foreach (var batch in Batches)
             {
-
-                if (batch[0].itemno == ItemCode && batch[0].whseno == Warehouse && batch[0].linenum == LineNum)
+                string WH = FromWarehouse == null ? Warehouse : FromWarehouse;
+                
+                if (batch[0].itemno == ItemCode && batch[0].whseno == WH && batch[0].linenum == LineNum)
                 {
 
 
@@ -1389,11 +1390,12 @@ where s.Status=1 and p.Guid=@Guid";
                         int SysNumber = CommonDal.getSysNumber(tran, itemno);
                         int AbsEntry = CommonDal.getPrimaryKey(tran, "AbsEntry", "OBTN");   //Primary Key
                         tbl_OBTN OldBatchData = GetBatchData(tran, ItemCode, ii.DistNumber.ToString());
-                        
+                        decimal Quantity = FromWarehouse == null ? (decimal)ii.BQuantity : (decimal)ii.selectqty;
+
                         if (OldBatchData.AbsEntry > 0)
                         {
 
-                            tbl_OBTN OldBatchInWareHouseData = GetBatchInWareHouseData(tran, OldBatchData, ii.whseno.ToString());
+                            tbl_OBTN OldBatchInWareHouseData = GetBatchInWareHouseData(tran, OldBatchData, Warehouse);
 
                             AbsEntry = OldBatchData.AbsEntry;
                             SysNumber = OldBatchData.SysNumber;
@@ -1401,7 +1403,7 @@ where s.Status=1 and p.Guid=@Guid";
                             #region Update OBTQ
                                 if (OldBatchInWareHouseData.AbsEntry > 0)
                                 {
-                                    string BatchQueryOBTN = @"Update OBTQ set Quantity = Quantity +" + (decimal)ii.BQuantity + " WHERE AbsEntry = " + OldBatchInWareHouseData.AbsEntry;
+                                    string BatchQueryOBTN = @"Update OBTQ set Quantity = Quantity +" + (decimal)Quantity + " WHERE AbsEntry = " + OldBatchInWareHouseData.AbsEntry;
                                 
                                     res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, BatchQueryOBTN).ToInt();
                                     if (res1 <= 0)
@@ -1421,10 +1423,10 @@ where s.Status=1 and p.Guid=@Guid";
                                                + ItemCode + "',"
                                                + SysNumber + ",'"
                                                + Warehouse + "',"
-                                               + (decimal)(ii.BQuantity) + ","
+                                               + (decimal)(Quantity) + ","
                                                + OldBatchData.AbsEntry + ")";
                             }
-                            decimal Quantity =  Convert.ToDecimal(ii.BQuantity);
+                            //decimal Quantity =  Convert.ToDecimal(ii.BQuantity);
 
                             bool response = ITL1Log(tran, LogEntry, OldBatchData.ItemCode, OldBatchData.SysNumber, Quantity, OldBatchData.AbsEntry);
                             if (!response)
@@ -1444,14 +1446,14 @@ where s.Status=1 and p.Guid=@Guid";
                                                + SysNumber + ",'"
                                                + ii.DistNumber + "','"
                                                + DateTime.Now + "',"
-                                               + (decimal)ii.BQuantity + ");" +
+                                               + (decimal)(Quantity) + ");" +
 
                                                " insert into OBTQ(AbsEntry,ItemCode,SysNumber,WhsCode,Quantity,MdAbsEntry) " +
                                                "values (" + OBTQAbsEntry + ",'"
                                                + ii.itemno + "',"
                                                + SysNumber + ",'"
                                                + Warehouse + "',"
-                                               + (decimal)ii.BQuantity + ","
+                                               + (decimal)(Quantity) + ","
                                                + AbsEntry + ")";
 
 
@@ -1461,7 +1463,7 @@ where s.Status=1 and p.Guid=@Guid";
                                 tran.Rollback();
                                 return false;
                             }
-                            decimal Quantity =  Convert.ToDecimal(ii.BQuantity);
+                            //decimal Quantity =  Convert.ToDecimal(ii.BQuantity);
 
                             bool response = ITL1Log(tran, LogEntry, ii.itemno.ToString(), SysNumber, Quantity, AbsEntry);
                             if (!response)

@@ -220,8 +220,8 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                                 OITLModel.CardName = "NULL";
                                 OITLModel.ItemCode = item.ItemCode.ToString();
                                 OITLModel.ItemName = item.ItemName.ToString();
-                                OITLModel.ID = Convert.ToInt32(model.ID);
-                                OITLModel.DocLine = Convert.ToInt32(item.LineNum);
+                                OITLModel.ID = Id;
+                                OITLModel.DocLine = LineNum;
                                 OITLModel.DocType = 60;
                                 OITLModel.BaseType = item.BaseType;
                                 OITLModel.Quantity = -1 * (decimal)item.QTY;
