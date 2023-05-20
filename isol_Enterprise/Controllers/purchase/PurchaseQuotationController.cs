@@ -37,7 +37,7 @@ namespace iSOL_Enterprise.Controllers.Sales
 
 
 
-        public IActionResult EditPurchaseQuotationMaster(int id)
+        public IActionResult EditPurchaseQuotationMaster(int id, int aprv1ghas = 0)
         {
             PurchaseQuotationDal dal1 = new PurchaseQuotationDal();
             SalesQuotationDal dal = new SalesQuotationDal();
@@ -50,12 +50,12 @@ namespace iSOL_Enterprise.Controllers.Sales
             ViewBag.Taxes = dal.GetVatGroupData("P");
             ViewBag.Countries = cdal.GetCountries();
             ViewBag.Payments = dal.GetPaymentTerms();
-
-            ViewBag.Currency = cdal.GetCurrencydata();
+			ViewBag.ApprovalView = aprv1ghas;
+			ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.SaleOrderList = cdal.GetSaleOrders();
             bool flag = CommonDal.Check_IsNotEditable("PQT1", id);
-            ViewBag.Status = flag == false ? "Open" : "Closed";
-            return View(dal1.GetPurchaseQuotationDetails(id));
+			ViewBag.Status = flag == false && aprv1ghas == 0 ? "Open" : "Closed";
+			return View(dal1.GetPurchaseQuotationDetails(id));
         }
 
 

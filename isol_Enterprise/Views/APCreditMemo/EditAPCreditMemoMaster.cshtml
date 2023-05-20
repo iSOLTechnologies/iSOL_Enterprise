@@ -1417,7 +1417,13 @@
                 $("#Comments").attr('disabled', false);
                 $("#NumAtCard").attr('disabled', false);
             }
-                 $("#btnSaveData").attr('disabled', false);
+            if("@ViewBag.ApprovalView" == 1) {
+                $("#btnSaveData").attr('disabled', true);
+                $("#btnCopyTo").attr('disabled', true);
+
+            }
+            else
+                $("#btnSaveData").attr('disabled', false);
         }
 
 

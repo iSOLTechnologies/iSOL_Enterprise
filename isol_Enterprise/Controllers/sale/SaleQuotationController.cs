@@ -35,7 +35,7 @@ namespace iSOL_Enterprise.Controllers.Sales
         }
          
             
-            public IActionResult EditSaleQuotationMaster(int id)
+            public IActionResult EditSaleQuotationMaster(int id,int aprv1ghas = 0)
         {
             SalesQuotationDal dal = new SalesQuotationDal();
             AdministratorDal Adal = new AdministratorDal();
@@ -50,8 +50,9 @@ namespace iSOL_Enterprise.Controllers.Sales
             ViewBag.Warehouse = Ddal.GetWareHouseData();
             ViewBag.SaleOrderList = cdal.GetSaleOrders();
             ViewBag.GetSeries = Adal.GetSeries(23);
+            ViewBag.ApprovalView = aprv1ghas;
             bool flag = CommonDal.Check_IsNotEditable("QUT1", id);
-            ViewBag.Status = flag == false ? "Open" : "Closed";
+            ViewBag.Status = flag == false && aprv1ghas == 0 ? "Open" : "Closed";
             return View(dal.GetSaleQuotationEditDetails(id));
         }
 

@@ -46,8 +46,8 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
                        
-
 
                     </tr>
                 </thead>
@@ -139,7 +139,18 @@
                 },{
                     data: 'docNum', title: 'DocNum'
 
-                },{
+                }, {
+                    data: 'docUrl', title: 'Goto', render: function (data, type, row) 
+                    {
+                        data = data + "?id=" + row.docEntry +"&aprv1ghas=1";
+                        var html = '<a URL=' + data + ' id="btnViewDoc" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+                        html += '<i id="showeyes" class="fas fa-hand-point-right"></i> ';
+                        html += '               </a>';
+                        return html;
+
+                    }
+
+                }, {
                     data: 'requestedBy', title: 'Requested By'
 
                 }, {
@@ -213,24 +224,10 @@
 
     }
     
-    //$(document).on('click', '#btnAccept', function (e) {
+    $(document).on('click', '#btnViewDoc', function (e) {
 
-    //    var LookTable = $('#AttTable').DataTable();
-    //    var selectedRow = $(this).closest('tr');
-    //    var rowData = LookTable.row(selectedRow).data();
-    //    let approval = $(selectedRow).find("select");
-    //    approval = $(approval).val();
-        
-    //    $.post("AllApprovals/RejectAcceptDoc", { id: $(this).attr('guid'), approvalType : approval }, function (data) {
-    //        if (data.success == true) 
-    //        {
-    //            toastr.success(data.message);
-    //            datatable.ajax.reload();
-    //        }
-    //        else
-    //            toastr.error(data.message);
+        let URL = $(this).attr('URL');
+        window.open(URL, '_blank');
 
-    //    })
-
-    //});
+    });
 </script>

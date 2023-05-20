@@ -30,7 +30,7 @@ namespace iSOL_Enterprise.Controllers.purchase
             return View();
         }
 
-		public IActionResult EditPurchaseRequestMaster(int id)
+		public IActionResult EditPurchaseRequestMaster(int id, int aprv1ghas = 0)
 		{
 			PurchaseRequestDal Pdal = new PurchaseRequestDal();
 			AdministratorDal dal = new AdministratorDal(); 
@@ -44,11 +44,12 @@ namespace iSOL_Enterprise.Controllers.purchase
 			ViewData["Taxes"]  = Sdal.GetVatGroupData("P");
 			ViewData["Warehouse"]  = Ddal.GetWareHouseData();
 			ViewData["Technician"] = Bdal.GetTechnicians();
-			//ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName",-1);
-			//ViewBag.SalesEmployee = dal.GetSalesEmployee();			 
-			//bool flag = CommonDal.Check_IsNotEditable("PRQ1", id);
-			//ViewBag.Status = flag == false ? "Open" : "Closed";
-			ViewBag.Status = "Open";
+            ViewBag.ApprovalView = aprv1ghas;
+            //ViewBag.SalesEmployee = new SelectList(dal.GetSalesEmployee(), "SlpCode", "SlpName",-1);
+            //ViewBag.SalesEmployee = dal.GetSalesEmployee();			 
+            //bool flag = CommonDal.Check_IsNotEditable("PRQ1", id);
+            //ViewBag.Status = flag == false ? "Open" : "Closed";
+            ViewBag.Status = "Open";
 
 			return View(Pdal.GetPurchaseRequestEditDetails(id));
 		}

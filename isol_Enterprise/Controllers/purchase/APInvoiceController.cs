@@ -42,7 +42,7 @@ namespace iSOL_Enterprise.Controllers.Sales
             return View();
         }
 
-        public IActionResult EditAPInvoiceMaster(int id)
+        public IActionResult EditAPInvoiceMaster(int id, int aprv1ghas = 0)
         {
             SalesQuotationDal dal = new SalesQuotationDal();
             CommonDal cdal = new CommonDal();
@@ -57,8 +57,9 @@ namespace iSOL_Enterprise.Controllers.Sales
             ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.Payments = dal.GetPaymentTerms();
             ViewBag.SaleOrderList = cdal.GetSaleOrders();
+            ViewBag.ApprovalView = aprv1ghas;
             bool flag = CommonDal.Check_IsNotEditable("PCH1", id);
-            ViewBag.Status = flag == false ? "Open" : "Closed";
+            ViewBag.Status = flag == false && aprv1ghas == 0  ? "Open" : "Closed";
             //ViewBag.Status =   "Open" ;
             return View(dal1.GetAPInvoiceEditDetails(id));
         }

@@ -42,7 +42,7 @@ namespace iSOL_Enterprise.Controllers.Sales
             return View();
         }
 
-        public IActionResult EditGoodReceiptMaster(int id)
+        public IActionResult EditGoodReceiptMaster(int id, int aprv1ghas = 0)
         {
             SalesQuotationDal dal = new SalesQuotationDal();
             CommonDal cdal = new CommonDal();
@@ -57,8 +57,9 @@ namespace iSOL_Enterprise.Controllers.Sales
             ViewBag.Payments = dal.GetPaymentTerms();
             ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.SaleOrderList = cdal.GetSaleOrders();
+            ViewBag.ApprovalView = aprv1ghas;
             bool flag = CommonDal.Check_IsNotEditable("PDN1", id);
-            ViewBag.Status = flag == false ? "Open" : "Closed";
+            ViewBag.Status = flag == false && aprv1ghas == 0 ? "Open" : "Closed";
             return View(dal1.GetGoodReceiptEditDetails(id));
         }
         public IActionResult GetPurchaseOrderData(string cardcode)

@@ -36,7 +36,7 @@ namespace iSOL_Enterprise.Controllers
             return View();
         }
 
-        public IActionResult EditARInvoiceMaster(int id)
+        public IActionResult EditARInvoiceMaster(int id, int aprv1ghas = 0)
         {
             DeliveryDal Ddal = new DeliveryDal();
             ARInvoiceDal dal1 = new ARInvoiceDal();
@@ -51,8 +51,9 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.Payments = dal.GetPaymentTerms();
             ViewBag.SaleOrderList = cdal.GetSaleOrders();
+            ViewBag.ApprovalView = aprv1ghas;
             bool flag = CommonDal.Check_IsNotEditable("INV1", id);
-            ViewBag.Status = flag == false ? "Open" : "Closed";
+            ViewBag.Status = flag == false && aprv1ghas == 0 ? "Open" : "Closed";
             return View(dal1.GetARInvoiceDetails(id));
         }
 

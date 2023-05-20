@@ -15,7 +15,7 @@ namespace iSOL_Enterprise.Dal.Administrator
             string GetQuery = @"select Top(1000) da.Id,da.DocEntry,da.ObjectCode,da.RequestedBy,da.DocNum,da.Status,da.Guid,da.Date,Pages.PageName,da.seen as Seen from tbl_DocumentsApprovals da
                                 inner join Pages on da.ObjectCode = Pages.ObjectCode order by da.Id desc";
 
-
+            CommonDal dal = new();
             List<ApprovalModel> list = new List<ApprovalModel>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {
@@ -34,7 +34,7 @@ namespace iSOL_Enterprise.Dal.Administrator
                         Date = rdr["Date"].ToDateTime(),
                         Status = rdr["Status"].ToBool(),
                         Seen = rdr["Seen"].ToBool(),
-
+                        DocUrl = dal.GetDocEditUrl(rdr["ObjectCode"].ToInt())
                     };
                     
                     list.Add(models);

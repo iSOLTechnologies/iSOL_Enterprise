@@ -39,7 +39,7 @@ namespace iSOL_Enterprise.Controllers
             return View();
         }
 
-        public IActionResult EditAPCreditMemoMaster(int id)
+        public IActionResult EditAPCreditMemoMaster(int id, int aprv1ghas = 0)
         {
             
             APCreditMemoDal dal1 = new APCreditMemoDal();
@@ -55,8 +55,9 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.Payments = dal.GetPaymentTerms();
             ViewBag.SaleOrderList = cdal.GetSaleOrders();
+            ViewBag.ApprovalView = aprv1ghas;
             bool flag = CommonDal.Check_IsNotEditable("RIN1", id);
-            ViewBag.Status = flag == false ? "Open" : "Closed"; 
+            ViewBag.Status = flag == false && aprv1ghas == 0 ? "Open" : "Closed"; 
            // bool flag2 = CommonDal.Check_IsNotEditable("RPD1", id);
            // ViewBag.Status = flag == false && flag2 == false ? "Open" : "Closed";
             return View(dal1.GetAPCreditMemoDetails(id));

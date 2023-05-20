@@ -38,7 +38,7 @@ namespace iSOL_Enterprise.Controllers
             return View();
         }
 
-        public IActionResult EditARCreditMemoMaster(int id)
+        public IActionResult EditARCreditMemoMaster(int id, int aprv1ghas = 0)
         {            
             ARCreditMemoDal dal1 = new ARCreditMemoDal();
             SalesQuotationDal dal = new SalesQuotationDal();
@@ -53,12 +53,13 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Payments = dal.GetPaymentTerms();
             ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.SaleOrderList = cdal.GetSaleOrders();
+            ViewBag.ApprovalView = aprv1ghas;
             //bool flag = CommonDal.Check_IsNotEditable("INV1", id);
             //bool flag2 = CommonDal.Check_IsNotEditable("RDN1", id);
             //ViewBag.Status = flag == false && flag2 == false ? "Open" : "Closed";
 
             bool flag = CommonDal.Check_IsNotEditable("RIN1", id);
-            ViewBag.Status = flag == false ? "Open" : "Closed";
+            ViewBag.Status = flag == false && aprv1ghas == 0 ? "Open" : "Closed";
             return View(dal1.GetARCreditMemoDetails(id));
         }
         public IActionResult GetBaseDocData(string cardcode,int BaseType)

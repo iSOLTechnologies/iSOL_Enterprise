@@ -766,6 +766,112 @@ where s.Status=1 and p.Guid=@Guid";
             }
             return table;
         }
+
+        public string GetDocEditUrl(int ObjectCode)
+        {
+            string URL = "";
+            switch (ObjectCode)
+            {
+
+                #region Sales
+
+                case 23:
+                    URL = "/SaleQuotation/EditSaleQuotationMaster/"; //Sales Quotation
+                    break;
+                case 17:
+                    URL = "/SaleOrder/EditSaleOrderMaster/"; //Sales Order
+                    break;
+                case 15:
+                    URL = "/Delivery/EditDeliveryMaster/"; //Delivery
+                    break;
+                case 16:
+                    URL = "/Return/EditReturnMaster/"; //Return
+                    break;
+                case 13:
+                    URL = "/ARInvoice/EditARInvoiceMaster/"; //A/R Invoice
+                    break;
+                case 14:
+                    URL = "/ARCreditMemo/EditARCreditMemoMaster/"; //AR Credit Memo
+                    break;
+
+                #endregion
+
+                #region Purchase 
+
+                case 1470000113:
+                    URL = "/PurchaseRequest/EditPurchaseRequestMaster/"; //Purchase Request
+                    break;
+                case 540000006:
+                    URL = "/PurchaseQuotation/EditPurchaseQuotationMaster/"; //Purchase Quotation
+                    break;
+                case 22:
+                    URL = "/PurchaseOrder/EditPurchaseOrderMaster/"; //Purchase Order
+                    break;
+                case 20:
+                    URL = "/GoodReceipt/EditGoodReceiptMaster/"; //Goods Receipt PO
+                    break;
+                case 21:
+                    URL = "/GoodsReturn/EditGoodsReturnMaster/"; //Goods Return
+                    break;
+                case 18:
+                    URL = "/APRInvoice/EditAPInvoiceMaster/"; //A/P Invoice
+                    break;
+                case 19:
+                    URL = "/APCreditMemo/EditAPCreditMemoMaster/"; //A/P Credit Memo
+                    break;
+                #endregion
+
+                #region Bussiness Partner
+
+                case 2: //Business Partner 
+                    URL = "OCRD";
+                    break;
+
+                #endregion
+
+                #region Inventory
+
+                case 4: //Item Master Dat
+                    URL = "OITM";
+                    break;
+                case 59: //Goods Receipt GR Item Transaction
+                    URL = "OIGN";
+                    break;
+                case 60: //Goods Issue Item Transaction
+                    URL = "OIGE";
+                    break;
+
+                case 1250000001: //Inventory Transfer Request
+                    URL = "OWTQ";
+                    break;
+                case 67: //Inventory Transfer
+                    URL = "OWTR";
+                    break;
+
+                #endregion
+
+                #region Production 
+
+                case 66: //Bill of Material
+                    URL = "OITT";
+                    break;
+                case 202: //Production Order
+                    URL = "OWOR";
+                    break;
+                case 102: //Receipt From Production
+                    URL = "OIGN";
+                    break;
+                case 302: //Receipt From Production
+                    URL = "OIGE";
+                    break;
+
+                #endregion
+
+                default:
+                    return URL;
+            }
+            return URL;
+        }
         public SAPbobsCOM.Documents getDocObj(int ObjectCode, Company oCompany)
         {
             SAPbobsCOM.Documents? oDoc = null;

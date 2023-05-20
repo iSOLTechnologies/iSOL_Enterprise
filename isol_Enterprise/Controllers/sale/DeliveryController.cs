@@ -38,7 +38,7 @@ namespace iSOL_Enterprise.Controllers
             return View();
         }
 
-        public IActionResult EditDeliveryMaster(int id)
+        public IActionResult EditDeliveryMaster(int id, int aprv1ghas = 0)
         { 
             DeliveryDal dal1 = new DeliveryDal();
             SalesQuotationDal dal = new SalesQuotationDal();
@@ -52,8 +52,9 @@ namespace iSOL_Enterprise.Controllers
             ViewBag.Payments = dal.GetPaymentTerms();
             ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.SaleOrderList = cdal.GetSaleOrders();
+            ViewBag.ApprovalView = aprv1ghas;
             bool flag = CommonDal.Check_IsNotEditable("DLN1", id);
-            ViewBag.Status = flag == false ? "Open" : "Closed";
+            ViewBag.Status = flag == false && aprv1ghas == 0 ? "Open" : "Closed";
             return View(dal1.GetDeliveryDetails(id));
         }
         public IActionResult GetBaseDocData(string cardcode,int BaseType)

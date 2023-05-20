@@ -1339,7 +1339,31 @@
 		});
 	});
 
+	function DocStatus() {
 
+            if ("@ViewBag.ApprovalView" == "1)") {
+
+                $('body').each(function (index, item) {
+
+                    $(this).find('input , select , textarea').each(function (index, data) {
+
+                        $("#ListBtnAddd").addClass("d-none");
+                        $("#ListBtnAddRM").addClass("d-none");
+                        $(this).attr('disabled', true);
+
+                    });
+                })
+                $("#Comments").attr('disabled', false);
+                $("#NumAtCard").attr('disabled', false);
+            }
+            if("@ViewBag.ApprovalView" == 1) {
+                $("#btnSaveData").attr('disabled', true);
+                $("#btnCopyTo").attr('disabled', true);
+
+            }
+            else
+                $("#btnSaveData").attr('disabled', false);
+    }
 
 	var WareHouseData = "";
 	$(document).ready(function () {
@@ -1351,17 +1375,7 @@
 		GetCountrydata();
 		GetCurrencydata();
 		GetSaleOrders();
-		//var date = new Date;
-		//$('#DocDate').val(moment(date).format('YYYY-MM-DD'));
-
-
-
-@*		$('table tr').each(function() {
-  $(this).css('background-color', 'yellow');
-});*@
-
-
-
+		DocStatus();
 
 		GetPayments();
 

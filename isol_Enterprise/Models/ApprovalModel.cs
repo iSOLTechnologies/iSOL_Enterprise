@@ -14,5 +14,7 @@
         public bool Status { get; set; }
         public bool Seen { get; set; }
 
+        public string DocUrl { get; set; }
+
     }
 }
