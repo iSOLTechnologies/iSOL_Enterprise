@@ -55,7 +55,8 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
 
                 DataSet ds = new DataSet();
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-                string headerQuery = @"select MySeries,DocNum,Series,CardCode,CardName,DocDate,CntctCode,DocDueDate,TaxDate,Address,GroupNum,Filler,ToWhsCode,SlpCode,JrnlMemo,Comments From OWTQ where Id =" + ItemID;
+                string headerQuery = @"select MySeries,DocNum,Series,CardCode,CardName,DocDate,CntctCode,DocDueDate,TaxDate,Address,GroupNum,Filler,ToWhsCode,
+                                     SlpCode,JrnlMemo,Comments,PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo,SaleOrderNo From OWTQ where Id =" + ItemID;
                 SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
                 sda.Fill(ds);
                 string JSONString = string.Empty;
@@ -170,8 +171,10 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                             return response;
                         }
                     }
-                    string HeadQuery = @"insert into OWTQ (Id,Guid,MySeries,DocNum,Series,DocDate,CntctCode,DocDueDate,GroupNum,TaxDate,Address,ShipToCode,CardName,CardCode,Comments,JrnlMemo,Filler,ToWhsCode) 
-                                        values(@Id,@Guid,@MySeries,@DocNum,@Series,@DocDate,@CntctCode,@DocDueDate,@GroupNum,@TaxDate,@Address,@ShipToCode,@CardName,@CardCode,@Comments,@JrnlMemo,@Filler,@ToWhsCode)";
+                    string HeadQuery = @"insert into OWTQ (Id,Guid,MySeries,DocNum,Series,DocDate,CntctCode,DocDueDate,GroupNum,TaxDate,Address,ShipToCode,CardName,CardCode,Comments,
+                                        JrnlMemo,Filler,ToWhsCode,PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo,SaleOrderNo) 
+                                        values(@Id,@Guid,@MySeries,@DocNum,@Series,@DocDate,@CntctCode,@DocDueDate,@GroupNum,@TaxDate,@Address,@ShipToCode,@CardName,@CardCode,@Comments,
+                                        @JrnlMemo,@Filler,@ToWhsCode,@PurchaseType,@TypeDetail,@ProductionOrderNo,@ChallanNo,@DONo,@SaleOrderNo)";
 
 
 
@@ -198,11 +201,19 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     #region Footer Data
                     param.Add(cdal.GetParameter("@SlpCode", model.FooterData.JrnlMemo, typeof(string))); 
                     param.Add(cdal.GetParameter("@Comments", model.FooterData.Comments, typeof(string)));
-                    param.Add(cdal.GetParameter("@JrnlMemo", model.FooterData.JrnlMemo, typeof(string))); 
+                    param.Add(cdal.GetParameter("@JrnlMemo", model.FooterData.JrnlMemo, typeof(string)));
                     #endregion
 
 
+                    #region UDFs
+                    param.Add(cdal.GetParameter("@PurchaseType", model.HeaderData.PurchaseType, typeof(decimal)));
+                    param.Add(cdal.GetParameter("@TypeDetail", model.HeaderData.TypeDetail, typeof(string)));
+                    param.Add(cdal.GetParameter("@ProductionOrderNo", model.HeaderData.ProductionOrderNo, typeof(decimal)));
+                    param.Add(cdal.GetParameter("@ChallanNo", model.HeaderData.ChallanNo, typeof(decimal)));
+                    param.Add(cdal.GetParameter("@DONo", model.HeaderData.DONo, typeof(decimal)));
+                    param.Add(cdal.GetParameter("@SaleOrderNo", model.HeaderData.SalesOrderCode, typeof(int)));
 
+                    #endregion
 
                     #endregion
 

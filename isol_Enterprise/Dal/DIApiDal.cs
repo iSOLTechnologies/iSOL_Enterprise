@@ -125,46 +125,48 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         
                                             #region UDFs
-                                                oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
-                                        
-                                            if (rdr["SaleOrderNo"].ToString() != "")
-                                                oDoc.UserFields.Fields.Item("U_Old_SO").Value = Convert.ToInt32(rdr["SaleOrderNo"]);
-                                            if (rdr["ProductionOrderNo"].ToString() != "")
-                                                oDoc.UserFields.Fields.Item("U_Production_ordr").Value = Convert.ToInt32(rdr["ProductionOrderNo"]);
-                                            if (rdr["PurchaseType"].ToString() != "")
-                                                oDoc.UserFields.Fields.Item("U_Type").Value = Convert.ToInt16(rdr["PurchaseType"]);
-                                            oDoc.UserFields.Fields.Item("U_Challan_no").Value = rdr["ChallanNo"].ToString();
-
-                                            if (ObjectCode == 23 || ObjectCode == 17 || ObjectCode == 15 || ObjectCode == 16 || ObjectCode == 13 || ObjectCode == 14)
+                                            oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
+                                            if (UDF != "")
                                             {
-                                                if (rdr["ManualGatePassNo"].ToString() != "")
-                                                    oDoc.UserFields.Fields.Item("U_manual_cgp").Value = Convert.ToInt32(rdr["ManualGatePassNo"]);
 
-                                                oDoc.UserFields.Fields.Item("U_Cont_no").Value = rdr["ContainerNo"].ToString();
+                                                if (rdr["SaleOrderNo"].ToString() != "")
+                                                    oDoc.UserFields.Fields.Item("U_Old_SO").Value = Convert.ToInt32(rdr["SaleOrderNo"]);
+                                                if (rdr["ProductionOrderNo"].ToString() != "")
+                                                    oDoc.UserFields.Fields.Item("U_Production_ordr").Value = Convert.ToInt32(rdr["ProductionOrderNo"]);
+                                                if (rdr["PurchaseType"].ToString() != "")
+                                                    oDoc.UserFields.Fields.Item("U_Type").Value = Convert.ToInt16(rdr["PurchaseType"]);
+                                                oDoc.UserFields.Fields.Item("U_Challan_no").Value = rdr["ChallanNo"].ToString();
 
-                                            }
-                                            else if (ObjectCode == 540000006 || ObjectCode == 22 || ObjectCode == 20 || ObjectCode == 21 || ObjectCode == 18 || ObjectCode == 19)
-                                            {                                            
+                                                if (ObjectCode == 23 || ObjectCode == 17 || ObjectCode == 15 || ObjectCode == 16 || ObjectCode == 13 || ObjectCode == 14)
+                                                {
+                                                    if (rdr["ManualGatePassNo"].ToString() != "")
+                                                        oDoc.UserFields.Fields.Item("U_manual_cgp").Value = Convert.ToInt32(rdr["ManualGatePassNo"]);
+
+                                                    oDoc.UserFields.Fields.Item("U_Cont_no").Value = rdr["ContainerNo"].ToString();
+
+                                                }
+                                                else if (ObjectCode == 540000006 || ObjectCode == 22 || ObjectCode == 20 || ObjectCode == 21 || ObjectCode == 18 || ObjectCode == 19)
+                                                {
                                                     oDoc.UserFields.Fields.Item("U_DO_Num").Value = rdr["DONo"].ToString();
-                                            }
+                                                }
 
 
-                                        if (rdr["TypeDetail"].ToString() != "")
-                                        {
-                                            if (rdr["TypeDetail"].ToInt() >= 1 || rdr["TypeDetail"].ToInt() <= 9)                                        
-                                                oDoc.UserFields.Fields.Item("U_Type_d").Value = "0" + Math.Round(rdr["TypeDetail"].ToDouble()) + "";
-                                            else
-                                                oDoc.UserFields.Fields.Item("U_Type_d").Value =   rdr["TypeDetail"].ToString();
-                                            #endregion
-                                        }
+                                                if (rdr["TypeDetail"].ToString() != "")
+                                                {
+                                                    if (rdr["TypeDetail"].ToInt() >= 1 || rdr["TypeDetail"].ToInt() <= 9)
+                                                        oDoc.UserFields.Fields.Item("U_Type_d").Value = "0" + Math.Round(rdr["TypeDetail"].ToDouble()) + "";
+                                                    else
+                                                        oDoc.UserFields.Fields.Item("U_Type_d").Value = rdr["TypeDetail"].ToString();
+                                                    #endregion
+                                                }
 
 
-                                        if (ObjectCode == 540000006)
-                                        {
-                                            oDoc.RequriedDate = rdr["ReqDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["ReqDate"].ToString());
+                                                if (ObjectCode == 540000006)
+                                                {
+                                                    oDoc.RequriedDate = rdr["ReqDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["ReqDate"].ToString());
 
-                                        }
-
+                                                }
+                                     }
                                             #endregion
 
                                             #region Insert in Row
@@ -1653,10 +1655,11 @@ namespace SAP_MVC_DIAPI.BLC
 
                         foreach (var ID in checkedIDs)
                         {
-                            string UDF = "";
+                            string UDF = ",PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo,SaleOrderNo";
                             bool isOld = false;
 
-                            string headerQuery = @"select Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Address,CardName,CardCode,Name,Comments,JrnlMemo,Sap_Ref_No,Filler,ToWhsCode " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
+                            string headerQuery = @"select Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Address,CardName,CardCode,Name,Comments,JrnlMemo,Sap_Ref_No,
+                                                  Filler,ToWhsCode " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
                             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
                             {
                                 try
@@ -1683,10 +1686,31 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.ToWarehouse = rdr["ToWhsCode"].ToString();
                                         oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
 
+                                        #region UDF
+
+                                        if (UDF != "")
+                                        {
+
+                                            if (rdr["SaleOrderNo"].ToString() != "")
+                                                oDoc.UserFields.Fields.Item("U_Old_SO").Value = Convert.ToInt32(rdr["SaleOrderNo"]);
+                                            if (rdr["ProductionOrderNo"].ToString() != "")
+                                                oDoc.UserFields.Fields.Item("U_Production_ordr").Value = Convert.ToInt32(rdr["ProductionOrderNo"]);
+                                            if (rdr["PurchaseType"].ToString() != "")
+                                                oDoc.UserFields.Fields.Item("U_Type").Value = Convert.ToInt16(rdr["PurchaseType"]);
+                                            oDoc.UserFields.Fields.Item("U_Challan_no").Value = rdr["ChallanNo"].ToString();
+                                            oDoc.UserFields.Fields.Item("U_DO_Num").Value = rdr["DONo"].ToString();
+                                            if (rdr["TypeDetail"].ToString() != "")
+                                                oDoc.UserFields.Fields.Item("U_Type_d").Value = rdr["TypeDetail"].ToString();
+                                        }
+                                        #endregion
+                                    
                                         #endregion
 
-                                        #region Insert in Row
-                                        string RowQuery = @"select Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemCode,Dscription,WhsCode,FromWhsCod,Quantity,UomEntry,UomCode,BaseQty,OpenQty from " + rowTable + " where Id = " + ID;
+
+
+                                    #region Insert in Row
+                                    string RowQuery = @"select Id,LineNum,BaseRef,BaseEntry,BaseLine,ItemCode,Dscription,WhsCode,FromWhsCod,Quantity,UomEntry,UomCode,
+                                                           BaseQty,OpenQty from " + rowTable + " where Id = " + ID;
                                         using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, RowQuery))
                                         {
                                             try
@@ -1703,8 +1727,8 @@ namespace SAP_MVC_DIAPI.BLC
                                                     oDoc.Lines.FromWarehouseCode = rdr2["FromWhsCod"].ToString();
                                                     oDoc.Lines.Quantity = Convert.ToDouble(rdr2["Quantity"]);
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
-                                                    
 
+                                                    
                                                     try
                                                     {
 
@@ -1906,10 +1930,11 @@ namespace SAP_MVC_DIAPI.BLC
 
                         foreach (var ID in checkedIDs)
                         {
-                            string UDF = "";
+                            string UDF = ",PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo,SaleOrderNo";
                             bool isOld = false;
 
-                            string headerQuery = @"select Id,Guid,MySeries,DocNum,Series,DocDate,DocDueDate,GroupNum,TaxDate,Address,CardName,CardCode,CntctCode,Comments,JrnlMemo,Sap_Ref_No,Filler,ToWhsCode " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
+                            string headerQuery = @"select Id,Guid,MySeries,DocNum,Series,DocDate,DocDueDate,GroupNum,TaxDate,Address,CardName,CardCode,CntctCode,Comments,JrnlMemo,Sap_Ref_No,
+                                                  Filler,ToWhsCode " + UDF + " from " + headerTable + " where Id=" + ID + " and isPosted = 0";
                             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
                             {
                                 try
@@ -1938,6 +1963,23 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.FromWarehouse = rdr["Filler"].ToString();
                                         oDoc.ToWarehouse = rdr["ToWhsCode"].ToString();
                                         oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
+
+                                        #region UDF
+                                        if (UDF != "")
+                                        {
+
+                                        if (rdr["SaleOrderNo"].ToString() != "")
+                                            oDoc.UserFields.Fields.Item("U_Old_SO").Value = Convert.ToInt32(rdr["SaleOrderNo"]);
+                                        if (rdr["ProductionOrderNo"].ToString() != "")
+                                            oDoc.UserFields.Fields.Item("U_Production_ordr").Value = Convert.ToInt32(rdr["ProductionOrderNo"]);
+                                        if (rdr["PurchaseType"].ToString() != "")
+                                            oDoc.UserFields.Fields.Item("U_Type").Value = Convert.ToInt16(rdr["PurchaseType"]);
+                                        oDoc.UserFields.Fields.Item("U_Challan_no").Value = rdr["ChallanNo"].ToString();
+                                        oDoc.UserFields.Fields.Item("U_DO_Num").Value = rdr["DONo"].ToString();
+                                        if (rdr["TypeDetail"].ToString() != "")
+                                            oDoc.UserFields.Fields.Item("U_Type_d").Value = rdr["TypeDetail"].ToString();
+                                        }
+                                        #endregion
 
                                         #endregion
 

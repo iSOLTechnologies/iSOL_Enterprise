@@ -167,7 +167,7 @@ namespace iSOL_Enterprise.Dal.Administrator
                             docRowModel.BaseEntry = Convert.ToInt32(rdr["BaseEntry"]);
                             docRowModel.BaseLine = Convert.ToInt32(rdr["BaseLine"]);
                             docRowModel.ItemCode = rdr["ItemCode"].ToString();
-                            string UpdateDLQuery = @"Update " + table + " set Quantity =Quantity - " + row.Quantity + " , OpenQty = OpenQty - " + row.Quantity + " where Id =" + row.BaseEntry + "and LineNum =" + row.BaseLine + "and ItemCode = '" + row.ItemCode + "'";
+                            string UpdateDLQuery = @"Update " + table + " set Quantity =Quantity + " + row.Quantity + " , OpenQty = OpenQty + " + row.Quantity + " where Id =" + row.BaseEntry + "and LineNum =" + row.BaseLine + "and ItemCode = '" + row.ItemCode + "'";
                             res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateDLQuery).ToInt();
                             if (res <= 0)
                             {
@@ -181,7 +181,7 @@ namespace iSOL_Enterprise.Dal.Administrator
                             if (ObjectType == 21)
                                 tableR = "POR1";
 
-                                string UpdateSOQuery = @"Update "+ tableR + " set OpenQty =OpenQty + " + row.Quantity + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine + "and ItemCode = '" + docRowModel.ItemCode + "'";
+                                string UpdateSOQuery = @"Update "+ tableR + " set OpenQty =OpenQty - " + row.Quantity + " where Id =" + docRowModel.BaseEntry + "and LineNum =" + docRowModel.BaseLine + "and ItemCode = '" + docRowModel.ItemCode + "'";
                                 res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateSOQuery).ToInt();
                                 if (res <= 0)
                                 {
