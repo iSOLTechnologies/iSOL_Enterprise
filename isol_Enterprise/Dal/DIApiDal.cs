@@ -877,7 +877,7 @@ namespace SAP_MVC_DIAPI.BLC
                         }
                         else
                         {
-                            string getWBSDocNum = @"select ItemCode from OITM where WBS_ItemNo =" + ID;
+                            string getWBSDocNum = @"select ItemCode from OITM where U_WBS_ItemNo =" + ID;
                             tbl_OITM itemModel = new tbl_OITM();
                             using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, getWBSDocNum))
                             {
@@ -896,7 +896,7 @@ namespace SAP_MVC_DIAPI.BLC
                                 {
                                     tran.Rollback();
 
-                                    models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                    models.Message = "Document Posted but Error Occured while updating Document !";
                                     models.isSuccess = true;
                                     models.isWarning = true;
                                     return models;
@@ -907,7 +907,7 @@ namespace SAP_MVC_DIAPI.BLC
                             {
                                 tran.Rollback();
 
-                                models.Message = "Document Posted but Error Occured while updating Documnet !";
+                                models.Message = "Document Posted but Error Occured while updating Document !";
                                 models.isSuccess = true;
                                 models.isWarning = true;
                                 return models;
