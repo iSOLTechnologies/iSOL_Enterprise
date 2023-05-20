@@ -730,15 +730,21 @@ namespace SAP_MVC_DIAPI.BLC
 
                                 if (rdr["validFor"].ToString() == "Y")
                                 {
+                                    if (rdr["validFrom"].ToString() != "")
                                     item.ValidFrom = Convert.ToDateTime(rdr["validFrom"]);
-                                    item.ValidTo = Convert.ToDateTime(rdr["validTo"]);
+                                    if (rdr["validTo"].ToString() != "")
+                                        item.ValidTo = Convert.ToDateTime(rdr["validTo"]);
                                     item.Valid = BoYesNoEnum.tYES;
                                 }
                                 else
                                 {
+                                    if (rdr["frozenFrom"].ToString() != "")
+                                        item.FrozenFrom = Convert.ToDateTime(rdr["frozenFrom"]);
+                                    if (rdr["frozenTo"].ToString() != "")
+                                        item.FrozenTo = Convert.ToDateTime(rdr["frozenTo"]);
                                     item.Frozen = BoYesNoEnum.tYES;
-                                    item.FrozenFrom = Convert.ToDateTime(rdr["frozenFrom"]);
-                                    item.FrozenTo = Convert.ToDateTime(rdr["frozenTo"]);
+                                   
+                                    
                                 }
 
                                 item.ManageStockByWarehouse = rdr["ByWh"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
@@ -1717,7 +1723,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                                                 
                                                                 oDoc.Lines.BatchNumbers.BaseLineNumber = oDoc.Lines.LineNum;
-                                                                oDoc.Lines.BatchNumbers.SetCurrentLine(i);
+                                                                oDoc.Lines.BatchNumbers.SetCurrentLine(i);                                                                 
                                                                 oDoc.Lines.BatchNumbers.ItemCode = rdr3["ItemCode"].ToString();
                                                                 oDoc.Lines.BatchNumbers.BatchNumber = rdr3["DistNumber"].ToString();
                                                                 oDoc.Lines.BatchNumbers.Quantity = Convert.ToDouble(rdr3["Quantity"]);
