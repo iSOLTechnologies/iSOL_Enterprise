@@ -21,6 +21,7 @@ namespace SAP_MVC_DIAPI.BLC
         public bool Connect()
         {
             oCompany.Server = CommonDal.DiAPI_Server;
+            oCompany.SLDServer = CommonDal.DiAPI_SLDServer;
             oCompany.CompanyDB = CommonDal.DiAPI_companydb;
             oCompany.DbServerType = CommonDal.dst_HANADB;
             oCompany.DbUserName = CommonDal.DiAPI_dbusername;
@@ -492,7 +493,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.RequriedDate = rdr["ReqDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["ReqDate"].ToString());
                                         oDoc.DocumentsOwner = rdr["OwnerCode"].ToInt();
                                         oDoc.Comments = rdr["Comments"].ToString();                                        
-                                        oDoc.DocTotal = rdr["DocTotal"].ToDouble();                                        
+                                        //oDoc.DocTotal = rdr["DocTotal"].ToDouble();                                        
                                         
                                         oDoc.Comments = rdr["Comments"].ToString();
 
@@ -528,13 +529,13 @@ namespace SAP_MVC_DIAPI.BLC
                                                     }
                                                     oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();
                                                     oDoc.Lines.LineVendor = rdr2["LineVendor"].ToString();
-                                                    oDoc.Lines.RequiredDate = rdr["PQTReqDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["PQTReqDate"].ToString());
+                                                    oDoc.Lines.RequiredDate = rdr2["PQTReqDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr2["PQTReqDate"].ToString());
                                                     oDoc.Lines.Quantity = Convert.ToDouble(rdr2["Quantity"]);
                                                     oDoc.Lines.WarehouseCode = rdr2["WhsCode"].ToString();
 
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
                                                     oDoc.Lines.CountryOrg = rdr2["CountryOrg"].ToString();
-                                                    oDoc.Lines.ItemDescription = rdr2["ItemName"].ToString();
+                                                    //oDoc.Lines.ItemDescription = rdr2["ItemName"].ToString();
                                                  
                                                     oDoc.Lines.Add();
                                                 }
