@@ -280,7 +280,7 @@
 
                                                                                     <td>
                                                                                         <div class="input-group">
-                                                                                            <select class="form-control" id="Warehouse" name="Warehouse">
+                                                                                            <select class="form-control WhsSelect" id="Warehouse" name="Warehouse">
                                                                                             </select>
                                                                                             
                                                                                         </div>
@@ -780,7 +780,7 @@
                                                                                                 </td>
                                                                                                  <td>
                                                                                             <div class="input-group">
-                                                                                                <select class="form-control" id="Warehouse">
+                                                                                                <select class="form-control WhsSelect" id="Warehouse">
                                                                                                 `+ WareHouseData + `
                                                                                                 </select>
                                                                                                 <div id="ListbtnSelectBatch" class="input-group-append d-none">
@@ -949,7 +949,7 @@
                                                                                 </td>
                                                                                  <td>
                                                                                             <div class="input-group">
-                                                                                                <select class="form-control" id="Warehouse">
+                                                                                                <select class="form-control WhsSelect" id="Warehouse">
                                                                                                 `+ WareHouseData + `
                                                                                                 </select>
                                                                                                 <div id="ListbtnSelectBatch" class="input-group-append d-none">
@@ -1039,7 +1039,7 @@
                                                                                 </td>
                                                                                  <td>
                                                                                             <div class="input-group">
-                                                                                                <select class="form-control" id="Warehouse">
+                                                                                                <select class="form-control WhsSelect" id="Warehouse">
                                                                                                 `+ WareHouseData + `
                                                                                                 </select>
                                                                                                 <div id="ListbtnSelectBatch" class="input-group-append d-none">
@@ -1318,7 +1318,7 @@
 
                                                                                     <td>
                                                                                         <div class="input-group">
-                                                                                                    <select class="form-control" name="Warehouse"  id="Warehouse">
+                                                                                                    <select class="form-control WhsSelect" name="Warehouse"  id="Warehouse">
                                                                                                   `+ WareHouseData + `
                                                                                             </select> 
                                                                                         </div>
@@ -1389,7 +1389,12 @@
         
     });
 
-
+    $(document).on('mouseover', '.WhsSelect', function (e) {
+        
+        $(this).select2();
+        $(this).focus();
+        InitializeWarehouseSelect2Event($(this).closest('tr'));
+    });
 
     $(document).on('change', '#UomEntry', function (e) {
 
