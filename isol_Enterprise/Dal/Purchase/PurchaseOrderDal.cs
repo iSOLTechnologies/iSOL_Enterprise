@@ -37,6 +37,8 @@ namespace iSOL_Enterprise.Dal.Purchase
                     models.IsPosted = rdr["isPosted"].ToString(); models.IsEdited = rdr["is_Edited"].ToString();
                     models.isApproved = rdr["isApproved"].ToBool();
                     models.apprSeen = rdr["apprSeen"].ToBool();
+                    models.Sap_Ref_No = rdr["Sap_Ref_No"].ToString();
+
                     list.Add(models);
                 }
             }
