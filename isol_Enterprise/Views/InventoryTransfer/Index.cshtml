@@ -203,11 +203,23 @@
                     }
                 }, {
                     data: "guid", 'title': 'Action', render: function (data, type, row) {
+                        //  if (row['sap_Ref_No'] != null && row['sap_Ref_No'] != undefined && row['sap_Ref_No'] != '') {
+                        var dropdownbtn = `<div class="dropdown">
+                                                                <button class="btn btn-sm btn-clean btn-icon btn-icon-md" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fa fa-print"> </i>
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                                                            <a class="dropdown-item pname" docnum="`+ row['sap_Ref_No'] + `" pname="InventoryTransfferGatepass" >Inventory Transffer Gatepass</a>
+                                                                                    <a class="dropdown-item pname" docnum="`+ row['sap_Ref_No'] + `" pname="OutwardGatepassRpt" >Outward Gatepass Rpt</a>
+                                                                                    <a class="dropdown-item pname" docnum="`+ row['sap_Ref_No'] + `" pname="OutwardGatepassRptRoll"" >Outward Gatepass Rpt-Roll</a>
 
+                                                        </div>
+                                                    </div>`;
+                        // }
                         var html = '<a guid=' + data + ' id="btnFetchInventory" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
                         html += '<i id="showeyes" class=" fa fa-eye"></i> ';
                         html += '               </a>';
-                        return html;
+                        return dropdownbtn+ html;
 
                     }
                 },],
@@ -224,6 +236,66 @@
         var guid = $(this).attr("guid");
         window.location.href = '/InventoryTransfer/InventoryTransferMaster/?id=' + guid + '';
 
+    });
+
+
+    $(document).on('click', '.pname', function () {
+        debugger
+        var ReportName = '';
+        var PName = $(this).attr('pname');
+        var SapRef = $(this).attr('docnum');
+
+
+        if (SapRef != null && SapRef != "" && SapRef != undefined) {
+            if (PName == 'InventoryTransfferGatepass') {
+                ReportName = 'Inventory Transffer Gatepass.rpt'
+            }
+            if (PName == 'OutwardGatepassRpt') {
+                ReportName = 'Outward Gatepass Rpt.rpt'
+            }
+            if (PName == 'OutwardGatepassRptRoll') {
+                ReportName = 'Outward Gatepass Rpt-Roll.rpt'
+            }
+
+            $(this).attr('disabled', true);
+
+            $(".loading_ic").addClass('overlay');
+            $(".loading_ic").show();
+
+            $.ajax({
+                url: '@ViewBag.Url' + 'Report/PurchaseOrderReports',
+                type: 'GET',
+                dataType: 'json',
+                async: true,
+                data: { DocNum: SapRef, ReportName, ReportName },
+                success: function (result) {
+                    $('#btnGenerateReport').attr('disabled', false);
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
+
+                    if (result.isSuccess) {
+                        window.open('@ViewBag.Url' + result.Data, '_blank');
+                    }
+                    else if (result.isError) {
+                        toastr.error("An Error Occurred in Report Generation !!");
+                    }
+
+
+
+
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
+                    $('#btnGenerateReport').attr('disabled', false);
+                    console.log(errorMessage);
+                }
+            });
+
+        }
+        else {
+            toastr.warning("DocNum can't be empty")
+        }
     });
 
     $(document).on('click', '#btnPostToSap', function () {

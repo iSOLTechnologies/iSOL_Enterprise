@@ -35,7 +35,9 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     models.CardCode = rdr["CardCode"].ToString();
                     models.Guid = rdr["Guid"].ToString();
                     models.CardName = rdr["CardName"].ToString();
-                    models.IsPosted = rdr["isPosted"].ToString(); models.IsEdited = rdr["is_Edited"].ToString();
+                    models.IsPosted = rdr["isPosted"].ToString();
+                    models.IsEdited = rdr["is_Edited"].ToString();
+                    models.Sap_Ref_No = rdr["Sap_Ref_No"].ToString();
                     list.Add(models);
                 }
             }

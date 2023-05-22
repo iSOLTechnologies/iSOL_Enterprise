@@ -51,7 +51,7 @@ namespace ReportManager.Controllers
             {
                 ReportDal model = new ReportDal();
                 Document_MasterModel input = new Document_MasterModel();                
-                input.DocNum = DocNum;
+               // input.DocNum = DocNum;
 
                 ResponseModels response = model.PurchaseOrderReport(DocNum,ReportName);
 
