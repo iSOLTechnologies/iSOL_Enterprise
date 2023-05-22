@@ -205,8 +205,8 @@
                     data: "guid", 'title': 'Action', render: function (data, type, row) {
                         //  if (row['sap_Ref_No'] != null && row['sap_Ref_No'] != undefined && row['sap_Ref_No'] != '') {
                         var dropdownbtn = `<div class="dropdown">
-                                                                <button class="btn btn-sm btn-clean btn-icon btn-icon-md" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            <i class="fa fa-print"> </i>
+                                                                    <button class="btn btn-sm btn-clean btn-hover-primary btn-icon btn-icon-md" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                <i class="fa fa-print text-primary"> </i>
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
                                                                             <a class="dropdown-item pname" docnum="`+ row['sap_Ref_No'] + `" pname="InventoryTransfferGatepass" >Inventory Transffer Gatepass</a>
@@ -219,7 +219,7 @@
                         var html = '<a guid=' + data + ' id="btnFetchInventory" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
                         html += '<i id="showeyes" class=" fa fa-eye"></i> ';
                         html += '               </a>';
-                        return dropdownbtn+ html;
+                        return '<div class="d-flex">' + dropdownbtn + html + '</div>';
 
                     }
                 },],
