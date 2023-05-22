@@ -418,7 +418,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                 {
                     List<SqlParameter> param = new List<SqlParameter>();
 
-                    param.Add(cdal.GetParameter("@Id", model.HeaderData.MyId, typeof(int)));
+                    param.Add(cdal.GetParameter("@Id", model.HeaderData.my_id, typeof(int)));
                     int ObjectCode = 1470000113;
                     int isApproved = ObjectCode.GetApprovalStatus(tran);
                     #region Insert in Approval Table
@@ -503,7 +503,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                             {
                                 if (item.LineNum != "" && item.LineNum != null)
                                 {
-                                    decimal OpenQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select OpenQty from PRQ1 where Id=" + model.HeaderData.MyId + " and LineNum=" + item.LineNum + ""));
+                                    decimal OpenQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select OpenQty from PRQ1 where Id=" + model.HeaderData.my_id + " and LineNum=" + item.LineNum + ""));
                                     if (OpenQty > 0)
                                     {
 
@@ -512,7 +512,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                         var BaseRef = item.BaseRef;
                                         #region sqlparam
                                         List<SqlParameter> param1 = new List<SqlParameter>();
-                                        param1.Add(cdal.GetParameter("@Id", model.HeaderData.MyId, typeof(int)));
+                                        param1.Add(cdal.GetParameter("@Id", model.HeaderData.my_id, typeof(int)));
                                         param1.Add(cdal.GetParameter("@LineNum", item.LineNum, typeof(int)));
                                         param1.Add(cdal.GetParameter("@ItemCode", item.ItemCode, typeof(string)));
                                         param1.Add(cdal.GetParameter("@LineVendor", item.LineVendor, typeof(string)));
@@ -550,7 +550,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                 var BaseRef = item.BaseRef;
                                 #region sqlparam
                                 List<SqlParameter> param1 = new List<SqlParameter>();
-                                param1.Add(cdal.GetParameter("@Id", model.HeaderData.MyId, typeof(int)));
+                                param1.Add(cdal.GetParameter("@Id", model.HeaderData.my_id, typeof(int)));
                                 param1.Add(cdal.GetParameter("@LineNum", LineNo, typeof(int)));
                                 param1.Add(cdal.GetParameter("@ItemCode", item.ItemCode, typeof(string)));
                                 param1.Add(cdal.GetParameter("@LineVendor", item.LineVendor, typeof(string)));
@@ -578,33 +578,6 @@ namespace iSOL_Enterprise.Dal.Purchase
                                 }
 
                             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                         }
                     }

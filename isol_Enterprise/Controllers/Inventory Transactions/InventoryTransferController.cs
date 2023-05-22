@@ -10,8 +10,14 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
 {
     public class InventoryTransferController : Controller
     {
+        IConfiguration _configuration;
+        public InventoryTransferController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public IActionResult Index()
         {
+            ViewBag.Url = _configuration["ReportUrl"].ToString();
             return View();
         }
 
