@@ -117,7 +117,8 @@ namespace iSOL_Enterprise.Dal.Administrator
             {
                 #region If its a transaction Document
                 if (ObjectType == 15 || ObjectType == 16 || ObjectType == 14 ||
-                    ObjectType == 20 || ObjectType == 21 || ObjectType == 19 )
+                    ObjectType == 20 || ObjectType == 21 || ObjectType == 19 ||
+                    ObjectType == 59 || ObjectType == 60)
                 {
 
                     List<SalesQuotation_DetailsModels> rows = GetDocRows(tran,DocEntry, ObjectType);

@@ -34,6 +34,8 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     models.Guid = rdr["Guid"].ToString(); 
                     models.IsPosted = rdr["isPosted"].ToString();
                     models.IsEdited = rdr["is_Edited"].ToString();
+                    models.isApproved = rdr["isApproved"].ToBool();
+                    models.apprSeen = rdr["apprSeen"].ToBool();
                     list.Add(models);                
                 }
             }
@@ -101,9 +103,9 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                 {
                     List<SqlParameter> param = new List<SqlParameter>();
                     int Id = CommonDal.getPrimaryKey(tran, "OIGE");
-
+                    string Guid = CommonDal.generatedGuid();
                     param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
-                    param.Add(cdal.GetParameter("@Guid", CommonDal.generatedGuid(), typeof(string)));
+                    param.Add(cdal.GetParameter("@Guid", Guid, typeof(string)));
 
                     #region BackendCheck For Series
                     if (MySeries != -1)
@@ -130,8 +132,36 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                             return response;
                         }
                     }
-                    string HeadQuery = @"insert into OIGE (Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Ref2,Comments,JrnlMemo,DocTotal) 
-                                        values(@Id,@Guid,@MySeries,@DocNum,@Series,@DocDate,@GroupNum,@TaxDate,@Ref2,@Comments,@JrnlMemo,@DocTotal)";
+
+                    int ObjectCode = 60;
+                    int isApproved = ObjectCode.GetApprovalStatus(tran);
+                    #region Insert in Approval Table
+
+                    if (isApproved == 0)
+                    {
+                        ApprovalModel approvalModel = new()
+                        {
+                            Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                            ObjectCode = ObjectCode,
+                            DocEntry = Id,
+                            DocNum = model.HeaderData.DocNum.ToString(),
+                            Guid = Guid
+
+                        };
+                        bool resp = cdal.AddApproval(tran, approvalModel);
+                        if (!resp)
+                        {
+                            //tran.Rollback();
+                            response.isSuccess = false;
+                            response.Message = "An error occured !";
+                            return response;
+                        }
+                    }
+
+                    #endregion
+
+                    string HeadQuery = @"insert into OIGE (Id,Guid,MySeries,DocNum,Series,DocDate,GroupNum,TaxDate,Ref2,Comments,JrnlMemo,DocTotal,isApproved) 
+                                        values(@Id,@Guid,@MySeries,@DocNum,@Series,@DocDate,@GroupNum,@TaxDate,@Ref2,@Comments,@JrnlMemo,@DocTotal,@isApproved)";
 
 
 
@@ -151,6 +181,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                     param.Add(cdal.GetParameter("@Comments", model.FooterData.Comments, typeof(string)));
                     param.Add(cdal.GetParameter("@JrnlMemo", model.FooterData.JrnlMemo, typeof(string)));
                     param.Add(cdal.GetParameter("@DocTotal", model.FooterData.TotalBeforeDiscount, typeof(decimal)));
+                    param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
                     #endregion
 
 
