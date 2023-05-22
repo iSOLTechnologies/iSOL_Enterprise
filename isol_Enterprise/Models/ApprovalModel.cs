@@ -13,6 +13,7 @@
         public DateTime? Date { get; set; }
         public bool Status { get; set; }
         public bool Seen { get; set; }
+        public bool MngGuid { get; set; }
 
         public string DocUrl { get; set; }
 

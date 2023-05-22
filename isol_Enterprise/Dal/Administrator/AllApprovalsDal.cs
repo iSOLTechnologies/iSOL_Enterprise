@@ -34,7 +34,8 @@ namespace iSOL_Enterprise.Dal.Administrator
                         Date = rdr["Date"].ToDateTime(),
                         Status = rdr["Status"].ToBool(),
                         Seen = rdr["Seen"].ToBool(),
-                        DocUrl = dal.GetDocEditUrl(rdr["ObjectCode"].ToInt())
+                        DocUrl = dal.GetDocEditUrl(rdr["ObjectCode"].ToInt()),
+                        MngGuid = ManageByGuid(rdr["ObjectCode"].ToInt())
                     };
                     
                     list.Add(models);
@@ -42,6 +43,30 @@ namespace iSOL_Enterprise.Dal.Administrator
             }
             return list;
         }
+        public bool ManageByGuid(int ObjectType)
+        {
+            if (ObjectType == 23                ||
+                ObjectType == 17                ||
+                ObjectType == 15                ||
+                ObjectType == 16                ||
+                ObjectType == 13                ||
+                ObjectType == 14                ||
+                ObjectType == 1470000113        ||
+                ObjectType == 540000006         ||
+                ObjectType == 22                ||
+                ObjectType == 20                ||
+                ObjectType == 21                ||
+                ObjectType == 18                ||
+                ObjectType == 19
+
+            )
+            {
+            return false;
+
+            }
+            return true;
+        }
+
         public ResponseModels RejectAcceptDoc(int DocEntry, int ObjectType, int Status , int id)
         {
             ResponseModels response = new ResponseModels();

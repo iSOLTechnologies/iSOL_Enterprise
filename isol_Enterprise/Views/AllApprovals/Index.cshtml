@@ -142,7 +142,10 @@
                 }, {
                     data: 'docUrl', title: 'Goto', render: function (data, type, row) 
                     {
-                        data = data + "?id=" + row.docEntry +"&aprv1ghas=1";
+                        if (row.mngGuid)
+                            data = data + "?id=" + row.guid + "&aprv1ghas=1";
+                        else
+                            data = data + "?id=" + row.docEntry +"&aprv1ghas=1";
                         var html = '<a URL=' + data + ' id="btnViewDoc" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
                         html += '<i id="showeyes" class="fas fa-hand-point-right"></i> ';
                         html += '               </a>';

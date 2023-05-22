@@ -834,7 +834,7 @@ where s.Status=1 and p.Guid=@Guid";
                 #region Inventory
 
                 case 4: //Item Master Dat
-                    URL = "OITM";
+                    URL = "/ItemMasterData/ItemMasterDataMaster/";
                     break;
                 case 59: //Goods Receipt GR Item Transaction
                     URL = "OIGN";

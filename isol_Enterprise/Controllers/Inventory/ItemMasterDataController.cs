@@ -31,7 +31,7 @@ namespace iSOL_Enterprise.Controllers.Inventory
 
             return Json(response);
         }
-        public IActionResult ItemMasterDataMaster(string id = "")
+        public IActionResult ItemMasterDataMaster(string id = "", int aprv1ghas = 0)
         {
 
             ItemMasterDataDal dal = new ItemMasterDataDal();
@@ -47,6 +47,8 @@ namespace iSOL_Enterprise.Controllers.Inventory
             ViewData["CustomsGroup"] = dal.GetCustomsGroup();
             ViewData["TaxGroup"] = dal.GetTaxGroup();
             ViewData["UomName"] = dal.GetUomName();
+            ViewBag.ApprovalView = aprv1ghas;
+
             if (id != "")
             {
                 ViewBag.OldItemId = id;
