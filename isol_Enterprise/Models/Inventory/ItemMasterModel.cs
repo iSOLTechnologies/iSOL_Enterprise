@@ -11,5 +11,7 @@
         public string? DocStatus { get; set; }
         public string? IsPosted { get; set; }
         public string? IsEdited { get; set; }
+        public bool isApproved { get; set; }
+        public bool apprSeen { get; set; }
     }
 }

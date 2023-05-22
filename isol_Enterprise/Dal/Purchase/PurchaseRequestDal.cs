@@ -419,6 +419,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                     List<SqlParameter> param = new List<SqlParameter>();
 
                     param.Add(cdal.GetParameter("@Id", model.HeaderData.my_id, typeof(int)));
+                    
                     int ObjectCode = 1470000113;
                     int isApproved = ObjectCode.GetApprovalStatus(tran);
                     #region Insert in Approval Table
