@@ -122,14 +122,14 @@ namespace iSOL_Enterprise.Dal
             {
 
                 Int16? value1 = null;
-                //if (value is decimal)
-                //{
-                decimal decimalValue = Convert.ToDecimal(value); // Parse the decimal string value
+                value1 = value.ToString() == "" || value == null ? null : value;
+                if (value1 != null)
+                {
+                decimal decimalValue = Convert.ToDecimal(value1); // Parse the decimal string value
                 Int16 intValue = Convert.ToInt16(decimalValue);
 
-                value1 = value.ToString() == "" || value == null ? null : intValue;
 
-                //}
+                }
                 //else
                 //{
                 //    value1 = value.ToString() == "" || value == null ? null : Convert.ToInt16(value);
