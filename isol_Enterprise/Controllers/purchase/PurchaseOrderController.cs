@@ -18,8 +18,14 @@ namespace iSOL_Enterprise.Controllers.Sales
     [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public class PurchaseOrderController : Controller
     {
+        IConfiguration _configuration;
+        public PurchaseOrderController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public IActionResult Index()
         {
+            ViewBag.Url = _configuration["ReportUrl"].ToString();
             return View();
         }
         public IActionResult PurchaseOrderMaster(string DocId = "", int BaseType = 0)
