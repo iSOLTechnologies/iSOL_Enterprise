@@ -270,6 +270,22 @@ namespace iSOL_Enterprise.Controllers
             }
         }
         [HttpGet]
+        public IActionResult GetPreCostingTowel(string SaleOrderDocNo)
+        {
+            try
+            {
+
+                CommonDal dal = new CommonDal();
+
+                return Json(dal.GetPreCostingTowel(SaleOrderDocNo));
+            }
+            catch (Exception ex)
+            {
+
+                return Json(ex.Message);
+            }
+        }
+        [HttpGet]
         public IActionResult GetProdGuid(string ItemCode)
         {
             try

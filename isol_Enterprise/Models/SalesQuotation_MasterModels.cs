@@ -8,6 +8,7 @@
         public string? ItemCode { get; set; }
         public string? ItemName { get; set; }
         public string? OriginNum { get; set; }
+        public string? Description { get; set; }
         public string? DocType { get; set; }
         public DateTime? DocDate { get; set; }
         public DateTime? PostingDate { get; set; }

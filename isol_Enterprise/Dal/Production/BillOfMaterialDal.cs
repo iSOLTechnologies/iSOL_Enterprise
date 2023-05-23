@@ -15,7 +15,7 @@ namespace iSOL_Enterprise.Dal.Production
 
         public List<SalesQuotation_MasterModels> GetData()
         {
-            string GetQuery = "select Id,Code,TreeType,CreateDate,Qauntity,Guid,ToWH,isPosted,is_Edited from OITT order by id DESC";
+            string GetQuery = "select Id,Code,TreeType,CreateDate,Qauntity,Guid,ToWH,isPosted,is_Edited,isApproved,apprSeen from OITT order by id DESC";
 
 
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
@@ -36,6 +36,8 @@ namespace iSOL_Enterprise.Dal.Production
                     models.Warehouse = rdr["ToWH"].ToString();
                     models.IsPosted = rdr["isPosted"].ToString(); 
                     models.IsEdited = rdr["is_Edited"].ToString();
+                    models.isApproved = rdr["isApproved"].ToBool();
+                    models.apprSeen = rdr["apprSeen"].ToBool();
                     list.Add(models);
                 }
             }
@@ -152,12 +154,39 @@ namespace iSOL_Enterprise.Dal.Production
                 {
                     List<SqlParameter> param = new List<SqlParameter>();
                     int Id = CommonDal.getPrimaryKey(tran, "OITT");
-
+                    string Guid = CommonDal.generatedGuid();
                     param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
-                    param.Add(cdal.GetParameter("@Guid", CommonDal.generatedGuid(), typeof(string)));
+                    param.Add(cdal.GetParameter("@Guid", Guid, typeof(string)));
 
-                    string TabHeader = "Id,Guid,Code,Qauntity,ToWH,Name,PriceList,TreeType,OcrCode,Project,PlAvgSize,CreateDate";
-                    string TabHeaderP = "@Id,@Guid,@Code,@Quantity,@ToWH,@Name,@PriceList,@TreeType,@OcrCode,@Project,@PlAvgSize,@CreateDate";
+
+                        int ObjectCode = 66;
+                        int isApproved = ObjectCode.GetApprovalStatus(tran);
+                        #region Insert in Approval Table
+
+                        if (isApproved == 0)
+                        {
+                            ApprovalModel approvalModel = new()
+                            {
+                                Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                                ObjectCode = ObjectCode,
+                                DocEntry = Id,
+                                DocNum = (model.HeaderData.ItemmCode).ToString(),
+                                Guid = Guid
+
+                            };
+                            bool resp = cdal.AddApproval(tran, approvalModel);
+                            if (!resp)
+                            {
+                                response.isSuccess = false;
+                                response.Message = "An Error Occured";
+                                return response;
+                            }
+                        }
+
+                        #endregion
+
+                    string TabHeader = "Id,Guid,Code,Qauntity,ToWH,Name,PriceList,TreeType,OcrCode,Project,PlAvgSize,CreateDate,isApproved";
+                    string TabHeaderP = "@Id,@Guid,@Code,@Quantity,@ToWH,@Name,@PriceList,@TreeType,@OcrCode,@Project,@PlAvgSize,@CreateDate,@isApproved";
                     
                     string HeadQuery = @"insert into OITT (" + TabHeader + ") " +
                                         "values("+TabHeaderP+")";
@@ -177,6 +206,7 @@ namespace iSOL_Enterprise.Dal.Production
                     param.Add(cdal.GetParameter("@Project", model.HeaderData.Project, typeof(string)));
                     param.Add(cdal.GetParameter("@PlAvgSize", model.HeaderData.PlAvgSize, typeof(decimal)));
                     param.Add(cdal.GetParameter("@CreateDate",DateTime.Now, typeof(DateTime)));
+                    param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
                     #endregion
 
 

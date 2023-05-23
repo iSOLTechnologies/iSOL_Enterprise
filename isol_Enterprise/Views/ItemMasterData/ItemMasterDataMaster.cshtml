@@ -2329,8 +2329,21 @@
                 $("#HeaderTitle2").text('Update');
 
                 GetOldData();
-                
+                if("@ViewBag.ApprovalView" == 1) 
+                {
+                    $("#btnSaveData").attr('disabled', true);
+                    $('body').each(function (index, item) {
+
+                        $(this).find('input , select , textarea').each(function (index, data) {
+                        
+                            $(this).attr('disabled', true);
+
+                        });
+                    })
+
+                }
             }
+
     });
 
     $(document).on("keydown", "input", function () {

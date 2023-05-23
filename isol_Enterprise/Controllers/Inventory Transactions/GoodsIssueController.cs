@@ -33,7 +33,7 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
             return Json(response);
         }
 
-        public IActionResult GoodsIssueMaster(string id = "")
+        public IActionResult GoodsIssueMaster(string id = "", int aprv1ghas = 0)
         {
             ItemMasterDataDal Idal = new ItemMasterDataDal(); 
             AdministratorDal dal = new AdministratorDal();
@@ -41,6 +41,7 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
             ViewData["Series"] = dal.GetSeries(60);
             ViewData["MySeries"] = dal.GetMySeries(60);
             ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text");
+            ViewBag.ApprovalView = aprv1ghas;
             if (id != "")
             {
                 ViewBag.OldId = id;

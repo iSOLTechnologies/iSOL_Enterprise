@@ -131,7 +131,7 @@ namespace SAP_MVC_DIAPI.BLC
                                             {
 
                                                 if (rdr["SaleOrderNo"].ToString() != "")
-                                                    oDoc.UserFields.Fields.Item("U_Old_SO").Value = Convert.ToInt32(rdr["SaleOrderNo"]);
+                                                    oDoc.UserFields.Fields.Item("U_SNo").Value = Convert.ToInt32(rdr["SaleOrderNo"]);
                                                 if (rdr["ProductionOrderNo"].ToString() != "")
                                                     oDoc.UserFields.Fields.Item("U_Production_ordr").Value = Convert.ToInt32(rdr["ProductionOrderNo"]);
                                                 if (rdr["PurchaseType"].ToString() != "")

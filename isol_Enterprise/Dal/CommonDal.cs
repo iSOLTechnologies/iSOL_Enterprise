@@ -1196,6 +1196,30 @@ where s.Status=1 and p.Guid=@Guid";
 
             return list;
         }
+        public List<SalesQuotation_MasterModels> GetPreCostingTowel(string SaleOrderDocNo)
+        {
+            string GetQuery = "select DocEntry,U_ItemDes,U_Count from dbo.[@OPCT] where U_Count = '"+SaleOrderDocNo+"'";
+
+
+            List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    list.Add(
+                        new SalesQuotation_MasterModels()
+                        {
+                            Id = rdr["DocEntry"].ToInt(),
+                            DocNum = rdr["U_Count"].ToString(),                        
+                            Description = rdr["U_ItemDes"].ToString()                        
+                        }) ;
+
+                }
+            }
+
+            return list;
+        }
         public static List<tbl_OWHS> GetWareHouseList(string ItemCode)
         {
 
