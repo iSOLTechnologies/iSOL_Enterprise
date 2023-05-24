@@ -270,14 +270,15 @@ namespace iSOL_Enterprise.Dal.Purchase
                         {
 
                             string RowQueryItem1 = @"insert into PRQ1
-                                (Id,LineNum,ItemCode,LineVendor,PQTReqDate,Quantity,OpenQty,WhsCode,DiscPrcnt,Price,VatGroup,UomEntry,UomCode,LineTotal,CountryOrg,SaleOrderCode,SaleOrderDocNo,PreCostingTowelCode,AccessoriesType)
-                          values(@Id,@LineNum,@ItemCode,@LineVendor,@PQTReqDate,@Quantity,@OpenQty,@WhsCode,@DiscPrcnt,@Price,@VatGroup,@UomEntry,@UomCode,@LineTotal,@CountryOrg,@SaleOrderCode,@SaleOrderDocNo,@PreCostingTowelCode,@AccessoriesType)";
+                                (Id,LineNum,ItemCode,Dscription,LineVendor,PQTReqDate,Quantity,OpenQty,WhsCode,DiscPrcnt,Price,VatGroup,UomEntry,UomCode,LineTotal,CountryOrg,SaleOrderCode,SaleOrderDocNo,PreCostingTowelCode,AccessoriesType)
+                          values(@Id,@LineNum,@ItemCode,@Dscription,@LineVendor,@PQTReqDate,@Quantity,@OpenQty,@WhsCode,@DiscPrcnt,@Price,@VatGroup,@UomEntry,@UomCode,@LineTotal,@CountryOrg,@SaleOrderCode,@SaleOrderDocNo,@PreCostingTowelCode,@AccessoriesType)";
                             var BaseRef = item.BaseRef;
                             #region sqlparam
                             List<SqlParameter> param1 = new List<SqlParameter>();
                             param1.Add(cdal.GetParameter("@Id", Id, typeof(int)));
                             param1.Add(cdal.GetParameter("@LineNum", LineNum, typeof(int)));
                             param1.Add(cdal.GetParameter("@ItemCode", item.ItemCode, typeof(string)));
+                            param1.Add(cdal.GetParameter("@Dscription", item.ItemName, typeof(string)));
                             param1.Add(cdal.GetParameter("@LineVendor", item.LineVendor, typeof(string)));
                             param1.Add(cdal.GetParameter("@PQTReqDate", item.PQTReqDate, typeof(DateTime)));
                             param1.Add(cdal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
@@ -517,16 +518,16 @@ namespace iSOL_Enterprise.Dal.Purchase
                     {
                         foreach (var item in model.ListItems)
                         {
+							int LineNo = CommonDal.getLineNumber(tran, "PRQ1", model.HeaderData.my_id.ToString());
 
-                            if (item.LineNum != "" && item.LineNum != null)
+							if (item.LineNum != "" && item.LineNum != null)
                             {
-                                if (item.LineNum != "" && item.LineNum != null)
-                                {
-                                    decimal OpenQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select OpenQty from PRQ1 where Id=" + model.HeaderData.my_id + " and LineNum=" + item.LineNum + ""));
+                               
+                                    decimal OpenQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(tran, CommandType.Text, "select OpenQty from PRQ1 where Id=" + model.HeaderData.my_id + " and LineNum=" + item.LineNum + ""));
                                     if (OpenQty > 0)
                                     {
 
-                                        string RowQueryItem1 = @"Update PRQ1 set ItemCode = @ItemCode,LineVendor = @LineVendor,PQTReqDate = @PQTReqDate,Quantity = @Quantity,WhsCode = @WhsCode,DiscPrcnt = @DiscPrcnt,
+                                        string RowQueryItem1 = @"Update PRQ1 set ItemCode = @ItemCode,Dscription=@Dscription,LineVendor = @LineVendor,PQTReqDate = @PQTReqDate,Quantity = @Quantity,WhsCode = @WhsCode,DiscPrcnt = @DiscPrcnt,
                                                                 Price = @Price,VatGroup = @VatGroup,UomEntry = @UomEntry,UomCode = @UomCode,LineTotal = @LineTotal,CountryOrg = @CountryOrg,
                                                                 SaleOrderCode=@SaleOrderCode,SaleOrderDocNo=@SaleOrderDocNo,PreCostingTowelCode=@PreCostingTowelCode,AccessoriesType=@AccessoriesType Where Id = @Id ";
                                         var BaseRef = item.BaseRef;
@@ -535,6 +536,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                         param1.Add(cdal.GetParameter("@Id", model.HeaderData.my_id, typeof(int)));
                                         param1.Add(cdal.GetParameter("@LineNum", item.LineNum, typeof(int)));
                                         param1.Add(cdal.GetParameter("@ItemCode", item.ItemCode, typeof(string)));
+                                        param1.Add(cdal.GetParameter("@Dscription", item.ItemName, typeof(string)));
                                         param1.Add(cdal.GetParameter("@LineVendor", item.LineVendor, typeof(string)));
                                         param1.Add(cdal.GetParameter("@PQTReqDate", item.PQTReqDate, typeof(DateTime)));
                                         param1.Add(cdal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
@@ -562,27 +564,28 @@ namespace iSOL_Enterprise.Dal.Purchase
                                             return response;
                                         }
                                     }
-                                }
+                                
 
                             }
                             else
                             {
-                                int LineNo = CommonDal.getLineNumber(tran, "PRQ1", model.HeaderData.my_id.ToString());
+                                
                                 string RowQueryItem1 = @"insert into PRQ1
-                                (Id,LineNum,ItemCode,LineVendor,PQTReqDate,Quantity,OpenQty,WhsCode,DiscPrcnt,Price,VatGroup,UomEntry,UomCode,LineTotal,CountryOrg,SaleOrderCode,SaleOrderDocNo,PreCostingTowelCode,AccessoriesType)
-                                values(@Id,@LineNum,@ItemCode,@LineVendor,@PQTReqDate,@Quantity,@OpenQty,@WhsCode,@DiscPrcnt,@Price,@VatGroup,@UomEntry,@UomCode,@LineTotal,@CountryOrg,@SaleOrderCode,@SaleOrderDocNo,@PreCostingTowelCode,@AccessoriesType)";
+                                (Id,LineNum,ItemCode,Dscription,LineVendor,PQTReqDate,Quantity,OpenQty,WhsCode,DiscPrcnt,Price,VatGroup,UomEntry,UomCode,LineTotal,CountryOrg,SaleOrderCode,SaleOrderDocNo,PreCostingTowelCode,AccessoriesType)
+                                values(@Id,@LineNum,@ItemCode,@Dscription,@LineVendor,@PQTReqDate,@Quantity,@OpenQty,@WhsCode,@DiscPrcnt,@Price,@VatGroup,@UomEntry,@UomCode,@LineTotal,@CountryOrg,@SaleOrderCode,@SaleOrderDocNo,@PreCostingTowelCode,@AccessoriesType)";
                                 var BaseRef = item.BaseRef;
                                 #region sqlparam
                                 List<SqlParameter> param1 = new List<SqlParameter>();
                                 param1.Add(cdal.GetParameter("@Id", model.HeaderData.my_id, typeof(int)));
                                 param1.Add(cdal.GetParameter("@LineNum", LineNo, typeof(int)));
                                 param1.Add(cdal.GetParameter("@ItemCode", item.ItemCode, typeof(string)));
-                                param1.Add(cdal.GetParameter("@LineVendor", item.LineVendor, typeof(string)));
+								param1.Add(cdal.GetParameter("@Dscription", item.ItemName, typeof(string)));
+								param1.Add(cdal.GetParameter("@LineVendor", item.LineVendor, typeof(string)));
                                 param1.Add(cdal.GetParameter("@PQTReqDate", item.PQTReqDate, typeof(DateTime)));
                                 param1.Add(cdal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
                                 param1.Add(cdal.GetParameter("@OpenQty", item.QTY, typeof(decimal)));
                                 param1.Add(cdal.GetParameter("@WhsCode", item.WhsCode, typeof(string)));
-                                param1.Add(cdal.GetParameter("@Price", item.Price, typeof(decimal)));
+                                param1.Add(cdal.GetParameter("@Price", item.UPrc, typeof(decimal)));
                                 param1.Add(cdal.GetParameter("@DiscPrcnt", item.DicPrc, typeof(decimal)));
                                 param1.Add(cdal.GetParameter("@VatGroup", item.VatGroup, typeof(string)));
                                 param1.Add(cdal.GetParameter("@UomEntry", item.UomEntry, typeof(int)));
@@ -603,8 +606,10 @@ namespace iSOL_Enterprise.Dal.Purchase
                                     response.Message = "An Error Occured";
                                     return response;
                                 }
+                                LineNo += 1;
 
-                            }
+
+							}
 
                         }
                     }
@@ -689,7 +694,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                 {
                     tran.Commit();
                     response.isSuccess = true;
-                    response.Message = "Purchase Request Added Successfully !";
+                    response.Message = "Purchase Request Updated Successfully !";
                 }
             }
             catch (Exception e)

@@ -177,7 +177,7 @@ function GetPrice() {
     var totalTax = 0;
     //var RoundingValue = 0;
     let FooterDiscount = $("#Discount").val();
-    console.log(FooterDiscount);
+    //console.log(FooterDiscount);
     let FooterDiscountVal = 0;
     $("#DiscountVal").val(FooterDiscountVal);
     $('#ListParameters .itm').each(function (index, item)
@@ -280,8 +280,10 @@ function ValidateListData(element) {
         $(this).find('input , select , textarea').each(function (index, data) {
 
             if (!($(this).hasClass("NotReq"))) {
+
                 if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') {
                     if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) {
+                        debugger
                         $(this).addClass('is-invalid');
                         isValid.push(false);
                     }

@@ -329,7 +329,7 @@
 																	<div class="col-md-6">
                                                                         <label>Sales Order #</label>                                                                        
                                                                         <div class="input-group">
-                                                                            <input type="text" id="SalesOrderCode" value="@row["SaleOrderNo"]" name="OriginNum" class="form-control form-control-sm " placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+																				<input type="text" id="SalesOrderCode" value="@row["SaleOrderNo"]" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
                                                                             <div id="SalesOrderNo" class="input-group-append">
                                                                                 <span class="input-group-text">
                                                                                     <i class="la la-search"></i>
@@ -453,160 +453,160 @@
                                                                                         {
                                                                                         
 
-																				<tr class="rowItemDetail align-items-center itm">
+																							<tr class="rowItemDetail align-items-center itm">
 																					 
-																						 <td class="d-none">
-                                                                                                    <input disabled="" id="LineNum" value="@row1["LineNum"]" class="form-control form-control-sm" type="text">
+																								<td class="d-none">
+                                                                                                    <input disabled="" id="LineNum" value="@row1["LineNum"]" class="form-control form-control-sm NotReq" type="text">
                                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                                 </td>
 																						 
-																					<td>
-																						<div class="input-group">
-																							<input id="ItemCode"  value="@row1["ItemCode"]" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
-																							<div id="Itemno" class="input-group-append">
-																								<span class="input-group-text">
-																									<i class="la la-search"></i>
-																								</span>
-																							</div>
-																						</div>
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-																					<td>
-																						<input id="ItemName" class="form-control form-control-sm" type="text">
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-																					<td>
-																						<div class="input-group">
+																								<td>
+																									<div class="input-group">
+																										<input id="ItemCode"  value="@row1["ItemCode"]" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
+																										<div id="Itemno" class="input-group-append">
+																											<span class="input-group-text">
+																												<i class="la la-search"></i>
+																											</span>
+																										</div>
+																									</div>
+																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																								</td>
+																								<td>
+																									<input id="ItemName" value="@row1["Dscription"]" class="form-control form-control-sm" type="text">
+																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																								</td>
+																								<td>
+																									<div class="input-group">
 
-																							<input type="text" value="@row1["LineVendor"]" id="LineVendor" class="form-control form-control-sm " placeholder="Vendor" aria-describedby="basic-addon2">
-																							<div id="CustomerNo" class="input-group-append">
-																								<span class="input-group-text">
-																									<i class="la la-search"></i>
-																								</span>
-																							</div>
-																						</div>
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-
-
-																					<td>
-																						<div class="input-group">
-																							<select class="form-control WhsSelect"  id="Warehouse">
-																								 @foreach (iSOL_Enterprise.Models.sale.tbl_OWHS warehouse in  ViewBag.Warehouse)
-                                                                                                        {
-                                                                                                            if (row1["WhsCode"].Equals(warehouse.whscode))
-                                                                                                            {
-                                                                                                                <option  value="@warehouse.whscode" selected>@warehouse.whsname</option>
-                                                                                                            }
-                                                                                                            else
-                                                                                                            {
-                                                                                                                <option  value="@warehouse.whscode" >@warehouse.whsname</option> 
-                                                                                                            }
+																										<input type="text" value="@row1["LineVendor"]" id="LineVendor" class="form-control form-control-sm " placeholder="Vendor" aria-describedby="basic-addon2">
+																										<div id="CustomerNo" class="input-group-append">
+																											<span class="input-group-text">
+																												<i class="la la-search"></i>
+																											</span>
+																										</div>
+																									</div>
+																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																								</td>
 
 
-                                                                                                        }
+																								<td>
+																									<div class="input-group">
+																										<select class="form-control WhsSelect"  id="Warehouse">
+																											 @foreach (iSOL_Enterprise.Models.sale.tbl_OWHS warehouse in  ViewBag.Warehouse)
+																													{
+																														if (row1["WhsCode"].Equals(warehouse.whscode))
+																														{
+																															<option  value="@warehouse.whscode" selected>@warehouse.whsname</option>
+																														}
+																														else
+																														{
+																															<option  value="@warehouse.whscode" >@warehouse.whsname</option> 
+																														}
 
-																							</select>
 
-																						</div>
+																													}
+
+																										</select>
+
+																									</div>
 
 
-																					</td>
-																					<td>
-																						<input id="onHand" class="form-control form-control-sm" readonly type="number">
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-																					<td>
-																						<input id="PQTReqDate" type="date" value="@(((DateTime)row1["PQTReqDate"]).ToString("yyyy-MM-dd"))" class="form-control form-control-sm" placeholder="Req Date">
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-																					<td>
-																						<input class="form-control form-control-sm" value="@row1["Quantity"]" id="QTY" type="number">
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-																					<td>
-																						 <input class="form-control form-control-sm" id="UPrc" value="@row1["Price"]" type="number">
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-																					<td>
-																						<input class="form-control form-control-sm NotReq" value="@row1["DiscPrcnt"]" id="DicPrc" type="number">
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-																					<td>
-																						<select class="form-control" id="VatGroup">
-																							@foreach (iSOL_Enterprise.Models.sale.tbl_OVTG i in ViewBag.Taxes)
-																				{
-																				    if (row1["VatGroup"].ToString().Equals((i.code).ToString()))
-																					{
-																						<option selected guid="@i.Rate" value="@i.code" >@i.vatName</option>
-																					} 
-																					else 
-																					{
-																						<option guid="@i.Rate" value="@i.code" >@i.vatName</option>
-																					}
+																								</td>
+																								<td>
+																									<input id="onHand" class="form-control form-control-sm" readonly type="number">
+																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																								</td>
+																								<td>
+																									<input id="PQTReqDate" type="date" value="@(((DateTime)row1["PQTReqDate"]).ToString("yyyy-MM-dd"))" class="form-control form-control-sm" placeholder="Req Date">
+																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																								</td>
+																								<td>
+																									<input class="form-control form-control-sm" value="@row1["Quantity"]" id="QTY" type="number">
+																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																								</td>
+																								<td>
+																									 <input class="form-control form-control-sm" id="UPrc" value="@row1["Price"]" type="number">
+																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																								</td>
+																								<td>
+																									<input class="form-control form-control-sm NotReq" value="@row1["DiscPrcnt"]" id="DicPrc" type="number">
+																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																								</td>
+																								<td>
+																									<select class="form-control" id="VatGroup">
+																										@foreach (iSOL_Enterprise.Models.sale.tbl_OVTG i in ViewBag.Taxes)
+																										{
+																											if (row1["VatGroup"].ToString().Equals((i.code).ToString()))
+																											{
+																												<option selected guid="@i.Rate" value="@i.code" >@i.vatName</option>
+																											} 
+																											else 
+																											{
+																												<option guid="@i.Rate" value="@i.code" >@i.vatName</option>
+																											}
 
-																				}
-																						</select>
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																										}
+																									</select>
+																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 
-																					</td>
+																								</td>
 
-																					<td>
-																						<input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" value="@row1["LineTotal"]" type='number' disabled>
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-																					<td>
-																									<select class="form-control" value="@row1["UomEntry"]" id="UomEntry"> </select><input value="@row1["UomCode"]" id="UomCode" class="position-absolute d-none" />
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-																					<td class="d-none">
-																						<select class="form-control form-control-sm" value="@row1["CountryOrg"]" id="CountryOrg" name="DurationTypeCode">
-																						</select>
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																					</td>
-																					<td>
-                                                                                        <div class="input-group">
-                                                                                            <input type="text" id="SaleOrderCode" value="@row1["SaleOrderCode"]" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
-                                                                                            <div id="SaleOrderNo" class="input-group-append">
-                                                                                                <span class="input-group-text">
-                                                                                                    <i class="la la-search"></i>
-                                                                                                </span>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-																					<td>
-																						<input type="text" id="SaleOrderDocNo" value="@row1["SaleOrderDocNo"]" name="SaleOrderDocNo" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
-																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-																					<td>
-                                                                                        <div class="input-group">
-                                                                                            <input type="text" id="PreCostingTowelCode" value="@row1["PreCostingTowelCode"]" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Pre Costing Towel No" aria-describedby="basic-addon2" readonly>
-                                                                                            <div id="PreCostingTowelNo" class="input-group-append">
-                                                                                                <span class="input-group-text">
-                                                                                                    <i class="la la-search"></i>
-                                                                                                </span>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                    </td>
-																					<td>
-																						<div class="input-group">
+																								<td>
+																									<input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" value="@row1["LineTotal"]" type='number' disabled>
+																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																								</td>
+																								<td>
+																												<select class="form-control" value="@row1["UomEntry"]" id="UomEntry"> <option value="-1" selected>Manual</option> </select><input value="@row1["UomCode"]" id="UomCode" class="position-absolute d-none" />
+																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																								</td>
+																								<td class="d-none">
+																									<select class="form-control form-control-sm NotReq" value="@row1["CountryOrg"]" id="CountryOrg" name="DurationTypeCode">
+																									</select>
+																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																								</td>
+																								<td>
+																									<div class="input-group">
+																										<input type="text" id="SaleOrderCode" value="@row1["SaleOrderCode"]" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+																										<div id="SaleOrderNo" class="input-group-append">
+																											<span class="input-group-text">
+																												<i class="la la-search"></i>
+																											</span>
+																										</div>
+																									</div>
+																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																								</td>
+																								<td>
+																									<input type="text" id="SaleOrderDocNo" value="@row1["SaleOrderDocNo"]" name="SaleOrderDocNo" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																								</td>
+																								<td>
+																									<div class="input-group">
+																										<input type="text" id="PreCostingTowelCode" value="@row1["PreCostingTowelCode"]" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Pre Costing Towel No" aria-describedby="basic-addon2" readonly>
+																										<div id="PreCostingTowelNo" class="input-group-append">
+																											<span class="input-group-text">
+																												<i class="la la-search"></i>
+																											</span>
+																										</div>
+																									</div>
+																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																								</td>
+																								<td>
+																									<div class="input-group">
 																							
-																							<select id="AccessoriesType"  class="form-control form-control-sm NotReq" value="@row1["AccessoriesType"]">
-																								<option value="">Select Accessories Type</option>
-																								<option value="01">01 -  Main Label</option>                                                                        
-																								<option value="02">02 - Hanger Label</option>                                                                        
-																								<option value="03">03 - Plastic Tag</option>                                                                        
-																								<option value="04">04 - Poly Bags</option>                                                                        
-																								<option value="05">05 - MIROP Label</option>                                                                        																							                                                                      
-																								<option value="06">06 - Cartons</option>                                                                        																							                                                                      
-																								<option value="07">07 - Servic Charges</option>                                                                        																							                                                                      
-																							</select>
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</div>
-																					</td>
-																				</tr>
+																										<select id="AccessoriesType"  class="form-control form-control-sm NotReq" value="@row1["AccessoriesType"]">
+																											<option value="">Select Accessories Type</option>
+																											<option value="01">01 -  Main Label</option>                                                                        
+																											<option value="02">02 - Hanger Label</option>                                                                        
+																											<option value="03">03 - Plastic Tag</option>                                                                        
+																											<option value="04">04 - Poly Bags</option>                                                                        
+																											<option value="05">05 - MIROP Label</option>                                                                        																							                                                                      
+																											<option value="06">06 - Cartons</option>                                                                        																							                                                                      
+																											<option value="07">07 - Servic Charges</option>                                                                        																							                                                                      
+																										</select>
+																										<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																									</div>
+																								</td>
+																							</tr>
 
 																						}
 																				  }
@@ -1201,89 +1201,104 @@
 
 	function append_ItemFirstRow() {
 		var html = `    <tr class="rowItemDetail align-items-center itm">
+																						<td>
+																							<div class="input-group">
+																								<input id="ItemCode" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
+																								<div id="Itemno" class="input-group-append"> <span class="input-group-text">
+																										<i class="la la-search"></i>
+																									</span> </div>
+																							</div>
+																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																						</td>
+																						<td>
+																							<input id="ItemName" class="form-control form-control-sm" type="text">
+																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																						</td>
 																							<td>
-																								<div class="input-group">
-																									<input id="ItemCode" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
-																									<div id="Itemno" class="input-group-append"> <span class="input-group-text">
-																											<i class="la la-search"></i>
-																										</span> </div>
-																								</div>
-																								<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																							</td>
-																							<td>
-																								<input id="ItemName" class="form-control form-control-sm" type="text">
-																								<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																							</td>
-																								<td>
-																								<div class="input-group">
+																							<div class="input-group">
 
-																									<input type="text" id="LineVendor" class="form-control form-control-sm " placeholder="Vendor" aria-describedby="basic-addon2">
-																					<div id="CustomerNo" class="input-group-append">
-																						<span class="input-group-text">
-																							<i class="la la-search"></i>
-																						</span>
-																					</div>
-																								</div>
-																								<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																							</td>
+																								<input type="text" id="LineVendor" class="form-control form-control-sm " placeholder="Vendor" aria-describedby="basic-addon2">
+																				<div id="CustomerNo" class="input-group-append">
+																					<span class="input-group-text">
+																						<i class="la la-search"></i>
+																					</span>
+																				</div>
+																							</div>
+																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																						</td>
 
-																														<td>
-																									<div class="input-group">
-																												<select class="form-control WhsSelect" id="Warehouse">
-																											`+ WareHouseData + `
-																										</select>
+																						                            <td>
+                                                                                                <div class="input-group">
+																											<select class="form-control WhsSelect" id="Warehouse">
+                                                                                                        `+ WareHouseData + `
+                                                                                                    </select>
 
-																									</div>
+                                                                                                </div>
 
 
-																								</td>
-																								 <td>
-																											<input id="onHand" class="form-control form-control-sm" readonly type="number">
-																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																								</td>
-																							<td>
-																								<input id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
-																								<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																							</td>
-																							<td>
-																								<input class="form-control form-control-sm" id="QTY" type="number">
-																								<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																							</td>
-																							<td>
-																								<input class="form-control form-control-sm" id="UPrc" type="number">
-																								<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																							</td>
-																							<td>
-																							<input class="form-control form-control-sm NotReq"  id = "DicPrc"   type = "number">
-																								<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																							</td>
-																							<td>
-																								<select class="form-control vtGroup" id="VatGroup">
-																								`+ vatGroupData + `
-																								</select>
-																								<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-
-																							</td>
-
-																							<td>
-																								<input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
-																								<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																							</td>
-																							<td>
-																								<select class="form-control " id="UomEntry"> </select><input id="UomCode" class="position-absolute d-none"/>
+                                                                                            </td>
+                                                                                             <td>
+                                                                                                        <input id="onHand" class="form-control form-control-sm" readonly type="number">
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+																						<td>
+																							<input id="PQTReqDate" type="date" class="form-control form-control-sm" placeholder="Req Date">
+																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																						</td> 
+																						<td>
+																							<input class="form-control form-control-sm" id="QTY" type="number">
+																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																						</td>
+																						<td>
+																							<input class="form-control form-control-sm" id="UPrc" type="number">
+																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																						</td>
+																						<td>
+																						<input class="form-control form-control-sm NotReq"  id = "DicPrc"   type = "number">
+																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																						</td>
+																						<td>
+																							<select class="form-control vtGroup" id="VatGroup">
+																							`+ vatGroupData + `
+																							</select>
 																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 
-																							</td>
-																							<td class="d-none">
-																								<select class="form-control form-control-sm" id="CountryOrg" name="DurationTypeCode">
-																									`+ CountryData + `
-																								</select>
-																								<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																							</td>
-																								<td>
+																						</td>
+
+																						<td>
+																							<input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
+																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																						</td>
+																						<td>
+																							<select class="form-control " id="UomEntry"> </select><input id="UomCode" class="position-absolute d-none"/>
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																							 
+																						</td>
+																						<td class="d-none">
+																							<select class="form-control form-control-sm NotReq" id="CountryOrg" name="DurationTypeCode">
+																								`+ CountryData + `
+																							</select>
+																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																						</td>
+																							<td>
+                                                                                        <div class="input-group">
+                                                                                            <input type="text" id="SaleOrderCode" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+                                                                                            <div id="SaleOrderNo" class="input-group-append">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-search"></i>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+																					<td>                                                                                       
+                                                                                        <input type="text" id="SaleOrderDocNo" name="SaleOrderDocNo" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>                                                                                       
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+																						<td>
 																							<div class="input-group">
-																								<input type="text" id="SaleOrderCode" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
-																								<div id="SaleOrderNo" class="input-group-append">
+																								<input type="text" id="PreCostingTowelCode" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Pre Costing Towel No" aria-describedby="basic-addon2" readonly>
+																								<div id="PreCostingTowelNo" class="input-group-append">
 																									<span class="input-group-text">
 																										<i class="la la-search"></i>
 																									</span>
@@ -1291,39 +1306,24 @@
 																							</div>
 																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																						</td>
-																						<td>
-																							<input type="text" id="SaleOrderDocNo" name="SaleOrderDocNo" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
-																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																						</td>
 																							<td>
-																								<div class="input-group">
-																									<input type="text" id="PreCostingTowelCode" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Pre Costing Towel No" aria-describedby="basic-addon2" readonly>
-																									<div id="PreCostingTowelNo" class="input-group-append">
-																										<span class="input-group-text">
-																											<i class="la la-search"></i>
-																										</span>
-																									</div>
-																								</div>
+																							<div class="input-group">
+
+																								<select id="AccessoriesType"  class="form-control form-control-sm NotReq">
+																									<option value="">Select Accessories Type</option>
+																									<option value="01">01 -  Main Label</option>
+																									<option value="02">02 - Hanger Label</option>
+																									<option value="03">03 - Plastic Tag</option>
+																									<option value="04">04 - Poly Bags</option>
+																									<option value="05">05 - MIROP Label</option>
+																									<option value="06">06 - Cartons</option>
+																									<option value="07">07 - Servic Charges</option>
+																								</select>
 																								<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																							</td>
-																								<td>
-																								<div class="input-group">
-
-																									<select id="AccessoriesType"  class="form-control form-control-sm NotReq">
-																										<option value="">Select Accessories Type</option>
-																										<option value="01">01 -  Main Label</option>
-																										<option value="02">02 - Hanger Label</option>
-																										<option value="03">03 - Plastic Tag</option>
-																										<option value="04">04 - Poly Bags</option>
-																										<option value="05">05 - MIROP Label</option>
-																										<option value="06">06 - Cartons</option>
-																										<option value="07">07 - Servic Charges</option>
-																									</select>
-																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-																								</div>
-																							</td>
-
-																						</tr>`;
+																							</div>
+																						</td>
+																						
+																					</tr>`;
 		$('#kt_repeater_1 tbody').append(html);
 		// addDataInVatGroup();
 	}
@@ -1465,7 +1465,7 @@
 		GetVatGroupData();
 		GetCountrydata();
 		GetCurrencydata();
-		GetSaleOrders();
+		//GetSaleOrders();
 		DocStatus();
 
 		GetPayments();
@@ -1546,7 +1546,7 @@
 		$(this).removeClass('is-invalid');
 	});
 	$(document).on('click', '#ListBtnAddd', function (e) {
-		var html = `    <tr class="rowItemDetail align-items-center itm">
+		var html = ` <tr class="rowItemDetail align-items-center itm">
 																							<td>
 																								<div class="input-group">
 																									<input id="ItemCode" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
@@ -1621,7 +1621,7 @@
 
 																							</td>
 																							<td class="d-none">
-																								<select class="form-control form-control-sm" id="CountryOrg" name="DurationTypeCode">
+																									<select class="form-control form-control-sm NotReq" id="CountryOrg" name="DurationTypeCode">
 																									`+ CountryData + `
 																								</select>
 																								<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -1668,7 +1668,6 @@
 																									<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																								</div>
 																							</td>
-																							<td>
 																							<td>
 																								<a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
 																								<i class="la la-trash"></i> X
@@ -1750,7 +1749,7 @@
 	});
 
 	$(document).on('click', '#btnSaveData', function (e) {
-
+		
 		$(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
 		$(this).attr('disabled', true);
 		if (
@@ -1758,7 +1757,7 @@
 
 		) {
 			if (ItemServiceType == '1') {
-				if (ValidateListData("ListParameters .itm") && ValidateData("kt_tabs_acct"))
+				if (ValidateListData("ListParameters .itm"))
 					FormData();
 				else {
 					$(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
@@ -1792,7 +1791,7 @@
 	}
 
 	function PostData(formData) {
-
+		
 		return $.ajax({
 			url: '/PurchaseRequest/EditPurchaseRequest',
 			dataType: 'json',
