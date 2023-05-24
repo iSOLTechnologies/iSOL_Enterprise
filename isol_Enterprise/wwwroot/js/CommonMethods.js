@@ -283,7 +283,7 @@ function ValidateListData(element) {
 
                 if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') {
                     if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) {
-                        debugger
+                       
                         $(this).addClass('is-invalid');
                         isValid.push(false);
                     }

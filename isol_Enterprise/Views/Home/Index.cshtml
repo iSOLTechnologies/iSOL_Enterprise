@@ -568,7 +568,7 @@
 
                     },
                     success: function (result) {
-                        debugger
+                       
                          if ((result.success)) 
                         {
                             window.location.href = result.message;
@@ -580,7 +580,7 @@
                             //  toastr.success(result.msg);
                         }
                         else {
-                            debugger
+                           
                             toastr.error(result.message);
                             return false;
                         }
