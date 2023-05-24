@@ -59,6 +59,8 @@ namespace iSOL_Enterprise.Dal.Business
                     models.CardName = rdr["CardName"].ToString();
                     models.Guid = rdr["Guid"].ToString();
                     models.IsPosted = rdr["isPosted"].ToString(); models.IsEdited = rdr["is_Edited"].ToString();
+                    models.isApproved = rdr["isApproved"].ToBool();
+                    models.apprSeen = rdr["apprSeen"].ToBool();
                     list.Add(models);
                 }
             }
@@ -398,9 +400,10 @@ namespace iSOL_Enterprise.Dal.Business
                 {
                     List<SqlParameter> param = new List<SqlParameter>();
                     int Id = CommonDal.getPrimaryKey(tran, "OCRD");
+                    string Guid = CommonDal.generatedGuid();
 
                     param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
-                    param.Add(cdal.GetParameter("@Guid", CommonDal.generatedGuid(), typeof(string)));
+                    param.Add(cdal.GetParameter("@Guid", Guid, typeof(string)));
 
                     #region BackendCheck For Series
                     if (MySeries != -1)
@@ -428,15 +431,42 @@ namespace iSOL_Enterprise.Dal.Business
                             return response;
                         }
                     }
-                    
-                    string TabHeader = "Id,Guid,MySeries,CardCode,CardType,Series,CardName,CardFName,GroupCode,Currency,LicTradNum";
+
+                    int ObjectCode = 2;
+                    int isApproved = ObjectCode.GetApprovalStatus(tran);
+                    #region Insert in Approval Table
+
+                    if (isApproved == 0)
+                    {
+                        ApprovalModel approvalModel = new()
+                        {
+                            Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                            ObjectCode = ObjectCode,
+                            DocEntry = Id,
+                            DocNum = (model.HeaderData.CardCode).ToString(),
+                            Guid = Guid
+
+                        };
+                        bool resp = cdal.AddApproval(tran, approvalModel);
+                        if (!resp)
+                        {
+                            response.isSuccess = false;
+                            response.Message = "An Error Occured";
+                            return response;
+                        }
+                    }
+
+                    #endregion
+
+
+                    string TabHeader = "Id,Guid,MySeries,CardCode,CardType,Series,CardName,CardFName,GroupCode,Currency,LicTradNum,isApproved";
                     string TabGeneral = "Phone1,CntctPrsn,Phone2,AddID,Cellular,VatIdUnCmp,Fax,RegNum,E_Mail,Notes,IntrntSite,ShipType,SlpCode,Password,Indicator,ProjectCod,ChannlBP,IndustryC,DfTcnician,CmpPrivate,Territory,AliasName,GlblLocNum,validFor,validFrom,validTo,frozenFor,frozenFrom,frozenTo,FrozenComm";
                     string TabPaymentTerms = "GroupNum ,Discount,CreditLine,BankCountr,BankCode,DflAccount,DflSwift,DflBranch,BankCtlKey,DflIBAN,MandateID,SignDate";
                     string TabProperties = "QryGroup1,QryGroup2,QryGroup3,QryGroup4,QryGroup5,QryGroup6,QryGroup7,QryGroup8,QryGroup9,QryGroup10,QryGroup11,QryGroup12,QryGroup13,QryGroup14,QryGroup15,QryGroup16,QryGroup17,QryGroup18,QryGroup19,QryGroup20,QryGroup21,QryGroup22,QryGroup23,QryGroup24,QryGroup25,QryGroup26,QryGroup27,QryGroup28,QryGroup29,QryGroup30,QryGroup31,QryGroup32,QryGroup33,QryGroup34,QryGroup35,QryGroup36,QryGroup37,QryGroup38,QryGroup39,QryGroup40,QryGroup41,QryGroup42,QryGroup43,QryGroup44,QryGroup45,QryGroup46,QryGroup47,QryGroup48,QryGroup49,QryGroup50,QryGroup51,QryGroup52,QryGroup53,QryGroup54,QryGroup55,QryGroup56,QryGroup57,QryGroup58,QryGroup59,QryGroup60,QryGroup61,QryGroup62,QryGroup63,QryGroup64";
                     string TabRemarks = "Free_Text";
 
                     string HeadQuery = @"insert into OCRD (" + TabHeader + "," + TabGeneral + "," + TabPaymentTerms + "," + TabProperties + "," + TabRemarks + ") " +
-                                        "values(@Id,@Guid,@MySeries,@CardCode,@CardType,@Series,@CardName,@CardFName,@GroupCode,@Currency,@LicTradNum,@Phone1,@CntctPrsn,@Phone2,@AddID,@Cellular,@VatIdUnCmp,@Fax,@RegNum,@E_Mail,@Notes,@IntrntSite,@ShipType,@SlpCode,@Password,@Indicator,@ProjectCod,@ChannlBP,@IndustryC,@DfTcnician,@CmpPrivate,@Territory,@AliasName,@GlblLocNum,@validFor,@validFrom,@validTo,@frozenFor,@frozenFrom,@frozenTo,@FrozenComm,@GroupNum ,@Discount,@CreditLine,@BankCountr,@BankCode,@DflAccount,@DflSwift,@DflBranch,@BankCtlKey,@DflIBAN,@MandateID,@SignDate,@QryGroup1,@QryGroup2,@QryGroup3,@QryGroup4,@QryGroup5,@QryGroup6,@QryGroup7,@QryGroup8,@QryGroup9,@QryGroup10,@QryGroup11,@QryGroup12,@QryGroup13,@QryGroup14,@QryGroup15,@QryGroup16,@QryGroup17,@QryGroup18,@QryGroup19,@QryGroup20,@QryGroup21,@QryGroup22,@QryGroup23,@QryGroup24,@QryGroup25,@QryGroup26,@QryGroup27,@QryGroup28,@QryGroup29,@QryGroup30,@QryGroup31,@QryGroup32,@QryGroup33,@QryGroup34,@QryGroup35,@QryGroup36,@QryGroup37,@QryGroup38,@QryGroup39,@QryGroup40,@QryGroup41,@QryGroup42,@QryGroup43,@QryGroup44,@QryGroup45,@QryGroup46,@QryGroup47,@QryGroup48,@QryGroup49,@QryGroup50,@QryGroup51,@QryGroup52,@QryGroup53,@QryGroup54,@QryGroup55,@QryGroup56,@QryGroup57,@QryGroup58,@QryGroup59,@QryGroup60,@QryGroup61,@QryGroup62,@QryGroup63,@QryGroup64,@Free_Text)";
+                                        "values(@Id,@Guid,@MySeries,@CardCode,@CardType,@Series,@CardName,@CardFName,@GroupCode,@Currency,@LicTradNum,@isApproved,@Phone1,@CntctPrsn,@Phone2,@AddID,@Cellular,@VatIdUnCmp,@Fax,@RegNum,@E_Mail,@Notes,@IntrntSite,@ShipType,@SlpCode,@Password,@Indicator,@ProjectCod,@ChannlBP,@IndustryC,@DfTcnician,@CmpPrivate,@Territory,@AliasName,@GlblLocNum,@validFor,@validFrom,@validTo,@frozenFor,@frozenFrom,@frozenTo,@FrozenComm,@GroupNum ,@Discount,@CreditLine,@BankCountr,@BankCode,@DflAccount,@DflSwift,@DflBranch,@BankCtlKey,@DflIBAN,@MandateID,@SignDate,@QryGroup1,@QryGroup2,@QryGroup3,@QryGroup4,@QryGroup5,@QryGroup6,@QryGroup7,@QryGroup8,@QryGroup9,@QryGroup10,@QryGroup11,@QryGroup12,@QryGroup13,@QryGroup14,@QryGroup15,@QryGroup16,@QryGroup17,@QryGroup18,@QryGroup19,@QryGroup20,@QryGroup21,@QryGroup22,@QryGroup23,@QryGroup24,@QryGroup25,@QryGroup26,@QryGroup27,@QryGroup28,@QryGroup29,@QryGroup30,@QryGroup31,@QryGroup32,@QryGroup33,@QryGroup34,@QryGroup35,@QryGroup36,@QryGroup37,@QryGroup38,@QryGroup39,@QryGroup40,@QryGroup41,@QryGroup42,@QryGroup43,@QryGroup44,@QryGroup45,@QryGroup46,@QryGroup47,@QryGroup48,@QryGroup49,@QryGroup50,@QryGroup51,@QryGroup52,@QryGroup53,@QryGroup54,@QryGroup55,@QryGroup56,@QryGroup57,@QryGroup58,@QryGroup59,@QryGroup60,@QryGroup61,@QryGroup62,@QryGroup63,@QryGroup64,@Free_Text)";
 
 
 
@@ -452,6 +482,7 @@ namespace iSOL_Enterprise.Dal.Business
                     param.Add(cdal.GetParameter("@GroupCode", model.HeaderData.GroupCode, typeof(int)));
                     param.Add(cdal.GetParameter("@Currency", model.HeaderData.DocCur, typeof(string)));
                     param.Add(cdal.GetParameter("@LicTradNum", model.HeaderData.LicTradNum, typeof(string)));
+                    param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
                     #endregion
 
 
@@ -791,9 +822,32 @@ namespace iSOL_Enterprise.Dal.Business
                 if (model.HeaderData != null && model.Tabs_General != null && model.Tabs_PaymentTerms != null && model.Tabs_Properties != null && model.Tabs_Remarks != null)
                 {
                     List<SqlParameter> param = new List<SqlParameter>();
-                    
 
-                    string TabHeader = " CardType=@CardType,CardName=@CardName,CardFName=@CardFName,GroupCode=@GroupCode,Currency=@Currency,LicTradNum=@LicTradNum";
+                    int ObjectCode = 2;
+                    int isApproved = ObjectCode.GetApprovalStatus(tran);
+                    #region Insert in Approval Table
+
+                    if (isApproved == 0)
+                    {
+                        ApprovalModel approvalModel = new()
+                        {
+                            Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                            ObjectCode = ObjectCode,
+                            DocEntry = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select Id from OCRD where guid='" + model.HeaderData.model.OldId + "'").ToString(),
+                            DocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select DocNum from OCRD where guid='" + model.HeaderData.model.OldId + "'").ToString(),
+                            Guid = (model.HeaderData.model.OldId).ToString()
+                        };
+                        bool resp = cdal.AddApproval(tran, approvalModel);
+                        if (!resp)
+                        {
+                            response.isSuccess = false;
+                            response.Message = "An Error Occured";
+                            return response;
+                        }
+
+                    }
+
+                    string TabHeader = " CardType=@CardType,CardName=@CardName,CardFName=@CardFName,GroupCode=@GroupCode,Currency=@Currency,LicTradNum=@LicTradNum,isApproved =@isApproved,apprSeen =0";
 
                     string TabGeneral = @"Phone1=@Phone1,CntctPrsn=@CntctPrsn,Phone2=@Phone2,AddID=@AddID,Cellular=@Cellular,VatIdUnCmp=@VatIdUnCmp,Fax=@Fax,RegNum=@RegNum,E_Mail=@E_Mail,
                                           Notes=@Notes,IntrntSite=@IntrntSite,ShipType=@ShipType,SlpCode=@SlpCode,Password=@Password,Indicator=@Indicator,ProjectCod=@ProjectCod,ChannlBP=@ChannlBP,
@@ -831,6 +885,7 @@ namespace iSOL_Enterprise.Dal.Business
                     param.Add(cdal.GetParameter("@GroupCode", model.HeaderData.GroupCode, typeof(int)));
                     param.Add(cdal.GetParameter("@Currency", model.HeaderData.DocCur, typeof(string)));
                     param.Add(cdal.GetParameter("@LicTradNum", model.HeaderData.LicTradNum, typeof(string)));
+                    param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
                     #endregion
 
                     #region General data

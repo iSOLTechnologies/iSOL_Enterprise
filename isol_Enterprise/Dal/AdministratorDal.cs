@@ -135,7 +135,7 @@ namespace iSOL_Enterprise.Dal
         public List<tbl_pages> GetPagesApprovals()
         {  
 
-            string GetQuery = "select id,ObjectCode,PageName,Approve from Pages";
+            string GetQuery = "select id,ObjectCode,PageName,Approve from Pages where ObjectCode <> 1250000001 and ObjectCode <> 67";
             List<tbl_pages> list = new List<tbl_pages>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {

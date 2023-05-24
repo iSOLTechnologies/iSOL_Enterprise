@@ -85,7 +85,7 @@ namespace iSOL_Enterprise.Controllers.Business
                 throw;
             }
         }
-        public IActionResult BusinessPartnerMasterDataMaster(string id = "0")
+        public IActionResult BusinessPartnerMasterDataMaster(string id = "0", int aprv1ghas = 0)
         {
             AdministratorDal addal = new AdministratorDal();
             BusinessPartnerMasterDataDal dal = new BusinessPartnerMasterDataDal();
@@ -103,6 +103,7 @@ namespace iSOL_Enterprise.Controllers.Business
             ViewData["Technician"] = new SelectList(dal.GetTechnicians(), "Value", "Text"); 
             ViewData["Territory"] = new SelectList(dal.GetTerritories(), "Value", "Text");
             ViewData["properties"] = dal.GetProperties();
+            ViewBag.ApprovalView = aprv1ghas;
             if (id != "0")
             {
                 ViewBag.OldId = id;

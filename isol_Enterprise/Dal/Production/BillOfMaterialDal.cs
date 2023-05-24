@@ -308,8 +308,36 @@ namespace iSOL_Enterprise.Dal.Production
                 if (model.HeaderData != null)
                 {
                     List<SqlParameter> param = new List<SqlParameter>();
-                    
-                    string TabHeader = "Qauntity= @Quantity,ToWH =@ToWH,PriceList=@PriceList,TreeType=@TreeType,OcrCode=@OcrCode,Project=@Project,PlAvgSize=@PlAvgSize,is_Edited=1";
+
+
+                    int ObjectCode = 66;
+                    int isApproved = ObjectCode.GetApprovalStatus(tran);
+                    #region Insert in Approval Table
+
+                    if (isApproved == 0)
+                    {
+                        ApprovalModel approvalModel = new()
+                        {
+                            Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                            ObjectCode = ObjectCode,
+                            DocEntry = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select Id from OITT where guid='" + model.HeaderData.model.OldId + "'").ToString(),
+                            DocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select DocNum from OITT where guid='" + model.HeaderData.model.OldId +"'").ToString(),
+                            Guid = (model.HeaderData.model.OldId).ToString()
+                        };
+                        bool resp = cdal.AddApproval(tran, approvalModel);
+                        if (!resp)
+                        {
+                            response.isSuccess = false;
+                            response.Message = "An Error Occured";
+                            return response;
+                        }
+
+                    }
+
+                    #endregion
+
+
+                    string TabHeader = "Qauntity= @Quantity,ToWH =@ToWH,PriceList=@PriceList,TreeType=@TreeType,OcrCode=@OcrCode,Project=@Project,PlAvgSize=@PlAvgSize,is_Edited=1,isApproved =@isApproved,apprSeen =0";
                     
                     string HeadQuery = @"Update OITT set " + TabHeader + " where guid = '" + model.OldId + "'";
 
@@ -322,7 +350,8 @@ namespace iSOL_Enterprise.Dal.Production
                     param.Add(cdal.GetParameter("@TreeType", model.HeaderData.TreeType, typeof(char)));
                     param.Add(cdal.GetParameter("@OcrCode", model.HeaderData.OcrCode, typeof(string)));
                     param.Add(cdal.GetParameter("@Project", model.HeaderData.Project, typeof(string)));
-                    param.Add(cdal.GetParameter("@PlAvgSize", model.HeaderData.PlAvgSize, typeof(decimal)));                    
+                    param.Add(cdal.GetParameter("@PlAvgSize", model.HeaderData.PlAvgSize, typeof(decimal)));
+                    param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
                     #endregion
 
 

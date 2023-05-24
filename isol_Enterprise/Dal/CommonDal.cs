@@ -826,7 +826,7 @@ where s.Status=1 and p.Guid=@Guid";
                 #region Bussiness Partner
 
                 case 2: //Business Partner 
-                    URL = "OCRD";
+                    URL = "/BusinessPartnerMasterData/BusinessPartnerMasterDataMaster/";
                     break;
 
                 #endregion
@@ -837,10 +837,10 @@ where s.Status=1 and p.Guid=@Guid";
                     URL = "/ItemMasterData/ItemMasterDataMaster/";
                     break;
                 case 59: //Goods Receipt GR Item Transaction
-                    URL = "OIGN";
+                    URL = "/GoodReceiptGR/GoodReceiptGRMaster/";
                     break;
                 case 60: //Goods Issue Item Transaction
-                    URL = "OIGE";
+                    URL = "/GoodsIssue/GoodsIssueMaster/";
                     break;
 
                 case 1250000001: //Inventory Transfer Request
@@ -855,7 +855,7 @@ where s.Status=1 and p.Guid=@Guid";
                 #region Production 
 
                 case 66: //Bill of Material
-                    URL = "OITT";
+                    URL = "/BillOfMaterial/BillOfMaterialMaster/";
                     break;
                 case 202: //Production Order
                     URL = "OWOR";
@@ -926,7 +926,7 @@ where s.Status=1 and p.Guid=@Guid";
         {
             string table = GetMasterTable(BaseType);
             string rowTable = GetRowTable(BaseType);
-            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "' and isPosted = 1 order by Id desc"; /*isPosted = 1*/
+            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "' and isPosted = 1 and isApproved = 1 order by Id desc"; /*isPosted = 1*/
             if (BaseType == 1470000113)
             {
                 GetQuery = "select * from " + table + " order by Id desc"; /*isPosted = 1*/

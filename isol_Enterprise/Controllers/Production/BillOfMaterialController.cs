@@ -15,12 +15,13 @@ namespace iSOL_Enterprise.Controllers.Production
             return View();
         }
 
-        public IActionResult BillOfMaterialMaster(string id = "")
+        public IActionResult BillOfMaterialMaster(string id = "", int aprv1ghas = 0)
         {
             ItemMasterDataDal Idal = new ItemMasterDataDal();
             BusinessPartnerMasterDataDal Bdal = new BusinessPartnerMasterDataDal();
             ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text");
             ViewData["ProjectCode"] = new SelectList(Bdal.GetProjectCodes(), "Value", "Text");
+            ViewBag.ApprovalView = aprv1ghas;
             if (id != "")
             {
                 ViewBag.OldId = id;
