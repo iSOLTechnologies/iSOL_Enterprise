@@ -352,11 +352,17 @@
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <label>Sale Order #</label>
-                                                                        <select id="SaleOrderNo" class="form-control form-control-sm NotReq">
-                                                                        </select>
-                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                    </div>
+																		<label>Sales Order #</label>
+																		<div class="input-group">
+																			<input type="text" id="SalesOrderCode" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+																			<div id="SalesOrderNo" class="input-group-append">
+																				<span class="input-group-text">
+																					<i class="la la-search"></i>
+																				</span>
+																			</div>
+																		</div>
+																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																	</div>
 
                                                                 </div>
                                                             </div>
@@ -403,9 +409,7 @@
                                                                         <table id="kt_repeater_1" style="overflow:auto">
                                                                             <thead class="ScrollThead">
                                                                                 <tr>
-                                                                                    @*<th>BaseRef</th>
-                                                                                    <th>BaseEntry</th>
-                                                                                    <th>BaseLine</th>*@
+                                                                                    
                                                                                     <th>Item No.</th>
                                                                                     <th>Item Name</th>
                                                                                     <th>Warehouse</th>
@@ -418,7 +422,10 @@
                                                                                     <th>Tax Code</th>
                                                                                     <th>Total (LC)</th>
                                                                                     <th>UOM Code</th>
-                                                                                    @*<th>Country / Region of origin</th>*@
+                                                                                    <th>Sale Order #</th>
+																					<th>Sale Order</th>
+																					<th>Pre Costing Towel</th>
+																					<th>Accessories Type</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody id="ListParameters" data-repeater-list="" class="ScrollTbody">
@@ -510,11 +517,53 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                    <td class="d-none">
-                                                                                        <select class="form-control form-control-sm" id="CountryOrg" name="DurationTypeCode">
+                                                                                        <select class="form-control form-control-sm NotReq" id="CountryOrg" name="DurationTypeCode">
                                                                                            
                                                                                         </select>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
+                                                                                    <td>
+																						<div class="input-group">
+																							<input type="text" id="SaleOrderCode" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+																							<div id="SaleOrderNo" class="input-group-append">
+																								<span class="input-group-text">
+																									<i class="la la-search"></i>
+																								</span>
+																							</div>
+																						</div>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<input type="text" id="SaleOrderDocNo" name="SaleOrderDocNo" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<div class="input-group">
+																							<input type="text" id="PreCostingTowelCode" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Pre Costing Towel No" aria-describedby="basic-addon2" readonly>
+																							<div id="PreCostingTowelNo" class="input-group-append">
+																								<span class="input-group-text">
+																									<i class="la la-search"></i>
+																								</span>
+																							</div>
+																						</div>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<div class="input-group">
+
+																							<select id="AccessoriesType" class="form-control form-control-sm NotReq">
+																								<option value="">Select Accessories Type</option>
+																								<option value="01">01 -  Main Label</option>
+																								<option value="02">02 - Hanger Label</option>
+																								<option value="03">03 - Plastic Tag</option>
+																								<option value="04">04 - Poly Bags</option>
+																								<option value="05">05 - MIROP Label</option>
+																								<option value="06">06 - Cartons</option>
+																								<option value="07">07 - Servic Charges</option>
+																							</select>
+																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																						</div>
+																					</td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -1108,9 +1157,13 @@
                                     $("#VatGroup").val(this.VatGroup);
                                     $("#BaseQty").val(this.Quantity);
                                     $("#QTY").val(this.OpenQty);
-                                     $("#OpenQty").val(this.OpenQty);
-                                                   $("#TtlPrc").val(this.LineTotal);
-                                                     $("#Warehouse").val(this.WhsCode);
+                                    $("#OpenQty").val(this.OpenQty);
+                                    $("#TtlPrc").val(this.LineTotal);
+                                    $("#SaleOrderCode").val(this.SaleOrderCode);
+                                    $("#SaleOrderDocNo").val(this.SaleOrderDocNo);
+                                    $("#PreCostingTowelCode").val(this.PreCostingTowelCode);
+                                    $("#AccessoriesType").val(this.AccessoriesType);
+                                    $("#Warehouse").val(this.WhsCode);
                                     $.when(GetWareHouseQty(this.ItemCode, this.WhsCode)).done(function (OnHand) {
 
                                         $("#onHand").val(OnHand);
@@ -1220,6 +1273,10 @@
         });
     }
     function AddItemRowData(baseRef, data) {
+        let PreCostingTowelCode = data.PreCostingTowelCode == null ? "" : data.PreCostingTowelCode;
+        let SaleOrderCode = data.SaleOrderCode == null ? "" : data.SaleOrderCode;
+        let SaleOrderDocNo = data.SaleOrderDocNo == null ? "" : data.SaleOrderDocNo;
+
          $.when( GetWareHouseQty(data.ItemCode,data.WhsCode) ).done(function( OnHand ) 
                                          {
                                          
@@ -1313,11 +1370,54 @@
                                                                                                 </select>
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
-                                                                                            <td>
-                                                                                <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
-                                                                                <i class="la la-trash"></i> X
-                                                                               </a>
-                                                                               </td>
+                                                                                            
+                                                                                           <td>
+																						<div class="input-group">
+																							<input type="text" id="SaleOrderCode" name="OriginNum" value="`+ SaleOrderCode + `" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+																							<div id="SaleOrderNo" class="input-group-append">
+																								<span class="input-group-text">
+																									<i class="la la-search"></i>
+																								</span>
+																							</div>
+																						</div>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<input type="text" id="SaleOrderDocNo" value="`+ SaleOrderDocNo + `" name="SaleOrderDocNo" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<div class="input-group">
+																							<input type="text" id="PreCostingTowelCode" value="`+ PreCostingTowelCode + `" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Pre Costing Towel No" aria-describedby="basic-addon2" readonly>
+																							<div id="PreCostingTowelNo" class="input-group-append">
+																								<span class="input-group-text">
+																									<i class="la la-search"></i>
+																								</span>
+																							</div>
+																						</div>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<div class="input-group">
+
+																							<select id="AccessoriesType" class="form-control form-control-sm NotReq" value="`+ data.AccessoriesType + `">
+																								<option value="">Select Accessories Type</option>
+																								<option value="01">01 -  Main Label</option>
+																								<option value="02">02 - Hanger Label</option>
+																								<option value="03">03 - Plastic Tag</option>
+																								<option value="04">04 - Poly Bags</option>
+																								<option value="05">05 - MIROP Label</option>
+																								<option value="06">06 - Cartons</option>
+																								<option value="07">07 - Servic Charges</option>
+																							</select>
+																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																						</div>
+																					</td>
+                                                                                    <td>
+                                                                                            <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
+                                                                                            <i class="la la-trash"></i> X
+                                                                                           </a>
+                                                                                           </td>
                                                                                         </tr>`;
         $('#kt_repeater_1 tbody').append(html);
         });
@@ -1584,12 +1684,53 @@
                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                             </td>
                                                                         <td class="d-none">
-                                                                            <select class="form-control form-control-sm" id="CountryOrg" name="DurationTypeCode">
+                                                                            <select class="form-control form-control-sm NotReq" id="CountryOrg" name="DurationTypeCode">
                                                                             `+CountryData+`
                                                                             </select>
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </td>
- 
+                                                                                    <td>
+																						<div class="input-group">
+																							<input type="text" id="SaleOrderCode" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+																							<div id="SaleOrderNo" class="input-group-append">
+																								<span class="input-group-text">
+																									<i class="la la-search"></i>
+																								</span>
+																							</div>
+																						</div>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<input type="text" id="SaleOrderDocNo" name="SaleOrderDocNo" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<div class="input-group">
+																							<input type="text" id="PreCostingTowelCode" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Pre Costing Towel No" aria-describedby="basic-addon2" readonly>
+																							<div id="PreCostingTowelNo" class="input-group-append">
+																								<span class="input-group-text">
+																									<i class="la la-search"></i>
+																								</span>
+																							</div>
+																						</div>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<div class="input-group">
+
+																							<select id="AccessoriesType" class="form-control form-control-sm NotReq">
+																								<option value="">Select Accessories Type</option>
+																								<option value="01">01 -  Main Label</option>
+																								<option value="02">02 - Hanger Label</option>
+																								<option value="03">03 - Plastic Tag</option>
+																								<option value="04">04 - Poly Bags</option>
+																								<option value="05">05 - MIROP Label</option>
+																								<option value="06">06 - Cartons</option>
+																								<option value="07">07 - Servic Charges</option>
+																							</select>
+																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																						</div>
+																					</td>
                                                                        </tr>`;
         $('#kt_repeater_1 tbody').append(html);
        // addDataInVatGroup();
@@ -1674,12 +1815,53 @@
                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                             </td>
                                                                         <td class="d-none">
-                                                                            <select class="form-control form-control-sm" id="CountryOrg" name="DurationTypeCode">
+                                                                            <select class="form-control form-control-sm NotReq" id="CountryOrg" name="DurationTypeCode">
                                                                             `+CountryData+`
                                                                             </select>
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </td>
- 
+                                                                                    <td>
+																						<div class="input-group">
+																							<input type="text" id="SaleOrderCode" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+																							<div id="SaleOrderNo" class="input-group-append">
+																								<span class="input-group-text">
+																									<i class="la la-search"></i>
+																								</span>
+																							</div>
+																						</div>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<input type="text" id="SaleOrderDocNo" name="SaleOrderDocNo" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<div class="input-group">
+																							<input type="text" id="PreCostingTowelCode" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Pre Costing Towel No" aria-describedby="basic-addon2" readonly>
+																							<div id="PreCostingTowelNo" class="input-group-append">
+																								<span class="input-group-text">
+																									<i class="la la-search"></i>
+																								</span>
+																							</div>
+																						</div>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<div class="input-group">
+
+																							<select id="AccessoriesType" class="form-control form-control-sm NotReq">
+																								<option value="">Select Accessories Type</option>
+																								<option value="01">01 -  Main Label</option>
+																								<option value="02">02 - Hanger Label</option>
+																								<option value="03">03 - Plastic Tag</option>
+																								<option value="04">04 - Poly Bags</option>
+																								<option value="05">05 - MIROP Label</option>
+																								<option value="06">06 - Cartons</option>
+																								<option value="07">07 - Servic Charges</option>
+																							</select>
+																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																						</div>
+																					</td>
                                                                        </tr>`;
         $('#kt_repeater_1 tbody').append(html);
        }
@@ -1733,6 +1915,19 @@
        $(document).on('input', '#ListBtnDelete,#Rounding,#Discount,#FooterTax', function (e) {
          GetPrice();        
      });
+        $(document).on('click', '#SalesOrderNo', function (e) {
+
+
+            generateSalesOrderTable();
+            $('#mySalesOrderModal').modal('show');
+
+        });
+        $(document).on('click', '#SaleOrderNo', function (e) {
+
+            ObjSaleOrderCode = $(this).closest('tr').find("#SaleOrderCode");
+            generateSalesOrderTable();
+            $('#mySalesOrderModal').modal('show');
+        });
     $(document).on('change keyup', '#QTY,#UPrc,#DicPrc,#VatGroup,.VT_Option', function (e) {
 
         
@@ -1830,7 +2025,7 @@
         GetCurrencydata();
         GetVatGroupData();
         GetWareHouseData();
-        GetSaleOrders();
+        //GetSaleOrders();
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
         
@@ -2067,16 +2262,58 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td class="d-none">
-                                                                                        <select class="form-control form-control-sm" id="CountryOrg" name="DurationTypeCode">
+                                                                                        <select class="form-control form-control-sm NotReq" id="CountryOrg" name="DurationTypeCode">
                                                                                             `+CountryData+`
                                                                                         </select>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                        <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
-                                                                        <i class="la la-trash"></i> X
-                                                                       </a>
-                                                                       </td>
+																						<div class="input-group">
+																							<input type="text" id="SaleOrderCode" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+																							<div id="SaleOrderNo" class="input-group-append">
+																								<span class="input-group-text">
+																									<i class="la la-search"></i>
+																								</span>
+																							</div>
+																						</div>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<input type="text" id="SaleOrderDocNo" name="SaleOrderDocNo" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<div class="input-group">
+																							<input type="text" id="PreCostingTowelCode" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Pre Costing Towel No" aria-describedby="basic-addon2" readonly>
+																							<div id="PreCostingTowelNo" class="input-group-append">
+																								<span class="input-group-text">
+																									<i class="la la-search"></i>
+																								</span>
+																							</div>
+																						</div>
+																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																					</td>
+																					<td>
+																						<div class="input-group">
+
+																							<select id="AccessoriesType" class="form-control form-control-sm NotReq">
+																								<option value="">Select Accessories Type</option>
+																								<option value="01">01 -  Main Label</option>
+																								<option value="02">02 - Hanger Label</option>
+																								<option value="03">03 - Plastic Tag</option>
+																								<option value="04">04 - Poly Bags</option>
+																								<option value="05">05 - MIROP Label</option>
+																								<option value="06">06 - Cartons</option>
+																								<option value="07">07 - Servic Charges</option>
+																							</select>
+																							<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+																						</div>
+																					</td>
+                                                                                    <td>
+                                                                                    <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
+                                                                                    <i class="la la-trash"></i> X
+                                                                                   </a>
+                                                                                   </td>
                                                                                 </tr>`;
         $('#kt_repeater_1 tbody').append(html);
         

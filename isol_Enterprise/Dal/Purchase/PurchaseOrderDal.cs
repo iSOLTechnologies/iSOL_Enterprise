@@ -745,7 +745,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                         string oldDataQuery = @"select BaseEntry,BaseLine,BaseType,Quantity from POR1 where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
 
                                         tbl_docRow docRowModel = new tbl_docRow();
-                                        using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, oldDataQuery))
+                                        using (var rdr = SqlHelper.ExecuteReader(tran, CommandType.Text, oldDataQuery))
                                         {
                                             while (rdr.Read())
                                             {

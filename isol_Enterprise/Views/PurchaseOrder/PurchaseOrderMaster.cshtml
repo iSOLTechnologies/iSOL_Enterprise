@@ -1077,6 +1077,9 @@
 
         let ItemName = BaseType == 1470000113 ? data.Dscription : data.ItemName;
         let PreCostingTowelCode = data.PreCostingTowelCode == null ? "" : data.PreCostingTowelCode;
+        let SaleOrderCode = data.SaleOrderCode == null ? "" : data.SaleOrderCode;
+        let SaleOrderDocNo = data.SaleOrderDocNo == null ? "" : data.SaleOrderDocNo;
+
          $.when( GetWareHouseQty(data.ItemCode,data.WhsCode) ).done(function( OnHand ) 
                                          {
                                          
@@ -1167,7 +1170,7 @@
                                                                                             </td>
                                                                                             <td>
 																						<div class="input-group">
-																							<input type="text" id="SaleOrderCode" name="OriginNum" value="`+ data.SaleOrderCode + `" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+																							<input type="text" id="SaleOrderCode" name="OriginNum" value="`+ SaleOrderCode + `" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
 																							<div id="SaleOrderNo" class="input-group-append">
 																								<span class="input-group-text">
 																									<i class="la la-search"></i>
@@ -1177,7 +1180,7 @@
 																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																					</td>
 																					<td>
-																						<input type="text" id="SaleOrderDocNo" value="`+ data.SaleOrderDocNo + `" name="SaleOrderDocNo" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+																						<input type="text" id="SaleOrderDocNo" value="`+ SaleOrderDocNo + `" name="SaleOrderDocNo" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
 																						<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																					</td>
 																					<td>
