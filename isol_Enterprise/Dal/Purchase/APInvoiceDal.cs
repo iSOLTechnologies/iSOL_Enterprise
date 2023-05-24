@@ -129,7 +129,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                         model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
                         model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
                         model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
-                        model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
+                        model.HeaderData.SalesOrderCode = model.HeaderData.SalesOrderCode == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SalesOrderCode);
                         model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
                         model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
 
@@ -179,7 +179,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                                 + model.HeaderData.ProductionOrderNo + ","
                                                 + model.HeaderData.ChallanNo + ","
                                                 + model.HeaderData.DONo + ","
-                                                + model.HeaderData.SaleOrderNo + ","
+                                                + model.HeaderData.SalesOrderCode + ","
                                                 + isApproved + ",'"
                                                 + model.FooterData.Comments + "')";
 
@@ -217,7 +217,8 @@ namespace iSOL_Enterprise.Dal.Purchase
                             item.BaseQty = item.BaseQty == "" ? "NULL" : item.BaseQty;
                             item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
 
-                            string RowQueryItem = @"insert into PCH1(Id,LineNum,WhsCode,BaseRef,BaseEntry,BaseLine,BaseQty,BaseType,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
+                            string RowQueryItem = @"insert into PCH1(Id,LineNum,WhsCode,BaseRef,BaseEntry,BaseLine,BaseQty,BaseType,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,
+                                                    UomEntry,SaleOrderCode,SaleOrderDocNo,PreCostingTowelCode,AccessoriesType ,CountryOrg)
                                               values(" + Id + ","
                                              + LineNo + ",'"
                                              + item.Warehouse + "','"
@@ -235,12 +236,19 @@ namespace iSOL_Enterprise.Dal.Purchase
                                              + item.DicPrc + ",'"
                                              + item.VatGroup + "','"
                                              + item.UomCode + "',"
-                                             + item.UomEntry + ",'"
+                                             + item.UomEntry + ",@SaleOrderCode,@SaleOrderDocNo,@PreCostingTowelCode,@AccessoriesType,'"
                                              + item.CountryOrg + "')";
 
 
+                            #region sqlparam
+                            List<SqlParameter> param1 = new List<SqlParameter>();
+                            param1.Add(dal.GetParameter("@SaleOrderCode", item.SaleOrderCode, typeof(int)));
+                            param1.Add(dal.GetParameter("@SaleOrderDocNo", item.SaleOrderDocNo, typeof(string)));
+                            param1.Add(dal.GetParameter("@PreCostingTowelCode", item.PreCostingTowelCode, typeof(int)));
+                            param1.Add(dal.GetParameter("@AccessoriesType", item.AccessoriesType, typeof(string)));
+                            #endregion
 
-                            int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
+                            int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem,param1.ToArray()).ToInt();
                             if (res2 <= 0)
                             {
                                 tran.Rollback();
@@ -399,7 +407,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                             model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
                             model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
                             model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
-                            model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
+                            model.HeaderData.SalesOrderCode = model.HeaderData.SalesOrderCode == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SalesOrderCode);
                             model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
                             model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
 
@@ -442,7 +450,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                                                             ",ProductionOrderNo = " + model.HeaderData.ProductionOrderNo + "" +
                                                                             ",ChallanNo = " + model.HeaderData.ChallanNo + "" +
                                                                             ",DONo = " + model.HeaderData.DONo + "" +
-                                                                           ",SaleOrderNo = " + model.HeaderData.SaleOrderNo + "" +
+                                                                           ",SaleOrderNo = " + model.HeaderData.SalesOrderCode + "" +
                                                                            ",isApproved = " + isApproved + "" +
                                                                             ",apprSeen = " + 0 + "" +
                                                                             ",Comments = '" + model.FooterData.Comments + "' " +
@@ -468,16 +476,23 @@ namespace iSOL_Enterprise.Dal.Purchase
                             {
 
                                 item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
+                                #region sqlparam
+                                List<SqlParameter> param1 = new List<SqlParameter>();
+                                param1.Add(dal.GetParameter("@SaleOrderCode", item.SaleOrderCode, typeof(int)));
+                                param1.Add(dal.GetParameter("@SaleOrderDocNo", item.SaleOrderDocNo, typeof(string)));
+                                param1.Add(dal.GetParameter("@PreCostingTowelCode", item.PreCostingTowelCode, typeof(int)));
+                                param1.Add(dal.GetParameter("@AccessoriesType", item.AccessoriesType, typeof(string)));
+                                #endregion
 
                                 if (item.LineNum != "" && item.LineNum != null)
                                 {
-                                    decimal OpenQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select OpenQty from " + mytable + " where Id=" + model.ID + " and LineNum=" + item.LineNum + ""));
+                                    decimal OpenQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(tran, CommandType.Text, "select OpenQty from " + mytable + " where Id=" + model.ID + " and LineNum=" + item.LineNum + ""));
                                     if (OpenQty > 0)
                                     {
                                         string oldDataQuery = @"select BaseEntry,BaseType,BaseLine,Quantity from PCH1 where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty <> 0";
 
                                         tbl_docRow docRowModel = new tbl_docRow();
-                                        using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, oldDataQuery))
+                                        using (var rdr = SqlHelper.ExecuteReader(tran, CommandType.Text, oldDataQuery))
                                         {
                                             while (rdr.Read())
                                             {
@@ -517,9 +532,9 @@ namespace iSOL_Enterprise.Dal.Purchase
                                                                 ",LineTotal = '" + item.TtlPrc + "'" +
                                                                 ",DiscPrcnt = " + item.DicPrc +
                                                                 ",VatGroup  = '" + item.VatGroup + "'" +
-                                                                ",CountryOrg= '" + item.CountryOrg + "'" +
+                                                                ",CountryOrg= '" + item.CountryOrg + "',SaleOrderCode=@SaleOrderCode,SaleOrderDocNo=@SaleOrderDocNo,PreCostingTowelCode=@PreCostingTowelCode,AccessoriesType=@AccessoriesType " +
                                                                 " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty = Quantity";
-                                        int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateQuery).ToInt();
+                                        int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateQuery , param1.ToArray()).ToInt();
                                         if (res2 < 0)
                                         {
                                             tran.Rollback();
@@ -531,9 +546,10 @@ namespace iSOL_Enterprise.Dal.Purchase
                                 else
                                 {
                                     int LineNo = CommonDal.getLineNumber(tran, "PCH1", model.ID.ToString());                                   
-                                    item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
+                                    
 
-                                    string RowQueryItem = @"insert into PCH1(Id,LineNum,WhsCode,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,UomEntry ,CountryOrg)
+                                    string RowQueryItem = @"insert into PCH1(Id,LineNum,WhsCode,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,
+                                                            UomEntry,SaleOrderCode,SaleOrderDocNo,PreCostingTowelCode,AccessoriesType ,CountryOrg)
                                               values(" + model.ID + ","
                                                      + LineNo + ",'"
                                                      + item.Warehouse + "','"                                                     
@@ -546,10 +562,10 @@ namespace iSOL_Enterprise.Dal.Purchase
                                                      + item.DicPrc + ",'"
                                                      + item.VatGroup + "','"
                                                      + item.UomCode + "',"
-                                                     + item.UomEntry + ",'"
+                                                     + item.UomEntry + ",@SaleOrderCode,@SaleOrderDocNo,@PreCostingTowelCode,@AccessoriesType,'"
                                                      + item.CountryOrg + "')";
 
-                                    int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
+                                    int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem,param1.ToArray()).ToInt();
                                     if (res2 <= 0)
                                     {
                                         tran.Rollback();

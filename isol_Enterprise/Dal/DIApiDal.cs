@@ -100,7 +100,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                     while (rdr.Read())
                                     {
-                                        #region Insert In Header
+                                            #region Insert In Header
                                         isOld = oDoc.GetByKey(rdr["Sap_Ref_No"].ToInt());
 
                                         oDoc.Series = rdr["Series"].ToInt();
@@ -171,11 +171,11 @@ namespace SAP_MVC_DIAPI.BLC
                                             #endregion
 
                                             #region Insert in Row
-                                            string RowQuery = @"select BaseEntry,BaseLine,BaseType,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup,UomEntry ,CountryOrg,ItemName , Dscription,AcctCode,LineNum,WhsCode from " + rowTable + " where Id = " + ID;
-                                        if (ObjectCode == 540000006)
-                                        {
-                                         RowQuery = @"select BaseEntry,BaseLine,BaseType,Price,LineTotal,ItemCode,PQTReqDate,ShipDate,PQTReqQty,Quantity,DiscPrcnt,VatGroup,UomEntry ,CountryOrg,ItemName , Dscription,AcctCode,LineNum,WhsCode from " + rowTable + " where Id = " + ID;
-                                        }
+                                            string RowQuery = @"select BaseEntry,BaseLine,BaseType,Price,LineTotal,ItemCode,Quantity,DiscPrcnt,VatGroup,UomEntry ,CountryOrg,ItemName , Dscription,AcctCode,LineNum,WhsCode,SaleOrderCode,SaleOrderDocNo,PreCostingTowelCode,AccessoriesType  from " + rowTable + " where Id = " + ID;
+                                            if (ObjectCode == 540000006)
+                                            {
+                                             RowQuery = @"select BaseEntry,BaseLine,BaseType,Price,LineTotal,ItemCode,PQTReqDate,ShipDate,PQTReqQty,Quantity,DiscPrcnt,VatGroup,UomEntry ,CountryOrg,ItemName , Dscription,AcctCode,LineNum,WhsCode,SaleOrderCode,SaleOrderDocNo,PreCostingTowelCode,AccessoriesType  from " + rowTable + " where Id = " + ID;
+                                            }
 
                                         using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, RowQuery))
                                         {
@@ -198,35 +198,53 @@ namespace SAP_MVC_DIAPI.BLC
 
                                                         oDoc.Lines.BaseLine = rdr2["BaseLine"].ToInt();
 
-                                                        oDoc.Lines.BaseType = rdr2["BaseType"].ToInt();
-
-                                                       // oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;
+                                                        oDoc.Lines.BaseType = rdr2["BaseType"].ToInt();                                                      
                                                     }
                                                     oDoc.Lines.Quantity = Convert.ToDouble(rdr2["Quantity"]);
+                                                    
                                                     if (rdr2["Price"].ToString() != "")
                                                     {
                                                         oDoc.Lines.Price = rdr2["Price"].ToDouble();
                                                         oDoc.Lines.DiscountPercent = rdr2["DiscPrcnt"].ToDouble();
                                                         oDoc.Lines.VatGroup = rdr2["VatGroup"].ToString();
                                                     }
+                                                    
                                                     if (rdr2["LineTotal"].ToString() != "")
                                                     {
                                                         oDoc.Lines.LineTotal = rdr2["LineTotal"].ToDouble();
-                                                        //oDoc.Lines.PriceAfterVAT = rdr2["LineTotal"].ToDouble();
+                                                        
                                                     }
-                                                    oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();
-                                                    //oDoc.Lines.Quantity = Convert.ToDouble(10);// rdr2["Quantity"].ToDouble();
+
+                                                    oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();                                                    
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
                                                     oDoc.Lines.CountryOrg = rdr2["CountryOrg"].ToString();
                                                     oDoc.Lines.ItemDescription = rdr2["ItemName"].ToString();
-                                                    //oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
+                                                    
                                                     oDoc.Lines.WarehouseCode = rdr2["WhsCode"].ToString();
+
                                                     if (ObjectCode == 540000006)
                                                     {
                                                         oDoc.Lines.RequiredDate = rdr2["PQTReqDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr2["PQTReqDate"].ToString());
                                                         oDoc.Lines.ShipDate = rdr2["ShipDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr2["ShipDate"].ToString());
                                                         oDoc.Lines.RequiredQuantity = rdr2["PQTReqQty"].ToDouble();
                                                     }
+
+                                                    #region UDFs
+                                                    if (ObjectCode == 540000006 || ObjectCode == 22 || ObjectCode == 20)
+                                                    {
+                                                        if (rdr["SaleOrderCode"].ToString() != "")
+                                                            oDoc.UserFields.Fields.Item("U_Sale_Ord").Value = Convert.ToInt32(rdr["SaleOrderCode"]);
+                                                        if (rdr["SaleOrderDocNo"].ToString() != "")
+                                                            oDoc.UserFields.Fields.Item("U_SO").Value = Convert.ToInt32(rdr["SaleOrderDocNo"]);
+                                                        if (rdr["PreCostingTowelCode"].ToString() != "")
+                                                            oDoc.UserFields.Fields.Item("U_OPCB").Value = Convert.ToInt32(rdr["PreCostingTowelCode"]);
+                                                        oDoc.UserFields.Fields.Item("U_AccType").Value = Convert.ToString(rdr["AccessoriesType"]);
+                                                    }
+
+                                                    #endregion
+
+
+                                                    #region Batches
                                                     if (rowTable == "DLN1" || rowTable == "RPD1" || rowTable == "RPC1")
                                                     {
 
@@ -294,6 +312,8 @@ namespace SAP_MVC_DIAPI.BLC
                                                             throw;
                                                         }
                                                     }
+                                                    #endregion
+
 
                                                     oDoc.Lines.Add();
                                                 }
@@ -304,8 +324,8 @@ namespace SAP_MVC_DIAPI.BLC
                                                 throw;
                                             }
                                         }
-                                    }
                                     #endregion
+                                    }
 
 
                                 }
@@ -461,7 +481,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                         foreach (var ID in checkedIDs)
                         {
-                            string UDF = "";
+                            string UDF = ",PurchaseType,TypeDetail,SaleOrderNo";
                             bool isOld = false;
                             
 
@@ -500,13 +520,30 @@ namespace SAP_MVC_DIAPI.BLC
 
                                         #region UDFs
                                         oDoc.UserFields.Fields.Item("U_WBS_DocNum").Value = ID;
+                                        if (UDF != "")
+                                        {
 
+                                            if (rdr["SaleOrderNo"].ToString() != "")
+                                                oDoc.UserFields.Fields.Item("U_SNo").Value = Convert.ToInt32(rdr["SaleOrderNo"]);                                          
+                                            if (rdr["PurchaseType"].ToString() != "")
+                                                oDoc.UserFields.Fields.Item("U_Type").Value = Convert.ToInt16(rdr["PurchaseType"]);
+
+
+                                            if (rdr["TypeDetail"].ToString() != "")
+                                            {
+                                                if (rdr["TypeDetail"].ToInt() >= 1 || rdr["TypeDetail"].ToInt() <= 9)
+                                                    oDoc.UserFields.Fields.Item("U_Type_d").Value = "0" + Math.Round(rdr["TypeDetail"].ToDouble()) + "";
+                                                else
+                                                    oDoc.UserFields.Fields.Item("U_Type_d").Value = rdr["TypeDetail"].ToString();
+                                            }
+                                        }
                                         #endregion
 
                                         #endregion
+                                               
 
                                         #region Insert in Row
-                                        string RowQuery = @"select Id,LineNum,ItemCode,LineVendor,PQTReqDate,Quantity,OpenQty,WhsCode,DiscPrcnt,Price,VatGroup,UomEntry,UomCode,LineTotal,CountryOrg from " + rowTable + " where Id = " + ID;
+                                                string RowQuery = @"select Id,LineNum,ItemCode,LineVendor,PQTReqDate,Quantity,OpenQty,WhsCode,DiscPrcnt,Price,VatGroup,UomEntry,UomCode,LineTotal,CountryOrg,SaleOrderCode,SaleOrderDocNo,PreCostingTowelCode,AccessoriesType from " + rowTable + " where Id = " + ID;
                                         using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, RowQuery))
                                         {
                                             try
@@ -535,8 +572,19 @@ namespace SAP_MVC_DIAPI.BLC
 
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
                                                     oDoc.Lines.CountryOrg = rdr2["CountryOrg"].ToString();
-                                                    //oDoc.Lines.ItemDescription = rdr2["ItemName"].ToString();
-                                                 
+                                                    #region UDFs
+                                                    
+                                                        if (rdr["SaleOrderCode"].ToString() != "")
+                                                            oDoc.UserFields.Fields.Item("U_Sale_Ord").Value = Convert.ToInt32(rdr["SaleOrderCode"]);
+                                                        if (rdr["SaleOrderDocNo"].ToString() != "")
+                                                            oDoc.UserFields.Fields.Item("U_SO").Value = Convert.ToInt32(rdr["SaleOrderDocNo"]);
+                                                        if (rdr["PreCostingTowelCode"].ToString() != "")
+                                                            oDoc.UserFields.Fields.Item("U_OPCB").Value = Convert.ToInt32(rdr["PreCostingTowelCode"]);
+                                                        oDoc.UserFields.Fields.Item("U_AccType").Value = Convert.ToString(rdr["AccessoriesType"]);
+                                                   
+
+                                                    #endregion
+
                                                     oDoc.Lines.Add();
                                                 }
                                             }
