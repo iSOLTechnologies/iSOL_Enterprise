@@ -982,11 +982,11 @@ where s.Status=1 and p.Guid=@Guid";
             string table = GetRowTable(BaseType);
             DataSet ds = new DataSet();
             SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-            SqlDataAdapter sda = new SqlDataAdapter("select Id,WhsCode,LineNum,ItemCode,ItemName,Quantity,DiscPrcnt,Price,VatGroup,UomCode,CountryOrg,Dscription,AcctCode,OpenQty,LineTotal from " + table+" where id = '" + DocId + "' and OpenQty <> 0", conn);
+            SqlDataAdapter sda = new SqlDataAdapter("select * from " + table+" where id = '" + DocId + "' and OpenQty <> 0", conn);
                 if (BaseType == 1470000113)
                 {
 
-                 sda = new SqlDataAdapter("select Id,WhsCode,LineNum,ItemCode,Quantity,DiscPrcnt,Price,VatGroup,UomCode,CountryOrg,Dscription,AcctCode,OpenQty,LineTotal from " + table+" where id = '" + DocId + "' and OpenQty <> 0", conn);
+                 sda = new SqlDataAdapter("select * from " + table+" where id = '" + DocId + "' and OpenQty <> 0", conn);
                 }
             sda.Fill(ds);
             string JSONString = string.Empty;

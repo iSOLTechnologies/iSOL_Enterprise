@@ -677,7 +677,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                 
                                 if (item.LineNum != "" && item.LineNum != null)
                                 {
-                                    decimal OpenQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select OpenQty from " + mytable + " where Id=" + model.ID + " and LineNum=" + item.LineNum + ""));
+                                    decimal OpenQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(tran, CommandType.Text, "select OpenQty from " + mytable + " where Id=" + model.ID + " and LineNum=" + item.LineNum + ""));
                                     if (OpenQty > 0)
                                     {
                                         string UpdateQuery = @"update PQT1 set
