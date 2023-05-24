@@ -668,7 +668,7 @@
 			$(ObjProdOrder).closest('tr').find("#ItemName").val(rowData['itemName']);
 			$(ObjProdOrder).closest('tr').find("#Warehouse").val(rowData['warehouse']);
 			$(ObjProdOrder).closest('tr').find("#PlannedQty").val(rowData['plannedQty']);
-			$(ObjProdOrder).closest('tr').find("#QTY").val('1');
+			$(ObjProdOrder).closest('tr').find("#QTY").val(rowData['plannedQty']);
             
             $.when(GetWareHouseQty(rowData['itemCode'], rowData['warehouse'])).done(function (OnHand) 
             {
