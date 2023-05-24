@@ -320,9 +320,9 @@ namespace iSOL_Enterprise.Dal.Production
                         {
                             Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
                             ObjectCode = ObjectCode,
-                            DocEntry = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select Id from OITT where guid='" + model.HeaderData.model.OldId + "'").ToString(),
-                            DocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select DocNum from OITT where guid='" + model.HeaderData.model.OldId +"'").ToString(),
-                            Guid = (model.HeaderData.model.OldId).ToString()
+                            DocEntry = Convert.ToInt32( SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select Id from OITT where guid='" + model.OldId + "'")),
+                            DocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select Code from OITT where guid='" + model.OldId +"'").ToString(),
+                            Guid = (model.OldId).ToString()
                         };
                         bool resp = cdal.AddApproval(tran, approvalModel);
                         if (!resp)
