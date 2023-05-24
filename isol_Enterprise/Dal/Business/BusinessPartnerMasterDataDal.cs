@@ -846,7 +846,7 @@ namespace iSOL_Enterprise.Dal.Business
                         }
 
                     }
-
+                    #endregion
                     string TabHeader = " CardType=@CardType,CardName=@CardName,CardFName=@CardFName,GroupCode=@GroupCode,Currency=@Currency,LicTradNum=@LicTradNum,isApproved =@isApproved,apprSeen =0";
 
                     string TabGeneral = @"Phone1=@Phone1,CntctPrsn=@CntctPrsn,Phone2=@Phone2,AddID=@AddID,Cellular=@Cellular,VatIdUnCmp=@VatIdUnCmp,Fax=@Fax,RegNum=@RegNum,E_Mail=@E_Mail,
