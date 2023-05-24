@@ -98,9 +98,9 @@ namespace iSOL_Enterprise.Dal.Administrator
                     tran.Rollback();
                     response.isSuccess = false;
                     response.isError = true;
-                    response.Message = "An Error Occured !";
-                    
-                   
+                    response.Message = "Document Not Found !";
+                    return response;
+
                 }
                 #endregion
 
