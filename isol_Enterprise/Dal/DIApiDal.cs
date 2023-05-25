@@ -453,9 +453,6 @@ namespace SAP_MVC_DIAPI.BLC
             }
 
         }
-
-
-
         public ResponseModels PostPurchaseRequest(string[] checkedIDs, int ObjectCode)
         {
             ResponseModels models = new ResponseModels();
@@ -1233,7 +1230,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         #endregion
 
                                         #region Insert in Row
-                                        string RowQuery = @"select Id,LineNum,ItemCode,Dscription,WhsCode,Quantity,Price,LineTotal,AcctCode,UomEntry from " + rowTable + " where Id = " + ID;
+                                        string RowQuery = @"select Id,LineNum,ItemCode,Dscription,WhsCode,Quantity,Price,LineTotal,AcctCode,UomEntry,SaleOrderCode from " + rowTable + " where Id = " + ID;
                                         using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, RowQuery))
                                         {
                                             try
@@ -1254,9 +1251,10 @@ namespace SAP_MVC_DIAPI.BLC
                                                         oDoc.Lines.LineTotal = rdr2["LineTotal"].ToDouble();
                                                     //oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
-                                                   
-                                                    
-                                                    if(BaseType != 102) { 
+                                                    if (rdr["SaleOrderCode"].ToString() != "")
+                                                        oDoc.UserFields.Fields.Item("U_SO").Value = Convert.ToInt32(rdr["SaleOrderCode"]);
+
+                                                    if (BaseType != 102) { 
                                                         try
                                                         {
 
@@ -1481,7 +1479,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         #endregion
 
                                         #region Insert in Row
-                                        string RowQuery = @"select Id,LineNum,ItemCode,Dscription,WhsCode,Quantity,Price,LineTotal,AcctCode,UomEntry from " + rowTable + " where Id = " + ID;
+                                        string RowQuery = @"select Id,LineNum,ItemCode,Dscription,WhsCode,Quantity,Price,LineTotal,AcctCode,UomEntry,SaleOrderCode from " + rowTable + " where Id = " + ID;
                                         using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, RowQuery))
                                         {
                                             try
@@ -1502,7 +1500,8 @@ namespace SAP_MVC_DIAPI.BLC
                                                         oDoc.Lines.LineTotal = rdr2["LineTotal"].ToDouble();
                                                    // oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
-
+                                                    if (rdr["SaleOrderCode"].ToString() != "")
+                                                        oDoc.UserFields.Fields.Item("U_SO").Value = Convert.ToInt32(rdr["SaleOrderCode"]);
 
                                                     if (BaseType != 202)
                                                     {

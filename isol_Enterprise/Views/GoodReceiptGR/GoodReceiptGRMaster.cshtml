@@ -255,9 +255,6 @@
                                                                         <table id="kt_repeater_1" style="overflow:auto">
                                                                             <thead class="ScrollThead">
                                                                                 <tr>
-                                                                                    @*<th>BaseRef</th>
-                                                                                    <th>BaseEntry</th>
-                                                                                    <th>BaseLine</th>*@
                                                                                     <th>Item No.</th>
                                                                                     <th>Item Description</th>
                                                                                     <th>Warehouse</th>
@@ -265,12 +262,13 @@
                                                                                     <th>Quantity</th>
                                                                                     <th>Unit Price</th>
                                                                                     <th>Total</th>
+                                                                                    <th>Sale Order #</th>
                                                                                     <th>Account Code</th>
                                                                                     <th>Item Cost</th>
                                                                                     <th>UOM Code</th>
                                                                                     <th class="d-none">BaseQty</th>
                                                                                     <th class="d-none">OpenQty</th>
-                                                                                    @*<th>Country / Region of origin</th>*@
+                                                                                    
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody id="ListParameters" data-repeater-list="" class="ScrollTbody">
@@ -336,6 +334,17 @@
                                                                                     </td>  
                                                                                     <td>
                                                                                         <input class="form-control form-control-sm" id="TtlPrc" name="TtlPrc" type='number' disabled>
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <input type="text" id="SaleOrderCode" name="SaleOrderCode" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+                                                                                            <div id="SaleOrderNo" class="input-group-append">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-search"></i>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
@@ -769,7 +778,13 @@
         }
     })
 
+    $(document).on('click', '#SaleOrderNo', function (e) {
 
+        ObjSaleOrderCode = $(this).closest('tr').find("#SaleOrderCode");
+        generateSalesOrderTable();
+        $('#mySalesOrderModal').modal('show');
+
+    });
 
 
     $("#btnCopyFromOptions a").click(function () {
@@ -1492,6 +1507,17 @@
                                                                                         <input class="form-control form-control-sm" id="TtlPrc" name="TtlPrc" type='number' disabled>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
+                                                                                        <td>
+                                                                                            <div class="input-group">
+                                                                                                <input type="text" id="SaleOrderCode" name="SaleOrderCode" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+                                                                                                <div id="SaleOrderNo" class="input-group-append">
+                                                                                                    <span class="input-group-text">
+                                                                                                        <i class="la la-search"></i>
+                                                                                                    </span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
                                                                                     <td>
                                                                                         <div class="input-group">
                                                                                             <input type="text" id="AcctCode" name="AcctCode" class="form-control form-control-sm NotReq" placeholder="GL Account" aria-describedby="basic-addon2">
