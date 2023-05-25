@@ -2254,80 +2254,43 @@
 
     $(document).on('click', '#btnSaveData', function (e) 
     {
-          $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-          $(this).attr('disabled', true);
-          if(
-               ValidateData("HeaderForm") 
-            && ItemServiceType == '1' ?  ValidateListData("ListParameters .itm") : ValidateListData("ListParameters2 .itm")
-            && ValidateData("kt_tabs_acct")
-            ) 
-          FormData();
-          else
-          {
+        $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+        $(this).attr('disabled', true);
+        if (
+            ValidateData("HeaderForm")
+
+        ) {
+            if (ItemServiceType == '1') {
+                if (ValidateListData("ListParameters .itm") && ValidateData("kt_tabs_acct"))
+                    if (ValidateBatches("ListParameters .itm"))
+                        FormData();
+                    else {
+                        $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                        $(this).attr('disabled', false);
+                        toastr.warning("Cannot add row without complete selection of batch/serial numbers !");
+                    }
+                else {
+                    $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $(this).attr('disabled', false);
+                }
+            }
+            else {
+                if (ValidateListData("ListParameters2 .itm") && ValidateData("kt_tabs_acct"))
+                    FormData();
+                else {
+                    $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $(this).attr('disabled', false);
+                }
+            }
+        }
+        else {
             $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
             $(this).attr('disabled', false);
-          }
+        }
     });
     
     
-    function ValidateData(element) {
-
-        let isValid = [];
-
-        $('#' + element + ' input,' + '#' + element + ' select, ' + '#' + element + ' textarea').each(function (index, data) {
-
-            if(!($(this).hasClass("NotReq"))) 
-            {
-            if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') {
-                if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) {
-                    $(this).addClass('is-invalid');
-                    isValid.push(false);
-                }
-                else {
-                    $(this).removeClass('is-invalid');
-                    isValid.push(true);
-                }
-
-            }
-            }
-        });
-
-        if (isValid.includes(false))
-            return false;
-        else
-            return true;
-
-    }
-
-    function ValidateListData(element) {
-        let isValid = [];
-
-        $('#' + element).each(function (index, item) {
-
-            $(this).find('input , select , textarea').each(function (index, data) {
-
-                if (!($(this).hasClass("NotReq"))) {
-                    if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') {
-                        if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) {
-                            $(this).addClass('is-invalid');
-                            isValid.push(false);
-                        }
-                        else {
-                            $(this).removeClass('is-invalid');
-                            isValid.push(true);
-                        }
-                    }
-                }
-            });
-
-        });
-
-
-        if (isValid.includes(false))
-            return false;
-        else
-            return true;
-    }
+   
 
 
     function FormData() 
@@ -2342,6 +2305,7 @@
         ListItems: ItemServiceType == '1' ?  getJsonObjList("ListParameters .itm") : null,
         ListService: ItemServiceType == '2' ? getJsonObjList("ListParameters2 .itm") : null,
         ListAttachment: getJsonObjList("ListParameters3 .itm"),
+        Batches: AddedBatches,
         FooterData : getJsonObj("FooterData")
       
         }
