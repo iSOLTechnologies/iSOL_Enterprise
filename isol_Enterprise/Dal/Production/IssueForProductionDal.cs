@@ -3,6 +3,7 @@ using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Models.Logs;
 using Newtonsoft.Json;
 using SqlHelperExtensions;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web;
@@ -422,6 +423,7 @@ namespace iSOL_Enterprise.Dal.Production
                     if (model.ListItems != null)
                     {
                         int LineNum = 0;
+                        int index = 0;
                         foreach (var item in model.ListItems)
                         {
                             param.Clear();
@@ -433,6 +435,60 @@ namespace iSOL_Enterprise.Dal.Production
                                                    TranType=@TranType,Price=@Price,LineTotal=@LineTotal,AcctCode=@AcctCode,UomEntry=@UomEntry,UomCode=@UomCode,OpenQty=@OpenQty,SaleOrderCode=@SaleOrderCode";
 
                                 ITT1_Query = @"update IGE1 set " + Tabitem + " where id=" + Id + " and LineNum=" + item.LineNum;
+
+                                 #region If Item is Batch Type Generate Log
+                                        
+                                    if (Convert.ToDecimal(item.QTY) != Convert.ToDecimal(item.OldQty))
+                                    {
+                                        ResponseModels ItemData = cdal.GetItemData(item.ItemCode.ToString(), "PR");
+                                        if (ItemData.Data.ManBtchNum == "Y")
+                                        {
+
+
+                                            if (cdal.ReverseOutTransaction(tran, Convert.ToInt32(model.ID), Convert.ToInt32(item.LineNum), 60))
+                                            {
+
+                                                int LogEntry1 = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");
+
+                                                #region OITLLog
+                                                OITL OITLModel = new OITL();
+                                                OITLModel.LogEntry = LogEntry1;
+                                                OITLModel.CardCode = model.HeaderData.CardCode.ToString();
+                                                OITLModel.CardName = model.HeaderData.CardName.ToString();
+                                                OITLModel.ItemCode = item.ItemCode.ToString();
+                                                OITLModel.ItemName = item.ItemName.ToString();
+                                                OITLModel.ID = Convert.ToInt32(Id);
+                                                OITLModel.DocLine = Convert.ToInt32(item.LineNum);
+                                                OITLModel.DocType = 60;
+                                                OITLModel.BaseType = item.BaseType;
+                                                OITLModel.Quantity = -1 * (decimal)item.QTY;
+                                                OITLModel.DocDate = Convert.ToDateTime(model.HeaderData.DocDate);
+
+                                                if (!cdal.OITLLog(tran, OITLModel))
+                                                {
+                                                    tran.Rollback();
+                                                    response.isSuccess = false;
+                                                    response.Message = "An Error Occured";
+                                                    return response;
+                                                }
+
+                                                if (!cdal.OutBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry1, item.Warehouse.ToString(), index))
+                                                {
+                                                    tran.Rollback();
+                                                    response.isSuccess = false;
+                                                    response.Message = "An Error Occured";
+                                                    return response;
+                                                }
+                                                #endregion
+
+
+                                            }
+
+                                        }
+
+                                    }
+
+                                 #endregion
                             }
                             else
                             {
@@ -441,6 +497,46 @@ namespace iSOL_Enterprise.Dal.Production
                                 ITT1_Query = @"insert into IGE1 (" + Tabitem + ") " +
                                                      "values(" + TabitemP + ")";
                                 LineNum = CommonDal.getLineNumber(tran, "IGN1", Id.ToString());
+
+                                int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");                               
+
+                                #region OITLLog
+                                OITL OITLModel = new OITL();
+                                OITLModel.LogEntry = LogEntry;
+                                OITLModel.CardCode = model.HeaderData.CardCode.ToString();
+                                OITLModel.CardName = model.HeaderData.CardName.ToString();
+                                OITLModel.ItemCode = item.ItemCode.ToString();
+                                OITLModel.ItemName = item.ItemName.ToString();
+                                OITLModel.ID = Id;
+                                OITLModel.DocLine = Convert.ToInt32(item.LineNum);
+                                OITLModel.DocType = 60;
+                                OITLModel.BaseType = item.BaseType;
+                                OITLModel.Quantity = -1 * (decimal)item.QTY;
+                                OITLModel.DocDate = Convert.ToDateTime(model.HeaderData.DocDate);
+
+                                if (!cdal.OITLLog(tran, OITLModel))
+                                {
+                                    tran.Rollback();
+                                    response.isSuccess = false;
+                                    response.Message = "An Error Occured";
+                                    return response;
+                                }
+                                    #region Bataches & Logs working
+
+                                if (model.Batches != null)
+                                {
+                                    bool resp = cdal.OutBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry, item.Warehouse.ToString(), index);
+                                    if (!resp)
+                                    {
+                                        tran.Rollback();
+                                        response.isSuccess = false;
+                                        response.Message = "An Error Occured";
+                                        return response;
+                                    }
+                                }
+                                #endregion
+
+                                #endregion
                             }
 
 
@@ -473,7 +569,7 @@ namespace iSOL_Enterprise.Dal.Production
                                 return response;
 
                             }
-
+                            ++index;
                         }
                     }
 

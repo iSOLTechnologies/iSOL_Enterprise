@@ -375,6 +375,10 @@
                                                                                         <input id="LineNum" name="LineNum" class="form-control form-control-sm NotReq" type="number">
                                                                                         <div class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
+                                                                                    <td class="d-none">
+                                                                                        <input class="form-control form-control-sm NotReq" id="OldQty" name="OldQty" type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -658,7 +662,7 @@
         IsHeader = false;
         ObjItemCode = $(this).closest('tr').find("#ItemCode");
        let ObjWareHouseCode = $(this).closest('tr').find("#Warehouse");
-       DocModule = "P";
+       DocModule = "PR";
         generateItemTable();
         $('#myItemModal').modal('show');
       
@@ -675,13 +679,24 @@
         var TtlPrc = $(this).closest('#ListParameters .itm').find('#TtlPrc');
         var VatGroup = $(this).closest('#ListParameters .itm').find('#VatGroup');
         let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
+        let OldQty = $(this).closest('#ListParameters .itm').find('#OldQty');
 
         var VatGuid = $('option:selected', VatGroup).attr("guid");
         let BaseQty = $(this).closest('#ListParameters .itm').find('#BaseQty');
         
-           let _ItemCode = $(this).closest('#ListParameters .itm').find('#ItemCode').val()
+        let _ItemCode = $(this).closest('#ListParameters .itm').find('#ItemCode').val()
         let _WhsCode = $(this).closest('#ListParameters .itm').find('#Warehouse').val()
       
+        if (OldQty.val() != "" && OldQty.val() != undefined && OldQty.val() != null) {
+
+            if (parseFloat(Qty.val()) != parseFloat(OldQty.val())) {
+                $(this).closest('tr').find('#ListbtnSelectBatch span i').removeClass("batch_is_valid");
+            }
+            else {
+                $(this).closest('tr').find('#ListbtnSelectBatch span i').addClass("batch_is_valid");
+            }
+        }
+
         $.when( GetWhsAddedQty(_ItemCode, _WhsCode) ).then(function(sum) {
         if(Qty.val() <= 0){
             Qty.val("");
@@ -698,7 +713,7 @@
 
         
 
-        DocModule = "P";
+        DocModule = "PR";
         WareshouseChk = false;
         GetWareHouseData();
         
@@ -905,6 +920,10 @@
                                                                                             <input id="LineNum" name="LineNum" class="form-control form-control-sm NotReq" type="number">
                                                                                             <div class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
+                                                                                        <td class="d-none">
+                                                                                                <input  class="form-control form-control-sm NotReq" id="OldQty" name="OldQty"  type="number">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
                                                                                         <td>
                                                                                             <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
                                                                                                 <i class="la la-trash"></i> X
@@ -928,10 +947,16 @@
             ValidateData("HeaderForm")
         ) { 
                 if (ValidateListData("ListParameters .itm"))
-                    {
+                {
 
+                    if (ValidateBatches("ListParameters .itm"))
                         FormData();
+                    else {
+                        $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                        $(this).attr('disabled', false);
+                        toastr.warning("Cannot add row without complete selection of batch/serial numbers !");
                     }
+                }
                 else {
                     $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
                     $(this).attr('disabled', false);
@@ -1014,7 +1039,18 @@
     }
 
     //==================== End Post Data Working===========================//
+    function Edit_GetUomGroup() {
+        $('#ListParameters .itm').each(function (index, item) {
 
+            
+            ObjItemCode = $(this).find("#ItemCode");
+            var itemno = $(ObjItemCode).val();
+            DocModule = "PR";
+            if (itemno != "" && itemno != null) { GetUomGroup(itemno); }
+
+
+        });
+    }
     function GetOldData() {
 
         $.ajax({
@@ -1064,15 +1100,15 @@
                         $("#ItemCode").val(this.ItemCode);
                         $("#ItemName").val(this.Dscription);
                         $("#Warehouse").val(this.WhsCode);
-                        $("#QTY").val(this.Quantity);
+                        $("#QTY").val(this.Quantity);                        
+                        $("#OldQty").val(this.Quantity);
                         $("#TranType").val(this.TranType);
                         $("#UPrc").val(this.Price);
                         $("#TtlPrc").val(this.LineTotal);
                         $("#AcctCode").val(this.AcctCode).trigger('change');
                         $("#LineNum").val(this.LineNum);
                         $("#SaleOrderCode").val(this.SaleOrderCode);
-                        
-                        //$("#UomEntry").html(`<option value"-1">Manual</option>`);
+                        $('#ListbtnSelectBatch span i').addClass("batch_is_valid");
 
                         $.when(GetWareHouseQty(this.ItemCode, this.Warehouse)).done(function (OnHand) {
 
@@ -1093,14 +1129,15 @@
                         $('#ListParameters tr:last-child').find("#ItemName").val(this.Dscription);
                         $('#ListParameters tr:last-child').find("#Warehouse").val(this.WhsCode);
                         $('#ListParameters tr:last-child').find("#QTY").val(this.Quantity);
+                        $('#ListParameters tr:last-child').find("#OldQty").val(this.Quantity);
                         $('#ListParameters tr:last-child').find("#TranType").val(this.TranType);
                         $('#ListParameters tr:last-child').find("#UPrc").val(this.Price);
                         $('#ListParameters tr:last-child').find("#TtlPrc").val(this.LineTotal);
                         $('#ListParameters tr:last-child').find("#LineNum").val(this.LineNum);
                         $('#ListParameters tr:last-child').find("#AcctCode").val(this.AcctCode);
                         $('#ListParameters tr:last-child').find("#SaleOrderCode").val(this.SaleOrderCode);
+                        $('#ListParameters tr:last-child').find('#ListbtnSelectBatch span i').addClass("batch_is_valid");
                         
-                        //$('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"-1">Manual</option>`);
 
                         $.when(GetWareHouseQty(this.ItemCode, this.Warehouse)).done(function (OnHand) {
 
@@ -1114,7 +1151,7 @@
 
                 });
 
-
+                Edit_GetUomGroup();
                 $("#btnSaveData").attr('disabled', false);
 
 

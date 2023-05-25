@@ -2435,28 +2435,28 @@
 
 			});
 		}
-		//function GetSaleOrders() {
-		//	return $.ajax({
-		//		url: 'Common/GetSaleOrders',
-		//		type: 'GET',
-		//		dataType: 'json',
-		//		async: false,
-		//		success: function (data) {
+		function GetSaleOrders() {
+			return $.ajax({
+				url: 'Common/GetSaleOrders',
+				type: 'GET',
+				dataType: 'json',
+				async: false,
+				success: function (data) {
 
-		//			$("#SaleOrderNo").html("");
-		//			$("#SaleOrderNo").append("<option guid='' value=''> Select Order </option>");
-		//			$.each(data, function () {
-		//				$("#SaleOrderNo").append("<option guid=" + this.id + " value=" + this.id + ">" + this.docNum + "</option>");
-		//			});
+					$("#SaleOrderNo").html("");
+					$("#SaleOrderNo").append("<option guid='' value=''> Select Order </option>");
+					$.each(data, function () {
+						$("#SaleOrderNo").append("<option guid=" + this.id + " value=" + this.id + ">" + this.docNum + "</option>");
+					});
 
-		//		},
-		//		error: function (jqXhr, textStatus, errorMessage) {
-		//			console.log(errorMessage);
-		//		}
-		//	});
+				},
+				error: function (jqXhr, textStatus, errorMessage) {
+					console.log(errorMessage);
+				}
+			});
 
 
-		//}
+		}
 		function GetCountrydata() {
 			$.ajax({
 				url: 'Common/GetCountries',
@@ -3137,6 +3137,7 @@
                   $(ObjProdOrder).closest('tr').find("#onHand").val(Number(OnHand));                 
             });
             $('#myProductionOrderModal').modal('hide');
+			GetUomGroup(rowData['itemCode']);
 			$.ajax({
 				type: "Get",
 				url: '/Common/ProductionOrderPrice/',
@@ -4083,6 +4084,8 @@
 		
 		$(document).on('change keyup', "#ItemCode", function (e) {
 			
+			
+
 				let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
 				let ItemCodeValue = ItemCodeField.val();
 				let WarehouseField = $(this).closest('#ListParameters .itm').find('#Warehouse');
@@ -4166,7 +4169,7 @@
 		}
 
 		function GetUomGroup(itemno) {
-
+			console.log("UOm");
 			//debugger
 			var UomEntryRow = $(ObjItemCode).closest('#ListParameters .itm').find("#UomEntry");
 			var UomQTYRow = $(ObjItemCode).closest('#ListParameters .itm').find("#QTY");

@@ -39,7 +39,7 @@ $(document).on('change keyup', '#Discount', function (e) {
 
 $(document).on('change keyup', '#Warehouse', function (e)
 {
-    debugger
+    //debugger
     let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
     let ItemCodeValue = ItemCodeField.val();
     let WarehouseField = $(this).closest('#ListParameters .itm').find('#Warehouse');
