@@ -270,8 +270,46 @@ namespace iSOL_Enterprise.Dal.Production
                                 return response;
                             }
 
-                            
+                            #region OITL Log
+                            int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");   //Primary Key
 
+
+                            item.BaseType = item.BaseType == "" ? "NULL" : Convert.ToInt32(item.BaseType);
+
+
+                            OITL OITLModel = new OITL();
+                            OITLModel.LogEntry = LogEntry;
+                            OITLModel.CardCode = "NULL";
+                            OITLModel.CardName = "NULL";
+                            OITLModel.ItemCode = item.ItemCode.ToString();
+                            OITLModel.ItemName = item.ItemName.ToString();
+                            OITLModel.ID = Id;
+                            OITLModel.DocLine = LineNum;
+                            OITLModel.DocType = 59;
+                            OITLModel.BaseType = item.BaseType;
+                            OITLModel.Quantity = (decimal)item.QTY;
+                            OITLModel.DocDate = Convert.ToDateTime(model.HeaderData.DocDate);
+
+                            if (!cdal.OITLLog(tran, OITLModel))
+                            {
+                                response.isSuccess = false;
+                                response.Message = "An Error Occured";
+                                return response;
+                            }
+
+                            #endregion
+
+                            if (model.Batches != null)
+                            {
+                                bool responseBatch = cdal.InBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry, item.Warehouse.ToString(), LineNum);
+                                if (!responseBatch)
+                                {
+                                    tran.Rollback();
+                                    response.isSuccess = false;
+                                    response.Message = "An Error Occured";
+                                    return response;
+                                }
+                            }
 
                             #region Update OITW If Sap Integration is OFF
 

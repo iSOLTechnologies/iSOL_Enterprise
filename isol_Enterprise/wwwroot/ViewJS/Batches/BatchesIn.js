@@ -284,4 +284,18 @@ $(document).on('click', '#ListBtnDeleteRM', function () {
         }
     }
     $(this).closest('tr').remove();
+});
+$(document).on('click', '#ListBtnDelete', function () {
+    let selectedRow = $(this).closest('tr');
+    let selectedWareHouse = selectedRow.find("#Warehouse").val();
+    let selectedItemCode = selectedRow.find("#ItemCode").val();
+
+    if (!((selectedWareHouse == null || selectedWareHouse == "" || selectedWareHouse == undefined) || (selectedItemCode == null || selectedItemCode == "" || selectedItemCode == undefined))) {
+
+        if (AddedBatches.length > 0) {
+            ClearAddedBatches(selectedItemCode, selectedWareHouse);
+
+        }
+    }
+    $(this).closest('tr').remove();
 })
