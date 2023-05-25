@@ -763,12 +763,6 @@ namespace iSOL_Enterprise.Dal.Purchase
                                                                              "WHERE Id = '" + model.ID + "'";
 
 
-
-
-
-
-
-
                             res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
                             if (res1 <= 0)
                             {
@@ -776,14 +770,6 @@ namespace iSOL_Enterprise.Dal.Purchase
                                 return false;
                             }
                         }
-
-
-
-
-                        //var GetDocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, "Select DocType from ORDR where Id = " + model.Id + " ");
-
-
-
 
 
                         if (model.ListItems != null)

@@ -375,6 +375,10 @@
                                                                                         <input id="LineNum" name="LineNum" class="form-control form-control-sm NotReq" type="number">
                                                                                         <div class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
+                                                                                    <td class="d-none">
+                                                                                        <input class="form-control form-control-sm NotReq" id="OldQty" name="OldQty" type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -833,7 +837,7 @@
         IsHeader = false;
         ObjItemCode = $(this).closest('tr').find("#ItemCode");
        let ObjWareHouseCode = $(this).closest('tr').find("#Warehouse");
-       DocModule = "P";
+       DocModule = "PR";
         generateItemTable();
         $('#myItemModal').modal('show');
       
@@ -873,7 +877,7 @@
 
         
 
-        DocModule = "P";
+        DocModule = "PR";
         WareshouseChk = false;
         GetWareHouseData();
         
@@ -1068,6 +1072,10 @@
                                                                                             <input id="LineNum" name="LineNum" class="form-control form-control-sm NotReq" type="number">
                                                                                             <div class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
+                                                                                        <td class="d-none">
+                                                                                            <input class="form-control form-control-sm NotReq" id="OldQty" name="OldQty" type="number">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
                                                                                         <td>
                                                                                             <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
                                                                                                 <i class="la la-trash"></i> X
@@ -1184,7 +1192,18 @@
     }
 
     //==================== End Post Data Working===========================//
+    function Edit_GetUomGroup() {
+        $('#ListParameters .itm').each(function (index, item) {
 
+
+            ObjItemCode = $(this).find("#ItemCode");
+            var itemno = $(ObjItemCode).val();
+            DocModule = "PR";
+            if (itemno != "" && itemno != null) { GetUomGroup(itemno); }
+
+
+        });
+    }
     function GetOldData() {
 
         $.ajax({
@@ -1235,14 +1254,14 @@
                         $("#ItemName").val(this.Dscription);
                         $("#Warehouse").val(this.WhsCode);
                         $("#QTY").val(this.Quantity);
+                        $("#OldQty").val(this.Quantity);
                         $("#TranType").val(this.TranType);
                         $("#UPrc").val(this.Price);
                         $("#TtlPrc").val(this.LineTotal);
                         $("#AcctCode").val(this.AcctCode).trigger('change');
                         $("#LineNum").val(this.LineNum);
                         $("#SaleOrderCode").val(this.SaleOrderCode);
-                        
-                        //$("#UomEntry").html(`<option value"-1">Manual</option>`);
+                        $('#ListbtnSelectBatch span i').addClass("batch_is_valid");
 
                         $.when(GetWareHouseQty(this.ItemCode, this.Warehouse)).done(function (OnHand) {
 
@@ -1263,14 +1282,14 @@
                         $('#ListParameters tr:last-child').find("#ItemName").val(this.Dscription);
                         $('#ListParameters tr:last-child').find("#Warehouse").val(this.WhsCode);
                         $('#ListParameters tr:last-child').find("#QTY").val(this.Quantity);
+                        $('#ListParameters tr:last-child').find("#OldQty").val(this.Quantity);
                         $('#ListParameters tr:last-child').find("#TranType").val(this.TranType);
                         $('#ListParameters tr:last-child').find("#UPrc").val(this.Price);
                         $('#ListParameters tr:last-child').find("#TtlPrc").val(this.LineTotal);
                         $('#ListParameters tr:last-child').find("#LineNum").val(this.LineNum);
                         $('#ListParameters tr:last-child').find("#AcctCode").val(this.AcctCode);
                         $('#ListParameters tr:last-child').find("#SaleOrderCode").val(this.SaleOrderCode);
-                        
-                        //$('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"-1">Manual</option>`);
+                        $('#ListParameters tr:last-child').find('#ListbtnSelectBatch span i').addClass("batch_is_valid");
 
                         $.when(GetWareHouseQty(this.ItemCode, this.Warehouse)).done(function (OnHand) {
 
@@ -1284,7 +1303,7 @@
 
                 });
 
-
+                Edit_GetUomGroup();
                 $("#btnSaveData").attr('disabled', false);
 
 

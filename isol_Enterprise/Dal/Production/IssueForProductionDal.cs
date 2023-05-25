@@ -508,7 +508,7 @@ namespace iSOL_Enterprise.Dal.Production
                                 OITLModel.ItemCode = item.ItemCode.ToString();
                                 OITLModel.ItemName = item.ItemName.ToString();
                                 OITLModel.ID = Id;
-                                OITLModel.DocLine = Convert.ToInt32(item.LineNum);
+                                OITLModel.DocLine = LineNum;
                                 OITLModel.DocType = 60;
                                 OITLModel.BaseType = item.BaseType;
                                 OITLModel.Quantity = -1 * (decimal)item.QTY;
@@ -521,19 +521,19 @@ namespace iSOL_Enterprise.Dal.Production
                                     response.Message = "An Error Occured";
                                     return response;
                                 }
-                                    #region Bataches & Logs working
+                                #region Bataches & Logs working
 
-                                if (model.Batches != null)
-                                {
-                                    bool resp = cdal.OutBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry, item.Warehouse.ToString(), index);
-                                    if (!resp)
+                                    if (model.Batches != null)
                                     {
-                                        tran.Rollback();
-                                        response.isSuccess = false;
-                                        response.Message = "An Error Occured";
-                                        return response;
+                                        bool resp = cdal.OutBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry, item.Warehouse.ToString(), index);
+                                        if (!resp)
+                                        {
+                                            tran.Rollback();
+                                            response.isSuccess = false;
+                                            response.Message = "An Error Occured";
+                                            return response;
+                                        }
                                     }
-                                }
                                 #endregion
 
                                 #endregion
