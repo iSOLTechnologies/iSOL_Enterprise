@@ -4039,7 +4039,7 @@
 			$(ObjItemCode).closest('#ListParameters .itm').find("#IssueMthd").val(rowData['issueMthd']);
 			
 			//Get UOM group Data
-			console.log(rowData['manBtchNum']);
+			//console.log(rowData['manBtchNum']);
 
 			if (rowData['manBtchNum'] == "Y") {
 
@@ -4082,7 +4082,7 @@
 		});
 		
 		$(document).on('change keyup', "#ItemCode", function (e) {
-			if (DocModule == "S" || DocModule == "P" || DocModule == "PRO") {
+			
 				let ItemCodeField = $(this).closest('#ListParameters .itm').find('#ItemCode');
 				let ItemCodeValue = ItemCodeField.val();
 				let WarehouseField = $(this).closest('#ListParameters .itm').find('#Warehouse');
@@ -4143,11 +4143,6 @@
 					}
 				});
 
-
-
-
-
-			}
 
 		});
 		

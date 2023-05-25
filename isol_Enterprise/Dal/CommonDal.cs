@@ -1145,9 +1145,12 @@ where s.Status=1 and p.Guid=@Guid";
             {
                 GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where InvntItem = 'Y' and FrozenFor='N' and ItemCode='" + itemcode+"'";
             }
+			else if (DocModule == "S,I")
+			{
+				GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where InvntItem = 'Y' or SellItem = 'Y' and FrozenFor='N' and ItemCode='" + itemcode + "'";
+			}
 
-          
-            ResponseModels model = new ResponseModels();
+			ResponseModels model = new ResponseModels();
 
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
             {

@@ -1146,7 +1146,7 @@
     $(document).on('click', '#Itemno', function (e) {
         IsHeader = false;
         ObjItemCode = $(this).closest('tr').find("#ItemCode");
-        DocModule = "S";
+        DocModule = "S,I";
         generateItemTable();
         $('#myItemModal').modal('show');
 

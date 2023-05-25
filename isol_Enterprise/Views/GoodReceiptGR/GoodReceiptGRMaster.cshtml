@@ -1805,6 +1805,7 @@
                         $("#UPrc").val(this.Price);
                         $("#TtlPrc").val(this.LineTotal);
                         $("#AcctCode").val(this.AcctCode);
+                        $("#SaleOrderCode").val(this.SaleOrderCode);
                         $("#UomEntry").html(`<option value"` + this.UomEntry + `">` + this.UomCode + `</option>`);
                          
                         $.when(GetWareHouseQty(this.ItemCode, this.WhsCode)).done(function (OnHand) {
@@ -1831,6 +1832,7 @@
                         $('#ListParameters tr:last-child').find("#UPrc").val(this.Price);
                         $('#ListParameters tr:last-child').find("#TtlPrc").val(this.LineTotal);
                         $('#ListParameters tr:last-child').find("#AcctCode").val(this.AcctCode);
+                        $('#ListParameters tr:last-child').find("#SaleOrderCode").val(this.SaleOrderCode);
                         $('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"` + this.UomEntry + `">` + this.UomCode + `</option>`);
                         
                         $.when(GetWareHouseQty(this.ItemCode, this.WhsCode)).done(function (OnHand) {
