@@ -1503,8 +1503,8 @@ namespace SAP_MVC_DIAPI.BLC
                                                     if (rdr["SaleOrderCode"].ToString() != "")
                                                         oDoc.UserFields.Fields.Item("U_SO").Value = Convert.ToInt32(rdr["SaleOrderCode"]);
 
-                                                    if (BaseType != 202)
-                                                    {
+                                                    //if (BaseType != 202)
+                                                    //{
 
                                                     try
                                                     {
@@ -1539,7 +1539,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                         throw;
                                                     }
                                                     
-                                                    }
+                                                    //}
                                                     oDoc.Lines.Add();
                                                 }
                                             }

@@ -3149,7 +3149,7 @@
 				let Qty = $(ObjProdOrder).closest('tr').find("#QTY").val();
 				if(Qty != "" && Qty != null && Qty != undefined)
 				{
-					let price = ((data.price)/Qty).ToFixed(2);
+					let price = ((data.price)/Qty).toFixed(2);
 					$(ObjProdOrder).closest('tr').find("#UPrc").val(price);
 				}
 				else 

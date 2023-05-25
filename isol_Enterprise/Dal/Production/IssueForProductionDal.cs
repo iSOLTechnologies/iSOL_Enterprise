@@ -1,5 +1,6 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
+using iSOL_Enterprise.Models.Logs;
 using Newtonsoft.Json;
 using SqlHelperExtensions;
 using System.Data;
@@ -241,7 +242,52 @@ namespace iSOL_Enterprise.Dal.Production
                                 return response;
                             }
 
+                            int LogEntry = CommonDal.getPrimaryKey(tran, "LogEntry", "OITL");
+                            //int QUT1Id = CommonDal.getPrimaryKey(tran, "DLN1");
+                            #region UpdateWarehouse&GenerateLog
 
+                            #region OITLLog
+                            item.BaseType = item.BaseType == "" ? "NULL" : Convert.ToInt32(item.BaseType);
+
+                            OITL OITLModel = new OITL();
+                            OITLModel.LogEntry = LogEntry;
+                            OITLModel.CardCode = "NULL";
+                            OITLModel.CardName = "NULL";
+                            OITLModel.ItemCode = item.ItemCode.ToString();
+                            OITLModel.ItemName = item.ItemName.ToString();
+                            OITLModel.ID = Id;
+                            OITLModel.DocLine = LineNum;
+                            OITLModel.DocType = 60;
+                            OITLModel.BaseType = item.BaseType;
+                            OITLModel.Quantity = -1 * (decimal)item.QTY;
+                            OITLModel.DocDate = Convert.ToDateTime(model.HeaderData.DocDate);
+
+                            if (!cdal.OITLLog(tran, OITLModel))
+                            {
+                                response.isSuccess = false;
+                                response.Message = "An Error Occured";
+                                return response;
+                            }
+
+                            #endregion
+
+                            #region Bataches & Logs working
+
+                            if (model.Batches != null)
+                            {
+                                bool batchresponse = cdal.OutBatches(tran, model.Batches, item.ItemCode.ToString(), LogEntry, item.Warehouse.ToString(), LineNum);
+                                if (!batchresponse)
+                                {
+                                    tran.Rollback();
+                                    response.isSuccess = false;
+                                    response.Message = "An Error Occured";
+                                    return response;
+                                }
+
+                            }
+                            #endregion
+
+                            #endregion
 
 
                             #region Update OITW If Sap Integration is OFF
