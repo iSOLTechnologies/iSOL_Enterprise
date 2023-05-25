@@ -289,7 +289,7 @@
                                                                     <div class="col-md-6">
                                                                         <label>Linked Order</label>                                                                        
                                                                         <div class="input-group">
-                                                                            <input type="text" id="SalesOrderCode" name="OriginNum" class="form-control form-control-sm " placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+                                                                            <input type="text" id="SalesOrderCode" name="OriginNum" class="form-control form-control-sm " placeholder="Linked Order Number" aria-describedby="basic-addon2" readonly>
                                                                             <div id="SalesOrderNo" class="input-group-append">
                                                                                 <span class="input-group-text">
                                                                                     <i class="la la-search"></i>
@@ -556,10 +556,18 @@
 
     });
     $(document).on('click', '#SalesOrderNo', function (e) {
+        let linkedTo = $("#LinkToObj").val();
        
-        generateSalesOrderTable();
-        $('#mySalesOrderModal').modal('show');
-
+        if(linkedTo == 17) {
+            generateSalesOrderTable();
+            $('#mySalesOrderModal').modal('show');
+        }
+        else 
+        {
+                
+                generateProductionOrderTable();
+                $('#myProductionOrderModal').modal('show');
+        }
     });
     $(document).on('click', '#Itemno', function (e) {
         IsHeader = false;

@@ -335,7 +335,7 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         <div class="input-group">
-                                                                                            <input type="text" id="SaleOrderCode" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+                                                                                            <input type="text" id="SaleOrderCode" name="SaleOrderCode" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
                                                                                             <div id="SaleOrderNo" class="input-group-append">
                                                                                                 <span class="input-group-text">
                                                                                                     <i class="la la-search"></i>
@@ -668,7 +668,7 @@
 			$(ObjProdOrder).closest('tr').find("#ItemName").val(rowData['itemName']);
 			$(ObjProdOrder).closest('tr').find("#Warehouse").val(rowData['warehouse']);
 			$(ObjProdOrder).closest('tr').find("#PlannedQty").val(rowData['plannedQty']);
-			$(ObjProdOrder).closest('tr').find("#QTY").val(rowData['plannedQty']);
+            $(ObjProdOrder).closest('tr').find("#QTY").val(rowData['plannedQty']);
             
             $.when(GetWareHouseQty(rowData['itemCode'], rowData['warehouse'])).done(function (OnHand) 
             {
@@ -977,7 +977,7 @@
                                                                                         </td>
                                                                                         <td>
                                                                                             <div class="input-group">
-                                                                                                    <input type="text" id="SaleOrderCode" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+                                                                                                        <input type="text" id="SaleOrderCode" name="SaleOrderCode" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
                                                                                                 <div id="SaleOrderNo" class="input-group-append">
                                                                                                     <span class="input-group-text">
                                                                                                         <i class="la la-search"></i>
@@ -1176,6 +1176,7 @@
                         $("#TtlPrc").val(this.LineTotal);
                         $("#AcctCode").val(this.AcctCode).trigger('change');
                         $("#LineNum").val(this.LineNum);
+                        $("#SaleOrderCode").val(this.SaleOrderCode);
                         
                         //$("#UomEntry").html(`<option value"-1">Manual</option>`);
 
@@ -1203,6 +1204,7 @@
                         $('#ListParameters tr:last-child').find("#TtlPrc").val(this.LineTotal);
                         $('#ListParameters tr:last-child').find("#LineNum").val(this.LineNum);
                         $('#ListParameters tr:last-child').find("#AcctCode").val(this.AcctCode);
+                        $('#ListParameters tr:last-child').find("#SaleOrderCode").val(this.SaleOrderCode);
                         
                         //$('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"-1">Manual</option>`);
 

@@ -301,5 +301,21 @@ namespace iSOL_Enterprise.Controllers
                 return Json(ex.Message);
             }
         }
+        [HttpGet]
+        public IActionResult ProductionOrderPrice(string productionOrderNo)
+        {
+            try
+            {
+
+                CommonDal dal = new CommonDal();
+                
+                return Json(new { success = true ,price = dal.ProductionOrderPrice(productionOrderNo) });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(ex.Message);
+            }
+        }
     }
 }

@@ -1135,15 +1135,15 @@ where s.Status=1 and p.Guid=@Guid";
             
             if (DocModule == "S")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where SellItem = 'Y'  and ItemCode='" + itemcode+"'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where SellItem = 'Y' and FrozenFor='N'  and ItemCode='" + itemcode+"'";
             }
             else if (DocModule == "P")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where PrchseItem = 'Y' and ItemCode='" + itemcode+"'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where PrchseItem = 'Y' and FrozenFor='N' and ItemCode='" + itemcode+"'";
             }
-            else if (DocModule == "I")
+            else if (DocModule == "I" || DocModule == "PR" || DocModule == "PRO")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where InvntItem = 'Y' and ItemCode='" + itemcode+"'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where InvntItem = 'Y' and FrozenFor='N' and ItemCode='" + itemcode+"'";
             }
 
           
@@ -1158,7 +1158,7 @@ where s.Status=1 and p.Guid=@Guid";
                     item.ItemCode = rdr["ItemCode"].ToString();
                     item.ItemName = rdr["ItemName"].ToString();
                     item.ManBtchNum = rdr["ManBtchNum"].ToString();
-
+                    item.IssueMthd = Convert.ToChar(rdr["IssueMthd"]);
                     model.Data = item;
                     model.isSuccess = true;
                     return model;
@@ -1776,6 +1776,28 @@ where s.Status=1 and p.Guid=@Guid";
             
 
             return Guid;
+        }
+        public decimal? ProductionOrderPrice(string productionOrderNo)
+        {
+            string query = @"select SUM(LastPurPrc) as Price from (
+                             select OITM.LastPurPrc,OWOR.DocNum  from OWOR 
+                             inner JOIN WOR1 on WOR1.DocEntry = OWOR.DocEntry
+                             inner JOIN OITM on OITM.ItemCode = WOR1.ItemCode ) c
+                             where c.DocNum = '"+ productionOrderNo + "'";
+
+            decimal? Price = null;
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, query))
+            {
+                while (rdr.Read())
+                {
+
+                    Price = rdr["Price"].ToDecimal();
+                    
+                }
+            }
+            
+
+            return Price;
         }
     }
 }

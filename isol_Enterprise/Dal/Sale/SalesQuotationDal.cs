@@ -46,21 +46,26 @@ namespace iSOL_Enterprise.Dal.Sale
 
         public List<tbl_item> GetItemsData(string DocModule)
         {
+            try
+            {
+
+            
+
             List<tbl_item> list = new List<tbl_item>();
             string ConString = SqlHelper.defaultSapDB;
 
             string GetQuery = "";
             if (DocModule == "S")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where SellItem = 'Y' and FrozenFor='N'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where SellItem = 'Y' and FrozenFor='N'";
             }
             else if (DocModule == "P")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where PrchseItem = 'Y' and FrozenFor='N'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where PrchseItem = 'Y' and FrozenFor='N'";
             }
             else if (DocModule == "I" || DocModule == "PR")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum from OITM where InvntItem = 'Y' and FrozenFor='N'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where InvntItem = 'Y' and FrozenFor='N'";
             }            
             else
             {
@@ -80,13 +85,20 @@ namespace iSOL_Enterprise.Dal.Sale
                             ItemName = rdr["ItemName"].ToString(),
                             ManBtchNum = rdr["ManBtchNum"].ToString(),
                             OnHand = (decimal)rdr["OnHand"],
+							IssueMthd = Convert.ToChar(rdr["IssueMthd"]),
                         });
 
                 }
             }
+                return list;
 
-            return list;
-        }
+			}
+			catch (Exception ex)
+			{
+
+				throw;
+			}
+		}
 
 
 

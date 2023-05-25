@@ -71,7 +71,7 @@ namespace iSOL_Enterprise.Dal.Production
             {
                 DataSet ds = new DataSet();
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-                string headerQuery = @"select Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode From IGE1 where Id =" + id;
+                string headerQuery = @"select Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,SaleOrderCode From IGE1 where Id =" + id;
                 SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
                 sda.Fill(ds);
                 string JSONString = string.Empty;
@@ -205,8 +205,8 @@ namespace iSOL_Enterprise.Dal.Production
                         int LineNum = 0;
                         foreach (var item in model.ListItems)
                         {
-                            string Tabitem = "Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,UomEntry,UomCode,OpenQty";
-                            string TabitemP = "@Id,@LineNum,@BaseRef,@BaseType,@ItemCode,@Dscription,@WhsCode,@Quantity,@TranType,@Price,@LineTotal,@AcctCode,@UomEntry,@UomCode,@OpenQty";
+                            string Tabitem = "Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,UomEntry,UomCode,OpenQty,SaleOrderCode";
+                            string TabitemP = "@Id,@LineNum,@BaseRef,@BaseType,@ItemCode,@Dscription,@WhsCode,@Quantity,@TranType,@Price,@LineTotal,@AcctCode,@UomEntry,@UomCode,@OpenQty,@SaleOrderCode";
                             string ITT1_Query = @"insert into IGE1 (" + Tabitem + ") " +
                                                  "values(" + TabitemP + ")";
 
@@ -228,6 +228,7 @@ namespace iSOL_Enterprise.Dal.Production
                             param1.Add(cdal.GetParameter("@UomEntry", item.UomEntry, typeof(int)));
                             param1.Add(cdal.GetParameter("@UomCode", item.UomCode, typeof(string)));
                             param1.Add(cdal.GetParameter("@OpenQty", item.QTY, typeof(decimal)));
+                            param1.Add(cdal.GetParameter("@SaleOrderCode", item.SaleOrderCode, typeof(int)));
 
                             #endregion
 
@@ -383,14 +384,14 @@ namespace iSOL_Enterprise.Dal.Production
                             {
 
                                 string Tabitem = @"BaseRef=@BaseRef,BaseType=@BaseType,ItemCode=@ItemCode,Dscription=@Dscription,WhsCode=@WhsCode,Quantity=@Quantity,
-                                                   TranType=@TranType,Price=@Price,LineTotal=@LineTotal,AcctCode=@AcctCode,UomEntry=@UomEntry,UomCode=@UomCode,OpenQty=@OpenQty";
+                                                   TranType=@TranType,Price=@Price,LineTotal=@LineTotal,AcctCode=@AcctCode,UomEntry=@UomEntry,UomCode=@UomCode,OpenQty=@OpenQty,SaleOrderCode=@SaleOrderCode";
 
                                 ITT1_Query = @"update IGE1 set " + Tabitem + " where id=" + Id + " and LineNum=" + item.LineNum;
                             }
                             else
                             {
-                                string Tabitem = "Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,UomEntry,UomCode,OpenQty";
-                                string TabitemP = "@Id,@LineNum,@BaseRef,@BaseType,@ItemCode,@Dscription,@WhsCode,@Quantity,@TranType,@Price,@LineTotal,@AcctCode,@UomEntry,@UomCode,@OpenQty";
+                                string Tabitem = "Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,UomEntry,UomCode,OpenQty,SaleOrderCode";
+                                string TabitemP = "@Id,@LineNum,@BaseRef,@BaseType,@ItemCode,@Dscription,@WhsCode,@Quantity,@TranType,@Price,@LineTotal,@AcctCode,@UomEntry,@UomCode,@OpenQty,@SaleOrderCode";
                                 ITT1_Query = @"insert into IGE1 (" + Tabitem + ") " +
                                                      "values(" + TabitemP + ")";
                                 LineNum = CommonDal.getLineNumber(tran, "IGN1", Id.ToString());
@@ -414,7 +415,7 @@ namespace iSOL_Enterprise.Dal.Production
                             param1.Add(cdal.GetParameter("@UomEntry", item.UomEntry, typeof(int)));
                             param1.Add(cdal.GetParameter("@UomCode", item.UomCode, typeof(string)));
                             param1.Add(cdal.GetParameter("@OpenQty", item.QTY, typeof(decimal)));
-
+                            param1.Add(cdal.GetParameter("@SaleOrderCode", item.SaleOrderCode, typeof(int)));
                             #endregion
 
                             res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, ITT1_Query, param1.ToArray()).ToInt();
