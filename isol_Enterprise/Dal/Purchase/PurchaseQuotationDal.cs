@@ -611,7 +611,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                                            ",NumAtCard = '" + model.HeaderData.NumAtCard + "'" +
                                                            ",DocCur = '" + model.HeaderData.DocCur + "'" +
                                                            ",GroupNum = '" + model.ListAccouting.GroupNum + "'" +
-                                                           ",SlpCode = " + model.FooterData.SlpCode + " , is_Edited = 1" +
+                                                           ",SlpCode = " + model.FooterData.SlpCode + " , is_Edited = 1,isPosted = 0" +
                                                            ",Series = " + model.HeaderData.Series + "" +
                                                            ",DiscPrcnt = " + model.FooterData.Discount + "" +
                                                            ",PurchaseType = " + model.HeaderData.PurchaseType + "" +
