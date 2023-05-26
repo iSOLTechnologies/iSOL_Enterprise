@@ -861,10 +861,10 @@ where s.Status=1 and p.Guid=@Guid";
                     URL = "/ProductionOrder/ProductionOrderMaster/";
                     break;
                 case 102: //Receipt From Production
-                    URL = "OIGN";
+                    URL = "/ReceiptFromProduction/ReceiptFromProductionMaster/";
                     break;
                 case 302: //Issue For Production
-                    URL = "OIGE";
+                    URL = "/IssueForProduction/IssueForProductionMaster/";
                     break;
 
                 #endregion
@@ -926,7 +926,7 @@ where s.Status=1 and p.Guid=@Guid";
         {
             string table = GetMasterTable(BaseType);
             string rowTable = GetRowTable(BaseType);
-            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "' and isApproved = 1 order by Id desc"; /*isPosted = 1*/
+            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "'and isPosted = 1 and isApproved = 1 order by Id desc"; /*isPosted = 1*/
             if (BaseType == 1470000113)
             {
                 GetQuery = "select * from " + table + " order by Id desc"; /*isPosted = 1*/

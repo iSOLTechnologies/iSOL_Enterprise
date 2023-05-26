@@ -15,7 +15,7 @@ namespace iSOL_Enterprise.Dal.Production
 
         public List<SalesQuotation_MasterModels> GetData()
         {
-            string GetQuery = "select Id,Guid,DocNum,DocDate,Comments,JrnlMemo,isPosted,is_Edited from OIGE where BaseType = '202'  order by id DESC";
+            string GetQuery = "select Id,Guid,DocNum,DocDate,Comments,JrnlMemo,isPosted,is_Edited,isApproved,apprSeen from OIGE where BaseType = '202'  order by id DESC";
 
 
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
@@ -34,6 +34,8 @@ namespace iSOL_Enterprise.Dal.Production
                     models.Guid = rdr["Guid"].ToString();
                     models.IsPosted = rdr["isPosted"].ToString();
                     models.IsEdited = rdr["is_Edited"].ToString();
+                    models.isApproved = rdr["isApproved"].ToBool();
+                    models.apprSeen = rdr["apprSeen"].ToBool();
                     list.Add(models);
                 }
             }
@@ -136,9 +138,10 @@ namespace iSOL_Enterprise.Dal.Production
 
                     List<SqlParameter> param = new List<SqlParameter>();
                     int Id = CommonDal.getPrimaryKey(tran, "OIGE");
+                    string Guid = CommonDal.generatedGuid();
 
                     param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
-                    param.Add(cdal.GetParameter("@Guid", CommonDal.generatedGuid(), typeof(string)));
+                    param.Add(cdal.GetParameter("@Guid", Guid, typeof(string)));
                     param.Add(cdal.GetParameter("@DocEntry", Id, typeof(int)));
 
                     #region BackendCheck For Series
@@ -167,10 +170,35 @@ namespace iSOL_Enterprise.Dal.Production
                     }
                     #endregion
 
-                    string HeadQuery = @"insert into OIGE (Id,Guid,DocEntry,MySeries,DocNum,Series,DocDate,Ref2,Comments,JrnlMemo,DocTotal,BaseType) 
-                                        values(@Id,@Guid,@DocEntry,@MySeries,@DocNum,@Series,@DocDate,@Ref2,@Comments,@JrnlMemo,@DocTotal,@BaseType)";
+                    int ObjectCode = 302;
+                    int isApproved = ObjectCode.GetApprovalStatus(tran);
+                    #region Insert in Approval Table
 
+                    if (isApproved == 0)
+                    {
+                        ApprovalModel approvalModel = new()
+                        {
+                            Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                            ObjectCode = ObjectCode,
+                            DocEntry = Id,
+                            DocNum = (model.HeaderData.DocNum).ToString(),
+                            Guid = Guid
 
+                        };
+                        bool resp = cdal.AddApproval(tran, approvalModel);
+                        if (!resp)
+                        {
+                            //tran.Rollback();
+                            response.isSuccess = false;
+                            response.Message = "An error occured !";
+                            return response;
+                        }
+                    }
+
+                    #endregion
+
+                    string HeadQuery = @"insert into OIGE (Id,Guid,DocEntry,MySeries,DocNum,Series,DocDate,Ref2,Comments,JrnlMemo,DocTotal,BaseType,isApproved) 
+                                        values(@Id,@Guid,@DocEntry,@MySeries,@DocNum,@Series,@DocDate,@Ref2,@Comments,@JrnlMemo,@DocTotal,@BaseType,@isApproved)";
 
                     #region SqlParameters
 
@@ -189,7 +217,7 @@ namespace iSOL_Enterprise.Dal.Production
                     #endregion
 
                     param.Add(cdal.GetParameter("@BaseType", 202, typeof(int)));
-
+                    param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
 
                     #endregion
 
@@ -317,7 +345,6 @@ namespace iSOL_Enterprise.Dal.Production
 
                     }
 
-
                     if (model.ListAttachment != null)
                     {
 
@@ -389,7 +416,32 @@ namespace iSOL_Enterprise.Dal.Production
                 if (model.HeaderData != null)
                 {
                     List<SqlParameter> param = new List<SqlParameter>();
-                    string TabHeader = @"DocDate =@DocDate,Ref2=@Ref2,Comments=@Comments,JrnlMemo=@JrnlMemo,DocTotal=@DocTotal,is_Edited=1";
+                    int ObjectCode = 302;
+                    int isApproved = ObjectCode.GetApprovalStatus(tran);
+                    #region Insert in Approval Table
+
+                    if (isApproved == 0)
+                    {
+                        ApprovalModel approvalModel = new()
+                        {
+                            Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                            ObjectCode = ObjectCode,
+                            DocEntry = Convert.ToInt32(SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select Id from OIGE where guid='" + model.OldId + "'")),
+                            DocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select DocNum from OIGE where guid='" + model.OldId + "'").ToString(),
+                            Guid = (model.OldId).ToString()
+                        };
+                        bool resp = cdal.AddApproval(tran, approvalModel);
+                        if (!resp)
+                        {
+                            response.isSuccess = false;
+                            response.Message = "An Error Occured";
+                            return response;
+                        }
+
+                    }
+
+                    #endregion
+                    string TabHeader = @"DocDate =@DocDate,Ref2=@Ref2,Comments=@Comments,JrnlMemo=@JrnlMemo,DocTotal=@DocTotal,is_Edited=1,isApproved =@isApproved,apprSeen =0";
 
                     string HeadQuery = @"Update OIGE set " + TabHeader + " where GUID = '" + model.OldId + "'";
 
@@ -407,7 +459,7 @@ namespace iSOL_Enterprise.Dal.Production
                     #endregion
 
                     param.Add(cdal.GetParameter("@BaseType", 202, typeof(int)));
-
+                    param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
 
                     #endregion
 

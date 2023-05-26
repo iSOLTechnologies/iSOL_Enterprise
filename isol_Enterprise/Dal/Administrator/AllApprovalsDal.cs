@@ -140,6 +140,8 @@ namespace iSOL_Enterprise.Dal.Administrator
             CommonDal dal = new();
             try
             {
+                ObjectType = ObjectType == 102 ? 59 : ObjectType == 302 ? 60 : ObjectType;
+
                 #region If its a transaction Document
                 if (ObjectType == 15 || ObjectType == 16 || ObjectType == 14 ||
                     ObjectType == 20 || ObjectType == 21 || ObjectType == 19 ||

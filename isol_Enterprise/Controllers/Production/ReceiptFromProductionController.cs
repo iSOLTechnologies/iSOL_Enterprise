@@ -15,13 +15,14 @@ namespace iSOL_Enterprise.Controllers.Production
         {
             return View();
         }
-        public IActionResult ReceiptFromProductionMaster(string id = "")
+        public IActionResult ReceiptFromProductionMaster(string id = "", int aprv1ghas = 0)
         {
             ItemMasterDataDal Idal = new ItemMasterDataDal();
             AdministratorDal dal = new AdministratorDal();
             ViewData["Series"] = dal.GetSeries(59);
             ViewData["MySeries"] = dal.GetMySeries(59);
             ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text");
+            ViewBag.ApprovalView = aprv1ghas;
             if (id != "")
             {
                 ViewBag.OldId = id;

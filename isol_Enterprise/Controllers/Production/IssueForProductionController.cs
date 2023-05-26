@@ -13,13 +13,14 @@ namespace iSOL_Enterprise.Controllers.Production
         {
             return View();
         }
-        public IActionResult IssueForProductionMaster(string id = "")
+        public IActionResult IssueForProductionMaster(string id = "", int aprv1ghas = 0)
         {
             ItemMasterDataDal Idal = new ItemMasterDataDal();
             AdministratorDal dal = new AdministratorDal();
             ViewData["Series"] = dal.GetSeries(60);
             ViewData["MySeries"] = dal.GetMySeries(60);
             ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text");
+            ViewBag.ApprovalView = aprv1ghas;
             if (id != "")
             {
                 ViewBag.OldId = id;
