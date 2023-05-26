@@ -513,7 +513,7 @@ namespace iSOL_Enterprise.Dal.Sale
                                                                     ",UomEntry   = " + item.UomEntry +
                                                                     ",Quantity  = " + item.QTY + "" +
                                                                     ",OpenQty  =  " + item.QTY + "" +
-                                                                    ",Price     = '" + item.UPrc + "'" +
+                                                                    ",Price     = '" + item.UPrc + "',WhsCode ='"+item.Warehouse+"'" +
                                                                     ",LineTotal = '" + item.TtlPrc + "'" +
                                                                     ",DiscPrcnt = " + item.DicPrc +
                                                                     ",VatGroup  = '" + item.VatGroup + "'" +

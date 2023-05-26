@@ -825,7 +825,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                                                 ",UomEntry   = " + item.UomEntry +
                                                                 ",Quantity  = '" + item.QTY + "'" +
                                                                 ",OpenQty   = OpenQty + (" + item.QTY + "- OpenQty)" +
-                                                                ",Price     = '" + item.UPrc + "'" +
+                                                                ",Price     = '" + item.UPrc + "',WhsCode ='" + item.Warehouse + "'" +
                                                                 ",LineTotal = '" + item.TtlPrc + "'" +
                                                                 ",DiscPrcnt = " + item.DicPrc +
                                                                 ",VatGroup  = '" + item.VatGroup + "'" +
