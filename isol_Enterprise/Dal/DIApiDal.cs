@@ -314,8 +314,8 @@ namespace SAP_MVC_DIAPI.BLC
                                                     }
                                                     #endregion
 
-
-                                                    oDoc.Lines.Add();
+                                                    if (!isOld)
+                                                        oDoc.Lines.Add();
                                                 }
                                             }
                                             catch (Exception)
