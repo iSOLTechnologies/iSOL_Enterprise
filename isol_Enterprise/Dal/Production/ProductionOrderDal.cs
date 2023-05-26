@@ -7,6 +7,7 @@ using iSOL_Enterprise.Common;
 using System.Reflection;
 using SAPbobsCOM;
 using System.Web;
+using System;
 
 namespace iSOL_Enterprise.Dal.Production
 {
@@ -15,7 +16,7 @@ namespace iSOL_Enterprise.Dal.Production
 
         public List<SalesQuotation_MasterModels> GetData()
         {
-            string GetQuery = "select Id,Guid,DocNum,ItemCode,PostDate,PlannedQty,Warehouse,isPosted,is_Edited from OWOR order by id DESC";
+            string GetQuery = "select Id,Guid,DocNum,ItemCode,PostDate,PlannedQty,Warehouse,isPosted,is_Edited,isApproved,apprSeen from OWOR order by id DESC";
 
 
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
@@ -36,6 +37,8 @@ namespace iSOL_Enterprise.Dal.Production
                     models.Warehouse = rdr["Warehouse"].ToString();
                     models.IsPosted = rdr["isPosted"].ToString();
                     models.IsEdited = rdr["is_Edited"].ToString();
+                    models.isApproved = rdr["isApproved"].ToBool();
+                    models.apprSeen = rdr["apprSeen"].ToBool();
                     list.Add(models);
                 }
             }
@@ -124,7 +127,8 @@ namespace iSOL_Enterprise.Dal.Production
             ResponseModels response = new ResponseModels();
             CommonDal cdal = new CommonDal();
             SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-            conn.Open();            
+            conn.Open();
+            int MySeries = Convert.ToInt32(model.HeaderData.MySeries);
             SqlTransaction tran = conn.BeginTransaction();
             int res1 = 0;
             try
@@ -134,15 +138,70 @@ namespace iSOL_Enterprise.Dal.Production
                 {
                     List<SqlParameter> param = new List<SqlParameter>();
                     int Id = CommonDal.getPrimaryKey(tran, "OWOR");
+                    string Guid = CommonDal.generatedGuid();
 
                     param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
-                    param.Add(cdal.GetParameter("@Guid", CommonDal.generatedGuid(), typeof(string)));
+                    param.Add(cdal.GetParameter("@Guid", Guid, typeof(string)));
                     param.Add(cdal.GetParameter("@DocEntry", Id, typeof(int)));
 
+
+                    #region BackendCheck For Series
+                    if (MySeries != -1)
+                    {
+                        string? DocNum = SqlHelper.MySeriesUpdate_GetItemCode( MySeries, tran);
+                        if (DocNum == null)
+                        {
+                            tran.Rollback();
+                            response.isSuccess = false;
+                            response.Message = "An Error Occured";
+                            return response;
+                        }
+                        model.HeaderData.DocNum = DocNum;
+                    }
+                    #endregion
+                    else
+                    {
+                        int count = SqlHelper.ExecuteScalar(tran, CommandType.Text, "select Count(*) from OWOR where DocNum ='" + model.HeaderData.DocNum.ToString() + "'");
+                        if (count > 0)
+                        {
+                            tran.Rollback();
+                            response.isSuccess = false;
+                            response.Message = "Duplicate Document Number !";
+                            return response;
+                        }
+                    }
+
+
+                    int ObjectCode = 202;
+                    int isApproved = ObjectCode.GetApprovalStatus(tran);
+                    #region Insert in Approval Table
+
+                    if (isApproved == 0)
+                    {
+                        ApprovalModel approvalModel = new()
+                        {
+                            Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                            ObjectCode = ObjectCode,
+                            DocEntry = Id,
+                            DocNum = (model.HeaderData.DocNum).ToString(),
+                            Guid = Guid
+
+                        };
+                        bool resp = cdal.AddApproval(tran, approvalModel);
+                        if (!resp)
+                        {
+                            response.isSuccess = false;
+                            response.Message = "An Error Occured";
+                            return response;
+                        }
+                    }
+
+                    #endregion
+
                     string TabHeader = @"Id,Guid,DocEntry,Type,Series,MySeries,DocNum,Status,PostDate, ItemCode,StartDate,ProdName,
-                                         DueDate,PlannedQty,Warehouse,Priority,LinkToObj,OriginNum,CardCode,Project,Comments,PickRmrk";
+                                         DueDate,PlannedQty,Warehouse,Priority,LinkToObj,OriginNum,CardCode,Project,Comments,PickRmrk,isApproved";
                     string TabHeaderP = @"@Id,@Guid,@DocEntry,@Type,@Series,@MySeries,@DocNum,@Status,@PostDate,@ItemCode,@StartDate,@ProdName,
-                                         @DueDate,@PlannedQty,@Warehouse,@Priority,@LinkToObj,@OriginNum,@CardCode,@Project,@Comments,@PickRmrk";
+                                         @DueDate,@PlannedQty,@Warehouse,@Priority,@LinkToObj,@OriginNum,@CardCode,@Project,@Comments,@PickRmrk,@isApproved";
                     
                     string HeadQuery = @"insert into OWOR (" + TabHeader + ") " +
                                         "values("+TabHeaderP+")";
@@ -169,7 +228,7 @@ namespace iSOL_Enterprise.Dal.Production
                     param.Add(cdal.GetParameter("@OriginNum", model.HeaderData.OriginNum, typeof(int)));
                     param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(int)));
                     param.Add(cdal.GetParameter("@Project", model.HeaderData.Project, typeof(string)));
-                    
+                    param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
                     #endregion
 
                     #region Footer Data
@@ -268,9 +327,36 @@ namespace iSOL_Enterprise.Dal.Production
                 if (model.HeaderData != null)
                 {
                     List<SqlParameter> param = new List<SqlParameter>();
+
+                    int ObjectCode = 202;
+                    int isApproved = ObjectCode.GetApprovalStatus(tran);
+                    #region Insert in Approval Table
+
+                    if (isApproved == 0)
+                    {
+                        ApprovalModel approvalModel = new()
+                        {
+                            Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                            ObjectCode = ObjectCode,
+                            DocEntry = Convert.ToInt32(SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select Id from OWOR where guid='" + model.OldId + "'")),
+                            DocNum = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select DocNum from OWOR where guid='" + model.OldId + "'").ToString(),
+                            Guid = (model.OldId).ToString()
+                        };
+                        bool resp = cdal.AddApproval(tran, approvalModel);
+                        if (!resp)
+                        {
+                            response.isSuccess = false;
+                            response.Message = "An Error Occured";
+                            return response;
+                        }
+
+                    }
+
+                    #endregion
+
                     string TabHeader = @"Type=@Type,Status=@Status,PostDate=@PostDate,StartDate=@StartDate,ProdName=@ProdName,DueDate=@DueDate,
                                          PlannedQty=@PlannedQty,Warehouse=@Warehouse,Priority=@Priority,LinkToObj=@LinkToObj,OriginNum=@OriginNum,
-                                         CardCode=@CardCode,Project=@Project,Comments=@Comments,PickRmrk=@PickRmrk,is_Edited=1 ";
+                                         CardCode=@CardCode,Project=@Project,Comments=@Comments,PickRmrk=@PickRmrk,is_Edited=1,isApproved =@isApproved,apprSeen =0 ";
 
                     
                     
@@ -296,7 +382,7 @@ namespace iSOL_Enterprise.Dal.Production
                     param.Add(cdal.GetParameter("@OriginNum", model.HeaderData.OriginNum, typeof(int)));
                     param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(int)));
                     param.Add(cdal.GetParameter("@Project", model.HeaderData.Project, typeof(string)));
-
+                    param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
                     #endregion
 
                     #region Footer Data

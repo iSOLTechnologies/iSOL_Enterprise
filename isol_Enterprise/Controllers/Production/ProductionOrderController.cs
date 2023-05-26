@@ -33,7 +33,7 @@ namespace iSOL_Enterprise.Controllers.Production
 
             return Json(response);
         }
-        public IActionResult ProductionOrderMaster(string id = "")
+        public IActionResult ProductionOrderMaster(string id = "", int aprv1ghas = 0)
         {
             AdministratorDal addal = new AdministratorDal();
             ItemMasterDataDal Idal = new ItemMasterDataDal();
@@ -42,7 +42,7 @@ namespace iSOL_Enterprise.Controllers.Production
             ViewData["ProjectCode"] = new SelectList(Bdal.GetProjectCodes(), "Value", "Text");
             ViewData["Series"] = addal.GetSeries(202);
             ViewData["MySeries"] = addal.GetMySeries(202);
-
+            ViewBag.ApprovalView = aprv1ghas;
             if (id != "")
             {
                 ViewBag.OldId = id;

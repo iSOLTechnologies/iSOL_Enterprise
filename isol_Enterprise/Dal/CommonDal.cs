@@ -858,12 +858,12 @@ where s.Status=1 and p.Guid=@Guid";
                     URL = "/BillOfMaterial/BillOfMaterialMaster/";
                     break;
                 case 202: //Production Order
-                    URL = "OWOR";
+                    URL = "/ProductionOrder/ProductionOrderMaster/";
                     break;
                 case 102: //Receipt From Production
                     URL = "OIGN";
                     break;
-                case 302: //Receipt From Production
+                case 302: //Issue For Production
                     URL = "OIGE";
                     break;
 
