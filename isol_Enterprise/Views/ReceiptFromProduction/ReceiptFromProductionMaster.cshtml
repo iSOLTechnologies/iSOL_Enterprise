@@ -900,13 +900,16 @@
                     }
                     else
                     {
-                    $(this).closest('tr').find('#ListbtnSelectBatch span i').removeClass("batch_is_valid");
-                    GetPrice();
+                        UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
+                        $(this).closest('tr').find('#ListbtnSelectBatch span i').removeClass("batch_is_valid");
+                        GetPrice();
                     }
                 }
                 else 
                 {
                     $(this).closest('tr').find('#ListbtnSelectBatch span i').addClass("batch_is_valid");
+                    UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
+                    GetPrice();
                 }
             }
             else if (Qty.val() > (PlannedQty.val() - CmpltQty.val())) 
@@ -916,6 +919,7 @@
             }
             else
             {
+               
                UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
                GetPrice();
             }
