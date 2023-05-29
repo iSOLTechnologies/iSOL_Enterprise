@@ -3003,6 +3003,8 @@
 													<th></th>
 													<th></th>
 													<th></th>
+													<th></th>
+													<th></th>
 												</tr>
 											</thead>
 										</table>
@@ -3077,7 +3079,7 @@
 				},
                 "columnDefs": [
 					{
-						"targets": [4,5],
+						"targets": [4,5,6,7],
 						visible: false,						
 					}
 				],
@@ -3111,6 +3113,12 @@
 				},{
                     data: 'plannedQty',
 					title: ''
+				},{
+                    data: 'sap_Ref_No',
+					title: ''
+				},{
+                    data: 'cmpltQty',
+					title: ''
 				}
 				],
 			});
@@ -3121,7 +3129,8 @@
 			var LookTable = $('#MyyyyProductionOrderTable').DataTable();
 			var selectedRow = $(this).closest('tr');
 			var rowData = LookTable.row(selectedRow).data();
-            
+            $('#MyyyyBatchSelectTable').DataTable().column(6).visible(true);
+			console.log(rowData);
 			$('#MyyyyProductionOrderTable tr').removeClass("Mainrow_selected");
 			$(ObjProdOrder).addClass('Mainrow_selected');
             $("#SalesOrderCode").val(rowData['docNum']);
@@ -3130,40 +3139,50 @@
 			$(ObjProdOrder).closest('tr').find("#ItemName").val(rowData['itemName']);
 			$(ObjProdOrder).closest('tr').find("#Warehouse").val(rowData['warehouse']);
 			$(ObjProdOrder).closest('tr').find("#PlannedQty").val(rowData['plannedQty']);
-            $(ObjProdOrder).closest('tr').find("#QTY").val(rowData['plannedQty']);
+			$(ObjProdOrder).closest('tr').find("#CmpltQty").val(rowData['cmpltQty']);
             
             $.when(GetWareHouseQty(rowData['itemCode'], rowData['warehouse'])).done(function (OnHand) 
             {
                   $(ObjProdOrder).closest('tr').find("#onHand").val(Number(OnHand));                 
             });
+			//$(ObjProdOrder).closest('tr').find("#QTY").val(rowData['plannedQty']).trigger('change');
             $('#myProductionOrderModal').modal('hide');
 			GetUomGroup(rowData['itemCode']);
-			$.ajax({
-				type: "Get",
-				url: '/Common/ProductionOrderPrice/',
-				data: { productionOrderNo: rowData['docNum'] },
-				async : false,
-				dataType: "json",
-				cache: false,
-
-			}).done(function (data) {
-				let Qty = $(ObjProdOrder).closest('tr').find("#QTY").val();
-				if(Qty != "" && Qty != null && Qty != undefined)
+			
+			$.when(GetProdOrdPrice(rowData['sap_Ref_No'])).done(function (Price) {
+				//let Qty = $(ObjProdOrder).closest('tr').find("#QTY").val();
+				if(Price != "" && Price != null && Price != undefined)
 				{
-					let price = ((data.price)/Qty).toFixed(2);
-					$(ObjProdOrder).closest('tr').find("#UPrc").val(price);
-				}
-				else 
-				{
-					$(ObjProdOrder).closest('tr').find("#UPrc").val(data.price);
+					
+					$(ObjProdOrder).closest('tr').find("#UPrc").val(Price);
+					$(ObjProdOrder).closest('tr').find("#TPrice").val(Price);
 
 				}
-
-				GetPrice();
-				
+				//GetPrice();
 			});
 
 		});
+		function GetProdOrdPrice(productionOrderNo) 
+		{
+			let price = 0;
+			 $.ajax({
+				type: "Get",
+				url: '/Common/ProductionOrderPrice/',
+				data: { productionOrderNo: productionOrderNo },
+				async : false,
+				dataType: "json",
+				success: function (response) 
+				{
+					console.log(response);
+					price =  response.price;
+					
+				},
+
+				
+				
+			});
+			return price;
+		}
 		function generateBatchSelectTable(itemcode, warehouse) {
 			$.ajax({
 				type: "Get",

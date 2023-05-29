@@ -21,6 +21,7 @@
         public string? IsEdited { get; set; }
         public decimal? Quanity { get; set; }
         public decimal? PlannedQty { get; set; }
+        public decimal? CmpltQty { get; set; }
         public bool isApproved { get; set; }
         public bool apprSeen { get; set; }
         public string? Sap_Ref_No { get; set; }

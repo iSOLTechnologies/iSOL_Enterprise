@@ -100,7 +100,25 @@ function GetWareHouseQty(ItemCodeValue, WarehouseValue) {
 
 }
 
+function GetProdOrdPrice(productionOrderNo) {
+    let price = 0;
+    $.ajax({
+        type: "Get",
+        url: '/Common/ProductionOrderPrice/',
+        data: { productionOrderNo: productionOrderNo },
+        async: false,
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            price = response.price;
 
+        },
+
+
+
+    });
+    return price;
+}
 
 
 function GetWareHouseData() {
@@ -206,7 +224,7 @@ function GetPrice() {
             }
             VatAmmount = PriceAfterDiscount * (parseFloat(VatGroup / 100));
             PriceAfterVat = PriceAfterDiscount + VatAmmount;
-            TtlPrc.val(PriceAfterDiscount);
+            TtlPrc.val(PriceAfterDiscount.toFixed(2));
             totalTax = totalTax + VatAmmount;
             
             totalBeforeDiscount = parseFloat(totalBeforeDiscount) + parseFloat(PriceAfterDiscount);

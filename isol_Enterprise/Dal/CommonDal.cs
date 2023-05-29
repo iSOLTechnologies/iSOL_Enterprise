@@ -122,11 +122,11 @@ namespace iSOL_Enterprise.Dal
             {
 
                 Int16? value1 = null;
-                value1 = value.ToString() == "" || value == null ? null : value;
-                if (value1 != null)
+                
+                if (value != null)
                 {
-                decimal decimalValue = Convert.ToDecimal(value1); // Parse the decimal string value
-                Int16 intValue = Convert.ToInt16(decimalValue);
+                decimal decimalValue = Convert.ToDecimal(value); // Parse the decimal string value
+                value1 = Convert.ToInt16(decimalValue);
 
 
                 }
@@ -653,7 +653,7 @@ where s.Status=1 and p.Guid=@Guid";
                 case 102: //Receipt From Production
                     table = "OIGN";
                     break;
-                case 302: //Receipt From Production
+                case 302: //Issue For Production
                     table = "OIGE";
                     break;
 
@@ -926,7 +926,7 @@ where s.Status=1 and p.Guid=@Guid";
         {
             string table = GetMasterTable(BaseType);
             string rowTable = GetRowTable(BaseType);
-            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "'and isPosted = 1 and isApproved = 1 order by Id desc"; /*isPosted = 1*/
+            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "' and isApproved = 1 order by Id desc"; /*isPosted = 1*/
             if (BaseType == 1470000113)
             {
                 GetQuery = "select * from " + table + " order by Id desc"; /*isPosted = 1*/
@@ -1783,10 +1783,10 @@ where s.Status=1 and p.Guid=@Guid";
         public decimal? ProductionOrderPrice(string productionOrderNo)
         {
             string query = @"select SUM(LastPurPrc) as Price from (
-                             select OITM.LastPurPrc,OWOR.DocNum  from OWOR 
-                             inner JOIN WOR1 on WOR1.DocEntry = OWOR.DocEntry
-                             inner JOIN OITM on OITM.ItemCode = WOR1.ItemCode ) c
-                             where c.DocNum = '"+ productionOrderNo + "'";
+                            select OITM.LastPurPrc* WOR1.BaseQty as LastPurPrc,OWOR.DocEntry,WOR1.BaseQty  from OWOR 
+                            inner JOIN WOR1 on WOR1.DocEntry = OWOR.DocEntry
+                            inner JOIN OITM on OITM.ItemCode = WOR1.ItemCode ) c
+                            where c.DocEntry = '"+ productionOrderNo + "'";
 
             decimal? Price = null;
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, query))

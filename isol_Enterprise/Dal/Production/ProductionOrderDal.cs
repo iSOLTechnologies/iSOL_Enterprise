@@ -57,7 +57,7 @@ namespace iSOL_Enterprise.Dal.Production
                 DataSet ds = new DataSet();
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
                 string headerQuery = @"select Id,Guid,DocEntry,Type,Series,MySeries,DocNum,Status,PostDate, ItemCode,StartDate,ProdName,Priority,
-                                         DueDate,PlannedQty,Warehouse,LinkToObj,OriginNum,CardCode,Project,Comments,PickRmrk From OWOR where Id =" + id;
+                                         DueDate,PlannedQty,Warehouse,LinkToObj,OriginNum,CardCode,Project,Comments,PickRmrk,Sap_Ref_No From OWOR where Id =" + id;
                 SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
                 sda.Fill(ds);
                 string JSONString = string.Empty;

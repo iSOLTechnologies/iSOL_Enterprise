@@ -34,7 +34,15 @@
                         <i class="ki ki-long-arrow-back icon-sm"></i>Back
                     </a>
                     <div class="btn-group">
-
+                        <div class="dropdown mr-2">
+                            <button class="btn btn-success font-weight-bolder dropdown-toggle" type="button" id="btnCopyTo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="ki ki-copy icon-sm"></i>Copy To
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnCopyFrom" id="btnCopyToOptions">
+                                <a class="dropdown-item" url="/ReceiptFromProduction/ReceiptFromProductionMaster/" docentry="" guid="102" id="RC">Report completion</a>
+                                <a class="dropdown-item" url="/IssueForProduction/IssueForProductionMaster/" docentry="" guid="302" id="IC">Issue Component</a>
+                            </div>
+                        </div>
                        
                         <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
                             <i class="ki ki-check icon-sm"></i>Save
@@ -344,7 +352,7 @@
                                                                                     <th>Item No.</th>
                                                                                     <th>Item Description</th>
                                                                                     <th>Base Ratio</th>
-                                                                                    <th>Ratio</th>
+                                                                                    <th>Ratio %</th>
                                                                                     <th>Base Qty</th>
                                                                                     <th>Planned Qty</th>
                                                                                     <th>Warehouse</th>
@@ -638,6 +646,17 @@
     $(document).on('input', '#PlannedQtyH', function (e) {
         UpdatePlannedQtyRow();
     });
+    $("#btnCopyToOptions a").click(function () {
+
+        let docentry = $(this).attr("docentry");
+        let URL = $(this).attr("url");
+        if(docentry != null && docentry !="" && docentry != undefined)
+        {
+            window.location.href = URL + '?DocEntry=' + docentry;
+        }
+
+
+    });
     $(document).on('input', '#BaseQty', function (e) 
     {
         if (this.value != null && this.value != "" && this.value != undefined)
@@ -773,6 +792,17 @@
                     });
                 })
 
+            }
+            else {
+                let status = $("#Status").val();
+                if  (status == 'R') {
+                    $("#PlannedQtyH").attr('disabled', true);
+                    $("#ListParameters tr").find('#PlannedQty').each(function (index, data) {
+
+                        $(this).attr('disabled', true);
+
+                    });
+                }
             }
         }
     });
@@ -1102,6 +1132,7 @@
                     }
                     else
                     {
+
                         
                          $("#" + key).val(value);
                     }
@@ -1224,7 +1255,12 @@
                             $("#SalesOrderCode").val(value);
                             else if (key == 'ProdName')
                             $("#ItemDescription").val(value);
-                            
+                            else if (key == "Sap_Ref_No") {
+                            console.log("sap" + value);
+                            $("#RC").attr("docentry",value);
+                            $("#IC").attr("docentry",value);
+                            $("#IC").val(value);
+                            }
                             else
                             $("#" + key).val(value);
                     }

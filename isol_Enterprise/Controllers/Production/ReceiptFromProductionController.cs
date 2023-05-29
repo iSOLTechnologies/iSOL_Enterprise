@@ -6,6 +6,7 @@ using iSOL_Enterprise.Dal.Sale;
 using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace iSOL_Enterprise.Controllers.Production
 {
@@ -15,7 +16,7 @@ namespace iSOL_Enterprise.Controllers.Production
         {
             return View();
         }
-        public IActionResult ReceiptFromProductionMaster(string id = "", int aprv1ghas = 0)
+        public IActionResult ReceiptFromProductionMaster(string id = "", int aprv1ghas = 0, int DocEntry = 0)
         {
             ItemMasterDataDal Idal = new ItemMasterDataDal();
             AdministratorDal dal = new AdministratorDal();
@@ -23,6 +24,7 @@ namespace iSOL_Enterprise.Controllers.Production
             ViewData["MySeries"] = dal.GetMySeries(59);
             ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text");
             ViewBag.ApprovalView = aprv1ghas;
+            ViewBag.OrderNo = DocEntry;
             if (id != "")
             {
                 ViewBag.OldId = id;
@@ -69,7 +71,24 @@ namespace iSOL_Enterprise.Controllers.Production
 
             return Json(response);
         }
+        public IActionResult GetProdData(string OrderNo)
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
 
+                ReceiptFromProductionDal dal = new ReceiptFromProductionDal();
+                response.Data = dal.GetProdData(OrderNo);
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+        }
         public IActionResult GetOldData(string guid)
         {
             try
