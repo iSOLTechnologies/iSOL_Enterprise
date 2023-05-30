@@ -500,6 +500,7 @@ namespace iSOL_Enterprise.Dal.Production
 
                     int ObjectCode = 102;
                     int isApproved = ObjectCode.GetApprovalStatus(tran);
+
                     #region Insert in Approval Table
 
                     if (isApproved == 0)
@@ -593,6 +594,7 @@ namespace iSOL_Enterprise.Dal.Production
                                     }
                                 }
                                 #endregion
+                                
                                 #region If Item is Batch Type Generate Log
 
                                 if (Convert.ToDecimal(item.QTY) != Convert.ToDecimal(item.OldQty))

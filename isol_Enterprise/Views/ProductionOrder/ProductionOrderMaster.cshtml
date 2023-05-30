@@ -654,7 +654,8 @@
         {
             window.location.href = URL + '?DocEntry=' + docentry;
         }
-
+        else
+            toastr.warning('Document not Posted');
 
     });
     $(document).on('input', '#BaseQty', function (e) 
