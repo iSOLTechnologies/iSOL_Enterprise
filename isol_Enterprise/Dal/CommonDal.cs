@@ -1780,15 +1780,22 @@ where s.Status=1 and p.Guid=@Guid";
 
             return Guid;
         }
-        public decimal? ProductionOrderPrice(string productionOrderNo)
+        public decimal? ProductionOrderPrice(string productionOrderNo, string? ItemCode = null)
         {
             string query = @"select SUM(LastPurPrc) as Price from (
                             select OITM.LastPurPrc* WOR1.BaseQty as LastPurPrc,OWOR.DocEntry,WOR1.BaseQty  from OWOR 
                             inner JOIN WOR1 on WOR1.DocEntry = OWOR.DocEntry
                             inner JOIN OITM on OITM.ItemCode = WOR1.ItemCode ) c
                             where c.DocEntry = '"+ productionOrderNo + "'";
+            if (ItemCode != null)
+            {
+                   query = @"select Top(1) OITM.LastPurPrc* b.BaseQty as Price  from OWOR a
+                            inner JOIN WOR1 b on b.DocEntry = a.DocEntry
+                            inner JOIN OITM on OITM.ItemCode = b.ItemCode 
+                            where a.DocEntry = '"+productionOrderNo+"' and b.ItemCode = '"+ItemCode+"'";
+            }
 
-            decimal? Price = null;
+            decimal? Price = 0;
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, query))
             {
                 while (rdr.Read())

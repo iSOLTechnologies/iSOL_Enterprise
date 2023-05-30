@@ -891,7 +891,12 @@
             }
             else if (OldQty.val() != "" && OldQty.val() != undefined && OldQty.val() != null) 
             {
-                if (parseFloat(Qty.val()) != parseFloat(OldQty.val())) 
+                if(Qty.val() < OldQty.val()) 
+                {
+                    UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
+                    GetPrice();
+                }
+                else if (parseFloat(Qty.val()) != parseFloat(OldQty.val())) 
                 {
                     
                     if (Math.abs(OldQty.val() - Qty.val()) > (PlannedQty.val() - CmpltQty.val())) {
@@ -938,7 +943,7 @@
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
              
-        console.log("HI" + @ViewBag.OrderNo);
+        
         if(@ViewBag.OrderNo != 0)
         {
             GetProdData(@ViewBag.OrderNo);

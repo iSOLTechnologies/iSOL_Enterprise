@@ -119,6 +119,25 @@ function GetProdOrdPrice(productionOrderNo) {
     });
     return price;
 }
+function GetProdOrdItemPrice(productionOrderNo, ItemCode) {
+    let price = 0;
+    $.ajax({
+        type: "Get",
+        url: '/Common/ProductionOrderPrice/',
+        data: { productionOrderNo: productionOrderNo, ItemCode: ItemCode },
+        async: false,
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            price = response.price;
+
+        },
+
+
+
+    });
+    return price;
+}
 
 
 function GetWareHouseData() {

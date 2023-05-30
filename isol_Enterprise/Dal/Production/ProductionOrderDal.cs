@@ -257,8 +257,8 @@ namespace iSOL_Enterprise.Dal.Production
                             param.Clear();
                             
 
-                            string Tabitem = "Id,DocEntry,LineNum,VisOrder,ItemCode,ItemName,BaseQty,PlannedQty,wareHouse,IssueType";
-                            string TabitemP = "@Id,@DocEntry,@LineNum,@VisOrder,@ItemCode,@ItemName,@BaseQty,@PlannedQty,@wareHouse,@IssueType";
+                            string Tabitem = "Id,DocEntry,LineNum,VisOrder,ItemCode,ItemName,BaseQty,PlannedQty,wareHouse,IssueType,IssuedQty";
+                            string TabitemP = "@Id,@DocEntry,@LineNum,@VisOrder,@ItemCode,@ItemName,@BaseQty,@PlannedQty,@wareHouse,@IssueType,0";
                             string ITT1_Query = @"insert into WOR1 ("+Tabitem+") "+
                                                  "values("+TabitemP+")";
 
@@ -419,8 +419,8 @@ namespace iSOL_Enterprise.Dal.Production
                             }
                             else
                             {
-                                string Tabitem = "Id,DocEntry,LineNum,VisOrder,ItemCode,ItemName,BaseQty,PlannedQty,wareHouse,IssueType";
-                                string TabitemP = "@Id,@DocEntry,@LineNum,@VisOrder,@ItemCode,@ItemName,@BaseQty,@PlannedQty,@wareHouse,@IssueType";
+                                string Tabitem = "Id,DocEntry,LineNum,VisOrder,ItemCode,ItemName,BaseQty,PlannedQty,wareHouse,IssueType,IssuedQty";
+                                string TabitemP = "@Id,@DocEntry,@LineNum,@VisOrder,@ItemCode,@ItemName,@BaseQty,@PlannedQty,@wareHouse,@IssueType,0";
                                 ITT1_Query = @"insert into WOR1 (" + Tabitem + ") " +
                                                      "values(" + TabitemP + ")";
                                 ChildNum = CommonDal.getLineNumber(tran, "WOR1",Id.ToString());

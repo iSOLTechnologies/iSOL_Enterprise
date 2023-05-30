@@ -580,6 +580,7 @@ namespace iSOL_Enterprise.Dal.Production
                                 
                                 qty = Convert.ToDecimal(SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select Quantity from IGN1 where id=" + Id + " and LineNum=" + item.LineNum));
 
+                                CmpltQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select PlannedQty - (CmpltQty -" + qty + ") as PlannedQty from OWOR where DocNum ='" + item.BaseType + "'"));
                                 #region BackEnd check for Qty
                                 if (Convert.ToDecimal(item.QTY) != qty)
                                 {

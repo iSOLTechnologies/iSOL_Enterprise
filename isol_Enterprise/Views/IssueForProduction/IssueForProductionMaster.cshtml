@@ -245,14 +245,15 @@
                                                                                     <th>Type</th>
                                                                                     <th>Item No.</th>
                                                                                     <th>Item Description</th>
+                                                                                    <th>Row No</th>
                                                                                     <th>Warehouse</th>
                                                                                     <th>Qty in Warehouse</th>
-                                                                                    <th>Quantity</th>
-                                                                                    <th>Planned</th>
+                                                                                    <th>Quantity</th>                                                                                    
                                                                                     <th>Trans. Type</th>
                                                                                     <th>Unit Price</th>
                                                                                     <th>Total</th>
                                                                                     <th>Sale Order #</th>
+                                                                                    <th>Sale Order </th>
                                                                                     <th>Account Code</th>
                                                                                     <th>Item Cost</th>
                                                                                     <th>UOM Code</th>
@@ -265,11 +266,11 @@
                                                                                     <td>
                                                                                         <div class="input-group">
                                                                                             <input id="BaseType" name="BaseType" type="text" class="form-control form-control-sm" placeholder="Production Order No." aria-describedby="basic-addon2" readonly> 
-                                                                                            <div id="BaseTypeNo" class="input-group-append">
+                                                                                            @*<div id="BaseTypeNo" class="input-group-append">
                                                                                                 <span class="input-group-text">
                                                                                                     <i class="la la-search"></i>
                                                                                                 </span>
-                                                                                            </div>
+                                                                                            </div>*@
                                                                                         </div>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -290,7 +291,10 @@
                                                                                         <input id="ItemName" name="ItemName" class="form-control form-control-sm NotReq" type="text" disabled>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                            
+                                                                                    <td >
+                                                                                        <input id="RowNum" name="RowNum" class="form-control form-control-sm NotReq" type="text">
+                                                                                        <div class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
                                                                                     <td>
                                                                                         <div class="input-group">
                                                                                             <select class="form-control" id="Warehouse" name="Warehouse">
@@ -315,7 +319,7 @@
                                                                                         <input class="form-control form-control-sm" id="QTY" name="QTY"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                    <td>
+                                                                                    <td class="d-none">
                                                                                         <input id="PlannedQty" class="form-control form-control-sm NotReq"  type="number" disabled>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
@@ -350,6 +354,10 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
+                                                                                        <input type="text" id="SaleOrderDocNo" name="SaleOrderDocNo" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
                                                                                         <div class="input-group">
                                                                                             <input type="text" id="AcctCode" name="AcctCode" class="form-control form-control-sm NotReq" placeholder="GL Account" aria-describedby="basic-addon2">
                                                                                             <div id="GLAccountNo" class="input-group-append">
@@ -377,6 +385,14 @@
                                                                                     </td>
                                                                                     <td class="d-none">
                                                                                         <input class="form-control form-control-sm NotReq" id="OldQty" name="OldQty" type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td class="d-none">
+                                                                                        <input class="form-control form-control-sm NotReq" id="IssuedQty" name="IssuedQty" type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td class="d-none">
+                                                                                        <input class="form-control form-control-sm NotReq" id="TPrice" name="TPrice" type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                 </tr>
@@ -681,31 +697,57 @@
         let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
         let OldQty = $(this).closest('#ListParameters .itm').find('#OldQty');
 
+        let IssuedQty = $(this).closest('#ListParameters .itm').find('#IssuedQty');
+        let PlannedQty = $(this).closest('#ListParameters .itm').find('#PlannedQty');
+        let TPrice = $(this).closest('#ListParameters .itm').find('#TPrice');
+
+        $(this).closest('#ListParameters .itm').find('#TtlPrc').val("");
+        $(this).closest('#ListParameters .itm').find('#UPrc').val("");
+
         var VatGuid = $('option:selected', VatGroup).attr("guid");
         let BaseQty = $(this).closest('#ListParameters .itm').find('#BaseQty');
         
         let _ItemCode = $(this).closest('#ListParameters .itm').find('#ItemCode').val()
         let _WhsCode = $(this).closest('#ListParameters .itm').find('#Warehouse').val()
       
-        if (OldQty.val() != "" && OldQty.val() != undefined && OldQty.val() != null) {
+        
 
-            if (parseFloat(Qty.val()) != parseFloat(OldQty.val())) {
-                $(this).closest('tr').find('#ListbtnSelectBatch span i').removeClass("batch_is_valid");
-            }
-            else {
-                $(this).closest('tr').find('#ListbtnSelectBatch span i').addClass("batch_is_valid");
-            }
-        }
-
-        $.when( GetWhsAddedQty(_ItemCode, _WhsCode) ).then(function(sum) {
         if(Qty.val() <= 0){
             Qty.val("");
             toastr.warning("Quantity can't be 0");
         }
-        
-        
-        });
-         GetPrice();
+        else if (OldQty.val() != "" && OldQty.val() != undefined && OldQty.val() != null) {
+            if (parseFloat(Qty.val()) != parseFloat(OldQty.val())) {
+                if(Qty.val() < OldQty.val()) 
+                {
+                    UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
+                    GetPrice();
+                }
+                else if (Math.abs(OldQty.val() - Qty.val()) > (PlannedQty.val() - IssuedQty.val())) {
+                    toastr.warning("Quantity can't be greater than remaining Quantity");
+                    Qty.val("");
+                }
+                else {
+                    UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
+                    $(this).closest('tr').find('#ListbtnSelectBatch span i').removeClass("batch_is_valid");
+                    GetPrice();
+                }
+            }
+            else {
+                $(this).closest('tr').find('#ListbtnSelectBatch span i').addClass("batch_is_valid");
+                UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
+                GetPrice();
+            }
+        }
+        else if (Qty.val() > (PlannedQty.val() - IssuedQty.val())) {
+            toastr.warning("Quantity can't be greater than remaining Quantity");
+            Qty.val("");
+        }
+        else {
+
+            UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
+            GetPrice();
+        }
     });
 
     $(document).ready(function () {
@@ -720,6 +762,10 @@
         var date = new Date;
         $('#DocDate').val(moment(date).format('YYYY-MM-DD'));
              
+        if(@ViewBag.OrderNo != 0)
+        {
+            GetProdData(@ViewBag.OrderNo);
+        }
 
         if ("@ViewBag.OldId" != "0") {
 
@@ -821,11 +867,7 @@
                                                                                         <td>
                                                                                             <div class="input-group">
                                                                                                 <input id="BaseType" name="BaseType" type="text" class="form-control form-control-sm" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>
-                                                                                                <div id="BaseTypeNo" class="input-group-append">
-                                                                                                    <span class="input-group-text">
-                                                                                                        <i class="la la-search"></i>
-                                                                                                    </span>
-                                                                                                </div>
+                                                                                                
                                                                                             </div>
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
@@ -843,10 +885,13 @@
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
-                                                                                                <input id="ItemName" name="ItemName" class="form-control form-control-sm NotReq"  type="text" disabled>
+                                                                                            <input id="ItemName" name="ItemName" class="form-control form-control-sm NotReq"  type="text" disabled>
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
-
+                                                                                        <td>
+                                                                                            <input id="RowNum" name="RowNum" class="form-control form-control-sm NotReq" type="text">
+                                                                                            <div class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
                                                                                         <td>
                                                                                             <div class="input-group">
                                                                                                 <select class="form-control" id="Warehouse" name="Warehouse">
@@ -872,8 +917,8 @@
                                                                                             <input class="form-control form-control-sm" id="QTY" name="QTY"  type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
-                                                                                        <td>
-                                                                                                <input id="PlannedQty" class="form-control form-control-sm NotReq"  type="number" disabled>
+                                                                                        <td class="d-none">
+                                                                                            <input id="PlannedQty" class="form-control form-control-sm NotReq"  type="number" disabled>
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
@@ -907,6 +952,10 @@
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
+                                                                                            <input type="text" id="SaleOrderDocNo" name="SaleOrderDocNo" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td>
                                                                                             <div class="input-group">
                                                                                                 <input type="text" id="AcctCode" name="AcctCode" class="form-control form-control-sm NotReq" placeholder="GL Account" aria-describedby="basic-addon2">
                                                                                                 <div id="GLAccountNo" class="input-group-append">
@@ -934,6 +983,14 @@
                                                                                         </td>
                                                                                         <td class="d-none">
                                                                                                 <input  class="form-control form-control-sm NotReq" id="OldQty" name="OldQty"  type="number">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td class="d-none">
+                                                                                                <input  class="form-control form-control-sm NotReq" id="IssuedQty" name="IssuedQty"  type="number">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                            <td class="d-none">
+                                                                                            <input class="form-control form-control-sm NotReq" id="TPrice" name="TPrice" type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
@@ -1114,18 +1171,33 @@
                         $("#Warehouse").val(this.WhsCode);
                         $("#QTY").val(this.Quantity);                        
                         $("#OldQty").val(this.Quantity);
+                        $("#IssuedQty").val(this.IssuedQty);
+                        $("#PlannedQty").val(this.PlannedQty);
+                        $("#RowNum").val(this.RowNum);
                         $("#TranType").val(this.TranType);
                         $("#UPrc").val(this.Price);
                         $("#TtlPrc").val(this.LineTotal);
-                        $("#AcctCode").val(this.AcctCode).trigger('change');
+                        $("#AcctCode").val(this.AcctCode);
                         $("#LineNum").val(this.LineNum);
                         $("#SaleOrderCode").val(this.SaleOrderCode);
+                        $("#SaleOrderDocNo").val(this.SaleOrderDocNo);
                         $('#ListbtnSelectBatch span i').addClass("batch_is_valid");
 
-                        $.when(GetWareHouseQty(this.ItemCode, this.Warehouse)).done(function (OnHand) {
+                        $.when(GetWareHouseQty(this.ItemCode, this.WhsCode)).done(function (OnHand) {
 
                             $("#onHand").val(Number(OnHand));
 
+                        });
+
+                        $.when(GetProdOrdItemPrice(this.Sap_Ref_No, this.ItemCode)).done(function (Price) {
+
+                            if (Price != "" && Price != null && Price != undefined) {
+
+                                $("#UPrc").val(Price);
+                                $("#TPrice").val(Price);
+
+                            }
+                            //GetPrice();
                         });
 
                     }
@@ -1142,21 +1214,35 @@
                         $('#ListParameters tr:last-child').find("#Warehouse").val(this.WhsCode);
                         $('#ListParameters tr:last-child').find("#QTY").val(this.Quantity);
                         $('#ListParameters tr:last-child').find("#OldQty").val(this.Quantity);
+                        $('#ListParameters tr:last-child').find("#IssuedQty").val(this.IssuedQty);
+                        $('#ListParameters tr:last-child').find("#PlannedQty").val(this.PlannedQty);
+                        $('#ListParameters tr:last-child').find("#RowNum").val(this.RowNum);
                         $('#ListParameters tr:last-child').find("#TranType").val(this.TranType);
                         $('#ListParameters tr:last-child').find("#UPrc").val(this.Price);
                         $('#ListParameters tr:last-child').find("#TtlPrc").val(this.LineTotal);
                         $('#ListParameters tr:last-child').find("#LineNum").val(this.LineNum);
                         $('#ListParameters tr:last-child').find("#AcctCode").val(this.AcctCode);
                         $('#ListParameters tr:last-child').find("#SaleOrderCode").val(this.SaleOrderCode);
+                        $('#ListParameters tr:last-child').find("#SaleOrderDocNo").val(this.SaleOrderDocNo);
                         $('#ListParameters tr:last-child').find('#ListbtnSelectBatch span i').addClass("batch_is_valid");
                         
 
-                        $.when(GetWareHouseQty(this.ItemCode, this.Warehouse)).done(function (OnHand) {
+                        $.when(GetWareHouseQty(this.ItemCode, this.WhsCode)).done(function (OnHand) {
 
                             $('#ListParameters tr:last-child').find("#onHand").val(Number(OnHand));
 
                         });
 
+                        $.when(GetProdOrdItemPrice(this.Sap_Ref_No, this.ItemCode)).done(function (Price) {
+
+
+                            if (Price != "" && Price != null && Price != undefined) {
+
+                                $('#ListParameters tr:last-child').find("#UPrc").val(Price);
+                                $('#ListParameters tr:last-child').find("#TPrice").val(Price);
+
+                            }
+                        });
                     }
                     j += 1;
 
@@ -1173,6 +1259,96 @@
             }
         });
     }
+    
+    function GetProdData(OrderNo) {
 
+        $("#btnSaveData").attr('disabled', true);
+
+        $.ajax({
+            url: 'IssueForProduction/GetProdData',
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            data: { OrderNo: OrderNo },
+            success: function (response) {
+
+                let RowData = JSON.parse(response.data);
+                let j = 0;
+                $.each(RowData[0], function (key, value) {
+
+                    if (j == 0) {
+                        console.log(this);
+
+                        $("#BaseType").val(this.DocNum);
+                        $("#ItemCode").val(this.ItemCode);
+                        $("#ItemName").val(this.ItemName);
+                        $("#Warehouse").val(this.wareHouse);
+                        $("#QTY").val(this.PlannedQty);
+                        $("#IssuedQty").val(this.IssuedQty);
+                        $("#PlannedQty").val(this.PlannedQty);                        
+                        $("#RowNum").val(this.RowNum);
+                        
+                        $.when(GetWareHouseQty(this.ItemCode, this.wareHouse)).done(function (OnHand) {
+
+                            $("#onHand").val(Number(OnHand));
+
+                        });
+
+                        $.when(GetProdOrdItemPrice(this.Sap_Ref_No, this.ItemCode)).done(function (Price) {
+
+                            if (Price != "" && Price != null && Price != undefined) {
+
+                                $("#UPrc").val(Price);
+                                $("#TPrice").val(Price);
+
+                            }
+                            //GetPrice();
+                        });
+                    }
+                    else {
+                        //AddWarehouseRowData(this);
+
+                        $('#ListBtnAddd').trigger('click');
+                        InitializeWareHouseData();
+                        $('#ListParameters tr:last-child').find("#Warehouse").html(WareHouseData);
+
+                        $('#ListParameters tr:last-child').find("#BaseType").val(this.DocNum);
+                        $('#ListParameters tr:last-child').find("#ItemCode").val(this.ItemCode);
+                        $('#ListParameters tr:last-child').find("#ItemName").val(this.ItemName);
+                        $('#ListParameters tr:last-child').find("#Warehouse").val(this.wareHouse);
+                        $('#ListParameters tr:last-child').find("#QTY").val(this.PlannedQty);
+                        $('#ListParameters tr:last-child').find("#IssuedQty").val(this.IssuedQty);
+                        $('#ListParameters tr:last-child').find("#PlannedQty").val(this.PlannedQty);
+                        $('#ListParameters tr:last-child').find("#RowNum").val(this.RowNum);
+
+
+                        $.when(GetWareHouseQty(this.ItemCode, this.wareHouse)).done(function (OnHand) {
+
+                            $('#ListParameters tr:last-child').find("#onHand").val(Number(OnHand));
+
+                        });
+
+                        $.when(GetProdOrdItemPrice(this.Sap_Ref_No, this.ItemCode)).done(function (Price) {
+
+                            
+                            if (Price != "" && Price != null && Price != undefined) {
+
+                                $('#ListParameters tr:last-child').find("#UPrc").val(Price);
+                                $('#ListParameters tr:last-child').find("#TPrice").val(Price);
+
+                            }
+                        });
+                    }
+                    j += 1;
+
+
+                });
+                
+                GetPrice();
+                Edit_GetUomGroup();
+                $("#btnSaveData").attr('disabled', false);
+            }
+        });
+    }
 </script>
 
