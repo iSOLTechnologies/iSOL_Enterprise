@@ -2261,7 +2261,7 @@ namespace SAP_MVC_DIAPI.BLC
                                             QryGroup23, QryGroup24, QryGroup25, QryGroup26, QryGroup27, QryGroup28, QryGroup29, QryGroup30, QryGroup31, QryGroup32, QryGroup33,
                                             QryGroup34, QryGroup35, QryGroup36, QryGroup37, QryGroup38, QryGroup39, QryGroup40, QryGroup41, QryGroup42, QryGroup43, QryGroup44, QryGroup45, QryGroup46, 
                                             QryGroup47, QryGroup48, QryGroup49, QryGroup50, QryGroup51, QryGroup52, QryGroup53, QryGroup54, QryGroup55, QryGroup56, QryGroup57, QryGroup58, QryGroup59, 
-                                            QryGroup60, QryGroup61, QryGroup62, QryGroup63, QryGroup64,Sap_ItemCode from OCRD where Id =" + ID;
+                                            QryGroup60, QryGroup61, QryGroup62, QryGroup63, QryGroup64,Sap_Ref_No from OCRD where Id =" + ID;
                             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, headerQuery))
                             {
                                 try
@@ -2274,7 +2274,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         isOld = oDoc.GetByKey(rdr["Sap_Ref_No"].ToString());
 
                                         oDoc.Series = rdr["Series"].ToInt();
-
+                                        
                                         oDoc.CardCode = rdr["CardCode"].ToString();
                                         oDoc.CardName = rdr["CardName"].ToString();
                                         oDoc.CardForeignName = rdr["CardFName"].ToString();
@@ -2304,7 +2304,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.Territory = rdr["Territory"].ToInt();
                                         oDoc.AliasName = rdr["AliasName"].ToString();
                                         oDoc.GlobalLocationNumber = rdr["GlblLocNum"].ToString();
-
+                                        
                                         if (rdr["validFor"].ToString() == "Y")
                                         {
                                             oDoc.ValidFrom = Convert.ToDateTime(rdr["validFrom"]);
@@ -2435,7 +2435,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                 contactPerson.Gender = rdr["Gender"].ToString() == "M" ? BoGenderTypes.gt_Male : rdr["Gender"].ToString() == "F" ? BoGenderTypes.gt_Female : BoGenderTypes.gt_Undefined;
                                                 contactPerson.Profession = rdr["Profession"].ToString();
                                                 contactPerson.CityOfBirth = rdr["BirthCity"].ToString();
-
+                                                
                                                 contactPerson.Add();
 
                                             }
@@ -2455,7 +2455,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         {
                                             while (rdr2.Read())
                                             {
-
+                                                
                                                 billtoAddress.AddressType = BoAddressType.bo_BillTo;
                                                 billtoAddress.AddressName = rdr["Address"].ToString();
                                                 billtoAddress.AddressName2 = rdr["Address2"].ToString();
