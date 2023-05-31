@@ -2555,7 +2555,7 @@
 	<!--=============================== Modal Work Start===================================-->
 	<!-- Item Modal -->
 	<button type="button" style="display:none;" id="myItembtn" onclick="generateItemTable()" data-toggle="modal" data-target="#myItemModal"></button>
-	<div class="modal fade" id="myItemModal" role="dialog">
+	<div class="modal fade" id="myItemModal" role="dialog" data-backdrop="static" data-keyboard="false">
 		<div class="modal-dialog modal-dialog-centered modal-xl">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -2599,7 +2599,7 @@
 	<!-- Item Modal End -->
 	<!-- Customer Modal -->
 	<button type="button" style="display:none;" id="myCustomerbtn" onclick="generateCustomerTable()" data-toggle="modal" data-target="#myCustModal"></button>
-	<div class="modal fade" id="myCustModal" role="dialog">
+	<div class="modal fade" id="myCustModal" role="dialog" data-backdrop="static" data-keyboard="false">
 		<div class="modal-dialog modal-dialog-centered modal-xl">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -2643,7 +2643,7 @@
 	
 	
 	<button type="button" style="display:none;" id="mySalesOrderbtn" onclick="generateSalesOrderTable()" data-toggle="modal" data-target="#mySalesOrderModal"></button>
-	<div class="modal fade" id="mySalesOrderModal" role="dialog">
+	<div class="modal fade" id="mySalesOrderModal" role="dialog" data-backdrop="static" data-keyboard="false">
 		<div class="modal-dialog modal-dialog-centered modal-xl">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -2686,7 +2686,7 @@
 		</div>
 	</div>
 	<button type="button" style="display:none;" id="mySalesOrderbtn" onclick="generatePreCostingTowelTable()" data-toggle="modal" data-target="#myPreCostingTowelModal"></button>
-	<div class="modal fade" id="myPreCostingTowelModal" role="dialog">
+	<div class="modal fade" id="myPreCostingTowelModal" role="dialog" data-backdrop="static" data-keyboard="false">
 		<div class="modal-dialog modal-dialog-centered modal-xl">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -2729,7 +2729,7 @@
 	
 
 	<button type="button" style="display:none;" id="myCustomerbtn" onclick="generateVendorTable()" data-toggle="modal" data-target="#myCustModal"></button>
-	<div class="modal fade" id="myVendorModal" role="dialog">
+	<div class="modal fade" id="myVendorModal" role="dialog" data-backdrop="static" data-keyboard="false">
 		<div class="modal-dialog modal-dialog-centered modal-xl">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -2772,7 +2772,7 @@
 	<!-- Customer Modal End -->
 	<!-- Account Modal -->
 	<button type="button" style="display:none;" id="myAccountbtn" onclick="generateAccountTable()" data-toggle="modal" data-target="#myaccountModal"></button>
-	<div class="modal fade" id="myaccountModal" role="dialog">
+	<div class="modal fade" id="myaccountModal" role="dialog" data-backdrop="static" data-keyboard="false">
 		<div class="modal-dialog modal-dialog-centered modal-xl">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -2814,7 +2814,7 @@
 	</div>
 
 	<button type="button" style="display:none;" id="mycopyDatabtn" onclick="generateCopyDataTable()" data-toggle="modal" data-target="#mycopydataModal"></button>
-	<div class="modal fade" id="mycopydataModal" role="dialog">
+	<div class="modal fade" id="mycopydataModal" role="dialog" data-backdrop="static" data-keyboard="false">
 		<div class="modal-dialog modal-dialog-centered modal-xl">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -2872,7 +2872,7 @@
 	</div>
 
 	<button type="button" style="display:none;" id="mybatchtablebtn" onclick="generateBatchSelectTable()" data-toggle="modal" data-target="#mycopydataModal"></button>
-	<div class="modal fade" id="myBatchSelectmodal" role="dialog">
+	<div class="modal fade" id="myBatchSelectmodal" role="dialog" data-backdrop="static" data-keyboard="false">
 		<div class="modal-dialog modal-dialog-centered modal-xl">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -2977,7 +2977,7 @@
 		</div>
 	</div>
 	<button type="button" style="display:none;" id="myProductionorderbtn" onclick="generateProductionOrderTable()" data-toggle="modal" data-target="#myProductionOrderModal"></button>
-	<div class="modal fade" id="myProductionOrderModal" role="dialog">
+	<div class="modal fade" id="myProductionOrderModal" role="dialog" data-backdrop="static" data-keyboard="false">
 		<div class="modal-dialog modal-dialog-centered modal-xl">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -3022,7 +3022,7 @@
 		</div>
 	</div>
 	<button type="button" style="display:none;" id="myRowMaterialbtn" onclick="generateRowMaterialTable()" data-toggle="modal" data-target="#myRowMaterialModal"></button>
-	<div class="modal fade" id="myRowMaterialModal" role="dialog">
+	<div class="modal fade" id="myRowMaterialModal" role="dialog" data-backdrop="static" data-keyboard="false">
 		<div class="modal-dialog modal-dialog-centered modal-xl">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -3065,7 +3065,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-outline-success mr-2" id="btnRowMaterialTableOk"> Ok </button>
-					<button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-outline-danger" id="btnRowMaterialTableClose" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
@@ -3117,6 +3117,14 @@
 			}
 			return arr;
 		}
+
+		$(document).on('click', '#btnRowMaterialTableClose', function (e) 
+		{
+      
+			$("#btnSaveData").attr('disabled', false);
+
+		});
+
 		function generateProductionOrderTable() {
 			datatable = $('#MyyyyProductionOrderTable').DataTable({
 				responsive: true,
@@ -3296,6 +3304,7 @@
 			});
 		}
 
+		
 		$(document).on('click', '#btnSelectRowMaterial', function (e) 
 		{
       
