@@ -126,7 +126,7 @@ namespace iSOL_Enterprise.Dal.Production
             {
                 DataSet ds = new DataSet();
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-                string headerQuery = @"select IGN1.Id as Id,LineNum,BaseRef,BaseType,BaseQty,IGN1.ItemCode as ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,SaleOrderCode,CmpltQty,IGN1.SaleOrderDocNo as SaleOrderDocNo,isReturn,RowNum,OWOR.Sap_Ref_No From IGN1
+                string headerQuery = @"select IGN1.Id as Id,LineNum,BaseRef,BaseType,BaseQty,IGN1.ItemCode as ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,SaleOrderCode,CmpltQty,IGN1.SaleOrderDocNo as SaleOrderDocNo,isReturn,RowNum,OWOR.Sap_Ref_No,OWOR.PlannedQty From IGN1
                                     inner join OWOR on IGN1.BaseRef = OWOR.DocNum
                                     where IGN1.Id = " + id;
                 SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
@@ -172,6 +172,27 @@ namespace iSOL_Enterprise.Dal.Production
                 return response;
             }
 
+        }
+        public bool isReceivedQtyValid(string DocNum,decimal Qty)
+        {
+            string countQuery = @"select LineNum,b.ItemCode from OWOR a
+                                Inner Join WOR1 b on a.id = b.id
+                                where DocNum = '"+DocNum+ "'";
+
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, countQuery))
+            {
+                while (rdr.Read())
+                {
+                    decimal ExtraQty = GetExtraQty(DocNum, rdr["ItemCode"].ToString(), rdr["LineNum"].ToInt()+1);
+                    if (Qty > ExtraQty)
+                    {
+                        return false;
+                    }
+
+                }
+            }
+
+            return true;
         }
         public decimal GetExtraQty(string DocNum,string ItemCode,int RowNum, SqlTransaction? Cnstrn = null,decimal OldQty = 0)
         {            

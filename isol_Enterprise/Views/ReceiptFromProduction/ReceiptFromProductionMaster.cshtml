@@ -888,6 +888,7 @@
         let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
         let OldQty = $(this).closest('#ListParameters .itm').find('#OldQty');
         let ExtraQty = $(this).closest('#ListParameters .itm').find('#ExtraQty');
+        let BaseType = $(this).closest('#ListParameters .itm').find('#BaseType');
 
         let CmpltQty = $(this).closest('#ListParameters .itm').find('#CmpltQty');
         let PlannedQty = $(this).closest('#ListParameters .itm').find('#PlannedQty');
@@ -925,15 +926,20 @@
             {
                 if (OldQty.val() != "" && OldQty.val() != undefined && OldQty.val() != null) 
                 {
-                    if(Qty.val() < OldQty.val()) 
-                    {
-                        UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
-                        GetPrice();
-                    }
-                    else if (parseFloat(Qty.val()) != parseFloat(OldQty.val())) 
-                    {
                     
-                        if (Math.abs(OldQty.val() - Qty.val()) > (PlannedQty.val() - CmpltQty.val())) {
+                    if (parseFloat(Qty.val()) != parseFloat(OldQty.val())) 
+                    {
+                        if (!isReceivedQtyValid(BaseType.val(), Math.abs(OldQty.val() - Qty.val()))) 
+                        {
+                            toastr.warning("Quantity can't be greater than Issued Quantity");
+                            Qty.val("");
+                        }
+                        else if (Math.abs(OldQty.val() - Qty.val()) > (PlannedQty.val() - CmpltQty.val())) {
+                        
+                            console.log ("Old " + OldQty.val());
+                            console.log ("qty " + Qty.val());
+                            console.log ("pl " + PlannedQty.val());
+                            console.log ("cpml " + CmpltQty.val());
                             toastr.warning("Quantity can't be greater than remaining Quantity");
                             Qty.val("");
                         }
@@ -950,6 +956,11 @@
                         UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
                         GetPrice();
                     }
+                }
+                else if (!isReceivedQtyValid(BaseType.val(),Qty.val())) 
+                {
+                    toastr.warning("Quantity can't be greater than Issued Quantity");
+                    Qty.val("");
                 }
                 else if (Qty.val() > (PlannedQty.val() - CmpltQty.val())) 
                 {
@@ -1389,7 +1400,7 @@
                         $("#AcctCode").val(this.AcctCode).trigger('change');
                         $("#LineNum").val(this.LineNum);
                         $("#SaleOrderCode").val(this.SaleOrderCode);
-                        $("#PlannedQty").val(this.BaseQty);
+                        $("#PlannedQty").val(this.PlannedQty);
                         $('#ListbtnSelectBatch span i').addClass("batch_is_valid");
                         $("#CmpltQty").val(this.CmpltQty);
                         $("#SaleOrderDocNo").val(this.SaleOrderDocNo);
@@ -1439,7 +1450,7 @@
                         $('#ListParameters tr:last-child').find("#LineNum").val(this.LineNum);
                         $('#ListParameters tr:last-child').find("#AcctCode").val(this.AcctCode);
                         $('#ListParameters tr:last-child').find("#SaleOrderCode").val(this.SaleOrderCode);
-                        $('#ListParameters tr:last-child').find("#PlannedQty").val(this.BaseQty);
+                        $('#ListParameters tr:last-child').find("#PlannedQty").val(this.PlannedQty);
                         $('#ListParameters tr:last-child').find('#ListbtnSelectBatch span i').addClass("batch_is_valid");
                         $('#ListParameters tr:last-child').find("#CmpltQty").val(this.CmpltQty);
                         $('#ListParameters tr:last-child').find("#SaleOrderDocNo").val(this.SaleOrderDocNo);

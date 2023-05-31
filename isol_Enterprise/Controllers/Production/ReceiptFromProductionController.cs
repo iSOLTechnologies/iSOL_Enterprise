@@ -133,6 +133,26 @@ namespace iSOL_Enterprise.Controllers.Production
             return Json(response);
 
         }
+        [HttpGet]
+        public IActionResult isReceivedQtyValid(string DocNum,decimal Qty)
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
+
+                ReceiptFromProductionDal dal = new ReceiptFromProductionDal();
+                response.Data = dal.isReceivedQtyValid(DocNum,Qty);
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+
+        }
             [HttpPost]
         public IActionResult AddUpdateReceiptFromProduction(string formData)
         {

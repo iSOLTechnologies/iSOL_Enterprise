@@ -160,6 +160,28 @@ function GetExtraQty(DocNum, ItemCode, RowNum) {
     });
     return qty.toFixed(2);
 }
+function isReceivedQtyValid(DocNum,Qty) {
+
+    let isValid = false;
+    $.ajax({
+        type: "Get",
+        url: '/ReceiptFromProduction/isReceivedQtyValid/',
+        data: { DocNum: DocNum, Qty: Qty },
+        async: false,
+        dataType: "json",
+        success: function (response)
+        {
+            
+            console.log(response);
+            isValid = response.data;
+
+        },
+
+
+
+    });
+    return isValid;
+}
 
 
 function GetWareHouseData() {
