@@ -1,6 +1,7 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Models.Logs;
+using iSOL_Enterprise.Models.Production;
 using iSOL_Enterprise.Models.sale;
 using iSOL_Enterprise.Models.Sale;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -129,15 +130,17 @@ namespace iSOL_Enterprise.Dal
                 value1 = Convert.ToInt16(decimalValue);
 
 
-                }
-                //else
-                //{
-                //    value1 = value.ToString() == "" || value == null ? null : Convert.ToInt16(value);
-                //}
+                }               
 
 				param = new SqlParameter(name, value1);
             }
-            // param = new SqlParameter(name,value);
+            else if (type == typeof(bool))
+            {
+
+                bool? value1 = Convert.ToBoolean(value);
+                param = new SqlParameter(name, value1);
+            }
+           
 
             return param;
         }
@@ -1809,5 +1812,57 @@ where s.Status=1 and p.Guid=@Guid";
 
             return Price;
         }
-    }
+		public List<ProductionOrderRowMaterialModel> GetRowMaterials()
+		{
+            try
+            {
+
+            
+
+			string GetQuery = @"select Top(2000) a.DocNum, 
+                                case 
+	                                when a.Type = 'S' then 'Standard'
+	                                when a.Type = 'P' then 'Special'
+	                                when a.Type = 'D' then 'DisAssembly'
+	                                else '' End As ProductionOrderType,
+                                a.OriginNum, b.IssuedQty -(a.CmpltQty * b.BaseQty) as ExtraQty,b.ItemCode,b.ItemName,b.wareHouse,a.Sap_Ref_No,
+                                b.PlannedQty,b.IssuedQty,b.LineNum + 1 as RowNum,a.CmpltQty,b.BaseQty from OWOR a
+                                inner JOIN WOR1 b on a.id = b.id 
+                                where isPosted = 1 and a.Sap_Ref_No is not Null
+                                order by a.id desc";
+
+
+			List<ProductionOrderRowMaterialModel> list = new List<ProductionOrderRowMaterialModel>();
+			using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+			{
+				while (rdr.Read())
+				{
+
+                    ProductionOrderRowMaterialModel models = new()
+                    {
+                        DocNum = rdr["DocNum"].ToString(),
+                        ProductionOrderType = rdr["ProductionOrderType"].ToString(),
+                        OriginNum = rdr["OriginNum"].ToString(),
+                        ExtraQty = rdr["ExtraQty"].ToDecimal(),
+                        ItemCode = rdr["ItemCode"].ToString(),
+                        ItemName = rdr["ItemName"].ToString(),
+                        wareHouse = rdr["wareHouse"].ToString(),
+                        Sap_Ref_No = rdr["Sap_Ref_No"].ToInt(),
+                        PlannedQty = rdr["PlannedQty"].ToDecimal(),
+                        IssuedQty = rdr["IssuedQty"].ToDecimal(),
+                        RowNum = rdr["RowNum"].ToInt()
+
+                    };				
+					list.Add(models);
+				}
+			}
+			return list;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+	}
 }

@@ -7,6 +7,8 @@ using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging.Abstractions;
+using System.Data.SqlClient;
+using static iSOL_Enterprise.Models.RequestModels;
 
 namespace iSOL_Enterprise.Controllers.Production
 {
@@ -111,8 +113,27 @@ namespace iSOL_Enterprise.Controllers.Production
             }
         }
 
+        [HttpGet]
+        public IActionResult GetExtraQty(string DocNum, string ItemCode, int RowNum)
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
 
-        [HttpPost]
+                ReceiptFromProductionDal dal = new ReceiptFromProductionDal();
+                response.Data = dal.GetExtraQty(DocNum,ItemCode,RowNum);
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+
+        }
+            [HttpPost]
         public IActionResult AddUpdateReceiptFromProduction(string formData)
         {
             try

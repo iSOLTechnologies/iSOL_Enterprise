@@ -1,4 +1,5 @@
 ﻿using iSOL_Enterprise.Dal;
+using iSOL_Enterprise.Dal.Sale;
 using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -317,5 +318,24 @@ namespace iSOL_Enterprise.Controllers
                 return Json(ex.Message);
             }
         }
-    }
+
+		[HttpGet]
+		public IActionResult GetRowMaterials()
+		{
+			ResponseModels response = new ResponseModels();
+			try
+			{
+				CommonDal dal = new CommonDal();
+				response.Data = dal.GetRowMaterials();
+			}
+			catch (Exception ex)
+			{
+
+				return Json(response);
+			}
+
+
+			return Json(response);
+		}
+	}
 }

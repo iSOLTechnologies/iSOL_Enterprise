@@ -138,6 +138,28 @@ function GetProdOrdItemPrice(productionOrderNo, ItemCode) {
     });
     return price;
 }
+function GetExtraQty(DocNum, ItemCode, RowNum) {
+    
+    let qty = 0;
+    $.ajax({
+        type: "Get",
+        url: '/ReceiptFromProduction/GetExtraQty/',
+        data: { DocNum: DocNum, ItemCode: ItemCode, RowNum: RowNum },
+        async: false,
+        dataType: "json",
+        success: function (response)
+        {
+            
+            console.log(response);
+            qty = response.data;
+
+        },
+
+
+
+    });
+    return qty.toFixed(2);
+}
 
 
 function GetWareHouseData() {

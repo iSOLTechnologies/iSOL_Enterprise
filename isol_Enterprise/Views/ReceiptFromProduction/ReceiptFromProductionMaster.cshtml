@@ -34,6 +34,9 @@
                     </a>
                        <div class="btn-group">                    
 
+                        <button type="button" class="btn btn-success font-weight-bolder mr-2" id="btnReturnComponent">
+                            <i class="fas fa-undo icon-sm"></i>Return
+                        </button>
                         <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
                             <i class="ki ki-check icon-sm"></i>Save
                         </button>
@@ -393,6 +396,14 @@
                                                                                         <input class="form-control form-control-sm NotReq" id="TPrice" name="TPrice" type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
+                                                                                    <td class="d-none">
+                                                                                                <input class="form-control form-control-sm NotReq" id="ExtraQty" name="ExtraQty" type="number">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td class="d-none">
+                                                                                        <input id="RowNum" name="RowNum" class="form-control form-control-sm NotReq" type="text">
+                                                                                        <div class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -742,6 +753,13 @@
         $('#myaccountModal').modal('show'); 
 
     });
+    $(document).on('click', '#btnReturnComponent', function (e) {
+
+       // ObjAcctCode = $(this).closest('tr').find("#AcctCode"); 
+        generateRowMaterialTable();
+        $('#myRowMaterialModal').modal('show');
+
+    });
     $(document).on('click', '#BaseTypeNo', function (e) {
 
         ObjProdOrder = $(this).closest('tr').find("#BaseType"); 
@@ -869,6 +887,7 @@
         var VatGroup = $(this).closest('#ListParameters .itm').find('#VatGroup');
         let onHand = $(this).closest('#ListParameters .itm').find('#onHand');
         let OldQty = $(this).closest('#ListParameters .itm').find('#OldQty');
+        let ExtraQty = $(this).closest('#ListParameters .itm').find('#ExtraQty');
 
         let CmpltQty = $(this).closest('#ListParameters .itm').find('#CmpltQty');
         let PlannedQty = $(this).closest('#ListParameters .itm').find('#PlannedQty');
@@ -889,46 +908,61 @@
                 Qty.val("");
                 toastr.warning("Quantity can't be 0");
             }
-            else if (OldQty.val() != "" && OldQty.val() != undefined && OldQty.val() != null) 
+            else if(ExtraQty.val() != "" && ExtraQty.val() != null && ExtraQty.val() != undefined)
             {
-                if(Qty.val() < OldQty.val()) 
-                {
+                if (Qty.val() <= ExtraQty.val()) {
                     UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
                     GetPrice();
                 }
-                else if (parseFloat(Qty.val()) != parseFloat(OldQty.val())) 
+                else
                 {
-                    
-                    if (Math.abs(OldQty.val() - Qty.val()) > (PlannedQty.val() - CmpltQty.val())) {
-                        toastr.warning("Quantity can't be greater than remaining Quantity");
-                        Qty.val("");
-                    }
-                    else
+                    toastr.warning("Quantity can't be greater than Issued Quantity");
+                    Qty.val("");
+                }
+
+            }
+            else 
+            {
+                if (OldQty.val() != "" && OldQty.val() != undefined && OldQty.val() != null) 
+                {
+                    if(Qty.val() < OldQty.val()) 
                     {
                         UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
-                        $(this).closest('tr').find('#ListbtnSelectBatch span i').removeClass("batch_is_valid");
+                        GetPrice();
+                    }
+                    else if (parseFloat(Qty.val()) != parseFloat(OldQty.val())) 
+                    {
+                    
+                        if (Math.abs(OldQty.val() - Qty.val()) > (PlannedQty.val() - CmpltQty.val())) {
+                            toastr.warning("Quantity can't be greater than remaining Quantity");
+                            Qty.val("");
+                        }
+                        else
+                        {
+                            UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
+                            $(this).closest('tr').find('#ListbtnSelectBatch span i').removeClass("batch_is_valid");
+                            GetPrice();
+                        }
+                    }
+                    else 
+                    {
+                        $(this).closest('tr').find('#ListbtnSelectBatch span i').addClass("batch_is_valid");
+                        UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
                         GetPrice();
                     }
                 }
-                else 
+                else if (Qty.val() > (PlannedQty.val() - CmpltQty.val())) 
                 {
-                    $(this).closest('tr').find('#ListbtnSelectBatch span i').addClass("batch_is_valid");
-                    UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
-                    GetPrice();
+                    toastr.warning("Quantity can't be greater than remaining Quantity");
+                    Qty.val("");
+                }
+                else
+                {
+               
+                   UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
+                   GetPrice();
                 }
             }
-            else if (Qty.val() > (PlannedQty.val() - CmpltQty.val())) 
-            {
-                toastr.warning("Quantity can't be greater than remaining Quantity");
-                Qty.val("");
-            }
-            else
-            {
-               
-               UPrc.val((Qty.val() * TPrice.val()).toFixed(2));
-               GetPrice();
-            }
-       
     });
 
     $(document).ready(function () {
@@ -1159,9 +1193,17 @@
                                                                                             <input class="form-control form-control-sm NotReq" id="OldQty" name="OldQty" type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
-                                                                                            <td class="d-none">
+                                                                                        <td class="d-none">
                                                                                             <input class="form-control form-control-sm NotReq" id="TPrice" name="TPrice" type="number">
                                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                        <td class="d-none">
+                                                                                                <input class="form-control form-control-sm NotReq" id="ExtraQty" name="ExtraQty" type="number">
+                                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                        </td>
+                                                                                            <td class="d-none">
+                                                                                            <input id="RowNum" name="RowNum" class="form-control form-control-sm NotReq" type="text">
+                                                                                            <div class="error invalid-feedback">This field is required.</div>
                                                                                         </td>
                                                                                         <td>
                                                                                             <a id = "ListBtnDelete" class="btn btn-bold btn-sm btn-light-danger">
@@ -1351,6 +1393,18 @@
                         $('#ListbtnSelectBatch span i').addClass("batch_is_valid");
                         $("#CmpltQty").val(this.CmpltQty);
                         $("#SaleOrderDocNo").val(this.SaleOrderDocNo);
+                        
+
+                        if(this.isReturn)
+                        {
+                            
+                            $.when(GetExtraQty(this.BaseRef, this.ItemCode, this.RowNum)).done(function (ExtraQty) {
+
+                            $('#ListParameters tr:last-child').find("#ExtraQty").val(ExtraQty);
+                            
+                            });
+                            $('#ListParameters tr:last-child').find("#RowNum").val(this.RowNum);
+                        }
                         $.when(GetWareHouseQty(this.ItemCode, this.Warehouse)).done(function (OnHand) {
 
                             $("#onHand").val(Number(OnHand));
@@ -1389,6 +1443,14 @@
                         $('#ListParameters tr:last-child').find('#ListbtnSelectBatch span i').addClass("batch_is_valid");
                         $('#ListParameters tr:last-child').find("#CmpltQty").val(this.CmpltQty);
                         $('#ListParameters tr:last-child').find("#SaleOrderDocNo").val(this.SaleOrderDocNo);
+                        if (this.isReturn) {
+                            $.when(GetExtraQty(this.BaseRef, this.ItemCode, this.RowNum)).done(function (ExtraQty) {
+
+                                $('#ListParameters tr:last-child').find("#ExtraQty").val(ExtraQty);
+
+                            });
+                            $('#ListParameters tr:last-child').find("#RowNum").val(this.RowNum);
+                        }
                         $.when(GetWareHouseQty(this.ItemCode, this.Warehouse)).done(function (OnHand) {
 
                             $('#ListParameters tr:last-child').find("#onHand").val(Number(OnHand));
@@ -1466,5 +1528,74 @@
             }
         });
     }
+
+    $(document).on('click', '#btnRowMaterialTableOk', function (e) {
+
+
+
+        let j = 0;
+        $('#MyyyyRowMaterialTable tbody tr').each(function (index, item) {
+
+
+            if ($(this).hasClass('Mainrow_selected')) {
+
+
+                $('#MyyyyRowMaterialTable').DataTable().column(7).visible(true);
+                $('#MyyyyRowMaterialTable').DataTable().column(8).visible(true);
+                $('#MyyyyRowMaterialTable').DataTable().column(9).visible(true);
+
+                
+                let TableRowsCounts = $('#ListParameters tr').length;
+                console.log($(this).find("#RMDocNum").text());
+                
+                
+                if (j != 0 || TableRowsCounts != 1) {
+                    $('#ListBtnAddd').trigger('click');
+                    InitializeWareHouseData();
+                    $('#ListParameters tr:last-child').find("#Warehouse").html(WareHouseData);
+                }
+                
+                    
+                
+                $('#ListParameters tr:last-child').find("#BaseType").val($(this).find("#RMDocNum").text());
+                $('#ListParameters tr:last-child').find("#ItemCode").val($(this).find("#RMItemCode").text());
+                $('#ListParameters tr:last-child').find("#ItemName").val($(this).find("#RMItemName").text());
+                $('#ListParameters tr:last-child').find("#Warehouse").val($(this).find("#RMWarehouse").text());
+                $('#ListParameters tr:last-child').find("#PlannedQty").val($(this).find("#RMPlannedQty").text());
+                $('#ListParameters tr:last-child').find("#CmpltQty").val($(this).find("#RMIssuedQty").text());
+                $('#ListParameters tr:last-child').find("#ExtraQty").val($(this).find("#RMExtraQty").text());
+                $('#ListParameters tr:last-child').find("#RowNum").val($(this).find("#RMRowNum").text());
+
+                $.when(GetWareHouseQty($(this).find("#RMItemCode").text(), $(this).find("#RMWarehouse").text())).done(function (OnHand) {
+                    $('#ListParameters tr:last-child').find("#onHand").val(Number(OnHand));
+                });
+                //this.PlannedQty
+                //$('#ListParameters tr:last-child').find("#QTY").val(this.PlannedQty);
+
+
+
+                $.when(GetProdOrdItemPrice($(this).find("#RMsap_Ref_No").text(), $(this).find("#RMItemCode").text())).done(function (Price) {
+
+
+                    if (Price != "" && Price != null && Price != undefined) {
+
+                        $('#ListParameters tr:last-child').find("#UPrc").val(Price);
+                        $('#ListParameters tr:last-child').find("#TPrice").val(Price);
+
+                    }
+                });
+
+                
+            }
+            j+=1;
+        });
+
+
+        $('#myRowMaterialModal').modal('hide');
+
+
+
+
+    });
 </script>
 

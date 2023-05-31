@@ -3,6 +3,7 @@ using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Models.Logs;
 using Newtonsoft.Json;
+using SAPbobsCOM;
 using SqlHelperExtensions;
 using System;
 using System.Data;
@@ -87,7 +88,7 @@ namespace iSOL_Enterprise.Dal.Production
             {
                 DataSet ds = new DataSet();
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-                string headerQuery = @"select DocNum,OriginNum,ItemCode,ProdName,Warehouse,PlannedQty,CmpltQty,Sap_Ref_No,CmpltQty from OWOR where isPosted = 1 and Sap_Ref_No = '" + DocEntry+"' order by DocEntry desc";
+                string headerQuery = @"select DocNum,OriginNum,ItemCode,ProdName,Warehouse,PlannedQty,CmpltQty,Sap_Ref_No from OWOR where isPosted = 1 and Sap_Ref_No = '" + DocEntry+"' order by DocEntry desc";
                 SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
                 sda.Fill(ds);
                 string JSONString = string.Empty;
@@ -125,7 +126,7 @@ namespace iSOL_Enterprise.Dal.Production
             {
                 DataSet ds = new DataSet();
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
-                string headerQuery = @"select IGN1.Id as Id,LineNum,BaseRef,BaseType,BaseQty,IGN1.ItemCode as ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,SaleOrderCode,CmpltQty,IGN1.SaleOrderDocNo as SaleOrderDocNo,OWOR.Sap_Ref_No From IGN1
+                string headerQuery = @"select IGN1.Id as Id,LineNum,BaseRef,BaseType,BaseQty,IGN1.ItemCode as ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,SaleOrderCode,CmpltQty,IGN1.SaleOrderDocNo as SaleOrderDocNo,isReturn,RowNum,OWOR.Sap_Ref_No From IGN1
                                     inner join OWOR on IGN1.BaseRef = OWOR.DocNum
                                     where IGN1.Id = " + id;
                 SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
@@ -171,6 +172,16 @@ namespace iSOL_Enterprise.Dal.Production
                 return response;
             }
 
+        }
+        public decimal GetExtraQty(string DocNum,string ItemCode,int RowNum, SqlTransaction? Cnstrn = null,decimal OldQty = 0)
+        {            
+            string ExtraQtyQuery = @"select  b.IssuedQty - ( ( a.CmpltQty - "+OldQty +")* b.BaseQty) as ExtraQty from OWOR a "+
+                                                        "inner JOIN WOR1 b on a.id = b.id " + 
+                                                        "where a.DocNum = '" + DocNum + "' and b.ItemCode = '" + ItemCode + "' and b.LineNum = " + RowNum + "-1";
+
+            decimal ExtraQty = Cnstrn != null ? Convert.ToDecimal(SqlHelper.ExecuteScalar(Cnstrn, CommandType.Text, ExtraQtyQuery)) : Convert.ToDecimal(SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, ExtraQtyQuery));
+
+            return ExtraQty;
         }
         public ResponseModels AddReceiptFromProduction(dynamic model)
         {
@@ -291,23 +302,42 @@ namespace iSOL_Enterprise.Dal.Production
                     if (model.ListItems != null)
                     {
                         int LineNum = 0;
+                        int? RowNum = null;
                         foreach (var item in model.ListItems)
                         {
-
+                            bool isReturn = false;
+                            if (item.ExtraQty.ToString() != null && item.ExtraQty.ToString() != "")
+                                isReturn = true;
 
                             #region BackEnd check for Qty 
-                            decimal Qty = Convert.ToDecimal(SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select PlannedQty - CmpltQty as PlannedQty from OWOR where DocNum ='" + item.BaseType + "'"));
-                            if (Convert.ToDecimal(item.QTY) > Qty)
+                            if (!isReturn)      //If not q return Type
                             {
-                                tran.Rollback();
-                                response.isSuccess = false;
-                                response.Message = "Quantity can't be greater then Remaining Quantity !";
-                                return response;
+                                decimal Qty = Convert.ToDecimal(SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select PlannedQty - CmpltQty as PlannedQty from OWOR where DocNum ='" + item.BaseType + "'"));
+                                if (Convert.ToDecimal(item.QTY) > Qty)
+                                {
+                                    tran.Rollback();
+                                    response.isSuccess = false;
+                                    response.Message = "Quantity can't be greater then Remaining Quantity !";
+                                    return response;
+                                }
+                            }
+                            else
+                            {
+
+                                decimal ExtraQty = GetExtraQty(item.BaseType.ToString(), item.ItemCode.ToString(),Convert.ToInt32 (item.RowNum),tran);
+                                if (Convert.ToDecimal(item.QTY) > ExtraQty)
+                                {
+                                    tran.Rollback();
+                                    response.isSuccess = false;
+                                    response.Message = "Quantity can't be greater then Issued Quantity !";
+                                    return response;
+                                }
+                                RowNum = Convert.ToInt32(item.RowNum);
                             }
                             #endregion
 
-                            string Tabitem = "Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,UomEntry,UomCode,OpenQty,SaleOrderCode,BaseQty,SaleOrderDocNo";
-                            string TabitemP = "@Id,@LineNum,@BaseRef,@BaseType,@ItemCode,@Dscription,@WhsCode,@Quantity,@TranType,@Price,@LineTotal,@AcctCode,@UomEntry,@UomCode,@OpenQty,@SaleOrderCode,@BaseQty,@SaleOrderDocNo";
+                            string Tabitem = "Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,UomEntry,UomCode,OpenQty,SaleOrderCode,BaseQty,SaleOrderDocNo,isReturn,RowNum";
+                            string TabitemP = "@Id,@LineNum,@BaseRef,@BaseType,@ItemCode,@Dscription,@WhsCode,@Quantity,@TranType,@Price,@LineTotal,@AcctCode,@UomEntry,@UomCode,@OpenQty,@SaleOrderCode,@BaseQty,@SaleOrderDocNo,@isReturn,@RowNum";
                             string ITT1_Query = @"insert into IGN1 (" + Tabitem + ") " +
                                                  "values(" + TabitemP + ")";
 
@@ -332,6 +362,8 @@ namespace iSOL_Enterprise.Dal.Production
                             param1.Add(cdal.GetParameter("@SaleOrderCode", item.SaleOrderCode, typeof(int)));
                             param1.Add(cdal.GetParameter("@BaseQty", item.PlannedQty, typeof(decimal)));
                             param1.Add(cdal.GetParameter("@SaleOrderDocNo", item.SaleOrderDocNo, typeof(string)));
+                            param1.Add(cdal.GetParameter("@isReturn", isReturn, typeof(bool)));
+                            param1.Add(cdal.GetParameter("@RowNum", RowNum, typeof(int)));
 
                             #endregion
 
@@ -404,18 +436,33 @@ namespace iSOL_Enterprise.Dal.Production
 
                             #endregion
 
-                            #region Update Production Order CmpltQty
-                            string POquery = @"update OWOR set CmpltQty = CmpltQty +"+ item.QTY + " where DocNum = '" + item.BaseType +"'";
-                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, POquery).ToInt();
-                            if (res1 <= 0)
-                            {
-                                tran.Rollback();
-                                response.isSuccess = false;
-                                response.Message = "An Error Occured";
-                                return response;
+                            #region Update Production Order 
+                            if (!isReturn)  //Update Completed Qty
+                            { 
+                                string POquery = @"update OWOR set CmpltQty = CmpltQty +"+ item.QTY + " where DocNum = '" + item.BaseType +"'";
+                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, POquery).ToInt();
+                                if (res1 <= 0)
+                                {
+                                    tran.Rollback();
+                                    response.isSuccess = false;
+                                    response.Message = "An Error Occured";
+                                    return response;
+                                }
                             }
+                            else
+                            {
+                                int OWORID = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select Id from OWOR where DocNum ='" + item.BaseType + "'");
 
-
+                                string UPWOR1 = @"update WOR1 set IssuedQty = IssuedQty -" + item.QTY + "where Id=" + OWORID + "and ItemCode = '" + item.ItemCode + "' and LineNum = " + item.RowNum + "-1";
+                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UPWOR1).ToInt();
+                                if (res1 <= 0)
+                                {
+                                    tran.Rollback();
+                                    response.isSuccess = false;
+                                    response.Message = "An Error Occured";
+                                    return response;
+                                }
+                            }
                             #endregion
 
                             LineNum += 1;
@@ -560,12 +607,18 @@ namespace iSOL_Enterprise.Dal.Production
                     {
                         int LineNum = 0;
                         int index = 0;
+                        int? RowNum = null;
                         foreach (var item in model.ListItems)
                         {
 
-                            
+                            bool isReturn = false;
+                            decimal CmpltQty = 0;
+                            if (item.ExtraQty.ToString() != null && item.ExtraQty.ToString() != "")
+                                isReturn = true;
 
-                            decimal CmpltQty = Convert.ToDecimal( SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select PlannedQty - CmpltQty as PlannedQty from OWOR where DocNum ='" + item.BaseType + "'"));
+                            if(!isReturn)   //If Row is not Return Type
+                             CmpltQty = Convert.ToDecimal( SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select PlannedQty - CmpltQty as PlannedQty from OWOR where DocNum ='" + item.BaseType + "'"));
+                            
                             decimal qty = 0;
 
                             param.Clear();
@@ -580,19 +633,36 @@ namespace iSOL_Enterprise.Dal.Production
                                 
                                 qty = Convert.ToDecimal(SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select Quantity from IGN1 where id=" + Id + " and LineNum=" + item.LineNum));
 
-                                CmpltQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select PlannedQty - (CmpltQty -" + qty + ") as PlannedQty from OWOR where DocNum ='" + item.BaseType + "'"));
                                 #region BackEnd check for Qty
-                                if (Convert.ToDecimal(item.QTY) != qty)
+                                if (!isReturn)      //If not q return Type
                                 {
+                                    CmpltQty = Convert.ToDecimal(SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select PlannedQty - (CmpltQty -" + qty + ") as PlannedQty from OWOR where DocNum ='" + item.BaseType + "'"));
 
+                                    if (Convert.ToDecimal(item.QTY) != qty)
+                                    {
+
+
+                                        if (Math.Abs(Convert.ToDecimal(item.QTY) - qty) > CmpltQty)
+                                        {
+                                            tran.Rollback();
+                                            response.isSuccess = false;
+                                            response.Message = "Quantity can't be greater then Remaining Quantity !";
+                                            return response;
+                                        }
+                                    }
+                                }    
                                 
-                                    if (Math.Abs(Convert.ToDecimal(item.QTY) - qty) > CmpltQty)
+                                else
+                                {
+                                    decimal ExtraQty = GetExtraQty(item.BaseType.ToString(), item.ItemCode.ToString(), Convert.ToInt32(item.RowNum), tran , qty);
+                                    if (Convert.ToDecimal(item.QTY) > ExtraQty)
                                     {
                                         tran.Rollback();
                                         response.isSuccess = false;
-                                        response.Message = "Quantity can't be greater then Remaining Quantity !";
+                                        response.Message = "Quantity can't be greater then Issued Quantity !";
                                         return response;
                                     }
+                                    RowNum = Convert.ToInt32(item.RowNum);
                                 }
                                 #endregion
                                 
@@ -653,21 +723,39 @@ namespace iSOL_Enterprise.Dal.Production
                             }
                             else
                             {
-                                string Tabitem = "Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,UomEntry,UomCode,OpenQty,SaleOrderCode,BaseQty,SaleOrderDocNo";
-                                string TabitemP = "@Id,@LineNum,@BaseRef,@BaseType,@ItemCode,@Dscription,@WhsCode,@Quantity,@TranType,@Price,@LineTotal,@AcctCode,@UomEntry,@UomCode,@OpenQty,@SaleOrderCode,@BaseQty,@SaleOrderDocNo";
+                                string Tabitem = "Id,LineNum,BaseRef,BaseType,ItemCode,Dscription,WhsCode,Quantity,TranType,Price,LineTotal,AcctCode,UomEntry,UomCode,OpenQty,SaleOrderCode,BaseQty,SaleOrderDocNo,isReturn,RowNum";
+                                string TabitemP = "@Id,@LineNum,@BaseRef,@BaseType,@ItemCode,@Dscription,@WhsCode,@Quantity,@TranType,@Price,@LineTotal,@AcctCode,@UomEntry,@UomCode,@OpenQty,@SaleOrderCode,@BaseQty,@SaleOrderDocNo,@isReturn,@RowNum";
                                 ITT1_Query = @"insert into IGN1 (" + Tabitem + ") " +
                                                      "values(" + TabitemP + ")";
-                                LineNum = CommonDal.getLineNumber(tran, "IGN1", Id.ToString());
-                                #region BackEnd check for Qty 
                                 
-                                if (Convert.ToDecimal(item.QTY) > CmpltQty)
+                                LineNum = CommonDal.getLineNumber(tran, "IGN1", Id.ToString());
+                                
+                                
+                                #region BackEnd check for Qty 
+                                if (!isReturn)      //If not q return Type
                                 {
-                                    tran.Rollback();
-                                    response.isSuccess = false;
-                                    response.Message = "Quantity can't be greater then Remaining Quantity !";
-                                    return response;
+                                    
+                                    if (Convert.ToDecimal(item.QTY) > CmpltQty)
+                                    {
+                                        tran.Rollback();
+                                        response.isSuccess = false;
+                                        response.Message = "Quantity can't be greater then Remaining Quantity !";
+                                        return response;
+                                    }
                                 }
+                                else
+                                {
 
+                                    decimal ExtraQty = GetExtraQty(item.BaseType.ToString(), item.ItemCode.ToString(), Convert.ToInt32(item.RowNum), tran);
+                                    if (Convert.ToDecimal(item.QTY) > ExtraQty)
+                                    {
+                                        tran.Rollback();
+                                        response.isSuccess = false;
+                                        response.Message = "Quantity can't be greater then Issued Quantity !";
+                                        return response;
+                                    }
+                                    RowNum = Convert.ToInt32(item.RowNum);
+                                }
                                 #endregion
 
                                 #region OITL Log
@@ -733,6 +821,8 @@ namespace iSOL_Enterprise.Dal.Production
                             param1.Add(cdal.GetParameter("@SaleOrderCode", item.SaleOrderCode, typeof(int)));
                             param1.Add(cdal.GetParameter("@BaseQty", item.PlannedQty, typeof(decimal)));
                             param1.Add(cdal.GetParameter("@SaleOrderDocNo", item.SaleOrderDocNo, typeof(string)));
+                            param1.Add(cdal.GetParameter("@isReturn", isReturn, typeof(bool)));
+                            param1.Add(cdal.GetParameter("@RowNum", RowNum, typeof(int)));
                             #endregion
 
                             res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, ITT1_Query, param1.ToArray()).ToInt();
@@ -744,6 +834,7 @@ namespace iSOL_Enterprise.Dal.Production
                                 return response;
 
                             }
+
                             #region Update OITW If Sap Integration is OFF
 
                             if (!SqlHelper.SAPIntegration)
@@ -763,21 +854,37 @@ namespace iSOL_Enterprise.Dal.Production
 
                             #endregion
 
-                            #region Update Production Order CmpltQty
-                            
 
-                            string POquery = @"update OWOR set CmpltQty = (CmpltQty - "+qty +") +" + item.QTY + " where DocNum = '" + item.BaseType + "'";
-                            res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, POquery).ToInt();
-                            if (res1 <= 0)
-                            {
-                                tran.Rollback();
-                                response.isSuccess = false;
-                                response.Message = "An Error Occured";
-                                return response;
+
+                            #region Update Production Order 
+                            if (!isReturn)  //Update Completed Qty
+                            {                           
+                                string POquery = @"update OWOR set CmpltQty = (CmpltQty - " + qty + ") +" + item.QTY + " where DocNum = '" + item.BaseType + "'";
+                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, POquery).ToInt();
+                                if (res1 <= 0)
+                                {
+                                    tran.Rollback();
+                                    response.isSuccess = false;
+                                    response.Message = "An Error Occured";
+                                    return response;
+                                }
                             }
+                            else
+                            {
+                                int OWORID = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select Id from OWOR where DocNum ='" + item.BaseType + "'");
 
-
+                                string UPWOR1 = @"update WOR1 set IssuedQty = (IssuedQty + "+qty+" ) -" + item.QTY + "where Id=" + OWORID + "and ItemCode = '" + item.ItemCode + "' and LineNum = " + item.RowNum + "-1";
+                                res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UPWOR1).ToInt();
+                                if (res1 <= 0)
+                                {
+                                    tran.Rollback();
+                                    response.isSuccess = false;
+                                    response.Message = "An Error Occured";
+                                    return response;
+                                }
+                            }
                             #endregion
+
                             ++index;
                         }
                     }
