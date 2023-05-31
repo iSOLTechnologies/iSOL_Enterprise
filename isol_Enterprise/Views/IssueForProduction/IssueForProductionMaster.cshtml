@@ -168,9 +168,9 @@
                                                             <div id="HeaderForm">
                                                                 <div class="form-group row">
 
-                                                                      <div class="col-md-6">
+                                                                    <div class="col-md-6">
                                                                             <label>Numbering Series</label> 
-                                                                      <div class="d-flex">
+                                                                            <div class="d-flex">
                                                                             <select id="MySeries" class="form-control form-control-sm col-md-3">
                                                                                         @foreach (iSOL_Enterprise.Models.Series.tbl_NNM1 i in ViewBag.MySeries)
                                                                                         {                                                                                            
@@ -189,10 +189,10 @@
                                                                                         }
                                                                                         <option value="-1" selected>Manual</option>   
                                                                             </select> 
-                                                                        </div>
-                                                                        </div>
+                                                                            </div>
+                                                                    </div>
                                                               
-                                                                         <div class="col-md-6">
+                                                                    <div class="col-md-6">
                                                                         <label>Posting Date</label>
                                                                         <input id="DocDate" type="date" class="d form-control form-control-sm" placeholder="Posting Date">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -202,7 +202,10 @@
                                                                 </div>
                                                                 
                                                                 <div class="form-group row">
-                                                                     <div class="col-md-6">                                                                    
+                                                                     <div class="col-md-6">
+                                                                        <button type="button" class="btn btn-success font-weight-bolder mr-2" id="btnSelectRowMaterials">
+                                                                            Select Row Materials <i class="fas fa-search icon-sm"></i>
+                                                                        </button>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <label>Ref. 2</label> 
@@ -587,6 +590,15 @@
 
     });
 
+    $(document).on('click', '#btnSelectRowMaterials', function (e) {
+
+       // ObjAcctCode = $(this).closest('tr').find("#AcctCode");
+        $("#btnSaveData").attr('disabled', true);
+        generateRowMaterialTable();
+        $('#myRowMaterialModal').modal('show');
+
+    });
+
     $(document).on('change', '#MySeries', function () {
         if ($(this).val() == -1) {
 
@@ -627,8 +639,6 @@
         }
     })
     
-    
-
     $(document).on('click', '#btnbrowseFile', function (e) {
 
       
@@ -813,8 +823,6 @@
 
         window.history.back();
     });
-
-   
 
     $(document).on('click', '#ListBtnDelete', function () {
        $(this).closest('tr').remove();
@@ -1311,7 +1319,6 @@
                         $('#ListBtnAddd').trigger('click');
                         InitializeWareHouseData();
                         $('#ListParameters tr:last-child').find("#Warehouse").html(WareHouseData);
-
                         $('#ListParameters tr:last-child').find("#BaseType").val(this.DocNum);
                         $('#ListParameters tr:last-child').find("#ItemCode").val(this.ItemCode);
                         $('#ListParameters tr:last-child').find("#ItemName").val(this.ItemName);
@@ -1350,5 +1357,70 @@
             }
         });
     }
+    $(document).on('click', '#btnRowMaterialTableOk', function (e) {
+
+
+
+        let j = 0;
+        $('#MyyyyRowMaterialTable tbody tr').each(function (index, item) {
+
+
+            if ($(this).hasClass('Mainrow_selected')) {
+
+
+                $('#MyyyyRowMaterialTable').DataTable().column(7).visible(true);
+                $('#MyyyyRowMaterialTable').DataTable().column(8).visible(true);
+                $('#MyyyyRowMaterialTable').DataTable().column(9).visible(true);
+
+
+                let TableRowsCounts = $('#ListParameters tr').length;
+                console.log($(this).find("#RMDocNum").text());
+
+
+                if (j != 0 || TableRowsCounts != 1) {
+                    $('#ListBtnAddd').trigger('click');
+                    InitializeWareHouseData();
+                    $('#ListParameters tr:last-child').find("#Warehouse").html(WareHouseData);
+                }
+
+                $('#ListParameters tr:last-child').find("#BaseType").val($(this).find("#RMDocNum").text());
+                $('#ListParameters tr:last-child').find("#ItemCode").val($(this).find("#RMItemCode").text());
+                $('#ListParameters tr:last-child').find("#ItemName").val($(this).find("#RMItemName").text());
+                $('#ListParameters tr:last-child').find("#Warehouse").val($(this).find("#RMWarehouse").text());               
+                $('#ListParameters tr:last-child').find("#QTY").val($(this).find("#RMPlannedQty").text());
+                $('#ListParameters tr:last-child').find("#IssuedQty").val($(this).find("#RMIssuedQty").text());
+                $('#ListParameters tr:last-child').find("#PlannedQty").val($(this).find("#RMPlannedQty").text());                
+                $('#ListParameters tr:last-child').find("#RowNum").val($(this).find("#RMRowNum").text());
+
+                $.when(GetWareHouseQty($(this).find("#RMItemCode").text(), $(this).find("#RMWarehouse").text())).done(function (OnHand) {
+                    $('#ListParameters tr:last-child').find("#onHand").val(Number(OnHand));
+                });
+                
+
+                $.when(GetProdOrdItemPrice($(this).find("#RMsap_Ref_No").text(), $(this).find("#RMItemCode").text())).done(function (Price) {
+
+
+                    if (Price != "" && Price != null && Price != undefined) {
+
+                        $('#ListParameters tr:last-child').find("#UPrc").val(Price);
+                        $('#ListParameters tr:last-child').find("#TPrice").val(Price);
+
+                    }
+                });
+
+
+            }
+            j += 1;
+        });
+
+        GetPrice();
+        Edit_GetUomGroup();
+        $("#btnSaveData").attr('disabled', false);
+        $('#myRowMaterialModal').modal('hide');
+
+
+
+
+    });
 </script>
 

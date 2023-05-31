@@ -755,7 +755,8 @@
     });
     $(document).on('click', '#btnReturnComponent', function (e) {
 
-       // ObjAcctCode = $(this).closest('tr').find("#AcctCode"); 
+       // ObjAcctCode = $(this).closest('tr').find("#AcctCode");
+        $("#btnSaveData").attr('disabled', true);
         generateRowMaterialTable();
         $('#myRowMaterialModal').modal('show');
 
@@ -1535,7 +1536,8 @@
                        //GetPrice();
                     });
                 });
-                
+                Edit_GetUomGroup();
+                $("#btnSaveData").attr('disabled', false);
             }
         });
     }
@@ -1601,7 +1603,9 @@
             j+=1;
         });
 
-
+        Edit_GetUomGroup();
+        $("#btnSaveData").attr('disabled', false);
+        GetPrice();
         $('#myRowMaterialModal').modal('hide');
 
 
