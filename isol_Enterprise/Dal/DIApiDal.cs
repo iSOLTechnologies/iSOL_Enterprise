@@ -232,13 +232,13 @@ namespace SAP_MVC_DIAPI.BLC
                                                     #region UDFs
                                                     if (ObjectCode == 540000006 || ObjectCode == 22 || ObjectCode == 20)
                                                     {
-                                                        if (rdr["SaleOrderCode"].ToString() != "")
-                                                            oDoc.UserFields.Fields.Item("U_Sale_Ord").Value = Convert.ToInt32(rdr["SaleOrderCode"]);
-                                                        if (rdr["SaleOrderDocNo"].ToString() != "")
-                                                            oDoc.UserFields.Fields.Item("U_SO").Value = Convert.ToInt32(rdr["SaleOrderDocNo"]);
-                                                        if (rdr["PreCostingTowelCode"].ToString() != "")
-                                                            oDoc.UserFields.Fields.Item("U_OPCB").Value = Convert.ToInt32(rdr["PreCostingTowelCode"]);
-                                                        oDoc.UserFields.Fields.Item("U_AccType").Value = Convert.ToString(rdr["AccessoriesType"]);
+                                                        if (rdr2["SaleOrderCode"].ToString() != "")
+                                                            oDoc.Lines.UserFields.Fields.Item("U_Sale_ord").Value = Convert.ToInt32(rdr2["SaleOrderCode"]);
+                                                        if (rdr2["SaleOrderDocNo"].ToString() != "")
+                                                            oDoc.Lines.UserFields.Fields.Item("U_SO").Value = Convert.ToInt32(rdr2["SaleOrderDocNo"]);
+                                                        if (rdr2["PreCostingTowelCode"].ToString() != "")
+                                                            oDoc.Lines.UserFields.Fields.Item("U_OPCB").Value = Convert.ToInt32(rdr2["PreCostingTowelCode"]);
+                                                        oDoc.Lines.UserFields.Fields.Item("U_AccType").Value = Convert.ToString(rdr2["AccessoriesType"]);
                                                     }
 
                                                     #endregion
