@@ -363,7 +363,7 @@ namespace ReportManager.Dal
 
                 pdv1.Value = DocNum;
 
-                pfd1 = Param["DocNum"];
+                pfd1 = Param["DocEntry@"];
                 pv1 = pfd1.CurrentValues;
                 pv1.Clear();
                 pv1.Add(pdv1);
