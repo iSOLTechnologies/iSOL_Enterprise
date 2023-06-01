@@ -650,6 +650,48 @@
 												</i> <span class="menu-text">Sale Order Wise Yarn Report</span>
 											</a>
 										</li>
+
+										<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+											<a href="javascript:;" class="menu-link menu-toggle">
+												<span class="svg-icon menu-icon">
+													<!--begin::Svg Icon | path:assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
+													<i class="menu-bullet menu-bullet-dot">
+														<span></span>
+													</i>
+													<!--end::Svg Icon-->
+												</span>
+												<span class="menu-text">Inventory </span> <i class="menu-arrow"></i>
+											</a>
+											<div class="menu-submenu">
+												<i class="menu-arrow"></i>
+												<ul class="menu-subnav">
+													<li class="menu-item menu-item-parent" aria-haspopup="true">
+														<span class="menu-link">
+															<span class="menu-text">Applications</span>
+														</span>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a asp-action="InventoryInWarehouseReport" asp-controller="InventoryReport" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot">
+																<span></span>
+															</i> <span class="menu-text">Inventory In Warehouse Report</span> <span class="menu-label">
+																<!-- <span class="label label-danger label-inline">new</span> -->
+															</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a asp-action="InventoryAuditReport" asp-controller="InventoryReport" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot">
+																<span></span>
+															</i> <span class="menu-text">Inventory Audit Report</span> <span class="menu-label">
+																<!-- <span class="label label-danger label-inline">new</span> -->
+															</span>
+														</a>
+													</li>
+													
+												</ul>
+											</div>
+										</li>
 									</ul>
 								</div>
 							</li>
@@ -2334,7 +2376,7 @@
 	<script src="~/assets/js/scripts.bundle.js"></script>
 	<script src="~/lib/SweetAlerts/sweetalert2.min.js"></script>
 
-	<script src="~/Assets/js/disable.js"></script>
+	@*<script src="~/Assets/js/disable.js"></script>*@
 
 	<!--end::Global Theme Bundle-->
 	<!--begin::Page Vendors(used by this page)-->
@@ -4138,10 +4180,12 @@
 			{
 				console.log(DocModule);
 				if(DocModule == "PR")
+				{
 				$("#SalesOrderCode").val(rowData['docNum']);
+				$("#CardCode").val(rowData['cardCode']);
+				}
 				else
 				$("#SalesOrderCode").val(rowData['id']);
-				$("#CardCode").val(rowData['cardCode']);
 			}
 			else{
 				$(ObjSaleOrderCode).val(rowData['id']);

@@ -1,0 +1,410 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewBag.title1 = "";
+    ViewBag.title2 = "Inventory In Warehouse Report";
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/assets/js/jquery-3.6.3.slim.js"></script>
+<!-- Render Body <Start> -->
+<!--begin::Subheader-->
+<link href="~/css/commonstyle.css" rel="stylesheet" />
+<!--end::Subheader-->
+<!--begin::Entry-->
+
+<style>
+    tr {
+        height : 3.7rem;
+    }
+    td {
+        white-space: nowrap;
+    }
+    th {
+        white-space: nowrap;
+    }
+
+    .GrpText {
+        font-size : 1.5rem;
+    }
+
+    /*.select2-results__option {
+        padding-right: 20px;
+        vertical-align: middle;
+    }
+
+        .select2-results__option:before {
+            content: "";
+            display: inline-block;
+            position: relative;
+            height: 20px;
+            width: 20px;
+            border: 2px solid #e9e9e9;
+            border-radius: 4px;
+            background-color: #fff;
+            margin-right: 20px;
+            vertical-align: middle;
+        }
+
+        .select2-results__option[aria-selected=true]:before {
+            font-family: fontAwesome;
+            content: "\f00c";
+            color: #fff;
+            background-color: #f77750;
+            border: 0;
+            display: inline-block;
+            padding-left: 3px;
+        }
+
+    .select2-container--default .select2-results__option[aria-selected=true] {
+        background-color: #fff;
+    }
+
+    .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background-color: #eaeaeb;
+        color: #272727;
+    }
+
+    .select2-container--default .select2-selection--multiple {
+        margin-bottom: 10px;
+    }
+
+    .select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple {
+        border-radius: 4px;
+    }
+
+    .select2-container--default.select2-container--focus .select2-selection--multiple {
+       /* border-color: #f77750;*/
+        border-width: 2px;
+    }
+
+    .select2-container--default .select2-selection--multiple {
+        border-width: 2px;
+    }
+
+    .select2-container--open .select2-dropdown--below {
+        border-radius: 6px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .select2-selection .select2-selection--multiple:after {
+        content: 'hhghgh';
+    }
+    /* select with icons badges single*/
+    .select-icon .select2-selection__placeholder .badge {
+        display: none;
+    }
+
+    .select-icon .placeholder {
+        display: none;
+    }
+
+    .select-icon .select2-results__option:before,
+    .select-icon .select2-results__option[aria-selected=true]:before {
+        display: none !important;
+        /* content: "" !important; */
+    }
+
+    .select-icon .select2-search--dropdown {
+        display: none;
+    }*/
+</style>
+
+<div class="container mt-5">
+
+    <!--begin::Card-->
+    <div class="card card-custom">
+        <div class="card-header">
+            <div class="card-title">
+                <span class="card-icon">
+                    <i class="flaticon-notepad text-primary"></i>
+                </span>
+                <h3 class="card-label">Inventory In Warehouse Report</h3>
+            </div>
+          
+            
+        </div>
+        <div class="card-body ">
+            <!--begin: Datatable-->
+
+            <div class="row mb-5 ml-2">
+                <div class="col-md-1">
+                <i class="fas fa-filter"></i>
+                </div>
+
+                <div class="checkbox-inline col-md-2">
+                    <label class="checkbox checkbox-success">
+                        <input type="checkbox" name="Checkboxes5" />
+                        <span class="mr-2">  </span>
+                        Hide Item with No Qty
+                    </label>
+                </div>
+
+                <div class="col-md-3">
+                   @* <select id="mySelect" multiple>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                        <!-- Add more options here -->
+                    </select>*@
+                    @*<select class="form-control Warehousedata" id="WhsCode" multiple></select>*@
+                </div>
+            </div>
+
+
+            <table class="table  table-bordered " id="AttTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th> 
+                        <th></th> 
+                        <th></th> 
+                        <th></th> 
+                        <th></th> 
+
+                    </tr>
+                </thead>
+            </table>
+            <div class="loading_ic">
+                <div class="spinner-border text-primary">
+                    <span class="sr-only">Loading...</span>                    
+                </div>               
+            </div>
+            
+            <!--end: Datatable-->
+        </div>
+    </div>
+
+</div>
+<!--end::Entry-->
+<!-- Render Body <End> -->
+
+<script>
+    var datatable;
+   
+    
+    function generateTable() {
+
+        datatable = $('#AttTable').DataTable({
+            responsive: true,
+            pageLength: 25,
+            searching: true,            
+            ordering: false,
+            order: [[9, 'asc']],
+            drawCallback: function (settings) {
+                var api = this.api();
+                var rows = api.rows({ page: 'current' }).nodes();
+                var last = null;
+                var subTotal = new Array();
+                var groupID = -1;
+                var aData = new Array();
+                var index = 0;
+
+                api.column(9, { page: 'current' }).data().each(function (group, i) 
+                {
+
+                    if (last !== group) {
+                        $(rows).eq(i).before(
+                            '<tr class="group "><td colspan="10" class="text-center GrpText"><b> <i class="text-success"> <u>Whse:</u>   ' + group + ' </i> </b></td></tr>',
+                        );
+                        last = group;
+                    }
+                    var vals = api.row(api.row($(rows).eq(i)).index()).data();
+                    var itmTtl = vals.total ? parseFloat(vals.total) : 0;
+                    
+                    if (typeof aData[group] == 'undefined') {
+                        aData[group] = new Array();
+                        aData[group].rows = [];
+                        aData[group].itmTtl = [];
+                    }
+
+                    aData[group].rows.push(i);
+                    aData[group].itmTtl.push(itmTtl);
+
+
+                });
+
+                var idx = 0;
+
+
+                for (var group in aData) {
+
+                    idx = Math.max.apply(Math, aData[group].rows);
+
+                    var sum = 0;
+                    $.each(aData[group].itmTtl, function (k, v) {
+                        sum = sum + v;
+                    });
+                    
+                    $(rows).eq(idx).after(
+                        '<tr class="group "><td colspan="8" class="text-right GrpText"><b> <i class="text-success"> <u>Total: ' + group + ' </u>     </i> </b></td> ' +
+                        '<td class="GrpText"> <b><i class="text-success">' + sum + ' </i> </b> </td>' +
+
+                        '</tr>',
+                    );
+                }
+            },
+            columnDefs: [
+                {
+                    // hide columns by index number
+                    targets: [9],
+                    visible: false,
+                },
+            ],
+            "ajax": {
+                url: '/InventoryReport/GetInventoryInWarehouseReportData',
+            },
+            "deferRender": true,            
+            lengthMenu: [[15, 25, 50, -1], [15, 25, 50, "All"]],
+            layout: {
+                scroll: true, 
+                // height: 450, // datatable's body's fixed height
+                footer: true, // display/hide footer
+            },
+
+            // column sorting
+            sortable: true,
+
+            pagination: true,
+            destroy: true,
+            //   async: false,
+            search: {
+                input: $('#generalSearch'),
+            },
+            columns: [
+                               
+                {
+                    data: 'itemCode', title: 'Item No.',
+
+                },
+                {
+                    data: 'itemName', title: 'Item Description',
+
+                },
+                {
+                    data: 'inventoryUom', title: 'Inventory Uom',
+
+                }, {
+                    data: 'onHand', title: 'In Stock'
+
+                }, {
+                    data: 'isCommitted', title: 'Committed'
+
+                }, {
+                    data: 'onOrder', title: 'Ordered'
+
+                },{
+                    data: 'available', title: 'Available'
+
+                },{
+                    data: 'lastPurPrc', title: 'Item Price'
+
+                },{
+                    data: 'total', title: 'Item Total'
+
+                },{
+                    data: 'whsCode', title: 'Warehouse'
+
+                } 
+            ],
+        });
+
+    }
+
+    $('#AttTable tbody').on('click', 'tr.group', function () {
+        var currentOrder = table.order()[9];
+        if (currentOrder[9] === groupColumn && currentOrder[9] === 'asc') {
+            table.order([groupColumn, 'desc']).draw();
+        } else {
+            table.order([groupColumn, 'asc']).draw();
+        }
+    });
+    function GetWareHouseDataThroughClass() {
+
+        return $.ajax({
+            url: 'Delivery/GetWareHouseData',
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+
+                const ii = document.querySelectorAll('.Warehousedata');
+                for (const i of ii) {
+                    $.each(data, function () {
+                        i.innerHTML += "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
+                    });
+                }
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+        });
+
+    }
+    $('#WhsCode').on('change', function () {
+        var selectedOptions = $(this).select2('data');
+        var count = selectedOptions.length;
+        var placeholderText = count > 0 ? count + ' options selected' : 'Select options';
+
+        // Update the placeholder
+        $(this).data('select2').$container.find('.select2-search__field').attr('placeholder', placeholderText);
+    });
+    $(document).ready(function () 
+    {
+        GetWareHouseDataThroughClass();
+        generateTable();
+        $("#WhsCode").select2();
+
+
+        $('#mySelect').select2({
+            templateResult: formatOption,
+            templateSelection: formatOption
+        });
+
+        // Add event listener to toggle checkbox on click
+        $('#mySelect').on('change', 'option', function () {
+            var $option = $(this);
+            var $checkbox = $option.data('select2-checkbox');
+
+            // Toggle checkbox state
+            if ($checkbox) {
+                $checkbox.prop('checked', $option.prop('selected'));
+            }
+        });
+
+        // Add checkbox to each option
+        $('#mySelect option').each(function () {
+            var $option = $(this);
+
+            // Create checkbox element
+            var $checkbox = $('<label class="checkbox checkbox-success"><input type="checkbox" class="select2-checkbox" /></label>');
+            $checkbox.prop('checked', $option.prop('selected'));
+
+            // Store checkbox element in data
+            $option.data('select2-checkbox', $checkbox);
+        });
+
+        // Custom template function
+        function formatOption(option) {
+            if (!option.id) {
+                return option.text;
+            }
+
+            var $option = $(option.element);
+            var $checkbox = $option.data('select2-checkbox');
+
+            // Create checkbox with label
+            var $output = $('<span><label class="checkbox checkbox-success"><input type="checkbox" class="select2-checkbox">' + option.text + '</label> </span>');
+
+            // Set checkbox state
+            $output.find('.select2-checkbox').prop('checked', $option.prop('selected'));
+
+            return $output;
+        }
+    });
+    
+</script>
