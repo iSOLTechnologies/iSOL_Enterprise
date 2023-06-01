@@ -215,6 +215,7 @@
                                                                         <a class="dropdown-item pname" docnum="`+ row['sap_Ref_No'] + `" pname="PurchaseOrderBedding" >PurchaseOrder (Bedding)</a>
                                                                         <a class="dropdown-item pname" docnum="`+ row['sap_Ref_No'] + `" pname="PurchaseRejectionDetailFabric" >Purchase Rejection Detail Fabric</a>
                                                                         <a class="dropdown-item pname" docnum="`+ row['sap_Ref_No'] + `" pname="CottonEmpirePO" >Cotton Empire PO</a>
+                                                                        <a class="dropdown-item pname" docnum="`+ row['sap_Ref_No'] + `" pname="PurchaseOrder" >Purchase Order</a>
                                                     </div>
                                                 </div>`;
                         // }
@@ -268,6 +269,12 @@
             }
             if (PName == 'PurchaseRejectionDetailFabric') {
                 ReportName = 'Purchase Rejection Detail Fabric.rpt'
+            }
+            if (PName == 'CottonEmpirePO') {
+                ReportName = 'Cotton Empire PO.rpt'
+            }
+            if (PName == 'PurchaseOrder') {
+                ReportName = 'PurchaseOrder.rpt'
             }
 
             $(this).attr('disabled', true);
