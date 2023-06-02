@@ -114,7 +114,7 @@
 <!-- Render Body <End> -->
 <script src="~/multiselect/bootstrap-multiselect.js"></script>
 <script>
-    var datatable, datatable2, Warehouses = "OWHS.WhsCode,", Items = "OITM.ItemCode,", SelectedItems = "", SelectedWarehouses = "";
+    var datatable, datatable2, Warehouses = "OWHS.WhsCode,", Items = "OITM.ItemCode,", SelectedItems = "", SelectedWarehouses = "", ZeroStock = true;
    
     
     function generateTable() {
@@ -195,7 +195,7 @@
                     data.start = data.start;
                     data.length = data.length;
                     data.draw = data.draw;                    
-                    data.ZeroStock = true;
+                    data.ZeroStock = ZeroStock;
                     data.searchWhsValue = Warehouses;
                     data.searchItemValue = Items;
                 }
@@ -270,17 +270,18 @@
     });
     $('#btnFilter').on('click', function () 
     {
-        //console.log("Hi");
-        //console.log("whs " + SelectedWarehouses);
-        //console.log("Items " + SelectedItems);
+        
         GetSelectedWarehouses();
 
-        //if (SelectedWarehouses != "") {
+        
             datatable.column(9).search(SelectedWarehouses).draw();
-        //}
-        //if (SelectedItems != "") {
+       
             datatable.column(8).search(SelectedItems).draw();
-        //}
+       
+    });
+    $('#ZeroStock').on('change', function () {
+        ZeroStock =!($(this).is(':checked'));
+        
 
     });
 
@@ -288,10 +289,6 @@
     function GetSelectedWarehouses() 
     {
 
-    
-
-    //$('#WhsCode').on('change', function () {
-        
         Warehouses = "";
         SelectedWarehouses = "";
         var i = 0;
@@ -313,14 +310,12 @@
             Warehouses = "OWHS.WhsCode,";
             SelectedWarehouses = "";
         }
-        //console.log(Warehouses);
-        //console.log(SelectedWarehouses);
-    //});
+       
     }
     function GetSelectedItems() 
     {
 
-    //$('#ItemCodes').on('change', function () {
+  
 
         Items = "";
         SelectedItems = "";
@@ -343,9 +338,7 @@
             Items = "OITM.ItemCode,";
             SelectedItems = "";
         }
-        //console.log(Items);
-        //console.log(SelectedItems);
-    //});
+        
     }
     function GetWareHouseDataThroughClass() {
 
@@ -373,21 +366,19 @@
     function multi() {
 
         $('#WhsCode').multiselect({
-            includeSelectAllOption: true,         /*To enable the Select all Option*/
-            selectAllValue: 'multiselect-all',     /*The value used for the select all option can be configured using the selectAllValue*/
-            enableFiltering: true,   /*A filter input will be added to dynamically filter all the options*/
-            enableCaseInsensitiveFiltering: true,  /*To enable Case Insenstitive Filtering (Upper and Lower Case Letters)*/
-            maxHeight: '300',
-            /* buttonWidth: '60%',*/
+            includeSelectAllOption: true,         
+            selectAllValue: 'multiselect-all',    
+            enableFiltering: true,                
+            enableCaseInsensitiveFiltering: true, 
+            maxHeight: '300',          
             nonSelectedText: 'All',
         });
         $('#ItemCodes').multiselect({
-            includeSelectAllOption: true,         /*To enable the Select all Option*/
-            selectAllValue: 'multiselect-all',     /*The value used for the select all option can be configured using the selectAllValue*/
-            enableFiltering: true,   /*A filter input will be added to dynamically filter all the options*/
-            enableCaseInsensitiveFiltering: true,  /*To enable Case Insenstitive Filtering (Upper and Lower Case Letters)*/
-            maxHeight: '300',
-            /* buttonWidth: '60%',*/
+            includeSelectAllOption: true,        
+            selectAllValue: 'multiselect-all',   
+            enableFiltering: true,              
+            enableCaseInsensitiveFiltering: true,
+            maxHeight: '300',     
             nonSelectedText: 'All',
         });
 
