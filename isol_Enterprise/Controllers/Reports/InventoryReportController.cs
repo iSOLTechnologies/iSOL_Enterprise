@@ -13,22 +13,28 @@ namespace iSOL_Enterprise.Controllers.Reports
 
 		public IActionResult InventoryInWarehouseReport()
 		{
+            ItemMasterDataDal dal = new ItemMasterDataDal();
+            ViewData["ItemCodes"] = dal.GetItemCodes();
 
-
-
-			return View();
+            return View();
 		}
-		public async Task<ResponseModels>  GetInventoryInWarehouseReportData()
+		public async Task<IActionResult>  GetInventoryInWarehouseReportData(int draw, int start, int length, bool ZeroStock = true,string searchWhsValue = null , string searchItemValue = null)
 		{
 
 			try
 			{
-				ResponseModels response = new();
+				//ResponseModels response = new();
 				InventoryReportDal dal = new();
+                var response = new
+                {
+                    draw = draw,
+                    recordsTotal = 5000000,
+                    recordsFiltered = 5000000,
+                    data = await Task.Run(() => dal.GetInventoryInWarehouseReportData(start, length , ZeroStock , searchWhsValue , searchItemValue))
+                };
+                
 
-				response.Data = await Task.Run(() => dal.GetInventoryInWarehouseReportData());
-
-                return  response;
+                return  Json (response );
                 
             }
 			catch (Exception)
@@ -39,5 +45,6 @@ namespace iSOL_Enterprise.Controllers.Reports
 
 			
 		}
+		
 	}
 }

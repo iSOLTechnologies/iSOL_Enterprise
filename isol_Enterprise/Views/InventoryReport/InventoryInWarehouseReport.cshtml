@@ -50,27 +50,35 @@
             <!--begin: Datatable-->
 
             <div class="row mb-5 ml-2">
-                <div class="col-md-1">
+                <div class="col-md-1 pt-3">
                 <i class="fas fa-filter"></i>
                 </div>
 
                 <div class="checkbox-inline col-md-2">
                     <label class="checkbox checkbox-success">
-                        <input type="checkbox" name="Checkboxes5" />
+                        <input type="checkbox" id="ZeroStock" name="Checkboxes5" />
                         <span class="mr-2">  </span>
                         Hide Item with No Qty
                     </label>
                 </div>
 
-                <div class="col-md-3">
-                   @* <select id="mySelect" multiple>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                        <!-- Add more options here -->
-                    </select>*@
+                <div class="col-md-3 d-flex">
+                    <label class="pt-3">Warehouse: </label>
                     <select class="form-control Warehousedata" id="WhsCode" multiple></select>
                 </div>
+                <div class="col-md-4 d-flex">
+                    <label class="pt-3">Item: </label>
+                    <select class="form-control" id="ItemCodes" multiple>
+
+                        @foreach (iSOL_Enterprise.Models.ListModel ItemCode in ViewBag.ItemCodes)
+                        {                            
+                                <option guid="@ItemCode.ValueString" selected value="@ItemCode.ValueString">@ItemCode.Text </option>
+                                
+                        }
+
+                    </select>
+                </div>
+                <a class="btn btn-primary" id="btnFilter"><i class="fab fa-searchengin"></i> Apply Filter</a>
             </div>
 
 
@@ -106,15 +114,17 @@
 <!-- Render Body <End> -->
 <script src="~/multiselect/bootstrap-multiselect.js"></script>
 <script>
-    var datatable;
+    var datatable, datatable2, Warehouses = "OWHS.WhsCode,", Items = "OITM.ItemCode,", SelectedItems = "", SelectedWarehouses = "";
    
     
     function generateTable() {
 
+        
         datatable = $('#AttTable').DataTable({
             responsive: true,
+            serverSide: true,
             pageLength: 25,
-            searching: true,            
+            searching: false,            
             ordering: false,
             order: [[9, 'asc']],
             drawCallback: function (settings) {
@@ -177,9 +187,22 @@
                     visible: false,
                 },
             ],
-            "ajax": {
+            ajax: {
                 url: '/InventoryReport/GetInventoryInWarehouseReportData',
+                type: 'POST',
+                data: function (data) {
+                    // Include the start, length, and draw parameters in the request
+                    data.start = data.start;
+                    data.length = data.length;
+                    data.draw = data.draw;                    
+                    data.ZeroStock = true;
+                    data.searchWhsValue = Warehouses;
+                    data.searchItemValue = Items;
+                }
             },
+            //"ajax": {
+            //    url: '/InventoryReport/GetInventoryInWarehouseReportData',
+            //},
             "deferRender": true,            
             lengthMenu: [[15, 25, 50, -1], [15, 25, 50, "All"]],
             layout: {
@@ -234,7 +257,7 @@
                 } 
             ],
         });
-
+        
     }
 
     $('#AttTable tbody').on('click', 'tr.group', function () {
@@ -245,6 +268,85 @@
             table.order([groupColumn, 'asc']).draw();
         }
     });
+    $('#btnFilter').on('click', function () 
+    {
+        //console.log("Hi");
+        //console.log("whs " + SelectedWarehouses);
+        //console.log("Items " + SelectedItems);
+        GetSelectedWarehouses();
+
+        //if (SelectedWarehouses != "") {
+            datatable.column(9).search(SelectedWarehouses).draw();
+        //}
+        //if (SelectedItems != "") {
+            datatable.column(8).search(SelectedItems).draw();
+        //}
+
+    });
+
+
+    function GetSelectedWarehouses() 
+    {
+
+    
+
+    //$('#WhsCode').on('change', function () {
+        
+        Warehouses = "";
+        SelectedWarehouses = "";
+        var i = 0;
+        $("#WhsCode :selected").each(function () {
+
+            if (i == 0) {
+                SelectedWarehouses = this.value;
+                i++;
+            }
+            else {
+                SelectedWarehouses = SelectedWarehouses + "|" + this.value;
+            }
+
+            Warehouses = Warehouses + "'" + this.value + "',";
+            
+        });
+        if (Warehouses == "" || Warehouses.includes("multiselect-all")) {
+
+            Warehouses = "OWHS.WhsCode,";
+            SelectedWarehouses = "";
+        }
+        //console.log(Warehouses);
+        //console.log(SelectedWarehouses);
+    //});
+    }
+    function GetSelectedItems() 
+    {
+
+    //$('#ItemCodes').on('change', function () {
+
+        Items = "";
+        SelectedItems = "";
+        var i = 0;
+        $("#ItemCodes :selected").each(function () {
+
+            if (i == 0) {
+                SelectedItems = this.value;
+                i++;
+            }
+            else {
+                SelectedItems = SelectedItems + "|" + this.value;
+            }
+
+            Items = Items + "'" + this.value + "',";
+            
+        });
+        if (Items == "" || Items.includes("multiselect-all")) {
+
+            Items = "OITM.ItemCode,";
+            SelectedItems = "";
+        }
+        //console.log(Items);
+        //console.log(SelectedItems);
+    //});
+    }
     function GetWareHouseDataThroughClass() {
 
         return $.ajax({
@@ -267,17 +369,19 @@
         });
 
     }
-    //$('#WhsCode').on('change', function () {
-    //    var selectedOptions = $(this).select2('data');
-    //    var count = selectedOptions.length;
-    //    var placeholderText = count > 0 ? count + ' options selected' : 'Select options';
-
-    //    // Update the placeholder
-    //    $(this).data('select2').$container.find('.select2-search__field').attr('placeholder', placeholderText);
-    //});
+    
     function multi() {
 
         $('#WhsCode').multiselect({
+            includeSelectAllOption: true,         /*To enable the Select all Option*/
+            selectAllValue: 'multiselect-all',     /*The value used for the select all option can be configured using the selectAllValue*/
+            enableFiltering: true,   /*A filter input will be added to dynamically filter all the options*/
+            enableCaseInsensitiveFiltering: true,  /*To enable Case Insenstitive Filtering (Upper and Lower Case Letters)*/
+            maxHeight: '300',
+            /* buttonWidth: '60%',*/
+            nonSelectedText: 'All',
+        });
+        $('#ItemCodes').multiselect({
             includeSelectAllOption: true,         /*To enable the Select all Option*/
             selectAllValue: 'multiselect-all',     /*The value used for the select all option can be configured using the selectAllValue*/
             enableFiltering: true,   /*A filter input will be added to dynamically filter all the options*/
@@ -293,54 +397,8 @@
         GetWareHouseDataThroughClass();
         generateTable();
         multi();
-        //$("#WhsCode").select2();
-
-
-        //$('#mySelect').select2({
-        //    templateResult: formatOption,
-        //    templateSelection: formatOption
-        //});
-
-        //// Add event listener to toggle checkbox on click
-        //$('#mySelect').on('change', 'option', function () {
-        //    var $option = $(this);
-        //    var $checkbox = $option.data('select2-checkbox');
-
-        //    // Toggle checkbox state
-        //    if ($checkbox) {
-        //        $checkbox.prop('checked', $option.prop('selected'));
-        //    }
-        //});
-
-        //// Add checkbox to each option
-        //$('#mySelect option').each(function () {
-        //    var $option = $(this);
-
-        //    // Create checkbox element
-        //    var $checkbox = $('<label class="checkbox checkbox-success"><input type="checkbox" class="select2-checkbox" /></label>');
-        //    $checkbox.prop('checked', $option.prop('selected'));
-
-        //    // Store checkbox element in data
-        //    $option.data('select2-checkbox', $checkbox);
-        //});
-
-        //// Custom template function
-        //function formatOption(option) {
-        //    if (!option.id) {
-        //        return option.text;
-        //    }
-
-        //    var $option = $(option.element);
-        //    var $checkbox = $option.data('select2-checkbox');
-
-        //    // Create checkbox with label
-        //    var $output = $('<span><label class="checkbox checkbox-success"><input type="checkbox" class="select2-checkbox">' + option.text + '</label> </span>');
-
-        //    // Set checkbox state
-        //    $output.find('.select2-checkbox').prop('checked', $option.prop('selected'));
-
-        //    return $output;
-        //}
+        
+        
     });
     
 </script>

@@ -158,8 +158,8 @@ namespace SAP_MVC_DIAPI.BLC
                                                         oDoc.UserFields.Fields.Item("U_Type_d").Value = "0" + Math.Round(rdr["TypeDetail"].ToDouble()) + "";
                                                     else
                                                         oDoc.UserFields.Fields.Item("U_Type_d").Value = rdr["TypeDetail"].ToString();
+                                             }
                                                     #endregion
-                                                }
 
 
                                                 if (ObjectCode == 540000006)
@@ -576,10 +576,10 @@ namespace SAP_MVC_DIAPI.BLC
                                                         oDoc.Lines.UserFields.Fields.Item("U_Sale_ord").Value = Convert.ToInt32(rdr2["SaleOrderCode"]);
                                                     if (rdr2["SaleOrderDocNo"].ToString() != "")
                                                         oDoc.Lines.UserFields.Fields.Item("U_SO").Value = Convert.ToInt32(rdr2["SaleOrderDocNo"]);
-                                                    if (rdr2["PreCostingTowelCode"].ToString() != "")                                                       
-                                                        oDoc.UserFields.Fields.Item("U_OPCB").Value = Convert.ToInt32(rdr["PreCostingTowelCode"]);
-                                                        oDoc.UserFields.Fields.Item("U_AccType").Value = Convert.ToString(rdr["AccessoriesType"]);
-                                                   
+                                                    if (rdr2["PreCostingTowelCode"].ToString() != "")
+                                                        oDoc.Lines.UserFields.Fields.Item("U_OPCB").Value = Convert.ToInt32(rdr2["PreCostingTowelCode"]);
+                                                        oDoc.Lines.UserFields.Fields.Item("U_AccType").Value = Convert.ToString(rdr2["AccessoriesType"]);
+
 
                                                     #endregion
 

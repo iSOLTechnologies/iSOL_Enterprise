@@ -228,6 +228,25 @@ namespace iSOL_Enterprise.Dal.Inventory
             }
             return list;
         }
+        public List<ListModel> GetItemCodes()
+        {
+            string GetQuery = "select ItemCode,'[' +ItemCode + '] - ' + ItemName as  ItemName from OITM order by ItemCode desc";
+
+            List<ListModel> list = new List<ListModel>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+                    list.Add(new ListModel()
+                    {
+                        ValueString = rdr["ItemCode"].ToString(),
+                        Text = rdr["ItemName"].ToString()
+
+                    });
+                }
+            }
+            return list;
+        }
         public List<ListModel> GetManufacturer()
         {
             string GetQuery = "select FirmCode,FirmName from OMRC   ORDER BY FirmCode";
