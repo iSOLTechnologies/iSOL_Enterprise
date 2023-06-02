@@ -155,7 +155,10 @@ namespace iSOL_Enterprise.Dal
         public List<tbl_series> GetSeries(int ObjectCode)
         {
             string GetSeriesQuery = "select Series,SeriesName from NNM1 where NextNumber <= LastNum and ObjectCode = '" + ObjectCode + "'";
-            List<tbl_series> listSeries = new List<tbl_series>();
+            if(ObjectCode == 4)
+				GetSeriesQuery = "select Series,SeriesName from NNM1 where ObjectCode = '" + ObjectCode + "'";
+
+			List<tbl_series> listSeries = new List<tbl_series>();
             using (var rdr1 = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetSeriesQuery))
             {
                 while (rdr1.Read())

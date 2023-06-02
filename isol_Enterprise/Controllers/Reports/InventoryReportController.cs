@@ -18,7 +18,7 @@ namespace iSOL_Enterprise.Controllers.Reports
 
 			return View();
 		}
-		public ResponseModels GetInventoryInWarehouseReportData()
+		public async Task<ResponseModels>  GetInventoryInWarehouseReportData()
 		{
 
 			try
@@ -26,9 +26,10 @@ namespace iSOL_Enterprise.Controllers.Reports
 				ResponseModels response = new();
 				InventoryReportDal dal = new();
 
-				response.Data = dal.GetInventoryInWarehouseReportData();
+				response.Data = await Task.Run(() => dal.GetInventoryInWarehouseReportData());
 
-                return response;
+                return  response;
+                
             }
 			catch (Exception)
 			{

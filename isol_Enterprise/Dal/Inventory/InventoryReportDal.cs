@@ -11,6 +11,28 @@ namespace iSOL_Enterprise.Dal.Inventory
 
         public List<ItemMasterModel> GetInventoryInWarehouseReportData()
         {
+            string countquery = @"select Count(*) from (
+
+                                SELECT
+                                     OITM.ItemCode AS 'ItemNo',
+                                     OITM.ItemName AS 'ItemDescription',
+	                                 OITM.InvntryUom AS 'InventoryUom',
+                                     OITW.OnHand AS 'InStock',	
+                                     OITW.IsCommited AS 'Committed',
+                                     OITW.OnOrder AS 'Ordered',
+	                                 OITW.IsCommited - OITW.OnOrder - OITW.OnHand AS 'Available',
+	                                 OITM.LastPurPrc As 'ItemPrice',
+	                                 OITM.LastPurPrc * OITW.OnHand AS 'Total',
+                                     OWHS.WhsCode AS 'WarehouseCode'
+                                 FROM
+                                     OITM 
+                                     INNER JOIN OITW ON OITM.ItemCode = OITW.ItemCode
+                                     INNER JOIN OWHS ON OITW.WhsCode = OWHS.WhsCode
+                                ) c";
+
+            int count = Convert.ToInt32 ( SqlHelper.ExecuteScalar(SqlHelper.defaultSapDB, CommandType.Text, countquery));
+
+
             string GetQuery = @"SELECT
                                 OITM.ItemCode AS 'ItemNo',
                                 OITM.ItemName AS 'ItemDescription',

@@ -124,7 +124,7 @@ namespace iSOL_Enterprise.Dal
 
                 Int16? value1 = null;
                 
-                if (value != null)
+                if (value != null && value != "")
                 {
                 decimal decimalValue = Convert.ToDecimal(value); // Parse the decimal string value
                 value1 = Convert.ToInt16(decimalValue);
