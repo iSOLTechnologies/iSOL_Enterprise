@@ -159,6 +159,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                     string Guid = CommonDal.generatedGuid();
                     param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
                     param.Add(cdal.GetParameter("@Guid", Guid, typeof(string)));
+                    param.Add(cdal.GetParameter("@DocEntry", Id, typeof(int)));
 
 
                     int ObjectCode = 1470000113;
