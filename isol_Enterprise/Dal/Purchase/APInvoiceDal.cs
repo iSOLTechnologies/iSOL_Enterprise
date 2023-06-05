@@ -125,12 +125,12 @@ namespace iSOL_Enterprise.Dal.Purchase
 
 
                         model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.PurchaseType);
-                        model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
+                        model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" || model.HeaderData.TypeDetail == null ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
                         model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
                         model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
                         model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
                         model.HeaderData.SalesOrderCode = model.HeaderData.SalesOrderCode == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SalesOrderCode);
-                        model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
+                        model.HeaderData.Series = model.HeaderData.Series == null || model.HeaderData.Series == "" ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
                         model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
 
                         int ObjectCode = 18;
@@ -403,12 +403,12 @@ namespace iSOL_Enterprise.Dal.Purchase
                         {
 
                             model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToInt32(model.HeaderData.PurchaseType);
-                            model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == null ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
+                            model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == null || model.HeaderData.TypeDetail == null ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
                             model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
                             model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
                             model.HeaderData.DONo = model.HeaderData.DONo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.DONo);
                             model.HeaderData.SalesOrderCode = model.HeaderData.SalesOrderCode == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SalesOrderCode);
-                            model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
+                            model.HeaderData.Series = model.HeaderData.Series == null || model.HeaderData.Series == "" ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
                             model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
 
                             int ObjectCode = 18;
