@@ -3047,6 +3047,7 @@
 													<th></th>
 													<th></th>
 													<th></th>
+													<th></th>
 												</tr>
 											</thead>
 										</table>
@@ -3174,11 +3175,12 @@
 				ordering: false,
 				ordering: false,				
 				"ajax": {
-					url: '/ReceiptFromProduction/GetProductionOrders',					
+					url: '/ReceiptFromProduction/GetProductionOrders',
+					data: { DocModule: DocModule },
 				},
                 "columnDefs": [
 					{
-						"targets": [4,5,6,7],
+						"targets": [4,5,6,7,8],
 						visible: false,						
 					}
 				],
@@ -3218,6 +3220,9 @@
 				},{
                     data: 'cmpltQty',
 					title: ''
+				},{
+                    data: 'id',
+					title: 'DocEntry'
 				}
 				],
 			});
@@ -3371,38 +3376,45 @@
 			var LookTable = $('#MyyyyProductionOrderTable').DataTable();
 			var selectedRow = $(this).closest('tr');
 			var rowData = LookTable.row(selectedRow).data();
-            $('#MyyyyBatchSelectTable').DataTable().column(6).visible(true);
-			console.log(rowData);
+            $('#MyyyyProductionOrderTable').DataTable().column(6).visible(true);
+            $('#MyyyyProductionOrderTable').DataTable().column(8).visible(true);
+			
 			$('#MyyyyProductionOrderTable tr').removeClass("Mainrow_selected");
 			$(ObjProdOrder).addClass('Mainrow_selected');
-            $("#SalesOrderCode").val(rowData['docNum']);
-			$(ObjProdOrder).val(rowData['docNum']);
-			$(ObjProdOrder).closest('tr').find("#ItemCode").val(rowData['itemCode']);
-			$(ObjProdOrder).closest('tr').find("#ItemName").val(rowData['itemName']);
-			$(ObjProdOrder).closest('tr').find("#Warehouse").val(rowData['warehouse']);
-			$(ObjProdOrder).closest('tr').find("#PlannedQty").val(rowData['plannedQty']);
-			$(ObjProdOrder).closest('tr').find("#CmpltQty").val(rowData['cmpltQty']);
+			if(DocModule === 'P')
+			{
+			$(ObjProdOrder).closest('tr').find("#ProductionOrder").val(rowData['id']);
+			$(ObjProdOrder).closest('tr').find("#ProductionOrderProdName").val(rowData['itemName']);
+			}
+			else {
+				$("#SalesOrderCode").val(rowData['docNum']);
+				$(ObjProdOrder).val(rowData['docNum']);
+				$(ObjProdOrder).closest('tr').find("#ItemCode").val(rowData['itemCode']);
+				$(ObjProdOrder).closest('tr').find("#ItemName").val(rowData['itemName']);
+				$(ObjProdOrder).closest('tr').find("#Warehouse").val(rowData['warehouse']);
+				$(ObjProdOrder).closest('tr').find("#PlannedQty").val(rowData['plannedQty']);
+				$(ObjProdOrder).closest('tr').find("#CmpltQty").val(rowData['cmpltQty']);
             
-            $.when(GetWareHouseQty(rowData['itemCode'], rowData['warehouse'])).done(function (OnHand) 
-            {
-                  $(ObjProdOrder).closest('tr').find("#onHand").val(Number(OnHand));                 
-            });
-			//$(ObjProdOrder).closest('tr').find("#QTY").val(rowData['plannedQty']).trigger('change');
-            $('#myProductionOrderModal').modal('hide');
-			GetUomGroup(rowData['itemCode']);
-			
-			$.when(GetProdOrdPrice(rowData['sap_Ref_No'])).done(function (Price) {
-				//let Qty = $(ObjProdOrder).closest('tr').find("#QTY").val();
-				if(Price != "" && Price != null && Price != undefined)
+				$.when(GetWareHouseQty(rowData['itemCode'], rowData['warehouse'])).done(function (OnHand) 
 				{
+					  $(ObjProdOrder).closest('tr').find("#onHand").val(Number(OnHand));                 
+				});
+				//$(ObjProdOrder).closest('tr').find("#QTY").val(rowData['plannedQty']).trigger('change');
+				GetUomGroup(rowData['itemCode']);
+			
+				$.when(GetProdOrdPrice(rowData['sap_Ref_No'])).done(function (Price) {
+					//let Qty = $(ObjProdOrder).closest('tr').find("#QTY").val();
+					if(Price != "" && Price != null && Price != undefined)
+					{
 					
-					$(ObjProdOrder).closest('tr').find("#UPrc").val(Price);
-					$(ObjProdOrder).closest('tr').find("#TPrice").val(Price);
+						$(ObjProdOrder).closest('tr').find("#UPrc").val(Price);
+						$(ObjProdOrder).closest('tr').find("#TPrice").val(Price);
 
-				}
-				//GetPrice();
-			});
-
+					}
+					//GetPrice();
+				});
+			}
+				$('#myProductionOrderModal').modal('hide');
 		});
 		function GetProdOrdPrice(productionOrderNo) 
 		{

@@ -332,6 +332,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                         }
 
                         #endregion
+
                         string HeadQuery = @"insert into OPOR(Id,Series,DocType,Guid,CardCode,DocNum,Segment,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum,DocTotal , SlpCode,DiscPrcnt,
                                             PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,DONo,SaleOrderNo,isApproved, Comments) 
                                            values(" + Id + ","
@@ -382,6 +383,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                         //            new SqlParameter("@Comments",model.FooterData.Comments == null ? "" : model.FooterData.Comments.ToString()),
                         //        };
                         #endregion
+
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
                         if (res1 <= 0)
                         {
@@ -416,7 +418,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                             item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
 
                             string RowQueryItem = @"insert into POR1(Id,LineNum,WhsCode,BaseRef,BaseEntry,BaseLine,BaseQty,BaseType,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,
-                                                    UomEntry,SaleOrderCode,SaleOrderDocNo,PreCostingTowelCode,AccessoriesType,CountryOrg)
+                                                    UomEntry,SaleOrderCode,SaleOrderDocNo,PreCostingTowelCode,AccessoriesType,ProductionOrder,ProductionOrderProdName,CountryOrg)
                                               values(" + Id + ","
                                               + LineNo + ",'"
                                                + item.Warehouse + "','"
@@ -434,7 +436,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                               + item.DicPrc + ",'"
                                               + item.VatGroup + "','"
                                               + item.UomCode + "',"
-                                              + item.UomEntry + ",@SaleOrderCode,@SaleOrderDocNo,@PreCostingTowelCode,@AccessoriesType,'"
+                                              + item.UomEntry + ",@SaleOrderCode,@SaleOrderDocNo,@PreCostingTowelCode,@AccessoriesType,@ProductionOrder,@ProductionOrderProdName,'"
                                               + item.CountryOrg + "')";
 
                             #region sqlparam
@@ -443,6 +445,8 @@ namespace iSOL_Enterprise.Dal.Purchase
                             param1.Add(dal.GetParameter("@SaleOrderDocNo", item.SaleOrderDocNo, typeof(string)));
                             param1.Add(dal.GetParameter("@PreCostingTowelCode", item.PreCostingTowelCode, typeof(int)));
                             param1.Add(dal.GetParameter("@AccessoriesType", item.AccessoriesType, typeof(string)));
+                            param1.Add(dal.GetParameter("@ProductionOrder", item.ProductionOrder, typeof(int)));
+                            param1.Add(dal.GetParameter("@ProductionOrderProdName", item.ProductionOrderProdName, typeof(string)));
                             #endregion
 
                             int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem, param1.ToArray()).ToInt();
@@ -733,6 +737,8 @@ namespace iSOL_Enterprise.Dal.Purchase
                                 param1.Add(dal.GetParameter("@SaleOrderDocNo", item.SaleOrderDocNo, typeof(string)));
                                 param1.Add(dal.GetParameter("@PreCostingTowelCode", item.PreCostingTowelCode, typeof(int)));
                                 param1.Add(dal.GetParameter("@AccessoriesType", item.AccessoriesType, typeof(string)));
+                                param1.Add(dal.GetParameter("@ProductionOrder", item.ProductionOrder, typeof(int)));
+                                param1.Add(dal.GetParameter("@ProductionOrderProdName", item.ProductionOrderProdName, typeof(string)));
                                 #endregion
 
 
@@ -772,7 +778,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                         #endregion
                                         
                                         string UpdateQuery = @"update POR1 set
-                                                                      ItemCode  = '" + item.ItemCode + "'" +
+                                                                  ItemCode  = '" + item.ItemCode + "'" +
                                                                 ",ItemName  = '" + item.ItemName + "'" +
                                                                 ",UomCode   = '" + item.UomCode + "'" +
                                                                 ",UomEntry   = " + item.UomEntry +
@@ -782,7 +788,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                                                 ",LineTotal = '" + item.TtlPrc + "'" +
                                                                 ",DiscPrcnt =  " + item.DicPrc +
                                                                 ",VatGroup  = '" + item.VatGroup + "'" +
-                                                                ",CountryOrg= '" + item.CountryOrg + "',SaleOrderCode=@SaleOrderCode,SaleOrderDocNo=@SaleOrderDocNo,PreCostingTowelCode=@PreCostingTowelCode,AccessoriesType=@AccessoriesType " +
+                                                                ",CountryOrg= '" + item.CountryOrg + "',SaleOrderCode=@SaleOrderCode,SaleOrderDocNo=@SaleOrderDocNo,PreCostingTowelCode=@PreCostingTowelCode,AccessoriesType=@AccessoriesType,ProductionOrder=@ProductionOrder,ProductionOrderProdName=@ProductionOrderProdName " +
                                                                 " where Id=" + model.ID + " and LineNum=" + item.LineNum + " and OpenQty = Quantity";
                                         int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpdateQuery,param1.ToArray()).ToInt();
                                         if (res2 < 0)
@@ -799,7 +805,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                     //item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
 
                                     string RowQueryItem = @"insert into POR1(Id,LineNum,WhsCode,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup , UomCode,
-                                                           UomEntry,SaleOrderCode,SaleOrderDocNo,PreCostingTowelCode,AccessoriesType ,CountryOrg)
+                                                           UomEntry,SaleOrderCode,SaleOrderDocNo,PreCostingTowelCode,AccessoriesType,ProductionOrder,ProductionOrderProdName ,CountryOrg)
                                               values(" + model.ID + ","
                                                       + LineNo + ",'"
                                                       + item.Warehouse + "','"                                                     
@@ -812,7 +818,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                                       + item.DicPrc + ",'"
                                                       + item.VatGroup + "','"
                                                       + item.UomCode + "',"
-                                                      + item.UomEntry + ",@SaleOrderCode,@SaleOrderDocNo,@PreCostingTowelCode,@AccessoriesType,'"
+                                                      + item.UomEntry + ",@SaleOrderCode,@SaleOrderDocNo,@PreCostingTowelCode,@AccessoriesType,@ProductionOrder,@ProductionOrderProdName'"
                                                       + item.CountryOrg + "')";
 
                                     int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem,param1.ToArray()).ToInt();

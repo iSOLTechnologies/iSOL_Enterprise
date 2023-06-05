@@ -43,15 +43,18 @@ namespace iSOL_Enterprise.Dal.Production
             return list;
         }
 
-        public List<SalesQuotation_MasterModels> GetProductionOrdersData()
+        public List<SalesQuotation_MasterModels> GetProductionOrdersData(string DocModule)
         {
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
             string GetQuery = "";
 
-            GetQuery = "select DocNum,OriginNum,ItemCode,ProdName,Warehouse,PlannedQty,CmpltQty,Sap_Ref_No,CmpltQty from OWOR where isPosted = 1 order by DocEntry desc";
+            GetQuery = "select DocNum,DocEntry,OriginNum,ItemCode,ProdName,Warehouse,PlannedQty,CmpltQty,Sap_Ref_No from OWOR where isPosted = 1 order by DocEntry desc";
+            if (DocModule == "P")
+                GetQuery = "select DocNum,DocEntry,OriginNum,ItemCode,ProdName,Warehouse,PlannedQty,CmpltQty,1 as Sap_Ref_No from OWOR order by DocEntry desc";
 
+            string ConString = DocModule == "P" ? SqlHelper.defaultSapDB : SqlHelper.defaultDB;
 
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            using (var rdr = SqlHelper.ExecuteReader(ConString, CommandType.Text, GetQuery))
             {
                 while (rdr.Read())
                 {
@@ -59,6 +62,7 @@ namespace iSOL_Enterprise.Dal.Production
                     list.Add(
                         new SalesQuotation_MasterModels()
                         {
+                            Id = rdr["DocEntry"].ToInt(),
                             DocNum = rdr["DocNum"].ToString(),
                             OriginNum = rdr["OriginNum"].ToString(),
                             ItemCode = rdr["ItemCode"].ToString(),

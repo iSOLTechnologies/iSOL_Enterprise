@@ -50,14 +50,14 @@ namespace iSOL_Enterprise.Controllers.Production
 
             return Json(response);
         }
-        public IActionResult GetProductionOrders()
+        public IActionResult GetProductionOrders(string DocModule)
         {
             ResponseModels response = new ResponseModels();
             try
             {
 
                 ReceiptFromProductionDal dal = new ReceiptFromProductionDal();
-                response.Data = dal.GetProductionOrdersData();
+                response.Data = dal.GetProductionOrdersData(DocModule);
             }
             catch (Exception ex)
             {

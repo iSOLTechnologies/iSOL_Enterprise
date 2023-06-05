@@ -386,6 +386,8 @@
                                                                                    
                                                                                     <th>Item No.</th>
                                                                                     <th>Item Name</th>
+                                                                                    <th>Production Order</th>
+                                                                                    <th>Production Order Item Name</th>
                                                                                     <th>Warehouse</th>
                                                                                     <th>Qty in Warehouse</th>
                                                                                     <th>Quantity</th>
@@ -432,20 +434,32 @@
                                                                                         <input id="ItemName" class="form-control form-control-sm"  type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                                                <td>
-                                                                                                <div class="input-group">
-                                                                                                        <select   class="form-control WhsSelect" id="Warehouse">
-                                                                                                    
-                                                                                                    </select>
-
-                                                                                                </div>
-
-
-                                                                                            </td>
-                                                                                             <td>
-                                                                                                        <input id="onHand"  class="form-control form-control-sm" readonly type="number">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <input id="ProductionOrder" name="ProductionOrder" type="text" class="form-control form-control-sm" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>
+                                                                                            <div id="ProductionOrderNoo" class="input-group-append">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-search"></i>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>                                                                                        
+                                                                                        <input id="ProductionOrderProdName" name="ProductionOrderProdName" type="text" class="form-control form-control-sm" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>                                                                                        
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                       <div class="input-group">
+                                                                                           <select   class="form-control WhsSelect" id="Warehouse">
+                                                                                           
+                                                                                           </select>
+                                                                                       </div>
+                                                                                    </td>
+                                                                                     <td>
+                                                                                        <input id="onHand"  class="form-control form-control-sm" readonly type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
                                                                                     <td>
                                                                                         <input class="form-control form-control-sm" id="QTY"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -861,7 +875,14 @@
     }
 
     
-    
+    $(document).on('click', '#ProductionOrderNoo', function (e) {
+
+        ObjProdOrder = $(this).closest('tr').find("#ProductionOrder"); 
+        generateProductionOrderTable();
+        $('#myProductionOrderModal').modal('show');
+
+    });
+
     $(document).on('click', '#GLAccountNo', function (e) {
 
         ObjAcctCode = $(this).closest('tr').find("#AcctCode");
@@ -1107,7 +1128,22 @@
                                                                                                 <input disabled="true" id="ItemName" value="`+ ItemName + `" class="form-control form-control-sm"  type="text">
                                                                                                 <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                             </td>
-                                                                                                                        <td>
+                                                                                            <td>
+                                                                                                 <div class="input-group">
+                                                                                                     <input id="ProductionOrder" name="ProductionOrder" type="text" class="form-control form-control-sm" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>
+                                                                                                     <div id="ProductionOrderNoo" class="input-group-append">
+                                                                                                         <span class="input-group-text">
+                                                                                                             <i class="la la-search"></i>
+                                                                                                         </span>
+                                                                                                     </div>
+                                                                                                 </div>
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <input id="ProductionOrderProdName" name="ProductionOrderProdName" type="text" class="form-control form-control-sm" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>
+                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                            </td>
+                                                                                              <td>
                                                                                                 <div class="input-group">
                                                                                                         <select value="`+ data.WhsCode + `" class="form-control WhsSelect" id="Warehouse">
                                                                                                         `+ WareHouseData + `
@@ -1425,23 +1461,37 @@
                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                            <input class="form-control form-control-sm" id="ItemName" type = "text">
-                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                            </td>
-                                                                                                    <td>
-                                                                                                <div class="input-group">
-                                                                                                        <select   class="form-control WhsSelect" id="Warehouse">
-                                                                                                        `+ WareHouseData + `
-                                                                                                    </select>
+                                                                                        <input class="form-control form-control-sm" id="ItemName" type = "text">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <input id="ProductionOrder" name="ProductionOrder" type="text" class="form-control form-control-sm" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>
+                                                                                            <div id="ProductionOrderNoo" class="input-group-append">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-search"></i>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>                                                                                        
+                                                                                        <input id="ProductionOrderProdName" name="ProductionOrderProdName" type="text" class="form-control form-control-sm" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>                                                                                        
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                     <td>
+                                                                                       <div class="input-group">
+                                                                                               <select   class="form-control WhsSelect" id="Warehouse">
+                                                                                               `+ WareHouseData + `
+                                                                                           </select>
 
-                                                                                                </div>
+                                                                                       </div>
 
-
-                                                                                            </td>
-                                                                                             <td>
-                                                                                                        <input id="onHand" class="form-control form-control-sm" readonly type="number">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
+                                                                                     </td>
+                                                                                      <td>
+                                                                                         <input id="onHand" class="form-control form-control-sm" readonly type="number">
+                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                     </td>
                                                                         <td>
                                                                             <input class="form-control form-control-sm" id = "QTY" onkeyup = "GetPrice()" type = "number">
                                                                             <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -1554,6 +1604,21 @@
                                                                                     <input disabled="true" class="form-control form-control-sm" id="ItemName" type = "text">
                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                 </td>
+                                                                                <td>
+                                                                                    <div class="input-group">
+                                                                                            <input id="ProductionOrder" name="ProductionOrder" type="text" class="form-control form-control-sm" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>
+                                                                                            <div id="ProductionOrderNoo" class="input-group-append">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-search"></i>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                    </div>
+                                                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                               </td>
+                                                                               <td>                                                                                        
+                                                                                   <input id="ProductionOrderProdName" name="ProductionOrderProdName" type="text" class="form-control form-control-sm" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>                                                                                        
+                                                                                   <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                               </td>
                                                                                                             <td>
                                                                                                 <div class="input-group">
                                                                                                         <select  class="form-control WhsSelect" id="Warehouse">
@@ -1711,54 +1776,7 @@
             Qty.val("");
             toastr.warning("Quantity can't be 0");
         }
-        //if(!(sum <= onHand.val())){
-        //    Qty.val("");
-        //    toastr.warning("Quantity can't be greater than Warehouse quantity");
-        //}
-        //if ($(this).closest('#ListParameters .itm').find('#BaseQty').val() != "" && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != '' && $(this).closest('#ListParameters .itm').find('#BaseQty').val() != null) {
-        //    if (Number(Qty.val()) <= Number(BaseQty.val())) {
-
-        //        $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val() - Qty.val());
-        //    }
-        //    else {
-
-        //        toastr.warning("Quantity can't be greater than base quantity");
-        //        Qty.val(0);
-        //        $(this).closest('#ListParameters .itm').find('#OpenQty').val(BaseQty.val());
-
-
-        //    }
-        //}
-        //if (!(Number(Qty.val()) <= Number(onHand.val()))) {
-        //    toastr.warning("Quantity can't be greater than Quantity in Warehouse");
-        //    Qty.val(0);
-        //}
-
-        //if ($(DicPrc).val() == "") {
-        //    var Onepercent = parseFloat((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) / 100);
-        //    var Tax = parseFloat(Onepercent * parseFloat(VatGuid));
-
-        //    if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
-        //        $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) + parseFloat(Tax)).toFixed(2)));
-        //        GetPrice();
-        //        //document.getElementById("TtlPrc").value = parseFloat(TtlPrc).toFixed(2);
-        //        //console.log(TtlPrc)
-        //    }
-        //}
-
-        //if ($(DicPrc).val() != "") {
-        //    $(TtlPrc).val((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())).toFixed(2));
-        //     var Onepercent = parseFloat((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) / 100);
-        //    var discountPrice = parseFloat(Onepercent * $(DicPrc).val());
-        //    var Tax = parseFloat(Onepercent * parseFloat(VatGuid))
-        //    console.log("discountPrice:", discountPrice)
-        //    if (($(QTY).val() != null && $(UPrc).val() != null) || ($(QTY).val() != "" && $(UPrc).val() != "")) {
-        //        $(TtlPrc).val((((parseFloat($(Qty).val()) * parseFloat($(UPrc).val())) - (parseFloat(discountPrice))) + (Tax)).toFixed(2));
-        //        GetPrice();
-        //        //document.getElementById("TtlPrc").value = parseFloat(TtlPrc).toFixed(2);
-        //        //console.log(Tax)
-        //    }
-        //}
+       
           GetPrice();
         });
     });
@@ -1779,7 +1797,7 @@
       var WareHouseData="";
     $(document).ready(function () {
         DocModule = "P";
-       GetWareHouseData(); 
+        GetWareHouseData(); 
         DocNumOnLoad();
         GetCountrydata();
         GetCurrencydata();
@@ -1912,20 +1930,35 @@
                                                                                         <input id="ItemName" class="form-control form-control-sm"  type="text">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
-                                                                                                                <td>
-                                                                                                <div class="input-group">
-                                                                                                        <select class="form-control WhsSelect" id="Warehouse">
-                                                                                                        `+ WareHouseData + `
-                                                                                                    </select>
+                                                                                    <td>
+                                                                                        <div class="input-group">
+                                                                                            <input id="ProductionOrder" name="ProductionOrder" type="text" class="form-control form-control-sm" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>
+                                                                                            <div id="ProductionOrderNoo" class="input-group-append">
+                                                                                                <span class="input-group-text">
+                                                                                                    <i class="la la-search"></i>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                    <td>                                                                                        
+                                                                                        <input id="ProductionOrderProdName" name="ProductionOrderProdName" type="text" class="form-control form-control-sm" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>                                                                                        
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
+                                                                                     <td>
+                                                                                        <div class="input-group">
+                                                                                                <select class="form-control WhsSelect" id="Warehouse">
+                                                                                                `+ WareHouseData + `
+                                                                                            </select>
 
-                                                                                                </div>
+                                                                                        </div>
 
 
-                                                                                            </td>
-                                                                                             <td>
-                                                                                                        <input id="onHand" class="form-control form-control-sm" readonly type="number">
-                                                                                                <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                            </td>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input id="onHand" class="form-control form-control-sm" readonly type="number">
+                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
+                                                                                    </td>
                                                                                     <td>
                                                                                         <input class="form-control form-control-sm" id="QTY"  type="number">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
