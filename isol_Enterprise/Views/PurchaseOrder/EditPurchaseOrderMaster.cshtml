@@ -503,7 +503,7 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         <div class="input-group">
-                                                                                            <input disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)" id="ProductionOrder" name="ProductionOrder" value="@row1["ProductionOrder"]" type="text" class="form-control form-control-sm" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>
+                                                                                            <input disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)" id="ProductionOrder" name="ProductionOrder" value="@row1["ProductionOrder"]" type="text" class="form-control form-control-sm NotReq" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>
                                                                                                         <div id="ProductionOrderNoo" class="input-group-append @(Convert.ToString(ViewBag.Status) == "Closed" ? "d-none" :"")">
                                                                                                 <span class="input-group-text">
                                                                                                     <i class="la la-search"></i>
@@ -513,7 +513,7 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>                                                                                        
-                                                                                        <input disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)" id="ProductionOrderProdName" name="ProductionOrderProdName" value="@row1["ProductionOrderProdName"]" type="text" class="form-control form-control-sm" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>
+                                                                                        <input disabled="@(Convert.ToInt32(row1["OpenQty"] == null?0:row1["OpenQty"])  <= 0 ? true : false)" id="ProductionOrderProdName" name="ProductionOrderProdName" value="@row1["ProductionOrderProdName"]" type="text" class="form-control form-control-sm NotReq" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
@@ -1250,7 +1250,7 @@
                                                                         </td>
                                                                             <td>
                                                                                             <div class="input-group">
-                                                                                                <input id="ProductionOrder" name="ProductionOrder" type="text" class="form-control form-control-sm" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>
+                                                                                                <input id="ProductionOrder" name="ProductionOrder" type="text" class="form-control form-control-sm NotReq" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>
                                                                                                 <div id="ProductionOrderNoo" class="input-group-append">
                                                                                                     <span class="input-group-text">
                                                                                                         <i class="la la-search"></i>
@@ -1732,7 +1732,7 @@
                                                                                     </td>
                                                                                         <td>
                                                                                             <div class="input-group">
-                                                                                                <input id="ProductionOrder" name="ProductionOrder" type="text" class="form-control form-control-sm" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>
+                                                                                                <input id="ProductionOrder" name="ProductionOrder" type="text" class="form-control form-control-sm NotReq" placeholder="Production Order No." aria-describedby="basic-addon2" readonly>
                                                                                                 <div id="ProductionOrderNoo" class="input-group-append">
                                                                                                     <span class="input-group-text">
                                                                                                         <i class="la la-search"></i>
