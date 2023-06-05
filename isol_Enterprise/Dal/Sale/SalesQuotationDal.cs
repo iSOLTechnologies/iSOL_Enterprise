@@ -70,6 +70,10 @@ namespace iSOL_Enterprise.Dal.Sale
             else if (DocModule == "S,I")
             {
                 GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where InvntItem = 'Y' or SellItem = 'Y' and FrozenFor='N'";
+            }
+             else if (DocModule == "INV")
+            {
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where  FrozenFor='N'";
             }            
             else
             {
