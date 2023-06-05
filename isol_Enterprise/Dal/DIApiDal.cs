@@ -499,7 +499,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         #region Insert In Header
                                         isOld = oDoc.GetByKey(rdr["Sap_Ref_No"].ToInt());
 
-                                        oDoc.Series = rdr["Series"].ToInt();
+                                        oDoc.Series = rdr["Series"].ToInt();                                        
                                         oDoc.DocType = rdr["DocType"].ToString() == "I" ? BoDocumentTypes.dDocument_Items : BoDocumentTypes.dDocument_Service;
                                         oDoc.ReqType = rdr["ReqType"].ToInt();
                                         oDoc.Requester = rdr["Requester"].ToString();
@@ -544,7 +544,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                
 
                                         #region Insert in Row
-                                                string RowQuery = @"select Id,LineNum,ItemCode,LineVendor,PQTReqDate,Quantity,OpenQty,WhsCode,DiscPrcnt,Price,VatGroup,UomEntry,UomCode,LineTotal,CountryOrg,SaleOrderCode,SaleOrderDocNo,PreCostingTowelCode,AccessoriesType from " + rowTable + " where Id = " + ID;
+                                                string RowQuery = @"select Id,LineNum,ItemCode,Dscription,LineVendor,PQTReqDate,Quantity,OpenQty,WhsCode,DiscPrcnt,Price,VatGroup,UomEntry,UomCode,LineTotal,CountryOrg,SaleOrderCode,SaleOrderDocNo,PreCostingTowelCode,AccessoriesType from " + rowTable + " where Id = " + ID;
                                         using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, RowQuery))
                                         {
                                             try
@@ -566,6 +566,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                         //oDoc.Lines.PriceAfterVAT = rdr2["LineTotal"].ToDouble();
                                                     }
                                                     oDoc.Lines.ItemCode = rdr2["ItemCode"].ToString();
+                                                    oDoc.Lines.ItemDescription = rdr2["Dscription"].ToString();
                                                     oDoc.Lines.LineVendor = rdr2["LineVendor"].ToString();
                                                     oDoc.Lines.RequiredDate = rdr2["PQTReqDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr2["PQTReqDate"].ToString());
                                                     oDoc.Lines.Quantity = Convert.ToDouble(rdr2["Quantity"]);
