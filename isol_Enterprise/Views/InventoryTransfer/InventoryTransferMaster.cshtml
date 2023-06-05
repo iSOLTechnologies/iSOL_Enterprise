@@ -189,7 +189,7 @@
                                                                     <div class="col-md-6">
                                                                             <label>Numbering Series</label> 
                                                                       <div class="d-flex">
-                                                                            <select id="MySeries" class="form-control form-control-sm col-md-3">
+                                                                            <select id="MySeries" class="form-control form-control-sm col-md-3 ">
                                                                                 @foreach (iSOL_Enterprise.Models.Series.tbl_NNM1 i in ViewBag.MySeries)
                                                                                 {                                                                                            
                                                                                                     <option guid="@i.BeginStr" value="@i.Series">@i.SeriesName </option>                                                                                            
@@ -200,7 +200,7 @@
                                                                             <input type="text" id="DocNum" class="col-md-5 form-control form-control-sm">
                                                                                     &nbsp;&nbsp;
                                                                             <select id="Series"
-                                                                                class="form-control form-control-sm col-md-3">
+                                                                                    class="form-control form-control-sm col-md-3 NotReq">
                                                                                 @foreach (iSOL_Enterprise.Models.Sale.tbl_series i in ViewBag.Series)
                                                                                 {                                                                                            
                                                                                                     <option value="@i.Series">@i.SeriesName </option>                                                                                            
@@ -331,7 +331,7 @@
                                                                     <div class="col-md-6">
                                                                         <label>Sale Order #</label>
                                                                         <div class="input-group">
-                                                                            <input type="text" id="SalesOrderCode" name="OriginNum" class="form-control form-control-sm " placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
+                                                                            <input type="text" id="SalesOrderCode" name="OriginNum" class="form-control form-control-sm NotReq" placeholder="Sales Order Number" aria-describedby="basic-addon2" readonly>
                                                                             <div id="SalesOrderNo" class="input-group-append">
                                                                                 <span class="input-group-text">
                                                                                     <i class="la la-search"></i>
