@@ -284,7 +284,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                             param1.Add(cdal.GetParameter("@PQTReqDate", item.PQTReqDate, typeof(DateTime)));
                             param1.Add(cdal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
                             param1.Add(cdal.GetParameter("@OpenQty", item.QTY, typeof(decimal)));
-                            param1.Add(cdal.GetParameter("@WhsCode", item.WhsCode, typeof(string)));
+                            param1.Add(cdal.GetParameter("@WhsCode", item.Warehouse, typeof(string)));
                             param1.Add(cdal.GetParameter("@Price", item.UPrc, typeof(decimal)));
                             param1.Add(cdal.GetParameter("@DiscPrcnt", item.DicPrc, typeof(decimal)));
                             param1.Add(cdal.GetParameter("@VatGroup", item.VatGroup, typeof(string)));
@@ -541,7 +541,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                         param1.Add(cdal.GetParameter("@LineVendor", item.LineVendor, typeof(string)));
                                         param1.Add(cdal.GetParameter("@PQTReqDate", item.PQTReqDate, typeof(DateTime)));
                                         param1.Add(cdal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
-                                        param1.Add(cdal.GetParameter("@WhsCode", item.WhsCode, typeof(string)));
+                                        param1.Add(cdal.GetParameter("@WhsCode", item.Warehouse, typeof(string)));
                                         param1.Add(cdal.GetParameter("@Price", item.UPrc, typeof(decimal)));
                                         param1.Add(cdal.GetParameter("@DiscPrcnt", item.DicPrc, typeof(decimal)));
                                         param1.Add(cdal.GetParameter("@VatGroup", item.VatGroup, typeof(string)));
@@ -585,7 +585,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                                 param1.Add(cdal.GetParameter("@PQTReqDate", item.PQTReqDate, typeof(DateTime)));
                                 param1.Add(cdal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
                                 param1.Add(cdal.GetParameter("@OpenQty", item.QTY, typeof(decimal)));
-                                param1.Add(cdal.GetParameter("@WhsCode", item.WhsCode, typeof(string)));
+                                param1.Add(cdal.GetParameter("@WhsCode", item.Warehouse, typeof(string)));
                                 param1.Add(cdal.GetParameter("@Price", item.UPrc, typeof(decimal)));
                                 param1.Add(cdal.GetParameter("@DiscPrcnt", item.DicPrc, typeof(decimal)));
                                 param1.Add(cdal.GetParameter("@VatGroup", item.VatGroup, typeof(string)));
