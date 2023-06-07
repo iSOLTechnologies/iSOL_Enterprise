@@ -512,7 +512,8 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.RequesterEmail = rdr["Email"].ToString();
                                         oDoc.TaxDate = rdr["TaxDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["TaxDate"].ToString());
                                         oDoc.RequriedDate = rdr["ReqDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["ReqDate"].ToString());
-                                        oDoc.DocumentsOwner = rdr["OwnerCode"].ToInt();
+                                        if (rdr["OwnerCode"].ToString() != "")
+                                            oDoc.DocumentsOwner = rdr["OwnerCode"].ToInt();
                                         oDoc.Comments = rdr["Comments"].ToString();                                        
                                         //oDoc.DocTotal = rdr["DocTotal"].ToDouble();                                        
                                         
