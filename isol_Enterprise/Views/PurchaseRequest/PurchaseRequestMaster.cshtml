@@ -802,7 +802,11 @@
 		 }else if($(this).val() == "171"){ 
 			 $('#12_User').addClass('d-none');
 			 $('#171_Employee').removeClass('d-none');
+			 $("#Branch").val("");
+			 $("#Department").val("");
 		 }
+		 $("#Requester").val("");
+		 $("#ReqName").val("");
 	});
 
 	$(document).on('click', '#Notify', function (e) {
@@ -887,6 +891,8 @@
 			//$(selectedRow).addClass('Mainrow_selected');	 
 		$("#ReqName").val(rowData['username']); 
 		$("#Requester").val(rowData['userCode']);
+		$("#Branch").val(rowData['branch']);
+		$("#Department").val(rowData['department']);
 		$('#myUserModal').modal('hide');
 	});
 

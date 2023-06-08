@@ -145,14 +145,14 @@
 																			<div class="col-md-6">
 																					<input hidden value="@row["Id"]" id="my_id">
 																					<select  id="ReqType" class="form-control NotReq">
-																					@if(row["ReqType"] == "12"){
-																						<option selected value="12">User</option> 
+																						@if(row["ReqType"].ToString() == "12"){
+																							<option selected value="12">User</option> 
 																							<option value="171">Employee</option>
 																						}
 																						else
 																						{
-																							<option value="12">User</option> 
-																							<option selected value="171">Employee</option>
+																							<option value="12">User </option>
+																							<option selected value="171">Employee </option>
 																						}
 																						 
 																					</select>
@@ -990,7 +990,11 @@
 		} else if ($(this).val() == "171") {
 			$('#12_User').addClass('d-none');
 			$('#171_Employee').removeClass('d-none');
+			$("#Branch").val("");
+			$("#Department").val("");
 		}
+		$("#Requester").val("");
+		$("#ReqName").val("");
 	});
 
 	$(document).on('click', '#Notify', function (e) {
@@ -1074,6 +1078,8 @@
 		//$(selectedRow).addClass('Mainrow_selected');
 		$("#ReqName").val(rowData['username']);
 		$("#Requester").val(rowData['userCode']);
+		$("#Branch").val(rowData['branch']);
+		$("#Department").val(rowData['department']);
 		$('#myUserModal').modal('hide');
 	});
 
