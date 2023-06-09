@@ -209,23 +209,23 @@
 																			<select id="Series" disabled
 																					class="form-control form-control-sm col-md-3">
 																				
-																					@if(row["Series"].ToString() == "-1")
+																					@*@if(row["Series"].ToString() == "-1")
 																					{
 																						<option value="-1" selected>Manual</option>
 																					}else{
 																						<option value="-1">Manual</option>
-																					}
+																					}*@
 
 																					@foreach (iSOL_Enterprise.Models.Sale.tbl_series i in ViewBag.Series)
-																				{
-																					if(row["Series"].ToString() == i.Series.ToString()){
-																						<option  selected value="@i.Series">@i.SeriesName </option>
+																					{
+																						if(row["Series"].ToString() == i.Series.ToString()){
+																							<option  selected value="@i.Series">@i.SeriesName </option>
 
-																					}else{
-																						<option value="@i.Series">@i.SeriesName </option>
+																						}else{
+																							<option value="@i.Series">@i.SeriesName </option>
 
-																					}
-																				} 
+																						}
+																					} 
 																			</select>
 																		</div>
 																	</div>
