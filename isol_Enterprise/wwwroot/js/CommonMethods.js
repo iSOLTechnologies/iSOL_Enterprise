@@ -96,7 +96,21 @@ function GetWareHouseQty(ItemCodeValue, WarehouseValue) {
         }
     });
 
-    
+}
+
+function UpdateOnHandForEachRow() {
+
+    $('#ListParameters .itm').each(function (index, item)
+    {
+        let ItemCode = $(this).find("#ItemCode");
+        let Warehouse = $(this).find("#Warehouse");
+        $.when(GetWareHouseQty(ItemCode, Warehouse)).done(function (OnHand) {
+
+            $(this).find("#onHand").val(Number(OnHand));
+
+        });
+
+    });
 
 }
 

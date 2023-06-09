@@ -1466,8 +1466,7 @@
 	$(document).ready(function () {
 		DocModule = "P";
 		InitializeWareHouseData();
-		$('#ItemCode').trigger('change');
-		$('#Warehouse').trigger('change');
+		UpdateOnHandForEachRow();
 		InitializeGetVatGroupData();
 		GetCountrydata();
 		GetCurrencydata();
