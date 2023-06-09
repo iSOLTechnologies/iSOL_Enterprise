@@ -1380,6 +1380,7 @@
     $(document).ready(function (){
         DocModule = "S";
         Edit_GetUomGroup();
+        UpdateDataForRows();
         InitializeWareHouseData();
         InitializeGetVatGroupData();
         GetCountrydata();
@@ -1398,12 +1399,7 @@
                 $.get("Delivery/GetWareHouseData", function (data) {
 
 
-
-
                     $.each(data, function () {
-
-
-
 
                         WareHouseData += "<option  value='" + this.whscode + "'>" + this.whsname + "</option>";
                     });

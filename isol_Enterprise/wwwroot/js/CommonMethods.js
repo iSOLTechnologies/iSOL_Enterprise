@@ -99,7 +99,7 @@ function GetWareHouseQty(ItemCodeValue, WarehouseValue) {
 
 }
 
-function UpdateOnHandForEachRow() {
+function UpdateDataForRows() {
    
     $('#ListParameters .itm').each(function (index, item)
     {
@@ -109,11 +109,19 @@ function UpdateOnHandForEachRow() {
         
          //$(this).find("#onHand").val(Number(GetWareHouseQty(ItemCode, Warehouse)));
         $.when(GetWareHouseQty(ItemCode, Warehouse)).done(function (OnHand) {
-            console.log(OnHand);
+            
 
             onHandTag.val(Number(OnHand));
 
         });
+
+
+        let AccessoriesType = $(this).find("#AccessoriesType");
+        if (AccessoriesType != null && AccessoriesType != undefined)
+        {
+            
+            AccessoriesType.val($(AccessoriesType).attr("value"));
+        }
 
     });
 
