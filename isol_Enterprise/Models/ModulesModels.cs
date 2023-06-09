@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -21,6 +22,7 @@ namespace iSOL_Enterprise.Models
     }
     public class _ModulesModels
     {
+        public List<PagesModels> ListPages { get; set; }
         public List<ModulesModels> ListModules { get; set; }
         public List<SubModulesModels> ListSubModules { get; set; }
     }

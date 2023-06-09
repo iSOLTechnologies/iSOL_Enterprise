@@ -1,0 +1,807 @@
+﻿
+@{
+    ViewData["Title"] = "RolesMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@model iSOL_Enterprise.Models.RoleModels
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@*<style>
+        .jstree-anchor{
+            font-size:25px
+        }
+
+        .jstree-default .jstree-icon.fa{
+            font-size:2rem !important;
+            margin-right:10px;
+            margin-left:5px;
+
+
+        }
+        .jstree-default .jstree-anchor{
+            height:35px
+        }
+        .jstree-node {
+            margin-bottom: 10px
+        }
+
+        .jstree-default .jstree-wholerow-clicked, .jstree-default .jstree-wholerow-clicked {
+            background: #ebedf200;
+        }
+    </style>*@
+
+
+<style>
+    input[type=checkbox] {
+        transform: scale(1.5);
+    }
+
+    .kt-option .kt-option__label .kt-option__head .kt-option__title {
+        font-size: 1.8rem;
+        /*margin-top: 5px*/
+    }
+
+    .kt-quick-panel .kt-quick-panel__nav {
+        align-items: inherit
+    }
+
+    .ww {
+        width: 50% !important
+    }
+
+    .tree, .tree ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        white-space: nowrap
+    }
+
+        .tree ul {
+            margin-left: 1em;
+            position: relative
+        }
+
+            .tree ul ul {
+                margin-left: .5em
+            }
+
+            .tree ul:before {
+                content: "";
+                display: block;
+                width: 0;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                border-left: 3px solid #5867dd;
+                margin-left: -12px;
+            }
+
+        .tree li {
+            margin: 0;
+            padding: 0 1em;
+            line-height: 0.2rem;
+            color: #369;
+            font-weight: 600;
+            position: relative;
+            font-size: 18px;
+            margin: 0px 0px 0px 10px
+        }
+
+        .tree ul li:before {
+            content: "";
+            display: block;
+            width: 10px;
+            height: 0;
+            /*border-top: 3px solid;*/
+            margin-top: -1px;
+            position: absolute;
+            top: 1em;
+            left: 0
+        }
+
+    .TRN {
+        color: #4b4e58 !important;
+        font-weight: 500 !important;
+    }
+
+    .tree ul li:last-child:before {
+        background: #fff;
+        height: auto;
+        top: 1em;
+        bottom: 0
+    }
+
+    .indicator {
+        margin-right: 5px;
+        margin-top: 5px;
+    }
+
+    .tree li a {
+        text-decoration: none;
+        color: #369;
+        font-size: 20px;
+        font-weight: 500
+    }
+
+    .tree li button, .tree li button:active, .tree li button:focus {
+        text-decoration: none;
+        color: #369;
+        border: none;
+        background: transparent;
+        margin: 0px 0px 0px 0px;
+        padding: 0px 0px 0px 0px;
+        outline: 0;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    .ss {
+        font-size: 25px
+    }
+
+    .itag {
+        font-style: normal;
+        margin-bottom: 10px !important;
+    }
+
+    .plus-i {
+        font-style: italic;
+        font-size: 1.8rem;
+    }
+
+    a:hover {
+        cursor: pointer;
+    }
+
+    .ml {
+        margin-left: 15px;
+        cursor: pointer;
+    }
+
+    .kt-option {
+        border: 0px
+    }
+</style>
+
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("Name")" id="sessionName" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("Email")" id="sessionEmail" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("RoleCode")" id="UserRoleCode" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("DepartmentCode")" id="_DepartmentCode" />
+
+<input type="hidden" value="@Context.Request.Query["Id"]" id="Guid" />
+<input type="hidden" value="@Context.Request.Query["Source"]" id="PageGuid" />
+<input type="hidden" value="" id="RCODe" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetInt32("UserId")" id="_UserId" />
+<title>User Master</title>
+
+
+<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="kt-portlet kt-portlet--last kt-portlet--head-lg kt-portlet--responsive-mobile" id="kt_page_portlet">
+                <div class="kt-portlet__head kt-portlet__head--lg" style="">
+                    <div class="kt-portlet__head-label">
+                        <h3 id="heading" class="kt-portlet__head-title">Add</h3>
+                    </div>
+                    <div class="kt-portlet__head-toolbar">
+
+                        <button id="btnBack" class="btn btn-clean kt-margin-r-10 ">
+                            <i class="la la-arrow-left"></i>
+                            <span class="kt-hidden-mobile ">Back</span>
+                        </button>
+                        <button id="btnSave" class="btn btn-brand kt-margin-r-10 ">
+                            <i class="la la-check"></i>
+                            <span id="SpanBtnSave" class="kt-hidden-mobile ">Save</span>
+                        </button>
+                        <button id="kt_quick_panel_close_btn" class=" btn btn-secondary ">
+                            <i class="la la-close"></i>
+
+                            Cancel
+                        </button>
+
+
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+                    <form autocomplete="off" role="form" id="F_@Context.Request.Query["Source"]" name="F_@Context.Request.Query["Source"]">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-xl-2"></div>
+                                <div class="col-xl-8">
+
+
+                                    <div class="form-group row">
+                                        <label class="col-xl-2 col-lg-2 col-form-label">Role Name<span class="kt-font-danger">*</span></label>
+                                        <div class="col-lg-6 col-xl-6">
+                                            <input type="text" id="RoleName" name="RoleName" class="form-control" placeholder="Role Name">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-xl-2 col-lg-2 col-form-label">Is Active</label>
+                                        <span id="IsActiveSpan" aria-required="true"></span>
+                                        <div class="col-lg-6 col-xl-6">
+                                            @* <div class="form-group check">*@
+                                            <div class="mt-checkbox-inline">
+                                                <label class="mt-checkbox mt-checkbox-outline ">
+                                                    <input type="checkbox" id="IsActive" name="IsActive" checked />
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                            @*</div>*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-xl-2 col-lg-2 col-form-label">All Roles</label>
+                                        <div class="col-lg-6 col-xl-6">
+                                            <div class="form-group check">
+                                                <div class="mt-checkbox-inline">
+                                                    <label class="mt-checkbox mt-checkbox-outline ">
+                                                        <input type="checkbox" id="AllRoles" name="AllRoles" />
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div id="kt_tree_3" class="tree-demo">
+                                    </div>
+
+                                </div>
+                                <div class="col-xl-2"></div>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var PageId = $('#PageGuid').val();
+    var Guid = $('#Guid').val();
+
+    $(document).ready(function () {
+
+        RecordLogs('Role', 'Open Add New Role Form');
+
+        $(document).on('click', '#btnBack', function () {
+            window.history.back();
+
+        })
+
+        $(document).on('click', '#AllRoles', function () {
+
+            var obj = $('#kt_tree_3 .pagechk');
+            if ($(this).prop('checked') == true) {
+
+                $(obj).each(function () {
+
+                    $(this).prop('checked', true);
+
+                    var branch = $('#kt_tree_3 .branch');
+                    var ul = $(branch).find('ul');
+                    var childLi = $(ul).find('li');
+                    var a = $(childLi).find('a');
+                    var chk = $(a).find('.roleChk');
+                    $(chk).each(function (index, item) {
+                        $(this).prop('checked', true);
+                    });
+                });
+            }
+            else {
+
+                $(obj).each(function () {
+
+                    $(this).prop('checked', false);
+
+                    var branch = $('#kt_tree_3 .branch');
+                    var ul = $(branch).find('ul');
+                    var childLi = $(ul).find('li');
+                    var a = $(childLi).find('a');
+                    var chk = $(a).find('.roleChk');
+                    $(chk).each(function (index, item) {
+                        $(this).prop('checked', false);
+                    });
+                });
+            }
+
+
+        })
+
+        $(document).on('click', '.roleChk', function () {
+            debugger
+            var parent = $(this).parent().closest('.branch');
+            var previousChk = $(parent).prev();
+            var chkbx = $(previousChk).find('.pagechk');
+            //var val = $(chk).prop('checked', true);
+
+            var AllTrue = false;
+            if ($(this).prop('checked') == false) {
+                var a = $(this).parent().closest('a');
+                var chk = $(a).find('.roleChk');
+                var arr = [];
+                $(chk).each(function (index, item) {
+                    arr.push($(this).prop('checked'));
+                });
+                for (var i = 0; i < arr.length; i++) {
+
+                    if (arr[i] == true) {
+                        AllTrue = true;
+                    }
+
+                }
+                //$(chk).prop('checked', true);
+                if (AllTrue == false) {
+                    $(chkbx).prop('checked', false);
+                }
+            }
+            else {
+                if ($(this).prop('checked') == true) {
+                    $(chkbx).prop('checked', true);
+                }
+
+            }
+
+        })
+
+        $(document).on('click', '.pagechk', function () {
+
+
+            var perent = $(this).parent();
+            var secBranch = $(perent).next();
+            var li = secBranch;
+            var ul = $(li).find('ul');
+            var childLi = $(ul).find('li');
+            var a = $(childLi).find('a');
+            var chk = $(a).find('.roleChk');
+
+            if ($(this).prop('checked')) {
+                $(chk).each(function (index, item) {
+                    $(this).prop('checked', true);
+                });
+            }
+            else {
+                $(chk).each(function (index, item) {
+                    $(this).prop('checked', false);
+                });
+            }
+
+
+        })
+
+        $(document).on('click', '#btnSave', function () {
+            $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+            $(this).attr('disabled', true);
+            Validation();
+            //RoleFormData();
+        })
+
+
+        generateList();
+
+        if (Guid != null && Guid != '' && Guid != undefined) {
+            GetData();
+        }
+    });
+
+
+    function generateList() {
+
+        var data = AjaxCall('Role', 'GetPages', 'GET', '');
+        data = data.data;
+        //  console.log(data);
+
+        CreateTreeView(data);
+        generateStyle();
+
+    }
+
+    function Edit() {
+
+        //var formdata = {
+
+        //    Guid: $('#Guid').val(),
+        //    RoleCode: $('#RCODe').val(),
+        //    RoleName: $('#RoleName').val(),
+        //    IsActive: $('#IsActive').prop('checked'),
+        //    ListPages: []
+        //};
+
+        //$.each($("input[name='chk']:checked"), function () {
+        //    var dd = {
+        //        PageId: $(this).attr('code'),
+        //    };
+        //    formdata.ListPages.push(dd);
+        //});
+
+        return $.ajax({
+            url: '/Role/Edit',
+            dataType: 'json',
+            data: RoleFormData(),
+            type: 'Post',
+            success: function (result) {
+
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+
+        }).done(function (result) {
+            if (result.isInserted) {
+
+                toastr.success(result.message);
+                //ClearForm();
+                setTimeout(function () {
+                    $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                }, 500);
+                $('#btnSave').attr('disabled', false);
+                setTimeout(function () {
+                    window.history.back();
+                }, 800);
+                RecordLogs('Role', 'Edit Role');
+
+
+            }
+            if (result.isError) {
+                toastr.error(result.message);
+                $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                $('#btnSave').attr('disabled', false);
+
+            }
+        });
+    }
+
+    function Add() {
+
+
+
+        //var formdata = {
+
+
+        //    RoleName: $('#RoleName').val(),
+        //    IsActive: $('#IsActive').prop('checked'),
+        //    ListPages: []
+        //};
+
+        //$.each($("input[name='chk']:checked"), function () {
+        //    var dd = {
+        //        PageId: $(this).attr('code'),
+        //    };
+        //    formdata.ListPages.push(dd);
+        //});
+
+        return $.ajax({
+            url: '/Role/Add',
+            dataType: 'json',
+            data: RoleFormData(),
+            type: 'Post',
+            success: function (result) {
+
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+
+        }).done(function (result) {
+            if (result.isInserted) {
+
+                toastr.success(result.message);
+                // ClearForm();
+                setTimeout(function () {
+                    $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                }, 500);
+                $('#btnSave').attr('disabled', false);
+                RecordLogs('Role', 'Role Added');
+
+            }
+            if (result.isError) {
+                toastr.error(result.message);
+                $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                $('#btnSave').attr('disabled', false);
+
+            }
+        });
+
+    }
+
+    function GetData() {
+
+        return $.ajax({
+            url: '/Role/GetData',
+            dataType: 'json',
+            data: { Guid: Guid },
+            type: 'Get',
+            success: function (result) {
+
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+
+        }).done(function (result) {
+            result = result.data;
+
+            populateData(result);
+        });
+    }
+
+    function populateData(data) {
+
+        RecordLogs('Role', 'View Role');
+        $('#RoleName').val(data.roleName);
+        $('#RCODe').val(data.roleCode);
+        $('#IsActive').prop('checked', data.isActive);
+
+        for (var i = 0; i < data.listPages.length; i++) {
+            $('#' + data.listPages[i].pageId).prop('checked', true);
+
+            for (var j = 0; j < data.listPages[i].listUserRolePageActivity.length; j++) {
+
+                var branch = $('#kt_tree_3 .' + data.listPages[i].listUserRolePageActivity[j].pageId);
+                var ul = $(branch).find('ul');
+                var childLi = $(ul).find('li');
+                var a = $(childLi).find('a');
+                var chk = $(a).find('.roleChk');
+                var obj = $(a).find('[name=' + data.listPages[i].listUserRolePageActivity[j].roleActivityCode + ']').prop('checked', true);
+
+
+            }
+        }
+
+
+    }
+
+    function Validation() {
+
+        xflag = [];
+        isvalid = null
+        isApproved = false;
+
+        toastr.remove();
+        var array = [];
+        xflag.push(mandatoryValidate('#RoleName', 'Role Name'));
+
+        xflag.push(mandatoryWithAlphaValidate('#RoleName', 'Role Name'));
+
+        var obj = $('#kt_tree_3 .pagechk');
+
+        $.each(obj, function () {
+            array.push($(this).prop('checked'));
+        });
+
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] == true) {
+                isApproved = true;
+            }
+
+        }
+
+        if (isApproved == false) {
+            toastr.warning("Please Select Page");
+        }
+
+        for (var i = 0; i < xflag.length; i++) {
+            if (xflag[i] == true) {
+                isvalid = false;
+            }
+        }
+
+        if (isvalid != false && isApproved == true) {
+
+            if (Guid != null && Guid != '' && Guid != undefined) {
+                Edit();
+            } else {
+                Add();
+
+            }
+
+        } else {
+            setTimeout(
+                function () {
+
+                    $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $('#btnSave').attr('disabled', false);
+
+                }, 800);
+        }
+
+
+    }
+
+    function CreateTreeView(result) {
+        var html = '';
+
+        /////////////////// 1st level ////////////
+        for (var i = 0; i < result.length; i++) {
+
+
+            html += ' <label  style="" class="mt-checkbox mt-checkbox-outline ">';
+            html += '       <input type="checkbox" class="pagechk"  id="' + result[i].pageId + '" name="IsActive" />';
+            html += '      <span></span>';
+            html += '  </label> ';
+            html += ' <li class="branch ' + result[i].pageId + '" style="margin-top:-35px;margin-bottom: 10px" id="">';
+
+            html += ' <i pageId="' + result[i].pageId + '" name="' + result[i].pageId + '"   class="ml plus fas fa-folder"></i>';
+            html += '     <a   name="' + result[i].pageId + '" class="plus-i" >' + result[i].pageName + '</a>';
+            html += '  <ul class="kt-menu__nav">';
+            html += '  <li  class="plus-t" >';
+            html += '    <a  id=' + result[i].pageId + ' > ';
+            html += ' <div class="form-group row">';
+
+            /////////////////// 2nd level ////////////
+            for (var j = 0; j < result[i].listPageActivity.length; j++) {
+
+                html += '     <div class="col-lg-3">';
+                html += '         <label class="kt-option">';
+                html += '           <span class="kt-option__control">';
+                html += '               <span class="kt-checkbox kt-checkbox--bold kt-checkbox--' + result[i].listPageActivity[j].class + '">';
+                html += '     <input name="' + result[i].listPageActivity[j].roleActivityCode + '" PageRole="' + result[i].listPageActivity[j].roleActivityCode + '" class="roleChk" type="checkbox">';
+                html += '           <span></span>';
+                html += '			</span>';
+                html += '   </span>';
+                html += '   <span class="kt-option__label">';
+                html += '       <span class="kt-option__head">';
+                html += '           <span class="kt-option__title">';
+                html += '          <i style="margin-left: 5px;margin-right:5px" class="' + result[i].listPageActivity[j].icon + '"></i>';
+                html += '             ' + result[i].listPageActivity[j].roleActivityTypeName + '';
+                html += '			</span>';
+                html += '       </span>';
+                html += '   </span>		';
+                html += '			</label> ';
+                html += '		</div>';
+
+            }
+            html += '		</div>';
+
+            html += '     </a>';
+
+            html += ' </li>';
+            html += '  </ul >';
+
+
+            html += ' </li>';
+
+
+
+        }
+
+        $('#kt_tree_3').html(html);
+
+    }
+
+    function generateStyle() {
+
+        $.fn.extend({
+            treed: function (o) {
+
+                var openedClass = 'fas fa-angle-down';
+                var closedClass = 'fas fa-angle-right';
+
+                if (typeof o != 'undefined') {
+                    if (typeof o.openedClass != 'undefined') {
+                        openedClass = o.openedClass;
+                    }
+                    if (typeof o.closedClass != 'undefined') {
+                        closedClass = o.closedClass;
+                    }
+                };
+
+                //initialize each of the top levels
+                var tree = $(this);
+                tree.addClass("tree");
+                tree.find('li').has("ul").each(function () {
+                    var branch = $(this); //li with children ul
+                    //     branch.prepend("  <i id='plus'  href='#' style='margin-right:10px;margin-left:10px;curson:pointer;' class=' fas fa-plus'></i>");
+                    branch.prepend(" <i style='color:#5867dd' class='indicator ss " + closedClass + "'></i>");
+                    branch.addClass('branch');
+                    branch.on('click', function (e) {
+                        if (this == e.target) {
+                            var icon = $(this).children('i:first');
+                            icon.toggleClass(openedClass + " " + closedClass);
+                            $(this).children().children().toggle();
+                        }
+                    })
+                    branch.children().children().toggle();
+                });
+
+                //fire event from the dynamically added icon
+                tree.find('.branch .indicator').each(function () {
+                    $(this).on('click', function () {
+                        $(this).closest('li').click();
+                    });
+                });
+
+
+                //fire event to open branch if the li contains an anchor instead of text
+                tree.find('.branch>a').each(function () {
+                    $(this).on('click', function (e) {
+                        $(this).closest('li').click();
+                        e.preventDefault();
+                    });
+                });
+
+                //fire event to open branch if the li contains a button instead of text
+                tree.find('.branch>button').each(function () {
+                    $(this).on('click', function (e) {
+                        $(this).closest('li').click();
+                        e.preventDefault();
+                    });
+                });
+            }
+        });
+        $('#kt_tree_3').treed();
+        $('li').each(function () {
+            // debugger
+            $(this).click();
+            //var sads = $(this).attr('level');
+            //console.log(sads);
+            //if ($(this).attr('level') > 4) {
+
+            //}
+            //   // This is your rel value
+        });
+        //  $('#kt_quick_panel').removeClass('kt-quick-panel--on ww');
+    }
+
+    function RoleFormData() {
+
+        var data = AjaxCall('Role', 'GetPages', 'GET', '');
+        data = data.data;
+
+        var formdata = {
+
+            Guid: $('#Guid').val(),
+            RoleCode: $('#RCODe').val(),
+            RoleName: $('#RoleName').val(),
+            IsActive: $('#IsActive').prop('checked'),
+            ListPages: []
+        };
+
+        for (var i = 0; i < data.length; i++) {
+            var val = $('#' + data[i].pageId).prop('checked');
+            if (val == true) {
+
+                var dm = {
+                    PageId: data[i].pageId,
+                    ListUserRolePageActivity: []
+
+                };
+
+                var branch = $('#kt_tree_3 .' + data[i].pageId);
+                var ul = $(branch).find('ul');
+                var childLi = $(ul).find('li');
+                var a = $(childLi).find('a');
+                var chk = $(a).find('.roleChk');
+
+                $(chk).each(function (index, item) {
+
+                    var dd = {
+                        Status: $(this).prop('checked'),
+                        RoleActivityCode: $(this).attr('pagerole'),
+                    };
+
+                    dm.ListUserRolePageActivity.push(dd);
+                });
+
+                formdata.ListPages.push(dm);
+            }
+
+        }
+        console.log(formdata);
+        return formdata;
+    }
+
+</script>
+

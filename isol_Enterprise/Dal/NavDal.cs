@@ -16,76 +16,53 @@ namespace iSOL_Enterprise.Dal
         {
             try
             {
+                string query = @"select m.name,m.icon,m.ModuleId,m.Icon from modules m
+                                inner join Pages p on p.Moduleid=m.ModuleId
+                                inner join UserRoles ur on ur.PageId=p.PageId and ur.RoleCode='" + RoleCode + @"'
+                                 where m.isActive=1 
+                                 group by m.name,m.ModuleId,m.Icon,m.lineindex order by m.lineindex";
+                List<ModulesModels> modules = new List<ModulesModels>();
+                
 
-
-                List<ModulesModels> list = new List<ModulesModels>();
-
-
-                DataTable dt = SqlHelper.GetData(@"select m.name,m.icon,m.ModuleId from modules m
-inner join SubModules sm on sm.ModuleId=m.ModuleId
-inner join Pages p on p.SubModuleid=sm.SubModuleId
-inner join UserRoles ur on ur.PageId=p.PageId and ur.RoleCode='" + RoleCode + @"'
- where m.isActive=1 
- group by m.name,m.ModuleId,m.Icon,m.lineindex order by m.lineindex");
-
-                if (dt != null)
+                using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, query))
                 {
-                    for (int i = 0; i < dt.Rows.Count; i++)
+                    while (rdr.Read())
                     {
-                        ModulesModels modules = new ModulesModels();
-                        modules.Name = dt.Rows[i]["Name"].ToString();
-                        modules.ModuleId = dt.Rows[i]["Moduleid"].ToString();
-                        modules.Icon = dt.Rows[i]["Icon"].ToString();
 
-                        modules.ListSubModules = new List<SubModulesModels>();
+                        ModulesModels model = new ModulesModels();
+                        model.Name = rdr["name"].ToString();
+                        model.ModuleId = rdr["ModuleId"].ToString();
+                        model.Icon = rdr["Icon"].ToString();
+                        model.ListModules = new List<ModulesModels>();
 
-                        DataTable dtSubModule = SqlHelper.GetData(@"select sm.name,sm.icon,sm.SubModuleId from Modules m  
-inner join SubModules sm on m.ModuleId = sm.ModuleId
-inner join Pages p on p.SubModuleid=sm.SubModuleId
-inner join UserRoles ur on ur.pageid=p.PageId and ur.RoleCode='" + RoleCode + @"'
-  where sm.isActive=1 and m.isActive=1 and m.Moduleid='" + modules.ModuleId +
-      "'group by sm.name,sm.icon,sm.SubModuleId,m.lineindex order by m.lineindex");
-                        for (int x = 0; x < dtSubModule.Rows.Count; x++)
+
+                        string PAgeQuery = @"select p.PageName,p.Controller,p.ActionName,p.icon,p.PageId,p.Guid from Pages p
+                                        inner join UserRoles ur on ur.PageId=p.PageId and ur.RoleCode='" + RoleCode + @"' and p.ModuleId=@ModuleId
+                                         where p.isActive=1 
+                                        order by p.lineindex";
+                        using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, PAgeQuery, new System.Data.SqlClient.SqlParameter("@ModuleId", model.ModuleId)))
                         {
-                            SubModulesModels _SubModulesModel = new SubModulesModels();
-                            //pages.indexid = Convert.ToInt32(dtpages.Rows[k]["indexid"]);
-                            _SubModulesModel.Name = dtSubModule.Rows[x]["Name"].ToString();
-                            _SubModulesModel.Icon = dtSubModule.Rows[x]["Icon"].ToString();
-                            _SubModulesModel.SubModuleId = dtSubModule.Rows[x]["SubModuleId"].ToString();
-                            _SubModulesModel.ListPages = new List<PagesModels>();
-
-                            DataTable dtpages = SqlHelper.GetData(@"select p.PageId,p.Guid,p.PageName,p.Controller,p.ActionName,p.SubModuleid,p.Icon from pages p
-                                                                    inner join SubModules sm on p.SubModuleid = sm.SubModuleId
-																	inner join UserRoles ur on ur.PageId=p.PageId and ur.IsActive=1
-																	inner join Users u on u.RoleCode=ur.RoleCode and u.IsActive=1 and u.RowStatus=1 and ur.RoleCode=u.RoleCode
-                                                                    where p.isActive=1 and p.Rowstatus=1 and u.RoleCode='" + RoleCode + "' and sm.SubModuleId='" + _SubModulesModel.SubModuleId + @"'
-                                                                    group by p.PageId,p.Guid,p.PageName,p.Controller,p.ActionName,p.SubModuleid,p.Icon,p.lineIndex order by p.lineindex");
-                            for (int k = 0; k < dtpages.Rows.Count; k++)
+							List<PagesModels> pages = new List<PagesModels>();
+							while (rdr2.Read())
                             {
-                                PagesModels pages = new PagesModels();
-                                pages.PageName = dtpages.Rows[k]["PageName"].ToString();
-                                pages.Controller = dtpages.Rows[k]["Controller"].ToString();
-                                pages.ActionName = dtpages.Rows[k]["ActionName"].ToString();
-                                pages.SubModuleid = dtpages.Rows[k]["SubModuleid"].ToString();
-                                pages.Icon = dtpages.Rows[k]["Icon"].ToString();
-                                pages.PageId = dtpages.Rows[k]["PageId"].ToString();
-                                pages.Guid = dtpages.Rows[k]["Guid"].ToString();
-                                _SubModulesModel.ListPages.Add(pages);
-                            }
 
-                            modules.ListSubModules.Add(_SubModulesModel);
+                                PagesModels page = new PagesModels();
+                                page.PageName = rdr2["PageName"].ToString();
+                                page.Controller = rdr2["Controller"].ToString();
+                                page.ActionName = rdr2["ActionName"].ToString();
+                                page.Icon = rdr2["Icon"].ToString();
+                                page.PageId = rdr2["PageId"].ToString();
+                                page.Guid = rdr2["Guid"].ToString();
+                                pages.Add(page);
+                            }
+                                model.ListPages = pages;
 
                         }
-
-                        list.Add(modules);
+                        modules.Add(model);
                     }
-
                 }
-
-
-                //sdfl kjfghdfisu fgdfyufguyds fgdiusfhsiufghdfiug
-
-                return list;
+                return modules;
+               
             }
             catch (Exception ex)
             {

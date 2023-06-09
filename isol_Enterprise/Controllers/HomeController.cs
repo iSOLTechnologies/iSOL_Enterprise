@@ -244,7 +244,7 @@ namespace iSOL_Enterprise.Controllers
             //    return Json(new { success = true, message = "/Dashboard/Index" });
 
 
-            // HttpContext.Session.SetObjectAsJson("SessNav", user.ListPages);
+           //  HttpContext.Session.SetObjectAsJson("SessNav", user.ListPages);
 
 
         }

@@ -1,0 +1,211 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<title> </title>
+
+<input type="hidden" id="Id" name="Id" />
+
+<input type="hidden" id="PageGuid" value="@Context.Request.Query["Source"]" />
+
+
+<div class="kt-portlet kt-portlet--mobile">
+    <div class="kt-portlet__head kt-portlet__head--lg">
+        <div class="kt-portlet__head-label">
+            <span class="kt-portlet__head-icon">
+                <i class="fa-ticket-alt"></i>
+            </span>
+            <h3 id="heading" class="kt-portlet__head-title"></h3>
+
+        </div>
+        <div class="kt-portlet__head-toolbar">
+            <div class="kt-portlet__head-wrapper">
+                <div class="kt-portlet__head-actions">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="kt-portlet__body">
+        <form autocomplete="off">
+
+
+            <!--begin: Datatable -->
+            <table id="T_@Context.Request.Query["Source"]" class="table table-striped- table-bordered table-hover table-checkable">
+                <thead id="LookupThead">
+                </thead>
+                <tbody id="LookupTbody"></tbody>
+
+
+            </table>
+            <!--end: Datatable -->
+        </form>
+    </div>
+</div>
+
+
+<div class="modal fade" id="con-delete-IN" tabindex="-1" role="con-delete-IN" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Delete</h4>
+            </div>
+            <div class="modal-body"> Are you sure ? You want to delete this. </div>
+            <div class="modal-footer">
+                <button type="button" id="confirmationdeleteIN" class="btn dark btn-outline" data-dismiss="modal">Yes</button>
+                <button type="button" id="closeIN" class="btn green">No</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+
+
+    var rowdata;
+    var Guid = $('#PageGuid').val();
+    $(document).ready(function () {
+        this.table = null;
+        var self = this;
+        var RowDataPrint = null;
+
+        // GetAll();
+
+        RecordLogs('Users', 'View Role List');
+
+        AllListViews(Guid);
+        $(document).on('click', '#BtnAdd', function () {
+
+            window.location.href = '/Role/RolesMaster?Source=' + Guid;
+        })
+        $(document).on('click', '#BtnEdit', function () {
+            debugger
+            if (rowdata != '' && rowdata != undefined && rowdata != null) {
+                window.location.href = '/Role/RolesMaster?Source=' + Guid + '&Id=' + rowdata;
+            }
+
+        })
+
+
+        $(document).on('click', '#BtnDelete', function () {
+
+            if (rowdata != '' && rowdata != undefined && rowdata != null) {
+                $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                $(this).attr('disabled', true);
+                Delete();
+            }
+
+        })
+
+
+        debugger
+        $('#LookupThead tbody tr').each(function (index, item) {
+            debugger
+            var data = table.row($(this).parents('tr')).data();
+        })
+
+        $(document).on('click', '#T_' + Guid + ' tr', function (e) {
+            rowdata = null;
+            RowDataPrint = null;
+            debugger
+            var LookTable = $('#T_' + Guid).DataTable();
+
+            var selectedRow = $(this).closest('tr');
+            var rowData = LookTable.row(selectedRow).data();
+            var SelectedVal = rowData['guid'];
+            rowdata = rowData['guid'];
+
+            var asd = '#T_' + Guid + ' tr';
+            $('#T_' + Guid + ' tr').removeClass("Mainrow_selected");
+            $(selectedRow).addClass('Mainrow_selected');
+            $('.OperationBtns').attr("data-id", SelectedVal);
+
+            RowDataPrint = rowData;
+
+        });
+
+    });
+
+
+
+    function UserRoles(Guid) {
+        var dd = {
+            Guid: Guid
+        };
+        var data = AjaxCall('Common', 'GetUserPageActivity', 'GET', dd);
+        data = data.data;
+        console.log(data)
+        var html = "";
+        for (var i = 0; i < data.length; i++) {
+
+            if (data[i].roleActivityCode == 'A') {
+                html += '  <a href="#" id="BtnAdd" class="btn btn-brand btn-elevate btn-icon-sm">';
+                html += '     <i class="la la-plus"></i> Add </a> ';
+            }
+
+            if (data[i].roleActivityCode == 'E') {
+                html += '   <a href="#" id="BtnEdit" class="btn btn-success btn-elevate btn-icon-sm"> ';
+                html += '       <i class="la la-pencil-square"></i> Edit </a> ';
+            }
+
+            if (data[i].roleActivityCode == 'D') {
+                html += '   <a href="#" id="BtnDelete" class="btn btn-danger btn-elevate btn-icon-sm"> ';
+                html += '     <i class="la la-trash"></i> Delete </a>';
+            }
+        }
+
+
+        $('.kt-portlet__head-actions').html(html);
+    }
+
+    function Delete() {
+
+        return $.ajax({
+            url: '/Common/GenericDelete',
+            dataType: 'json',
+            data: { Guid: rowdata, TableName: 'Roles' },
+            type: 'Post',
+            success: function (result) {
+
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+
+        }).done(function (result) {
+            if (result.isDeleted) {
+
+                toastr.success(result.message);
+                // ClearForm();
+                setTimeout(function () {
+                    $('#BtnDelete').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                }, 800);
+                $('#BtnDelete').attr('disabled', false);
+                ReloadLookUpTable();
+                RecordLogs('Actions', 'Delete Action');
+
+
+            }
+            if (result.isError) {
+                toastr.error(result.message);
+                $('#BtnDelete').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                $('#BtnDelete').attr('disabled', false);
+
+            }
+        });
+    }
+
+
+</script>
+
+
+
+
+

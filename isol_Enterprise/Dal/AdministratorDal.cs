@@ -15,7 +15,7 @@ namespace iSOL_Enterprise.Dal
         public List<tbl_pages> GetSeriesDrpDwn()
         {
 
-            string GetQuery = "select ObjectCode,PageName from Pages";
+            string GetQuery = "select ObjectCode,PageName from Pages where ObjectCode is not Null";
             List<tbl_pages> list = new List<tbl_pages>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {

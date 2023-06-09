@@ -504,8 +504,8 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.ReqType = rdr["ReqType"].ToInt();
                                         oDoc.Requester = rdr["Requester"].ToString();
                                         oDoc.RequesterName = rdr["ReqName"].ToString();
-                                        oDoc.RequesterBranch = rdr["Branch"].ToInt();
-                                        oDoc.RequesterDepartment = rdr["Department"].ToInt();
+                                        //oDoc.RequesterBranch = rdr["Branch"].ToInt();
+                                        //oDoc.RequesterDepartment = rdr["Department"].ToInt();
                                         oDoc.DocDate = rdr["DocDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["DocDate"].ToString());
                                         oDoc.DocDueDate = rdr["DocDueDate"].ToString() == "" ? DateTime.Now : Convert.ToDateTime(rdr["DocDueDate"].ToString());
                                         oDoc.SendNotification = rdr["Notify"].ToString() == "Y" ? BoYesNoEnum.tYES : BoYesNoEnum.tNO;
