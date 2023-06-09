@@ -79,9 +79,10 @@ function InitializeWarehouseSelect2Event(elements) {
 
 
 function GetWareHouseQty(ItemCodeValue, WarehouseValue) {
-
+    
     var a = 0;
 
+    
     return $.ajax({
         url: 'Common/GetSelectedWareHouseData',
         type: 'GET',
@@ -99,14 +100,18 @@ function GetWareHouseQty(ItemCodeValue, WarehouseValue) {
 }
 
 function UpdateOnHandForEachRow() {
-
+   
     $('#ListParameters .itm').each(function (index, item)
     {
-        let ItemCode = $(this).find("#ItemCode");
-        let Warehouse = $(this).find("#Warehouse");
+        let ItemCode = $(this).find("#ItemCode").val();
+        let Warehouse = $(this).find("#Warehouse").val();
+        let onHandTag = $(this).find("#onHand");
+        
+         //$(this).find("#onHand").val(Number(GetWareHouseQty(ItemCode, Warehouse)));
         $.when(GetWareHouseQty(ItemCode, Warehouse)).done(function (OnHand) {
+            console.log(OnHand);
 
-            $(this).find("#onHand").val(Number(OnHand));
+            onHandTag.val(Number(OnHand));
 
         });
 
