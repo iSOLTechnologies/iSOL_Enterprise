@@ -2,7 +2,7 @@
 
 namespace iSOL_Enterprise.Dal.Home
 {
-    public class PasswordHelperDal
+    public static class PasswordHelperDal
     {
 
         public static byte[] GenerateSalt()
@@ -16,7 +16,7 @@ namespace iSOL_Enterprise.Dal.Home
         }
 
         // Hash the password with salt using SHA256
-        public static string HashPassword(string password, byte[] salt)
+        public static string HashPassword(this string password, byte[] salt)
         {
             byte[] passwordBytes = System.Text.Encoding.UTF8.GetBytes(password);
             byte[] saltedPasswordBytes = new byte[passwordBytes.Length + salt.Length];

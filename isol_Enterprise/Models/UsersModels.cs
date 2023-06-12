@@ -17,6 +17,8 @@ namespace iSOL_Enterprise.Models
         public string? UserCode { get; set; }
         public string? Email { get; set; }
         public string? Password { get; set; }
+        public string? PasswordHash { get; set; }
+        public Byte[]? SecurityStamp { get; set; }
         public bool IsLoggedIn { get; set; }
         public bool IsSession { get; set; }
         public DateTime? DateOfBirth { get; set; }
@@ -48,7 +50,9 @@ namespace iSOL_Enterprise.Models
         public List<Attachments> ListAttachments { get; set; }
         public string? WebRootPath { get; set; }
 
-
+        public bool isApproved { get; set; }
+        public bool apprSeen { get; set; }
+        public string? IsEdited { get; set; }
 
     }
     public class _usersModels : UsersModels
@@ -61,6 +65,7 @@ namespace iSOL_Enterprise.Models
 
         public string Contents { get; set; }
         public byte[] Image { get; set; }
+
         public List<PagesModels> ListPages { get; set; }
         public List<ModulesModels> listModules { get; set; }
         public List<ModulesModels> Modules { get; set; }

@@ -1,11 +1,14 @@
 ﻿using iSOL_Enterprise.Common;
+using iSOL_Enterprise.Dal.Home;
 using iSOL_Enterprise.Models;
+using Newtonsoft.Json;
 using SqlHelperExtensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace iSOL_Enterprise.Dal
@@ -15,14 +18,24 @@ namespace iSOL_Enterprise.Dal
         public List<_usersModels> GetAllUsers()
         {
             List<_usersModels> lstModel = new List<_usersModels>();
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, "select Id,ISNULL(FirstName,'') + ' ' + ISNULL(LastName,'') as Name from users where RowStatus=1 and IsActive=1"))
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, "select Id,ISNULL(FirstName,'') + ' ' + ISNULL(LastName,'') as Name,ContactNumber,Email,RoleCode,SuperiorId,RegionCode,IsActive,Guid,is_Edited,isApproved,apprSeen from users where RowStatus=1 and IsActive=1 order by Id desc"))
             {
                 while (rdr.Read())
                 {
-                    _usersModels model = new _usersModels();
-                    model.Name = rdr["Name"].ToString();
-                    model.Id = rdr["Id"].ToInt();
-                    lstModel.Add(model);
+                    _usersModels models = new _usersModels();
+                    models.Id = rdr["Id"].ToInt();
+                    models.Name = rdr["Name"].ToString();                    
+                    models.ContactNumber = rdr["ContactNumber"].ToString();
+                    models.Email = rdr["Email"].ToString();                    
+                    models.RoleCode = rdr["RoleCode"].ToString();
+                    models.SuperiorId = rdr["SuperiorId"].ToInt();
+                    models.RegionCode = rdr["RegionCode"].ToString();                    
+                    models.IsActive = rdr["IsActive"].ToBool();
+                    models.Guid = rdr["Guid"].ToString();
+                    models.IsEdited = rdr["is_Edited"].ToString();
+                    models.isApproved = rdr["isApproved"].ToBool();
+                    models.apprSeen = rdr["apprSeen"].ToBool();
+                    lstModel.Add(models);
                 }
             }
             return lstModel;
@@ -114,11 +127,11 @@ namespace iSOL_Enterprise.Dal
             return models;
         }
 
-        public _usersModels GetDataByUser(int UserId)
+        public _usersModels GetDataByUser(string Guid)
         {
 
             _usersModels models = new _usersModels();
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, "select * from users where id=@Id", new SqlParameter("@Id", UserId)))
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, "select * from users where Guid=@Guid", new SqlParameter("@Guid", Guid)))
             {
                 while (rdr.Read())
                 {
@@ -142,12 +155,26 @@ namespace iSOL_Enterprise.Dal
             return models;
         }
 
-        public bool Add(_usersModels input)
+        public ResponseModels Add(_usersModels input)
         {
-            string query = @"insert into Users(Id,Guid,FirstName,LastName,Password,ContactNumber,Email,RoleCode,UserPic,SuperiorId,RegionCode,IsActive,
-RowStatus,CreatedBy,CreatedOn) 
-values(@Id,@Guid,@FirstName,@LastName,@Password,@ContactNumber,@Email,@RoleCode,@UserPic,@SuperiorId,@RegionCode,@IsActive,
-@RowStatus,@CreatedBy,@CreatedOn)";
+            ResponseModels response = new();
+            
+            bool EmailCheck = CommonDal.Count("Users", "Email", input.Email);
+            if (EmailCheck)
+            {
+                response.isSuccess = false;
+                response.Message = "Email already registered try different";
+                return (response);
+            }
+            Byte[] SecurityStamp = PasswordHelperDal.GenerateSalt();
+            string PasswordHash = input.Password.HashPassword(SecurityStamp);
+            if (PasswordHash != null)
+            {
+            
+            string query = @"insert into Users(Id,Guid,FirstName,LastName,PasswordHash,SecurityStamp,ContactNumber,Email,RoleCode,UserPic,SuperiorId,RegionCode,IsActive,
+                                RowStatus,CreatedBy,CreatedOn) 
+                                values(@Id,@Guid,@FirstName,@LastName,@PasswordHash,@SecurityStamp,@ContactNumber,@Email,@RoleCode,@UserPic,@SuperiorId,@RegionCode,@IsActive,
+                                @RowStatus,@CreatedBy,@CreatedOn)";
 
             SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
             conn.Open();
@@ -182,8 +209,15 @@ values(@Id,@Guid,@FirstName,@LastName,@Password,@ContactNumber,@Email,@RoleCode,
                             new SqlParameter("@CreatedBy",input.CreatedBy),
                             new SqlParameter("@CreatedOn",input.CreatedOn)
                         };
-                    SqlHelper.ExecuteNonQuery(tran, CommandType.Text, AttQry, param2.ToArray());
-                }
+                    res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, AttQry, param2.ToArray());
+                        if (res <= 0)
+                        {
+                            tran.Rollback();
+                            response.isSuccess = false;
+                            response.Message = "An Error Occured";
+                            return response;
+                        }
+                    }
 
                 #endregion
 
@@ -195,7 +229,8 @@ values(@Id,@Guid,@FirstName,@LastName,@Password,@ContactNumber,@Email,@RoleCode,
                     new SqlParameter("@LastName",input.LastName),
                     new SqlParameter("@ContactNumber",input.ContactNumber),
                     new SqlParameter("@Email",input.Email),
-                    new SqlParameter("@Password",input.Password),
+                    new SqlParameter("@PasswordHash",PasswordHash),
+                    new SqlParameter("@SecurityStamp",SecurityStamp),
                     new SqlParameter("@DepartmentCode",input.DepartmentCode),
                     new SqlParameter("@RoleCode",input.RoleCode),
                     new SqlParameter("@EmployeeOf",input.EmployeeOf),
@@ -209,28 +244,57 @@ values(@Id,@Guid,@FirstName,@LastName,@Password,@ContactNumber,@Email,@RoleCode,
                 };
 
                 res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, query, param.ToArray()).ToInt();
-                //            string email = SqlHelper.ExecuteScalar(tran, CommandType.Text, "select email from Users where id=@UserId", param.ToArray()).ToString();
+                    //            string email = SqlHelper.ExecuteScalar(tran, CommandType.Text, "select email from Users where id=@UserId", param.ToArray()).ToString();
+                if (res <= 0)
+                {
+                    tran.Rollback();
+                    response.isSuccess = false;
+                    response.Message = "An Error Occured";
+                    return response;
+                }
 
-                if (res > 0)
+                else
                 {
                     tran.Commit();
+                    response.isSuccess = true;
+                    response.Message = "User Added Successfully !";
+                    return response;
+
                 }
 
             }
             catch (Exception ex)
             {
                 tran.Rollback();
-                return false;
+                response.isSuccess = false;
+                response.Message = "An exception occured";
+                    return response;
             }
             // return result;
-            return res > 0 ? true : false;
-
-
+            
+            }
+            else
+            {
+                response.isSuccess = false;
+                response.Message = "An Error Occured";
+                return (response);
+            }
         }
-        public bool Edit(_usersModels input)
+        public ResponseModels Edit(_usersModels input)
         {
-            string query = @"update Users set FirstName=@FirstName,LastName=@LastName,Password=@Password,ContactNumber=@ContactNumber,Email=@Email,RoleCode=@RoleCode,SuperiorId=@SuperiorId,RegionCode=@RegionCode,IsActive=@IsActive,
-ModifiedBy=@ModifiedBy,ModifiedOn=@ModifiedOn where Id=@Id";
+            ResponseModels response = new();
+
+            bool EmailCheck = CommonDal.CountOnEdit("Users", "Email", input.Email,input.Guid);
+            if (EmailCheck)
+            {
+
+                response.isSuccess = false;
+                response.Message = "Email already registered try different";
+                return (response);
+            }
+
+            string query = @"update Users set FirstName=@FirstName,LastName=@LastName,ContactNumber=@ContactNumber,Email=@Email,RoleCode=@RoleCode,IsActive=@IsActive,
+                            ModifiedBy=@ModifiedBy,ModifiedOn=@ModifiedOn where Guid=@Guid";
 
             SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
             conn.Open();
@@ -241,16 +305,13 @@ ModifiedBy=@ModifiedBy,ModifiedOn=@ModifiedOn where Id=@Id";
 
                 List<SqlParameter> param = new List<SqlParameter>
                 {
-                    new SqlParameter("@id",input.Id),
+                    new SqlParameter("@Guid",input.Guid),
                     new SqlParameter("@FirstName",input.FirstName),
                     new SqlParameter("@LastName",input.LastName),
                     new SqlParameter("@ContactNumber",input.ContactNumber),
-                    new SqlParameter("@Email",input.Email),
-                    new SqlParameter("@Password",input.Password),
+                    new SqlParameter("@Email",input.Email),                   
                     new SqlParameter("@RoleCode",input.RoleCode),
                     new SqlParameter("@IsActive",input.IsActive),
-                    new SqlParameter("@SuperiorId",input.SuperiorId),
-                    new SqlParameter("@RegionCode",input.RegionCode),
                     new SqlParameter("@ModifiedOn",input.ModifiedOn),
                     new SqlParameter("@ModifiedBy",input.ModifiedBy)
                 };
@@ -258,22 +319,124 @@ ModifiedBy=@ModifiedBy,ModifiedOn=@ModifiedOn where Id=@Id";
                 res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, query, param.ToArray()).ToInt();
                 //            string email = SqlHelper.ExecuteScalar(tran, CommandType.Text, "select email from Users where id=@UserId", param.ToArray()).ToString();
 
-                if (res > 0)
+                if (res <= 0)
+                {
+                    tran.Rollback();
+                    response.isSuccess = false;
+                    response.Message = "An Error Occured";
+                    return response;
+                }
+                else
                 {
                     tran.Commit();
+                    response.isSuccess = true;
+                    response.Message = "User Updated Successfully !";
+                    return response;
+
                 }
 
             }
             catch (Exception ex)
             {
                 tran.Rollback();
-                return false;
+                response.isSuccess = false;
+                response.Message = "An exception occured";
+                return response;
             }
-            // return result;
-            return res > 0 ? true : false;
+            // return result;            
+
+        }
+        public ResponseModels ChangePassword(string formData)
+        {
+            ResponseModels response = new();
+
+            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+            conn.Open();            
+            SqlTransaction tran = conn.BeginTransaction();
+            int res = 0;
+
+
+            try
+            {
+                UsersModels user = new();
+                var model = JsonConvert.DeserializeObject<dynamic>(formData);
+
+                using (var rdr = SqlHelper.ExecuteReader(tran, CommandType.Text, "select PasswordHash,SecurityStamp from Users where Guid=@Guid", new SqlParameter("@Guid", model.HeaderData.Guid.ToString())))
+                {
+                    while (rdr.Read())
+                    {
+                        
+                        user.PasswordHash = rdr["PasswordHash"].ToString();
+                        user.SecurityStamp = (byte[])rdr["SecurityStamp"];
+                    }
+                }
+                if ( !string.IsNullOrEmpty(user.PasswordHash) && user.SecurityStamp.Count() > 0)
+                        {
+
+                            if ( PasswordHelperDal.VerifyPassword(model.HeaderData.OldPassword.ToString(),user.PasswordHash,user.SecurityStamp) )
+                            {
+                                Byte[] SecurityStamp = PasswordHelperDal.GenerateSalt();
+                                string NewPassword = model.HeaderData.NewPassword.ToString();
+                                string PasswordHash = NewPassword.HashPassword(SecurityStamp);
+
+                                string UpQuery = @"update Users set SecurityStamp = @SecurityStamp , PasswordHash=@PasswordHash where Guid=@Guid";
+                                List<SqlParameter> param = new List<SqlParameter>
+                                {
+                                    new SqlParameter("@SecurityStamp",SecurityStamp),
+                                    new SqlParameter("@PasswordHash",PasswordHash),
+                                    new SqlParameter("@Guid",model.HeaderData.Guid.ToString())
+                                    
+                                };
+                                res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UpQuery,param.ToArray());
+                                if (res <= 0)
+                                {
+                                    tran.Rollback();
+                                    response.isSuccess = false;
+                                    response.Message = "An Error Occured";
+                                    return response;
+                                }
+                                else
+                                {
+                                    tran.Commit();
+                                    response.isSuccess = true;
+                                    response.Message = "Password Changed Sucessfull !";
+                                    return response;
+
+                                }
+
+                            }
+                            else
+                            {
+                                tran.Rollback();
+                                response.isSuccess = false;
+                                response.Message = "Old Password Doesn't Match !";
+                                return response;
+                            }
+
+
+                        }
+                        else
+                        {
+                            tran.Rollback();
+                            response.isSuccess = false;
+                            response.Message = "An error occured !";
+                            return response;
+                        }
+                   
+                
+                tran.Rollback();
+                response.isSuccess = false;
+                response.Message = "User not Found !";
+                return response;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
 
         }
-
     }
 }

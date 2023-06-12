@@ -1283,8 +1283,8 @@ where s.Status=1 and p.Guid=@Guid";
                                               + model.CardName + "',"
                                               + model.ID + ","
                                               + model.DocLine + ","
-                                              + model.DocType + ",'"
-                                              + model.BaseType + "',"
+                                              + model.DocType + ","
+                                              + model.BaseType + ","
                                               + model.ID + ","
                                               + model.Quantity  + ",'"
                                               + model.DocDate + "')";

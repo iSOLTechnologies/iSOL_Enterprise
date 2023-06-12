@@ -17,64 +17,62 @@
 <input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("RoleCode")" id="UserRoleCode" />
 <input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("DepartmentCode")" id="_DepartmentCode" />
 
-<input type="hidden" value="@Context.Request.Query["Id"]" id="Guid" />
+
 <input type="hidden" value="@Context.Request.Query["Source"]" id="PageGuid" />
 <input type="hidden" value="" id="TicCode" />
 <input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetInt32("UserId")" id="_UserId" />
 <title>User Master</title>
 
 
-<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="kt-portlet kt-portlet--last kt-portlet--head-lg kt-portlet--responsive-mobile" id="kt_page_portlet">
-                <div class="kt-portlet__head kt-portlet__head--lg" style="">
-                    <div class="kt-portlet__head-label">
-                        <h3 id="heading" class="kt-portlet__head-title">Add</h3>
-                    </div>
-                    <div class="kt-portlet__head-toolbar">
+<div class="container">
+    <!--begin::Card-->
+    <div class="card card-custom card-sticky" id="kt_page_sticky_card">
+        <div class="card-header">
+            <div class="card-title">
+                <h3 class="card-label">
+                    Add Details
+                    <i class="mr-2"></i>
+                    <!-- <small class="">try to scroll the page</small> -->
+                </h3>
+            </div>
+            <div class="card-toolbar">
+                <a onclick="Back_his()" class="btn btn-light-primary font-weight-bolder mr-2">
+                    <i class="ki ki-long-arrow-back icon-sm"></i>Back
+                </a>
+                <div class="btn-group">
+                    
+                    <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
+                        <i class="ki ki-check icon-sm"></i>Save
+                    </button>
 
-                        <button id="btnBack" class="btn btn-clean kt-margin-r-10 ">
-                            <i class="la la-arrow-left"></i>
-                            <span class="kt-hidden-mobile ">Back</span>
-                        </button>
-                        <button id="btnSave" class="btn btn-brand kt-margin-r-10 ">
-                            <i class="la la-check"></i>
-                            <span id="SpanBtnSave" class="kt-hidden-mobile ">Save</span>
-                        </button>
-                        <button id="kt_quick_panel_close_btn" class=" btn btn-secondary ">
-                            <i class="la la-close"></i>
-
-                            Cancel
-                        </button>
-
-
-                    </div>
                 </div>
-                <div class="kt-portlet__body">
-                    <form autocomplete="off" role="form" id="F_@Context.Request.Query["Source"]" name="F_@Context.Request.Query["Source"]">
-                        <div class="form-body">
+            </div>
+        </div>
+        <div class="card-body">
+            <form autocomplete="off" role="form" id="F_@Context.Request.Query["Source"]" name="F_@Context.Request.Query["Source"]">
+                <div class="form-body" id="HeaderForm">
                             <div class="row">
                                 <div class="col-xl-2"></div>
                                 <div class="col-xl-8">
-                                    <div class="form-group row">
+                                   @* <div class="form-group row">
                                         <label class="col-xl-2 col-lg-2 col-form-label">Avatar</label>
                                         <div class="col-lg-6 col-xl-6">
                                             <div class="kt-avatar kt-avatar--outline" id="kt_user_add_avatar">
                                                 <div id="useridimage" class="kt-avatar__holder" style="background-image: url()"></div>
                                                 <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="Change avatar">
                                                     <i class="fas fa-pen"></i>
-                                                    <input type="file" name="kt_user_add_user_avatar">
+                                                    <input type="file" id="UserPic" class="NotReq" name="kt_user_add_user_avatar">
                                                 </label>
                                                 <span class="kt-avatar__cancel" data-toggle="kt-tooltip" title="Cancel avatar">
                                                     <i class="fas fa-times"></i>
                                                 </span>
                                             </div>
                                         </div>
-                                    </div>
-
+                                    </div>*@
+                                    
+                                    <input type="hidden" value="@Context.Request.Query["Id"]" id="Guid" />
                                     <div class="form-group row">
-                                        <label class="col-xl-2 col-lg-2 col-form-label">First Name <span class="kt-font-danger">*</span> </label>
+                                    <label class="col-xl-2 col-lg-2 col-form-label">First Name <span class="text-danger">*</span> </label>
                                         <div class="col-lg-6 col-xl-6">
                                             <input type="text" id="FirstName" name="FirstName" class="form-control" placeholder="First Name">
                                         </div>
@@ -82,23 +80,23 @@
                                     <div class="form-group row">
                                         <label class="col-xl-2 col-lg-2 col-form-label">Last Name</label>
                                         <div class="col-lg-6 col-xl-6">
-                                            <input type="text" id="LastName" name="LastName" class="form-control" placeholder="Last Name">
+                                            <input type="text" id="LastName" name="LastName" class="form-control NotReq" placeholder="Last Name">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label class="col-xl-2 col-lg-2 col-form-label">Contact No</label>
                                         <div class="col-lg-6 col-xl-6">
-                                            <input type="text" id="UContactNumber" name="UContactNumber" class="form-control" placeholder="Contact No">
+                                    <input type="text" id="ContactNumber" name="ContactNumber" class="form-control NotReq" placeholder="Contact No">
                                         </div>
                                     </div>
 
 
                                     <div class="form-group row">
-                                        <label class="col-xl-2 col-lg-2 col-form-label">Role <span class="kt-font-danger">*</span> </label>
+                                <label class="col-xl-2 col-lg-2 col-form-label">Role <span class="text-danger">*</span> </label>
                                         <div class="col-lg-6 col-xl-6">
                                             <select id="RoleCode" name="RoleCode" class="form-control" style="width:100%;">
-                                                <option value="" disabled selected>Select User</option>
+                                                <option value="" disabled selected>Select Role</option>
                                                 @foreach (var item in Model.ListRoles)
                                                 {
                                                     <option value="@item.RoleCode"> @item.RoleName </option>
@@ -111,20 +109,15 @@
                                     
 
                                     <div class="form-group row">
-                                        <label class="col-xl-2 col-lg-2 col-form-label">Email<span class="kt-font-danger">*</span></label>
+                                        <label class="col-xl-2 col-lg-2 col-form-label">Email <span class="text-danger">*</span></label>
                                         <div class="col-lg-6 col-xl-6">
                                             <input type="text" autocomplete="off" id="Email" name="Email" class="form-control" placeholder="Email">
                                         </div>
                                     </div>
-                                    @*<div class="form-group row">
-                                    <label class="col-xl-2 col-lg-2 col-form-label">Username</label>
-                                    <div class="col-lg-6 col-xl-6">
-                                    <input type="text" autocomplete="off" id="Username" name="Username" class="form-control" placeholder="Username">
-                                    </div>
-                                    </div>*@
+                                    
 
-                                    <div class="form-group row">
-                                        <label class="col-xl-2 col-lg-2 col-form-label">Password<span class="kt-font-danger">*</span></label>
+                                    <div class="form-group row" id="pass-cont">
+                                        <label class="col-xl-2 col-lg-2 col-form-label">Password <span class="text-danger">*</span></label>
                                         <div class="col-lg-6 col-xl-6">
                                             <div class="input-group">
 
@@ -142,16 +135,16 @@
 
 
                                     <div class="form-group row">
-                                        <label class="col-xl-2 col-lg-2 col-form-label">Is Active</label>
+                                    <label class="col-xl-2 col-lg-2 col-form-label">IsActive</label>
                                         <span id="IsActiveSpan" aria-required="true"></span>
                                         <div class="col-lg-6 col-xl-6">
                                             <div class="form-group check">
                                                 <div class="mt-checkbox-inline">
-                                                    <label class="mt-checkbox mt-checkbox-outline ">
-                                                        <input type="checkbox" id="IsActive" name="IsActive" />
-                                                        <span></span>
-                                                    </label>
-                                                </div>
+                                                <label class="checkbox checkbox-success">
+                                                <input type="checkbox" name="Checkboxes5" id="IsActive" />
+                                                    <span></span>
+                                               
+                                            </label>
                                             </div>
                                         </div>
                                     </div>
@@ -164,51 +157,114 @@
 
                         </div>
 
-                        @*<div class="form-actions">
-                        <button id="btnSave" type="button" class="btn blue mt-ladda-btn ladda-button" data-style="expand-left" data-spinner-color="#333">
-                        <span id="SpanBtnSave" class="ladda-label">Save</span>
-
-                        <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="false"></span>
-
-                        <span class="sr-only">Loading...</span>
-                        </button>
-                        <button type="button" class="btn default" id="btnCancel">Cancel</button>
-                        </div>*@
+                       
 
                     </form>
-                </div>
-            </div>
         </div>
     </div>
 </div>
-
+<script src="~/Assets/plugins/global/plugins.bundle.js"></script>
+<script src="~/Assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
+<script src="~/Assets/js/scripts.bundle.js"></script>
+<script src="~/js/commonmethods.js"></script>
 <script>
+    $(document).ready(function () {
 
-    function initAvatar() {
-        avatar = new KTAvatar('kt_user_add_avatar');
+        
+        let Guid = $('#Guid').val();
+        if (Guid != null && Guid != '' && Guid != undefined) {
+            $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
+            $("#btnSaveData").attr('disabled', true);
+
+            GetUserData();
+        }
+
+        
+
+
+        //$.getJSON('https://api.db-ip.com/v2/free/self', function (data) {
+        //    console.log(JSON.stringify(data));
+        //});
+    });
+
+    $(document).on("keydown", "input", function () {
+        $(this).removeClass('is-invalid');
+
+
+    });
+
+    $(document).on('click', '#btnSaveData', function (e) {
+
+        $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+        $(this).attr('disabled', true);
+
+        if (ValidateData("HeaderForm")) {
+                FormData();            
+        }
+        else {
+            $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+            $(this).attr('disabled', false);
+        }
+    });
+    function FormData() {
+        var formdata = getJsonObj("HeaderForm");
+        
+        console.log(formdata);
+        PostData(formdata);
+
+
     }
 
-    $(document).on('click', '#btnBack', function () {
-        window.history.back();
+    function PostData(formData) 
+    {
+        let Guid = $('#Guid').val();
+        let URL = '/Users/Add';
+        if (Guid != null && Guid != '' && Guid != undefined) {
+            URL = '/Users/Edit';
+        }
+        debugger
+        return $.ajax({
+            url: URL,
+            dataType: 'json',
+            type: 'POST',
 
-    })
+            data:  formData ,
+
+            success: function (result) {
+                console.log(result);
+                if (result.isInserted) {
+                    toastr.success(result.message);
+
+                    setTimeout(
+                        function () {
+
+                            $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                            $('#btnSaveData').attr('disabled', false);
+
+                        }, 800);
+                    setTimeout(function () {
+                        window.history.back();
+                    }, 800);
 
 
+                }
 
-    $(document).on('click', '#btnSave', function () {
-        $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-        $(this).attr('disabled', true);
-        Validation();
+                if (!(result.isInserted)) {
+                    toastr.error(result.message);
+                    $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $('#btnSaveData').attr('disabled', false);
 
-    })
+                }
 
-    $(document).on('click', '#btnSaveBack', function () {
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
 
-        $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-        $(this).attr('disabled', true);
-        Validation();
+        }).done(function (result) {
 
-    })
+        });
+    }
 
     $(document).on('click', '#ShowPassword', function () {
 
@@ -229,74 +285,9 @@
 
     })
 
-    $(document).ready(function () {
+    
 
-        $('#IsActive').prop('checked', true);
-        RecordLogs('Role', 'Open Add New User Form');
-        Guid = $('#Guid').val();
-        if (Guid != null && Guid != '' && Guid != undefined) {
-            $('#heading').text('Edit Uset');
-            $('#SpanBtnSave').text('Save & Back');
-            GetUserData();
-        }
-
-        initAvatar();
-
-
-        //$.getJSON('https://api.db-ip.com/v2/free/self', function (data) {
-        //    console.log(JSON.stringify(data));
-        //});
-    });
-
-    function Validation() {
-
-        xflag = [];
-        isvalid = null
-
-        toastr.remove();
-        xflag.push(mandatoryValidate('#FirstName', 'First Name'));
-        xflag.push(mandatoryWithAlphaValidate('#FirstName', 'First Name'));
-
-        xflag.push(mandatoryWithAlphaValidate('#LastName', 'Last Name'));
-
-        xflag.push(mandatoryWithIntavlidate('#UContactNumber', 'Contact No'));
-
-        xflag.push(mandatoryValidate('#RoleCode option:selected', 'Role'));
-
-        xflag.push(mandatoryValidate('#URegionCode option:selected', 'Region'));
-
-        xflag.push(mandatoryValidate('#Email', 'Email'));
-
-        xflag.push(validEmail('#Email', 'Email'));
-
-        xflag.push(mandatoryValidate('#Password', 'Password'));
-
-        for (var i = 0; i < xflag.length; i++) {
-            if (xflag[i] == true) {
-                isvalid = false;
-            }
-        }
-        if (isvalid != false) {
-
-            if (Guid != null && Guid != '' && Guid != undefined) {
-                Edit()
-            } else {
-                Add();
-
-            }
-
-        } else {
-            setTimeout(
-                function () {
-
-                    $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                    $('#btnSave').attr('disabled', false);
-
-                }, 800);
-        }
-
-
-    }
+    
 
     function GetUserData() {
 
@@ -315,31 +306,28 @@
 
         }).done(function (result) {
             result = result.data;
-            RecordLogs('Users', 'View User');
+            
             populateUserData(result)
         });
     }
 
     function populateUserData(data) {
 
-        RecordLogs('Users', 'View User');
+        //RecordLogs('Users', 'View User');
 
         $('#Email').attr('disabled', true);
 
         $('#FirstName').val(data.firstName);
         $('#LastName').val(data.lastName);
-        $('#UContactNumber').val(data.contactNumber);
+        $('#ContactNumber').val(data.contactNumber);
 
         $('#RoleCode').val(data.roleCode);
         $('#Email').val(data.email);
-        $('#Password').val(data.password);
-        $('#USuperiorCode').val(data.superiorId);
-        $('#URegionCode').val(data.regionCode);
-        $('#IsActive').prop(data.isactive);
-
-        var str = data.userPic.replace("\\", "/");
-        $('#useridimage').css('background-image', 'url("/' + str + '")');
-
+        $("#pass-cont").addClass("d-none");
+        $("#Password").addClass("NotReq");
+       
+        $('#IsActive').prop('checked',data.isActive);
+        $("#btnSaveData").attr('disabled', false);
     }
 
     function ClearForm() {
@@ -358,80 +346,9 @@
         $('#useridimage').css('background-image', 'url("/' + str + '")');
     }
 
-    function Add() {
+    
 
-        return $.ajax({
-            url: '/Users/Add',
-            dataType: 'json',
-            data: UserFormData(),
-            type: 'Post',
-            success: function (result) {
-
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                console.log(errorMessage);
-            }
-
-        }).done(function (result) {
-            if (result.isInserted) {
-
-                toastr.success(result.message);
-                // ClearForm();
-                setTimeout(function () {
-                    $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                }, 500);
-                $('#btnSave').attr('disabled', false);
-                ClearForm();
-                RecordLogs('Users', 'Add User');
-
-            }
-            if (result.isError) {
-                toastr.error(result.message);
-                $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                $('#btnSave').attr('disabled', false);
-
-            }
-        });
-    }
-
-    function Edit() {
-
-        return $.ajax({
-            url: '/Users/Edit',
-            dataType: 'json',
-            data: UserFormData(),
-            type: 'Post',
-            success: function (result) {
-
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                console.log(errorMessage);
-            }
-
-        }).done(function (result) {
-            if (result.isInserted) {
-
-                toastr.success(result.message);
-                //ClearForm();
-                setTimeout(function () {
-                    $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                }, 500);
-                $('#btnSave').attr('disabled', false);
-                setTimeout(function () {
-                    window.history.back();
-                }, 800);
-                RecordLogs('Users', 'Edit User');
-
-
-            }
-            if (result.isError) {
-                toastr.error(result.message);
-                $('#btnSave').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
-                $('#btnSave').attr('disabled', false);
-
-            }
-        });
-    }
+    
 
     function UserFormData() {
         var myString;
