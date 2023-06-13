@@ -1,53 +1,68 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
+using Newtonsoft.Json;
+using SAPbobsCOM;
 using SqlHelperExtensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Permissions;
 using System.Threading.Tasks;
 
 namespace iSOL_Enterprise.Dal
 {
     public class RoleDal
     {
-        public List<PagesModels> GetPages()
+        public List<TreeModel> GetPages()
         {
-            string DetailQuery = @"select p.PageId, r.RoleActivityTypeCode, r.RoleActivityTypeName,p.icon,p.class from RoleActivityTypes r
-inner join PageActivity p on p.RoleActivityTypeCode = r.RoleActivityTypeCode and p.isActive=1
-where p.PageId=@PageId and r.IsActive=1";
+            
 
 
-            List<PagesModels> lstModel = new List<PagesModels>();
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, "select PageId, PageName from Pages where IsActive=1 and RowStatus=1"))
+            List<TreeModel> Pages = new List<TreeModel>();
+
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, "select Id,PageId, PageName from Pages where IsActive=1 and RowStatus=1"))
             {
                 while (rdr.Read())
                 {
-                    PagesModels model = new PagesModels();
-                    model.PageName = rdr["PageName"].ToString();
-                    model.PageId = rdr["PageId"].ToString();
-                    model.ListPageActivity = new List<PageActivityModels>();
+                    TreeModel model = new TreeModel();
 
-                    using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, DetailQuery, new SqlParameter("@PageId", model.PageId)))
-                    {
-                        while (rdr2.Read())
-                        {
-                            PageActivityModels SubModel = new PageActivityModels();
-                            SubModel.RoleActivityCode = rdr2["RoleActivityTypeCode"].ToString();
-                            SubModel.RoleActivityTypeName = rdr2["RoleActivityTypeName"].ToString();
-                            SubModel.PageId = rdr2["PageId"].ToString();
-                            SubModel.Icon = rdr2["Icon"].ToString();
-                            SubModel.Class = rdr2["Class"].ToString();
-                            model.ListPageActivity.Add(SubModel);
-                        }
-                    }
-
-                    lstModel.Add(model);
-
+                    model.id = rdr["PageId"].ToString();
+                    model.text = rdr["PageName"].ToString();
+                    model.@checked = true;
+                    model.population -= null;
+                    model.flagUrl = null;
+                    model.children = GetPagesActivities(rdr["PageId"].ToString());
+                    Pages.Add(model);
                 }
             }
-            return lstModel;
+            return Pages;
+        }
+
+        private List<TreeModel> GetPagesActivities(string PageID)
+        {
+            string DetailQuery = @"select p.Id, p.PageId, r.RoleActivityTypeCode, r.RoleActivityTypeName,p.icon,p.class from RoleActivityTypes r
+                                    inner join PageActivity p on p.RoleActivityTypeCode = r.RoleActivityTypeCode and p.isActive=1
+                                    where p.PageId='"+PageID+"' and r.IsActive=1";
+            List<TreeModel> Pages = new List<TreeModel>();
+
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, DetailQuery))
+            {
+                while (rdr.Read())
+                {
+                    TreeModel model = new TreeModel();
+
+                    model.id = rdr["Id"].ToString();
+                    model.text = "<i class='" + rdr["icon"].ToString() + " text-"+ rdr["class"].ToString() + " mr-2 ml-2 icon-nm'></i>" +  rdr["RoleActivityTypeName"].ToString();
+                    model.@checked = true;
+                    model.population -= null;
+                    model.flagUrl = null;
+                    model.children = null;
+                    Pages.Add(model);
+                }
+            }
+            return Pages;
         }
         public List<RoleModels> GetAllRole()
         {
@@ -65,15 +80,25 @@ where p.PageId=@PageId and r.IsActive=1";
             return lstModel;
         }
 
-        public bool Add(RoleModels input)
+        public ResponseModels Add(string formData,string Name,int? UserId)
         {
-            string query = @"insert into Roles(Id,Guid,RoleCode,RoleName,IsActive,
-RowStatus,CreatedBy,CreatedOn) 
-values(@Id,@Guid,@RoleCode,@RoleName,@IsActive,
-@RowStatus,@CreatedBy,@CreatedOn)";
+            ResponseModels response = new ();
+            var model = JsonConvert.DeserializeObject<dynamic>(formData);
 
-            string ActivityQuery = @"insert into UserRolePageActivity(Id,RoleActivityCode,PageId,Status,RoleCode)
-values(@Id,@RoleActivityCode,@PageId,@Status,@RoleCode)";
+            bool RoleNameCheck = CommonDal.Count("Roles", "RoleName", model.RoleName.ToString());
+            if (RoleNameCheck)
+            {
+                response.isSuccess = false;
+                response.Message = "Role already exits try different !";
+                return response;
+            }
+
+            string query = @"insert into Roles(Id,Guid,RoleCode,RoleName,IsActive,
+                            RowStatus,CreatedBy,CreatedOn) 
+                            values(@Id,@Guid,@RoleCode,@RoleName,@IsActive,
+                            @RowStatus,@CreatedBy,@CreatedOn)";
+
+            
 
             SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
             conn.Open();
@@ -81,81 +106,108 @@ values(@Id,@RoleActivityCode,@PageId,@Status,@RoleCode)";
             int res = 0;
             try
             {
-                input.Id = CommonDal.getPrimaryKey(tran, "Roles");
-                input.RoleCode = "RL" + input.Id;
+                int RoleId = CommonDal.getPrimaryKey(tran, "Roles");
+                string RoleCode = "RL" + RoleId;
 
 
                 List<SqlParameter> param = new List<SqlParameter>
                 {
-                    new SqlParameter("@id",input.Id),
-                    new SqlParameter("@Guid",input.Guid = CommonDal.generatedGuid()),
-                    new SqlParameter("@RoleCode",input.RoleCode),
-                    new SqlParameter("@RoleName",input.RoleName),
-                    new SqlParameter("@IsActive",input.IsActive),
-                    new SqlParameter("@RowStatus",input.RowStatus=true),
-                    new SqlParameter("@CreatedBy",input.CreatedBy),
-                    new SqlParameter("@CreatedOn",input.CreatedOn)
+                    new SqlParameter("@id",RoleId),
+                    new SqlParameter("@Guid", CommonDal.generatedGuid()),
+                    new SqlParameter("@RoleCode",RoleCode),
+                    new SqlParameter("@RoleName",model.RoleName.ToString()),
+                    new SqlParameter("@IsActive",model.IsActive),
+                    new SqlParameter("@RowStatus",true),
+                    new SqlParameter("@CreatedBy",UserId),
+                    new SqlParameter("@CreatedOn",DateTime.Now)
                 };
 
                 res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, query, param.ToArray()).ToInt();
-
-                string detailQuery = @"insert into UserRoles(Id,RoleCode,PageId,IsActive)
-values(@Id,@RoleCode,@PageId,@IsActive)";
-
-                foreach (var item in input.ListPages)
+                if (res <= 0)
                 {
-                    item.Id = CommonDal.getPrimaryKey(tran, "UserRoles");
-                    List<SqlParameter> param2 = new List<SqlParameter>
+                    tran.Rollback();
+                    response.isSuccess = false;
+                    response.Message = "An Error occured !";
+                    return response;
+                }
+                foreach (var PageActivityID in model.Permissions)
+                {
+
+                    using (var rdr = SqlHelper.ExecuteReader(tran, CommandType.Text, "select * from PageActivity where IsActive=1 and Id='@Id'",new SqlParameter("@Id",PageActivityID)))
                     {
-                        new SqlParameter("@id",item.Id),
-                        new SqlParameter("@RoleCode",input.RoleCode),
-                        new SqlParameter("@PageId",item.PageId),
-                        new SqlParameter("@IsActive",input.IsActive=true),
-
-                    };
-                    foreach (var item2 in item.ListUserRolePageActivity)
-                    {
-                        item2.Id = CommonDal.getPrimaryKey(tran, "UserRolePageActivity");
-
-                        List<SqlParameter> param3 = new List<SqlParameter>
+                        while (rdr.Read())
                         {
-                            new SqlParameter("@id",item2.Id),
-                            new SqlParameter("@RoleActivityCode",item2.RoleActivityCode),
-                            new SqlParameter("@RoleCode",input.RoleCode),
-                            new SqlParameter("@PageId",item.PageId),
-                            new SqlParameter("@Status",item2.Status),
 
-                        };
-                        int res3 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, ActivityQuery, param3.ToArray()).ToInt();
-                        if (res3 <= 0)
-                        {
-                            tran.Rollback();
-                            return false;
+                            int count = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select count(*) from Pages where PageId='@PageId'", new SqlParameter("@Id", PageActivityID)).ToInt();
+                            if (count > 0)
+                            {
+                                int URid = CommonDal.getPrimaryKey(tran, "UserRoles");
+                                string UserRolesQuery = @"insert into UserRoles id,RoleCode,PageId,Status 
+                                                                                      values(@id,@RoleCode,@PageId,@Status)";
 
+                                List<SqlParameter> param3 = new List<SqlParameter>
+                                {
+                                    new SqlParameter("@id",URid),
+                                    new SqlParameter("@RoleCode",RoleCode),                                
+                                    new SqlParameter("@PageId",PageActivityID),
+                                    new SqlParameter("@Status",model.IsActive),
+                                };
+                                res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UserRolesQuery, param3.ToArray()).ToInt();
+                                if (res <= 0)
+                                {
+                                    tran.Rollback();
+                                    response.isSuccess = false;
+                                    response.Message = "An Error occured !";
+                                    return response;
+                                }
+
+                            }
+
+                            int id = CommonDal.getPrimaryKey(tran, "UserRolePageActivity");
+                            string UserRolePageActivity = @"insert into UserRolePageActivity id,RoleCode,RoleActivityCode,PageId,Status 
+                                                                                      values(@id,@RoleCode,@RoleActivityCode,@PageId,@Status)";
+
+                            List<SqlParameter> param2 = new List<SqlParameter>
+                            {
+                                new SqlParameter("@id",id),
+                                new SqlParameter("@RoleCode",RoleCode),
+                                new SqlParameter("@RoleActivityCode",rdr["RoleActivityTypeCode"].ToString()),
+                                new SqlParameter("@PageId",rdr["PageId"].ToString()),
+                                new SqlParameter("@Status",model.IsActive),
+                            };
+                            res = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, UserRolePageActivity, param2.ToArray()).ToInt();
+                            if (res <= 0)
+                            {
+                                tran.Rollback();
+                                tran.Rollback();
+                                response.isSuccess = false;
+                                response.Message = "An Error occured !";
+                                return response;
+                            }
                         }
+                    }
 
-                    }
-                    int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, detailQuery, param2.ToArray()).ToInt();
-                    if (res2 <= 0)
-                    {
-                        tran.Rollback();
-                        return false;
-                    }
                 }
 
                 if (res > 0)
                 {
                     tran.Commit();
+                    tran.Rollback();
+                    response.isSuccess = true;
+                    response.Message = "Role Added Successfully !";
+                    return response;
                 }
-
             }
             catch (Exception ex)
             {
+                
                 tran.Rollback();
-                return false;
+                response.isSuccess = false;
+                response.Message = "An Error occured !";
+                return response;
             }
             // return result;
-            return res > 0 ? true : false;
+            return response;
 
 
         }

@@ -13,6 +13,7 @@ namespace iSOL_Enterprise.Models
         public string RoleName { get; set; }
         public bool? IsActive { get; set; }
         public bool? RowStatus { get; set; }
+        public dynamic Permissions { get; set; }
         public List<PagesModels> ListPages { get; set; }
         public List<_usersModels> ListUsers { get; set; }
     }

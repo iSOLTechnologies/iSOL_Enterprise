@@ -1,6 +1,7 @@
 ﻿using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace iSOL_Enterprise.Controllers.administrator
 {
@@ -55,7 +56,7 @@ namespace iSOL_Enterprise.Controllers.administrator
             try
             {
                 models.Data = dal.GetPages();
-                return Json(models);
+                return Json(JsonConvert.SerializeObject(models.Data));
             }
             catch (Exception ex)
             {
@@ -65,7 +66,7 @@ namespace iSOL_Enterprise.Controllers.administrator
         }
 
 
-        public IActionResult Add(RoleModels input)
+        public IActionResult Add(string formData)
         {
             ResponseModels response = new ResponseModels();
             RoleDal RoleDal = new RoleDal();
@@ -74,25 +75,18 @@ namespace iSOL_Enterprise.Controllers.administrator
 
             try
             {
-                bool RoleNameCheck = CommonDal.Count("Roles", "RoleName", input.RoleName);
-                if (RoleNameCheck)
-                {
-                    response.isError = true;
-                    response.Message = "RoleName already registered try different";
-                    return Json(response);
-                }
-                input.CreatedOn = DateTime.Now;
-                input.CreatedBy = UserId;
-                bool result = RoleDal.Add(input);
-                if (result)
+
+
+                response = RoleDal.Add(formData,Name,UserId);
+                if (response.isSuccess)
                 {
                     response.isInserted = true;
-                    response.Message = "Record Successfully Added!";
+                    response.Message = "Role Successfully Added!";
                 }
                 else
                 {
                     response.isError = true;
-                    response.Message = "Record could not be added";
+                    response.Message = response.Message;
                 }
             }
             catch (Exception ex)
