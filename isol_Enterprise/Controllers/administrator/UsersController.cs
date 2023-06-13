@@ -227,12 +227,12 @@ namespace iSOL_Enterprise.Controllers.administrator
                 throw;
             }
         }
-        public IActionResult Delete(int Id)
+        public IActionResult Delete(string Id)
         {
             ResponseModels response = new ResponseModels();
             try
             {
-                bool delete = CommonDal.Delete("Users", new KeyValuePair<string, string>("Id", Id.ToString()));
+                bool delete = CommonDal.Delete("Users", new KeyValuePair<string, string>("Guid", Id.ToString()));
                 if (delete)
                 {
                     response.isDeleted = true;

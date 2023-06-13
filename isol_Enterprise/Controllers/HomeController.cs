@@ -82,16 +82,24 @@ namespace iSOL_Enterprise.Controllers
             {
                 UsersModels input = new UsersModels();
                 ResponseModels response = new ResponseModels();
+                
                 try
                 {
                     string MachineName = Environment.MachineName.ToString();
                     
                     string guid = Guid.NewGuid() + DateTime.Now.ToString("mmddhhmmssms");
                     input.MachineName = MachineName;
-                    input.IpAddress = input.IpAddress;
+                    input.IpAddress = new CommonDal().GetLocalIPAddress();
                     input.Guid = guid;
                     input.Username = Username;
                     input.Password = Password;
+
+                    response = new LoginDal().IsAlreadyLogin(input);
+
+                    if (!response.isSuccess)
+                    {
+                        return Json(new { success = false, message = response.Message });
+                    }
 
                     UsersModels user = new LoginDal().Get(input);
                    
@@ -140,7 +148,7 @@ namespace iSOL_Enterprise.Controllers
                     {
                         response.Data = false;
                         response.isError = true;
-                        response.Message = "Username and Password do not match";
+                        response.Message = "Invalid Email or Password !";
                         
                     }
                 }
@@ -196,7 +204,8 @@ namespace iSOL_Enterprise.Controllers
         {
             //HttpContext.Session.Remove("Role");
             //HttpContext.Session.Clear();
-             
+            string Email = HttpContext.Session.GetString("Email");
+            new LoginDal().ReomveSession(Email);
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }

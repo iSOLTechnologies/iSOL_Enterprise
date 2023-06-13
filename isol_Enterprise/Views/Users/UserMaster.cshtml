@@ -70,7 +70,7 @@
                                         </div>
                                     </div>*@
                                     
-                                    <input type="hidden" value="@Context.Request.Query["Id"]" id="Guid" />
+                                    <input type="hidden" class="NotReq" value="@Context.Request.Query["Id"]" id="Guid" />
                                     <div class="form-group row">
                                     <label class="col-xl-2 col-lg-2 col-form-label">First Name <span class="text-danger">*</span> </label>
                                         <div class="col-lg-6 col-xl-6">
@@ -154,12 +154,10 @@
                                 <div class="col-xl-2"></div>
                             </div>
 
-
                         </div>
+                </div>
 
-                       
-
-                    </form>
+            </form>
         </div>
     </div>
 </div>
@@ -198,15 +196,19 @@
         $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
         $(this).attr('disabled', true);
 
-        if (ValidateData("HeaderForm")) {
+        if (ValidateData("HeaderForm")) 
+        {
+            console.log("Form Valid");
                 FormData();            
         }
         else {
+            console.log("Form Valid not");
             $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
             $(this).attr('disabled', false);
         }
     });
     function FormData() {
+        debugger
         var formdata = getJsonObj("HeaderForm");
         
         console.log(formdata);
@@ -217,6 +219,7 @@
 
     function PostData(formData) 
     {
+        debugger
         let Guid = $('#Guid').val();
         let URL = '/Users/Add';
         if (Guid != null && Guid != '' && Guid != undefined) {

@@ -1,5 +1,7 @@
 ﻿using iSOL_Enterprise.Common;
+using iSOL_Enterprise.Dal.Home;
 using iSOL_Enterprise.Models;
+using Microsoft.SqlServer.Server;
 using Microsoft.Win32.SafeHandles;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -80,7 +82,53 @@ namespace iSOL_Enterprise.Dal
 
         }
 
+        public ResponseModels IsAlreadyLogin(UsersModels input )
+        {
+            ResponseModels response = new();
+            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+            conn.Open();
+            SqlTransaction tran = conn.BeginTransaction();
+            try
+            {
+                
 
+                int count = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select count(*) from users where email=@Username and RowStatus = 1", new SqlParameter("@Username", input.Username)).ToInt();
+                if (count > 0)
+                {
+
+                    count = SqlHelper.ExecuteScalar(tran, CommandType.Text, @"select count(*) from users where email=@Username and IsLoggedIn = 1", new SqlParameter("@Username", input.Username)).ToInt();
+                    if (count > 0)
+                    {
+                        tran.Rollback();
+                        response.isSuccess = false;
+                        response.Message = "User already logged In!";
+                        return response;
+                    }
+                    else
+                    {
+                        tran.Rollback();
+                        response.isSuccess = true;
+                        response.Message = "Valid User !";
+                        return response;
+                    }
+                }
+                else
+                {
+                    tran.Rollback();
+                    response.isSuccess = false;
+                    response.Message = "Invalid Email or Password !";
+                    return response;
+                }
+
+            }
+            catch(Exception ex)
+            {
+                tran.Rollback();
+                response.isSuccess = false;
+                response.Message = "An error occured !";
+                return response;
+            }
+        }
 
             public UsersModels Get(UsersModels input)
             {
@@ -90,56 +138,83 @@ namespace iSOL_Enterprise.Dal
                 UsersModels model = new UsersModels();
             try
             {
-                string LoginQuery = @"select r.RoleName,u.id,u.FirstName,u.LastName,u.Email,u.Username,u.ContactNumber,u.Password,u.IsLoggedIn,u.DateOfBirth,u.Gender,u.UserPic,u.RoleCode from users u 
-                                      inner join Roles r on u.RoleCode = r.RoleCode 
-                                      where u.email=@Username and u.Password=@Password and u.IsActive=1 ";
+                UsersModels user = new();
+                
+                
 
-                SqlParameter[] param = new SqlParameter[]
-                {
-                new SqlParameter("@Username",input.Username),
-                new SqlParameter("@Password",input.Password)
-                };
-
-
-                using (var rdr = SqlHelper.ExecuteReader(tran, CommandType.Text, LoginQuery, param))
+                using (var rdr = SqlHelper.ExecuteReader(tran, CommandType.Text, "select PasswordHash,SecurityStamp from Users where email=@Username", new SqlParameter("@Username", input.Username)))
                 {
                     while (rdr.Read())
                     {
-                        model.Id = rdr["Id"].ToInt();
-                        model.FirstName = rdr["FirstName"].ToString();
-                        model.LastName = rdr["LastName"].ToString();
-                        model.Email = rdr["Email"].ToString();
-                        model.ContactNumber = rdr["ContactNumber"].ToString();
-                        model.Password = rdr["Password"].ToString();
-                        model.IsLoggedIn = rdr["IsLoggedIn"].ToBool();
-                        model.DateOfBirth = rdr["DateOfBirth"].ToDateTime();
-                        if (rdr["Gender"].ToString() == "M")
-                            model.Gender = "Male";
-                        else if (rdr["Gender"].ToString() == "F")
-                            model.Gender = "Female";
-                        else
-                            model.Gender = String.Empty;
-                        model.UserPic = rdr["UserPic"].ToString();
-                        model.RoleCode = rdr["RoleCode"].ToString();
-                        model.Guid = input.Guid;
-                        model.RoleName = rdr["RoleName"].ToString();
 
-					}
-                    rdr.Close();
-                    bool result = new LoginDal().GenerateSession(tran, model);
-                    bool GenerateLogs = new LoginDal().GenerateSessionLogs(tran, model);
-                    if (result == true && GenerateLogs == true)
+                        user.PasswordHash = rdr["PasswordHash"].ToString();
+                        user.SecurityStamp = (byte[])rdr["SecurityStamp"];
+                    }
+                }
+                if (!string.IsNullOrEmpty(user.PasswordHash) && user.SecurityStamp.Count() > 0) 
+                {
+                    if (PasswordHelperDal.VerifyPassword(input.Password, user.PasswordHash, user.SecurityStamp))
                     {
-                        // CommonDal.SessionGUID = input.Guid;
-                        model.IsSession = true;
+                        string LoginQuery = @"select r.RoleName,u.id,u.FirstName,u.LastName,u.Email,u.Username,u.ContactNumber,u.Password,u.IsLoggedIn,u.DateOfBirth,u.Gender,u.UserPic,u.RoleCode from users u 
+                                      inner join Roles r on u.RoleCode = r.RoleCode 
+                                      where u.email=@Username  and u.IsActive=1 and u.RowStatus = 1";
+
+                        SqlParameter[] param = new SqlParameter[]
+                        {
+                        new SqlParameter("@Username",input.Username)
+
+                        };
+
+
+                        using (var rdr = SqlHelper.ExecuteReader(tran, CommandType.Text, LoginQuery, param))
+                        {
+                            while (rdr.Read())
+                            {
+                                model.Id = rdr["Id"].ToInt();
+                                model.FirstName = rdr["FirstName"].ToString();
+                                model.LastName = rdr["LastName"].ToString();
+                                model.Email = rdr["Email"].ToString();
+                                model.ContactNumber = rdr["ContactNumber"].ToString();
+                                model.Password = rdr["Password"].ToString();
+                                model.IsLoggedIn = rdr["IsLoggedIn"].ToBool();
+                                model.DateOfBirth = rdr["DateOfBirth"].ToDateTime();
+                                if (rdr["Gender"].ToString() == "M")
+                                    model.Gender = "Male";
+                                else if (rdr["Gender"].ToString() == "F")
+                                    model.Gender = "Female";
+                                else
+                                    model.Gender = String.Empty;
+                                model.UserPic = rdr["UserPic"].ToString();
+                                model.RoleCode = rdr["RoleCode"].ToString();
+                                model.Guid = input.Guid;
+                                model.RoleName = rdr["RoleName"].ToString();
+
+                            }
+                            rdr.Close();
+                            input.Id = model.Id;
+                            bool result = new LoginDal().GenerateSession(tran, input);
+                            bool GenerateLogs = new LoginDal().GenerateSessionLogs(tran, input);
+                            if (result == true && GenerateLogs == true)
+                            {
+                                // CommonDal.SessionGUID = input.Guid;
+                                model.IsSession = true;
+                            }
+                            else
+                            {
+                                model.IsSession = false;
+                            }
+
+
+                        }
+
                     }
                     else
-                    {
                         model.IsSession = false;
-                    }
-                 
 
                 }
+                else
+                    model.IsSession = false;
+
                 conn.Close();
                 return model;
             }
@@ -193,8 +268,9 @@ namespace iSOL_Enterprise.Dal
                         model.Guid = input.Guid;
                     }
                     rdr.Close();
-                    bool result = new LoginDal().GenerateSession(tran, model);
-                    bool GenerateLogs = new LoginDal().GenerateSessionLogs(tran, model);
+                    input.Id = model.Id;
+                    bool result = new LoginDal().GenerateSession(tran, input);
+                    bool GenerateLogs = new LoginDal().GenerateSessionLogs(tran, input);
               //      model.listModules = new NavDal().getMenu(model.RoleCode);
                     if (result == true && GenerateLogs == true)
                     {
@@ -305,19 +381,19 @@ namespace iSOL_Enterprise.Dal
 
         }
 
-        public bool ReomveSession(UsersModels input)
+        public bool ReomveSession(string Email)
         {
 
             bool result;
             List<SqlParameter> param = new List<SqlParameter>
             {
-                 new SqlParameter("@Username",input.Username),
-                new SqlParameter("@Password",input.Password)
+                 new SqlParameter("@Username",Email)
             };
             result = SqlHelper.ExecuteNonQuery(@"update Users set SessionId='',IpAddress='', 
-MachineName='', IsLoggedIn=0 where Username=@Username and Password=@Password", param.ToArray()).ToBoolean();
+                                                MachineName='', IsLoggedIn=0 where email=@Username ", param.ToArray()).ToBoolean();
 
-            return true;
+            
+            return result;
         }
 
         public ResponseModels ChangePassword(UsersModels input)
