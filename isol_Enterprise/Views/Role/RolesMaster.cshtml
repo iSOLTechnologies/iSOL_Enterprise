@@ -117,11 +117,57 @@
 <script src="~/js/commonmethods.js"></script>
 <script>
     var tree = "";
+    var treeDataSource = '/Role/GetPages';
     $(document).ready(function () {
 
+        let Guid = $('#Guid').val();
+        if (Guid != null && Guid != '' && Guid != undefined) {
+            $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
+            $("#btnSaveData").attr('disabled', true);
+
+            GetRoleData();
+            
+        }
+        else 
         GetPages();
         
     });
+
+    function GetRoleData() {
+
+        return $.ajax({
+            url: '/Role/GetRoleData',
+            dataType: 'json',
+            aysnc : false,
+            data: { Guid: $('#Guid').val() },
+            type: 'Post',
+            success: function (result) {
+
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+
+
+        }).done(function (result) {
+            result = result.data;
+
+            populateRoleData(result)
+        });
+    }
+
+    function populateRoleData(data) {
+
+        
+
+        $('#RoleName').val(data.roleName);
+        $('#IsActive').prop('checked', data.isActive);
+        $("#btnSaveData").attr('disabled', false);
+        treeDataSource = 'Role/GetRolePages?RoleCode=' + data.roleCode;
+        GetPages();
+
+    }
+
     $(document).on('click', "#btnSelUnSel",function() {
 
         if ($(this).html() == '<i class="fas fa-check text-primary icon-nm"></i> Sellect All') {
@@ -150,7 +196,7 @@
             tree = $('#tree').tree({
                 primaryKey: 'id',
                 uiLibrary: 'bootstrap4',
-                dataSource: '/Role/GetPages',
+                dataSource: treeDataSource,
                 checkboxes: true,
                 cascadeCheck : true,
                 //cascadeCheck: false,
@@ -186,6 +232,7 @@
             
             RoleName : $("#RoleName").val(),
             IsActive: $('#IsActive').prop('checked'),
+            Guid : $('#Guid').val(),
             Permissions : tree.getCheckedNodes()
 
         }
@@ -197,13 +244,13 @@
     }
 
     function PostData(formData) {
-        debugger
+        
         let Guid = $('#Guid').val();
         let URL = '/Role/Add';
         if (Guid != null && Guid != '' && Guid != undefined) {
             URL = '/Role/Edit';
         }
-        debugger
+        
         return $.ajax({
             url: URL,
             dataType: 'json',

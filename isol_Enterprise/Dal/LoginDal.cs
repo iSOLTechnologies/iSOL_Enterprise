@@ -383,7 +383,10 @@ namespace iSOL_Enterprise.Dal
 
         public bool ReomveSession(string Email)
         {
-
+            if (string.IsNullOrWhiteSpace(Email))
+            {
+                return false;
+            }
             bool result;
             List<SqlParameter> param = new List<SqlParameter>
             {

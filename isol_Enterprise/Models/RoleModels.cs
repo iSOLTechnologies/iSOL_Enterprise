@@ -10,6 +10,7 @@ namespace iSOL_Enterprise.Models
         public int Id { get; set; }
         public string Guid { get; set; }
         public string RoleCode { get; set; }
+        public string CreatedBy { get; set; }
         public string RoleName { get; set; }
         public bool? IsActive { get; set; }
         public bool? RowStatus { get; set; }

@@ -112,12 +112,19 @@
                     data: 'email', title: 'Email'
 
                 },{
-                    data: 'roleCode', title: 'Role'
+                    data: 'roleName', title: 'RoleName'
 
-                },{
-                    data: 'isActive', title: 'IsActive'
+                }, 
+                {
+                    data: "isActive", 'title': 'isActive', render: function (data, type, row) {
 
-                },  
+
+                        if (!data)
+                            return `<span class="label label-md label-light-warning label-inline" style="border-radius:0.7rem">False</span>`;
+                        else
+                            return `<span class="label label-md label-light-success label-inline" style="border-radius:0.7rem">True</span>`;
+                    }
+                },
                 {
                     data: "guid", 'title': 'Action', render: function (data, type, row) {
 

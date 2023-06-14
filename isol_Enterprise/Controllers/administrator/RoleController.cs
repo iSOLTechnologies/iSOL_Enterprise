@@ -48,7 +48,24 @@ namespace iSOL_Enterprise.Controllers.administrator
 
             }
         }
+        public IActionResult GetALlRoles()
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
+                RoleDal dal = new();
+                response.Data = dal.GetAllRole();
 
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+        }
         public IActionResult GetPages()
         {
             ResponseModels models = new ResponseModels();
@@ -56,6 +73,21 @@ namespace iSOL_Enterprise.Controllers.administrator
             try
             {
                 models.Data = dal.GetPages();
+                return Json(JsonConvert.SerializeObject(models.Data));
+            }
+            catch (Exception ex)
+            {
+
+                return Json(models);
+            }
+        }
+        public IActionResult GetRolePages(string RoleCode)
+        {
+            ResponseModels models = new ResponseModels();
+            RoleDal dal = new RoleDal();
+            try
+            {
+                models.Data = dal.GetPages(RoleCode);
                 return Json(JsonConvert.SerializeObject(models.Data));
             }
             catch (Exception ex)
@@ -98,7 +130,7 @@ namespace iSOL_Enterprise.Controllers.administrator
             return Json(response);
         }
 
-        public IActionResult Edit(RoleModels input)
+        public IActionResult Edit(string formData)
         {
             ResponseModels response = new ResponseModels();
             RoleDal RoleDal = new RoleDal();
@@ -107,26 +139,20 @@ namespace iSOL_Enterprise.Controllers.administrator
 
             try
             {
-                bool RoleNameCheck = CommonDal.CountOnEdit("Roles", "RoleName", input.RoleName, input.Guid);
-                if (RoleNameCheck)
-                {
-                    response.isError = true;
-                    response.Message = "Role Name already registered try different";
-                    return Json(response);
-                }
-                input.ModifiedOn = DateTime.Now;
-                input.ModifiedBy = UserId;
-                bool result = RoleDal.Edit(input);
-                if (result)
+
+                response = RoleDal.Edit(formData, Name, UserId);
+                if (response.isSuccess)
                 {
                     response.isInserted = true;
-                    response.Message = "Record Successfully Updated!";
+                    response.Message = "Role Updated Successfully !";
                 }
                 else
                 {
                     response.isError = true;
-                    response.Message = "Record could not be Updated";
+                    response.Message = response.Message;
                 }
+
+                
             }
             catch (Exception ex)
             {
@@ -137,7 +163,7 @@ namespace iSOL_Enterprise.Controllers.administrator
             return Json(response);
         }
 
-        public IActionResult GetData(string Guid)
+        public IActionResult GetRoleData(string Guid)
         {
             ResponseModels models = new ResponseModels();
             try

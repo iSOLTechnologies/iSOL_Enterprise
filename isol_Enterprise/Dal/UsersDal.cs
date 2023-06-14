@@ -18,7 +18,10 @@ namespace iSOL_Enterprise.Dal
         public List<_usersModels> GetAllUsers()
         {
             List<_usersModels> lstModel = new List<_usersModels>();
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, "select Id,ISNULL(FirstName,'') + ' ' + ISNULL(LastName,'') as Name,ContactNumber,Email,RoleCode,SuperiorId,RegionCode,IsActive,Guid,is_Edited,isApproved,apprSeen from users where RowStatus=1 and IsActive=1 order by Id desc"))
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, @"select u.Id,ISNULL(FirstName,'') + ' ' + ISNULL(LastName,'') as Name,ContactNumber,Email,u.RoleCode,SuperiorId,RegionCode,u.IsActive,u.Guid,is_Edited,isApproved,apprSeen,r.RoleName
+                                                                                            from users u
+                                                                                            inner join Roles r on r.RoleCode = u.RoleCode
+                                                                                            where u.RowStatus=1 and u.IsActive=1 order by u.Id desc"))
             {
                 while (rdr.Read())
                 {
@@ -35,6 +38,7 @@ namespace iSOL_Enterprise.Dal
                     models.IsEdited = rdr["is_Edited"].ToString();
                     models.isApproved = rdr["isApproved"].ToBool();
                     models.apprSeen = rdr["apprSeen"].ToBool();
+                    models.RoleName = rdr["RoleName"].ToString();
                     lstModel.Add(models);
                 }
             }

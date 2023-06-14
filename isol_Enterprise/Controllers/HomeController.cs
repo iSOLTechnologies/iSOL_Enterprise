@@ -14,6 +14,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using iSOL_Enterprise.Common;
+using Microsoft.AspNetCore.Http;
 
 namespace iSOL_Enterprise.Controllers
 {
@@ -94,12 +95,12 @@ namespace iSOL_Enterprise.Controllers
                     input.Username = Username;
                     input.Password = Password;
 
-                    response = new LoginDal().IsAlreadyLogin(input);
+                    //response = new LoginDal().IsAlreadyLogin(input);
 
-                    if (!response.isSuccess)
-                    {
-                        return Json(new { success = false, message = response.Message });
-                    }
+                    //if (!response.isSuccess)
+                    //{
+                    //    return Json(new { success = false, message = response.Message });
+                    //}
 
                     UsersModels user = new LoginDal().Get(input);
                    
@@ -226,8 +227,12 @@ namespace iSOL_Enterprise.Controllers
             context.HttpContext.Session.SetString("SessionId", user.Guid);
             context.HttpContext.Session.SetString("RoleCode", user.RoleCode);
             context.HttpContext.Session.SetString("RoleName", user.RoleName);
+            context.HttpContext.Session.SetString("SessionTimeout", Convert.ToString( DateTime.Now.AddMinutes(1)));
 
-            _usersModels model = new _usersModels();
+            //SessionExpirationMiddleware.Email = user.Email;
+            //SessionExpirationMiddleware.SessionTimeout = DateTime.Now.AddMinutes(1);
+
+             _usersModels model = new _usersModels();
 
 
             model.listModules = new NavDal().getMenu(user.RoleCode);

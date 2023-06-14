@@ -208,10 +208,10 @@
         }
     });
     function FormData() {
-        debugger
+        
         var formdata = getJsonObj("HeaderForm");
         
-        console.log(formdata);
+       
         PostData(formdata);
 
 
@@ -219,13 +219,13 @@
 
     function PostData(formData) 
     {
-        debugger
+      
         let Guid = $('#Guid').val();
         let URL = '/Users/Add';
         if (Guid != null && Guid != '' && Guid != undefined) {
             URL = '/Users/Edit';
         }
-        debugger
+        
         return $.ajax({
             url: URL,
             dataType: 'json',

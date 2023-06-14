@@ -1888,5 +1888,31 @@ where s.Status=1 and p.Guid=@Guid";
 
             return ipAddress;
         }
+
+        public bool CheckPageOnRole(string RoleCode,string PageId)
+        {
+            List<SqlParameter> param = new List<SqlParameter>
+                {
+                    new SqlParameter("@RoleCode",RoleCode),
+                    new SqlParameter("@PageId", PageId),
+                   
+                };
+            int count = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, @"select count(*) from UserRoles where RoleCode = @RoleCode and PageId=@PageId and isActive = 1", param.ToArray()).ToInt();
+
+            return count > 0  ? true : false;
+        }
+        public bool CheckPageActivityOnRole(string RoleCode,string PageId,string ActivityCode)
+        {
+            List<SqlParameter> param = new List<SqlParameter>
+                {
+                    new SqlParameter("@RoleCode",RoleCode),
+                    new SqlParameter("@PageId", PageId),
+                    new SqlParameter("@ActivityCode", ActivityCode),
+                   
+                };
+            int count = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, @"select count(*) from UserRolePageActivity where RoleCode = @RoleCode and PageId=@PageId and RoleActivityCode = @ActivityCode and Status = 1", param.ToArray()).ToInt();
+
+            return count > 0  ? true : false;
+        }
     }
 }
