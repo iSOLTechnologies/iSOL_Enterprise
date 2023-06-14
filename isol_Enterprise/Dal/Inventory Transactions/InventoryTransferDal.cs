@@ -271,6 +271,8 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                             #region UpdateWarehouse&GenerateLog
 
                             #region OITLLog
+                            item.BaseType = item.BaseType == "" || item.BaseType == null ? "NULL" : Convert.ToInt32(item.BaseType);
+
                             OITL OITLModel = new OITL();
                             OITLModel.LogEntry = LogEntry;
                             OITLModel.CardCode = model.HeaderData.CardCode.ToString();
@@ -419,7 +421,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                 {
                     tran.Commit();
                     response.isSuccess = true;
-                    response.Message = "Item Added Successfully !";
+                    response.Message = "Inventory Transfered Successfully !";
 
                 }
 

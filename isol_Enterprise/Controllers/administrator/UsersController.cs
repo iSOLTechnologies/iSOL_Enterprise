@@ -3,6 +3,9 @@ using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Models;
 using iSOL_Enterprise.Dal.Sale;
+using SqlHelperExtensions;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace iSOL_Enterprise.Controllers.administrator
 {
@@ -213,6 +216,7 @@ namespace iSOL_Enterprise.Controllers.administrator
                 UsersDal dal = new UsersDal();
                 if (formData != null)
                 {
+                    
 
                     ResponseModels response = dal.ChangePassword(formData);
                     return Json(new { isInserted = response.isSuccess, Message = response.Message });
@@ -232,6 +236,15 @@ namespace iSOL_Enterprise.Controllers.administrator
             ResponseModels response = new ResponseModels();
             try
             {
+
+                string Email = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, @"select Email from users where Guid=@Guid", new SqlParameter("@Guid", Id)).ToString();
+                if (String.Equals(Email, HttpContext.Session.GetString("Email")))
+                {
+                    response.isError = true;
+                    response.Message = "Record could not be Deleted";
+                    return Json(response);
+                }
+
                 bool delete = CommonDal.Delete("Users", new KeyValuePair<string, string>("Guid", Id.ToString()));
                 if (delete)
                 {

@@ -271,7 +271,7 @@ namespace iSOL_Enterprise.Dal.Inventory_Transactions
                                 
                                 #region OITLLog
 
-                                item.BaseType = item.BaseType == "" ? "NULL" : Convert.ToInt32(item.BaseType);
+                                item.BaseType = item.BaseType == "" || item.BaseType == null ? "NULL" : Convert.ToInt32(item.BaseType);
                             
                                 OITL OITLModel = new OITL();
                                 OITLModel.LogEntry = LogEntry;

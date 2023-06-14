@@ -517,7 +517,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.Comments = rdr["Comments"].ToString();                                        
                                         //oDoc.DocTotal = rdr["DocTotal"].ToDouble();                                        
                                         
-                                        oDoc.Comments = rdr["Comments"].ToString();
+                                        //oDoc.Comments = rdr["Comments"].ToString();
 
 
                                         #region UDFs
@@ -1258,8 +1258,8 @@ namespace SAP_MVC_DIAPI.BLC
                                                         oDoc.Lines.LineTotal = rdr2["LineTotal"].ToDouble();
                                                     //oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
-                                                    if (rdr["SaleOrderCode"].ToString() != "")
-                                                        oDoc.UserFields.Fields.Item("U_SO").Value = Convert.ToInt32(rdr["SaleOrderCode"]);
+                                                    if (rdr2["SaleOrderCode"].ToString() != "")
+                                                        oDoc.UserFields.Fields.Item("U_SNo").Value = Convert.ToInt32(rdr2["SaleOrderCode"]);
 
                                                     //if (BaseType != 102) { 
                                                         try
@@ -1507,8 +1507,8 @@ namespace SAP_MVC_DIAPI.BLC
                                                         oDoc.Lines.LineTotal = rdr2["LineTotal"].ToDouble();
                                                    // oDoc.Lines.AccountCode = rdr2["AcctCode"].ToString();
                                                     oDoc.Lines.UoMEntry = rdr2["UomEntry"].ToInt();
-                                                    if (rdr["SaleOrderCode"].ToString() != "")
-                                                        oDoc.UserFields.Fields.Item("U_SO").Value = Convert.ToInt32(rdr["SaleOrderCode"]);
+                                                    if (rdr2["SaleOrderCode"].ToString() != "")
+                                                        oDoc.UserFields.Fields.Item("U_SNo").Value = Convert.ToInt32(rdr2["SaleOrderCode"]);
 
                                                     //if (BaseType != 202)
                                                     //{

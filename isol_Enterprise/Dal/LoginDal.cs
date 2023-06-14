@@ -142,7 +142,7 @@ namespace iSOL_Enterprise.Dal
                 
                 
 
-                using (var rdr = SqlHelper.ExecuteReader(tran, CommandType.Text, "select PasswordHash,SecurityStamp from Users where email=@Username", new SqlParameter("@Username", input.Username)))
+                using (var rdr = SqlHelper.ExecuteReader(tran, CommandType.Text, "select PasswordHash,SecurityStamp from Users where email=@Username and u.RowStatus = 1", new SqlParameter("@Username", input.Username)))
                 {
                     while (rdr.Read())
                     {
