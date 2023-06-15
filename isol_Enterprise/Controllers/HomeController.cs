@@ -228,7 +228,7 @@ namespace iSOL_Enterprise.Controllers
             context.HttpContext.Session.SetString("SessionId", user.Guid);
             context.HttpContext.Session.SetString("RoleCode", user.RoleCode);
             context.HttpContext.Session.SetString("RoleName", user.RoleName);
-            context.HttpContext.Session.SetString("SessionTimeout", Convert.ToString( DateTime.Now.AddMinutes(1)));
+            context.HttpContext.Session.SetString("SessionTimeout", Convert.ToString( DateTime.Now.AddMinutes(60)));
           
             //SessionExpirationMiddleware.Email = user.Email;
             //SessionExpirationMiddleware.SessionTimeout = DateTime.Now.AddMinutes(1);
