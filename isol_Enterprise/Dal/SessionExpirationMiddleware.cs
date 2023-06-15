@@ -11,8 +11,8 @@ namespace iSOL_Enterprise.Dal
     {
         
 
-        public static  string Email = "";
-        public  static  DateTime? SessionTimeout = null;
+        //public static  string Email = "";
+        //public  static  DateTime? SessionTimeout = null;
         private readonly RequestDelegate _next;
 
         public SessionExpirationMiddleware(RequestDelegate next)
@@ -24,13 +24,14 @@ namespace iSOL_Enterprise.Dal
         public async Task InvokeAsync(HttpContext context)
         {
             var session = context.Session;
-            
+            string Email = session.GetString("Email");
+            DateTime? SessionTimeout = Convert.ToDateTime(session.GetString("SessionTimeout"));
             session.SetString("LastAccessTime", DateTime.Now.ToString());
             // Check if the session has expired
             if (session.IsAvailable && session.TryGetValue("LastAccessTime", out var lastAccessTimeObj))
             {
-                var lastAccessTimeJson = Encoding.UTF8.GetString(lastAccessTimeObj);
-                var lastAccessTime = Convert.ToDateTime((lastAccessTimeJson));
+                //var lastAccessTimeJson = Encoding.UTF8.GetString(lastAccessTimeObj);
+                //var lastAccessTime = Convert.ToDateTime((lastAccessTimeJson));
 
                 var currentTime = DateTime.Now;
 

@@ -16,7 +16,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(60);
+    options.IdleTimeout = TimeSpan.FromMinutes(1);
     //options.Cookie.HttpOnly = true;
     //options.Cookie.IsEssential = true;
 });
@@ -44,7 +44,7 @@ builder.Services.AddAuthentication
     .AddCookie(option =>
     {
         option.LoginPath = "/Home/Index";
-        option.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(1);
     });
 
  
@@ -82,7 +82,7 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
-//app.UseMiddleware<SessionExpirationMiddleware>();
+app.UseMiddleware<SessionExpirationMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

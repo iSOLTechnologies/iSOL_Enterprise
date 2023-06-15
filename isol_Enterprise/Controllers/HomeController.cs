@@ -23,6 +23,7 @@ namespace iSOL_Enterprise.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+       
         IConfiguration _configuration;
         //private readonly HttpContextAccessor _accessor;
         private readonly IHttpContextAccessor context;
@@ -43,8 +44,8 @@ namespace iSOL_Enterprise.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-            //SqlHelperExtensions.SqlHelper.defaultDB = _configuration["ConnectionStrings:iSolConStr"].ToString();
-            //SqlHelperExtensions.SqlHelper.defaultSapDB = _configuration["ConnectionStrings:SapConStr"].ToString();
+             
+
             return View();
         }
         public IActionResult Privacy()
@@ -228,7 +229,7 @@ namespace iSOL_Enterprise.Controllers
             context.HttpContext.Session.SetString("RoleCode", user.RoleCode);
             context.HttpContext.Session.SetString("RoleName", user.RoleName);
             context.HttpContext.Session.SetString("SessionTimeout", Convert.ToString( DateTime.Now.AddMinutes(1)));
-
+          
             //SessionExpirationMiddleware.Email = user.Email;
             //SessionExpirationMiddleware.SessionTimeout = DateTime.Now.AddMinutes(1);
 
