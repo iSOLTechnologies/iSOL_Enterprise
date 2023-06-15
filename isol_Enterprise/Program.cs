@@ -1,3 +1,4 @@
+using iSOL_Enterprise.Dal;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Configuration;
 
@@ -19,7 +20,7 @@ builder.Services.AddSession(options =>
     //options.Cookie.HttpOnly = true;
     //options.Cookie.IsEssential = true;
 });
-
+builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
 //builder.Services.AddHttpContextAccessor();
 
@@ -81,7 +82,7 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
-
+//app.UseMiddleware<SessionExpirationMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

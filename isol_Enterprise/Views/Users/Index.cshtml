@@ -13,7 +13,6 @@
 
 <input type="hidden" id="PageGuid" value="@Context.Request.Query["Source"]" />
 
-
 <div class="container mt-5">
 
     <!--begin::Card-->
@@ -56,10 +55,13 @@
     </div>
 
 </div>
+<script src="~/js/commonindex.js"></script>
 <script>
-    var rowdata;
+    var datatable;
     var Guid = $('#PageGuid').val();
 
+    var rowdata;
+    
     $(document).on('click', '#btnAdd', function () {
 
 
@@ -67,7 +69,7 @@
     })
     
     
-    var datatable;
+   
     function generateTable() {
 
         datatable = $('#AttTable').DataTable({
@@ -80,6 +82,7 @@
 
                 
                 url: '/Users/GetAllUsers',
+                async: false,
             },
 
             layout: {
@@ -135,13 +138,13 @@
                             return `<div class="d-flex justify-content-center p-2"><span class="label label-lg label-light-warning label-inline">Rejected</span></div>`;
                         else {
 
-                            var html = `<a  guid='` + data + `' id="btnFetchUser" class="btn btn-light btn-icon btn-hover-primary btn-sm">
+                            var html = `<a  guid='` + data + `' id="btnFetchUser" class="btn btn-light btn-icon btn-hover-primary btn-sm btnEdit">
                                             <i class="fas fa-pen text-primary"></i>
                                         </a>
-                                        <a  guid='` + data + `' id="btnChangePassword" class="btn btn-light btn-icon btn-hover-warning btn-sm">
-                                                <i class="fas fa-lock text-warning"></i>
+                                            <a  guid='` + data + `' id="btnChangePassword" class="btn btn-light btn-icon btn-hover-warning btn-sm btnEdit">
+                                            <i class="fas fa-lock text-warning"></i>
                                         </a>
-                                        <a  guid='` + data + `' id="btnDeleteUser" class="btn btn-light btn-icon btn-hover-danger btn-sm">
+                                            <a  guid='` + data + `' id="btnDeleteUser" class="btn btn-light btn-icon btn-hover-danger btn-sm btnDelete">
                                             <i class="far fa-trash-alt text-danger"></i>
                                         </a>`;                           
                             return html;
@@ -160,7 +163,10 @@
 
     $(document).ready(function () {
 
-        generateTable();
+        $.when(generateTable()).done(function () {
+
+            Guid.GetUserPageActivity();
+        });
     });
   
     $(document).on('click', '#btnFetchUser', function () {

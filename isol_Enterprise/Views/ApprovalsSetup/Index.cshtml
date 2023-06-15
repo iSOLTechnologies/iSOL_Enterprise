@@ -8,6 +8,8 @@
 <!-- Render Body <Start> -->
 <!--begin::Entry-->
 <script src="~/assets/js/jquery-3.6.3.slim.js"></script>
+<input type="hidden" id="PageGuid" value="@Context.Request.Query["Source"]" />
+
 <div class="container mt-5">
 
     <!--begin::Card-->
@@ -59,7 +61,7 @@
 </div>
 <!--end::Entry-->
 <!-- Render Body <End> -->
-
+<script src="~/js/commonindex.js"></script>
 <script>
     //$(document).on('click', '#btnAdd', function () {
 
@@ -67,6 +69,7 @@
     //    window.location.href = '/Delivery/DeliveryMaster';
     //})
     var datatable;
+    var Guid = $('#PageGuid').val();
     function generateTable() {
 
         datatable = $('#AttTable').DataTable({
@@ -79,6 +82,7 @@
 
                 // url: '/HrAdmin/GetAttendanceList_MainLines?Date=' + $('#FilterDate').val(),
                 url: '/ApprovalsSetup/GetPagesApprovals',
+                async: false,
             },
 
             layout: {
@@ -118,7 +122,7 @@
                 }, {
                     data: "serialNo", 'title': 'Action', render: function (data, type, row) {
 
-                        var html = '<a guid=' + data + ' id="btnSaveApprovalType" class="btn btn-success btn-sm mx-3">';
+                        var html = '<a guid=' + data + ' id="btnSaveApprovalType" class="btn btn-success btn-sm mx-3 btnEdit">';
                         html += '<i class="fas fa-save"></i>';
                         html += ' Save</a>';
                         return html;
@@ -131,7 +135,10 @@
 
     $(document).ready(function () {
 
-        generateTable();
+        $.when(generateTable()).done(function () {
+
+            Guid.GetUserPageActivity();
+        });
     });
 
     function GetSelectList(ApprovalTypes,SelectedValue) 

@@ -56,6 +56,7 @@
     </div>
 
 </div>
+<script src="~/js/commonindex.js"></script>
 <script>
     var rowdata;
     var Guid = $('#PageGuid').val();
@@ -79,6 +80,7 @@
             "ajax": {
 
                 url: '/Role/GetALlRoles',
+                async: false,
             },
 
             layout: {
@@ -133,11 +135,11 @@
                     data: "guid", 'title': 'Action', render: function (data, type, row) {
 
 
-                            var html = `<a  guid='` + data + `' id="btnFetchRole" class="btn btn-light btn-icon btn-hover-primary btn-sm">
+                            var html = `<a  guid='` + data + `' id="btnFetchRole" class="btn btn-light btn-icon btn-hover-primary btn-sm btnEdit">
                                                 <i class="fas fa-pen text-primary"></i>
                                             </a>
                                             
-                                            <a  guid='` + data + `' id="btnDeleteRole" class="btn btn-light btn-icon btn-hover-danger btn-sm">
+                                            <a  guid='` + data + `' id="btnDeleteRole" class="btn btn-light btn-icon btn-hover-danger btn-sm btnDelete">
                                                 <i class="far fa-trash-alt text-danger"></i>
                                             </a>`;
                             return html;
@@ -156,7 +158,10 @@
 
     $(document).ready(function () {
 
-        generateTable();
+        $.when(generateTable()).done(function () {
+
+            Guid.GetUserPageActivity();
+        });
     });
 
     $(document).on('click', '#btnFetchRole', function () {

@@ -13,6 +13,7 @@
 <link href="~/css/commonstyle.css" rel="stylesheet" />
 <!--end::Subheader-->
 <!--begin::Entry-->
+<input type="hidden" id="PageGuid" value="@Context.Request.Query["Source"]" />
 <style>
     .select2-container {
         width : 100% !important;
@@ -142,10 +143,10 @@
 
 
 <!-- Render Body <End> -->
-
+<script src="~/js/commonindex.js"></script>
 <script>
     var datatable;
-        
+    var Guid = $('#PageGuid').val();
     //    $(document).on('click', '#SeriesbtnAdd', function () { 
     //        $('#ObjectCodeDisplay').val($('#ObjectCode option:selected').text());            
     //}) 
@@ -210,7 +211,8 @@
 
     $(document).ready(function () 
     {
-        
+        Guid.GetUserPageActivity();
+
         generateTable($('#H_ObjectCode').val());
         
         $("#H_ObjectCode").select2();

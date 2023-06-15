@@ -7,6 +7,7 @@
 <script src="~/assets/js/jquery-3.6.3.slim.js"></script>
 <!-- Render Body <Start> -->
 <!--begin::Entry-->
+<input type="hidden" id="PageGuid" value="@Context.Request.Query["Source"]" />
 <div class="container mt-5">
 
     <!--begin::Card-->
@@ -62,14 +63,11 @@
 </div>
 <!--end::Entry-->
 <!-- Render Body <End> -->
-
+<script src="~/js/commonindex.js"></script>
 <script>
-    //$(document).on('click', '#btnAdd', function () {
-
-    //    //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
-    //    window.location.href = '/Delivery/DeliveryMaster';
-    //})
+    
     var datatable;
+    var Guid = $('#PageGuid').val();
     function generateTable() {
 
         datatable = $('#AttTable').DataTable({
@@ -82,6 +80,7 @@
 
                 // url: '/HrAdmin/GetAttendanceList_MainLines?Date=' + $('#FilterDate').val(),
                 url: '/AllApprovals/GetAllApprovals',
+                async: false,
             },
 
             layout: {
@@ -146,7 +145,7 @@
                             data = data + "?id=" + row.guid + "&aprv1ghas=1";
                         else
                             data = data + "?id=" + row.docEntry +"&aprv1ghas=1";
-                        var html = '<a URL=' + data + ' id="btnViewDoc" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+                        var html = '<a URL=' + data + ' id="btnViewDoc" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 btnView">';
                         html += '<i id="showeyes" class="fas fa-hand-point-right"></i> ';
                         html += '               </a>';
                         return html;
@@ -162,7 +161,7 @@
 
                         if(row.seen == 0)
                         {
-                            let html = `<div class="d-flex justify-content-around p-2">
+                            let html = `<div class="d-flex justify-content-around p-2 btnEdit">
                                                 <button class="btn btn-sm btn-success" id="btnAccept" onclick=RejectAcceptDoc(`+ row.docEntry + `,` + row.objectCode + `,` + 1 + `,` + row.id + `)><i class="fas fa-check"></i> Accept</button>
                                                 <button class="btn btn-sm btn-warning"  id="btnReject" onclick=RejectAcceptDoc(`+ row.docEntry + `,` + row.objectCode + `,` + 0 + `,` + row.id + `)><i class="fas fa-times"></i> Reject</button>
                                         </div>`;
@@ -194,7 +193,10 @@
 
     $(document).ready(function () {
 
-        generateTable();
+        $.when(generateTable()).done(function () {
+
+            Guid.GetUserPageActivity();
+        });
     });
 
 
