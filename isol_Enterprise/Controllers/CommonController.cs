@@ -356,5 +356,34 @@ namespace iSOL_Enterprise.Controllers
             }
                 return Json(response);
         }
-	}
+        public IActionResult GetTotalApprovals()
+        {
+            try
+            {
+                CommonDal dal = new();
+                NotificationModel model = dal.GetTotalApprovals();
+                return Json(model);
+            }
+            catch (Exception)
+            {
+                return Json("");
+                throw;
+            }
+        }
+        public IActionResult GetNewApprovals(int ApprMaxID)
+        {
+            try
+            {
+                CommonDal dal = new();
+                NotificationModel model = dal.GetNewApprovals(ApprMaxID);
+                return Json(model);
+            }
+            catch (Exception)
+            {
+                return Json("");
+                throw;
+            }
+        }
+
+    }
 }

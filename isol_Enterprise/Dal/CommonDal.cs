@@ -1939,5 +1939,25 @@ where s.Status=1 and p.Guid=@Guid";
 
             return list;
         }
+        public NotificationModel GetTotalApprovals()
+        {
+            NotificationModel model = new()
+            {
+                MaxId = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select MAX(Id) as MaxId from tbl_DocumentsApprovals").ToInt(),
+                TotalNotifications = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, "select count(*) as TotalNotifications  from tbl_DocumentsApprovals where seen = 0").ToInt(),
+            };
+            return model;
+
+        }
+        public NotificationModel GetNewApprovals(int ApprMaxID)
+        {
+            NotificationModel model = GetTotalApprovals();
+            if (model.MaxId > ApprMaxID)
+            {
+                model.isNew = true;
+            }
+            return model;
+
+        }
     }
 }
