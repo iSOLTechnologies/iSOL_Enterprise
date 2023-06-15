@@ -39,6 +39,10 @@ function UpdatePageActivities(data)
         {
             $(".btnDelete").addClass("d-none");
         }
+        if (data[i].roleActivityTypeCode == 'V' && !data[i].isActive)
+        {
+            $(".btnView").addClass("d-none");
+        }
         
     }
 }

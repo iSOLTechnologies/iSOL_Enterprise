@@ -14,6 +14,8 @@
 <link href="~/css/commonstyle.css" rel="stylesheet" />
 <!--end::Subheader-->
 <!--begin::Entry-->
+<input type="hidden" id="PageGuid" value="@Context.Request.Query["Source"]" />
+
 <div class="container-fluid mt-5">
 
     <!--begin::Card-->
@@ -48,7 +50,7 @@
 
                 </div>
                 <div class="col-md-2">
-                    <button type="button" id="btnGenerateReport" class="btn btn-primary font-weight-bolder">
+                    <button type="button" id="btnGenerateReport" class="btn btn-primary font-weight-bolder btnView">
                         + Get Report
                     </button>
                 </div>
@@ -75,9 +77,15 @@
 <!--end::Entry-->
 <!-- Render Body <End> -->
 
+<script src="~/js/commonindex.js"></script>
 <script>
+    var Guid = $('#PageGuid').val();
 
+    $(document).ready(function () {
 
+        Guid.GetUserPageActivity();
+
+    });
     $(document).on('click', '#btnGenerateReport', function () {
 
         if ($('#DtFrom').val() != null &&

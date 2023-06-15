@@ -12,6 +12,7 @@
 <link href="~/css/commonstyle.css" rel="stylesheet" />
 <!--end::Subheader-->
 <!--begin::Entry-->
+<input type="hidden" id="PageGuid" value="@Context.Request.Query["Source"]" />
 <div class="container mt-5">
 
     <!--begin::Card-->
@@ -80,9 +81,10 @@
 </div>
 <!--end::Entry-->
 <!-- Render Body <End> -->
-
+<script src="~/js/commonindex.js"></script>
 <script>
     var datatable;
+    var Guid = $('#PageGuid').val();
     $(document).on('click', '#btnAdd', function () {
 
         //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
@@ -121,6 +123,7 @@
 
                 // url: '/HrAdmin/GetAttendanceList_MainLines?Date=' + $('#FilterDate').val(),
                 url: '/InventoryTransferRequest/GetData',
+                async: false,
             },
 
             layout: {
@@ -203,7 +206,7 @@
                 }, {
                     data: "guid", 'title': 'Action', render: function (data, type, row) {
 
-                        var html = '<a guid=' + data + ' id="btnFetchInventoryTransferRequest" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+                        var html = '<a guid=' + data + ' id="btnFetchInventoryTransferRequest" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 btnView">';
                         html += '<i id="showeyes" class=" fa fa-eye"></i> ';
                         html += '               </a>';
                         return html;
@@ -216,7 +219,10 @@
 
     $(document).ready(function () {
 
-        generateTable();
+        $.when(generateTable()).done(function () {
+
+            Guid.GetUserPageActivity();
+        });
     });
     $(document).on('click', '#btnFetchInventoryTransferRequest', function (e) {
 

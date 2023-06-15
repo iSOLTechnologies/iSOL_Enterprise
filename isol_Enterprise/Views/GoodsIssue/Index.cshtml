@@ -12,6 +12,8 @@
 <link href="~/css/commonstyle.css" rel="stylesheet" />
 <!--end::Subheader-->
 <!--begin::Entry-->
+<input type="hidden" id="PageGuid" value="@Context.Request.Query["Source"]" />
+
 <div class="container mt-5">
 
     <!--begin::Card-->
@@ -76,9 +78,10 @@
 </div>
 <!--end::Entry-->
 <!-- Render Body <End> -->
-
+<script src="~/js/commonindex.js"></script>
 <script>
     var datatable;
+    var Guid = $('#PageGuid').val();
     $(document).on('click', '#btnAdd', function () {
 
         //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
@@ -108,6 +111,7 @@
 
                 // url: '/HrAdmin/GetAttendanceList_MainLines?Date=' + $('#FilterDate').val(),
                 url: '/GoodsIssue/GetData',
+                async: false,
             },
 
             layout: {
@@ -179,7 +183,7 @@
                         else if (row.isApproved == 0 && row.apprSeen == 1)
                             return `<div class="d-flex justify-content-center p-2"><span class="label label-lg label-light-warning label-inline">Rejected</span></div>`;
                         else {
-                        var html = '<a guid=' + data + ' id="btnFetchGoodsIssue" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+                            var html = '<a guid=' + data + ' id="btnFetchGoodsIssue" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 btnView">';
                         html += '<i id="showeyes" class=" fa fa-eye"></i> ';
                         html += '               </a>';
                         return html;
@@ -193,7 +197,10 @@
 
     $(document).ready(function () {
 
-        generateTable();
+        $.when(generateTable()).done(function () {
+
+            Guid.GetUserPageActivity();
+        });
     });
     $(document).on('click', '#btnFetchGoodsIssue', function (e) {
 
