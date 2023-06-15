@@ -1914,5 +1914,30 @@ where s.Status=1 and p.Guid=@Guid";
 
             return count > 0  ? true : false;
         }
+        public List<RoleActivityType> GetRoleActivity(string RoleCode, string Guid)
+        {
+            string PageIdQuery = @"Select PageId from Pages p where REPLACE(Guid, CHAR(13) + CHAR(10), '')=@Guid";
+            string? PageId = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, PageIdQuery,new SqlParameter("@Guid",Guid)).ToString();
+
+            List<RoleActivityType> list = new List<RoleActivityType>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, @"select Id,RoleActivityTypeCode,RoleActivityTypeName from RoleActivityTypes where isActive = 1"))
+            {
+                while (rdr.Read())
+                {
+                    RoleActivityType model = new()
+                    {
+                        id = rdr["Id"].ToInt(),
+                        RoleActivityTypeCode = rdr["RoleActivityTypeCode"].ToString(),
+                        RoleActivityTypeName = rdr["RoleActivityTypeName"].ToString(),
+                        IsActive = CheckPageActivityOnRole(RoleCode,PageId, rdr["RoleActivityTypeCode"].ToString())
+
+                    };
+                    list.Add(model);
+                }
+            }
+                    
+
+            return list;
+        }
     }
 }

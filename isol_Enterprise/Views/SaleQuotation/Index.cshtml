@@ -12,6 +12,8 @@
 <link href="~/css/commonstyle.css" rel="stylesheet" />
 <!--end::Subheader-->
 <!--begin::Entry-->
+<input type="hidden" id="PageGuid" value="@Context.Request.Query["Source"]" />
+
 <div class="container mt-5">
 
     <!--begin::Card-->
@@ -75,9 +77,11 @@
 </div>
 <!--end::Entry-->
 <!-- Render Body <End> -->
-
+<script src="~/js/commonindex.js"></script>
 <script>
     var datatable;
+    var Guid = $('#PageGuid').val();
+
     function Mastercheck() {
 
 
@@ -179,8 +183,9 @@
 
                 // url: '/HrAdmin/GetAttendanceList_MainLines?Date=' + $('#FilterDate').val(),
                 url: '/SaleQuotation/GetData',
+                async: false,
             },
-
+            
             layout: {
                 scroll: false, // enable/disable datatable scroll both horizontal and vertical when needed.
                 // height: 450, // datatable's body's fixed height
@@ -271,7 +276,7 @@
                         else
                         {
 
-                            var html = '<a guid=' + data + ' id="btnFetchSaleQuotation" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
+                            var html = '<a guid=' + data + ' id="btnFetchSaleQuotation" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 btnEdit">';
                             html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
                             html += '    <g stroke = "none" stroke - width="1" fill = "none" fill - rule="evenodd" >';
                             html += '       <rect x="0" y="0" width="24" height="24" />';
@@ -291,7 +296,10 @@
     $(document).ready(function () 
     {
     
-        generateTable();
+        $.when( generateTable() ).done(function() {
+
+            Guid.GetUserPageActivity();
+        })       
     });
     $(document).on('click', '#btnFetchSaleQuotation', function (e) 
     {

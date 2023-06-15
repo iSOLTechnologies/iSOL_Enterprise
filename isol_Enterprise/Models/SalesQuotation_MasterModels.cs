@@ -26,5 +26,6 @@
         public bool apprSeen { get; set; }
         public string? Sap_Ref_No { get; set; }
         public List<SalesQuotation_DetailsModels> ListSalesQuotationDetails { get; set; }
+        public List<RoleActivityType> ActivityTypes { get; set; }
     }
 }

@@ -337,5 +337,24 @@ namespace iSOL_Enterprise.Controllers
 
 			return Json(response);
 		}
+
+        public IActionResult GetUserPageActivity(string Guid)
+        {
+            ResponseModels response = new();
+            try
+            {
+                CommonDal dal = new();
+                string RoleCode = HttpContext.Session.GetString("RoleCode");
+
+                response.Data = dal.GetRoleActivity(RoleCode,Guid);
+            }
+            catch (Exception)
+            {
+
+                return Json(response);
+                
+            }
+                return Json(response);
+        }
 	}
 }
