@@ -300,7 +300,7 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         <div class="input-group">
-                                                                                            <select class="form-control" id="Warehouse" name="Warehouse">
+                                                                                            <select class="form-control WhsSelect" id="Warehouse" name="Warehouse">
                                                                                             </select>
                                                                                             
                                                                                         </div>
@@ -546,6 +546,7 @@
        
         $("#ToWH").select2();
        
+        InitializeWarehouseSelect2Event($('#ListParameters tr:last-child'));
 
         if ("@ViewBag.OldId" != "0") {
             
@@ -650,7 +651,7 @@
                                                                                     </td>
                                                                                     <td>
                                                                                         <div class="input-group">
-                                                                                            <select class="form-control" id="Warehouse" name="Warehouse">
+                                                                                                <select class="form-control WhsSelect" id="Warehouse" name="Warehouse">
                                                                                                 ` + WareHouseData + `
                                                                                             </select>
                                                                                             
@@ -711,10 +712,14 @@
         `;
         $('#kt_repeater_1 tbody').append(html);
        
-        
+        InitializeWarehouseSelect2Event($('#ListParameters tr:last-child'));
     });
 
+    $(document).on('mouseover', '.WhsSelect', function (e) {
 
+        $(this).select2();
+        $(this).focus();
+    });
     //================== Post Data Working =====================//
 
     
@@ -874,12 +879,12 @@
 
                         $("#UomEntry").html(`<option value"-1">Manual</option>`);
                          
-                        $.when(GetWareHouseQty(this.Father, this.Warehouse)).done(function (OnHand) {
+                        $.when(GetWareHouseQty(this.Code, this.Warehouse)).done(function (OnHand) {
 
                             $("#onHand").val(Number(OnHand));
 
                         });
-
+                        InitializeWarehouseSelect2Event($('#ListParameters tr:last-child'));
                     }
                     else {
                         //AddWarehouseRowData(this);
@@ -899,12 +904,12 @@
 
                         $('#ListParameters tr:last-child').find("#UomEntry").html(`<option value"-1">Manual</option>`);
                         
-                        $.when(GetWareHouseQty(this.ItemCode, this.Warehouse)).done(function (OnHand) {
+                        $.when(GetWareHouseQty(this.Code, this.Warehouse)).done(function (OnHand) {
 
                             $('#ListParameters tr:last-child').find("#onHand").val(Number(OnHand));
 
                         });
-                    
+                        InitializeWarehouseSelect2Event($('#ListParameters tr:last-child'));
                     }
                     j += 1;
 
