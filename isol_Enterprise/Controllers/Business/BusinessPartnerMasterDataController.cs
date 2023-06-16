@@ -47,6 +47,24 @@ namespace iSOL_Enterprise.Controllers.Business
 
             return Json(response);
         }
+        public IActionResult GetAllBusinessPartners()
+        {
+            ResponseModels response = new ResponseModels();
+            try
+            {
+
+                BusinessPartnerMasterDataDal dal = new BusinessPartnerMasterDataDal();
+                response.Data = dal.GetAllBusinessPartners();
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+
+
+            return Json(response);
+        }
 
         [HttpGet]
         public IActionResult GetStateCode()

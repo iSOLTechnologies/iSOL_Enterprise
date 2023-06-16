@@ -1,5 +1,6 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
+using iSOL_Enterprise.Models.Business;
 using iSOL_Enterprise.Models.Inventory;
 using iSOL_Enterprise.Models.sale;
 using Newtonsoft.Json;
@@ -62,6 +63,43 @@ namespace iSOL_Enterprise.Dal.Business
                     models.isApproved = rdr["isApproved"].ToBool();
                     models.apprSeen = rdr["apprSeen"].ToBool();
                     list.Add(models);
+                }
+            }
+            return list;
+        }
+        public List<BusinessPartnerMasterData> GetAllBusinessPartners()
+        {
+            string GetQuery = @"select DocEntry,CardCode,CardName,
+                            CASE when CardType = 'C' then 'Customer'
+	                             when CardType = 'S' then 'Vendor'
+	                             when CardType = 'L' then 'Lead'
+	                            else '' end 'CardType',
+                            Address,MailAddres,
+                            CASE when Phone1 is not null then Phone1 else Phone2 end 'Phone' 
+                            from OCRD order by DocEntry desc";
+
+
+            List<BusinessPartnerMasterData> list = new List<BusinessPartnerMasterData>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    BusinessPartnerMasterData model = new ()
+                    {
+                        DocEntry = rdr["DocEntry"].ToInt(),
+                        CardCode = rdr["CardCode"].ToString(),
+                        CardName = rdr["CardName"].ToString(),
+                        CardType = rdr["CardType"].ToString(),
+                        Address = rdr["Address"].ToString(),
+                        MailAddres = rdr["MailAddres"].ToString(),
+                        Phone = rdr["Phone"].ToString(),
+                    
+                    };
+                    // models.DocStatus = CommonDal.Check_IsNotEditable("PDN1", rdr["Id"].ToInt()) == false ? "Open" : "Closed";
+                   
+                    list.Add(model);
+                    
                 }
             }
             return list;
