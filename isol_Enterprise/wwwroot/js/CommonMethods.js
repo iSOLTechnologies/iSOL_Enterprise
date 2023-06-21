@@ -463,7 +463,7 @@ function getJsonObj(element) {
 
         if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')
             if ($(this).is(':checkbox') || $(this).is(':radio'))
-                jsonobj[$(this).attr("id")] = $(this).prop('checked');
+                jsonobj[$(this).attr("id")] = $(this).is(':checked') == true ? 'Y' : 'N';
             else
             jsonobj[$(this).attr("id")] = $(this).val();
 

@@ -1972,7 +1972,7 @@
              GetPayments(); 
         $('#ListParameters2 .itm:first-child').find("#Country").html(CountryData);
         $('#Listparameters5 .itm:first-child').find("#ship_Country").html(CountryData);
-        $('#Listparameters5 .itm:first-child').find("#ship_State").html(VarStateCode);  
+        //$('#Listparameters5 .itm:first-child').find("#ship_State").html(VarStateCode);  
   
 
         if ("@ViewBag.OldId" != "0") {
@@ -2016,6 +2016,7 @@
 				$("#"+id).html("");
 		if(Nullable == "Y"){
             $("#"+id).append(`<option selected value="">-- Select --</option>`);
+            
         }
 				$.each(data, function() {
 					 
@@ -2038,14 +2039,18 @@
 				{
 
                 $("#" + id).html("");
+                $("#ship_State").html("");
                 if (Nullable == "Y") {
                     $("#" + id).append(`<option selected value="">-- Select --</option>`);
+                    $("#ship_State").append(`<option selected value="">-- Select --</option>`);
+                    
                 }
 		
 				$.each(data, function() {
 					
 				         
 					$("#"+id).append("<option value=" + this.code + ">" + this.slpName + "</option>");
+					$("#ship_State").append("<option value=" + this.code + ">" + this.slpName + "</option>");
                     VarStateCode += "<option value=" + this.code + ">" + this.slpName + "</option>";
 				});
 					
@@ -2526,7 +2531,7 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <select class="form-control form-control-sm" id="State">   
+                                                                                        <select class="form-control form-control-sm NotReq" id="State">   
                                                                                         <option value="" selected>-- Select --</option>
                                                                                         `+VarStateCode+`
                                                                                         </select>
