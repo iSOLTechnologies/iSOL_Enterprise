@@ -2280,7 +2280,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         #region Insert In Header
                                         isOld = oDoc.GetByKey(rdr["Sap_Ref_No"].ToString());
 
-                                        oDoc.Series = rdr["Series"].ToInt();
+                                        //oDoc.Series = rdr["Series"].ToInt();
                                         
                                         oDoc.CardCode = rdr["CardCode"].ToString();
                                         oDoc.CardName = rdr["CardName"].ToString();
@@ -2414,34 +2414,34 @@ namespace SAP_MVC_DIAPI.BLC
                                         ContactEmployees contactPerson = (ContactEmployees)oDoc.ContactEmployees;
 
                                         string ContactPersonsQuery = @"select id,CardCode,Name,FirstName,MiddleName,LastName,Title,Position,Address,Tel1,Tel2,Cellolar,Fax,E_MailL,EmlGrpCode,
-                                                                       Pager,Notes1,Notes2,Password,BirthDate,Gender,Profession,BirthCity from OCPR where CardCode =" + rdr["CardCode"].ToString() + "'";
+                                                                       Pager,Notes1,Notes2,Password,BirthDate,Gender,Profession,BirthCity from OCPR where CardCode ='" + rdr["CardCode"].ToString() + "'";
 
                                         using (var rdr1 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, ContactPersonsQuery))
                                         {
                                             while (rdr1.Read())
                                             {
-                                                contactPerson.Name = rdr["Name"].ToString();
-                                                contactPerson.FirstName = rdr["FirstName"].ToString();
-                                                contactPerson.MiddleName = rdr["MiddleName"].ToString();
-                                                contactPerson.LastName = rdr["LastName"].ToString();
-                                                contactPerson.Title = rdr["Title"].ToString();
-                                                contactPerson.Position = rdr["Position"].ToString();
-                                                contactPerson.Address = rdr["Address"].ToString();
-                                                contactPerson.Phone1 = rdr["Tel1"].ToString();
-                                                contactPerson.Phone2 = rdr["Tel2"].ToString();
-                                                contactPerson.MobilePhone = rdr["Cellolar"].ToString();
-                                                contactPerson.Fax = rdr["Fax"].ToString();
-                                                contactPerson.E_Mail = rdr["E_MailL"].ToString();
-                                                contactPerson.EmailGroupCode = rdr["EmlGrpCode"].ToString();
-                                                contactPerson.Pager = rdr["Pager"].ToString();
-                                                contactPerson.Remarks1 = rdr["Notes1"].ToString();
-                                                contactPerson.Remarks2 = rdr["Notes2"].ToString();
-                                                contactPerson.Password = rdr["Password"].ToString();
-                                                if (rdr["BirthDate"].ToString() != "")
-                                                    contactPerson.DateOfBirth = Convert.ToDateTime(rdr["BirthDate"]);
-                                                contactPerson.Gender = rdr["Gender"].ToString() == "M" ? BoGenderTypes.gt_Male : rdr["Gender"].ToString() == "F" ? BoGenderTypes.gt_Female : BoGenderTypes.gt_Undefined;
-                                                contactPerson.Profession = rdr["Profession"].ToString();
-                                                contactPerson.CityOfBirth = rdr["BirthCity"].ToString();
+                                                contactPerson.Name = rdr1["Name"].ToString();
+                                                contactPerson.FirstName = rdr1["FirstName"].ToString();
+                                                contactPerson.MiddleName = rdr1["MiddleName"].ToString();
+                                                contactPerson.LastName = rdr1["LastName"].ToString();
+                                                contactPerson.Title = rdr1["Title"].ToString();
+                                                contactPerson.Position = rdr1["Position"].ToString();
+                                                contactPerson.Address = rdr1["Address"].ToString();
+                                                contactPerson.Phone1 = rdr1["Tel1"].ToString();
+                                                contactPerson.Phone2 = rdr1["Tel2"].ToString();
+                                                contactPerson.MobilePhone = rdr1["Cellolar"].ToString();
+                                                contactPerson.Fax = rdr1["Fax"].ToString();
+                                                contactPerson.E_Mail = rdr1["E_MailL"].ToString();
+                                                contactPerson.EmailGroupCode = rdr1["EmlGrpCode"].ToString();
+                                                contactPerson.Pager = rdr1["Pager"].ToString();
+                                                contactPerson.Remarks1 = rdr1["Notes1"].ToString();
+                                                contactPerson.Remarks2 = rdr1["Notes2"].ToString();
+                                                contactPerson.Password = rdr1["Password"].ToString();
+                                                if (rdr1["BirthDate"].ToString() != "")
+                                                    contactPerson.DateOfBirth = Convert.ToDateTime(rdr1["BirthDate"]);
+                                                contactPerson.Gender = rdr1["Gender"].ToString() == "M" ? BoGenderTypes.gt_Male : rdr1["Gender"].ToString() == "F" ? BoGenderTypes.gt_Female : BoGenderTypes.gt_Undefined;
+                                                contactPerson.Profession = rdr1["Profession"].ToString();
+                                                contactPerson.CityOfBirth = rdr1["BirthCity"].ToString();
                                                 
                                                 contactPerson.Add();
 
@@ -2455,8 +2455,8 @@ namespace SAP_MVC_DIAPI.BLC
                                         #region Address Bill To
 
                                         SAPbobsCOM.BPAddresses billtoAddress = (BPAddresses)oDoc.Addresses;
-                                        string BillToAddressQuery = @"id,LineNum,CardCode,Address,Address2,Address3,Street,Block,City,ZipCode,County,State,Country,StreetNo,
-                                                                      Building,GlblLocNum,AdresType where id =" + ID + " and AdresType ='B'";
+                                        string BillToAddressQuery = @"select id,LineNum,CardCode,Address,Address2,Address3,Street,Block,City,ZipCode,County,State,Country,StreetNo,
+                                                                      Building,GlblLocNum,AdresType from CRD1 where id =" + ID + " and AdresType ='B'";
 
                                         using (var rdr2 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, BillToAddressQuery))
                                         {
@@ -2464,19 +2464,19 @@ namespace SAP_MVC_DIAPI.BLC
                                             {
                                                 
                                                 billtoAddress.AddressType = BoAddressType.bo_BillTo;
-                                                billtoAddress.AddressName = rdr["Address"].ToString();
-                                                billtoAddress.AddressName2 = rdr["Address2"].ToString();
-                                                billtoAddress.AddressName3 = rdr["Address3"].ToString();
-                                                billtoAddress.Street = rdr["Street"].ToString();
-                                                billtoAddress.Block = rdr["Block"].ToString();
-                                                billtoAddress.City = rdr["City"].ToString();
-                                                billtoAddress.ZipCode = rdr["ZipCode"].ToString();
-                                                billtoAddress.County = rdr["County"].ToString();
-                                                billtoAddress.State = rdr["State"].ToString();
-                                                billtoAddress.Country = rdr["Country"].ToString();
-                                                billtoAddress.StreetNo = rdr["StreetNo"].ToString();
-                                                billtoAddress.BuildingFloorRoom = rdr["Building"].ToString();
-                                                billtoAddress.GlobalLocationNumber = rdr["GlblLocNum"].ToString();
+                                                billtoAddress.AddressName = rdr2["Address"].ToString();
+                                                billtoAddress.AddressName2 = rdr2["Address2"].ToString();
+                                                billtoAddress.AddressName3 = rdr2["Address3"].ToString();
+                                                billtoAddress.Street = rdr2["Street"].ToString();
+                                                billtoAddress.Block = rdr2["Block"].ToString();
+                                                billtoAddress.City = rdr2["City"].ToString();
+                                                billtoAddress.ZipCode = rdr2["ZipCode"].ToString();
+                                                billtoAddress.County = rdr2["County"].ToString();
+                                                billtoAddress.State = rdr2["State"].ToString();
+                                                billtoAddress.Country = rdr2["Country"].ToString();
+                                                billtoAddress.StreetNo = rdr2["StreetNo"].ToString();
+                                                billtoAddress.BuildingFloorRoom = rdr2["Building"].ToString();
+                                                billtoAddress.GlobalLocationNumber = rdr2["GlblLocNum"].ToString();
                                         
                                         
                                                 billtoAddress.Add();
@@ -2487,8 +2487,8 @@ namespace SAP_MVC_DIAPI.BLC
                                         #region Address Shipp To
 
                                         SAPbobsCOM.BPAddresses ShiptoAddress = (BPAddresses)oDoc.Addresses;
-                                        string ShipToAddressQuery = @"id,LineNum,CardCode,Address,Address2,Address3,Street,Block,City,ZipCode,County,State,Country,StreetNo,
-                                                                      Building,GlblLocNum,AdresType where id =" + ID + " and AdresType ='S'";
+                                        string ShipToAddressQuery = @"select id,LineNum,CardCode,Address,Address2,Address3,Street,Block,City,ZipCode,County,State,Country,StreetNo,
+                                                                      Building,GlblLocNum,AdresType from CRD1 where id =" + ID + " and AdresType ='S'";
 
                                         using (var rdr3 = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, ShipToAddressQuery))
                                         {
@@ -2496,19 +2496,19 @@ namespace SAP_MVC_DIAPI.BLC
                                             {
 
                                                 ShiptoAddress.AddressType = BoAddressType.bo_ShipTo;
-                                                ShiptoAddress.AddressName = rdr["Address"].ToString();
-                                                ShiptoAddress.AddressName2 = rdr["Address2"].ToString();
-                                                ShiptoAddress.AddressName3 = rdr["Address3"].ToString();
-                                                ShiptoAddress.Street = rdr["Street"].ToString();
-                                                ShiptoAddress.Block = rdr["Block"].ToString();
-                                                ShiptoAddress.City = rdr["City"].ToString();
-                                                ShiptoAddress.ZipCode = rdr["ZipCode"].ToString();
-                                                ShiptoAddress.County = rdr["County"].ToString();
-                                                ShiptoAddress.State = rdr["State"].ToString();
-                                                ShiptoAddress.Country = rdr["Country"].ToString();
-                                                ShiptoAddress.StreetNo = rdr["StreetNo"].ToString();
-                                                ShiptoAddress.BuildingFloorRoom = rdr["Building"].ToString();
-                                                ShiptoAddress.GlobalLocationNumber = rdr["GlblLocNum"].ToString();
+                                                ShiptoAddress.AddressName = rdr3["Address"].ToString();
+                                                ShiptoAddress.AddressName2 = rdr3["Address2"].ToString();
+                                                ShiptoAddress.AddressName3 = rdr3["Address3"].ToString();
+                                                ShiptoAddress.Street = rdr3["Street"].ToString();
+                                                ShiptoAddress.Block = rdr3["Block"].ToString();
+                                                ShiptoAddress.City = rdr3["City"].ToString();
+                                                ShiptoAddress.ZipCode = rdr3["ZipCode"].ToString();
+                                                ShiptoAddress.County = rdr3["County"].ToString();
+                                                ShiptoAddress.State = rdr3["State"].ToString();
+                                                ShiptoAddress.Country = rdr3["Country"].ToString();
+                                                ShiptoAddress.StreetNo = rdr3["StreetNo"].ToString();
+                                                ShiptoAddress.BuildingFloorRoom = rdr3["Building"].ToString();
+                                                ShiptoAddress.GlobalLocationNumber = rdr3["GlblLocNum"].ToString();
 
 
                                                 ShiptoAddress.Add();
