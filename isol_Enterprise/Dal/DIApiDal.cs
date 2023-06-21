@@ -2710,7 +2710,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                                                     //oDoc.Lines.UserFields.Fields.Item("U_WSB_BaseRef").Value = ID;
                                                     
-                                                    oDoc.Items.ItemCode = rdr2["ItemCode"].ToString();
+                                                    oDoc.Items.ItemCode = rdr2["Code"].ToString();
                                                     oDoc.Items.ItemName = rdr2["ItemName"].ToString();
                                                     if (rdr2["Quantity"].ToString() != "")
                                                         oDoc.Items.Quantity = Convert.ToDouble(rdr2["Quantity"]);
