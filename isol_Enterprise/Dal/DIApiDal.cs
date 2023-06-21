@@ -2715,7 +2715,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                     if (rdr2["Quantity"].ToString() != "")
                                                         oDoc.Items.Quantity = Convert.ToDouble(rdr2["Quantity"]);
                                                     oDoc.Items.Warehouse = rdr2["Warehouse"].ToString();
-                                                    oDoc.Items.IssueMethod = rdr["IssueType"].ToString() == "B" ? BoIssueMethod.im_Backflush : BoIssueMethod.im_Manual;
+                                                    oDoc.Items.IssueMethod = rdr2["Type"].ToString() == "B" ? BoIssueMethod.im_Backflush : BoIssueMethod.im_Manual;
                                                     if (rdr2["PriceList"].ToString() != "")
                                                         oDoc.Items.PriceList = rdr["PriceList"].ToInt();
                                                     if (rdr2["Price"].ToString() != "")
@@ -2943,7 +2943,7 @@ namespace SAP_MVC_DIAPI.BLC
                                                     oDoc.Lines.BaseQuantity = rdr2["BaseQty"].ToDouble();
                                                     oDoc.Lines.PlannedQuantity = rdr2["PlannedQty"].ToDouble();
                                                     oDoc.Lines.Warehouse = rdr2["wareHouse"].ToString();
-                                                    oDoc.Lines.ProductionOrderIssueType = rdr["IssueType"].ToString() == "B" ? BoIssueMethod.im_Backflush : BoIssueMethod.im_Manual;
+                                                    oDoc.Lines.ProductionOrderIssueType = rdr2["IssueType"].ToString() == "B" ? BoIssueMethod.im_Backflush : BoIssueMethod.im_Manual;
 
                                                     oDoc.Lines.Add();
                                                 }

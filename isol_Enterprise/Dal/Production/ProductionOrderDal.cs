@@ -90,7 +90,7 @@ namespace iSOL_Enterprise.Dal.Production
             }
 
         }
-        
+
         public ResponseModels AddUpdateProductionOrder(string formData)
         {
             ResponseModels response = new ResponseModels();
@@ -102,7 +102,7 @@ namespace iSOL_Enterprise.Dal.Production
                 var model = JsonConvert.DeserializeObject<dynamic>(formData);
                 if (model.OldId != null)
                 {
-                   response = EditProductionOrder(model);
+                    response = EditProductionOrder(model);
                 }
                 else
                 {
@@ -148,7 +148,7 @@ namespace iSOL_Enterprise.Dal.Production
                     #region BackendCheck For Series
                     if (MySeries != -1)
                     {
-                        string? DocNum = SqlHelper.MySeriesUpdate_GetItemCode( MySeries, tran);
+                        string? DocNum = SqlHelper.MySeriesUpdate_GetItemCode(MySeries, tran);
                         if (DocNum == null)
                         {
                             tran.Rollback();
@@ -202,9 +202,9 @@ namespace iSOL_Enterprise.Dal.Production
                                          DueDate,PlannedQty,Warehouse,Priority,LinkToObj,OriginNum,CardCode,Project,Comments,PickRmrk,isApproved";
                     string TabHeaderP = @"@Id,@Guid,@DocEntry,@Type,@Series,@MySeries,@DocNum,@Status,@PostDate,@ItemCode,@StartDate,@ProdName,
                                          @DueDate,@PlannedQty,@Warehouse,@Priority,@LinkToObj,@OriginNum,@CardCode,@Project,@Comments,@PickRmrk,@isApproved";
-                    
+
                     string HeadQuery = @"insert into OWOR (" + TabHeader + ") " +
-                                        "values("+TabHeaderP+")";
+                                        "values(" + TabHeaderP + ")";
 
 
 
@@ -226,7 +226,7 @@ namespace iSOL_Enterprise.Dal.Production
                     param.Add(cdal.GetParameter("@Priority", model.HeaderData.Priority, typeof(Int16)));
                     param.Add(cdal.GetParameter("@LinkToObj", model.HeaderData.LinkToObj, typeof(string)));
                     param.Add(cdal.GetParameter("@OriginNum", model.HeaderData.OriginNum, typeof(int)));
-                    param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(int)));
+                    param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(string)));
                     param.Add(cdal.GetParameter("@Project", model.HeaderData.Project, typeof(string)));
                     param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
                     #endregion
@@ -255,12 +255,12 @@ namespace iSOL_Enterprise.Dal.Production
                         foreach (var item in model.ListItems)
                         {
                             param.Clear();
-                            
+
 
                             string Tabitem = "Id,DocEntry,LineNum,VisOrder,ItemCode,ItemName,BaseQty,PlannedQty,wareHouse,IssueType,IssuedQty";
                             string TabitemP = "@Id,@DocEntry,@LineNum,@VisOrder,@ItemCode,@ItemName,@BaseQty,@PlannedQty,@wareHouse,@IssueType,0";
-                            string ITT1_Query = @"insert into WOR1 ("+Tabitem+") "+
-                                                 "values("+TabitemP+")";
+                            string ITT1_Query = @"insert into WOR1 (" + Tabitem + ") " +
+                                                 "values(" + TabitemP + ")";
 
                             #region ListItems data
                             param.Add(cdal.GetParameter("@id", Id, typeof(int)));
@@ -273,7 +273,7 @@ namespace iSOL_Enterprise.Dal.Production
                             param.Add(cdal.GetParameter("@PlannedQty", item.PlannedQty, typeof(decimal)));
                             param.Add(cdal.GetParameter("@wareHouse", item.Warehouse, typeof(string)));
                             param.Add(cdal.GetParameter("@IssueType", item.IssueMthd, typeof(char)));
-                                                      
+
                             #endregion
 
                             res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, ITT1_Query, param.ToArray()).ToInt();
@@ -289,7 +289,7 @@ namespace iSOL_Enterprise.Dal.Production
                         }
                     }
 
-                    
+
                 }
                 if (res1 > 0)
                 {
@@ -358,8 +358,8 @@ namespace iSOL_Enterprise.Dal.Production
                                          PlannedQty=@PlannedQty,Warehouse=@Warehouse,Priority=@Priority,LinkToObj=@LinkToObj,OriginNum=@OriginNum,
                                          CardCode=@CardCode,Project=@Project,Comments=@Comments,PickRmrk=@PickRmrk,is_Edited=1,isApproved =@isApproved,apprSeen =0 ";
 
-                    
-                    
+
+
                     string HeadQuery = @"Update OWOR set " + TabHeader + " where guid = '" + model.OldId + "'";
 
                     #region SqlParameters
@@ -380,7 +380,7 @@ namespace iSOL_Enterprise.Dal.Production
                     param.Add(cdal.GetParameter("@Priority", model.HeaderData.Priority, typeof(Int16)));
                     param.Add(cdal.GetParameter("@LinkToObj", model.HeaderData.LinkToObj, typeof(string)));
                     param.Add(cdal.GetParameter("@OriginNum", model.HeaderData.OriginNum, typeof(int)));
-                    param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(int)));
+                    param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(string)));
                     param.Add(cdal.GetParameter("@Project", model.HeaderData.Project, typeof(string)));
                     param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
                     #endregion
@@ -411,11 +411,11 @@ namespace iSOL_Enterprise.Dal.Production
                             param.Clear();
                             string ITT1_Query = "";
                             if (item.LineNum != null && item.LineNum != "")
-                            { 
+                            {
 
-                               string  Tabitem = @"VisOrder=@VisOrder,ItemCode=@ItemCode,ItemName=@ItemName,BaseQty=@BaseQty,PlannedQty=@PlannedQty,wareHouse=@wareHouse,IssueType=@IssueType";
-                               
-                               ITT1_Query = @"update WOR1 set " + Tabitem + " where id=" + Id + " and LineNum=" + item.LineNum;
+                                string Tabitem = @"VisOrder=@VisOrder,ItemCode=@ItemCode,ItemName=@ItemName,BaseQty=@BaseQty,PlannedQty=@PlannedQty,wareHouse=@wareHouse,IssueType=@IssueType";
+
+                                ITT1_Query = @"update WOR1 set " + Tabitem + " where id=" + Id + " and LineNum=" + item.LineNum;
                             }
                             else
                             {
@@ -423,7 +423,7 @@ namespace iSOL_Enterprise.Dal.Production
                                 string TabitemP = "@Id,@DocEntry,@LineNum,@VisOrder,@ItemCode,@ItemName,@BaseQty,@PlannedQty,@wareHouse,@IssueType,0";
                                 ITT1_Query = @"insert into WOR1 (" + Tabitem + ") " +
                                                      "values(" + TabitemP + ")";
-                                ChildNum = CommonDal.getLineNumber(tran, "WOR1",Id.ToString());
+                                ChildNum = CommonDal.getLineNumber(tran, "WOR1", Id.ToString());
                             }
 
 
@@ -450,7 +450,7 @@ namespace iSOL_Enterprise.Dal.Production
                                 return response;
 
                             }
-                            
+
                         }
                     }
 
