@@ -103,7 +103,15 @@ namespace SAP_MVC_DIAPI.BLC
                                             #region Insert In Header
                                         isOld = oDoc.GetByKey(rdr["Sap_Ref_No"].ToInt());
 
+                                        if (rdr["Series"].ToString() != "-1")
                                         oDoc.Series = rdr["Series"].ToInt();
+                                        else
+                                        {
+                                            models.Message = "Series can't be Manual ";
+                                            models.isSuccess = false;
+                                            models.isWarning = true;                                            
+                                            return models;
+                                        }
                                         oDoc.DocType = rdr["DocType"].ToString() == "I" ? BoDocumentTypes.dDocument_Items : BoDocumentTypes.dDocument_Service;
                                         oDoc.CardCode = rdr["CardCode"].ToString();
                                         oDoc.CardName = rdr["CardName"].ToString();
@@ -2306,7 +2314,7 @@ namespace SAP_MVC_DIAPI.BLC
                                         oDoc.ProjectCode = rdr["ProjectCod"].ToString();
                                         oDoc.ChannelBP = rdr["ChannlBP"].ToString();
                                         oDoc.Industry = rdr["IndustryC"].ToInt();
-                                        oDoc.DefaultTechnician = rdr["DfTcnician"].ToInt();
+                                        //oDoc.DefaultTechnician = rdr["DfTcnician"].ToInt();
                                         oDoc.BusinessType = rdr["CmpPrivate"].ToString();
                                         oDoc.Territory = rdr["Territory"].ToInt();
                                         oDoc.AliasName = rdr["AliasName"].ToString();
