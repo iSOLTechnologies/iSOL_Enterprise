@@ -2201,39 +2201,6 @@
 			KTDatatablesDataSourceHtml.init();
 			MyToFixed();
 
-
-							//<li class="menu-section">
-							//	<h4 class="menu-text">Administration</h4> <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
-							//</li>
-							//<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
-							//	<a href="javascript:;" class="menu-link menu-toggle">
-							//		<span class="svg-icon menu-icon">
-							//			<!--begin::Svg Icon | path:assets/media/svg/icons/Code/Compiling.svg-->
-							//			<i class="icon-md fas fa-wrench"></i>
-							//			<!--end::Svg Icon-->
-							//		</span> <span class="menu-text">Administration</span> <i class="menu-arrow"></i>
-							//	</a>
-							//		<div class="menu-submenu">
-							//		<i class="menu-arrow"></i>
-							//		<ul class="menu-subnav">
-							//			<li class="menu-item menu-item-parent" aria-haspopup="true">
-							//				<span class="menu-link">
-							//					<span class="menu-text">Subheaders</span>
-							//				</span>
-							//			</li>
-							//			<li class="menu-item" aria-haspopup="true">
-							//				<a asp-action="Index" asp-controller="DocSeries" class="menu-link">
-							//					<i class="menu-bullet menu-bullet-dot">
-							//						<span></span>
-							//					</i> <span class="menu-text">Document Series</span>
-							//				</a>
-							//			</li>
-										
-							//		</ul>
-							//	</div>
-							//</li>
-
-
 			$.ajax({
 				url: "/Dashboard/GetNavAjax",
 				type: "GET",
@@ -2298,45 +2265,7 @@
 										</div>
 									</li>`	;
 					}
-					//for(var i=0; i < data.listModules.length; i++){
-					//	html += ` 
-
-					//				<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
-					//					<a href="javascript:;" class="menu-link menu-toggle">
-					//						<span class="svg-icon menu-icon">
-					//							<!--begin::Svg Icon | path:assets/media/svg/icons/Code/Compiling.svg-->
-					//							<i class="icon-md fas fa-users"></i>
-					//							<!--end::Svg Icon-->
-					//						</span> <span class="menu-text">`+data.listModules[i].name+`</span> <i class="menu-arrow"></i>
-					//					</a>
-					//					<div class="menu-submenu">
-					//						<i class="menu-arrow"></i>
-					//						<ul class="menu-subnav">
-					//							<li class="menu-item menu-item-parent" aria-haspopup="true">
-					//								<span class="menu-link">
-					//									<span class="menu-text">Subheaders</span>
-					//								</span>
-					//							</li>`;
-												
-									
-					//		for (var k = 0; k < data.listModules[i].listPages.length; k++) {
-					//		var icon;
-					//		icon = data.listModules[i].listPages[k].icon.replace(/(\r\n|\n|\r)/gm, "");
-					//		html += '<li class="kt-menu__item " aria-haspopup="true" id="' + data.listModules[i].listPages[k].guid + '">';
-					//		html += ' <a href="/' +data.listModules[i].listPages[k].controller + '/' + data.listModules[i].listPages[k].actionName + '?Source=' +data.listModules[i].listPages[k].guid + '"';
-					//		html += ' class="kt-menu__link ">';
-					//		html += '<i style="margin-top:5px; font-size:20px" class="' + icon + '"></i>';
-
-					//		//html += ' <div class="LBor" style=" width:4px; background-color: #959cb6; margin-right: 15px"></div>';
-					//			html += '  <span style="margin:0px 0px 0px 10px" class="kt-menu__link-text"> ' + data.listModules[i].listPages[k].pageName + ' </span>';
-					//		html += '   </a>';
-					//		html += '   </li>';
-					//		}
-
-					//html +=`		</ul>
-					//					</div>
-					//				</li>`	;	
-					//}
+					
 					
 
 					document.getElementById('SideNav').innerHTML += html;
@@ -2350,72 +2279,10 @@
 			});
 
 
-
-
-
-			//function activateNavigationPages() {
-
-			//	let pageId = '@Context.Request.Query["Source"]';
-
-			//	let element = $('#' + pageId);
-			//	let moduleId = $('#' + pageId).parents('li').parents('li').attr('id');
-			//	let SubModuleId = $('#' + pageId).parents('li').attr('id');
-
-			//	let ModuleElement = $('#' + moduleId);
-			//	let SubModuleElement = $('#' + SubModuleId);
-
-			//	let elementId = $('#' + pageId).attr('id')
-			//	let elementITagClass = $('#' + pageId).children('a').children('i').attr('class');
-
-
-			//	//    element.parents('li').parents('li').addClass('kt-menu__item kt-menu__item--submenu kt-menu__item--here kt-menu__item--open')
-			//	//element.parents('li').parents('li').parents('li').addClass('kt-menu__item--open')
-			//	//element.parents('li').parents('li').addClass('kt-menu__item--open')
-			//	element.find('i').css('color', '#fff')
-			//	element.addClass('kt-menu__item--active')
-
-			//	if (pageId == elementId) {
-			//		//  ModuleElement.css('background-color', '#f8f8fb')
-			//		//ModuleElement.find('span').css('color', '#5d78ff');
-
-			//		// SubModuleElement.css('background-color', '#f8f8fb')
-			//		//SubModuleElement.find('span').css('color', '#5d78ff');
-
-			//		//  element.css('background-color', '#5d78ff')
-			//		//   element.find('span').css('color', '#fff')
-			//	}
-
-			//	let module = $('#' + pageId).parents('li').parents('li').children('a').children('span').html()
-			//	let submodule = $('#' + pageId).parents('li').children('a').children('span').html()
-			//	//let page = $('#' + pageId).children('a').children('span').html()
-			//	const page = $('#' + pageId).children('a').children('span').html()
-			//	if (page != null && page != '' && page != undefined) {
-
-			//		$(document).attr("title", page);
-			//	}
-			//	else {
-
-			//		page = '';
-			//		$(document).attr("title", 'iSOL Entreprise');
-			//	}
-
-			//	$('#heading').text(page);
-			//	$('#heading').parents('div').children('span').children('i').removeClass();
-			//	$('#heading').parents('div').children('span').children('i').addClass(elementITagClass);
-			//	var BreadCrum = '<h3 class="kt-subheader__title">';
-			//	BreadCrum += 'iSOL ERP';
-			//	BreadCrum += ' </h3>';
-			//	BreadCrum += '  <a style="margin-top:2px" href="/Dashboard" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>';
-			//	BreadCrum += '     <div class="kt-subheader__breadcrumbs" style="margin-top:2px; margin-left:5px">';
-			//	BreadCrum += '      <span class="kt-subheader__breadcrumbs-separator"></span>';
-			//	BreadCrum += '     <a href="#" class="kt-subheader__breadcrumbs-link"> ' + page + ' </a>';
-			//	BreadCrum += '</div>';
-			//	BreadCrum += '</div>';
-
-
-
-			//	$('.kt-subheader__main').html(BreadCrum);
-			//}
+			var textareas = document.getElementsByTagName('textarea');
+			  for (var i = 0; i < textareas.length; i++) {
+				textareas[i].value = textareas[i].value.trim();
+			  }
 		});
 
 		
