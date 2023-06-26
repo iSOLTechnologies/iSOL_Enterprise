@@ -1,0 +1,310 @@
+﻿@{
+    ViewData["Title"] = "RolesMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@model iSOL_Enterprise.Models.RoleModels
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<script src="~/assets/js/jquery-3.6.3.slim.js"></script>
+@*<link href="~/lib/gigo-tree/css/tree.min.css" rel="stylesheet" />*@
+
+
+
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("Name")" id="sessionName" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("Email")" id="sessionEmail" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("RoleCode")" id="UserRoleCode" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("DepartmentCode")" id="_DepartmentCode" />
+
+
+<input type="hidden" value="@Context.Request.Query["Source"]" id="PageGuid" />
+<input type="hidden" value="" id="RCODe" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetInt32("UserId")" id="_UserId" />
+<title>User Master</title>
+<style>
+    /*.gj-tree-bootstrap-4 ul.gj-list-bootstrap li ul.gj-list-bootstrap {
+        display: flex;
+    }*/
+</style>
+<div class="container">
+    <!--begin::Card-->
+    <div class="card card-custom card-sticky" id="kt_page_sticky_card">
+        <div class="card-header">
+            <div class="card-title">
+                <h3 class="card-label">
+                    Add Details
+                    <i class="mr-2"></i>
+                    <!-- <small class="">try to scroll the page</small> -->
+                </h3>
+            </div>
+            <div class="card-toolbar">
+                <a onclick="Back_his()" class="btn btn-light-primary font-weight-bolder mr-2">
+                    <i class="ki ki-long-arrow-back icon-sm"></i>Back
+                </a>
+                <div class="btn-group">
+
+                    <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
+                        <i class="ki ki-check icon-sm"></i>Save
+                    </button>
+
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form autocomplete="off" role="form" id="F_@Context.Request.Query["Source"]" name="F_@Context.Request.Query["Source"]">
+                <div class="row justify-content-between radio-inline">
+
+                    @foreach (var item in ViewBag.Drawers)
+                    {
+                        <div class="col-3 mt-2">
+                            <label class="radio radio-success">
+                                @if (item.ValueString == "100000000000000")
+                                {
+                                    <input type="radio" name="drawers" placeholder="@item.Text" value="@item.ValueString" checked="checked" />
+                                }
+                                else
+                                {
+                                    <input type="radio" placeholder="@item.Text" name="drawers" value="@item.ValueString" />
+                                }
+                                <span></span>
+                                @item.Text
+                            </label>
+                        </div>
+                    }
+                    
+                </div>
+
+                <div class="row mt-5 pt-5" style="border-top: 1px solid lightgrey">
+                    <div class="col-md-6" style="border-right: 1px solid lightgrey">
+                        <div class="form-body" id="HeaderForm">
+                            <div class="row">
+                                <div class="col-xl-2"></div>
+                                <div class="col-xl-8">
+
+
+                                    <input type="hidden" value="@Context.Request.Query["Id"]" id="Guid" class="NotReq" />
+                                    <div class="form-group row">
+                                        <label class="col-xl-2 col-lg-2 col-form-label">Role Name <span class="text-danger">*</span></label>
+                                        <div class="col-lg-6 col-xl-6">
+                                            <input type="text" id="RoleName" name="RoleName" class="form-control" placeholder="Role Name">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-xl-2 col-lg-2 col-form-label">IsActive</label>
+                                        <span id="IsActiveSpan" aria-required="true"></span>
+                                        <div class="col-lg-6 col-xl-6">
+                                            <div class="form-group check">
+                                                <div class="mt-checkbox-inline">
+                                                    <label class="checkbox checkbox-info">
+                                                        <input type="checkbox" name="Checkboxes51" id="IsActive" />
+                                                        <span></span>
+
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                    
+                        <div class="col-md-12 col-sm-12 scroll-smooth scrollbar-ripe-malinka Tree_container text-sm">
+                            <div class="row justify-content-center  mb-2" id="DrawerHeading">
+                                <span class="font-weight-bold" style="font-size:1.4rem"> Assets </span>
+                            </div>
+                            <div class="row justify-content-center" id="ButtonsContainer">
+
+                                <a class="btn btn-text-warning btn-hover-light-warning font-weight-bold btn-sm" id="btnExpColl"> <i class="fas fa-minus text-warning icon-nm"></i>Collapse All</a>
+                                <a class="btn btn-text-primary btn-hover-light-primary font-weight-bold btn-sm" id="btnSelUnSel"> <i class="fas fa-times text-primary icon-nm"></i> UnSelect All</a>
+
+                            </div>
+                            <div id="tree">
+                        
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+               
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/commonmethods.js"></script>
+<script>
+    var tree = "";
+    var treeDataSource = '/ChartOfAccounts/GetLevels';
+    $(document).ready(function () {
+
+        let Guid = $('#Guid').val();
+        
+        GetLevels($("input[name=drawers]:checked").val());
+        treeDataSource = '/ChartOfAccounts/GetLevels';
+    });
+
+    $('input[name=drawers]').change(function () {
+        
+        $('#tree').tree().destroy();
+        
+        var selectedValue = $(this).val();
+        console.log($(this).attr('placeholder'));
+        $("#DrawerHeading span").text($(this).attr('placeholder'));
+        GetLevels(selectedValue);
+
+        console.log(selectedValue);
+    });
+
+    
+   
+
+    $(document).on('click', "#btnSelUnSel", function () {
+
+        if ($(this).html() == '<i class="fas fa-check text-primary icon-nm"></i> Sellect All') {
+            tree.checkAll();
+            $(this).html('<i class="fas fa-times text-primary icon-nm"></i> UnSelect All');
+        }
+        else {
+            tree.uncheckAll();
+            $(this).html('<i class="fas fa-check text-primary icon-nm"></i> Sellect All');
+        }
+    });
+    
+    $(document).on('click', "#btnExpColl", function () {
+
+        if ($(this).html() == '<i class="fas fa-minus text-warning icon-nm"></i>Collapse All') {
+            tree.collapseAll();
+            $(this).html('<i class="fas fa-plus text-warning icon-nm"></i>Expand All');
+        }
+        else {
+            tree.expandAll();
+            $(this).html('<i class="fas fa-minus text-warning icon-nm"></i>Collapse All');
+        }
+    });
+
+    function GetLevels(drawer) {
+
+        tree = $('#tree').tree({
+            primaryKey: 'id',
+            uiLibrary: 'bootstrap4',
+            dataSource: treeDataSource + "?drawer='"+drawer+"'",
+            checkboxes: false,
+            
+            //cascadeCheck: false,
+        });
+
+        tree.on('dataBound', function () {
+            tree.expandAll();
+        });
+
+    }
+    $(document).on('click', '#btnSaveData', function (e) {
+
+
+
+        $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+        $(this).attr('disabled', true);
+
+        if (ValidateData("HeaderForm")) {
+
+            FormData();
+        }
+        else {
+
+            $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+            $(this).attr('disabled', false);
+        }
+    });
+
+    //function FormData() {
+
+    //    var formdata =
+    //    {
+
+    //        RoleName: $("#RoleName").val(),
+    //        IsActive: $('#IsActive').prop('checked'),
+    //        Guid: $('#Guid').val(),
+    //        Permissions: tree.getCheckedNodes()
+
+    //    }
+
+
+    //    PostData(formdata);
+
+
+    //}
+
+    function PostData(formData) {
+
+        let Guid = $('#Guid').val();
+        let URL = '/Role/Add';
+        if (Guid != null && Guid != '' && Guid != undefined) {
+            URL = '/Role/Edit';
+        }
+
+        return $.ajax({
+            url: URL,
+            dataType: 'json',
+            type: 'POST',
+
+            data: { formData: JSON.stringify(formData) },
+
+            success: function (result) {
+                console.log(result);
+                if (result.isInserted) {
+                    toastr.success(result.message);
+
+                    setTimeout(
+                        function () {
+
+                            $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                            $('#btnSaveData').attr('disabled', false);
+
+                        }, 800);
+                    setTimeout(function () {
+                        window.history.back();
+                    }, 800);
+
+
+                }
+
+                if (!(result.isInserted)) {
+                    toastr.error(result.message);
+                    $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $('#btnSaveData').attr('disabled', false);
+
+                }
+
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+
+        }).done(function (result) {
+
+        });
+    }
+</script>
+
+
+
+
+
+
+
+
+
+

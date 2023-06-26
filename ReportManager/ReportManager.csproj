@@ -134,6 +134,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Reports\Accessories Consumption Report.rpt" />
+    <Content Include="Assets\Reports\Purchase Tracking Report V1.rpt" />
+    <Content Include="Assets\Reports\Sale Order Wise Yarn Report.rpt" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -159,9 +162,20 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Assets\Reports\Accessories Consumption Report.rpt" />
-    <Content Include="Assets\Reports\Purchase Tracking Report V1.rpt" />
-    <Content Include="Assets\Reports\Sale Order Wise Yarn Report.rpt" />
+    <Content Include="Assets\Reports\Cotton Empire PO.rpt" />
+    <Content Include="Assets\Reports\Inventory Transffer Gatepass.rpt" />
+    <Content Include="Assets\Reports\Outward Gatepass Rpt-Roll.rpt" />
+    <Content Include="Assets\Reports\Outward Gatepass Rpt.rpt" />
+    <Content Include="Assets\Reports\Purchase Rejection Detail Fabric.rpt" />
+    <Content Include="Assets\Reports\PurchaseOrder %28Bedding%29.rpt" />
+    <Content Include="Assets\Reports\PurchaseOrder-Foreign.rpt" />
+    <Content Include="Assets\Reports\ReportLogs\ACR_1-21-05-2023 092745.pdf" />
+    <Content Include="Assets\Reports\ReportLogs\ACR_1-21-05-2023 092758.pdf" />
+    <Content Include="Assets\Reports\ReportLogs\ACR_401579-27-04-2023 022741.pdf" />
+    <Content Include="Assets\Reports\ReportLogs\ACR_401579-27-04-2023 025007.pdf" />
+    <Content Include="Assets\Reports\ReportLogs\PTRV1_1-22-05-2023 025540.pdf" />
+    <Content Include="Assets\Reports\ReportLogs\PTRV1_200176-27-04-2023 065417.pdf" />
+    <Content Include="Assets\Reports\PurchaseOrder.rpt" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -190,7 +204,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Assets\Reports\ReportLogs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
