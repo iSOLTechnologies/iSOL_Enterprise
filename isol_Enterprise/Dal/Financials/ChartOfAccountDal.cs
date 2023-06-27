@@ -1,4 +1,5 @@
-﻿using iSOL_Enterprise.Models;
+﻿using iSOL_Enterprise.Common;
+using iSOL_Enterprise.Models;
 using SqlHelperExtensions;
 using System.Data;
 using System.Data.SqlClient;
@@ -36,7 +37,7 @@ namespace iSOL_Enterprise.Dal.Financials
             CommonDal cdal = new();
 
             List<TreeModel> Pages = new List<TreeModel>();
-            string query = @"select AcctCode,AcctName from OACT where FatherNum =" + drawer;
+            string query = @"select AcctCode,AcctName,Levels,Postable from OACT where FatherNum =" + drawer;
 
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text,query))
             {
@@ -44,9 +45,11 @@ namespace iSOL_Enterprise.Dal.Financials
                 {
                     TreeModel model = new TreeModel();
                     string AcctCode = rdr["AcctCode"].ToString();
+                    int Levels = rdr["Levels"].ToInt();
+                    string Postable = rdr["Postable"].ToString();
 
                     model.id = AcctCode;
-                    model.text = "<span class='text-success'>" + AcctCode + " - " + rdr["AcctName"].ToString() + "</span>";
+                    model.text = "<span class='text-success act' act-level= "+Levels+" act-postable= "+ Postable + " >" + AcctCode + " - " + rdr["AcctName"].ToString() + "</span>";
                     model.@checked = false;
                     model.population -= null;
                     model.flagUrl = null;                    
@@ -63,22 +66,24 @@ namespace iSOL_Enterprise.Dal.Financials
 
             
             List<TreeModel> Pages = new List<TreeModel>();
-            string query = @"select AcctCode,AcctName from OACT where FatherNum ='" + AcctCode + "'";
+            string query = @"select AcctCode,AcctName,Levels,Postable from OACT where FatherNum ='" + AcctCode + "'";
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, query))
             {
                 while (rdr.Read())
                 {
                     TreeModel model = new TreeModel();
                     string AcctCode1 = rdr["AcctCode"].ToString();
+                    int Levels = rdr["Levels"].ToInt();
+                    string Postable = rdr["Postable"].ToString();
 
                     model.id = AcctCode1;
-                    model.text =  AcctCode1 + " - " + rdr["AcctName"].ToString();
+                    model.text = "<span class='act' act-level= " + Levels+" act-postable= "+ Postable + ">" + AcctCode1 + " - " + rdr["AcctName"].ToString() + "</span>";
                     model.@checked = false;
                     model.population -= null;
                     model.flagUrl = null;
                     model.children = GetLevelChilds(AcctCode1);
                     if (model.children.Count > 0)
-                        model.text = "<span class='text-success'>" + AcctCode1 + " - " + rdr["AcctName"].ToString() + "</span>";
+                        model.text = "<span class='text-success act' act-level= " + Levels+" act-postable= "+ Postable + ">" + AcctCode1 + " - " + rdr["AcctName"].ToString() + "</span>";
                     
                     Pages.Add(model);
                 }

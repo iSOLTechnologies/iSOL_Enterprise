@@ -1,4 +1,6 @@
-﻿using iSOL_Enterprise.Dal.Financials;
+﻿using iSOL_Enterprise.Dal;
+using iSOL_Enterprise.Dal.Business;
+using iSOL_Enterprise.Dal.Financials;
 using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -37,7 +39,11 @@ namespace iSOL_Enterprise.Controllers.Financials
                 }
 
                 ChartOfAccountDal dal = new ();
+                CommonDal cdal = new ();
+                BusinessPartnerMasterDataDal bdal = new ();
                 ViewBag.Drawers = dal.GetDrawers();
+                ViewBag.Currency = cdal.GetCurrencydata();
+                ViewBag.Projects = bdal.GetProjectCodes();
                 return View();
 
 

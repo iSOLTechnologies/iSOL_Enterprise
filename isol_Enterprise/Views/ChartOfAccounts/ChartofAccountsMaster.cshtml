@@ -26,6 +26,21 @@
     /*.gj-tree-bootstrap-4 ul.gj-list-bootstrap li ul.gj-list-bootstrap {
         display: flex;
     }*/
+    .list-group-item.active {
+        background-color: #F9D840;
+        border-color: #F9D840;
+    }
+    .Tree_container {
+        max-height: 750px;
+        /* margin-bottom: 10px;*/
+        overflow-x: hidden;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+    /*ul.gj-list li [data-role=display]
+    { 
+        cursor : unset;
+    }*/
 </style>
 <div class="container">
     <!--begin::Card-->
@@ -78,49 +93,236 @@
                 <div class="row mt-5 pt-5" style="border-top: 1px solid lightgrey">
                     <div class="col-md-6" style="border-right: 1px solid lightgrey">
                         <div class="form-body" id="HeaderForm">
-                            <div class="row">
-                                <div class="col-xl-2"></div>
-                                <div class="col-xl-8">
-
-
-                                    <input type="hidden" value="@Context.Request.Query["Id"]" id="Guid" class="NotReq" />
-                                    <div class="form-group row">
-                                        <label class="col-xl-2 col-lg-2 col-form-label">Role Name <span class="text-danger">*</span></label>
-                                        <div class="col-lg-6 col-xl-6">
-                                            <input type="text" id="RoleName" name="RoleName" class="form-control" placeholder="Role Name">
-                                        </div>
+                                <div style="font-size:1.1rem" class="font-weight-bold"> <u> G/L Account Details </u></div>
+                            
+                                <div class="row mt-3 justify-content-center">
+                                    <div class="radio-inline justify-content-between col-8">
+                                        <label class="radio radio-primary">
+                                            <input type="radio" id="TitleAccount" name="postable" value="N" />
+                                            <span></span>
+                                            Title
+                                        </label>
+                                        <label class="radio radio-primary">
+                                        <input type="radio" id="ActiveAccount" name="postable" value="Y" checked />
+                                            <span></span>
+                                            Active Account
+                                        </label>
+                                       
                                     </div>
+                                </div>
+                             
 
-                                    <div class="form-group row">
-                                        <label class="col-xl-2 col-lg-2 col-form-label">IsActive</label>
-                                        <span id="IsActiveSpan" aria-required="true"></span>
-                                        <div class="col-lg-6 col-xl-6">
-                                            <div class="form-group check">
-                                                <div class="mt-checkbox-inline">
-                                                    <label class="checkbox checkbox-info">
-                                                        <input type="checkbox" name="Checkboxes51" id="IsActive" />
-                                                        <span></span>
+                               <input type="hidden" value="@Context.Request.Query["Id"]" id="Guid" class="NotReq" />
+                               <input type="hidden"  id="FatherNum" class="" />
+                              
+                               <div class="container pt-5">
 
-                                                    </label>
+                                   <div class="form-group row">
+
+                                       <div class="col-12 d-flex">
+
+                                            <label class="col-xl-4 col-lg-4 col-form-label">G/L Account <span class="text-danger">*</span></label>
+                                            <div class="col-lg-8 col-xl-8">
+                                                <input type="text" name="AcctCode" class="form-control" placeholder="G/L Account">
+                                            </div>
+
+                                       </div>
+                                       <div class="col-12 d-flex mt-2">
+
+                                            <label class="col-xl-4 col-lg-4 col-form-label">Name <span class="text-danger">*</span></label>
+                                            <div class="col-lg-8 col-xl-8">
+                                                <input type="text" name="AcctName" class="form-control" placeholder="Name">
+                                            </div>
+
+                                       </div>
+                                       <div class="col-12 d-flex mt-2">
+
+                                            <label class="col-xl-4 col-lg-4 col-form-label">External Code </label>
+                                            <div class="col-lg-8 col-xl-8">
+                                                <input type="text" name="AccntntCod" class="form-control NotReq" placeholder="Name">
+                                            </div>
+
+                                       </div>
+                                       <div class="col-12 d-flex mt-2">
+
+                                            <label class="col-xl-4 col-lg-4 col-form-label">Currency <span class="text-danger">*</span></label>
+                                            <div class="col-lg-8 col-xl-8">
+                                                <select  name="ActCurr" class="form-control NotReq">
+
+                                                     <option value="##" selected>All Currencies</option>
+                                                    @foreach (var curr in ViewBag.Currency)
+                                                    {
+                                                     <option value="@curr.curr_code">@curr.curr_name</option>
+                                                    }
+                                                </select>
+                                                
+                                            </div>
+
+                                       </div>
+                                       <div class="col-12 d-flex mt-2">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-8 d-flex">
+                                                <label class="col-xl-4 col-lg-4 col-form-label">Level <span class="text-danger">*</span></label>
+                                                <div class="col-lg-8 col-xl-8">
+                                                    <input type="number" name="Levels" id="Levels" class="form-control" placeholder="Level" disabled>
+
                                                 </div>
                                             </div>
+                                       </div>
+                                   </div>
+                                   
+                                   
+
+                               </div>
+                        </div>
+                        <div class="form-body" id="FooterForm">
+                               <div class="container pt-5 mt-5">
+
+                                    <div class="form-group row">
+                                        <div class="col-md-4 pt-3">
+                                            <div class="checkbox-inline">
+                                                <label class="checkbox checkbox-outline checkbox-primary">
+                                                    <input type="checkbox" name="Protected" />
+                                                    <span></span>
+                                                    Confidential
+                                                </label>
+                                            </div>
                                         </div>
+                                        
+                                    </div>
+                                    
+                               </div>
+
+
+                                <div class="col-12 d-flex mt-2">
+
+                                    <label class="col-xl-4 col-lg-4 col-form-label">Balance <span class="text-danger">*</span></label>
+                                    <div class="col-lg-4 col-xl-4">
+                                        <input type="text" name="CurrTotal" class="form-control" placeholder="0.00" disabled>
+
+                                    </div>
+                                    <div class="col-lg-4 col-xl-4">
+                                        <select name="Curr" class="form-control NotReq"> </select>
 
                                     </div>
 
                                 </div>
+                                <div style="font-size:1.1rem" class="font-weight-bold"> <u> G/L Account Properties </u></div>
 
-                                
+                                <div class="container pt-5">
+                                    <div class="form-group row">
 
-                            </div>
+                                        <div class="col-12 d-flex">
 
+                                            <label class="col-xl-4 col-lg-4 col-form-label">Account Type<span class="text-danger">*</span></label>
+                                            <div class="col-lg-8 col-xl-8">
+                                                <select name="ActType" class="form-control"> 
+                                                    <option value="I">Sales</option>
+                                                    <option value="E">Expenditure</option>
+                                                    <option value="N" selected>Other</option>
+                                                </select>
+                                            </div>
 
+                                        </div>
+                                        <div class="col-4 pt-3">
+                                            <div class="checkbox-inline">
+                                                <label class="checkbox checkbox-outline checkbox-primary">
+                                                    <input type="checkbox" name="LocManTran" />
+                                                    <span></span>
+                                                    Control Account
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-8"></div>
+                                        <div class="col-4 pt-3">
+                                            <div class="radio-inline">
+                                                <label class="radio radio-outline radio-primary">
+                                                    <input type="radio" name="Finanse" value="CA" />
+                                                    <span></span>
+                                                    Cash Account
+                                                </label>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-4 pt-3">
+                                            <div class="radio-inline">
+                                                <label class="radio radio-outline radio-primary">
+                                                    <input type="radio" name="Finanse" value="IN" />
+                                                    <span></span>
+                                                    Indexed
+                                                </label>
+                                            </div>                                            
+                                        </div>
+                                        <div class="col-4"></div>
+                                        <div class="col-4"></div>
+                                        <div class="col-4 pt-3">
+                                            <div class="checkbox-inline">
+                                                <label class="checkbox checkbox-outline checkbox-primary">
+                                                    <input type="checkbox" name="RevalMatch" />
+                                                    <span></span>
+                                                    Revel (Currency)
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-4"></div>
+                                        <div class="col-4 pt-3">
+                                            <div class="checkbox-inline">
+                                                <label class="checkbox checkbox-outline checkbox-primary">
+                                                    <input type="checkbox" name="BlocManPos" />
+                                                    <span></span>
+                                                   Block Manual posting
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-8"></div>
+                                        <div class="col-4 pt-3">
+                                            <div class="checkbox-inline">
+                                                <label class="checkbox checkbox-outline checkbox-primary">
+                                                <input type="checkbox" name="CfwRlvnt" />
+                                                    <span></span>
+                                                    Cash Flow Relevant
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="font-size:1rem" class="font-weight-bold"> Relevant for Cost Accounting </div>
+
+                                <div class="container pt-5">
+                                    <div class="form-group row">
+                                        <div class="col-md-4 pt-3">
+                                            <div class="checkbox-inline">
+                                                <label class="checkbox checkbox-outline checkbox-primary">
+                                                    <input type="checkbox" name="PrjRelvnt" id="PrjRelvnt" />
+                                                    <span></span>
+                                                    Project
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 d-flex">
+                                        
+                                            <div class="col-lg-12 col-xl-12">
+                                            <select name="Project" id="Project" class="form-control NotReq" disabled>
+
+                                                
+                                                @foreach (var pro in ViewBag.Projects)
+                                                {
+                                                    <option value="@pro.Value">@pro.Text</option>
+                                                }
+                                            </select>
+                                                
+
+                                            </div>
+                                        </div>
+                                    </div>
+                               </div>
                         </div>
-                    </div>
-                    
+                   </div>
+               
                     <div class="col-md-6">
                     
-                        <div class="col-md-12 col-sm-12 scroll-smooth scrollbar-ripe-malinka Tree_container text-sm">
+                        <div class="col-md-12 col-sm-12 scroll-smooth scrollbar Tree_container text-sm" id="">
                             <div class="row justify-content-center  mb-2" id="DrawerHeading">
                                 <span class="font-weight-bold" style="font-size:1.4rem"> Assets </span>
                             </div>
@@ -147,6 +349,7 @@
 <script src="~/js/commonmethods.js"></script>
 <script>
     var tree = "";
+    
     var treeDataSource = '/ChartOfAccounts/GetLevels';
     $(document).ready(function () {
 
@@ -155,7 +358,55 @@
         GetLevels($("input[name=drawers]:checked").val());
         treeDataSource = '/ChartOfAccounts/GetLevels';
     });
+    $(document).on('change', "#PrjRelvnt", function () {
 
+        if ( $(this).is(':checked') )
+            $("#Project").attr('disabled',false);
+        else
+            $("#Project").attr('disabled',true);
+
+    });
+    $(document).on('change', "input[name=postable]", function () {
+
+        let Postable = $("input[name=postable]:checked").val();
+        if(Postable === "Y") 
+        {
+            $("#FooterForm").removeClass('d-none');
+        }
+        else
+        {
+            $("#FooterForm").addClass('d-none');
+        }
+
+    });
+
+    $(document).on('click', ".list-group-item", function () {
+
+        let SelectedLevelTag = $('li.list-group-item.active');
+        
+        let FatherNum = $(SelectedLevelTag).attr('data-id');
+        let TargetSpan = $('li[data-id="' + FatherNum + '"] span.act:first');
+
+        let Level = $(TargetSpan).attr('act-level');
+        let Postable = $(TargetSpan).attr('act-postable');
+        
+        
+        $("#Levels").val(Level);
+        $("#FatherNum").val(FatherNum);
+        if(Postable === "Y")
+        {
+            UpdateFormsAsActiveAccount();
+            
+        }
+        else
+        {
+            $("#TitleAccount").prop('checked', true);
+            $("#FooterForm").addClass('d-none');
+            $("#ActiveAccount").attr('disabled',true);
+        }
+
+        
+    });
     $('input[name=drawers]').change(function () {
         
         $('#tree').tree().destroy();
@@ -165,10 +416,18 @@
         $("#DrawerHeading span").text($(this).attr('placeholder'));
         GetLevels(selectedValue);
 
-        console.log(selectedValue);
+        UpdateFormsAsActiveAccount();
+        $("#Levels").val("");
+        $("#FatherNum").val("");
     });
 
-    
+    function UpdateFormsAsActiveAccount() 
+    {
+        $("#ActiveAccount").attr('disabled', false);
+        $("#ActiveAccount").prop('checked', true);
+        $("#FooterForm").removeClass('d-none');
+        $("#TitleAccount").attr('disabled', false);
+    }
    
 
     $(document).on('click', "#btnSelUnSel", function () {
