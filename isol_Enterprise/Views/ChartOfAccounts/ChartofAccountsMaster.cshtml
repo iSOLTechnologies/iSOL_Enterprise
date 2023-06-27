@@ -164,7 +164,7 @@
                                             <div class="col-md-8 d-flex">
                                                 <label class="col-xl-4 col-lg-4 col-form-label">Level <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8 col-xl-8">
-                                                    <input type="number" name="Levels" id="Levels" class="form-control" placeholder="Level" disabled>
+                                                    <input type="number" name="Levels" id="Levels" value="2" class="form-control" placeholder="Level" disabled>
 
                                                 </div>
                                             </div>
@@ -418,7 +418,7 @@
 
         UpdateFormsAsActiveAccount();
         $("#Levels").val("");
-        $("#FatherNum").val("");
+        $("#FatherNum").val(selectedValue);
     });
 
     function UpdateFormsAsActiveAccount() 
