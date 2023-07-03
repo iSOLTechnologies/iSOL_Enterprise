@@ -1,5 +1,7 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
+using Microsoft.Extensions.Logging.Abstractions;
+using Newtonsoft.Json;
 using SqlHelperExtensions;
 using System.Data;
 using System.Data.SqlClient;
@@ -16,7 +18,7 @@ namespace iSOL_Enterprise.Dal.Financials
 
             List<ListModel> list = new List<ListModel>();
 
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
             {
                 while (rdr.Read())
                 {
@@ -39,7 +41,7 @@ namespace iSOL_Enterprise.Dal.Financials
             List<TreeModel> Pages = new List<TreeModel>();
             string query = @"select AcctCode,AcctName,Levels,Postable from OACT where FatherNum =" + drawer;
 
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text,query))
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text,query))
             {
                 while (rdr.Read())
                 {
@@ -67,7 +69,7 @@ namespace iSOL_Enterprise.Dal.Financials
             
             List<TreeModel> Pages = new List<TreeModel>();
             string query = @"select AcctCode,AcctName,Levels,Postable from OACT where FatherNum ='" + AcctCode + "'";
-            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, query))
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, query))
             {
                 while (rdr.Read())
                 {
@@ -89,6 +91,192 @@ namespace iSOL_Enterprise.Dal.Financials
                 }
             }
             return Pages;
+        }
+
+        public string GetUpdatedAcctCode(string FatherNum)
+        {
+
+            string query = @"select Top(1) AcctCode,ROW_NUMBER() OVER (ORDER BY AcctCode) AS row_number from OACT where FatherNum = '"+ FatherNum + "' order by row_number desc";
+            string AcctCode = "";
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, query))
+            {
+                while (rdr.Read())
+                {
+                    AcctCode = rdr["AcctCode"].ToString();
+
+                }
+            }
+            if (AcctCode == "" || string.IsNullOrWhiteSpace(AcctCode))
+            {
+                AcctCode = FatherNum + "01";
+            }
+            else
+            {
+                int number = int.Parse( AcctCode.Substring(AcctCode.Length - 2));
+                AcctCode = FatherNum + "0" + number;
+
+            }
+
+                    return AcctCode;
+        }
+        public ResponseModels Add(string formData)
+        {
+            ResponseModels response = new ResponseModels();
+            CommonDal cdal = new CommonDal();
+            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+            conn.Open();
+            SqlTransaction tran = conn.BeginTransaction();
+            int res1 = 0;
+            var model = JsonConvert.DeserializeObject<dynamic>(formData);
+
+            try
+            {
+                int count = SqlHelper.ExecuteScalar(tran, CommandType.Text, "select count(*) from OACT where AcctCode='" + (model.HeaderData.AcctCode).ToString() + "'");
+                if (count == 0)
+                {
+
+
+                    if (model.HeaderData != null)
+                    {
+                        List<SqlParameter> param = new List<SqlParameter>();
+                        string AcctCode = GetUpdatedAcctCode(model.HeaderData.FatherNum.ToString());
+                        string Guid = CommonDal.generatedGuid();
+                        int DocEntry = CommonDal.getPrimaryKey(tran, "OACT");
+                        int Levels = Convert.ToUInt32( model.HeaderData.Levels ) + 1;
+                        int ObjectCode = 1;
+                        int isApproved = ObjectCode.GetApprovalStatus(tran);
+                        #region Insert in Approval Table
+
+                        if (isApproved == 0)
+                        {
+                            ApprovalModel approvalModel = new()
+                            {
+                                Id = CommonDal.getPrimaryKey(tran, "tbl_DocumentsApprovals"),
+                                ObjectCode = ObjectCode,
+                                DocEntry = DocEntry,
+                                DocNum = (model.HeaderData.AcctCode).ToString(),
+                                Guid = Guid
+
+                            };
+                            bool resp = cdal.AddApproval(tran, approvalModel);
+                            if (!resp)
+                            {
+                                response.isSuccess = false;
+                                response.Message = "An Error Occured";
+                                return response;
+                            }
+                        }
+
+                        #endregion
+
+                        string TabHeader = "DocEntry,FatherNum,AcctCode,AcctName,AccntntCod,ActCurr,Levels,isApproved";
+                        string TabHeaderP = "@DocEntry,@FatherNum,@AcctCode,@AcctName,@AccntntCod,@ActCurr,@Levels,@isApproved";
+
+                        if (model.FooterData.postable == "Y")
+                        {
+                            TabHeader = TabHeader + ",Protected,ActType,LocManTran,Finanse,RevalMatch,BlocManPos,CfwRlvnt,PrjRelvnt,Project";
+                            TabHeaderP = TabHeaderP + ",@Protected,@ActType,@LocManTran,@Finanse,@RevalMatch,@BlocManPos,@CfwRlvnt,@PrjRelvnt,@Project";
+                        }
+                        if (model.AccountDetail != "" && model.AccountDetail != null)
+                        {
+                            if (model.AccountDetail.validFor == "Y")
+                            {
+                                TabHeader = TabHeader + ",ValidFrom,ValidTo,ValidComm";
+                                TabHeaderP = TabHeaderP + ",@ValidFrom,@ValidTo,@ValidComm";
+                            }
+                            else if (model.AccountDetail.validFor == "N")
+                            {
+                                TabHeader = TabHeader + ",FrozenFrom,FrozenTo,FrozenComm";
+                                TabHeaderP = TabHeaderP + ",@FrozenFrom,@FrozenTo,@FrozenComm";
+                            }
+                            TabHeader = TabHeader + ",VatChange";
+                            TabHeaderP = TabHeaderP + ",@VatChange";
+                        }
+
+                        string HeadQuery = @"insert into OACT (" + TabHeader + ") " +
+                                            "values(" + TabHeaderP + ")";
+
+
+
+                        #region SqlParameters
+
+                        #region Header data
+                        param.Add(cdal.GetParameter("@DocEntry", DocEntry, typeof(int)));
+                        param.Add(cdal.GetParameter("@FatherNum", model.HeaderData.FatherNum, typeof(string)));
+                        param.Add(cdal.GetParameter("@AcctCode", AcctCode, typeof(string)));
+                        param.Add(cdal.GetParameter("@AcctName", model.HeaderData.AcctName, typeof(string)));
+                        param.Add(cdal.GetParameter("@ActCurr", model.HeaderData.ActCurr, typeof(string)));
+                        param.Add(cdal.GetParameter("@Levels", Levels, typeof(int)));
+                        param.Add(cdal.GetParameter("@Protected", model.FooterData.Protected, typeof(string)));
+                        param.Add(cdal.GetParameter("@ActType", model.FooterData.ActType, typeof(string)));
+                        param.Add(cdal.GetParameter("@LocManTran", model.FooterData.LocManTran, typeof(string)));
+                        param.Add(cdal.GetParameter("@Finanse", model.FooterData.Finanse, typeof(string)));
+                        param.Add(cdal.GetParameter("@RevalMatch", model.FooterData.RevalMatch, typeof(string)));
+                        param.Add(cdal.GetParameter("@BlocManPos", model.FooterData.BlocManPos, typeof(string)));
+                        param.Add(cdal.GetParameter("@CfwRlvnt", model.FooterData.CfwRlvnt, typeof(string)));
+                        param.Add(cdal.GetParameter("@PrjRelvnt", model.FooterData.PrjRelvnt, typeof(string)));
+                        param.Add(cdal.GetParameter("@Project", model.FooterData.Project, typeof(string)));
+                        
+                        param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
+
+                        if (model.AccountDetail != "" && model.AccountDetail != null)
+                        {
+                            if (model.AccountDetail.validFor == "Y")
+                            {
+                                param.Add(cdal.GetParameter("@ValidFrom", model.AccountDetail.ValidFrom, typeof(DateTime)));
+                                param.Add(cdal.GetParameter("@ValidTo", model.AccountDetail.ValidFrom, typeof(DateTime)));
+                                param.Add(cdal.GetParameter("@ValidComm", model.AccountDetail.ValidComm, typeof(string)));
+
+                            }
+                            else if (model.AccountDetail.validFor == "N")
+                            {
+                                param.Add(cdal.GetParameter("@FrozenFrom", model.AccountDetail.FrozenFrom, typeof(DateTime)));
+                                param.Add(cdal.GetParameter("@FrozenTo", model.AccountDetail.FrozenFrom, typeof(DateTime)));
+                                param.Add(cdal.GetParameter("@FrozenComm", model.AccountDetail.FrozenComm, typeof(string)));
+                            }
+                                param.Add(cdal.GetParameter("@VatChange", model.AccountDetail.VatChange, typeof(string)));
+                        }
+                        #endregion
+
+
+                        #endregion
+
+                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery, param.ToArray()).ToInt();
+                        if (res1 <= 0)
+                        {
+                            tran.Rollback();
+                            response.isSuccess = false;
+                            response.Message = "An Error Occured";
+                            return response;
+                        }
+
+                        
+
+
+                    }
+                    if (res1 > 0)
+                    {
+                        tran.Commit();
+                        response.isSuccess = true;
+                        response.Message = "G/L Account Added Successfully !";
+
+                    }
+                }
+                else
+                {
+                    response.isSuccess = false;
+                    response.Message = "G/L Account Code already exists !";
+                }
+            }
+
+            catch (Exception e)
+            {
+                tran.Rollback();
+                response.isSuccess = false;
+                response.Message = e.Message;
+                return response;
+            }
+            return response;
         }
     }
 }

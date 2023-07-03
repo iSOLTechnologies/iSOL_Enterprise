@@ -59,6 +59,9 @@
                 </a>
                 <div class="btn-group">
 
+                    <button type="button" class="btn btn-success font-weight-bolder mr-2" id="btnAccoutDetails">
+                        <i class="fas fa-info icon-sm"></i>Account Details
+                    </button>
                     <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
                         <i class="ki ki-check icon-sm"></i>Save
                     </button>
@@ -74,7 +77,7 @@
                     {
                         <div class="col-3 mt-2">
                             <label class="radio radio-success">
-                                @if (item.ValueString == "100000000000000")
+                                @if (item.ValueString == "1")
                                 {
                                     <input type="radio" name="drawers" placeholder="@item.Text" value="@item.ValueString" checked="checked" />
                                 }
@@ -110,10 +113,10 @@
                                        
                                     </div>
                                 </div>
-                             
 
-                               <input type="hidden" value="@Context.Request.Query["Id"]" id="Guid" class="NotReq" />
-                               <input type="hidden"  id="FatherNum" class="" />
+
+                            <input type="hidden" value="@Context.Request.Query["Id"]" name="Guid" id="Guid" class="NotReq" />
+                                <input type="hidden" name="FatherNum" id="FatherNum" class="" />
                               
                                <div class="container pt-5">
 
@@ -123,7 +126,7 @@
 
                                             <label class="col-xl-4 col-lg-4 col-form-label">G/L Account <span class="text-danger">*</span></label>
                                             <div class="col-lg-8 col-xl-8">
-                                                <input type="text" name="AcctCode" class="form-control" placeholder="G/L Account">
+                                            <input type="text" name="AcctCode" id="AcctCode" class="form-control" placeholder="G/L Account" disabled>
                                             </div>
 
                                        </div>
@@ -139,7 +142,7 @@
 
                                             <label class="col-xl-4 col-lg-4 col-form-label">External Code </label>
                                             <div class="col-lg-8 col-xl-8">
-                                                <input type="text" name="AccntntCod" class="form-control NotReq" placeholder="Name">
+                                                <input type="text" name="AccntntCod" class="form-control NotReq" placeholder="External Code">
                                             </div>
 
                                        </div>
@@ -164,7 +167,7 @@
                                             <div class="col-md-8 d-flex">
                                                 <label class="col-xl-4 col-lg-4 col-form-label">Level <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8 col-xl-8">
-                                                    <input type="number" name="Levels" id="Levels" value="2" class="form-control" placeholder="Level" disabled>
+                                                    <input type="number" name="Levels" id="Levels"  class="form-control" placeholder="Level" disabled>
 
                                                 </div>
                                             </div>
@@ -196,7 +199,7 @@
 
                                 <div class="col-12 d-flex mt-2">
 
-                                    <label class="col-xl-4 col-lg-4 col-form-label">Balance <span class="text-danger">*</span></label>
+                                    <label class="col-xl-4 col-lg-4 col-form-label">Balance </label>
                                     <div class="col-lg-4 col-xl-4">
                                         <input type="text" name="CurrTotal" class="form-control" placeholder="0.00" disabled>
 
@@ -216,7 +219,7 @@
 
                                             <label class="col-xl-4 col-lg-4 col-form-label">Account Type<span class="text-danger">*</span></label>
                                             <div class="col-lg-8 col-xl-8">
-                                                <select name="ActType" class="form-control"> 
+                                                <select name="ActType" id="ActType" class="form-control"> 
                                                     <option value="I">Sales</option>
                                                     <option value="E">Expenditure</option>
                                                     <option value="N" selected>Other</option>
@@ -340,24 +343,130 @@
                         </div>
                     </div>
                 </div>
-               
+                
+                <div class="modal fade" id="AccountDetailModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">G/L Account Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <i aria-hidden="true" class="ki ki-close" style="color:red;"></i>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card card-custom">
+                                    <!--begin::Form-->
+                                    <div class="card-body" id="AccountDetail">
+                                        <div class="form-group row justify-content-between">
+
+                                            <div class="col-md-2 radio-inline">
+
+                                                <label class="radio radio-primary">
+                                                    <input id="ActivevalidFor" type="radio" checked name="validFor" class="ml-2" value="Y">
+                                                    <span></span> Active
+                                                </label>
+                                            </div>
+
+                                            <div class="col-md-10 " id="ActivevalidFor1">
+                                                <div class="row">
+                                                    <div class="col-md-6 d-flex">
+
+                                                        <label class="mt-2 mr-3 ">From</label>
+                                                        <input type="date" id="validFrom" class="mr-5  form-control form-control-sm NotReq">
+                                                    </div>
+                                                    <div class="col-md-6 d-flex">
+                                                        <label class="mt-2 mr-3 ">To</label>
+                                                        <input type="date" id="validTo" class=" form-control form-control-sm NotReq">
+                                                    </div>
+                                                    <div class="col-md-12 d-flex mt-2">
+                                                        <label class="mt-2 mr-3 ">Remarks</label>
+                                                        <input type="text" name="ValidComm"  class=" form-control form-control-sm NotReq">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+
+                                        <div class="form-group row justify-content-between">
+
+                                            <div class="col-md-2 radio-inline">
+
+                                                <label class="radio radio-primary">
+                                                    <input id="InActivevalidFor" type="radio" name="validFor" class="ml-2" value="N">
+                                                    <span></span> InActive
+                                                </label>
+                                            </div>
+                                            <div class="col-md-10  d-none" id="InActivevalidFor1">
+                                                <div class="row">
+                                                    <div class="col-md-6 d-flex">
+
+                                                        <label class="mt-2 mr-3">From</label>
+                                                        <input type="date" id="frozenFrom" class="mr-5  form-control form-control-sm NotReq">
+                                                    </div>
+                                                    <div class="col-md-6 d-flex">
+
+                                                        <label class="mt-2 mr-3">To</label>
+                                                        <input type="date" id="frozenTo" class=" form-control form-control-sm NotReq">
+                                                    </div>
+                                                    <div class="col-md-12 d-flex mt-2">
+                                                        <label class="mt-2 mr-3 ">Remarks</label>
+                                                        <input type="text" name="FrozenComm" class=" form-control form-control-sm NotReq">
+                                                    </div>
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="form-group row justify-content-between">
+                                            <div class="col-md-4 pt-3">
+                                                <div class="checkbox-inline">
+                                                    <label class="checkbox checkbox-outline checkbox-primary">
+                                                        <input type="checkbox" name="VatChange" />
+                                                        <span></span>
+                                                        Permit Other VAT Group
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-light-danger font-weight-bold" data-dismiss="modal">Close</button>
+                                <button type="button"  class="btn btn-primary font-weight-bold" id="btnAccountDetailOk">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
 </div>
+<script src="~/Assets/plugins/global/plugins.bundle.js"></script>
+<script src="~/Assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
+<script src="~/Assets/js/scripts.bundle.js"></script>
+<script src="~/js/myjson_validate.js"></script>
 
-<script src="~/js/commonmethods.js"></script>
 <script>
     var tree = "";
-    
+    var AccountDetail = "";
+
     var treeDataSource = '/ChartOfAccounts/GetLevels';
     $(document).ready(function () {
 
         let Guid = $('#Guid').val();
         
+        UpdateLevel(1);
         GetLevels($("input[name=drawers]:checked").val());
         treeDataSource = '/ChartOfAccounts/GetLevels';
+        GetUpdatedAcctCode(1);
+        $("#FatherNum").val(1);
     });
+
     $(document).on('change', "#PrjRelvnt", function () {
 
         if ( $(this).is(':checked') )
@@ -366,6 +475,7 @@
             $("#Project").attr('disabled',true);
 
     });
+    
     $(document).on('change', "input[name=postable]", function () {
 
         let Postable = $("input[name=postable]:checked").val();
@@ -390,8 +500,8 @@
         let Level = $(TargetSpan).attr('act-level');
         let Postable = $(TargetSpan).attr('act-postable');
         
+        UpdateLevel(Level);
         
-        $("#Levels").val(Level);
         $("#FatherNum").val(FatherNum);
         if(Postable === "Y")
         {
@@ -400,25 +510,26 @@
         }
         else
         {
-            $("#TitleAccount").prop('checked', true);
-            $("#FooterForm").addClass('d-none');
-            $("#ActiveAccount").attr('disabled',true);
+            UpdateFormAsTitleAccount();
         }
 
         
     });
+    
     $('input[name=drawers]').change(function () {
         
         $('#tree').tree().destroy();
         
         var selectedValue = $(this).val();
-        console.log($(this).attr('placeholder'));
+        
         $("#DrawerHeading span").text($(this).attr('placeholder'));
+        UpdateLevel(1);
         GetLevels(selectedValue);
-
-        UpdateFormsAsActiveAccount();
-        $("#Levels").val("");
+        UpdateFormsAsActiveAccount();        
         $("#FatherNum").val(selectedValue);
+        GetUpdatedAcctCode(selectedValue);
+        UpdateAccountType(selectedValue);
+
     });
 
     function UpdateFormsAsActiveAccount() 
@@ -428,7 +539,68 @@
         $("#FooterForm").removeClass('d-none');
         $("#TitleAccount").attr('disabled', false);
     }
+    
+    function UpdateFormAsTitleAccount() {
+        
+        $("#ActiveAccount").attr('disabled', true);
+        $("#ActiveAccount").prop('checked', false);
+        $("#FooterForm").addClass('d-none');
+        $("#TitleAccount").attr('disabled', true);
+   }
    
+    function UpdateLevel(value) {
+
+        $("#Levels").val(parseInt(value, 10));
+    }
+   
+    function UpdateAccountType(drawer) {
+
+        if(drawer === "1" || drawer === "2" || drawer === "3")
+            $("#ActType").val("N")
+        else if(drawer === "4")
+            $("#ActType").val("I")
+        else
+            $("#ActType").val("E")
+    }
+    
+    $(document).on('click', 'input[name=validFor]', function (e) {
+        
+        if ($('input[name=validFor]:checked').val() === 'Y') 
+        {
+            $('#ActivevalidFor1').removeClass('d-none');
+            $('#InActivevalidFor1').addClass('d-none');
+
+        } else if ($('input[name=validFor]:checked').val() === 'N') 
+        {
+            $('#ActivevalidFor1').addClass('d-none');
+            $('#InActivevalidFor1').removeClass('d-none');
+
+        }
+    });
+   
+    function GetUpdatedAcctCode(FatherNum) 
+    {
+
+        return $.ajax({
+            url: '/ChartOfAccounts/GetUpdatedAcctCode',
+            dataType: 'json',
+            aysnc: false,
+            data: { FatherNum: FatherNum },
+            type: 'Post',
+            success: function (result) {
+
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+
+
+        }).done(function (result) {
+            
+            $("#AcctCode").val(result);
+        });
+
+    }
 
     $(document).on('click', "#btnSelUnSel", function () {
 
@@ -470,6 +642,7 @@
         });
 
     }
+    
     $(document).on('click', '#btnSaveData', function (e) {
 
 
@@ -488,30 +661,40 @@
         }
     });
 
-    //function FormData() {
+    $(document).on('click', '#btnAccoutDetails', function (e) {
+        
+        $('#AccountDetailModel').modal('show');
+    }); 
+    $(document).on('click', '#btnAccountDetailOk', function (e) {
+        
+        AccountDetail = getJsonObjKeyName("AccountDetail");
+        $('#AccountDetailModel').modal('hide');
+    });
 
-    //    var formdata =
-    //    {
+    function FormData() {
+        
+        var formdata =
+        {
 
-    //        RoleName: $("#RoleName").val(),
-    //        IsActive: $('#IsActive').prop('checked'),
-    //        Guid: $('#Guid').val(),
-    //        Permissions: tree.getCheckedNodes()
+            HeaderData: getJsonObjKeyName("HeaderForm"),
+            FooterData: getJsonObjKeyName("FooterForm"),
+            AccountDetail: AccountDetail
+            
+        }
 
-    //    }
+        console.log(formdata);
+
+        //PostData(formdata);
 
 
-    //    PostData(formdata);
-
-
-    //}
+    }
 
     function PostData(formData) {
 
         let Guid = $('#Guid').val();
-        let URL = '/Role/Add';
+        let URL = '/ChartOfAccounts/Add';
         if (Guid != null && Guid != '' && Guid != undefined) {
-            URL = '/Role/Edit';
+            URL = '/ChartOfAccounts/Edit';
         }
 
         return $.ajax({

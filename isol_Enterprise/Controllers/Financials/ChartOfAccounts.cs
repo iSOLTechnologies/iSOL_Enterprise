@@ -1,8 +1,10 @@
 ﻿using iSOL_Enterprise.Dal;
 using iSOL_Enterprise.Dal.Business;
 using iSOL_Enterprise.Dal.Financials;
+using iSOL_Enterprise.Dal.Production;
 using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.SqlServer.Server;
 using Newtonsoft.Json;
 
 namespace iSOL_Enterprise.Controllers.Financials
@@ -67,6 +69,41 @@ namespace iSOL_Enterprise.Controllers.Financials
             {
 
                 return Json(models);
+            }
+        }
+        public IActionResult GetUpdatedAcctCode(string FatherNum)
+        {
+            ChartOfAccountDal dal = new();
+            try
+            {
+                string AccCode = dal.GetUpdatedAcctCode(FatherNum);
+                return Json(AccCode); 
+            }
+            catch (Exception)
+            {
+                return Json("");
+                throw;
+            }
+        }
+        public IActionResult Add(string formData)
+        {
+            try
+            {
+                ChartOfAccountDal dal = new ();
+                if (formData != null)
+                {
+
+                    ResponseModels response = dal.Add(formData);
+                    return Json(new { isInserted = response.isSuccess, Message = response.Message });
+                }
+                else
+                {
+                    return Json(new { isInserted = false, Message = "Data can't be null" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }
