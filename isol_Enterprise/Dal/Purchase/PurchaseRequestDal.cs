@@ -48,6 +48,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                             DocNum = rdr["DocNum"].ToString(),
                             DocDate = rdr["DocDueDate"].ToDateTime(),
                             CardName = rdr["Requester"].ToString(),
+                            Sap_Ref_No = rdr["Sap_Ref_No"].ToString(),
                             IsPosted = rdr["isPosted"].ToString(), IsEdited = rdr["is_Edited"].ToString(),
                             isApproved = rdr["isApproved"].ToBool(),
                             apprSeen = rdr["apprSeen"].ToBool()
