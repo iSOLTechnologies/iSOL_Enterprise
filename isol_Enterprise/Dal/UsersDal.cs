@@ -241,7 +241,7 @@ namespace iSOL_Enterprise.Dal
                     new SqlParameter("@UserPic",Path),
                     new SqlParameter("@SuperiorId",input.SuperiorId),
                     new SqlParameter("@RegionCode",input.RegionCode),
-                    new SqlParameter("@IsActive",input.IsActive),
+                    new SqlParameter("@IsActive",true),
                     new SqlParameter("@RowStatus",input.RowStatus=true),
                     new SqlParameter("@CreatedBy",input.CreatedBy),
                     new SqlParameter("@CreatedOn",input.CreatedOn)

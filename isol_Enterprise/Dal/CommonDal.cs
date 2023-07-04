@@ -389,6 +389,8 @@ where s.Status=1 and p.Guid=@Guid";
             id = id + 1;
             return id;
         }
+        
+        
         public static int getPrimaryKeyNoLock(SqlTransaction tran, string tblid, string tblName)
         {
             string query = "select max(" + tblid + ") from " + tblName;

@@ -56,7 +56,21 @@ namespace iSOL_Enterprise.Controllers.Financials
 
             }
         }
-        public IActionResult Getlevels(string drawer)
+        public IActionResult GetChartOfAccounts()
+        {
+            ResponseModels response = new ResponseModels();
+            ChartOfAccountDal dal = new ();
+            try
+            {
+                response.Data = dal.GetChartOfAccounts();
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+
+                return Json(response);
+            }
+        }public IActionResult Getlevels(string drawer)
         {
             ResponseModels models = new ResponseModels();
             ChartOfAccountDal dal = new ();

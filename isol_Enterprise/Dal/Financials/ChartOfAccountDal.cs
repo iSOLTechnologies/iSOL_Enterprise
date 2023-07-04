@@ -1,5 +1,6 @@
 ﻿using iSOL_Enterprise.Common;
 using iSOL_Enterprise.Models;
+using iSOL_Enterprise.Models.ChartOfAccount;
 using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
 using SqlHelperExtensions;
@@ -9,7 +10,37 @@ namespace iSOL_Enterprise.Dal.Financials
 {
     public class ChartOfAccountDal
     {
+        public List<ChartOfAccountMasterModel> GetChartOfAccounts()
+        {
+            string GetQuery = "select DocEntry,ActId,FatherNum,AcctCode,AcctName,AccntntCod,ActCurr,Levels,isApproved,is_Edited,isApproved,apprSeen from OACT order by DocEntry DESC";
 
+
+            List<ChartOfAccountMasterModel> list = new List<ChartOfAccountMasterModel>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    ChartOfAccountMasterModel models = new ()
+                    {
+
+                        DocEntry = rdr["DocEntry"].ToInt(),
+                        FatherNum = rdr["FatherNum"].ToString(),
+                        AcctCode = rdr["AcctCode"].ToString(),
+                        AcctName = rdr["AcctName"].ToString(),
+                        AccntntCod = rdr["AccntntCod"].ToString(),
+                        ActCurr = rdr["ActCurr"].ToString(),
+                        Levels = rdr["Levels"].ToInt(),
+                        isApproved = rdr["isApproved"].ToBool(),
+                        apprSeen = rdr["apprSeen"].ToBool(),
+                        IsEdited = rdr["is_Edited"].ToString()
+                    };
+                    
+                    list.Add(models);
+                }
+            }
+            return list;
+        }
         public List<ListModel> GetDrawers()
         {
 
@@ -112,7 +143,7 @@ namespace iSOL_Enterprise.Dal.Financials
             }
             else
             {
-                int number = int.Parse( AcctCode.Substring(AcctCode.Length - 2));
+                int number = int.Parse( AcctCode.Substring(AcctCode.Length - 2)) + 1;
                 AcctCode = FatherNum + "0" + number;
 
             }
@@ -141,8 +172,8 @@ namespace iSOL_Enterprise.Dal.Financials
                         List<SqlParameter> param = new List<SqlParameter>();
                         string AcctCode = GetUpdatedAcctCode(model.HeaderData.FatherNum.ToString());
                         string Guid = CommonDal.generatedGuid();
-                        int DocEntry = CommonDal.getPrimaryKey(tran, "OACT");
-                        int Levels = Convert.ToUInt32( model.HeaderData.Levels ) + 1;
+                        int DocEntry = CommonDal.getPrimaryKey(tran, "DocEntry" , "OACT");
+                        int Levels = Convert.ToInt32( model.HeaderData.Levels ) + 1;
                         int ObjectCode = 1;
                         int isApproved = ObjectCode.GetApprovalStatus(tran);
                         #region Insert in Approval Table
@@ -169,15 +200,15 @@ namespace iSOL_Enterprise.Dal.Financials
 
                         #endregion
 
-                        string TabHeader = "DocEntry,FatherNum,AcctCode,AcctName,AccntntCod,ActCurr,Levels,isApproved";
-                        string TabHeaderP = "@DocEntry,@FatherNum,@AcctCode,@AcctName,@AccntntCod,@ActCurr,@Levels,@isApproved";
+                        string TabHeader = "DocEntry,ActId,FatherNum,AcctCode,AcctName,AccntntCod,ActCurr,Levels,isApproved";
+                        string TabHeaderP = "@DocEntry,@ActId,@FatherNum,@AcctCode,@AcctName,@AccntntCod,@ActCurr,@Levels,@isApproved";
 
-                        if (model.FooterData.postable == "Y")
+                        if (model.HeaderData.postable == "Y")
                         {
                             TabHeader = TabHeader + ",Protected,ActType,LocManTran,Finanse,RevalMatch,BlocManPos,CfwRlvnt,PrjRelvnt,Project";
                             TabHeaderP = TabHeaderP + ",@Protected,@ActType,@LocManTran,@Finanse,@RevalMatch,@BlocManPos,@CfwRlvnt,@PrjRelvnt,@Project";
                         }
-                        if (model.AccountDetail != "" && model.AccountDetail != null)
+                        if (model.AccountDetail != null)
                         {
                             if (model.AccountDetail.validFor == "Y")
                             {
@@ -202,37 +233,39 @@ namespace iSOL_Enterprise.Dal.Financials
 
                         #region Header data
                         param.Add(cdal.GetParameter("@DocEntry", DocEntry, typeof(int)));
+                        param.Add(cdal.GetParameter("@ActId", DocEntry, typeof(int)));
                         param.Add(cdal.GetParameter("@FatherNum", model.HeaderData.FatherNum, typeof(string)));
                         param.Add(cdal.GetParameter("@AcctCode", AcctCode, typeof(string)));
                         param.Add(cdal.GetParameter("@AcctName", model.HeaderData.AcctName, typeof(string)));
+                        param.Add(cdal.GetParameter("@AccntntCod", model.HeaderData.AccntntCod, typeof(string)));
                         param.Add(cdal.GetParameter("@ActCurr", model.HeaderData.ActCurr, typeof(string)));
                         param.Add(cdal.GetParameter("@Levels", Levels, typeof(int)));
-                        param.Add(cdal.GetParameter("@Protected", model.FooterData.Protected, typeof(string)));
-                        param.Add(cdal.GetParameter("@ActType", model.FooterData.ActType, typeof(string)));
-                        param.Add(cdal.GetParameter("@LocManTran", model.FooterData.LocManTran, typeof(string)));
-                        param.Add(cdal.GetParameter("@Finanse", model.FooterData.Finanse, typeof(string)));
-                        param.Add(cdal.GetParameter("@RevalMatch", model.FooterData.RevalMatch, typeof(string)));
-                        param.Add(cdal.GetParameter("@BlocManPos", model.FooterData.BlocManPos, typeof(string)));
-                        param.Add(cdal.GetParameter("@CfwRlvnt", model.FooterData.CfwRlvnt, typeof(string)));
-                        param.Add(cdal.GetParameter("@PrjRelvnt", model.FooterData.PrjRelvnt, typeof(string)));
+                        param.Add(cdal.GetParameter("@Protected", model.FooterData.Protected, typeof(char)));
+                        param.Add(cdal.GetParameter("@ActType", model.FooterData.ActType, typeof(char)));
+                        param.Add(cdal.GetParameter("@LocManTran", model.FooterData.LocManTran, typeof(char)));
+                        param.Add(cdal.GetParameter("@Finanse", model.FooterData.Finanse, typeof(char)));
+                        param.Add(cdal.GetParameter("@RevalMatch", model.FooterData.RevalMatch, typeof(char)));
+                        param.Add(cdal.GetParameter("@BlocManPos", model.FooterData.BlocManPos, typeof(char)));
+                        param.Add(cdal.GetParameter("@CfwRlvnt", model.FooterData.CfwRlvnt, typeof(char)));
+                        param.Add(cdal.GetParameter("@PrjRelvnt", model.FooterData.PrjRelvnt, typeof(char)));
                         param.Add(cdal.GetParameter("@Project", model.FooterData.Project, typeof(string)));
                         
                         param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
 
-                        if (model.AccountDetail != "" && model.AccountDetail != null)
+                        if (model.AccountDetail != null)
                         {
                             if (model.AccountDetail.validFor == "Y")
                             {
-                                param.Add(cdal.GetParameter("@ValidFrom", model.AccountDetail.ValidFrom, typeof(DateTime)));
-                                param.Add(cdal.GetParameter("@ValidTo", model.AccountDetail.ValidFrom, typeof(DateTime)));
-                                param.Add(cdal.GetParameter("@ValidComm", model.AccountDetail.ValidComm, typeof(string)));
+                                param.Add(cdal.GetParameter("@ValidFrom", model.AccountDetail.validFrom, typeof(DateTime)));
+                                param.Add(cdal.GetParameter("@ValidTo", model.AccountDetail.validTo, typeof(DateTime)));
+                                param.Add(cdal.GetParameter("@ValidComm", model.AccountDetail.validComm, typeof(string)));
 
                             }
                             else if (model.AccountDetail.validFor == "N")
                             {
-                                param.Add(cdal.GetParameter("@FrozenFrom", model.AccountDetail.FrozenFrom, typeof(DateTime)));
-                                param.Add(cdal.GetParameter("@FrozenTo", model.AccountDetail.FrozenFrom, typeof(DateTime)));
-                                param.Add(cdal.GetParameter("@FrozenComm", model.AccountDetail.FrozenComm, typeof(string)));
+                                param.Add(cdal.GetParameter("@FrozenFrom", model.AccountDetail.frozenFrom, typeof(DateTime)));
+                                param.Add(cdal.GetParameter("@FrozenTo", model.AccountDetail.frozenTo, typeof(DateTime)));
+                                param.Add(cdal.GetParameter("@FrozenComm", model.AccountDetail.frozenComm, typeof(string)));
                             }
                                 param.Add(cdal.GetParameter("@VatChange", model.AccountDetail.VatChange, typeof(string)));
                         }
@@ -240,7 +273,7 @@ namespace iSOL_Enterprise.Dal.Financials
 
 
                         #endregion
-
+                       
                         res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery, param.ToArray()).ToInt();
                         if (res1 <= 0)
                         {

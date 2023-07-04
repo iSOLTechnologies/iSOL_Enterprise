@@ -151,7 +151,7 @@
                                             <label class="col-xl-4 col-lg-4 col-form-label">Currency <span class="text-danger">*</span></label>
                                             <div class="col-lg-8 col-xl-8">
                                                 <select  name="ActCurr" class="form-control NotReq">
-
+                                                     
                                                      <option value="##" selected>All Currencies</option>
                                                     @foreach (var curr in ViewBag.Currency)
                                                     {
@@ -240,7 +240,7 @@
                                         <div class="col-4 pt-3">
                                             <div class="radio-inline">
                                                 <label class="radio radio-outline radio-primary">
-                                                    <input type="radio" name="Finanse" value="CA" />
+                                                    <input type="radio" name="Finanse" value="Y" />
                                                     <span></span>
                                                     Cash Account
                                                 </label>
@@ -250,7 +250,7 @@
                                         <div class="col-4 pt-3">
                                             <div class="radio-inline">
                                                 <label class="radio radio-outline radio-primary">
-                                                    <input type="radio" name="Finanse" value="IN" />
+                                                    <input type="radio" name="Finanse" value="N" />
                                                     <span></span>
                                                     Indexed
                                                 </label>
@@ -372,11 +372,11 @@
                                                     <div class="col-md-6 d-flex">
 
                                                         <label class="mt-2 mr-3 ">From</label>
-                                                        <input type="date" id="validFrom" class="mr-5  form-control form-control-sm NotReq">
+                                                        <input type="date" id="validFrom" name="validFrom" class="mr-5  form-control form-control-sm NotReq">
                                                     </div>
                                                     <div class="col-md-6 d-flex">
                                                         <label class="mt-2 mr-3 ">To</label>
-                                                        <input type="date" id="validTo" class=" form-control form-control-sm NotReq">
+                                                        <input type="date" id="validTo" name="validTo" class=" form-control form-control-sm NotReq">
                                                     </div>
                                                     <div class="col-md-12 d-flex mt-2">
                                                         <label class="mt-2 mr-3 ">Remarks</label>
@@ -404,12 +404,12 @@
                                                     <div class="col-md-6 d-flex">
 
                                                         <label class="mt-2 mr-3">From</label>
-                                                        <input type="date" id="frozenFrom" class="mr-5  form-control form-control-sm NotReq">
+                                                        <input type="date" id="frozenFrom" name="frozenFrom" class="mr-5  form-control form-control-sm NotReq">
                                                     </div>
                                                     <div class="col-md-6 d-flex">
 
                                                         <label class="mt-2 mr-3">To</label>
-                                                        <input type="date" id="frozenTo" class=" form-control form-control-sm NotReq">
+                                                        <input type="date" id="frozenTo" name="frozenTo" class=" form-control form-control-sm NotReq">
                                                     </div>
                                                     <div class="col-md-12 d-flex mt-2">
                                                         <label class="mt-2 mr-3 ">Remarks</label>
@@ -453,7 +453,7 @@
 
 <script>
     var tree = "";
-    var AccountDetail = "";
+    var AccountDetail = null;
 
     var treeDataSource = '/ChartOfAccounts/GetLevels';
     $(document).ready(function () {
@@ -512,7 +512,7 @@
         {
             UpdateFormAsTitleAccount();
         }
-
+        GetUpdatedAcctCode(FatherNum);
         
     });
     
@@ -684,7 +684,7 @@
 
         console.log(formdata);
 
-        //PostData(formdata);
+        PostData(formdata);
 
 
     }
