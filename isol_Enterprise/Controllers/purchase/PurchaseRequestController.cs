@@ -12,8 +12,14 @@ namespace iSOL_Enterprise.Controllers.purchase
 {
     public class PurchaseRequestController : Controller
     {
+        IConfiguration _configuration;
+        public PurchaseRequestController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public IActionResult Index()
         {
+            ViewBag.Url = _configuration["ReportUrl"].ToString();
             return View();
         }
         public IActionResult PurchaseRequestMaster()

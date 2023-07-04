@@ -5,15 +5,63 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\Deployed System\iSOL_Sap\ReportManager</_PublishTargetUrl>
-    <History>True|2023-05-22T05:32:37.5588877Z;</History>
+    <History>True|2023-07-04T06:16:25.5112200Z;True|2023-07-04T11:14:38.6200381+05:00;True|2023-05-22T14:00:03.9776588+05:00;True|2023-05-22T13:15:45.2219832+05:00;True|2023-05-22T10:32:37.5588877+05:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
     <File Include="Assets/Reports/Accessories Consumption Report.rpt">
       <publishTime>04/26/2023 14:57:38</publishTime>
     </File>
+    <File Include="Assets/Reports/Cotton Empire PO.rpt">
+      <publishTime>05/22/2023 13:48:59</publishTime>
+    </File>
+    <File Include="Assets/Reports/Inventory Transffer Gatepass.rpt">
+      <publishTime>05/22/2023 13:49:47</publishTime>
+    </File>
+    <File Include="Assets/Reports/Outward Gatepass Rpt-Roll.rpt">
+      <publishTime>05/22/2023 13:51:23</publishTime>
+    </File>
+    <File Include="Assets/Reports/Outward Gatepass Rpt.rpt">
+      <publishTime>05/22/2023 13:50:35</publishTime>
+    </File>
+    <File Include="Assets/Reports/Purchase Rejection Detail Fabric.rpt">
+      <publishTime>05/22/2023 13:52:57</publishTime>
+    </File>
     <File Include="Assets/Reports/Purchase Tracking Report V1.rpt">
       <publishTime>04/26/2023 14:58:29</publishTime>
+    </File>
+    <File Include="Assets/Reports/PurchaseOrder %28Bedding%29.rpt">
+      <publishTime>05/22/2023 13:53:43</publishTime>
+    </File>
+    <File Include="Assets/Reports/PurchaseOrder-Foreign.rpt">
+      <publishTime>05/22/2023 13:54:32</publishTime>
+    </File>
+    <File Include="Assets/Reports/PurchaseOrder.rpt">
+      <publishTime>06/01/2023 17:28:02</publishTime>
+    </File>
+    <File Include="Assets/Reports/PurchaseRequest.rpt">
+      <publishTime>07/03/2023 17:00:34</publishTime>
+    </File>
+    <File Include="Assets/Reports/PurchaseRequestYarn.rpt">
+      <publishTime>07/03/2023 16:43:23</publishTime>
+    </File>
+    <File Include="Assets/Reports/ReportLogs/ACR_1-21-05-2023 092745.pdf">
+      <publishTime>05/21/2023 21:27:47</publishTime>
+    </File>
+    <File Include="Assets/Reports/ReportLogs/ACR_1-21-05-2023 092758.pdf">
+      <publishTime>05/21/2023 21:27:59</publishTime>
+    </File>
+    <File Include="Assets/Reports/ReportLogs/ACR_401579-27-04-2023 022741.pdf">
+      <publishTime>05/05/2023 18:01:32</publishTime>
+    </File>
+    <File Include="Assets/Reports/ReportLogs/ACR_401579-27-04-2023 025007.pdf">
+      <publishTime>05/05/2023 18:01:32</publishTime>
+    </File>
+    <File Include="Assets/Reports/ReportLogs/PTRV1_1-22-05-2023 025540.pdf">
+      <publishTime>05/22/2023 02:55:43</publishTime>
+    </File>
+    <File Include="Assets/Reports/ReportLogs/PTRV1_200176-27-04-2023 065417.pdf">
+      <publishTime>05/05/2023 18:01:32</publishTime>
     </File>
     <File Include="Assets/Reports/Sale Order Wise Yarn Report.rpt">
       <publishTime>04/26/2023 15:02:44</publishTime>
@@ -34,10 +82,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/22/2019 06:06:16</publishTime>
     </File>
     <File Include="bin/ReportManager.dll">
-      <publishTime>05/22/2023 10:32:33</publishTime>
+      <publishTime>07/04/2023 11:18:11</publishTime>
     </File>
     <File Include="bin/ReportManager.pdb">
-      <publishTime>05/22/2023 10:32:33</publishTime>
+      <publishTime>07/04/2023 11:18:11</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>08/08/2018 10:38:48</publishTime>

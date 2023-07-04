@@ -294,7 +294,7 @@
                 type: 'GET',
                 dataType: 'json',
                 async: true,
-                data: { DocNum: SapRef, ReportName, ReportName },
+                data: { DocNum: SapRef, ReportName : ReportName },
                 success: function (result) {
                     $('#btnGenerateReport').attr('disabled', false);
                     $(".loading_ic").removeClass('overlay dark');

@@ -64,6 +64,25 @@ namespace ReportManager.Controllers
             }
         }
         [HttpGet]
+        public JsonResult PurchaseRequestReports(string DocNum, string ReportName)
+        {
+            try
+            {
+                ReportDal model = new ReportDal();
+                Document_MasterModel input = new Document_MasterModel();                
+               // input.DocNum = DocNum;
+
+                ResponseModels response = model.PurchaseRequestReports(DocNum,ReportName);
+
+                return Json(response , JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpGet]
         public JsonResult PurchaseTrackingReportV1(int DocNum)
         {
             try

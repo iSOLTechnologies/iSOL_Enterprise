@@ -186,6 +186,14 @@
                     }
                 }, {
                     data: "id", 'title': 'Action', render: function (data, type, row) {
+                        var dropdownbtn = `<div class="dropdown mr-2">
+                                                                <button class="btn btn-sm btn-clean btn-hover-primary  btn-icon btn-icon-md" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fa fa-print text-primary"> </i>
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">                                                                
+                                                          <a class="dropdown-item pname" docnum="`+ row['sap_Ref_No'] + `" pname="PurchaseRequest" >PurchaseRequest</a>       
+                                                    </div>
+                                                </div>`;
 
                         if (row.isApproved == 0 && row.apprSeen == 0)
                             return `<div class="d-flex justify-content-center p-2"><span class="label label-lg label-light-success label-inline">Pending</span></div>`;
@@ -201,7 +209,7 @@
                         html += '   </g>';
                         html += '</svg><!--end:: Svg Icon--></span> ';
                         html += '               </a>';
-                        return html;
+                            return '<div class="d-flex" > '+ dropdownbtn + html + '</div>';;
                         }
                     }
                 },],
@@ -221,7 +229,59 @@
         window.location.href = '/PurchaseRequest/EditPurchaseRequestMaster/?id=' + guid + '';
 
     });
+    $(document).on('click', '.pname', function () {
+        debugger
+        var ReportName = '';
+        var PName = $(this).attr('pname');
+        var SapRef = $(this).attr('docnum');
 
+
+        if (SapRef != null && SapRef != "" && SapRef != undefined) {
+            if (PName == 'PurchaseRequest') {
+                ReportName = 'PurchaseRequest.rpt'
+            }
+            
+
+            $(this).attr('disabled', true);
+
+            $(".loading_ic").addClass('overlay');
+            $(".loading_ic").show();
+
+            $.ajax({
+                url: '@ViewBag.Url' + 'Report/PurchaseRequestReports',
+                type: 'GET',
+                dataType: 'json',
+                async: true,
+                data: { DocNum: SapRef, ReportName, ReportName },
+                success: function (result) {
+                    $('#btnGenerateReport').attr('disabled', false);
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
+
+                    if (result.isSuccess) {
+                        window.open('@ViewBag.Url' + result.Data, '_blank');
+                    }
+                    else if (result.isError) {
+                        toastr.error("An Error Occurred in Report Generation !!");
+                    }
+
+
+
+
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+                    $(".loading_ic").removeClass('overlay dark');
+                    $(".loading_ic").hide();
+                    $('#btnGenerateReport').attr('disabled', false);
+                    console.log(errorMessage);
+                }
+            });
+
+        }
+        else {
+            toastr.warning("DocNum can't be empty")
+        }
+    });
     $(document).on('click', '#btnPostToSap', function () {
         $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
         $(this).attr('disabled', true);
