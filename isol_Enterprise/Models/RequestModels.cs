@@ -31,7 +31,7 @@ namespace iSOL_Enterprise.Models
         public List<string> ListWhereClause { get; set; }
         public string LookupCode { get; set; }
         public string PageId { get; set; }
-        public List<AdvanceSearchModels> AdvSrch { get; set; }
+       // public List<AdvanceSearchModels> AdvSrch { get; set; }
 
         public class Order
         {

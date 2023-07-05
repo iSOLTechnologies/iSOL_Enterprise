@@ -266,121 +266,122 @@ where s.Status=1 and d.status=1 and p.Guid=@Guid";
             }
             return model;
         }
-        public ResponseModels GetLookupData(RequestModels request,string Role,int? UserId, List<AdvanceSearchModels> AdvSrch)
-        {
-            ResponseModels response = new ResponseModels();
-            string queryAppend = "";
-            DataTable dt = null;
-            StringBuilder sb = new StringBuilder();
-            StringBuilder xb = new StringBuilder();
-            StringBuilder adv = new StringBuilder();
-            List<SqlParameter> param = new List<SqlParameter>
-            {
-                new SqlParameter("@Offset",request.Offset),
-                new SqlParameter("@PageSize",request.PageSize),
-                new SqlParameter("@Guid",request.Guid)
-            };
+        
+        //        public ResponseModels GetLookupData(RequestModels request,string Role,int? UserId, List<AdvanceSearchModels> AdvSrch)
+//        {
+//            ResponseModels response = new ResponseModels();
+//            string queryAppend = "";
+//            DataTable dt = null;
+//            StringBuilder sb = new StringBuilder();
+//            StringBuilder xb = new StringBuilder();
+//            StringBuilder adv = new StringBuilder();
+//            List<SqlParameter> param = new List<SqlParameter>
+//            {
+//                new SqlParameter("@Offset",request.Offset),
+//                new SqlParameter("@PageSize",request.PageSize),
+//                new SqlParameter("@Guid",request.Guid)
+//            };
 
-            string HdrQry = @"select s.Id,s.PageId,s.Query,s.SearchColumns,StaffClause From Setup_PageListViewQueryMaster s
-inner join Pages p on p.PageId=s.PageId
-where s.Status=1 and p.Guid=@Guid";
+//            string HdrQry = @"select s.Id,s.PageId,s.Query,s.SearchColumns,StaffClause From Setup_PageListViewQueryMaster s
+//inner join Pages p on p.PageId=s.PageId
+//where s.Status=1 and p.Guid=@Guid";
 
-            DataTable dtL_Query = SqlHelper.GetData(HdrQry, param.ToArray());
+//            DataTable dtL_Query = SqlHelper.GetData(HdrQry, param.ToArray());
 
 
            
            
-            string DtQuery = dtL_Query.Rows[0]["Query"].ToString();
-            string SearchColumns = dtL_Query.Rows[0]["SearchColumns"].ToString();
-            string StaffClause = dtL_Query.Rows[0]["StaffClause"].ToString();
+//            string DtQuery = dtL_Query.Rows[0]["Query"].ToString();
+//            string SearchColumns = dtL_Query.Rows[0]["SearchColumns"].ToString();
+//            string StaffClause = dtL_Query.Rows[0]["StaffClause"].ToString();
 
-            string[] col = SearchColumns.Split(',');
-            string[] ret;
-            if (DtQuery.Contains("where") && Role == "STF")
-            {
-                if (!string.IsNullOrEmpty(StaffClause))
-                {
-                    param.Add(new SqlParameter("@StaffClause", UserId));
-                    xb.Append(" and " + StaffClause + "=@StaffClause");
-  //                  queryAppend = String.Format(DtQuery, xb.ToString(), sb.ToString());
-                }
+//            string[] col = SearchColumns.Split(',');
+//            string[] ret;
+//            if (DtQuery.Contains("where") && Role == "STF")
+//            {
+//                if (!string.IsNullOrEmpty(StaffClause))
+//                {
+//                    param.Add(new SqlParameter("@StaffClause", UserId));
+//                    xb.Append(" and " + StaffClause + "=@StaffClause");
+//  //                  queryAppend = String.Format(DtQuery, xb.ToString(), sb.ToString());
+//                }
         
 
-            }
+//            }
 
-            if (AdvSrch != null)
-            {
-                if (DtQuery.Contains("where"))
-                {
-                    for (int i = 0; i < AdvSrch.Count; i++)
-                    {
-                        if (!string.IsNullOrEmpty(AdvSrch[i].Value))
-                        {
-                            param.Add(new SqlParameter("@" +i+"adv",AdvSrch[i].Value));
-                            adv.Append(" and " + AdvSrch[i].SearchColumn + "= @" + i + "adv");
-                        }
+//            if (AdvSrch != null)
+//            {
+//                if (DtQuery.Contains("where"))
+//                {
+//                    for (int i = 0; i < AdvSrch.Count; i++)
+//                    {
+//                        if (!string.IsNullOrEmpty(AdvSrch[i].Value))
+//                        {
+//                            param.Add(new SqlParameter("@" +i+"adv",AdvSrch[i].Value));
+//                            adv.Append(" and " + AdvSrch[i].SearchColumn + "= @" + i + "adv");
+//                        }
                       
-                    }
-                }
+//                    }
+//                }
 
-            }
+//            }
 
-            if (request.search != "" && !string.IsNullOrEmpty(SearchColumns))
-            {
-                if (col.Length >= 0)
-                {
-                    if (DtQuery.Contains("where"))
-                    {
+//            if (request.search != "" && !string.IsNullOrEmpty(SearchColumns))
+//            {
+//                if (col.Length >= 0)
+//                {
+//                    if (DtQuery.Contains("where"))
+//                    {
 
-                    }
-                    else
-                    {
-                        sb.Append(" where ");
-                    }
+//                    }
+//                    else
+//                    {
+//                        sb.Append(" where ");
+//                    }
 
-                }
-                for (int i = 0; i < col.Length; i++)
-                {
-                    if (i == 0 && DtQuery.Contains("where"))
-                    {
-                        sb.Append(" and ");
-                    }
-                    if (i > 0)
-                    {
-                        sb.Append(" OR ");
-                    }
-                    // ret = col[i].Split('=');
-                    ret = col[i].Split(',');
+//                }
+//                for (int i = 0; i < col.Length; i++)
+//                {
+//                    if (i == 0 && DtQuery.Contains("where"))
+//                    {
+//                        sb.Append(" and ");
+//                    }
+//                    if (i > 0)
+//                    {
+//                        sb.Append(" OR ");
+//                    }
+//                    // ret = col[i].Split('=');
+//                    ret = col[i].Split(',');
 
-                    param.Add(new SqlParameter("@" + i, "%" + request.search + "%"));
-                    sb.Append(col[i] + " Like " + "@" + i);
+//                    param.Add(new SqlParameter("@" + i, "%" + request.search + "%"));
+//                    sb.Append(col[i] + " Like " + "@" + i);
 
-                }
+//                }
              
 
 
-                queryAppend = String.Format(DtQuery, xb.ToString(), sb.ToString(),adv.ToString());
+//                queryAppend = String.Format(DtQuery, xb.ToString(), sb.ToString(),adv.ToString());
 
 
-                dt = SqlHelper.GetData(queryAppend, param.ToArray());
+//                dt = SqlHelper.GetData(queryAppend, param.ToArray());
 
-            }
-            else
-            if (!string.IsNullOrEmpty(SearchColumns))
-            {
-                queryAppend = String.Format(DtQuery, sb.ToString(),xb.ToString(), adv.ToString());
-                dt = SqlHelper.GetData(queryAppend, param.ToArray());
-            }
+//            }
+//            else
+//            if (!string.IsNullOrEmpty(SearchColumns))
+//            {
+//                queryAppend = String.Format(DtQuery, sb.ToString(),xb.ToString(), adv.ToString());
+//                dt = SqlHelper.GetData(queryAppend, param.ToArray());
+//            }
 
 
-            string[] split = queryAppend.Split(new string[] { "OFFSET" }, StringSplitOptions.None);
-            DataTable dt1 = SqlHelper.GetData(split[0], param.ToArray());
+//            string[] split = queryAppend.Split(new string[] { "OFFSET" }, StringSplitOptions.None);
+//            DataTable dt1 = SqlHelper.GetData(split[0], param.ToArray());
 
-            response.Data = dt;
-            response.recordsFiltered = dt1.Rows.Count;
-            response.recordsTotal = dt.Rows.Count;
-            return response;
-        }
+//            response.Data = dt;
+//            response.recordsFiltered = dt1.Rows.Count;
+//            response.recordsTotal = dt.Rows.Count;
+//            return response;
+//        }
 
         public static int getPrimaryKey(SqlTransaction tran, string tblName)
         {
