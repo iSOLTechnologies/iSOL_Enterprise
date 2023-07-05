@@ -1,0 +1,383 @@
+﻿
+@{
+    ViewData["Title"] = "CurrenciesMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model iSOL_Enterprise.Models._usersModels
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "CurrenciesMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("Name")" id="sessionName" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("Email")" id="sessionEmail" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("RoleCode")" id="UserRoleCode" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("DepartmentCode")" id="_DepartmentCode" />
+
+
+<input type="hidden" value="@Context.Request.Query["Source"]" id="PageGuid" />
+<input type="hidden" value="" id="TicCode" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetInt32("UserId")" id="_UserId" />
+<title>User Master</title>
+
+
+<div class="container">
+    <!--begin::Card-->
+    <div class="card card-custom card-sticky" id="kt_page_sticky_card">
+        <div class="card-header">
+            <div class="card-title">
+                <h3 class="card-label">
+                    Add Details
+                    <i class="mr-2"></i>
+                    <!-- <small class="">try to scroll the page</small> -->
+                </h3>
+            </div>
+            <div class="card-toolbar">
+                <a onclick="Back_his()" class="btn btn-light-primary font-weight-bolder mr-2">
+                    <i class="ki ki-long-arrow-back icon-sm"></i>Back
+                </a>
+                <div class="btn-group">
+                    
+                    <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
+                        <i class="ki ki-check icon-sm"></i>Save
+                    </button>
+
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form autocomplete="off" role="form" id="F_@Context.Request.Query["Source"]" name="F_@Context.Request.Query["Source"]">
+                <div class="form-body" id="HeaderForm">
+                            <div class="row">
+                                
+                                
+                                <div class="col-xl-1"></div>
+
+                                <div class="col-xl-10">
+                                  
+                                    
+                                    <input type="hidden" class="NotReq" value="@Context.Request.Query["Id"]" id="Guid"  name="Guid"/>
+                                    
+                                    <div class="form-group row">
+                                    
+                                        <div class="col-md-6">
+
+                                            <label class="col-form-label">Currency <span class="text-danger">*</span> </label>
+                                           
+                                            <input type="text" id="CurrName" name="CurrName" class="form-control" placeholder="Currency">
+                                            
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <label class="col-form-label">International Code  </label>
+
+                                            <input type="text" id="DocCurrCod" name="DocCurrCod" class="form-control NotReq" placeholder="International Code">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                    
+                                        <div class="col-md-6">
+
+                                            <label class="col-form-label">International Description  </label>
+
+                                            <input type="text" id="ChkName" name="ChkName" class="form-control NotReq" placeholder="Description">
+                                            
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <label class="col-form-label">Hundredth Name  </label>
+
+                                            <input type="text" id="Chk100Name" name="Chk100Name" class="form-control NotReq" placeholder="Hundredth Name">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                    
+                                        <div class="col-md-6">
+
+                                            <label class="col-form-label">English  </label>
+
+                                            <input type="text" id="FrgnName" name="FrgnName" class="form-control NotReq" placeholder="English">
+                                            
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <label class="col-form-label">English Hundredth Name  </label>
+
+                                            <input type="text" id="F100Name" name="F100Name" class="form-control NotReq" placeholder="English Hundredth Name">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                    
+                                        <div class="col-md-6">
+
+                                            <label class="col-form-label">ISO Currency Code  </label>
+
+                                                <select type="text" id="ISOCurrCod" name="ISOCurrCod" class="form-control">
+
+                                                @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.Currencies)
+                                                {
+                                                    <option value="@i.ValueString">@i.Text </option>
+                                                }
+
+                                            </select>
+                                            
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <label class="col-form-label">Incoming Amt Diff Allowed  </label>
+
+                                            <input type="number" id="MaxInDiff" name="MaxInDiff" class="form-control NotReq" placeholder="0.000">
+                                            
+                                        </div>
+                                    </div>
+                                    
+
+                                <div class="col-xl-1"></div>
+                            </div>
+
+                        </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/Assets/plugins/global/plugins.bundle.js"></script>
+<script src="~/Assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
+<script src="~/Assets/js/scripts.bundle.js"></script>
+<script src="~/js/myjson_validate.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        
+        $("#ISOCurrCod").select2();
+
+        let Guid = $('#Guid').val();
+        if (Guid != null && Guid != '' && Guid != undefined) {
+            $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
+            $("#btnSaveData").attr('disabled', true);
+
+            GetUserData();
+        }
+
+        
+
+
+        //$.getJSON('https://api.db-ip.com/v2/free/self', function (data) {
+        //    console.log(JSON.stringify(data));
+        //});
+    });
+
+    $(document).on("keydown", "input", function () {
+        $(this).removeClass('is-invalid');
+
+
+    });
+
+    $(document).on('click', '#btnSaveData', function (e) {
+
+        $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+        $(this).attr('disabled', true);
+
+        if (ValidateData("HeaderForm")) 
+        {
+            
+                FormData();            
+        }
+        else {
+            
+            $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+            $(this).attr('disabled', false);
+        }
+    });
+    function FormData() {
+        
+        var formdata =
+        {
+
+            HeaderData: getJsonObjKeyName("HeaderForm")            
+
+        }
+        
+       
+        PostData(formdata);
+
+
+    }
+
+    function PostData(formData) 
+    {
+      
+        let Guid = $('#Guid').val();
+        let URL = '/Currencies/Add';
+        if (Guid != null && Guid != '' && Guid != undefined) {
+            URL = '/Users/Edit';
+        }
+        
+        return $.ajax({
+            url: URL,
+            dataType: 'json',
+            type: 'POST',
+
+            data: { formData: JSON.stringify(formData) },
+
+            success: function (result) {
+                console.log(result);
+                if (result.isInserted) {
+                    toastr.success(result.message);
+
+                    setTimeout(
+                        function () {
+
+                            $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                            $('#btnSaveData').attr('disabled', false);
+
+                        }, 800);
+                    setTimeout(function () {
+                        window.history.back();
+                    }, 800);
+
+
+                }
+
+                if (!(result.isInserted)) {
+                    toastr.error(result.message);
+                    $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $('#btnSaveData').attr('disabled', false);
+
+                }
+
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+
+        }).done(function (result) {
+
+        });
+    }
+
+    $(document).on('click', '#ShowPassword', function () {
+
+        var asd = $('#ShowPassword').attr('rl');
+        if ($('#ShowPassword').attr('rl') == 'hide') {
+
+            $('#ShowPassword').attr('rl', 'show');
+            $('#Password').attr('type', 'text');
+            $('#passwordEye').removeClass('fa-eye-slash');
+            $('#passwordEye').addClass('fa-eye');
+        }
+        else {
+            $('#ShowPassword').attr('rl', 'hide');
+            $('#Password').attr('type', 'Password');
+            $('#passwordEye').addClass('fa-eye-slash');
+            $('#passwordEye').removeClass('fa-eye');
+        }
+
+    })
+
+    
+
+    
+
+    function GetUserData() {
+
+        return $.ajax({
+            url: '/Users/GetData',
+            dataType: 'json',
+            data: { id: $('#Guid').val() },
+            type: 'Post',
+            success: function (result) {
+
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+
+
+        }).done(function (result) {
+            result = result.data;
+            
+            populateUserData(result)
+        });
+    }
+
+    function populateUserData(data) {
+
+        //RecordLogs('Users', 'View User');
+
+        $('#Email').attr('disabled', true);
+
+        $('#FirstName').val(data.firstName);
+        $('#LastName').val(data.lastName);
+        $('#ContactNumber').val(data.contactNumber);
+
+        $('#RoleCode').val(data.roleCode);
+        $('#Email').val(data.email);
+        $("#pass-cont").addClass("d-none");
+        $("#Password").addClass("NotReq");
+       
+        $('#IsActive').prop('checked',data.isActive);
+        $("#btnSaveData").attr('disabled', false);
+    }
+
+    function ClearForm() {
+
+        $('#FirstName').val('');
+        $('#LastName').val('');
+        $('#UContactNumber').val('');
+        $('#RoleCode').val('');
+        $('#Email').val('');
+        $('#Password').val('');
+        $('#USuperiorCode').val('');
+        $('#URegionCode').val('');
+        $('#IsActive').prop('checked', true);
+
+        var str = '';
+        $('#useridimage').css('background-image', 'url("/' + str + '")');
+    }
+
+    
+
+    
+
+    function UserFormData() {
+        var myString;
+
+        var PrfilePicBased64 = $('#useridimage').css('background-image');
+        if (PrfilePicBased64 != null && PrfilePicBased64 != '' && PrfilePicBased64 != undefined) {
+
+            myString = PrfilePicBased64.substr(PrfilePicBased64.indexOf("data:image") + 0);//remove all before `data:image`
+            myString = myString.replace('")', '');
+            myString = myString.replace(')', '');
+
+        }
+
+        var formdata = {
+
+            UserPic: myString,
+            Id: $('#Guid').val(),
+            FirstName: $('#FirstName').val(),
+            LastName: $('#LastName').val(),
+            ContactNumber: $('#UContactNumber').val(),
+            RoleCode: $('#RoleCode option:selected').val(),
+            Email: $('#Email').val(),
+            Username: $('#Username').val(),
+            Password: $('#Password').val(),
+            IsActive: $('#IsActive').prop('checked'),
+            SuperiorId: $('#USuperiorCode option:selected').val(),
+            RegionCode: $('#URegionCode option:selected').val(),
+        }
+        return formdata;
+    }
+
+
+
+</script>
