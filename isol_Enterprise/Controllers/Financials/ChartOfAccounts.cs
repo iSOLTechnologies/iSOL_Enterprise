@@ -120,5 +120,68 @@ namespace iSOL_Enterprise.Controllers.Financials
                 throw;
             }
         }
+        public IActionResult Edit(string formData)
+        {
+            try
+            {
+                ChartOfAccountDal dal = new ();
+                if (formData != null)
+                {
+
+                    ResponseModels response = dal.Edit(formData);
+                    return Json(new { isInserted = response.isSuccess, Message = response.Message });
+                }
+                else
+                {
+                    return Json(new { isInserted = false, Message = "Data can't be null" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public IActionResult Delete(string Guid)
+        {
+            try
+            {
+                ChartOfAccountDal dal = new ();
+                if (Guid != null)
+                {
+
+                    ResponseModels response = dal.Delete(Guid);
+                    return Json(new { isDeleted = response.isSuccess, Message = response.Message });
+                }
+                else
+                {
+                    return Json(new { isError = true, Message = "Data can't be null" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public IActionResult GetGlAccountData(string Guid)
+        {
+            try
+            {
+                ChartOfAccountDal dal = new ();
+                if (Guid != null)
+                {
+
+                    
+                    return Json(new { isSuccess = true, gLAcctData = dal.GetGlAccountData(Guid) , drawer = dal.GetGlAccountDrawer(Guid) });
+                }
+                else
+                {
+                    return Json(new { isSuccess = false, Data = "" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

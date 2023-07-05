@@ -11,5 +11,6 @@ namespace iSOL_Enterprise.Models.ChartOfAccount
         public string AccntntCod { get;set; }
         public string ActCurr { get;set; }
         public int Levels { get;set; }
+        public string CurrTotal { get;set; }
     }
 }

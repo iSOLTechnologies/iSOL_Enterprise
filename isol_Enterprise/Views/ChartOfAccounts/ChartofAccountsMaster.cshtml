@@ -22,7 +22,7 @@
 <input type="hidden" value="" id="RCODe" />
 <input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetInt32("UserId")" id="_UserId" />
 <title>User Master</title>
-<style>
+<style> 
     /*.gj-tree-bootstrap-4 ul.gj-list-bootstrap li ul.gj-list-bootstrap {
         display: flex;
     }*/
@@ -167,7 +167,7 @@
                                             <div class="col-md-8 d-flex">
                                                 <label class="col-xl-4 col-lg-4 col-form-label">Level <span class="text-danger">*</span></label>
                                                 <div class="col-lg-8 col-xl-8">
-                                                    <input type="number" name="Levels" id="Levels"  class="form-control" placeholder="Level" disabled>
+                                                <input type="number" name="Levels" id="Levels" class="form-control" placeholder="Level" disabled step="1">
 
                                                 </div>
                                             </div>
@@ -372,11 +372,11 @@
                                                     <div class="col-md-6 d-flex">
 
                                                         <label class="mt-2 mr-3 ">From</label>
-                                                        <input type="date" id="validFrom" name="validFrom" class="mr-5  form-control form-control-sm NotReq">
+                                                        <input type="date" id="validFrom" name="ValidFrom" class="mr-5  form-control form-control-sm NotReq">
                                                     </div>
                                                     <div class="col-md-6 d-flex">
                                                         <label class="mt-2 mr-3 ">To</label>
-                                                        <input type="date" id="validTo" name="validTo" class=" form-control form-control-sm NotReq">
+                                                        <input type="date" id="validTo" name="ValidTo" class=" form-control form-control-sm NotReq">
                                                     </div>
                                                     <div class="col-md-12 d-flex mt-2">
                                                         <label class="mt-2 mr-3 ">Remarks</label>
@@ -404,12 +404,12 @@
                                                     <div class="col-md-6 d-flex">
 
                                                         <label class="mt-2 mr-3">From</label>
-                                                        <input type="date" id="frozenFrom" name="frozenFrom" class="mr-5  form-control form-control-sm NotReq">
+                                                        <input type="date" id="frozenFrom" name="FrozenFrom" class="mr-5  form-control form-control-sm NotReq">
                                                     </div>
                                                     <div class="col-md-6 d-flex">
 
                                                         <label class="mt-2 mr-3">To</label>
-                                                        <input type="date" id="frozenTo" name="frozenTo" class=" form-control form-control-sm NotReq">
+                                                        <input type="date" id="frozenTo" name="FrozenTo" class=" form-control form-control-sm NotReq">
                                                     </div>
                                                     <div class="col-md-12 d-flex mt-2">
                                                         <label class="mt-2 mr-3 ">Remarks</label>
@@ -459,12 +459,25 @@
     $(document).ready(function () {
 
         let Guid = $('#Guid').val();
+
+        if (Guid != null && Guid != '' && Guid != undefined) 
+        {
+            $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
+            $("#btnSaveData").attr('disabled', true);
+            $('input[name=drawers]').attr('disabled', true);
+
+            GetGLAccountData(Guid);
+        }
+        else 
+        {
         
-        UpdateLevel(1);
-        GetLevels($("input[name=drawers]:checked").val());
-        treeDataSource = '/ChartOfAccounts/GetLevels';
-        GetUpdatedAcctCode(1);
-        $("#FatherNum").val(1);
+            GetLevels($("input[name=drawers]:checked").val());
+            treeDataSource = '/ChartOfAccounts/GetLevels';
+            GetUpdatedAcctCode(1);
+            $("#FatherNum").val(1);
+            UpdateLevel(1);
+        
+        }
     });
 
     $(document).on('change', "#PrjRelvnt", function () {
@@ -500,20 +513,29 @@
         let Level = $(TargetSpan).attr('act-level');
         let Postable = $(TargetSpan).attr('act-postable');
         
-        UpdateLevel(Level);
         
-        $("#FatherNum").val(FatherNum);
-        if(Postable === "Y")
+        
+
+        if ($("#AcctCode").val() != FatherNum)
         {
-            UpdateFormsAsActiveAccount();
-            
+            $("#FatherNum").val(FatherNum);
+            UpdateLevel(Level);
+
+            if (Postable === "Y") {
+                UpdateFormsAsActiveAccount();
+
+            }
+            else {
+                UpdateFormAsTitleAccount();
+            }
+            if ($('#Guid').val() == "" || $('#Guid').val() == null)
+                GetUpdatedAcctCode(FatherNum);
         }
         else
         {
-            UpdateFormAsTitleAccount();
+            toastr.warning("Select different account !");
+            $('li.list-group-item.active').removeClass("active");
         }
-        GetUpdatedAcctCode(FatherNum);
-        
     });
     
     $('input[name=drawers]').change(function () {
@@ -550,9 +572,30 @@
    
     function UpdateLevel(value) {
 
-        $("#Levels").val(parseInt(value, 10));
+        value = parseInt(value, 10);
+        
+
+        $.when($("#Levels").val(value)).then(function() {
+            RemoveDecimal("Levels");
+        })
+        
     }
-   
+    
+    function RemoveDecimal(element) 
+    {
+        
+        var inputElement = $('#' + element);
+        
+        if (inputElement.val().includes('.')) {
+            
+            inputElement.val(parseInt(inputElement.val()));
+        }
+    }
+    
+    $('#Levels').on('input', function () {
+        
+        RemoveDecimal("Levels");
+    });
     function UpdateAccountType(drawer) {
 
         if(drawer === "1" || drawer === "2" || drawer === "3")
@@ -642,7 +685,18 @@
         });
 
     }
-    
+
+    $(document).on('click', '#btnAccoutDetails', function (e) {
+
+        $('#AccountDetailModel').modal('show');
+    });
+
+    $(document).on('click', '#btnAccountDetailOk', function (e) {
+
+        AccountDetail = getJsonObjKeyName("AccountDetail");
+        $('#AccountDetailModel').modal('hide');
+    });
+
     $(document).on('click', '#btnSaveData', function (e) {
 
 
@@ -661,16 +715,7 @@
         }
     });
 
-    $(document).on('click', '#btnAccoutDetails', function (e) {
-        
-        $('#AccountDetailModel').modal('show');
-    }); 
-    $(document).on('click', '#btnAccountDetailOk', function (e) {
-        
-        AccountDetail = getJsonObjKeyName("AccountDetail");
-        $('#AccountDetailModel').modal('hide');
-    });
-
+   
     function FormData() {
         
         var formdata =
@@ -682,7 +727,7 @@
             
         }
 
-        console.log(formdata);
+        
 
         PostData(formdata);
 
@@ -738,6 +783,61 @@
         }).done(function (result) {
 
         });
+    }
+
+    function GetGLAccountData(Guid) {
+        $.ajax({
+            url: 'ChartOfAccounts/GetGlAccountData',
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            data: { Guid: Guid },
+            success: function (data) 
+            {
+                let GLAcctData = JSON.parse(data.gLAcctData);
+                let Drawer = JSON.parse(data.drawer);
+
+                $('input[name=drawers][value="' + Drawer + '"]').prop('checked', true);
+
+                console.log(GLAcctData);
+
+                $.each(GLAcctData[0][0], function (key, value) {
+
+                    if ($('[name="'+key+'"]').is(':checkbox') ) {
+                        if (value == 'Y') {
+                            $('[name="'+key+'"]').prop('checked', true);
+
+                        }
+                        else {
+
+                            $('[name="'+key+'"]').prop('checked', false);
+
+                        }
+                    }
+                    else if ($('[name="' + key + '"]').is(':radio')) 
+                    {
+                        $('[name="'+key+'"][value="'+value+'"]').prop('checked', true);
+                    }
+                    else if ($('[name="'+key+'"]').attr('type') === 'date') {
+                        $('[name="'+key+'"]').val(moment(value).format('yyyy-MM-DD'));
+
+                    }
+                    else 
+                    {
+                        if(key == "Levels")
+                            UpdateLevel(value - 1);
+                        else
+                        $('[name="'+key+'"]').val(value);
+                    }
+
+                });
+            
+                GetLevels(Drawer);
+                AccountDetail = getJsonObjKeyName("AccountDetail");
+                $("#btnSaveData").attr('disabled', false);
+            } 
+        });
+
     }
 </script>
 
