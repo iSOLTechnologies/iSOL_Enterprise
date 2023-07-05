@@ -464,21 +464,21 @@ namespace ReportManager.Dal
 
                 pdv1.Value = DocNum;
 
-                pfd1 = Param["DocKey@"];
+                pfd1 = Param["DocEntry@"];
                 pv1 = pfd1.CurrentValues;
                 pv1.Clear();
                 pv1.Add(pdv1);
                 pfd1.ApplyCurrentValues(pv1);
 
-                ParameterFieldDefinition pfd2;
-                ParameterValues pv2 = new ParameterValues();
-                ParameterDiscreteValue pdv2 = new ParameterDiscreteValue();
-                pdv2.Value = 1470000113;
-                pfd2 = Param["ObjectId@"];
-                pv2 = pfd1.CurrentValues;
-                pv2.Clear();
-                pv2.Add(pdv1);
-                pfd2.ApplyCurrentValues(pv2);
+                //ParameterFieldDefinition pfd2;
+                //ParameterValues pv2 = new ParameterValues();
+                //ParameterDiscreteValue pdv2 = new ParameterDiscreteValue();
+                //pdv2.Value = 1470000113;
+                //pfd2 = Param["ObjectId@"];
+                //pv2 = pfd1.CurrentValues;
+                //pv2.Clear();
+                //pv2.Add(pdv1);
+                //pfd2.ApplyCurrentValues(pv2);
 
                 string FileName = "";
                 string CombinePath = "";
