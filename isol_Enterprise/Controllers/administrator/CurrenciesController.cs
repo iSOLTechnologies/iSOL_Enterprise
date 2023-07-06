@@ -43,6 +43,28 @@ namespace iSOL_Enterprise.Controllers.administrator
             }
             return Json(response);
         }
+
+        public IActionResult GetCurrData(string Guid)
+        {
+            try
+            {
+                CurrenciesDal dal = new();
+                if (Guid != null)
+                {
+
+
+                    return Json(new { isSuccess = true, currData = dal.GetCurrData(Guid) });
+                }
+                else
+                {
+                    return Json(new { isSuccess = false, Data = "" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public IActionResult Add(string formData)
         {
             try
@@ -68,7 +90,7 @@ namespace iSOL_Enterprise.Controllers.administrator
         {
             try
             {
-                ChartOfAccountDal dal = new();
+                CurrenciesDal dal = new();
                 if (formData != null)
                 {
 

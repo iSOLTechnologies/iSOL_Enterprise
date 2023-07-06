@@ -160,19 +160,15 @@
         $("#ISOCurrCod").select2();
 
         let Guid = $('#Guid').val();
-        if (Guid != null && Guid != '' && Guid != undefined) {
+        if (Guid != null && Guid != '' && Guid != undefined) 
+        {
             $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
             $("#btnSaveData").attr('disabled', true);
 
-            GetUserData();
+            GetCurrData();
         }
 
         
-
-
-        //$.getJSON('https://api.db-ip.com/v2/free/self', function (data) {
-        //    console.log(JSON.stringify(data));
-        //});
     });
 
     $(document).on("keydown", "input", function () {
@@ -218,7 +214,7 @@
         let Guid = $('#Guid').val();
         let URL = '/Currencies/Add';
         if (Guid != null && Guid != '' && Guid != undefined) {
-            URL = '/Users/Edit';
+            URL = '/Currencies/Edit';
         }
         
         return $.ajax({
@@ -262,122 +258,60 @@
         }).done(function (result) {
 
         });
-    }
+    }    
 
-    $(document).on('click', '#ShowPassword', function () {
-
-        var asd = $('#ShowPassword').attr('rl');
-        if ($('#ShowPassword').attr('rl') == 'hide') {
-
-            $('#ShowPassword').attr('rl', 'show');
-            $('#Password').attr('type', 'text');
-            $('#passwordEye').removeClass('fa-eye-slash');
-            $('#passwordEye').addClass('fa-eye');
-        }
-        else {
-            $('#ShowPassword').attr('rl', 'hide');
-            $('#Password').attr('type', 'Password');
-            $('#passwordEye').addClass('fa-eye-slash');
-            $('#passwordEye').removeClass('fa-eye');
-        }
-
-    })
-
-    
-
-    
-
-    function GetUserData() {
-
-        return $.ajax({
-            url: '/Users/GetData',
+    function GetCurrData() 
+    {
+        
+        $.ajax({
+            url: 'Currencies/GetCurrData',
+            type: 'GET',
             dataType: 'json',
-            data: { id: $('#Guid').val() },
-            type: 'Post',
-            success: function (result) {
+            async: false,
+            data: { Guid: $('#Guid').val() },
+            success: function (data) {
+                let CurrData = JSON.parse(data.currData);
+                
 
-            },
-            error: function (jqXhr, textStatus, errorMessage) {
-                console.log(errorMessage);
+                $.each(CurrData[0][0], function (key, value) {
+
+                    if ($('[name="' + key + '"]').is(':checkbox')) {
+                        if (value == 'Y') {
+                            $('[name="' + key + '"]').prop('checked', true);
+
+                        }
+                        else {
+
+                            $('[name="' + key + '"]').prop('checked', false);
+
+                        }
+                    }
+                    else if ($('[name="' + key + '"]').is(':radio')) {
+                        $('[name="' + key + '"][value="' + value + '"]').prop('checked', true);
+                    }
+                    else if ($('[name="' + key + '"]').attr('type') === 'date') {
+                        $('[name="' + key + '"]').val(moment(value).format('yyyy-MM-DD'));
+
+                    }
+                    else 
+                    {
+                            if (key === "ISOCurrCod") 
+                            {
+                                $('[name="' + key + '"]').val(value).trigger('change');
+                            }
+                            else
+                            $('[name="' + key + '"]').val(value);
+                    }
+
+                });
+
+                
+                $("#btnSaveData").attr('disabled', false);
             }
-
-
-        }).done(function (result) {
-            result = result.data;
-            
-            populateUserData(result)
         });
     }
 
-    function populateUserData(data) {
-
-        //RecordLogs('Users', 'View User');
-
-        $('#Email').attr('disabled', true);
-
-        $('#FirstName').val(data.firstName);
-        $('#LastName').val(data.lastName);
-        $('#ContactNumber').val(data.contactNumber);
-
-        $('#RoleCode').val(data.roleCode);
-        $('#Email').val(data.email);
-        $("#pass-cont").addClass("d-none");
-        $("#Password").addClass("NotReq");
-       
-        $('#IsActive').prop('checked',data.isActive);
-        $("#btnSaveData").attr('disabled', false);
-    }
-
-    function ClearForm() {
-
-        $('#FirstName').val('');
-        $('#LastName').val('');
-        $('#UContactNumber').val('');
-        $('#RoleCode').val('');
-        $('#Email').val('');
-        $('#Password').val('');
-        $('#USuperiorCode').val('');
-        $('#URegionCode').val('');
-        $('#IsActive').prop('checked', true);
-
-        var str = '';
-        $('#useridimage').css('background-image', 'url("/' + str + '")');
-    }
-
     
-
-    
-
-    function UserFormData() {
-        var myString;
-
-        var PrfilePicBased64 = $('#useridimage').css('background-image');
-        if (PrfilePicBased64 != null && PrfilePicBased64 != '' && PrfilePicBased64 != undefined) {
-
-            myString = PrfilePicBased64.substr(PrfilePicBased64.indexOf("data:image") + 0);//remove all before `data:image`
-            myString = myString.replace('")', '');
-            myString = myString.replace(')', '');
-
-        }
-
-        var formdata = {
-
-            UserPic: myString,
-            Id: $('#Guid').val(),
-            FirstName: $('#FirstName').val(),
-            LastName: $('#LastName').val(),
-            ContactNumber: $('#UContactNumber').val(),
-            RoleCode: $('#RoleCode option:selected').val(),
-            Email: $('#Email').val(),
-            Username: $('#Username').val(),
-            Password: $('#Password').val(),
-            IsActive: $('#IsActive').prop('checked'),
-            SuperiorId: $('#USuperiorCode option:selected').val(),
-            RegionCode: $('#URegionCode option:selected').val(),
-        }
-        return formdata;
-    }
-
 
 
 </script>
