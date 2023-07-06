@@ -34,8 +34,13 @@
 	<link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
 	<link href="~/lib/SweetAlerts/sweetalert2.min.css" rel="stylesheet" type="text/css" />
     <link href="~/lib/gigo-tree/css/tree.min.css" rel="stylesheet" />
-</head>
+
 <style>
+
+		[disabled] {
+			opacity: .6;
+			cursor: not-allowed;
+		}
 	input[type=number] {
 		-moz-appearance: textfield; /* Firefox */
 	}
@@ -113,7 +118,7 @@
 </style>
 <!--end::Head-->
 <!--begin::Body-->
-
+</head>
 <body oncontextmenu="return false" id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
 	<!--begin::Main-->
 	<!--begin::Header Mobile-->

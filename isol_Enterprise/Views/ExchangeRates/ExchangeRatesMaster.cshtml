@@ -1,0 +1,265 @@
+﻿
+@{
+    ViewData["Title"] = "ExchangeRatesMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model iSOL_Enterprise.Models._usersModels
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "ExchangeRatesMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("Name")" id="sessionName" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("Email")" id="sessionEmail" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("RoleCode")" id="UserRoleCode" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("DepartmentCode")" id="_DepartmentCode" />
+
+
+<input type="hidden" value="@Context.Request.Query["Source"]" id="PageGuid" />
+<input type="hidden" value="" id="TicCode" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetInt32("UserId")" id="_UserId" />
+<title>User Master</title>
+
+
+<div class="container">
+    <!--begin::Card-->
+    <div class="card card-custom card-sticky" id="kt_page_sticky_card">
+        <div class="card-header">
+            <div class="card-title">
+                <h3 class="card-label">
+                    Add Details
+                    <i class="mr-2"></i>
+                    <!-- <small class="">try to scroll the page</small> -->
+                </h3>
+            </div>
+            <div class="card-toolbar">
+                <a onclick="Back_his()" class="btn btn-light-primary font-weight-bolder mr-2">
+                    <i class="ki ki-long-arrow-back icon-sm"></i>Back
+                </a>
+                <div class="btn-group">
+                    
+                    <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
+                        <i class="ki ki-check icon-sm"></i>Save
+                    </button>
+
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form autocomplete="off" role="form" id="F_@Context.Request.Query["Source"]" name="F_@Context.Request.Query["Source"]">
+                <div class="form-body" id="HeaderForm">
+                            <div class="row">
+                                
+                                
+                                <div class="col-xl-1"></div>
+
+                                <div class="col-xl-10">
+                                  
+                                    
+                                    <input type="hidden" class="NotReq" value="@Context.Request.Query["Id"]" id="Guid"  name="Guid"/>
+                                    
+                                    <div class="form-group row">
+                                    
+                                        <div class="col-md-6">
+
+                                            <label class="col-form-label d">Date <span class="text-danger">*</span> </label>
+
+                                            <input type="date" id="RateDate" name="RateDate" class="form-control d">
+                                            
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <label class="col-form-label">Currency <span class="text-danger">*</span> </label>
+                                            <select class="form-control" id="Currency" name="Currency">
+                                                <option value=""> Select Currency</option>
+                                                @foreach (var item in ViewBag.Currencies)
+                                                {
+                                                    <option value="@item.curr_code"> @item.curr_name</option>
+                                                }
+                                            </select>
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                    
+                                        <div class="col-md-6">
+
+                                            <label class="col-form-label">Rate  </label>
+
+                                            <input type="number" id="Rate" name="Rate" class="form-control NotReq" placeholder="0.0000">
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    
+                                    
+
+                                <div class="col-xl-1"></div>
+                            </div>
+
+                        </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/Assets/plugins/global/plugins.bundle.js"></script>
+<script src="~/Assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
+<script src="~/Assets/js/scripts.bundle.js"></script>
+<script src="~/js/myjson_validate.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        const boxes = document.querySelectorAll('.d');
+
+        for (const box of boxes) {
+            box.value = new Date().toJSON().slice(0, 10);
+        }
+        
+        $("#ISOCurrCod").select2();
+
+        let Guid = $('#Guid').val();
+        if (Guid != null && Guid != '' && Guid != undefined) 
+        {
+            $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
+            $("#btnSaveData").attr('disabled', true);
+            $("#Currency").attr('disabled', true);
+            $("#RateDate").attr('disabled', true);
+
+            GetExchnRateData();
+        }
+
+        
+    });
+
+    $(document).on("keydown", "input", function () {
+        $(this).removeClass('is-invalid');
+
+
+    });
+
+    $(document).on('click', '#btnSaveData', function (e) {
+
+        $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+        $(this).attr('disabled', true);
+
+        if (ValidateData("HeaderForm")) 
+        {
+            
+                FormData();            
+        }
+        else {
+            
+            $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+            $(this).attr('disabled', false);
+        }
+    });
+    function FormData() {
+        
+        var formdata =
+        {
+
+            HeaderData: getJsonObjKeyName("HeaderForm")            
+
+        }
+        
+       
+        PostData(formdata);
+
+
+    }
+
+    function PostData(formData) 
+    {
+      
+        let Guid = $('#Guid').val();
+        let URL = '/ExchangeRates/Add';
+        if (Guid != null && Guid != '' && Guid != undefined) {
+            URL = '/ExchangeRates/Edit';
+        }
+        
+        return $.ajax({
+            url: URL,
+            dataType: 'json',
+            type: 'POST',
+
+            data: { formData: JSON.stringify(formData) },
+
+            success: function (result) {
+                console.log(result);
+                if (result.isInserted) {
+                    toastr.success(result.message);
+
+                    setTimeout(
+                        function () {
+
+                            $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                            $('#btnSaveData').attr('disabled', false);
+
+                        }, 800);
+                    setTimeout(function () {
+                        window.history.back();
+                    }, 800);
+
+
+                }
+
+                if (!(result.isInserted)) {
+                    toastr.error(result.message);
+                    $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $('#btnSaveData').attr('disabled', false);
+
+                }
+
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+
+        }).done(function (result) {
+
+        });
+    }    
+
+    function GetExchnRateData() {
+        
+        $.ajax({
+            url: 'ExchangeRates/GetExchnRateData',
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            data: { Guid: $('#Guid').val() },
+            success: function (data) {
+                let exchnRateData = JSON.parse(data.exchnRateData);
+                
+
+                $.each(exchnRateData[0][0], function (key, value) {
+
+                    if ($('[name="' + key + '"]').attr('type') === 'date') {
+                        $('[name="' + key + '"]').val(moment(value).format('yyyy-MM-DD'));
+
+                    }
+                    else 
+                    {                           
+                            $('[name="' + key + '"]').val(value);
+                    }
+
+                });
+
+                
+                $("#btnSaveData").attr('disabled', false);
+            }
+        });
+    }
+
+    
+
+
+</script>
