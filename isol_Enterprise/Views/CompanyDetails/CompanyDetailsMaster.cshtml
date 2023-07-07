@@ -1,0 +1,613 @@
+﻿@{
+    ViewData["Title"] = "CompanyDetailsMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model iSOL_Enterprise.Models._usersModels
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "CompanyDetailsMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("Name")" id="sessionName" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("Email")" id="sessionEmail" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("RoleCode")" id="UserRoleCode" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetString("DepartmentCode")" id="_DepartmentCode" />
+
+
+<input type="hidden" value="@Context.Request.Query["Source"]" id="PageGuid" />
+<input type="hidden" value="" id="TicCode" />
+<input type="hidden" value="@HttpContextAccessor.HttpContext.Session.GetInt32("UserId")" id="_UserId" />
+<title>User Master</title>
+
+
+<div class="container">
+    <!--begin::Card-->
+    <div class="card card-custom card-sticky" id="kt_page_sticky_card">
+        <div class="card-header">
+            <div class="card-title">
+                <h3 class="card-label">
+                    Add Details
+                    <i class="mr-2"></i>
+                    <!-- <small class="">try to scroll the page</small> -->
+                </h3>
+            </div>
+            <div class="card-toolbar">
+                <a onclick="Back_his()" class="btn btn-light-primary font-weight-bolder mr-2">
+                    <i class="ki ki-long-arrow-back icon-sm"></i>Back
+                </a>
+                <div class="btn-group">
+
+                    <button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData">
+                        <i class="ki ki-check icon-sm"></i>Update
+                    </button>
+
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form autocomplete="off" role="form" id="F_@Context.Request.Query["Source"]" name="F_@Context.Request.Query["Source"]">
+                       
+                <div class="row">
+                    <div class="col-xl-1"></div>
+                     <div class="col-xl-10">
+
+
+                            <div class="row justify-content-center">
+
+                                <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand"
+                                    role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab"
+                                           id="TabGeneral"
+                                           href="#kt_tabs_General"
+                                           role="tab">General</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab"
+                                           id="TabAccountingData"
+                                           href="#kt_tabs_AccountingData"
+                                           role="tab">Accounting Data</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab"
+                                           id="TabBasicInitialization"
+                                           href="#kt_tabs_BasicInitialization" role="tab">
+                                            Basic Initialization
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content">
+
+                                <div class="tab-pane active  scrollbar mt-5"
+                                     id="kt_tabs_General" role="tabpanel">
+
+                                     <div class="row">
+
+                                          <div class="col-md-10">
+
+                                              <div class="form-group row">
+
+                                                  <div class="col-12 d-flex">
+                                                        
+                                                        <label class="col-form-label mr-2 col-2">Company Name <span class="text-danger">*</span></label>
+
+                                                        <input type="text" id="CompnyName" name="CompnyName" class="form-control"  char="100">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">Address </label>
+
+                                                        <textarea rows="3" cols="6" class="form-control NotReq" name="CompnyAddr">
+
+                                                        </textarea>
+                                                        
+
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+                                                       
+                                                        <label class="col-form-label  mr-2 col-2">Street / PO Box </label>
+
+                                                        <input type="text" id="Street" name="Street" class="form-control NotReq" char="100">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+                                                       
+                                                        <label class="col-form-label  mr-2 col-2">Street No </label>
+
+                                                        <input type="text" id="StreetNo" name="StreetNo" class="form-control NotReq" char="100">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">Block </label>
+
+                                                        <input type="text" id="Block" name="Block" class="form-control NotReq" char="100">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">Building/Floor/Room </label>
+
+                                                        <input type="text" id="Building" name="Building" class="form-control NotReq" char="100">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">City </label>
+
+                                                        <input type="text" id="City" name="City" class="form-control NotReq" char="100">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">ZipCode </label>
+
+                                                        <input type="text" id="ZipCode" name="ZipCode" class="form-control NotReq" char="20">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">County </label>
+
+                                                        <input type="text" id="County" name="County" class="form-control NotReq" char="100">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">State </label>
+
+                                                        <select id="State" name="State" class="form-control NotReq"></select>                                                        
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">Country/Region </label>
+
+                                                        <select id="Country" name="Country" class="form-control NotReq"></select>                                                        
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">Internet Address </label>
+
+                                                        <input type="text" id="IntrntAdrs" name="IntrntAdrs" class="form-control NotReq" char="50">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">Printing Header </label>
+
+                                                        <input type="text" id="PrintHeadr" name="PrintHeadr" class="form-control NotReq" char="100">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">Active Manager </label>
+
+                                                        <input type="text" id="Manager" name="Manager" class="form-control NotReq" char="100">
+                                                        
+                                                  </div>
+
+                                                  <div class=" nav nav-tabs nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand col-12 mt-5 mb-5"> </div>
+
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">Alias Name </label>
+
+                                                        <input type="text" id="AliasName" name="AliasName" class="form-control NotReq" char="300">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">Telephone 1 </label>
+
+                                                        <input type="text" id="Phone1" char="20" name="Phone1" class="form-control NotReq">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">Telephone 2 </label>
+
+                                                        <input type="text" id="Phone2" char="20" name="Phone2" class="form-control NotReq">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">Fax  </label>
+
+                                                        <input type="text" id="Fax" name="Fax" class="form-control NotReq" char="20">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">E-Mail  </label>
+
+                                                        <input type="text" id="E_Mail" name="E_Mail" class="form-control NotReq" char="100">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">GLN  </label>
+
+                                                        <input type="text" id="GlblLocNum" name="GlblLocNum" class="form-control NotReq" char="50">
+                                                        
+                                                  </div>
+                                              </div>
+                                                
+
+                                          </div>
+                                     </div>
+
+
+                                
+                                </div>
+                                
+                                <div class="tab-pane  scrollbar mt-5"
+                                     id="kt_tabs_AccountingData" role="tabpanel">
+
+                                     <div class="row">
+
+                                          <div class="col-md-10">
+
+                                              <div class="form-group row">
+
+                                                  <div class="col-12 d-flex">
+                                                        
+                                                        <label class="col-form-label mr-2 col-2">Tax Office </label>
+
+                                                        <input type="text" id="RevOffice" name="RevOffice" class="form-control NotReq" char="100">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                        <label class="col-form-label  mr-2 col-2">Federal Tax ID 1 </label>
+
+                                                        <input type="text" id="TaxIdNum" name="TaxIdNum" class="form-control NotReq" char="32">                                                        
+
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+                                                       
+                                                        <label class="col-form-label  mr-2 col-2">Federal Tax ID 2 </label>
+
+                                                        <input type="text" id="TaxIdNum2" name="TaxIdNum2" class="form-control NotReq" char="32">
+                                                        
+                                                  </div>
+                                                  <div class="col-12 d-flex mt-2">
+
+                                                    <label class="col-form-label  mr-2 col-2">Holidays </label>
+
+                                                        <select class="form-control NotReq" name="HldCode" id="HldCode"></select>
+                                                        
+                                                  </div>
+
+                                              </div>
+                                                
+
+                                          </div>
+                                     </div>
+                                
+                                </div>
+                                
+                                <div class="tab-pane  scrollbar mt-5"
+                                     id="kt_tabs_BasicInitialization" role="tabpanel">
+                                    <div class="row">
+
+                                        <div class="col-md-10">
+
+                                            <div class="form-group row">
+
+                                                <div class="col-12 d-flex">
+
+                                                    <label class="col-form-label mr-2 col-4">Local Currency <span class="text-danger">*</span> </label>
+
+                                                    <select class="form-control " name="MainCurncy" id="MainCurncy"></select>
+
+                                                </div>
+                                                <div class="col-12 d-flex mt-2">
+
+                                                    <label class="col-form-label mr-2 col-4">System Currency <span class="text-danger">*</span></label>
+
+                                                    <select class="form-control " name="SysCurrncy" id="SysCurrncy"></select>
+
+                                                </div>
+                                                <div class="col-12 d-flex mt-2">
+
+                                                    <label class="col-form-label mr-2 col-4">Default Account Currency <span class="text-danger">*</span></label>
+
+                                                    <select class="form-control " name="DfActCurr" id="DfActCurr">
+                                                        <option value="Y">All Currencies</option>
+                                                        <option value="N">Local Currency</option>
+                                                    </select>
+
+                                                </div>                                                
+                                                <div class="col-12 d-flex mt-2">
+
+                                                    <label class="col-form-label  mr-2 col-4">Item Groups Valuation Method <span class="text-danger">*</span></label>
+
+                                                    <select class="form-control " name="InvntSystm" id="InvntSystm">
+                                                        <option value="A"> Moving Average</option>
+                                                        <option value="S">Standard</option>
+                                                        <option value="F">FIFO</option>
+                                                    </select>
+
+                                                </div>
+                                                <div class="col-12 d-flex mt-2">
+
+                                                    <label class="col-form-label  mr-2 col-4">Calculate Depreciation By <span class="text-danger">*</span></label>
+
+                                                    <select class="form-control " name="DeprecCalc" id="DeprecCalc">
+                                                        <option value="M"> Month</option>
+                                                        <option value="D">Day</option>
+                                                        
+                                                    </select>
+
+                                                </div>
+                                                <div class=" nav nav-tabs nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand col-12 mt-4"> </div>
+                                                <div class="col-12 d-flex mt-4">
+                                                    <div class="col-1"></div>
+                                                    <div class="radio-inline col-5">
+                                                        <label class="radio radio-outline radio-success">
+                                                            <input type="radio" name="SnBDfltSB" value="Y" checked />
+                                                            <span></span>
+                                                            Items Group Valuation Method
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio-inline col-5">
+                                                        <label class="radio radio-outline radio-success">
+                                                            <input type="radio" name="SnBDfltSB" value="N" />
+                                                            <span></span>
+                                                            Serial/Batch Valuation Method
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-1"></div>
+                                                </div>
+                                                <div class="col-12 d-flex mt-2">
+                                                    <div class="col-1"></div>
+                                                    <div class="checkbox-inline col-5">
+                                                        <label class="checkbox checkbox-outline checkbox-success">
+                                                            <input type="checkbox" name="ContInvnt" />
+                                                            <span></span>
+                                                            Use Perpetual Inventory
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox-inline col-5">
+                                                        <label class="checkbox checkbox-outline checkbox-success">
+                                                            <input type="checkbox" name="PriceSys" />
+                                                            <span></span>
+                                                            Manage Item Cost Per Warehouse
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-1"></div>
+                                                    
+
+                                                </div>
+                                                <div class="col-12 d-flex mt-2 ">
+                                                    <div class="col-1"></div>
+                                                    <div class="checkbox-inline col-5">
+                                                        <label class="checkbox checkbox-outline checkbox-success">
+                                                            <input type="checkbox" name="RelStkNoPr" />
+                                                            <span></span>
+                                                            Allow Stock Release Without Item Cost
+                                                        </label>
+                                                    </div>
+                                                    <div class="checkbox-inline col-5">
+                                                        <label class="checkbox checkbox-outline checkbox-success">
+                                                            <input type="checkbox" name="InstFixAst" />
+                                                            <span></span>
+                                                            Enable Fixed Assets
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-1"></div>
+                                                </div>
+                                                <div class="col-12 d-flex mt-2 ">
+                                                    <div class="col-1"></div>
+                                                    
+                                                    <div class="checkbox-inline col-5">
+                                                        <label class="checkbox checkbox-outline checkbox-success">
+                                                            <input type="checkbox" name="MltpBrnchs" />
+                                                            <span></span>
+                                                            Enable Multiple Branches
+                                                        </label>
+                                                    </div>
+                                                    
+                                                    <div class="checkbox-inline col-5">
+                                                        <label class="checkbox checkbox-outline checkbox-success">
+                                                            <input type="checkbox" name="NewAcctDe" />
+                                                            <span></span>
+                                                            Enable Advanced G/L Account Determination
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-1"></div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                     </div>
+                                </div>
+                        
+                             
+                             </div>
+
+                        
+
+                     </div>
+                    <div class="col-xl-1"></div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/Assets/plugins/global/plugins.bundle.js"></script>
+<script src="~/Assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
+<script src="~/Assets/js/scripts.bundle.js"></script>
+<script src="~/js/myjson_validate.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        
+            $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
+            $("#btnSaveData").attr('disabled', true);
+           
+
+            GetCompanyDetails();
+        
+
+    });
+
+    
+
+    $(document).on('click', '#btnSaveData', function (e) {
+
+        $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+        $(this).attr('disabled', true);
+
+        if (ValidateData("TabGeneral")) 
+        {
+            if (ValidateData("TabAccountingData")) 
+            {
+                if (ValidateData("TabBasicInitialization")) 
+                {
+                    FormData();
+                }
+                else
+                    $("#TabBasicInitialization").trigger('click');
+            }
+            else
+                $("#TabAccountingData").trigger('click');
+        }
+        else {
+
+            $(this).removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+            $(this).attr('disabled', false);
+            $("#TabGeneral").trigger('click');
+        }
+    });
+    function FormData() {
+
+        var formdata =
+        {
+
+            TabGeneral: getJsonObjKeyName("TabGeneral"),
+            TabAccountingData: getJsonObjKeyName("TabAccountingData"),
+            TabBasicInitialization: getJsonObjKeyName("TabBasicInitialization"),
+
+        }
+
+
+        PostData(formdata);
+
+
+    }
+
+    function PostData(formData) {
+
+        
+
+        return $.ajax({
+            url: '/CompanyDetails/Update',
+            dataType: 'json',
+            type: 'POST',
+
+            data: { formData: JSON.stringify(formData) },
+
+            success: function (result) {
+                console.log(result);
+                if (result.isInserted) {
+                    toastr.success(result.message);
+
+                    setTimeout(
+                        function () {
+
+                            $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                            $('#btnSaveData').attr('disabled', false);
+
+                        }, 800);
+                    setTimeout(function () {
+                        window.history.back();
+                    }, 800);
+
+
+                }
+
+                if (!(result.isInserted)) {
+                    toastr.error(result.message);
+                    $('#btnSaveData').removeClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
+                    $('#btnSaveData').attr('disabled', false);
+
+                }
+
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                console.log(errorMessage);
+            }
+
+        }).done(function (result) {
+
+        });
+    }
+
+    function GetCompanyDetails() {
+
+        $.ajax({
+            url: 'CompanyDetails/GetCompanyDetails',
+            type: 'GET',
+            dataType: 'json',
+            async: false,            
+            success: function (data) {
+                let OADMData = JSON.parse(data.oadmData);
+                let ADM1Data = JSON.parse(data.adm1Data);
+
+
+                $.each(OADMData[0][0], function (key, value) {
+
+                    UpdateFormData(key);
+
+                });
+                $.each(ADM1Data[0][0], function (key, value) {
+
+                    UpdateFormData(key);
+
+                });
+
+
+                $("#btnSaveData").attr('disabled', false);
+            }
+        });
+    }
+
+    function UpdateFormData(key) 
+    {
+        if ($('[name="' + key + '"]').is(':checkbox')) {
+            if (value == 'Y') {
+                $('[name="' + key + '"]').prop('checked', true);
+
+            }
+            else {
+
+                $('[name="' + key + '"]').prop('checked', false);
+
+            }
+        }
+        else if ($('[name="' + key + '"]').is(':radio')) {
+            $('[name="' + key + '"][value="' + value + '"]').prop('checked', true);
+        }
+        else if ($('[name="' + key + '"]').attr('type') === 'date') {
+            $('[name="' + key + '"]').val(moment(value).format('yyyy-MM-DD'));
+
+        }
+        else {
+
+            $('[name="' + key + '"]').val(value);
+        }
+    }
+
+
+</script>

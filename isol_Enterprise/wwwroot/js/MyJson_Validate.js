@@ -1,4 +1,19 @@
-﻿function ValidateData(element) {
+﻿$(document).on("keydown", "input", function () {
+    $(this).removeClass('is-invalid');
+
+    let MaxChar = $(this).attr("char");
+    console.log(MaxChar);
+
+    if (MaxChar != "" && MaxChar != undefined && MaxChar != null) {
+
+        if (this.value.length > MaxChar - 1) {
+            this.value = this.value.slice(0, MaxChar - 1);
+            toastr.warning("Character number is greater then Allowed");
+        }
+    }
+
+});
+function ValidateData(element) {
 
     let isValid = [];
 
