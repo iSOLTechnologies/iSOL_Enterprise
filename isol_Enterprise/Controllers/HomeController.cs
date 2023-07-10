@@ -39,7 +39,7 @@ namespace iSOL_Enterprise.Controllers
             if (SqlHelper.SAPIntegration)
             SqlHelperExtensions.SqlHelper.defaultSapDB = configuration["ConnectionStrings:SapConStr"].ToString();
             else
-            SqlHelperExtensions.SqlHelper.defaultDB = configuration["ConnectionStrings:iSolConStr"].ToString();
+            SqlHelperExtensions.SqlHelper.defaultSapDB = configuration["ConnectionStrings:iSolConStr"].ToString();
         }
         [AllowAnonymous]
         public IActionResult Index()

@@ -20,7 +20,7 @@ function ValidateData(element) {
     $('#' + element + ' input,' + '#' + element + ' select, ' + '#' + element + ' textarea').each(function (index, data) {
 
         if (!($(this).hasClass("NotReq"))) {
-            if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') {
+
                 if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) {
                     $(this).addClass('is-invalid');
                     isValid.push(false);
@@ -30,7 +30,7 @@ function ValidateData(element) {
                     isValid.push(true);
                 }
 
-            }
+            
         }
     });
 
@@ -49,7 +49,7 @@ function ValidateListData(element) {
         $(this).find('input , select , textarea').each(function (index, data) {
 
             if (!($(this).hasClass("NotReq"))) {
-                if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '') {
+                
                     if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined) {
                         $(this).addClass('is-invalid');
                         isValid.push(false);
@@ -58,7 +58,7 @@ function ValidateListData(element) {
                         $(this).removeClass('is-invalid');
                         isValid.push(true);
                     }
-                }
+                
             }
         });
 

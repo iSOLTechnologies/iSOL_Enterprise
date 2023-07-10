@@ -1,4 +1,5 @@
-﻿using iSOL_Enterprise.Dal.Administrator;
+﻿using iSOL_Enterprise.Dal;
+using iSOL_Enterprise.Dal.Administrator;
 using iSOL_Enterprise.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,13 @@ namespace iSOL_Enterprise.Controllers.administrator
             {
                 return RedirectToAction("index", "Home");
             }
+            CommonDal cdal = new ();
 
+            ViewData["Currencies"] = cdal.GetCurrencydata();
+            ViewData["Countries"] = cdal.GetCountries();
+            ViewData["States"] = cdal.GetStateCode();
+            ViewData["Holidays"] = cdal.GetHolidays();
+            
             return View();
         }
 

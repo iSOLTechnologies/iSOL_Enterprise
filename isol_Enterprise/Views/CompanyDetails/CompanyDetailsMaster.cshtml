@@ -161,14 +161,28 @@
 
                                                         <label class="col-form-label  mr-2 col-2">State </label>
 
-                                                        <select id="State" name="State" class="form-control NotReq"></select>                                                        
+                                                        <select id="State" name="State" class="form-control NotReq">
+                                                            <option value=""></option>
+                                                            @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.States)
+                                                            {
+                                                                <option value="@i.ValueString">@i.Text </option>
+                                                            }
+                                                        </select>                                                        
                                                         
                                                   </div>
                                                   <div class="col-12 d-flex mt-2">
 
                                                         <label class="col-form-label  mr-2 col-2">Country/Region </label>
 
-                                                        <select id="Country" name="Country" class="form-control NotReq"></select>                                                        
+                                                        <select id="Country" name="Country" class="form-control NotReq">
+
+                                                            <option value=""></option>
+                                                            @foreach (var i in ViewBag.Countries)
+                                                            {
+                                                                <option value="@i.country_code">@i.country_name </option>
+                                                            }
+
+                                                        </select>                                                        
                                                         
                                                   </div>
                                                   <div class="col-12 d-flex mt-2">
@@ -281,7 +295,14 @@
 
                                                     <label class="col-form-label  mr-2 col-2">Holidays </label>
 
-                                                        <select class="form-control NotReq" name="HldCode" id="HldCode"></select>
+                                                        <select class="form-control NotReq" name="HldCode" id="HldCode">
+
+                                                            <option value=""></option>
+                                                            @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.Holidays)
+                                                            {
+                                                                <option value="@i.ValueString">@i.Text </option>
+                                                            }
+                                                        </select>
                                                         
                                                   </div>
 
@@ -305,14 +326,28 @@
 
                                                     <label class="col-form-label mr-2 col-4">Local Currency <span class="text-danger">*</span> </label>
 
-                                                    <select class="form-control " name="MainCurncy" id="MainCurncy"></select>
+                                                    <select class="form-control " name="MainCurncy" id="MainCurncy">
+
+                                                        @foreach (var i in ViewBag.Currencies)
+                                                        {
+                                                            <option value="@i.curr_code">@i.curr_name </option>
+                                                        }
+
+                                                    </select>
 
                                                 </div>
                                                 <div class="col-12 d-flex mt-2">
 
                                                     <label class="col-form-label mr-2 col-4">System Currency <span class="text-danger">*</span></label>
 
-                                                    <select class="form-control " name="SysCurrncy" id="SysCurrncy"></select>
+                                                    <select class="form-control " name="SysCurrncy" id="SysCurrncy">
+                                                        
+                                                        @foreach (var i in ViewBag.Currencies)
+                                                        {
+                                                            <option value="@i.curr_code">@i.curr_name </option>
+                                                        }
+
+                                                    </select>
 
                                                 </div>
                                                 <div class="col-12 d-flex mt-2">
@@ -469,12 +504,14 @@
         $(this).addClass('kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light');
         $(this).attr('disabled', true);
 
-        if (ValidateData("TabGeneral")) 
+        
+        if (ValidateData("kt_tabs_General")) 
         {
-            if (ValidateData("TabAccountingData")) 
-            {
-                if (ValidateData("TabBasicInitialization")) 
-                {
+        
+            if (ValidateData("kt_tabs_AccountingData")) {
+        
+                if (ValidateData("kt_tabs_BasicInitialization")) {
+        
                     FormData();
                 }
                 else
@@ -495,9 +532,9 @@
         var formdata =
         {
 
-            TabGeneral: getJsonObjKeyName("TabGeneral"),
-            TabAccountingData: getJsonObjKeyName("TabAccountingData"),
-            TabBasicInitialization: getJsonObjKeyName("TabBasicInitialization"),
+            TabGeneral: getJsonObjKeyName("kt_tabs_General"),
+            TabAccountingData: getJsonObjKeyName("kt_tabs_AccountingData"),
+            TabBasicInitialization: getJsonObjKeyName("kt_tabs_BasicInitialization"),
 
         }
 
@@ -531,7 +568,7 @@
 
                         }, 800);
                     setTimeout(function () {
-                        window.history.back();
+                        window.location.reload();
                     }, 800);
 
 
@@ -565,15 +602,16 @@
                 let OADMData = JSON.parse(data.oadmData);
                 let ADM1Data = JSON.parse(data.adm1Data);
 
+                console.log(OADMData);
 
                 $.each(OADMData[0][0], function (key, value) {
 
-                    UpdateFormData(key);
+                    UpdateFormData(key, value);
 
                 });
                 $.each(ADM1Data[0][0], function (key, value) {
 
-                    UpdateFormData(key);
+                    UpdateFormData(key,value);
 
                 });
 
@@ -583,7 +621,7 @@
         });
     }
 
-    function UpdateFormData(key) 
+    function UpdateFormData(key, value) 
     {
         if ($('[name="' + key + '"]').is(':checkbox')) {
             if (value == 'Y') {

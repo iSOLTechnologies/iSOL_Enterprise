@@ -1099,7 +1099,52 @@ where s.Status=1 and d.status=1 and p.Guid=@Guid";
 
             return list;
         }
+        public List<ListModel> GetStateCode()
+        {
+            string GetQuery = "select Code,[Name] From OCST";
 
+
+            List<ListModel> list = new List<ListModel>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    list.Add(
+                        new ListModel()
+                        {
+                            ValueString = rdr["Code"].ToString(),
+                            Text = rdr["Name"].ToString()
+                        });
+
+                }
+            }
+
+            return list;
+        }
+        public List<ListModel> GetHolidays()
+        {
+            string GetQuery = "select HldCode From OHLD";
+
+
+            List<ListModel> list = new List<ListModel>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    list.Add(
+                        new ListModel()
+                        {
+                            ValueString = rdr["HldCode"].ToString(),
+                            Text = rdr["HldCode"].ToString()
+                        });
+
+                }
+            }
+
+            return list;
+        }
         public  ResponseModels GetCustomerData(string cardcode,string DocModule)
         {
             string GetQuery = "";
