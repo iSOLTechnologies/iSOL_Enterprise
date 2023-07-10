@@ -125,6 +125,7 @@ function getJsonObj(element) {
     });
     return jsonobj;
 }
+
 function getJsonObjKeyName(element) {
 
     var jsonobj = new Object();
@@ -174,6 +175,36 @@ function getJsonObjList(element) {
         listObj.push(jsonobj);
 
 
+
+    });
+    return listObj;
+}
+
+function getJsonObjListKeyName(element) {
+    let listObj = [];
+    
+
+    $('#' + element).each(function () {
+
+        
+        var jsonobj = new Object();
+        $(this).find('input , select , textarea').each(function (index, data) {
+
+            
+            if ($(this).attr("name") != undefined || $(this).attr("name") != "" || $(this).attr("name") != '') {
+
+                if ($(this).is(':checkbox'))
+                    jsonobj[$(this).attr("name")] = $(this).is(':checked') == true ? 'Y' : 'N';
+                else if ($(this).is(':radio'))
+                    jsonobj[$(this).attr("name")] = $('input[name="' + $(this).attr("name") + '"]:checked').val();
+                else
+                    jsonobj[$(this).attr("name")] = $(this).val();
+            }
+            else if ($(this).attr("id") != undefined || $(this).attr("id") != "" || $(this).attr("id") != '')
+                jsonobj[$(this).attr("id")] = $(this).val();
+        });
+
+        listObj.push(jsonobj);
 
     });
     return listObj;

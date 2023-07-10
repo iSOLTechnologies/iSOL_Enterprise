@@ -1,4 +1,5 @@
 ﻿
+var UserPageActivityData = "";
 String.prototype.GetUserPageActivity = function () {
     // Custom method logic
     
@@ -18,6 +19,7 @@ String.prototype.GetUserPageActivity = function () {
     }).done(function (result) {
         
         UpdatePageActivities(result.data);
+        UserPageActivityData = result.data;
     });
 };
 function UpdatePageActivities(data)
@@ -46,6 +48,10 @@ function UpdatePageActivities(data)
         
     }
 }
+$(document).on('click', '.paginate_button.page-item', function () {
+    console.log('click');
+    UpdatePageActivities(UserPageActivityData);
+});
 
 
 

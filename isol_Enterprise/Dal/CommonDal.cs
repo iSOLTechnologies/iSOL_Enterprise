@@ -1145,6 +1145,29 @@ where s.Status=1 and d.status=1 and p.Guid=@Guid";
 
             return list;
         }
+        public List<ListModel> GetWeekDays()
+        {
+            string GetQuery = "select Id,Name From tbl_WeekDays";
+
+
+            List<ListModel> list = new List<ListModel>();
+            using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultSapDB, CommandType.Text, GetQuery))
+            {
+                while (rdr.Read())
+                {
+
+                    list.Add(
+                        new ListModel()
+                        {
+                            Value = rdr["Id"].ToInt(),
+                            Text = rdr["Name"].ToString()
+                        });
+
+                }
+            }
+
+            return list;
+        }
         public  ResponseModels GetCustomerData(string cardcode,string DocModule)
         {
             string GetQuery = "";
