@@ -48,7 +48,7 @@ namespace iSOL_Enterprise.Controllers.Sales
             ViewBag.Payments = dal.GetPaymentTerms();
             ViewBag.Currency = cdal.GetCurrencydata();
             ViewBag.Warehouse = Ddal.GetWareHouseData();
-            ViewBag.SaleOrderList = cdal.GetSaleOrders();
+            //ViewBag.SaleOrderList = cdal.GetSaleOrders();
             ViewBag.GetSeries = Adal.GetSeries(23);
             ViewBag.ApprovalView = aprv1ghas;
             bool flag = CommonDal.Check_IsNotEditable("QUT1", id);
