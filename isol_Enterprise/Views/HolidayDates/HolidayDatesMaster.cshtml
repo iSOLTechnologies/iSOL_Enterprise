@@ -28,7 +28,7 @@
     #table_container {
         max-height: 350px;
         /* margin-bottom: 10px;*/
-        overflow-x: hidden;
+        overflow-x: scroll;
         overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
     }
@@ -60,7 +60,7 @@
         </div>
         <div class="card-body">
             <form autocomplete="off" role="form" id="F_@Context.Request.Query["Source"]" name="F_@Context.Request.Query["Source"]">
-
+                <input type="hidden" value="@Context.Request.Query["Id"]" id="Guid" />
                 <div class="row">
                     
                     <div class="col-xl-12">
@@ -176,7 +176,7 @@
 
                                 <div class="row">
                                     <div class=" nav nav-tabs nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand col-12 mt-5 mb-5"> </div>
-                                    <div class="col-md-8 scrollbar" id="table_container">
+                                    <div class="col-md-9 col-sm-12 col-lg-9 scrollbar" id="table_container">
 
                                         <table id="kt_repeater_1">
                                             <thead class="ScrollThead">
@@ -251,9 +251,9 @@
         if (Guid != null && Guid != '' && Guid != undefined) {
             $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
             $("#btnSaveData").attr('disabled', true);
-            $('input[name=drawers]').attr('disabled', true);
+            $('#HldCode').attr('disabled', true);
 
-           // GetGLAccountData(Guid);
+            GetHolidayDateData(Guid);
         }
 
 
@@ -298,22 +298,26 @@
         {
 
             HeaderData: getJsonObjKeyName("HeaderForm"),
-            RowData: getJsonObjListKeyName("ListParameters itm")
+            RowData: getJsonObjListKeyName("ListParameters .itm")
 
         }
-        console.log(formdata);
+//        console.log(formdata);
 
-//        PostData(formdata);
+       PostData(formdata);
 
 
     }
 
     function PostData(formData) {
 
-
+        let Guid = $('#Guid').val();
+        let URL = '/HolidayDates/Add';
+        if (Guid != null && Guid != '' && Guid != undefined) {
+            URL = '/HolidayDates/Edit';
+        }
 
         return $.ajax({
-            url: '/HolidayDates/Add',
+            url: URL,
             dataType: 'json',
             type: 'POST',
 
@@ -384,27 +388,52 @@
         $(this).closest('tr').remove();
     });
 
-    function GetCompanyDetails() {
+    function GetHolidayDateData(Guid) {
 
         $.ajax({
-            url: 'CompanyDetails/GetCompanyDetails',
+            url: 'HolidayDates/GetHolidayDateData',
             type: 'GET',
             dataType: 'json',
+            data: { Guid : Guid },
             async: false,
             success: function (data) {
-                let OADMData = JSON.parse(data.oadmData);
-                let ADM1Data = JSON.parse(data.adm1Data);
+                let HeaderData = JSON.parse(data.headerData);
+                let RowData = JSON.parse(data.rowData);
+                let j = 0;
+                let selector = $('#ListParameters tr:last-child');
+                
 
-                console.log(OADMData);
-
-                $.each(OADMData[0][0], function (key, value) {
+                $.each(HeaderData[0][0], function (key, value) {
 
                     UpdateFormData(key, value);
 
                 });
-                $.each(ADM1Data[0][0], function (key, value) {
+                $.each(RowData[0], function (key, value) {
+                    
+                   
+                    if (j == 0) 
+                    {
+                            $.each(this, function (key, value) {
 
-                    UpdateFormData(key, value);
+
+                                UpdateFormListData(selector, key, value)
+
+                            })
+                        
+                    }
+                    else 
+                    {
+
+                        $('#ListBtnAddd').trigger('click');
+
+                        $('#ListParameters tr:last-child').find("[name='StrDate']").val(moment(this.StrDate).format('yyyy-MM-DD'));
+                        $('#ListParameters tr:last-child').find("[name='EndDate']").val(moment(this.EndDate).format('yyyy-MM-DD'));
+                        $('#ListParameters tr:last-child').find("[name='Rmrks']").val(this.Rmrks);
+                    }
+
+                    j += 1;
+
+                    
 
                 });
 
@@ -414,7 +443,8 @@
         });
     }
 
-    function UpdateFormData(key, value) {
+    function UpdateFormData(key, value) 
+    {
         if ($('[name="' + key + '"]').is(':checkbox')) {
             if (value == 'Y') {
                 $('[name="' + key + '"]').prop('checked', true);
@@ -439,6 +469,19 @@
         }
     }
 
+    function UpdateFormListData(selector,key,value) 
+    {
+        
+        if ($(selector).find('[name="' + key + '"]').attr('type') === 'date') 
+        {
+            $(selector).find('[name="' + key + '"]').val(moment(value).format('yyyy-MM-DD'));
+
+        }
+        else {
+
+            $(selector).find('[name="' + key + '"]').val(value);
+        }
+    }
 
 </script>
 

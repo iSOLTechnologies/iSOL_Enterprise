@@ -43,6 +43,57 @@ namespace iSOL_Enterprise.Dal.Administrator
             }
             return list;
         }
+
+        public dynamic GetHDHeaderData(string GUID)
+        {
+            try
+            {
+
+
+
+                DataSet ds = new DataSet();
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                string headerQuery = @"select HldCode,WeekNoRule,WndFrm,WndTo,isCurYear,ignrWnd
+                                            from OHLD where HldCode ='" + GUID + "'";
+
+                SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
+                sda.Fill(ds);
+                string JSONString = string.Empty;
+                JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
+                return JSONString;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        public dynamic GetHDRowData(string GUID)
+        {
+            try
+            {
+
+
+
+                DataSet ds = new DataSet();
+                SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+                string headerQuery = @"select StrDate,EndDate,Rmrks
+                                            from HLD1 where HldCode ='" + GUID + "'";
+
+                SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
+                sda.Fill(ds);
+                string JSONString = string.Empty;
+                JSONString = Newtonsoft.Json.JsonConvert.SerializeObject(ds.Tables);
+                return JSONString;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
         public ResponseModels Add(string formData)
         {
             ResponseModels response = new ResponseModels();
@@ -149,7 +200,7 @@ namespace iSOL_Enterprise.Dal.Administrator
                                 {
                                     tran.Rollback();
                                     response.isSuccess = false;
-                                    response.Message = "Start of End Date can't be null !";
+                                    response.Message = "Start or End Date can't be null !";
                                     return response;
                                 }
                             }
@@ -187,7 +238,158 @@ namespace iSOL_Enterprise.Dal.Administrator
             }
             return response;
         }
-            
-        
+
+        public ResponseModels Edit(string formData)
+        {
+            ResponseModels response = new ResponseModels();
+            CommonDal cdal = new CommonDal();
+            SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
+            conn.Open();
+            SqlTransaction tran = conn.BeginTransaction();
+            int res1 = 0;
+            var model = JsonConvert.DeserializeObject<dynamic>(formData);
+
+            try
+            {
+
+
+                if (model.HeaderData != null)
+                {
+                    string HldCode = (model.HeaderData.HldCode).ToString();
+
+                    int count = SqlHelper.ExecuteScalar(tran, CommandType.Text, "select count(*) from OHLD where HldCode='" + HldCode + "'").ToInt();
+                    if (count > 0)
+                    {
+
+
+                        List<SqlParameter> param = new List<SqlParameter>();
+
+
+
+
+
+                        string TabHeader = "WeekNoRule=@WeekNoRule,WndFrm=@WndFrm,WndTo=@WndTo,isCurYear=@isCurYear,ignrWnd=@ignrWnd";
+                        
+                        string HeadQuery = @"update OHLD set " + TabHeader + 
+                                            " where HldCode='" + HldCode + "'";
+
+
+
+                        #region SqlParameters
+
+                        #region Header data
+
+                        param.Add(cdal.GetParameter("@HldCode", HldCode, typeof(string)));
+                        param.Add(cdal.GetParameter("@WeekNoRule", model.HeaderData.WeekNoRule, typeof(char)));
+                        param.Add(cdal.GetParameter("@WndFrm", model.HeaderData.WndFrm, typeof(string)));
+                        param.Add(cdal.GetParameter("@WndTo", model.HeaderData.WndTo, typeof(string)));
+                        param.Add(cdal.GetParameter("@isCurYear", model.HeaderData.isCurYear, typeof(char)));
+                        param.Add(cdal.GetParameter("@ignrWnd", model.HeaderData.ignrWnd, typeof(char)));
+
+                        #endregion
+
+
+                        #endregion
+
+                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery, param.ToArray()).ToInt();
+                        if (res1 <= 0)
+                        {
+                            tran.Rollback();
+                            response.isSuccess = false;
+                            response.Message = "An Error Occured";
+                            return response;
+                        }
+
+                        count = SqlHelper.ExecuteScalar(tran, CommandType.Text, "delete from HLD1 where HldCode='" + HldCode + "'").ToInt();
+
+                        if (count < 0)
+                        {
+                            tran.Rollback();
+                            response.isSuccess = false;
+                            response.Message = "An Error Occured";
+                            return response;
+                        }
+
+                        if (model.RowData != null)
+                        {
+                            
+                            foreach (var item in model.RowData)
+                            {
+
+
+                                if (item.StrDate != "" && item.StrDate != null && item.EndDate != "" && item.EndDate != null)
+                                {
+
+                                    List<SqlParameter> param2 = new List<SqlParameter>();
+
+                                    string TabRow = @"HldCode,StrDate,EndDate,Rmrks";
+                                    string TabRowP = @"@HldCode,@StrDate,@EndDate,@Rmrks";
+
+                                    string RowQuery = @"insert into HLD1 (" + TabRow + ") " +
+                                                    "values(" + TabRowP + ")";
+
+
+                                    #region RowData
+                                    param2.Add(cdal.GetParameter("@HldCode", HldCode, typeof(string)));
+                                    param2.Add(cdal.GetParameter("@StrDate", item.StrDate, typeof(DateTime)));
+                                    param2.Add(cdal.GetParameter("@EndDate", item.EndDate, typeof(DateTime)));
+                                    param2.Add(cdal.GetParameter("@Rmrks", item.Rmrks, typeof(string)));
+
+
+                                    #endregion
+
+
+                                    res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQuery, param2.ToArray()).ToInt();
+                                    if (res1 <= 0)
+                                    {
+                                        tran.Rollback();
+                                        response.isSuccess = false;
+                                        response.Message = "An Error Occured";
+                                        return response;
+                                    }
+
+                                }
+                                else
+                                {
+                                    tran.Rollback();
+                                    response.isSuccess = false;
+                                    response.Message = "Start or End Date can't be null !";
+                                    return response;
+                                }
+                            }
+
+                        }
+
+                        if (res1 > 0)
+                        {
+                            tran.Commit();
+                            response.isSuccess = true;
+                            response.Message = "Holiday Dates Updated Successfully !";
+
+                        }
+                    }
+                    else
+                    {
+                        response.isSuccess = false;
+                        response.Message = "Record not found !";
+                    }
+                }
+                else
+                {
+                    tran.Rollback();
+                    response.isSuccess = false;
+                    response.Message = "An Error Occured";
+                    return response;
+                }
+            }
+            catch (Exception e)
+            {
+                tran.Rollback();
+                response.isSuccess = false;
+                response.Message = e.Message;
+                return response;
+            }
+            return response;
+        }
     }
 }

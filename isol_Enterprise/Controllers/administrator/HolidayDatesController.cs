@@ -42,7 +42,27 @@ namespace iSOL_Enterprise.Controllers.administrator
                 return Json(response);
             }
         }
+        public IActionResult GetHolidayDateData(string Guid)
+        {
+            try
+            {
+                HolidayDatesDal dal = new();
+                if (Guid != null)
+                {
 
+
+                    return Json(new { isSuccess = true, headerData = dal.GetHDHeaderData(Guid) , rowData = dal.GetHDRowData(Guid) });
+                }
+                else
+                {
+                    return Json(new { isSuccess = false, Data = "" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public IActionResult Add(string formData)
         {
             try
@@ -52,6 +72,27 @@ namespace iSOL_Enterprise.Controllers.administrator
                 {
 
                     ResponseModels response = dal.Add(formData);
+                    return Json(new { isInserted = response.isSuccess, Message = response.Message });
+                }
+                else
+                {
+                    return Json(new { isInserted = false, Message = "Data can't be null" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public IActionResult Edit(string formData)
+        {
+            try
+            {
+                HolidayDatesDal dal = new();
+                if (formData != null)
+                {
+
+                    ResponseModels response = dal.Edit(formData);
                     return Json(new { isInserted = response.isSuccess, Message = response.Message });
                 }
                 else
