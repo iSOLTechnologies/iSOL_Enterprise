@@ -315,7 +315,7 @@ namespace iSOL_Enterprise.Dal
                     new SqlParameter("@ContactNumber",input.ContactNumber),
                     new SqlParameter("@Email",input.Email),                   
                     new SqlParameter("@RoleCode",input.RoleCode),
-                    new SqlParameter("@IsActive",input.IsActive),
+                    new SqlParameter("@IsActive",true),
                     new SqlParameter("@ModifiedOn",input.ModifiedOn),
                     new SqlParameter("@ModifiedBy",input.ModifiedBy)
                 };
