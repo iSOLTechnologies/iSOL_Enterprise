@@ -1,6 +1,8 @@
 ﻿
 @{
     ViewData["Title"] = "ExchangeRatesMaster";
+    ViewBag.title1 = "Exchange Rates / ";
+    ViewBag.title2 = "Add";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -132,7 +134,7 @@
             $("#btnSaveData").attr('disabled', true);
             $("#Currency").attr('disabled', true);
             $("#RateDate").attr('disabled', true);
-
+            $("#HeaderTitle2").text('Update');
             GetExchnRateData();
         }
 

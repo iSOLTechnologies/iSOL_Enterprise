@@ -1,5 +1,7 @@
 ﻿@{
     ViewData["Title"] = "HolidayDatesMaster";
+    ViewBag.title1 = "Holiday Dates / ";    
+    ViewBag.title2 = "Add";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -252,7 +254,7 @@
             $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
             $("#btnSaveData").attr('disabled', true);
             $('#HldCode').attr('disabled', true);
-
+            $("#HeaderTitle2").text('Update');
             GetHolidayDateData(Guid);
         }
 

@@ -17,6 +17,55 @@ namespace iSOL_Enterprise.Dal
 {
     public class RoleDal
     {
+
+        //public List<TreeModel> GetPages(string RoleCode = null)
+        //{
+
+        //    CommonDal cdal = new();
+
+        //    List<TreeModel> Pages = new List<TreeModel>();
+
+        //    using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, "select Id,ModuleId, Name from modules where IsActive=1"))
+        //    {
+        //        while (rdr.Read())
+        //        {
+        //            TreeModel model = new TreeModel();
+
+        //            model.id = rdr["ModuleId"].ToString();
+        //            model.text = rdr["Name"].ToString();
+        //            model.@checked = true;
+        //            model.population -= null;
+        //            model.flagUrl = null;
+        //            model.children = GetModulepages(rdr["ModuleId"].ToString(), RoleCode);
+        //            Pages.Add(model);
+        //        }
+        //    }
+        //    return Pages;
+        //}
+        //private List<TreeModel> GetModulepages(string ModuleID, string RoleCode = null)
+        //{
+        //    CommonDal cdal = new();
+
+        //    List<TreeModel> Pages = new List<TreeModel>();
+
+        //    using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, "select Id,PageId, PageName from Pages where IsActive=1 and RowStatus=1 and ModuleId=@ModuleId", new SqlParameter("@ModuleId", ModuleID)))
+        //    {
+        //        while (rdr.Read())
+        //        {
+        //            TreeModel model = new TreeModel();
+
+        //            model.id = rdr["PageId"].ToString();
+        //            model.text = rdr["PageName"].ToString();
+        //            model.@checked = RoleCode == null ? true : cdal.CheckPageOnRole(RoleCode, rdr["PageId"].ToString());
+        //            model.population -= null;
+        //            model.flagUrl = null;
+        //            model.children = GetPagesActivities(rdr["PageId"].ToString(), RoleCode);
+        //            Pages.Add(model);
+        //        }
+        //    }
+        //    return Pages;
+
+        //}
         public List<TreeModel> GetPages(string RoleCode = null)
         {
 

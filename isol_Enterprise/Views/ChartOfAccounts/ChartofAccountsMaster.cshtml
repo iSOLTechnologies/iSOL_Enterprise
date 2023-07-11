@@ -1,5 +1,7 @@
 ﻿@{
     ViewData["Title"] = "RolesMaster";
+    ViewBag.title1 = "Chart of Account / ";
+    ViewBag.title2 = "Add";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -465,7 +467,7 @@
             $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
             $("#btnSaveData").attr('disabled', true);
             $('input[name=drawers]').attr('disabled', true);
-
+            $("#HeaderTitle2").text('Update');
             GetGLAccountData(Guid);
         }
         else 

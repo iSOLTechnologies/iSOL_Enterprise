@@ -1,6 +1,8 @@
 ﻿
 @{
     ViewData["Title"] = "CurrenciesMaster";
+    ViewBag.title1 = "Currencies / ";
+    ViewBag.title2 = "Add";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -164,7 +166,7 @@
         {
             $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
             $("#btnSaveData").attr('disabled', true);
-
+            $("#HeaderTitle2").text('Update');
             GetCurrData();
         }
 

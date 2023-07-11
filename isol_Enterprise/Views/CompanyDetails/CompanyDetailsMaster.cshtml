@@ -1,5 +1,7 @@
 ﻿@{
     ViewData["Title"] = "CompanyDetailsMaster";
+    ViewBag.title1 = "Company Detail / ";
+    ViewBag.title2 = "Update";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -491,7 +493,7 @@
             $("#btnSaveData").html('<i class="ki ki-check icon-sm"></i> Update');
             $("#btnSaveData").attr('disabled', true);
            
-
+            $("#HeaderTitle2").text('Update');
             GetCompanyDetails();
         
 
