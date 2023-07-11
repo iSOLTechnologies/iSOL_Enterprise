@@ -58,23 +58,23 @@ namespace iSOL_Enterprise.Dal.Sale
             string GetQuery = "";
             if (DocModule == "S")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where SellItem = 'Y' and FrozenFor='N'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where SellItem = 'Y' and FrozenFor='N' and isApproved =1";
             }
             else if (DocModule == "P")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where PrchseItem = 'Y' and FrozenFor='N'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where PrchseItem = 'Y' and FrozenFor='N' and isApproved =1";
             }
             else if (DocModule == "I" || DocModule == "PR")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where InvntItem = 'Y' and FrozenFor='N'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where InvntItem = 'Y' and FrozenFor='N' and isApproved =1";
             } 
             else if (DocModule == "S,I")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where InvntItem = 'Y' or SellItem = 'Y' and FrozenFor='N'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where InvntItem = 'Y' or SellItem = 'Y' and FrozenFor='N' and isApproved =1";
             }
              else if (DocModule == "INV")
             {
-                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where  FrozenFor='N'";
+                GetQuery = "select ItemCode,ItemName,OnHand,ManBtchNum,IssueMthd from OITM where  FrozenFor='N' and isApproved =1";
             }            
             else
             {
@@ -93,7 +93,7 @@ namespace iSOL_Enterprise.Dal.Sale
                             ItemCode = rdr["ItemCode"].ToString(),
                             ItemName = rdr["ItemName"].ToString(),
                             ManBtchNum = rdr["ManBtchNum"].ToString(),
-                            OnHand = (decimal)rdr["OnHand"],
+                            OnHand = rdr["OnHand"].ToString() == "" | rdr["OnHand"].ToString() == null ? null : (decimal)rdr["OnHand"],
 							IssueMthd = Convert.ToChar(rdr["IssueMthd"]),
                         });
 
@@ -356,18 +356,19 @@ namespace iSOL_Enterprise.Dal.Sale
                     if (model.HeaderData != null)
                     {
 
-                        model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.PurchaseType);
-                        model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" || model.HeaderData.TypeDetail == null ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
-                        model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
-                        model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
-                        model.HeaderData.ContainerNo = model.HeaderData.ContainerNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ContainerNo);
-                        model.HeaderData.ManualGatePassNo = model.HeaderData.ManualGatePassNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ManualGatePassNo);
-                        model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
-                        model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
-                        model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
+                        //model.HeaderData.PurchaseType = model.HeaderData.PurchaseType == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.PurchaseType);
+                        //model.HeaderData.TypeDetail = model.HeaderData.TypeDetail == "" || model.HeaderData.TypeDetail == null ? "NULL" : Convert.ToDecimal(model.HeaderData.TypeDetail);
+                        //model.HeaderData.ProductionOrderNo = model.HeaderData.ProductionOrderNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ProductionOrderNo);
+                        //model.HeaderData.ChallanNo = model.HeaderData.ChallanNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ChallanNo);
+                        //model.HeaderData.ContainerNo = model.HeaderData.ContainerNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ContainerNo);
+                        //model.HeaderData.ManualGatePassNo = model.HeaderData.ManualGatePassNo == "" ? "NULL" : Convert.ToDecimal(model.HeaderData.ManualGatePassNo);
+                        //model.HeaderData.SaleOrderNo = model.HeaderData.SaleOrderNo == "" ? "NULL" : Convert.ToInt32(model.HeaderData.SaleOrderNo);
+                        //model.HeaderData.Series = model.HeaderData.Series == null ? "NULL" : Convert.ToInt32(model.HeaderData.Series);
+                        //model.FooterData.Discount = model.FooterData.Discount == "" ? "NULL" : Convert.ToDecimal(model.FooterData.Discount);
 
                         int ObjectCode = 23;
                         int isApproved = ObjectCode.GetApprovalStatus(tran);
+
                         #region Insert in Approval Table
 
                         if (isApproved == 0)
@@ -388,55 +389,74 @@ namespace iSOL_Enterprise.Dal.Sale
 
                         #endregion
 
-                        string HeadQuery = @"insert into OQUT(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum ,DocTotal, SlpCode,DiscPrcnt,
-                                            PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,ContainerNo,ManualGatePassNo,SaleOrderNo,isApproved, Comments) 
-                                           values(" + Id + ","
-                                                + model.HeaderData.Series + ",'"
-                                                + DocType + "','"
-                                                + Guid + "','"
-                                                + model.HeaderData.CardCode + "','"
-                                                + DocNum + "','"
-                                                + model.HeaderData.CardName + "','"
-                                                + model.HeaderData.CntctCode + "','"
-                                                + Convert.ToDateTime(model.HeaderData.DocDate) + "','"
-                                                + model.HeaderData.NumAtCard + "','"
-                                                + Convert.ToDateTime(model.HeaderData.DocDueDate) + "','"
-                                                + model.HeaderData.DocCur + "','"
-                                                + Convert.ToDateTime(model.HeaderData.TaxDate) + "','"
-                                                + model.ListAccouting.GroupNum + "',"
-                                                + model.FooterData.Total + ","
-                                                + Convert.ToInt32(model.FooterData.SlpCode) + ","
-                                                + model.FooterData.Discount + ","
-                                                + model.HeaderData.PurchaseType + ","
-                                                + model.HeaderData.TypeDetail + ","
-                                                + model.HeaderData.ProductionOrderNo + ","
-                                                + model.HeaderData.ChallanNo + ","
-                                                + model.HeaderData.ContainerNo + ","
-                                                + model.HeaderData.ManualGatePassNo + ","
-                                                + model.HeaderData.SaleOrderNo + ","
-                                                + isApproved + ",'"
-                                                + model.FooterData.Comments + "')"; 
+                        string TabHeader = @"Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , 
+                                            GroupNum ,DocTotal, SlpCode,DiscPrcnt,isApproved, Comments";
+
+                        string TabHeaderP = @"@Id,@Series,@DocType,@Guid,@CardCode,@DocNum,@CardName,@CntctCode,@DocDate,@NumAtCard,@DocDueDate,@DocCur,@TaxDate , 
+                                            @GroupNum ,@DocTotal,@SlpCode,@DiscPrcnt,@isApproved,@Comments";
+
+                        string HeadQuery = @"insert into OQUT (" + TabHeader + ") " +
+                                            "values(" + TabHeaderP + ")";
+
+                        #region Old Query
+                        //string HeadQuery = @"insert into OQUT(Id,Series,DocType,Guid,CardCode,DocNum,CardName,CntctCode,DocDate,NumAtCard,DocDueDate,DocCur,TaxDate , GroupNum ,DocTotal, SlpCode,DiscPrcnt,
+                        //                    PurchaseType,TypeDetail,ProductionOrderNo,ChallanNo,ContainerNo,ManualGatePassNo,SaleOrderNo,isApproved, Comments) 
+                        //                   values(" + Id + ","
+                        //                        + model.HeaderData.Series + ",'"
+                        //                        + DocType + "','"
+                        //                        + Guid + "','"
+                        //                        + model.HeaderData.CardCode + "','"
+                        //                        + DocNum + "','"
+                        //                        + model.HeaderData.CardName + "','"
+                        //                        + model.HeaderData.CntctCode + "','"
+                        //                        + Convert.ToDateTime(model.HeaderData.DocDate) + "','"
+                        //                        + model.HeaderData.NumAtCard + "','"
+                        //                        + Convert.ToDateTime(model.HeaderData.DocDueDate) + "','"
+                        //                        + model.HeaderData.DocCur + "','"
+                        //                        + Convert.ToDateTime(model.HeaderData.TaxDate) + "','"
+                        //                        + model.ListAccouting.GroupNum + "',"
+                        //                        + model.FooterData.Total + ","
+                        //                        + Convert.ToInt32(model.FooterData.SlpCode) + ","
+                        //                        + model.FooterData.Discount + ","
+                        //                        + model.HeaderData.PurchaseType + ","
+                        //                        + model.HeaderData.TypeDetail + ","
+                        //                        + model.HeaderData.ProductionOrderNo + ","
+                        //                        + model.HeaderData.ChallanNo + ","
+                        //                        + model.HeaderData.ContainerNo + ","
+                        //                        + model.HeaderData.ManualGatePassNo + ","
+                        //                        + model.HeaderData.SaleOrderNo + ","
+                        //                        + isApproved + ",'"
+                        //                        + model.FooterData.Comments + "')";
+
+                        #endregion
 
                         #region SqlParameters
-                        //List<SqlParameter> param = new List<SqlParameter>   
-                        //        {
-                        //            new SqlParameter("@id",Id),
-                        //            new SqlParameter("@Guid", CommonDal.generatedGuid()),
-                        //            new SqlParameter("@CardCode",model.HeaderData.CardCode.ToString()),
-                        //            new SqlParameter("@DocNum",model.HeaderData.DocNum.ToString()),
-                        //            new SqlParameter("@CardName",model.HeaderData.CardName.ToString()),
-                        //            new SqlParameter("@CntctCode",model.HeaderData.CntctCode == null ? null : model.HeaderData.CntctCode.ToInt()),
-                        //            new SqlParameter("@DocDate",Convert.ToDateTime( model.HeaderData.DocDate)),
-                        //            new SqlParameter("@NumAtCard",model.HeaderData.NumAtCard.ToString()),
-                        //            new SqlParameter("@DocDueDate",Convert.ToDateTime(model.HeaderData.DocDueDate)),
-                        //            new SqlParameter("@DocCur",model.HeaderData.DocCur.ToString()),
-                        //            new SqlParameter("@TaxDate",Convert.ToDateTime(model.HeaderData.TaxDate)),
-                        //            new SqlParameter("@GroupNum",model.ListAccouting.GroupNum == null ?  "" : Convert.ToInt32(model.ListAccouting.GroupNum)),
-                        //            new SqlParameter("@SlpCode",Convert.ToInt32(model.FooterData.SlpCode)),
-                        //            new SqlParameter("@Comments",model.FooterData.Comments == null ? "" : model.FooterData.Comments.ToString()),
-                        //        };
+                        List<SqlParameter> param = new List<SqlParameter>();
+
+                        param.Add(dal.GetParameter("@Id", Id, typeof(int)));
+                        param.Add(dal.GetParameter("@Series", model.HeaderData.Series, typeof(int)));
+                        param.Add(dal.GetParameter("@DocType", DocType, typeof(string)));
+                        param.Add(dal.GetParameter("@Guid", Guid, typeof(string)));
+                        param.Add(dal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(string)));
+                        param.Add(dal.GetParameter("@DocNum", DocNum, typeof(string)));
+                        param.Add(dal.GetParameter("@CardName", model.HeaderData.CardName, typeof(string)));
+                        param.Add(dal.GetParameter("@CntctCode", model.HeaderData.CntctCode, typeof(string)));
+                        param.Add(dal.GetParameter("@DocDate", model.HeaderData.DocDate, typeof(DateTime)));
+                        param.Add(dal.GetParameter("@NumAtCard", model.HeaderData.NumAtCard, typeof(string)));
+                        param.Add(dal.GetParameter("@DocDueDate", model.HeaderData.DocDueDate, typeof(DateTime)));
+                        param.Add(dal.GetParameter("@DocCur", model.HeaderData.DocCur, typeof(string)));
+                        param.Add(dal.GetParameter("@TaxDate", model.HeaderData.TaxDate, typeof(DateTime)));
+
+                        param.Add(dal.GetParameter("@GroupNum", model.ListAccouting.GroupNum, typeof(string)));
+                        
+                        param.Add(dal.GetParameter("@DocTotal", model.FooterData.Total, typeof(decimal)));
+                        param.Add(dal.GetParameter("@SlpCode", model.FooterData.SlpCode, typeof(int)));
+                        param.Add(dal.GetParameter("@DiscPrcnt", model.FooterData.Discount, typeof(decimal)));
+                        param.Add(dal.GetParameter("@Comments", model.FooterData.Comments, typeof(string)));
+                        
+                        param.Add(dal.GetParameter("@isApproved", isApproved, typeof(int)));
                         #endregion
-                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery).ToInt();
+                        res1 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, HeadQuery, param.ToArray()).ToInt();
                         if (res1 <= 0)
                         {
                             tran.Rollback();
@@ -451,38 +471,53 @@ namespace iSOL_Enterprise.Dal.Sale
                         foreach (var item in model.ListItems)
                         {
                             //int QUT1Id = CommonDal.getPrimaryKey(tran, "QUT1");
-                            item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
+                           // item.DicPrc = item.DicPrc == "" ? "NULL" : Convert.ToDecimal(item.DicPrc);
 
-                            string RowQueryItem = @"insert into QUT1(Id,LineNum,WhsCode,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup,UomCode,UomEntry,CountryOrg)
-                                              values(" + Id + ","
-                                              + LineNo + ",'"
-                                              + item.Warehouse + "','"
-                                              + item.ItemName + "',"
-                                              + item.UPrc + ","
-                                              + item.TtlPrc + ","
-                                              + item.QTY + ",'"
-                                              + item.ItemCode + "',"
-                                              + item.QTY + ","
-                                              + item.DicPrc + ",'"
-                                              + item.VatGroup + "','"
-                                              + item.UomCode + "',"
-                                              + item.UomEntry + ",'"
-                                              + item.CountryOrg + "')";
+                            string TabRow = @"Id,LineNum,WhsCode,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup,UomCode,UomEntry,CountryOrg";
+                            string TabRowP = @"@Id,@LineNum,@WhsCode,@ItemName,@Price,@LineTotal,@OpenQty,@ItemCode,@Quantity,@DiscPrcnt,@VatGroup,@UomCode,@UomEntry,@CountryOrg";
 
-                            #region sqlparam
-                            //List<SqlParameter> param2 = new List<SqlParameter>
-                            //        {
-                            //            new SqlParameter("@id",QUT1Id),
-                            //            new SqlParameter("@ItemCode",item.ItemCode),
-                            //            new SqlParameter("@Quantity",item.Quantity),
-                            //            new SqlParameter("@DiscPrcnt",item.DiscPrcnt),
-                            //            new SqlParameter("@VatGroup",item.VatGroup),
-                            //            new SqlParameter("@UomCode",item.UomCode),
-                            //            new SqlParameter("@CountryOrg",item.CountryOrg),
-                            //        };
+                            string RowQueryItem = @"insert into QUT1 (" + TabRow + ") " +
+                                            " values(" + TabRowP + ")";
+
+                            #region old query
+                            //string RowQueryItem = @"insert into QUT1(Id,LineNum,WhsCode,ItemName,Price,LineTotal,OpenQty,ItemCode,Quantity,DiscPrcnt,VatGroup,UomCode,UomEntry,CountryOrg)
+                            //                  values(" + Id + ","
+                            //                  + LineNo + ",'"
+                            //                  + item.Warehouse + "','"
+                            //                  + item.ItemName + "',"
+                            //                  + item.UPrc + ","
+                            //                  + item.TtlPrc + ","
+                            //                  + item.QTY + ",'"
+                            //                  + item.ItemCode + "',"
+                            //                  + item.QTY + ","
+                            //                  + item.DicPrc + ",'"
+                            //                  + item.VatGroup + "','"
+                            //                  + item.UomCode + "',"
+                            //                  + item.UomEntry + ",'"
+                            //                  + item.CountryOrg + "')";
                             #endregion
 
-                            int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem).ToInt();
+                            #region sqlparam
+                            List<SqlParameter> param = new List<SqlParameter>();
+
+                            param.Add(dal.GetParameter("@Id", Id, typeof(int)));
+                            param.Add(dal.GetParameter("@LineNum", LineNo, typeof(int)));
+                            param.Add(dal.GetParameter("@WhsCode", item.Warehouse, typeof(string)));
+                            param.Add(dal.GetParameter("@ItemName", item.ItemName, typeof(string)));
+                            param.Add(dal.GetParameter("@Price", item.UPrc, typeof(decimal)));
+                            param.Add(dal.GetParameter("@LineTotal", item.TtlPrc, typeof(decimal)));
+                            param.Add(dal.GetParameter("@OpenQty", item.QTY, typeof(decimal)));
+                            param.Add(dal.GetParameter("@ItemCode", item.ItemCode, typeof(string)));
+                            param.Add(dal.GetParameter("@Quantity", item.QTY, typeof(decimal)));
+                            param.Add(dal.GetParameter("@DiscPrcnt", item.DicPrc, typeof(decimal)));
+                            param.Add(dal.GetParameter("@VatGroup", item.VatGroup, typeof(string)));
+                            param.Add(dal.GetParameter("@UomCode", item.UomCode, typeof(string)));
+                            param.Add(dal.GetParameter("@UomEntry", item.UomEntry, typeof(string)));
+                            param.Add(dal.GetParameter("@CountryOrg", item.CountryOrg, typeof(string)));
+
+                            #endregion
+
+                            int res2 = SqlHelper.ExecuteNonQuery(tran, CommandType.Text, RowQueryItem , param.ToArray()).ToInt();
                             if (res2 <= 0)
                             {
                                 tran.Rollback();

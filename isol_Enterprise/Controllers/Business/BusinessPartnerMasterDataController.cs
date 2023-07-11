@@ -105,6 +105,10 @@ namespace iSOL_Enterprise.Controllers.Business
         }
         public IActionResult BusinessPartnerMasterDataMaster(string id = "0", int aprv1ghas = 0)
         {
+            try
+            {
+
+            
             AdministratorDal addal = new AdministratorDal();
             BusinessPartnerMasterDataDal dal = new BusinessPartnerMasterDataDal();
             SalesQuotationDal sDal = new SalesQuotationDal();
@@ -132,6 +136,12 @@ namespace iSOL_Enterprise.Controllers.Business
 
             }
             return View();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         [HttpPost]
         public IActionResult AddBusinessMasterData(string formData)

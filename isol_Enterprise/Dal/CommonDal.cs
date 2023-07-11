@@ -46,7 +46,7 @@ namespace iSOL_Enterprise.Dal
         //public static string ln_English;
         public decimal GetSelectedWareHouseData(string ItemCode, string WhsCode)
         {
-            decimal res = Convert.ToDecimal(SqlHelper.ExecuteScalar(SqlHelper.defaultSapDB, CommandType.Text, "select onHand from OITW where ItemCode = '"+ItemCode+"' and WhsCode = '" + WhsCode + "'"));
+            decimal res = SqlHelper.ExecuteScalar(SqlHelper.defaultSapDB, CommandType.Text, "select onHand from OITW where ItemCode = '"+ItemCode+"' and WhsCode = '" + WhsCode + "'").ToDecimal();
             return res;
         }
 
@@ -56,10 +56,10 @@ namespace iSOL_Enterprise.Dal
             string GetQuery = "";
             if (DocModule == "S")
             {
-                GetQuery = "select a.CardCode,a.CardName,a.Currency,a.Balance,b.[Address] from OCRD as a Left JOIN CRD1 as b on a.Cardcode = b.CardCode Where CardType = 'C'";
+                GetQuery = "select a.CardCode,a.CardName,a.Currency,a.Balance,b.[Address] from OCRD as a Left JOIN CRD1 as b on a.Cardcode = b.CardCode Where CardType = 'C' and isApproved =1";
             }else if (DocModule == "I" || DocModule == "PR" || DocModule == "PRO")
             {
-                GetQuery = "select a.CardCode,a.CardName,a.Currency,a.Balance,b.[Address] from OCRD as a Left JOIN CRD1 as b on a.Cardcode = b.CardCode";
+                GetQuery = "select a.CardCode,a.CardName,a.Currency,a.Balance,b.[Address] from OCRD as a Left JOIN CRD1 as b on a.Cardcode = b.CardCode and isApproved =1";
             }
             
 
@@ -74,7 +74,7 @@ namespace iSOL_Enterprise.Dal
                             CardCode = rdr["CardCode"].ToString(),
                             CardName = rdr["CardName"].ToString(),
                             Currency = rdr["Currency"].ToString(),
-                            Balance = (decimal)rdr["Balance"],
+                            Balance = rdr["Balance"].ToString() == "" | rdr["Balance"].ToString() == null ? null : (decimal)rdr["Balance"],
                             Address = rdr["Address"].ToString()
                         });
                 }
