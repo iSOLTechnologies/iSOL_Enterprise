@@ -599,8 +599,7 @@
                                                                                     </div>
                                                                                     <div class="col-md-4">
 
-                                                                                    <select id="BuyUnitMsr"
-                                                                                            class="form-control form-control-sm">
+                                                                                    <select id="BuyUnitMsr" class="form-control form-control-sm NotReq">
                                                                                         @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.UomName)
                                                                                         {
                                                                                             <option value="@i.Text">@i.Text </option>
@@ -619,7 +618,7 @@
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Items
                                                                                     Per Purchasing Unit </label>
                                                                                 <input type="number" id="NumInBuy"
-                                                                                    class="col-md-4 form-control form-control-sm">
+                                                                                   class="col-md-4 form-control form-control-sm NotReq">
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
                                                                                     field is required.</div>
@@ -634,7 +633,7 @@
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Customs
                                                                                     Group </label>
                                                                                 <select id="CstGrpCode"
-                                                                                    class="form-control form-control-sm col-md-4">
+                                                                                    class="form-control form-control-sm col-md-4 NotReq">
                                                                                 @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.CustomsGroup)
                                                                                         {                                                                                            
                                                                                                 <option value="@i.Value">@i.Text </option>                                                                                            
@@ -656,7 +655,7 @@
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Tax
                                                                                     Group </label>
                                                                                 <select id="VatGroupPu"
-                                                                                    class="form-control form-control-sm col-md-4">
+                                                                                    class="form-control form-control-sm col-md-4 NotReq">
                                                                                 @foreach (iSOL_Enterprise.Models.sale.tbl_OVTG i in ViewBag.TaxGroup)
                                                                                         {                                                                                            
                                                                                                 <option guid="@i.Rate" value=@i.code>@i.vatName </option>                                                                                            
@@ -681,7 +680,7 @@
                                                                                 Group
                                                                             </label>
                                                                             <select id="VatGroupSa"
-                                                                                    class="form-control-sm form-control col-md-4">
+                                                                                    class="form-control-sm form-control col-md-4 NotReq">
                                                                                 @foreach (iSOL_Enterprise.Models.sale.tbl_OVTG i in ViewBag.TaxGroup)
                                                                                 {
                                                                                     <option guid="@i.Rate" value=@i.code>@i.vatName </option>
@@ -710,7 +709,7 @@
                                                                                     <div class="col-md-4">
 
                                                                                     <select id="SalUnitMsr"
-                                                                                            class="form-control form-control-sm ">
+                                                                                            class="form-control form-control-sm NotReq">
                                                                                         @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.UomName)
                                                                                         {
                                                                                             <option value="@i.Text">@i.Text </option>
@@ -732,7 +731,7 @@
                                                                                 per Sale Unit
                                                                             </label>
                                                                             <input type="number" id="NumInSale"
-                                                                                   class="form-control form-control-sm col-md-4">
+                                                                                   class="form-control form-control-sm col-md-4 NotReq">
                                                                             <div id="ErrorMsg"
                                                                                  class="error invalid-feedback">
                                                                                 This
@@ -944,7 +943,7 @@
                                                                                     Order Qty </label>
                                                                                 <input type="number" id="MinOrdrQty"
                                                                                     placeholder="0.00000"
-                                                                                    class="form-control form-control-sm col-md-4">
+                                                                                    class="form-control form-control-sm col-md-4 NotReq">
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
                                                                                     field is required.</div>
@@ -1057,7 +1056,7 @@
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Production
                                                                                     Std Cost </label>
                                                                                 <input type="number" id="PrdStdCst"
-                                                                                    class="form-control form-control-sm col-md-4">
+                                                                                    class="form-control form-control-sm col-md-4 NotReq">
                                                                                 <div id="ErrorMsg"
                                                                                     class="error invalid-feedback">This
                                                                                     field is required.</div>
