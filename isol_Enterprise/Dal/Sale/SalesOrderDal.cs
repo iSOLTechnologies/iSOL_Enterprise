@@ -28,6 +28,7 @@ namespace iSOL_Enterprise.Dal.Sale
                     models.CardCode = rdr["CardCode"].ToString();
                     models.Guid = rdr["Guid"].ToString();
                     models.CardName = rdr["CardName"].ToString();
+                    models.CETnum = rdr["CETnum"].ToString();
                     models.IsPosted = rdr["isPosted"].ToString(); models.IsEdited = rdr["is_Edited"].ToString();
                     models.isApproved = rdr["isApproved"].ToBool();
                     models.apprSeen = rdr["apprSeen"].ToBool();

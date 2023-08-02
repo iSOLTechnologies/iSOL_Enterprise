@@ -57,6 +57,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
 
 
                     </tr>
@@ -182,6 +183,8 @@
                     data: 'cardCode', title: 'Card Code'
                 }, {
                     data: 'cardName', title: 'Card Name'
+                },{
+                    data: 'ceTnum', title: 'CET Num'
                 }, {
                     data: "docStatus", 'title': 'Status', render: function (data, type, row) {
 
@@ -232,6 +235,7 @@
     });
     $(document).on('click', '#btnFetchSaleOrder', function (e) {
 
+        
         var guid = $(this).attr("guid");
         window.location.href = '/SaleOrder/EditSaleOrderMaster/?id=' + guid + '';
         console.log(guid);

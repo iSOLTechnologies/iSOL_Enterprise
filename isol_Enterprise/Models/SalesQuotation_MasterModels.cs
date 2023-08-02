@@ -10,6 +10,7 @@
         public string? OriginNum { get; set; }
         public string? Description { get; set; }
         public string? DocType { get; set; }
+        public string? CETnum { get; set; }
         public DateTime? DocDate { get; set; }
         public DateTime? PostingDate { get; set; }
         public string? CardCode { get; set; }
