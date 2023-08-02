@@ -180,8 +180,8 @@
                     data: "guid", 'title': 'Action', render: function (data, type, row) {
                         if (row.isApproved == 0 && row.apprSeen == 0)
                             return `<div class="d-flex justify-content-center p-2"><span class="label label-lg label-light-success label-inline">Pending</span></div>`;
-                        else if (row.isApproved == 0 && row.apprSeen == 1)
-                            return `<div class="d-flex justify-content-center p-2"><span class="label label-lg label-light-warning label-inline">Rejected</span></div>`;
+                        //else if (row.isApproved == 0 && row.apprSeen == 1)
+                            //return `<div class="d-flex justify-content-center p-2"><span class="label label-lg label-light-warning label-inline">Rejected</span></div>`;
                         else {
                             var html = '<a guid=' + data + ' id="btnFetchGoodsIssue" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3 btnView">';
                         html += '<i id="showeyes" class=" fa fa-eye"></i> ';

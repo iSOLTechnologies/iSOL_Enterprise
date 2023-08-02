@@ -198,8 +198,8 @@
 
                         if (row.isApproved == 0 && row.apprSeen == 0)
                             return `<div class="d-flex justify-content-center p-2"><span class="label label-lg label-light-success label-inline">Pending</span></div>`;
-                        else if (row.isApproved == 0 && row.apprSeen == 1)
-                            return `<div class="d-flex justify-content-center p-2"><span class="label label-lg label-light-warning label-inline">Rejected</span></div>`;
+                        //else if (row.isApproved == 0 && row.apprSeen == 1)
+                            //return `<div class="d-flex justify-content-center p-2"><span class="label label-lg label-light-warning label-inline">Rejected</span></div>`;
                         else {
                         var html = '<a guid=' + data + ' id="btnFetchPurchaseRequest" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">';
                         html += '<span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo2\dist/../src/media/svg/icons\Communication\Write.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">';
