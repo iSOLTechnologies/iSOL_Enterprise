@@ -31,14 +31,14 @@ namespace iSOL_Enterprise.Dal
         public static string API_Url;
 
 
-        public static string DiAPI_Server = "DESKTOP-V37AJ34\\SQLSERVER19";
+        public static string DiAPI_Server = "SAPSERVER3";
         public static string DiAPI_SLDServer = "SAPSERVER3:40000";
-        public static string DiAPI_companydb = "SAPDB";
+        public static string DiAPI_companydb = "CET_PRD_3";
         public static SAPbobsCOM.BoDataServerTypes dst_HANADB = BoDataServerTypes.dst_MSSQL2019;
         public static string DiAPI_dbusername = "sa";
         public static string DiAPI_dbpassword = "Super@123";
         public static string DiAPI_username = "manager";
-        public static string DiAPI_password = "Bilal@123";
+        public static string DiAPI_password = "Ellos@987";
         public static SAPbobsCOM.BoSuppLangs DiAPI_langauge = BoSuppLangs.ln_English_Gb;
         public static bool DiAPI_UserTrusted = false;
 
@@ -930,7 +930,7 @@ where s.Status=1 and p.Guid=@Guid";
         {
             string table = GetMasterTable(BaseType);
             string rowTable = GetRowTable(BaseType);
-            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "' and isApproved = 1 order by Id desc"; /*isPosted = 1*/
+            string GetQuery = "select * from " + table + " where CardCode ='" + cardcode + "'and isPosted = 1 and isApproved = 1 order by Id desc"; /*isPosted = 1*/
             if (BaseType == 1470000113)
             {
                 GetQuery = "select * from " + table + " order by Id desc"; /*isPosted = 1*/
