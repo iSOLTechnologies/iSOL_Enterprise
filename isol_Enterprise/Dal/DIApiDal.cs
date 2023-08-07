@@ -2886,7 +2886,7 @@ namespace SAP_MVC_DIAPI.BLC
 
                         foreach (var ID in checkedIDs)
                         {
-                            string UDF = "";
+                            string UDF = ",CETNum";
                             bool isOld = false;
 
                             string headerQuery = @"select Id,Guid,DocEntry,Type,Series,MySeries,DocNum,Status,PostDate, ItemCode,StartDate,ProdName,

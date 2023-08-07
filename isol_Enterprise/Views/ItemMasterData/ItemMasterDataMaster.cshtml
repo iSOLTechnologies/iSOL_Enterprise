@@ -30,8 +30,11 @@
                         </h3>
                     </div>
                     <div class="card-toolbar">
+                        <a  class="btn btn-warning font-weight-bolder mr-2" id="CopyItems">
+                           <i class="far fa-copy icon-sm"></i>Copy Item
+                        </a>
                         <a  class="btn btn-light-success font-weight-bolder mr-2" id="FindItems">
-                            <i class="fas fa-search icon-sm"></i>Find Item
+                            <i class="fas fa-search icon-sm"></i>Find SAP Item
                         </a>
                         <a onclick="Back_his()" class="btn btn-light-primary font-weight-bolder mr-2">
                             <i class="ki ki-long-arrow-back icon-sm"></i>Back
@@ -2151,6 +2154,49 @@
                             </div>
                         </div>
                     </div>
+                    <div class="modal fade" id="myItemsModal" role="dialog">
+                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="card-title">List Of Items</h5>
+                                    <button type="button" class="close text-danger" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- General Form Elements -->
+                                    <div class="container">
+                                        <div class="card-body">
+                                            <!--begin: Datatable-->
+                                            <div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <!--begin: Datatable-->
+                                                        <table class="table table-striped- table-bordered table-hover table-checkable " id="MyItemsListTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--end: Datatable-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     </form>
                     <!--end::Form-->
                 </div>
@@ -2191,7 +2237,123 @@
         $('#myItemModal').modal('show');
 
         });
+
+        $(document).on('click', '#CopyItems', function (e) 
+        {
+            GenerateItemsListTable();
+            $('#myItemsModal').modal('show');
+        });
+
+        function GenerateItemsListTable() 
+        {
+
+            datatable = $('#MyItemsListTable').DataTable({
+            responsive: true,
+            searching: true,
+            ordering: false,
+            //   order: [[2, 'asc']],
+            ordering: false,
+            "ajax": {
+
+                // url: '/HrAdmin/GetAttendanceList_MainLines?Date=' + $('#FilterDate').val(),
+                url: '/ItemMasterData/GetData',
+                async: false,
+            },
+            "columnDefs": [
+                {
+                    "targets": [0],
+                    visible: false,
+                }
+            ],
+            layout: {
+                scroll: false, // enable/disable datatable scroll both horizontal and vertical when needed.
+                // height: 450, // datatable's body's fixed height
+                footer: false, // display/hide footer
+            },
+
+            // column sorting
+            sortable: true,
+
+            pagination: true,
+            destroy: true,
+            //   async: false,
+            search: {
+                input: $('#generalSearch'),
+            },
+            columns: [
+                {
+                    data: 'guid', title: 'Guid',
+
+                },
+                {
+                    data: 'itemCode', title: 'ItemCode',
+
+                },
+                {
+                    data: 'itemName', title: 'itemName',
+
+                },
+                {
+                    data: 'purchaseItem', title: 'PurchaseItem', render: function (data, type, row) {
+
+                        if (data == 'Y')
+                            return '<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">YES</span>';
+                        else
+                            return `<span class="label label-lg label-light-danger label-inline"> NO </span>`;
+
+                    }
+
+                }, {
+                    data: 'salesItem', title: 'SalesItem', render: function (data, type, row) {
+
+                        if (data == 'Y')
+                            return '<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">YES</span>';
+                        else
+                            return `<span class="label label-lg label-light-danger label-inline"> NO </span>`;
+
+                    }
+
+                }, {
+                    data: 'inventoryItem', title: 'InventoryItem', render: function (data, type, row) {
+
+                        if (data == 'Y')
+                            return '<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">YES</span>';
+                        else
+                            return `<span class="label label-lg label-light-danger label-inline"> NO </span>`;
+
+                    }
+
+                }, {
+                    data: "docStatus", 'title': 'Status', render: function (data, type, row) {
+
+                        if (data == "Open") {
+                            //var html = `<span class="badge badge-success" style="background-color: #28a745;">Open</span>`;
+                            var html = `<span style="backgroung-color:#0ae71057;color: #0c9b22;" class="label label-lg label-light-success label-inline">Open</span>`;
+                            return html;
+
+
+
+                        } else {
+                            //var html = ` <span class="badge badge-danger">Closed</span>`;
+                            var html = `<span class="label label-lg label-light-danger label-inline">Closed</span>`;
+                            return html;
+                        }
+                    }
+                },],
+        });
+        }
         
+        $(document).on('dblclick', '#MyItemsListTable tbody tr', function (e) {
+		  
+			var LookTable = $('#MyItemsListTable').DataTable();
+			var selectedRow = $(this).closest('tr');
+			var rowData = LookTable.row(selectedRow).data();
+            $('#MyItemsListTable').DataTable().column(0).visible(true);
+            
+            OldItemId = rowData['guid'];
+            GetOldData();
+            $('#myItemsModal').modal('hide');
+        });
         $(document).on("input", "input[type='number']", function () {
             var value = parseFloat(this.value);
             if (isNaN(value)) {
@@ -2298,6 +2460,7 @@
 <script src="~/viewjs/itemmasterdata/inventory_tab.js"></script>
 
 <script>
+    
     $(document).ready(function() {
              
             
@@ -2594,8 +2757,6 @@
 
         });
     }
-
-
 
     function GetOldData() 
     {

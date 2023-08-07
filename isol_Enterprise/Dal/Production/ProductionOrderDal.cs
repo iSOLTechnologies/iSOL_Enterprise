@@ -16,7 +16,7 @@ namespace iSOL_Enterprise.Dal.Production
 
         public List<SalesQuotation_MasterModels> GetData()
         {
-            string GetQuery = "select Id,Guid,DocNum,ItemCode,PostDate,PlannedQty,Warehouse,isPosted,is_Edited,isApproved,apprSeen from OWOR order by id DESC";
+            string GetQuery = "select Id,Guid,DocNum,ItemCode,PostDate,CETNum,PlannedQty,Warehouse,isPosted,is_Edited,isApproved,apprSeen from OWOR order by id DESC";
 
 
             List<SalesQuotation_MasterModels> list = new List<SalesQuotation_MasterModels>();
@@ -35,6 +35,7 @@ namespace iSOL_Enterprise.Dal.Production
                     models.Quanity = Convert.ToDecimal(rdr["PlannedQty"]);
                     models.Guid = rdr["Guid"].ToString();
                     models.Warehouse = rdr["Warehouse"].ToString();
+                    models.CETnum = rdr["CETNum"].ToString();
                     models.IsPosted = rdr["isPosted"].ToString();
                     models.IsEdited = rdr["is_Edited"].ToString();
                     models.isApproved = rdr["isApproved"].ToBool();
@@ -57,7 +58,7 @@ namespace iSOL_Enterprise.Dal.Production
                 DataSet ds = new DataSet();
                 SqlConnection conn = new SqlConnection(SqlHelper.defaultDB);
                 string headerQuery = @"select Id,Guid,DocEntry,Type,Series,MySeries,DocNum,Status,PostDate, ItemCode,StartDate,ProdName,Priority,
-                                         DueDate,PlannedQty,Warehouse,LinkToObj,OriginNum,CardCode,Project,Comments,PickRmrk,Sap_Ref_No From OWOR where Id =" + id;
+                                         DueDate,PlannedQty,Warehouse,LinkToObj,OriginNum,CardCode,Project,Comments,PickRmrk,CETNum,Sap_Ref_No From OWOR where Id =" + id;
                 SqlDataAdapter sda = new SqlDataAdapter(headerQuery, conn);
                 sda.Fill(ds);
                 string JSONString = string.Empty;
@@ -70,6 +71,7 @@ namespace iSOL_Enterprise.Dal.Production
                 throw;
             }
         }
+
         public dynamic GetOldItemsData(int id)
         {
             try
@@ -199,9 +201,9 @@ namespace iSOL_Enterprise.Dal.Production
                     #endregion
 
                     string TabHeader = @"Id,Guid,DocEntry,Type,Series,MySeries,DocNum,Status,PostDate, ItemCode,StartDate,ProdName,
-                                         DueDate,PlannedQty,Warehouse,Priority,LinkToObj,OriginNum,CardCode,Project,Comments,PickRmrk,isApproved";
+                                         DueDate,PlannedQty,Warehouse,Priority,LinkToObj,OriginNum,CardCode,Project,Comments,PickRmrk,CETNum,isApproved";
                     string TabHeaderP = @"@Id,@Guid,@DocEntry,@Type,@Series,@MySeries,@DocNum,@Status,@PostDate,@ItemCode,@StartDate,@ProdName,
-                                         @DueDate,@PlannedQty,@Warehouse,@Priority,@LinkToObj,@OriginNum,@CardCode,@Project,@Comments,@PickRmrk,@isApproved";
+                                         @DueDate,@PlannedQty,@Warehouse,@Priority,@LinkToObj,@OriginNum,@CardCode,@Project,@Comments,@PickRmrk,@CETNum,@isApproved";
 
                     string HeadQuery = @"insert into OWOR (" + TabHeader + ") " +
                                         "values(" + TabHeaderP + ")";
@@ -228,6 +230,7 @@ namespace iSOL_Enterprise.Dal.Production
                     param.Add(cdal.GetParameter("@OriginNum", model.HeaderData.OriginNum, typeof(int)));
                     param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(string)));
                     param.Add(cdal.GetParameter("@Project", model.HeaderData.Project, typeof(string)));
+                    param.Add(cdal.GetParameter("@CETNum", model.HeaderData.CETNum, typeof(string)));
                     param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
                     #endregion
 
@@ -355,7 +358,7 @@ namespace iSOL_Enterprise.Dal.Production
                     #endregion
 
                     string TabHeader = @"Type=@Type,Status=@Status,PostDate=@PostDate,StartDate=@StartDate,ProdName=@ProdName,DueDate=@DueDate,
-                                         PlannedQty=@PlannedQty,Warehouse=@Warehouse,Priority=@Priority,LinkToObj=@LinkToObj,OriginNum=@OriginNum,
+                                         PlannedQty=@PlannedQty,Warehouse=@Warehouse,Priority=@Priority,LinkToObj=@LinkToObj,OriginNum=@OriginNum,CETNum=@CETNum,
                                          CardCode=@CardCode,Project=@Project,Comments=@Comments,PickRmrk=@PickRmrk,is_Edited=1,isApproved =@isApproved,apprSeen =0 ";
 
 
@@ -382,6 +385,7 @@ namespace iSOL_Enterprise.Dal.Production
                     param.Add(cdal.GetParameter("@OriginNum", model.HeaderData.OriginNum, typeof(int)));
                     param.Add(cdal.GetParameter("@CardCode", model.HeaderData.CardCode, typeof(string)));
                     param.Add(cdal.GetParameter("@Project", model.HeaderData.Project, typeof(string)));
+                    param.Add(cdal.GetParameter("@CETNum", model.HeaderData.CETNum, typeof(string)));
                     param.Add(cdal.GetParameter("@isApproved", isApproved, typeof(int)));
                     #endregion
 
