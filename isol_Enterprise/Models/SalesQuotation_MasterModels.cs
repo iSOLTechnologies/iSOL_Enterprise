@@ -11,6 +11,7 @@
         public string? Description { get; set; }
         public string? DocType { get; set; }
         public string? CETnum { get; set; }
+        public string? SaleOrderNo { get; set; }
         public DateTime? DocDate { get; set; }
         public DateTime? PostingDate { get; set; }
         public string? CardCode { get; set; }

@@ -34,6 +34,7 @@ namespace iSOL_Enterprise.Dal.Purchase
                     models.CardCode = rdr["CardCode"].ToString();
                     models.Guid = rdr["Guid"].ToString();
                     models.CardName = rdr["CardName"].ToString();
+                    models.SaleOrderNo = rdr["SaleOrderNo"].ToString();
                     models.IsPosted = rdr["isPosted"].ToString(); models.IsEdited = rdr["is_Edited"].ToString();
                     models.isApproved = rdr["isApproved"].ToBool();
                     models.apprSeen = rdr["apprSeen"].ToBool();
@@ -98,6 +99,7 @@ namespace iSOL_Enterprise.Dal.Purchase
             }
             return list;
         }
+        
         public dynamic GetQuotationItemServiceList(int DocId)
         {
             DataSet ds = new DataSet();
@@ -109,8 +111,6 @@ namespace iSOL_Enterprise.Dal.Purchase
             return JSONString;
 
         }
-
-
 
         public List<tbl_item> GetItemsData()
         {
@@ -188,7 +188,6 @@ namespace iSOL_Enterprise.Dal.Purchase
             return list;
         }
 
-
         public List<tbl_OCTG> GetPaymentTerms()
         {
             string GetQuery = "select GroupNum,PymntGroup from OCTG";
@@ -212,6 +211,7 @@ namespace iSOL_Enterprise.Dal.Purchase
 
             return list;
         }
+        
         public List<tbl_OSLP> GetSalesEmployee()
         {
             string GetQuery = "select SlpCode,SlpName from OSLP";
@@ -259,6 +259,7 @@ namespace iSOL_Enterprise.Dal.Purchase
 
             return list;
         }
+        
         public List<ListModel> GetContactPersons(int cardCode)
         {
             string GetQuery = "select OCRD.CardCode,OCPR.Name from ocrd join ocpr on ocrd.CardCode = OCPR.CardCode where ocrd.CardCode = '" + cardCode + "'";
@@ -282,6 +283,7 @@ namespace iSOL_Enterprise.Dal.Purchase
 
             return list;
         }
+        
         public bool AddPurchaseOrder(string formData)
         {
             try
@@ -577,15 +579,6 @@ namespace iSOL_Enterprise.Dal.Purchase
                 return false;
             }
         }
-
-
-
-
-
-
-
-
-
 
         public bool EditPurchaseOrder(string formData)
         {
