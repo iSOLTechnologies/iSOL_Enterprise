@@ -188,8 +188,8 @@ where ur.RoleCode=@RoleCode and p.Guid=@Guid ";
         public DataTable GetAdvanceSearch(string Guid)
         {
             string Query = @"select a.SearchColumn,a.FieldText From AdvanceSearch a
-inner join Pages p on p.PageId=a.PageId
-where a.IsActive=1 and p.IsActive=1 and p.RowStatus=1 and p.Guid=@Guid";
+                            inner join Pages p on p.PageId=a.PageId
+                            where a.IsActive=1 and p.IsActive=1 and p.RowStatus=1 and p.Guid=@Guid";
 
             DataTable dt = SqlHelper.GetData(Query, new SqlParameter("Guid", Guid));
             return dt;
@@ -198,41 +198,25 @@ where a.IsActive=1 and p.IsActive=1 and p.RowStatus=1 and p.Guid=@Guid";
 
         public static string _PageId;
         public static int? _UserId;
-        public static bool CheckPage(string pageId, int? UserId)
+        public static bool CheckPage(string? pageId, int? UserId)
         {
-            string query = @"select count(*) From Users u 
-inner join UserRoles ur on ur.RoleCode=u.RoleCode
-inner join Pages p on p.PageId=ur.PageId
-where p.Guid=@Guid and u.Id=@UserId";
+
             _PageId = pageId;
             _UserId = UserId;
-            //int count = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, query, new SqlParameter("@Guid", pageId), new SqlParameter("@UserId", UserId)).ToInt();
-            //if (count > 0)
-            //{
-            //    return true;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
-            DataTable dt = SqlHelper.GetData(@"select count(*) From Users u 
-inner join UserRoles ur on ur.RoleCode=u.RoleCode
-inner join Pages p on p.PageId=ur.PageId
-where p.Guid=@Guid and u.Id=@UserId", new SqlParameter("@Guid", pageId), new SqlParameter("@UserId", UserId));
-            if (dt != null)
+
+            int count = SqlHelper.ExecuteScalar(SqlHelper.defaultDB, CommandType.Text, @"select count(*) as 'Count' from UserRoles ur
+	                                                                                    inner join Users u on u.RoleCode = ur.RoleCode
+	                                                                                    inner join Pages p on p.PageId = ur.PageId
+	                                                                                    where u.id =@UserId and Replace(p.Guid,CHAR(13) + Char(10),'') = @Guid",
+                                                                                        new SqlParameter("@Guid", pageId), new SqlParameter("@UserId", UserId)).ToInt();
+            if (count == 0)
             {
-                if (dt.Rows.Count > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return false;
+
             }
             else
             {
-                return false;
+                return true;
             }
         }
         public List<Setup_PageListViewQueryDetailModels> GetColumnNames(RequestModels request)

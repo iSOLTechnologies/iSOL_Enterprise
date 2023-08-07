@@ -88,7 +88,7 @@
     $(document).on('click', '#btnAdd', function () {
 
         //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
-        window.location.href = '/BillOfMaterial/BillOfMaterialMaster';
+        window.location.href = '/BillOfMaterial/BillOfMaterialMaster?Source=' + Guid;
     })
     function Mastercheck() {
         if (document.getElementById('Mastercheck').checked == true) {
@@ -222,8 +222,8 @@
     $(document).on('click', '#btnFetchBillOfMaterial', function (e) {
 
 
-        var guid = $(this).attr("guid");
-        window.location.href = '/BillOfMaterial/BillOfMaterialMaster/?id=' + guid + '';
+        var id = $(this).attr("guid");
+        window.location.href = '/BillOfMaterial/BillOfMaterialMaster?Source=' + Guid + '&Id=' + id + '';
 
     });
 

@@ -41,6 +41,10 @@ namespace iSOL_Enterprise.Controllers.Inventory_Transactions
         }
         public IActionResult InventoryTransferMaster(string id = "")
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetInt32("UserId").ToString()) || string.IsNullOrEmpty(HttpContext.Request.Query["Source"]) || !CommonDal.CheckPage(HttpContext.Request.Query["Source"], HttpContext.Session.GetInt32("UserId")))
+            {
+                return RedirectToAction("index", "Home");
+            }
             ItemMasterDataDal Idal = new ItemMasterDataDal();
             AdministratorDal dal = new AdministratorDal();
             SalesQuotationDal Sdal = new SalesQuotationDal();

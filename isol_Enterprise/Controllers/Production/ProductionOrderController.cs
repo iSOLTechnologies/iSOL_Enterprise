@@ -35,6 +35,11 @@ namespace iSOL_Enterprise.Controllers.Production
         }
         public IActionResult ProductionOrderMaster(string id = "", int aprv1ghas = 0)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetInt32("UserId").ToString()) || string.IsNullOrEmpty(HttpContext.Request.Query["Source"]) || !CommonDal.CheckPage(HttpContext.Request.Query["Source"], HttpContext.Session.GetInt32("UserId")))
+            {
+                return RedirectToAction("index", "Home");
+            }
+
             AdministratorDal addal = new AdministratorDal();
             ItemMasterDataDal Idal = new ItemMasterDataDal();
             BusinessPartnerMasterDataDal Bdal = new BusinessPartnerMasterDataDal();

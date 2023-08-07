@@ -6,6 +6,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<input type="hidden" id="PageGuid" value="@Context.Request.Query["Source"]" />
 <script src="~/assets/js/jquery-3.6.3.slim.js"></script>
 <!-- Render Body <Start> -->
 <!--begin::Subheader-->
@@ -80,10 +81,11 @@
 
 <script>
     var datatable;
+    var Guid = $('#PageGuid').val();
     $(document).on('click', '#btnAdd', function () {
 
         //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
-        window.location.href = '/PurchaseRequest/PurchaseRequestMaster';
+        window.location.href = '/PurchaseRequest/PurchaseRequestMaster?Source=' + Guid;
     })
     function Mastercheck() {
 
@@ -224,10 +226,10 @@
     });
     $(document).on('click', '#btnFetchPurchaseRequest', function (e) {
 
-        var guid = $(this).attr("guid");
+        var id = $(this).attr("guid");
 
 
-        window.location.href = '/PurchaseRequest/EditPurchaseRequestMaster/?id=' + guid + '';
+        window.location.href = '/PurchaseRequest/EditPurchaseRequestMaster?Source=' + Guid + '&Id=' + id + '';
 
     });
     $(document).on('click', '.pname', function () {

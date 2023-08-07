@@ -88,7 +88,7 @@
     $(document).on('click', '#btnAdd', function () {
 
         //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
-        window.location.href = '/InventoryTransferRequest/InventoryTransferRequestMaster';
+        window.location.href = '/InventoryTransferRequest/InventoryTransferRequestMaster?Source=' + Guid;
     })
     function Mastercheck() {
 
@@ -226,8 +226,8 @@
     });
     $(document).on('click', '#btnFetchInventoryTransferRequest', function (e) {
 
-        var guid = $(this).attr("guid");
-        window.location.href = '/InventoryTransferRequest/InventoryTransferRequestMaster/?id=' + guid + '';
+        var id = $(this).attr("guid");
+        window.location.href = '/InventoryTransferRequest/InventoryTransferRequestMaster?Source=' + Guid + '&Id=' + id + '';
 
     });
 

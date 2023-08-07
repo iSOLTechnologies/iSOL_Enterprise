@@ -39,11 +39,13 @@ namespace iSOL_Enterprise.Dal
             string GetQuery = "";
             if (ObjectCode == "All")
             {
-                GetQuery = "select * from NNM1";
+                GetQuery = @"select ObjectCode,InitialNum,LastNum,NextNumber,BeginStr,SeriesName from NNM1
+                              group by ObjectCode,InitialNum,LastNum,NextNumber,BeginStr,SeriesName
+                              order by ObjectCode desc";
             }
             else
             {
-                GetQuery = "select * from NNM1 where ObjectCode = " + ObjectCode;
+                GetQuery = "select ObjectCode,InitialNum,LastNum,NextNumber,BeginStr,SeriesName from NNM1 where ObjectCode = " + ObjectCode;
             }
             List<tbl_NNM1> list = new List<tbl_NNM1>();
             using (var rdr = SqlHelper.ExecuteReader(SqlHelper.defaultDB, CommandType.Text, GetQuery))
@@ -55,6 +57,8 @@ namespace iSOL_Enterprise.Dal
                         PageName = (GetTableName(Convert.ToInt32(rdr["ObjectCode"]))).ToString(),
                         InitialNum = Convert.ToInt32(rdr["InitialNum"]),
                         LastNum = Convert.ToInt32(rdr["LastNum"]),
+                        NextNumber = Convert.ToInt32(rdr["NextNumber"]),
+                        Status = Convert.ToInt32(rdr["NextNumber"]) > Convert.ToInt32(rdr["LastNum"]) ? "C" : "O",
                         BeginStr = rdr["BeginStr"].ToString(),
                         SeriesName = rdr["SeriesName"].ToString()
                     });
@@ -62,9 +66,6 @@ namespace iSOL_Enterprise.Dal
             }
             return list;
         }
-
-
-
 
         public string? GetTableName(int ObjectCode)
         {

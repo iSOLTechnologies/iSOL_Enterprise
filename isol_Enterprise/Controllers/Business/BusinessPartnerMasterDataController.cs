@@ -105,6 +105,10 @@ namespace iSOL_Enterprise.Controllers.Business
         }
         public IActionResult BusinessPartnerMasterDataMaster(string id = "0", int aprv1ghas = 0)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetInt32("UserId").ToString()) || string.IsNullOrEmpty(HttpContext.Request.Query["Source"]) || !CommonDal.CheckPage(HttpContext.Request.Query["Source"], HttpContext.Session.GetInt32("UserId")))
+            {
+                return RedirectToAction("index", "Home");
+            }
             AdministratorDal addal = new AdministratorDal();
             BusinessPartnerMasterDataDal dal = new BusinessPartnerMasterDataDal();
             SalesQuotationDal sDal = new SalesQuotationDal();

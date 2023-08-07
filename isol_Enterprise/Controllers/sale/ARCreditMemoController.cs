@@ -20,6 +20,10 @@ namespace iSOL_Enterprise.Controllers
         }
         public IActionResult ARCreditMemoMaster(string DocId = "", int BaseType = 0)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetInt32("UserId").ToString()) || string.IsNullOrEmpty(HttpContext.Request.Query["Source"]) || !CommonDal.CheckPage(HttpContext.Request.Query["Source"], HttpContext.Session.GetInt32("UserId")))
+            {
+                return RedirectToAction("index", "Home");
+            }
             SalesQuotationDal dal = new SalesQuotationDal();
 			AdministratorDal Adal = new AdministratorDal();
 			ViewBag.GetSeries = Adal.GetSeries(19);
@@ -39,7 +43,11 @@ namespace iSOL_Enterprise.Controllers
         }
 
         public IActionResult EditARCreditMemoMaster(int id, int aprv1ghas = 0)
-        {            
+        {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetInt32("UserId").ToString()) || string.IsNullOrEmpty(HttpContext.Request.Query["Source"]) || !CommonDal.CheckPage(HttpContext.Request.Query["Source"], HttpContext.Session.GetInt32("UserId")))
+            {
+                return RedirectToAction("index", "Home");
+            }
             ARCreditMemoDal dal1 = new ARCreditMemoDal();
             SalesQuotationDal dal = new SalesQuotationDal();
             CommonDal cdal = new CommonDal();

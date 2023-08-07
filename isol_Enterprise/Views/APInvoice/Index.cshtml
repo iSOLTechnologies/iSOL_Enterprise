@@ -87,7 +87,7 @@
     $(document).on('click', '#btnAdd', function () {
 
         //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
-        window.location.href = '/APInvoice/APInvoiceMaster';
+        window.location.href = '/APInvoice/APInvoiceMaster?Source=' + Guid;
     })
     function Mastercheck() {
 
@@ -238,9 +238,9 @@
     });
     $(document).on('click', '#btnFetchAPInvoice', function (e) {
 
-        var guid = $(this).attr("guid");
+        var id = $(this).attr("guid");
 
-        window.location.href = '/APInvoice/EditAPInvoiceMaster/?id=' + guid + '';
+        window.location.href = '/APInvoice/EditAPInvoiceMaster?Source=' + Guid + '&Id=' + id + '';
 
     });
     $(document).on('click', '#btnPostToSap', function () {

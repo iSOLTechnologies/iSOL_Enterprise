@@ -24,7 +24,11 @@ namespace iSOL_Enterprise.Controllers.purchase
         }
         public IActionResult PurchaseRequestMaster()
 		{
-		    PurchaseRequestDal PRdal = new PurchaseRequestDal(); 
+            if (string.IsNullOrEmpty(HttpContext.Session.GetInt32("UserId").ToString()) || string.IsNullOrEmpty(HttpContext.Request.Query["Source"]) || !CommonDal.CheckPage(HttpContext.Request.Query["Source"], HttpContext.Session.GetInt32("UserId")))
+            {
+                return RedirectToAction("index", "Home");
+            }
+            PurchaseRequestDal PRdal = new PurchaseRequestDal(); 
 			AdministratorDal dal = new AdministratorDal();
             BusinessPartnerMasterDataDal Bdal = new BusinessPartnerMasterDataDal(); 
 			ViewData["Series"] = dal.GetSeries(1470000113);
@@ -38,7 +42,12 @@ namespace iSOL_Enterprise.Controllers.purchase
 
 		public IActionResult EditPurchaseRequestMaster(int id, int aprv1ghas = 0)
 		{
-			PurchaseRequestDal Pdal = new PurchaseRequestDal();
+            if (string.IsNullOrEmpty(HttpContext.Session.GetInt32("UserId").ToString()) || string.IsNullOrEmpty(HttpContext.Request.Query["Source"]) || !CommonDal.CheckPage(HttpContext.Request.Query["Source"], HttpContext.Session.GetInt32("UserId")))
+            {
+                return RedirectToAction("index", "Home");
+            }
+
+            PurchaseRequestDal Pdal = new PurchaseRequestDal();
 			AdministratorDal dal = new AdministratorDal(); 
 			SalesQuotationDal Sdal = new SalesQuotationDal();
 			DeliveryDal Ddal = new DeliveryDal();

@@ -24,6 +24,10 @@ namespace iSOL_Enterprise.Controllers.Sales
         }
         public IActionResult SaleQuotationMaster()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetInt32("UserId").ToString()) || string.IsNullOrEmpty(HttpContext.Request.Query["Source"]) || !CommonDal.CheckPage(HttpContext.Request.Query["Source"], HttpContext.Session.GetInt32("UserId")))
+            {
+                return RedirectToAction("index", "Home");
+            }
             AdministratorDal Adal = new AdministratorDal();
             SalesQuotationDal dal = new SalesQuotationDal();
 
@@ -37,6 +41,11 @@ namespace iSOL_Enterprise.Controllers.Sales
             
             public IActionResult EditSaleQuotationMaster(int id,int aprv1ghas = 0)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetInt32("UserId").ToString()) || string.IsNullOrEmpty(HttpContext.Request.Query["Source"]) || !CommonDal.CheckPage(HttpContext.Request.Query["Source"], HttpContext.Session.GetInt32("UserId")))
+            {
+                return RedirectToAction("index", "Home");
+            }
+
             SalesQuotationDal dal = new SalesQuotationDal();
             AdministratorDal Adal = new AdministratorDal();
             CommonDal cdal = new CommonDal();

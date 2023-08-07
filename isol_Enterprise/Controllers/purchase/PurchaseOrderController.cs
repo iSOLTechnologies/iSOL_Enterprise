@@ -30,7 +30,10 @@ namespace iSOL_Enterprise.Controllers.Sales
         }
         public IActionResult PurchaseOrderMaster(string DocId = "", int BaseType = 0)
         {
-
+            if (string.IsNullOrEmpty(HttpContext.Session.GetInt32("UserId").ToString()) || string.IsNullOrEmpty(HttpContext.Request.Query["Source"]) || !CommonDal.CheckPage(HttpContext.Request.Query["Source"], HttpContext.Session.GetInt32("UserId")))
+            {
+                return RedirectToAction("index", "Home");
+            }
             SalesQuotationDal dal = new SalesQuotationDal();
             AdministratorDal Adal = new AdministratorDal();
             ViewBag.GetSeries = Adal.GetSeries(22);
@@ -52,6 +55,10 @@ namespace iSOL_Enterprise.Controllers.Sales
         }
           public IActionResult EditPurchaseOrderMaster(int id, int aprv1ghas = 0)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetInt32("UserId").ToString()) || string.IsNullOrEmpty(HttpContext.Request.Query["Source"]) || !CommonDal.CheckPage(HttpContext.Request.Query["Source"], HttpContext.Session.GetInt32("UserId")))
+            {
+                return RedirectToAction("index", "Home");
+            }
             SalesQuotationDal dal = new SalesQuotationDal();
             PurchaseOrderDal dal1 = new PurchaseOrderDal();
             CommonDal cdal = new CommonDal();

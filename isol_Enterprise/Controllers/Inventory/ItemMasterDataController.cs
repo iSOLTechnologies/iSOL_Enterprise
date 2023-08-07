@@ -33,7 +33,10 @@ namespace iSOL_Enterprise.Controllers.Inventory
         }
         public IActionResult ItemMasterDataMaster(string id = "", int aprv1ghas = 0)
         {
-
+            if (string.IsNullOrEmpty(HttpContext.Session.GetInt32("UserId").ToString()) || string.IsNullOrEmpty(HttpContext.Request.Query["Source"]) || !CommonDal.CheckPage(HttpContext.Request.Query["Source"], HttpContext.Session.GetInt32("UserId")))
+            {
+                return RedirectToAction("index", "Home");
+            }
             ItemMasterDataDal dal = new ItemMasterDataDal();
             AdministratorDal addal = new AdministratorDal();
             

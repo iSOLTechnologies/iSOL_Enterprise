@@ -20,6 +20,10 @@ namespace iSOL_Enterprise.Controllers.Production
         }
         public IActionResult ReceiptFromProductionMaster(string id = "", int aprv1ghas = 0, int DocEntry = 0)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetInt32("UserId").ToString()) || string.IsNullOrEmpty(HttpContext.Request.Query["Source"]) || !CommonDal.CheckPage(HttpContext.Request.Query["Source"], HttpContext.Session.GetInt32("UserId")))
+            {
+                return RedirectToAction("index", "Home");
+            }
             ItemMasterDataDal Idal = new ItemMasterDataDal();
             AdministratorDal dal = new AdministratorDal();
             ViewData["Series"] = dal.GetSeries(59);

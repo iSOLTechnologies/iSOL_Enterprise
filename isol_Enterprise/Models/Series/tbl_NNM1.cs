@@ -9,6 +9,7 @@
         public int InitialNum { get; set; }
         public int NextNumber { get; set; }
         public int LastNum { get; set; }
+        public string? Status { get; set; }
         public string? BeginStr { get; set; }
         public string? EndStr { get; set; }
         public string? Remark { get; set; }

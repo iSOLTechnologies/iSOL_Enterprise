@@ -17,6 +17,10 @@ namespace iSOL_Enterprise.Controllers.Production
 
         public IActionResult BillOfMaterialMaster(string id = "", int aprv1ghas = 0)
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetInt32("UserId").ToString()) || string.IsNullOrEmpty(HttpContext.Request.Query["Source"]) || !CommonDal.CheckPage(HttpContext.Request.Query["Source"], HttpContext.Session.GetInt32("UserId")))
+            {
+                return RedirectToAction("index", "Home");
+            }
             ItemMasterDataDal Idal = new ItemMasterDataDal();
             BusinessPartnerMasterDataDal Bdal = new BusinessPartnerMasterDataDal();
             ViewData["GroupNum"] = new SelectList(Idal.GetListName(), "Value", "Text");

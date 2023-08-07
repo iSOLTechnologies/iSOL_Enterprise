@@ -84,7 +84,7 @@
     $(document).on('click', '#btnAdd', function () {
 
         //window.location.href = '/SaleQuotation/GetData?Source='+$('$Guid').val();
-        window.location.href = '/BusinessPartnerMasterData/BusinessPartnerMasterDataMaster';
+        window.location.href = '/BusinessPartnerMasterData/BusinessPartnerMasterDataMaster?Source=' + Guid;
     })
     function Mastercheck() {
 
@@ -206,8 +206,8 @@
     });
     $(document).on('click', '#btnFetchBusinessPartners', function (e) {
 
-        var guid = $(this).attr("guid");
-        window.location.href = '/BusinessPartnerMasterData/BusinessPartnerMasterDataMaster/?id=' + guid + '';
+        var id = $(this).attr("guid");
+        window.location.href = '/BusinessPartnerMasterData/BusinessPartnerMasterDataMaster?Source=' + Guid + '&Id=' + id + '';
 
     });
 

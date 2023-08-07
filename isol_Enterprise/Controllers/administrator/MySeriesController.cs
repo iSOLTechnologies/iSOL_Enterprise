@@ -22,11 +22,20 @@ namespace iSOL_Enterprise.Controllers.administrator
         [HttpPost]
         public IActionResult AddSeries(tbl_NNM1 obj)
         {
-            AdministratorDal dal = new AdministratorDal();
-            bool result = dal.InsertSeries(obj);
-            return RedirectToAction("Index");
+            try
+            {
+
+                AdministratorDal dal = new AdministratorDal();
+                bool result = dal.InsertSeries(obj);
+                return Json(new { success = result });
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
-         
+
         public IActionResult GetNNM1(string ObjectCode)
         {
             ResponseModels response = new ResponseModels();
