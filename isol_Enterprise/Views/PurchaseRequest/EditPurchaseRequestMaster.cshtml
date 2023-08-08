@@ -180,7 +180,7 @@
 																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																	</div>
 																	<div class="col-md-6">
-																		<label>Numbering Series</label>
+																			<label>Numbering Series<span class="text-danger">*</span></label>
 																		<div class="d-flex">
 																			<select disabled id="MySeries" class="form-control form-control-sm col-md-3">
 																				
@@ -232,12 +232,12 @@
 																</div>
 																<div class="form-group row">
 																	<div class="col-md-6">
-																		<label>Requester Name</label>
+																			<label>Requester Name<span class="text-danger">*</span></label>
 																			<input type="text" value="@row["ReqName"]" id="ReqName" class="form-control form-control-sm" placeholder="Name">
 																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																	</div>
 																	<div class="col-md-6">
-																		<label>Status</label>
+																			<label>Status<span class="text-danger">*</span></label>
 																		<input disabled type="text" id="Status" class="form-control form-control-sm" value="Open">
 																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																	</div>
@@ -272,7 +272,7 @@
 																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																	</div>
 																	<div class="col-md-6">
-																		<label>Posting Date</label>
+																			<label>Posting Date<span class="text-danger">*</span></label>
 																		<input id="DocDate" value="@(((DateTime)row["DocDate"]).ToString("yyyy-MM-dd"))"  type="date" class="form-control form-control-sm" placeholder="Posting Date">
 																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																	</div>
@@ -306,7 +306,7 @@
 																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																	</div>
 																	<div class="col-md-6">
-																		<label>Valid Until</label>
+																			<label>Valid Until<span class="text-danger">*</span></label>
 																		<input value="@(((DateTime)row["DocDueDate"]).ToString("yyyy-MM-dd"))"  id="DocDueDate" type="date" class="form-control form-control-sm" placeholder="Valid until">
 																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																	</div>
@@ -320,7 +320,7 @@
 																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																	</div>
 																	<div class="col-md-6">
-																		<label>Document Date</label>
+																			<label>Document Date<span class="text-danger">*</span></label>
 																		<input value="@(((DateTime)row["TaxDate"]).ToString("yyyy-MM-dd"))"  id="TaxDate" type="date" class="form-control form-control-sm" placeholder="Date">
 																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																	</div>
@@ -339,7 +339,7 @@
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
 																	<div class="col-md-6">
-																		<label>Required Date</label>
+																			<label>Required Date<span class="text-danger">*</span></label>
 																		<input value="@(((DateTime)row["ReqDate"]).ToString("yyyy-MM-dd"))"  id="ReqDate" type="date" class="form-control form-control-sm" placeholder="Date">
 																		<div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
 																	</div>
@@ -398,7 +398,7 @@
 															<div class="tab-content">
 																<div class="tab-pane active" id="kt_tabs_contents" role="tabpanel">
 																	<div class="form-group row col-md-4 mt-3">
-																		<label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold"> Item/Service Type</label>
+																			<label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold"> Item/Service Type<span class="text-danger">*</span></label>
 																		<div class="col-sm-6">
 
 																				@if (row["DocType"].Equals("I"))
@@ -426,18 +426,18 @@
 																		<table id="kt_repeater_1" style="overflow:auto">
 																			<thead class="ScrollThead">
 																				<tr>
-																					<th>Item No.</th>
-																					<th>Item Name</th>
+																					<th>Item No.<span class="text-danger">*</span></th>
+																					<th>Item Name<span class="text-danger">*</span></th>
 																					<th>Vendor</th>
 																					<th>Warehouse</th>
-																					<th>Qty in Warehouse</th>
-																					<th>Required Date</th>
-																					<th>Required Qty</th>
+																					<th>Qty in Warehouse<span class="text-danger">*</span></th>
+																					<th>Required Date<span class="text-danger">*</span></th>
+																					<th>Required Qty<span class="text-danger">*</span></th>
 																					<th>Info Price</th>
 																					<th>Discount %</th>
-																					<th>Tax Code</th>
+																					<th>Tax Code<span class="text-danger">*</span></th>
 																					<th>Total (LC)</th>
-																					<th>UOM Code</th>
+																						<th>UOM Code<span class="text-danger">*</span></th>
 																					<th>Sale Order #</th>
 																					<th>Sale Order</th>
 																					<th>Pre Costing Towel</th>
@@ -622,13 +622,13 @@
 																		<table id="kt_repeater_2" style="overflow:auto">
 																			<thead class="ScrollThead2">
 																				<tr>
-																					<th>Description</th>
-																					<th>Required Date</th>
-																					<th>Vendor</th>
-																					<th>Gl Account</th>
-																					<th>Gl Account Name</th>
-																					<th>Tax Code</th>
-																					<th>Total LC</th>
+																					<th>Description<span class="text-danger">*</span></th>
+																					<th>Required Date<span class="text-danger">*</span></th>
+																					<th>Vendor<span class="text-danger">*</span></th>
+																					<th>Gl Account<span class="text-danger">*</span></th>
+																					<th>Gl Account Name<span class="text-danger">*</span></th>
+																					<th>Tax Code<span class="text-danger">*</span></th>
+																					<th>Total LC<span class="text-danger">*</span></th>
 																					<!-- @*<th>Supplier </th>
 																						<th>Lot Number</th>
 																						<th>GSM</th>*@ -->
@@ -711,9 +711,9 @@
 																	<table id="kt_repeater_3" style="overflow:auto">
 																		<thead class="ScrollThead2">
 																			<tr>
-																				<th>TargetPath</th>
-																				<th>FileName</th>
-																				<th>AttachmentDate</th>
+																				<th>TargetPath<span class="text-danger">*</span></th>
+																				<th>FileName<span class="text-danger">*</span></th>
+																					<th>AttachmentDate<span class="text-danger">*</span></th>
 																				<th></th>
 																				<th></th>
 																			</tr>
@@ -754,7 +754,7 @@
 
 															<div class="row">
 																<div class="col-md-6">
-																	<label for="inputPassword4" class="form-label">Owner</label>
+																	<label for="inputPassword4" class="form-label">Owner<span class="text-danger">*</span></label>
 																		@*<input name="OwnerCode" value="@row["OwnerCode"]" type="number" class="form-control" id="OwnerCode">*@
 																		<select class=" form-control kt-select2 ItemCode NotReq" id="OwnerCode">
 
@@ -782,7 +782,7 @@
 																		</select>
 																</div>
 																<div class="col-md-6">
-																	<label for="inputEmail4" class="form-label">Total Before Discount</label>
+																	<label for="inputEmail4" class="form-label">Total Before Discount<span class="text-danger">*</span></label>
 																	<input name="TotalBeforeDiscount" readonly type="text" class="form-control" id="TotalBeforeDiscount">
 																</div>
 															</div>
@@ -792,7 +792,7 @@
 
 																<div class="col-md-6">
 																	<label for="inputRemarks" class="form-label">Remarks</label>
-																		<textarea id="Comments" class="form-control" rows="3">@row["Comments"]</textarea>
+																		<textarea id="Comments" class="form-control NotReq" rows="3">@row["Comments"]</textarea>
 																</div>
 																<div class="col-md-6">
 																	<label for="inputEmail4" class="form-label" id="">Tax</label>

@@ -2140,7 +2140,7 @@
 	<script src="~/assets/js/scripts.bundle.js"></script>
 	<script src="~/lib/SweetAlerts/sweetalert2.min.js"></script>
 	<script src="~/multiselect/bootstrap-multiselect.js"></script>
-	<script src="~/Assets/js/disable.js"></script>
+	@*<script src="~/Assets/js/disable.js"></script>*@
 
 	<!--end::Global Theme Bundle-->
 	<!--begin::Page Vendors(used by this page)-->
@@ -4060,23 +4060,25 @@
 		
 		$(document).on('change keyup', "#CardCode", function (e) {
 
+			if(DocModule != "B") {
 
-			$.get("Common/GetCustomerData", { cardcode: $(this).val(), DocModule: DocModule }, function (data) {
+				$.get("Common/GetCustomerData", { cardcode: $(this).val(), DocModule: DocModule }, function (data) {
 
-				//console.log(data);
-				if (data.success) {
-					$("#CardName").val((data.customer).cardName);
-					$("#DocCur").val((data.customer).currency);
-					GetContactPersons((data.customer).cardCode);
-					$('#btnCopyFrom').attr('disabled', false);
-				} else {
-					$("#CardName").val("");
-					$("#DocCur").val("");
-					GetContactPersons("");
-					$('#btnCopyFrom').attr('disabled', true);
-				}
-			});
+					//console.log(data);
+					if (data.success) {
+						$("#CardName").val((data.customer).cardName);
+						$("#DocCur").val((data.customer).currency);
+						GetContactPersons((data.customer).cardCode);
+						$('#btnCopyFrom').attr('disabled', false);
+					} else {
+						$("#CardName").val("");
+						$("#DocCur").val("");
+						GetContactPersons("");
+						$('#btnCopyFrom').attr('disabled', true);
+					}
+				});
 
+			}
 
 		});
 

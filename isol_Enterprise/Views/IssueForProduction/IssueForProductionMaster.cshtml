@@ -169,8 +169,8 @@
                                                                 <div class="form-group row">
 
                                                                     <div class="col-md-6">
-                                                                            <label>Numbering Series</label> 
-                                                                            <div class="d-flex">
+                                                                        <label>Numbering Series<span class="text-danger">*</span></label>
+                                                                        <div class="d-flex">
                                                                             <select id="MySeries" class="form-control form-control-sm col-md-3">
                                                                                         @foreach (iSOL_Enterprise.Models.Series.tbl_NNM1 i in ViewBag.MySeries)
                                                                                         {                                                                                            
@@ -193,7 +193,7 @@
                                                                     </div>
                                                               
                                                                     <div class="col-md-6">
-                                                                        <label>Posting Date</label>
+                                                                        <label>Posting Date<span class="text-danger">*</span></label>
                                                                         <input id="DocDate" type="date" class="d form-control form-control-sm" placeholder="Posting Date">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
@@ -208,7 +208,7 @@
                                                                         </button>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <label>Ref. 2</label> 
+                                                                        <label>Ref. 2<span class="text-danger">*</span></label>
                                                                         <input id="Ref2" type="text" class="form-control form-control-sm">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
@@ -244,22 +244,22 @@
                                                                             <thead class="ScrollThead">
                                                                                 <tr>
                                                                                     
-                                                                                    <th>Order No</th>
-                                                                                    <th>Type</th>
-                                                                                    <th>Item No.</th>
+                                                                                    <th>Order No<span class="text-danger">*</span></th>
+                                                                                    <th>Type<span class="text-danger">*</span></th>
+                                                                                    <th>Item No.<span class="text-danger">*</span></th>
                                                                                     <th>Item Description</th>
                                                                                     <th>Row No</th>
-                                                                                    <th>Warehouse</th>
-                                                                                    <th>Qty in Warehouse</th>
-                                                                                    <th>Quantity</th>                                                                                    
-                                                                                    <th>Trans. Type</th>
+                                                                                    <th>Warehouse<span class="text-danger">*</span></th>
+                                                                                    <th>Qty in Warehouse<span class="text-danger">*</span></th>
+                                                                                    <th>Quantity<span class="text-danger">*</span></th>                                                                                    
+                                                                                    <th>Trans. Type<span class="text-danger">*</span></th>
                                                                                     <th>Unit Price</th>
                                                                                     <th>Total</th>
                                                                                     <th>Sale Order #</th>
                                                                                     <th>Sale Order </th>
                                                                                     <th>Account Code</th>
                                                                                     <th>Item Cost</th>
-                                                                                    <th>UOM Code</th>
+                                                                                    <th>UOM Code<span class="text-danger">*</span></th>
                                                                                     
                                                                                 </tr>
                                                                             </thead>
@@ -436,15 +436,15 @@
 
                                                                                 <td>
                                                                                     <input readonly type="file" id="selectedFile" class="position-absolute d-none form-control form-control-sm">
-                                                                                    <input id="selectedFilePath" class="form-control form-control-sm">
+                                                                                    <input id="selectedFilePath" class="form-control form-control-sm NotReq">
                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <input readonly id="selectedFileName" class="form-control form-control-sm">
+                                                                                    <input readonly id="selectedFileName" class="form-control form-control-sm NotReq">
                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <input readonly id="selectedFileDate" type="date" class="form-control form-control-sm">
+                                                                                    <input readonly id="selectedFileDate" type="date" class="form-control form-control-sm NotReq">
                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                 </td>
                                                                                 <td>
@@ -486,14 +486,14 @@
  
                                                                 <div class="col-md-6">
                                                                     <label for="inputRemarks" class="form-label">Remarks</label>
-                                                                    <textarea id="Comments" class="form-control" rows="3"></textarea>
+                                                                    <textarea id="Comments" class="form-control NotReq" rows="3"></textarea>
                                                                 </div>
                                                             </div>
                                                             <br/>
                                                              <div class="row"> 
                                                                 <div class="col-md-6">
                                                                     <label for="inputRemarks" class="form-label">Journal Remarks</label>                                                                    
-                                                                    <input id="JrnlMemo" class="form-control" type="text"> 
+                                                                    <input id="JrnlMemo" class="form-control NotReq" type="text"> 
                                                                 </div>
                                                             </div>
                                                             

@@ -460,7 +460,7 @@ namespace iSOL_Enterprise.Dal.Business
 
                     else
                     {
-                        int count = SqlHelper.ExecuteScalar(tran, CommandType.Text, "select Count(*) from OIGE where DocNum ='" + model.HeaderData.DocNum.ToString() + "'");
+                        int count = SqlHelper.ExecuteScalar(tran, CommandType.Text, "select Count(*) from OCRD where CardCode ='" + (model.HeaderData.CardCode).ToString() + "'");
                         if (count > 0)
                         {
                             tran.Rollback();
@@ -757,10 +757,16 @@ namespace iSOL_Enterprise.Dal.Business
                         foreach (var item in model.Tabs_AddressesShipTo)
                         {
                             param.Clear();
-
+                            if ( (item.ship_Address).ToString() == "" || (item.ship_Address).ToString() == null )
+                            {
+                                tran.Rollback();
+                                response.isSuccess = false;
+                                response.Message = "Ship To Address is Required !";
+                                return response;
+                            }
                             string ShipTo_Query = @"insert into CRD1(id,LineNum,CardCode,Address,Address2,Address3,Street,Block,City,ZipCode,County,State,Country,StreetNo,Building,GlblLocNum,AdresType) values(@id,@LineNum,@CardCode,@Address,@Address2,@Address3,@Street,@Block,@City,@ZipCode,@County,@State,@Country,@StreetNo,@Building,@GlblLocNum,@AdresType)";
 
-                            #region  Address BillTo
+                            #region  Address ShipTo
                             
                             param.Add(cdal.GetParameter("@Id", Id, typeof(int)));
                             param.Add(cdal.GetParameter("@LineNum", ship_LineNum, typeof(int)));

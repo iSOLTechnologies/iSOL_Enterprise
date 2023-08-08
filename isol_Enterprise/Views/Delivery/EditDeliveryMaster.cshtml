@@ -158,7 +158,7 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                                           <div id="HeaderForm">
                                              <div class="form-group row">
                                                 <div class="col-md-6">
-                                                   <label>Customer</label>
+                                                                            <label>Customer<span class="text-danger">*</span></label>
                                                    @*<input disabled type="text" class="form-control form-control-sm" >*@
                                                    <div class="input-group">
                                                       <input readonly value="@row["CardCode"]" readonly type="text" id="CardCode" class="form-control form-control-sm" placeholder="Customer" aria-describedby="basic-addon2">
@@ -200,12 +200,12 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                                              </div>
                                              <div class="form-group row">
                                                 <div class="col-md-6">
-                                                   <label>Name</label>
+                                                   <label>Name<span class="text-danger">*</span></label>
                                                    <input readonly value="@row["CardName"]" type="text" id="CardName" class="form-control form-control-sm" placeholder="Name">
                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                   <label>Status</label>
+                                                                            <label>Status<span class="text-danger">*</span></label>
                                                    <input disabled type="text" id="Status" class="form-control form-control-sm" value="Open">
                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                 </div>
@@ -226,7 +226,7 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                   <label>Posting Date</label>
+                                                                            <label>Posting Date<span class="text-danger">*</span></label>
                                                    <input id="DocDate" value="@(((DateTime)row["DocDate"]).ToString("yyyy-MM-dd"))"  type="date" class="form-control form-control-sm" placeholder="Posting Date">
                                                    @*<input id="DocDate" type="date" class="form-control " >*@
                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -239,14 +239,14 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                   <label>Valid Until</label>
+                                                   <label>Valid Until<span class="text-danger">*</span></label>
                                                    <input id="DocDueDate" value="@(((DateTime)row["DocDueDate"]).ToString("yyyy-MM-dd"))" type="date" class="form-control form-control-sm" placeholder="Valid until">
                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                 </div>
                                              </div>
                                              <div class="form-group row">
                                                 <div class="col-md-6">
-                                                   <label>Currency</label>
+                                                                            <label>Currency<span class="text-danger">*</span></label>
                                                    <select id="DocCur" class="form-control form-control-sm ">
                                                       @foreach (iSOL_Enterprise.Models.sale.tbl_currency x in ViewBag.Currency)
                                                       {
@@ -262,7 +262,7 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                                                    </select>
                                                 </div>
                                                 <div class="col-md-6">
-                                                   <label>Document Date</label>
+                                                                            <label>Document Date<span class="text-danger">*</span></label>
                                                    <input id="TaxDate" value="@(((DateTime)row["TaxDate"]).ToString("yyyy-MM-dd"))" type="date" class="form-control form-control-sm" placeholder="Date">
                                                    <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                 </div>
@@ -370,7 +370,7 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                                           <div class="tab-content">
                                              <div class="tab-pane active" id="kt_tabs_contents" role="tabpanel">
                                                 <div class="form-group row col-md-4 mt-3">
-                                                   <label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold"> Item/Service Type</label>
+                                                                            <label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold"> Item/Service Type<span class="text-danger">*</span></label>
                                                    <div class="col-sm-6">
                                                       @if(row["DocType"].Equals("I"))
                                                       {
@@ -401,22 +401,22 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                                                       <thead class="ScrollThead">
                                                          <tr>
                                                             <th>Line Num</th>
-                                                            <th>Item No.</th>
-                                                            <th>Item Name</th>
-                                                            <th>Warehouse</th>
-                                                            <th>QTY in Warehouse</th>
-                                                            <th>Quantity</th>
+                                                            <th>Item No.<span class="text-danger">*</span></th>
+                                                            <th>Item Name<span class="text-danger">*</span></th>
+                                                            <th>Warehouse<span class="text-danger">*</span></th>
+                                                            <th>QTY in Warehouse<span class="text-danger">*</span></th>
+                                                            <th>Quantity<span class="text-danger">*</span></th>
                                                             <th>BaseQty</th>
                                                             <th>OpenQty</th>
                                                             @*
                                                             <th>Unit Price</th>
                                                             *@
                                                             <th>Discount %</th>
-                                                            <th>Tax Code</th>
+                                                            <th>Tax Code<span class="text-danger">*</span></th>
                                                             @*
                                                             <th>Total (LC)</th>
                                                             *@
-                                                            <th>UOM Code</th>
+                                                             <th>UOM Code<span class="text-danger">*</span></th>
                                                             @*
                                                             <th>Country / Region of origin</th>
                                                             *@
@@ -571,12 +571,12 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                                                 <table id="kt_repeater_2" style="overflow:auto">
                                                    <thead class="ScrollThead2">
                                                       <tr>
-                                                         <th>Description</th>
-                                                         <th>Gl Account</th>
-                                                         <th>Gl Account Name</th>
-                                                         <th>Tax Code</th>
-                                                         <th>Total LC</th>
-                                                         <th>Blanket Agreement No.</th>
+                                                         <th>Description<span class="text-danger">*</span></th>
+                                                         <th>Gl Account<span class="text-danger">*</span></th>
+                                                         <th>Gl Account Name<span class="text-danger">*</span></th>
+                                                         <th>Tax Code<span class="text-danger">*</span></th>
+                                                         <th>Total LC<span class="text-danger">*</span></th>
+                                                                                        <th>Blanket Agreement No.<span class="text-danger">*</span></th>
                                                          <!-- @*<th>Supplier </th>
                                                             <th>Lot Number</th>
                                                             <th>GSM</th>*@ -->
@@ -647,7 +647,7 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                                           </div>
                                           <div class="tab-pane" id="kt_tabs_acct" role="tabpanel">
                                              <div class="form-group row col-md-4 mt-3">
-                                                <label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold">Payment Terms</label>
+                                                <label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold">Payment Terms<span class="text-danger">*</span></label>
                                                 <div class="col-sm-6">
                                                    @foreach(DataRow row11 in Model.Tables[0].Rows){
                                                    <select class="form-control" id="GroupNum">
@@ -669,9 +669,9 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                                              <table id="kt_repeater_3" style="overflow:auto">
                                                 <thead class="ScrollThead2">
                                                    <tr>
-                                                      <th>TargetPath</th>
-                                                      <th>FileName</th>
-                                                      <th>AttachmentDate</th>
+                                                      <th>TargetPath<span class="text-danger">*</span></th>
+                                                      <th>FileName<span class="text-danger">*</span></th>
+                                                      <th>AttachmentDate<span class="text-danger">*</span></th>
                                                       <th></th>
                                                       <th></th>
                                                    </tr>
@@ -712,7 +712,7 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                                           <br />
                                           <div class="row">
                                              <div class="col-md-6">
-                                                <label for="" class="form-label" >Sales Employee</label>
+                                                                            <label for="" class="form-label">Sales Employee<span class="text-danger">*</span></label>
                                                 @foreach(DataRow row11 in Model.Tables[0].Rows){
                                                 <select id="SlpCode"  class="form-control form-control-sm">
                                                    @foreach (var k in ViewBag.SalesEmployee)
@@ -729,14 +729,14 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                                              </div>
                                              <div class="col-md-6">
                                                 <label for="inputRemarks" class="form-label">Remarks</label>
-                                                <textarea id="Comments" class="form-control" rows="3">@row["Comments"]
+                                                <textarea id="Comments" class="form-control NotReq" rows="3">@row["Comments"]
                                                 </textarea>
                                              </div>
                                           </div>
                                           <br />
                                           <div class="row d-none">
                                              <div class="col-md-6">
-                                                <label  for="inputPassword4" class="form-label">Owner</label>
+                                                                            <label for="inputPassword4" class="form-label">Owner<span class="text-danger">*</span></label>
                                                 <input name="OwnerCode" type="text" class="form-control" id="OwnerCode">
                                              </div>
                                              <div class="col-md-6">
@@ -758,18 +758,18 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                                                 <input type="number" class="form-control " readonly id="Rounding">
                                              </div>
                                              <div class="col-md-6">
-                                                <label for="inputEmail4" class="form-label" id="">Tax</label>
+                                                <label for="inputEmail4" class="form-label" id="">Tax<span class="text-danger">*</span></label>
                                                 <input name="Tax" type="number" class="form-control" id="FooterTax" readonly>
                                              </div>
                                           </div>
                                           <br />
                                           <div class="row d-none">
                                              <div class="col-md-6"  style="display:none;">
-                                                <label for="inputEmail4" class="form-label">Total</label>
+                                                <label for="inputEmail4" class="form-label">Total<span class="text-danger">*</span></label>
                                                 <input name="Total" readonly type="text" class="form-control" id="Total">
                                              </div>
                                              <div class="col-md-6 d-none">
-                                                <label for="inputEmail4" class="form-label">Total Before Discount</label>
+                                                                            <label for="inputEmail4" class="form-label">Total Before Discount<span class="text-danger">*</span></label>
                                                 <input name="TotalBeforeDiscount" readonly type="text" class="form-control" id="TotalBeforeDiscount">
                                              </div>
                                           </div>

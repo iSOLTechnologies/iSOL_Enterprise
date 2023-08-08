@@ -198,7 +198,7 @@
                                                                         <div class="col-md-5 d-flex">
                                                                             <label
                                                                                 class="mr-2 d-flex text-center pt-2 col-md-4">Item
-                                                                                Name </label>
+                                                                                Name <span class="text-danger">*</span></label>
                                                                             <select id="MySeries"
                                                                                 class="form-control form-control-sm col-md-3">
                                                                                         @foreach (iSOL_Enterprise.Models.Series.tbl_NNM1 i in ViewBag.MySeries)
@@ -232,8 +232,8 @@
                                                                     <div class="form-group row justify-content-between">
 
                                                                         <div class="col-md-5 d-flex">
-                                                                            <label
-                                                                                class="mr-2 d-flex text-center pt-2 col-md-4">Description
+                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-4">
+                                                                            Description<span class="text-danger">*</span>
                                                                             </label>
                                                                             <input type="text" id="ItemName"
                                                                                 class="col-md-8 form-control form-control-sm">
@@ -282,7 +282,8 @@
                                                                         <div class="col-md-5 d-flex">
                                                                             <label
                                                                                 class="mr-2 d-flex text-center pt-2 col-md-4">Item
-                                                                                Type </label>
+                                                                            Type <span class="text-danger">*</span>
+                                                                        </label>
                                                                             <select id="ItemType"
                                                                                 class="form-control form-control-sm col-md-8">
                                                                                 <option value="I">Item</option>
@@ -304,7 +305,8 @@
                                                                         <div class="col-md-5 d-flex">
                                                                             <label
                                                                                 class="mr-2 d-flex text-center pt-2 col-md-4">Item
-                                                                                Group </label>
+                                                                            Group <span class="text-danger">*</span>
+                                                                        </label>
                                                                             <select id="ItmsGrpCod"
                                                                                 class="form-control form-control-sm col-md-8">
                                                                                 @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.ItemGroup)
@@ -324,7 +326,8 @@
                                                                            <div class="col-md-5 d-flex">
                                                                             <label
                                                                                 class="mr-2 d-flex text-center pt-2 col-md-4">UoM
-                                                                                Group </label>
+                                                                            Group<span class="text-danger">*</span>
+                                                                        </label>
                                                                             <select id="UgpEntry"
                                                                                 class="form-control form-control-sm form-control-sm col-md-8">
                                                                                 <option value="-1">Manual</option>                                                                              
@@ -346,7 +349,7 @@
                                                                     <div class="col-md-5 d-flex">
                                                                         <label class="mr-2 d-flex text-center pt-2 col-md-4">
                                                                             Price
-                                                                            List
+                                                                            List<span class="text-danger">*</span>
                                                                         </label>
                                                                         <select id="ListName"
                                                                                 class="form-control form-control-sm col-md-8">
@@ -362,7 +365,7 @@
                                                                         </div>
                                                                     </div>
                                                                         <div class="col-md-7 d-flex">
-                                                                            <label class="col-md-3">Unit Price </label>
+                                                                        <label class="col-md-3">Unit Price<span class="text-danger">*</span> </label>
                                                                             <select id="PriceUnit"
                                                                                 class="form-control form-control-sm col-md-3">
                                                                                 <option>1</option>
@@ -466,8 +469,8 @@
                                                                             class="form-group row justify-content-between">
 
                                                                             <div class="col-md-5 d-flex">
-                                                                                <label
-                                                                                    class="mr-2 d-flex text-center pt-2 col-md-4">Manufacturer
+                                                                                <label class="mr-2 d-flex text-center pt-2 col-md-4">
+                                                                                Manufacturer <span class="text-danger">*</span>
                                                                                 </label>
                                                                                 <select id="FirmCode"
                                                                                     class="form-control form-control-sm col-md-8">
@@ -489,7 +492,8 @@
                                                                             <div class="col-md-5 d-flex">
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Shipping
-                                                                                    Type </label>
+                                                                                Type<span class="text-danger">*</span>
+                                                                            </label>
                                                                                 <select id="ShipType"
                                                                                     class="form-control form-control-sm col-md-8">
                                                                                 @foreach (iSOL_Enterprise.Models.ListModel i in ViewBag.Shiptype)
@@ -510,7 +514,8 @@
                                                                             <div class="col-md-5 d-flex">
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Managed
-                                                                                    Item by </label>
+                                                                                Item by <span class="text-danger">*</span>
+                                                                            </label>
                                                                                 <select id="ManBtchNum"
                                                                                     class="form-control form-control-sm col-md-8">
                                                                                     <option value="N">None</option>
@@ -528,7 +533,7 @@
 
                                                                         <div class="col-md-5 d-flex">
                                                                             <label class="mr-2 d-flex text-center pt-2 col-md-4">
-                                                                                Management Method
+                                                                                Management Method <span class="text-danger">*</span>
                                                                             </label>
                                                                             <select id="MngMethod"
                                                                                     class="form-control form-control-sm col-md-8"> 
@@ -753,7 +758,7 @@
                                                                         <div class="col-md-8 d-flex">
                                                                             <label class="mr-2 d-flex text-center pt-2 col-md-4">
                                                                                 Set
-                                                                                Inventory Method by
+                                                                                    Inventory Method by <span class="text-danger">*</span>
                                                                             </label>
                                                                             <select id="GLMethod"
                                                                                     class="form-control-sm form-control col-md-4">
@@ -784,7 +789,7 @@
                                                                                     <div class="col-md-4 " style="padding-left :1.5rem !important">
                                                                                         <label class="mr-2 d-flex text-center pt-2">
                                                                                             UoM
-                                                                                            Name
+                                                                                            Name <span class="text-danger">*</span>
                                                                                         </label>
                                                                                     </div>
                                                                                     <div class="col-md-4">
@@ -807,7 +812,7 @@
                                                                         <div class="col-md-8 d-flex">
                                                                             <label class="mr-2 d-flex text-center pt-2 col-md-4">
                                                                                 Valuation
-                                                                                Method
+                                                                                    Method <span class="text-danger">*</span>
                                                                             </label>
                                                                             <select id="EvalSystem"
                                                                                     class="form-control-sm form-control col-md-4">
@@ -828,8 +833,8 @@
                                                                         <table id="Warehouse_Table">
                                                                             <thead class="ScrollThead2">
                                                                                 <tr>
-                                                                                    <th class="text-center">Whse Code</th>
-                                                                                    <th class="text-center">Whse Name</th>
+                                                                                    <th class="text-center">Whse Code<span class="text-danger">*</span></th>
+                                                                                    <th class="text-center">Whse Name<span class="text-danger">*</span></th>
                                                                                     <th class="text-center">Locked</th>
                                                                                     <th class="text-center">Min Inventory</th>
                                                                                     <th class="text-center">Max Inventory</th>
@@ -903,7 +908,8 @@
                                                                             <div class="col-md-8 d-flex">
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Planning
-                                                                                    Method </label>
+                                                                                Method <span class="text-danger">*</span>
+                                                                            </label>
                                                                                 <select id="PlaningSys"
                                                                                     class="form-control-sm form-control col-md-4">
                                                                                     <option value="N">None</option>
@@ -924,7 +930,8 @@
                                                                             <div class="col-md-8 d-flex">
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Procurement
-                                                                                    Method </label>
+                                                                                Method <span class="text-danger">*</span>
+                                                                            </label>
                                                                                 <select id="PrcrmntMtd"
                                                                                     class="form-control-sm form-control col-md-4">
                                                                                     <option value="B">Buy</option>
@@ -969,7 +976,7 @@
                                                                             <div class="col-md-9 d-flex">
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">Issue
-                                                                                    Method </label>
+                                                                                    Method <span class="text-danger">*</span> </label>
                                                                                 <select id="IssueMthd"
                                                                                     class="form-control-sm form-control col-md-4">
                                                                                     <option value="B">Backflush</option>
@@ -989,8 +996,9 @@
                                                                             <div class="col-md-9 d-flex">
                                                                                 <label
                                                                                     class="mr-2 d-flex text-center pt-2 col-md-4">BOM
-                                                                                    Type </label> 
-                                                                                   <select id="TreeType"
+                                                                                Type <span class="text-danger">*</span>
+                                                                            </label>
+                                                                            <select id="TreeType"
                                                                                     class="form-control-sm form-control col-md-4">
                                                                                     <option selected value="N">Not a BOM</option>
                                                                                     <option value="A">Assembly</option>

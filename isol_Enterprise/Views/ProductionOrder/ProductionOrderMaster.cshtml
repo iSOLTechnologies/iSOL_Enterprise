@@ -137,7 +137,7 @@
                                                                 <div class="form-group row">
 
                                                                     <div class="col-md-6">
-                                                                        <label>Type</label>
+                                                                        <label>Type<span class="text-danger">*</span></label>
                                                                         <select class="form-control" id="Type" name="Type">
                                                                             <option value="S">Standard</option>
                                                                             <option value="P">Special</option>
@@ -147,7 +147,7 @@
                                                                     </div>
 
                                                                     <div class="col-md-6 ">
-                                                                        <label>No</label>
+                                                                        <label>No<span class="text-danger">*</span></label>
                                                                         <div class="row d-flex">
 
 
@@ -180,7 +180,7 @@
                                                                 <div class="form-group row">
 
                                                                     <div class="col-md-6">
-                                                                        <label>Status</label>
+                                                                        <label>Status<span class="text-danger">*</span></label>
                                                                         <select class="form-control" id="Status" name="Status">
                                                                             <option value="P">Planned</option>
                                                                             <option value="R">Released</option>
@@ -191,7 +191,7 @@
                                                                     </div>
 
                                                                     <div class="col-md-6 ">
-                                                                        <label>Order Date</label>
+                                                                        <label>Order Date<span class="text-danger">*</span></label>
                                                                         <input type="date" id="PostDate" name="PostDate" class="d mr-5 form-control form-control-sm NotReq">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
@@ -202,8 +202,8 @@
                                                                 <div class="form-group row">
 
                                                                     <div class="col-md-6">
-                                                                        <label>Product No</label>                                                                        
-                                                                          <div class="input-group">
+                                                                        <label>Product No<span class="text-danger">*</span></label>
+                                                                        <div class="input-group">
                                                                               <input id="ItemmCode" name="ItemCode" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2" readonly>
                                                                               <div id="CodeNo" class="input-group-append">
                                                                                   <span class="input-group-text">
@@ -214,7 +214,7 @@
                                                                     </div>
 
                                                                     <div class="col-md-6 ">
-                                                                        <label>Start Date</label>
+                                                                        <label>Start Date<span class="text-danger">*</span></label>
                                                                         <input type="date" id="StartDate" name="StartDate" class="d mr-5  form-control form-control-sm NotReq">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
@@ -223,12 +223,12 @@
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
-                                                                        <label>Product Description</label>
+                                                                        <label>Product Description<span class="text-danger">*</span></label>
                                                                         <input id="ItemDescription" name="ProdName" type="text" class="form-control form-control-sm" placeholder="0000" aria-describedby="basic-addon2">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                    <div class="col-md-6 ">
-                                                                        <label>Due Date</label>
+                                                                        <label>Due Date<span class="text-danger">*</span></label>
                                                                         <input type="date" id="DueDate" name="DueDate" class="d mr-5  form-control form-control-sm NotReq">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
@@ -236,12 +236,12 @@
 
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
-                                                                        <label>Planned Quantity</label>
+                                                                        <label>Planned Quantity<span class="text-danger">*</span></label>
                                                                         <input id="PlannedQtyH" name="PlannedQtyH" type="number" class="form-control form-control-sm" placeholder="0000" aria-describedby="basic-addon2">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <label>Warehouse</label>                                                                        
+                                                                        <label>Warehouse<span class="text-danger">*</span></label>
                                                                         <select class="form-control Warehousedata" id="ToWH" name="Warehouse"></select>
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
@@ -250,12 +250,12 @@
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
-                                                                        <label>Priority</label>
+                                                                        <label>Priority<span class="text-danger">*</span></label>
                                                                         <input id="Priority" name="Priority" type="number" class="form-control form-control-sm" MaxValue="32000" placeholder="0000" aria-describedby="basic-addon2" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="100">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <label>Linked To</label>                                                                        
+                                                                        <label>Linked To<span class="text-danger">*</span></label>                                                                        
                                                                         <select class="form-control" id="LinkToObj" name="LinkToObj">
                                                                             <option value="17"> Sales Order</option>
                                                                             <option value="23">Production Order</option>
@@ -268,7 +268,7 @@
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
-                                                                        <label>Customer</label>
+                                                                        <label>Customer<span class="text-danger">*</span></label>
                                                                         <div class="input-group">
                                                                             <input type="text" id="CardCode" name="CardCode" class="form-control form-control-sm " placeholder="Customer" aria-describedby="basic-addon2" readonly>
                                                                             <div id="CustomerNo" class="input-group-append">
@@ -280,7 +280,7 @@
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <label>Linked Order</label>                                                                        
+                                                                        <label>Linked Order<span class="text-danger">*</span></label>
                                                                         <div class="input-group">
                                                                             <input type="text" id="SalesOrderCode" name="OriginNum" class="form-control form-control-sm " placeholder="Linked Order Number" aria-describedby="basic-addon2" readonly>
                                                                             <div id="SalesOrderNo" class="input-group-append">
@@ -337,16 +337,16 @@
                                                                             <thead class="ScrollThead">
                                                                                 <tr>
                                                                                    
-                                                                                    <th>Type</th>
-                                                                                    <th>Item No.</th>
-                                                                                    <th>Item Description</th>
-                                                                                    <th>Base Ratio</th>
-                                                                                    <th>Ratio %</th>
-                                                                                    <th>Base Qty</th>
-                                                                                    <th>Planned Qty</th>
-                                                                                    <th>Warehouse</th>
-                                                                                    <th>Available</th>
-                                                                                    <th>Issue Method</th>
+                                                                                    <th>Type<span class="text-danger">*</span></th>
+                                                                                    <th>Item No.<span class="text-danger">*</span></th>
+                                                                                    <th>Item Description<span class="text-danger">*</span></th>
+                                                                                    <th>Base Ratio<span class="text-danger">*</span></th>
+                                                                                    <th>Ratio %<span class="text-danger">*</span></th>
+                                                                                    <th>Base Qty<span class="text-danger">*</span></th>
+                                                                                    <th>Planned Qty<span class="text-danger">*</span></th>
+                                                                                    <th>Warehouse<span class="text-danger">*</span></th>
+                                                                                    <th>Available<span class="text-danger">*</span></th>
+                                                                                    <th>Issue Method<span class="text-danger">*</span></th>
                                                                                                                                                                        
                                                                                     
                                                                                 </tr>
@@ -462,12 +462,12 @@
                                                                     
                                                                     <div class="col-md-6">
                                                                         <label for="inputRemarks" class="form-label" >Remarks</label>
-                                                                        <textarea id="Comments" name="Comments" class="form-control" rows="3"></textarea>
+                                                                        <textarea id="Comments" name="Comments" class="form-control NotReq" rows="3"></textarea>
                                                                     </div>
                                                                     
                                                                     <div class="col-md-6">
                                                                         <label for="inputRemarks" class="form-label" >Pick & Pack Remarks</label>
-                                                                        <textarea id="PickRmrk" class="form-control" name="PickRmrk" rows="3"></textarea>
+                                                                        <textarea id="PickRmrk" class="form-control NotReq" name="PickRmrk" rows="3"></textarea>
                                                                     </div>
 
                                                                 </div>

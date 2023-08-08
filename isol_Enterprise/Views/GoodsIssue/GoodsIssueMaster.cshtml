@@ -144,7 +144,7 @@
                                                                 <div class="form-group row">
 
                                                                     <div class="col-md-6">
-                                                                        <label>Numbering Series</label>
+                                                                        <label>Numbering Series<span class="text-danger">*</span></label>
                                                                         <div class="d-flex">
                                                                             <select id="MySeries" class="form-control form-control-sm col-md-3">
                                                                                 @foreach (iSOL_Enterprise.Models.Series.tbl_NNM1 i in ViewBag.MySeries)
@@ -168,7 +168,7 @@
                                                                     </div>
 
                                                                     <div class="col-md-6">
-                                                                        <label>Posting Date</label>
+                                                                        <label>Posting Date<span class="text-danger">*</span></label>
                                                                         <input id="DocDate" type="date" class="d form-control form-control-sm" placeholder="Posting Date">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
@@ -177,13 +177,13 @@
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
-                                                                        <label>Price List</label>
+                                                                        <label>Price List<span class="text-danger">*</span></label>
                                                                         <select id="GroupNum" asp-items="@ViewBag.GroupNum" class="form-control form-control-sm col-md-8">
                                                                         </select>
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <label>Document Date</label>
+                                                                        <label>Document Date<span class="text-danger">*</span></label>
                                                                         <input id="TaxDate" type="date" class="d form-control form-control-sm" placeholder="Document Date">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
@@ -193,7 +193,7 @@
                                                                     <div class="col-md-6">
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <label>Ref. 2</label>
+                                                                        <label>Ref. 2<span class="text-danger">*</span></label>
                                                                         <input id="Ref2" type="text" class="form-control form-control-sm">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
@@ -232,17 +232,17 @@
                                                                             <thead class="ScrollThead">
                                                                                 <tr>
                                                                                    
-                                                                                    <th>Item No.</th>
-                                                                                    <th>Item Description</th>
-                                                                                    <th>Warehouse</th>
-                                                                                    <th>Qty in Warehouse</th>
-                                                                                    <th>Quantity</th>
-                                                                                    <th>Unit Price</th>
-                                                                                    <th>Total</th>
+                                                                                    <th>Item No.<span class="text-danger">*</span></th>
+                                                                                    <th>Item Description<span class="text-danger">*</span></th>
+                                                                                    <th>Warehouse<span class="text-danger">*</span></th>
+                                                                                    <th>Qty in Warehouse<span class="text-danger">*</span></th>
+                                                                                    <th>Quantity<span class="text-danger">*</span></th>
+                                                                                    <th>Unit Price<span class="text-danger">*</span></th>
+                                                                                    <th>Total<span class="text-danger">*</span></th>
                                                                                     <th>Sale Order #</th>
                                                                                     <th>Account Code</th>
                                                                                     <th>Item Cost</th>
-                                                                                    <th>UOM Code</th>
+                                                                                    <th>UOM Code<span class="text-danger">*</span></th>
                                                                                     <th class="d-none">BaseQty</th>
                                                                                     <th class="d-none">OpenQty</th>
                                                                                     
@@ -389,15 +389,15 @@
 
                                                                                 <td>
                                                                                     <input readonly type="file" id="selectedFile" class="position-absolute d-none form-control form-control-sm">
-                                                                                    <input id="selectedFilePath" class="form-control form-control-sm">
+                                                                                    <input id="selectedFilePath" class="form-control form-control-sm NotReq">
                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <input readonly id="selectedFileName" class="form-control form-control-sm">
+                                                                                    <input readonly id="selectedFileName" class="form-control form-control-sm NotReq">
                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <input readonly id="selectedFileDate" type="date" class="form-control form-control-sm">
+                                                                                    <input readonly id="selectedFileDate" type="date" class="form-control form-control-sm NotReq">
                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                 </td>
                                                                                 <td>
@@ -441,19 +441,19 @@
 
                                                                 <div class="col-md-6">
                                                                     <label for="inputRemarks" class="form-label">Remarks</label>
-                                                                    <textarea id="Comments" class="form-control" rows="3"></textarea>
+                                                                    <textarea id="Comments" class="form-control NotReq" rows="3"></textarea>
                                                                 </div>
                                                             </div>
                                                             <br />
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="inputRemarks" class="form-label">Journal Remarks</label>
-                                                                    <input id="JrnlMemo" class="form-control" type="text">
+                                                                    <input id="JrnlMemo" class="form-control NotReq" type="text">
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <label for="DocTotal" readonly class="form-label">Doc Total</label>
+                                                                    <label for="DocTotal" readonly class="form-label">Doc Total<span class="text-danger">*</span></label>
                                                                     <input readonly id="TotalBeforeDiscount" class="form-control" type="number">
                                                                 </div>
                                                             </div>

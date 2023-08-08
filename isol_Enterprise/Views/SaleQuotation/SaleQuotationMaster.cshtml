@@ -164,7 +164,7 @@
                                                                 <div class="form-group row">
 
                                                                     <div class="col-md-6">
-                                                                        <label>Customer</label>
+                                                                        <label>Customer<span class="text-danger">*</span></label>
                                                                         @*<input disabled type="text" class="form-control form-control-sm" >*@
 
                                                                         <div class="input-group">
@@ -209,13 +209,13 @@
 
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
-                                                                        <label>Name</label>
+                                                                        <label>Name<span class="text-danger">*</span></label>
                                                                         <input type="text" id="CardName" class="form-control form-control-sm" placeholder="Name">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
 
                                                                     <div class="col-md-6">
-                                                                        <label>Status</label>
+                                                                        <label>Status<span class="text-danger">*</span></label>
                                                                         <input disabled type="text" id="Status" class="form-control form-control-sm" value="Open">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
@@ -236,7 +236,7 @@
                                                                     </div>
 
                                                                     <div class="col-md-6">
-                                                                        <label>Posting Date</label>
+                                                                        <label>Posting Date<span class="text-danger">*</span></label>
                                                                         <input id="DocDate" type="date" class="d form-control form-control-sm" placeholder="Posting Date">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
@@ -252,7 +252,7 @@
                                                                     </div>
 
                                                                     <div class="col-md-6">
-                                                                        <label>Valid Until</label>
+                                                                        <label>Valid Until<span class="text-danger">*</span></label>
                                                                         <input id="DocDueDate" type="date" class="d form-control form-control-sm" placeholder="Valid until">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
@@ -262,7 +262,7 @@
 
 
                                                                     <div class="col-md-6">
-                                                                        <label>Currency</label>
+                                                                        <label>Currency<span class="text-danger">*</span></label>
                                                                        
                                                                            
                                                                             <select id="DocCur" class="form-control form-control-sm "></select>
@@ -374,14 +374,8 @@
 
                                                                 <div class="tab-pane active" id="kt_tabs_contents" role="tabpanel">
 
-
-
-
-
-
-
                                                                     <div class="form-group row col-md-4 mt-3">
-                                                                        <label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold"> Item/Service Type</label>
+                                                                        <label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold"> Item/Service Type<span class="text-danger">*</span></label>
                                                                         <div class="col-sm-6">
                                                                             <select id="ItemServiceType" class="form-control">
 
@@ -392,26 +386,20 @@
                                                                     </div>
 
 
-
-
-
-
-
-
                                                                     <div id="kt_tabs_5_1">
                                                                         <table id="kt_repeater_1" style="overflow:auto">
                                                                             <thead class="ScrollThead">
                                                                                 <tr>
-                                                                                    <th>Item No.</th>
-                                                                                    <th>Item Name</th>
-                                                                                    <th>Warehouse</th>
-                                                                                    <th>Qty in Warehouse</th>
-                                                                                    <th>Quantity</th>
-                                                                                    <th>Unit Price</th>
+                                                                                    <th>Item No.<span class="text-danger">*</span></th>
+                                                                                    <th>Item Name<span class="text-danger">*</span></th>
+                                                                                    <th>Warehouse<span class="text-danger">*</span></th>
+                                                                                    <th>Qty in Warehouse<span class="text-danger">*</span></th>
+                                                                                    <th>Quantity<span class="text-danger">*</span></th>
+                                                                                    <th>Unit Price<span class="text-danger">*</span></th>
                                                                                     <th>Discount %</th>
-                                                                                    <th>Tax Code</th>
-                                                                                    <th>Total (LC)</th>
-                                                                                    <th>UOM Code</th>
+                                                                                    <th>Tax Code<span class="text-danger">*</span></th>
+                                                                                    <th>Total (LC)<span class="text-danger">*</span></th>
+                                                                                    <th>UOM Code<span class="text-danger">*</span></th>
                                                                                     @*<th>Country / Region of origin</th>*@
                                                                                 </tr>
                                                                             </thead>
@@ -466,11 +454,8 @@
                                                                                         <select class="form-control vtGroup" id="VatGroup">
                                                                                         
                                                                                         </select>
-                                                                       
                                                                    
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
-                                                                                        @*<input class="form-control form-control-sm" id="VatGroup" onkeyup="GetPrice()" type="number">
-                                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>*@
                                                                                     </td>
                                                                                     <td>
                                                                                         <input class="form-control form-control-sm" id="TtlPrc" name="TotalLC" type='number' disabled>
@@ -502,12 +487,12 @@
                                                                         <table id="kt_repeater_2" style="overflow:auto">
                                                                             <thead class="ScrollThead2">
                                                                                 <tr>
-                                                                                    <th>Description</th>
-                                                                                    <th>Gl Account</th>
-                                                                                    <th>Gl Account Name</th>
-                                                                                    <th>Tax Code</th>
-                                                                                    <th>Total LC</th>
-                                                                                    <th>Blanket Agreement No.</th>
+                                                                                    <th>Description<span class="text-danger">*</span></th>
+                                                                                    <th>Gl Account<span class="text-danger">*</span></th>
+                                                                                    <th>Gl Account Name<span class="text-danger">*</span></th>
+                                                                                    <th>Tax Code<span class="text-danger">*</span></th>
+                                                                                    <th>Total LC<span class="text-danger">*</span></th>
+                                                                                    <th>Blanket Agreement No.<span class="text-danger">*</span></th>
 
                                                                                     <!-- @*<th>Supplier </th>
                                                                                         <th>Lot Number</th>
@@ -574,7 +559,7 @@
 
 
                                                                     <div class="form-group row col-md-4 mt-3">
-                                                                        <label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold">Payment Terms</label>
+                                                                        <label for="staticEmail" class="col-sm-6 col-form-label font-weight-bold">Payment Terms<span class="text-danger">*</span></label>
                                                                         <div class="col-sm-6">
                                                                             <select class="form-control" id="GroupNum">
                                                                             </select>
@@ -590,9 +575,9 @@
                                                                     <table id="kt_repeater_3" style="overflow:auto">
                                                                         <thead class="ScrollThead2">
                                                                             <tr>
-                                                                                <th>TargetPath</th>
-                                                                                <th>FileName</th>
-                                                                                <th>AttachmentDate</th>
+                                                                                <th>TargetPath<span class="text-danger">*</span></th>
+                                                                                <th>FileName<span class="text-danger">*</span></th>
+                                                                                <th>AttachmentDate<span class="text-danger">*</span></th>
                                                                                 <th></th>
                                                                                 <th></th>   
                                                                             </tr>
@@ -651,13 +636,13 @@
                                                             <br />
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <label for="" class="form-label" >Sales Employee</label>
+                                                                    <label for="" class="form-label">Sales Employee<span class="text-danger">*</span></label>
                                                                     <select id="SlpCode" asp-items="@ViewBag.SalesEmployee" class="form-control form-control-sm">
                                                                     </select>
                                                                 </div>
 
                                                                 <div class="col-md-6">
-                                                                    <label for="inputEmail4" class="form-label">Total Before Discount</label>
+                                                                    <label for="inputEmail4" class="form-label">Total Before Discount<span class="text-danger">*</span></label>
                                                                     <input name="TotalBeforeDiscount" readonly type="text" class="form-control" id="TotalBeforeDiscount">
 
                                                                 </div>
@@ -666,7 +651,7 @@
                                                             <br />
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <label  for="inputPassword4" class="form-label">Owner</label>
+                                                                    <label for="inputPassword4" class="form-label">Owner<span class="text-danger">*</span></label>
                                                                     <input name="OwnerCode" type="text" class="form-control" id="OwnerCode">
 
                                                                 </div>
@@ -687,7 +672,7 @@
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" type="checkbox" value="" id="RoundingChkBox">
                                                                         <label class="form-check-label" for="flexCheckDefault">
-                                                                            Rounding
+                                                                            Rounding <span class="text-danger">*</span>
                                                                         </label>
                                                                     </div>
                                                                     <!-- @*  @Html.EditorFor(m => m.OQUT_obj.Rounding, new { htmlAttributes = new { @class = "form-control", type = "number" } })*@ -->
@@ -696,12 +681,12 @@
                                                                 </div>
 
                                                                 <div class="col-md-6">
-                                                                    <label for="inputEmail4" class="form-label" id="">Tax</label>
+                                                                    <label for="inputEmail4" class="form-label" id="">Tax<span class="text-danger">*</span></label>
                                                                     <input name="Tax" type="number" class="form-control" id="FooterTax" readonly>
 
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <label for="inputEmail4" class="form-label">Total</label>
+                                                                    <label for="inputEmail4" class="form-label">Total<span class="text-danger">*</span></label>
                                                                     <input name="Total" readonly type="text" class="form-control" id="Total">
                                                                 </div>
                                                             </div>
@@ -714,7 +699,7 @@
                                                                     <label for="inputRemarks" class="form-label">Remarks</label>
 
                                                                     <!-- @*<textarea class = "form-control" rows="3" asp-for="OQUT_obj.Comments"></textarea>*@ -->
-                                                                    <textarea id="Comments" class="form-control" rows="3"></textarea>
+                                                                    <textarea id="Comments" class="form-control NotReq" rows="3"></textarea>
 
 
 

@@ -38,7 +38,7 @@ function GetNewApprovals() {
 
         
         if (data.isNew) {
-            
+            $("#btnApprNot").trigger('click');
             PlayNotificationBeep();
 
         }

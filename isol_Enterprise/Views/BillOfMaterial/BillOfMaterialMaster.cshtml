@@ -144,7 +144,7 @@
                                                                 <div class="form-group row">
 
                                                                     <div class="col-md-6">
-                                                                        <label>Product No</label>
+                                                                        <label>Product No<span class="text-danger">*</span></label>
                                                                         <div class="d-flex">
                                                                             <div class="input-group">
                                                                                 <input id="ItemmCode" name="ItemmCode" type="text" class="form-control form-control-sm" placeholder="Item No." aria-describedby="basic-addon2">
@@ -161,7 +161,7 @@
                                                                     </div>
 
                                                                     <div class="col-md-6">
-                                                                        <label>Warehouse</label>
+                                                                        <label>Warehouse<span class="text-danger">*</span></label>
                                                                         
                                                                         <select class="form-control Warehousedata" id="ToWH"></select>
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -172,12 +172,12 @@
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
-                                                                        <label>Product Description</label>
+                                                                        <label>Product Description<span class="text-danger">*</span></label>
                                                                         <input id="ItemDescription" name="Name" type="text" class="form-control form-control-sm" placeholder="0000" aria-describedby="basic-addon2">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <label>Price List</label>
+                                                                        <label>Price List<span class="text-danger">*</span></label>
                                                                         <select id="PriceList" asp-items="@ViewBag.GroupNum" class="form-control form-control-sm">
                                                                         </select>
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
@@ -186,7 +186,7 @@
 
                                                                 <div class="form-group row">
                                                                     <div class="col-md-6">
-                                                                        <label>BOM Type</label>
+                                                                        <label>BOM Type<span class="text-danger">*</span></label>
                                                                         <select id="TreeType" class="form-control form-control-sm">
                                                                         <option value="A" > Assembly    </option>
                                                                         <option value="S">  Sales       </option>
@@ -209,7 +209,7 @@
                                                                 <div class="form-group row">
 
                                                                     <div class="col-md-6">
-                                                                        <label>Planned Average Production Size</label>
+                                                                        <label>Planned Average Production Size<span class="text-danger">*</span></label>
                                                                         <input id="PlAvgSize" name="PLAvgSize" type="number" class="form-control form-control-sm" placeholder="0000" aria-describedby="basic-addon2">
                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                     </div>
@@ -246,16 +246,16 @@
                                                                                 <tr>
                                                                                    
                                                                                     <th>Type</th>
-                                                                                    <th>Item No.</th>
-                                                                                    <th>Item Description</th>
-                                                                                    <th>Quantity</th>
+                                                                                    <th>Item No.<span class="text-danger">*</span></th>
+                                                                                    <th>Item Description<span class="text-danger">*</span></th>
+                                                                                    <th>Quantity<span class="text-danger">*</span></th>
                                                                                     <th>Uom Name</th>
-                                                                                    <th>Warehouse</th>
-                                                                                    <th>Qty in Warehouse</th>
+                                                                                    <th>Warehouse<span class="text-danger">*</span></th>
+                                                                                    <th>Qty in Warehouse<span class="text-danger">*</span></th>
                                                                                     <th>Issue Method</th>
                                                                                     <th>Price List</th>
-                                                                                    <th>Unit Price</th>
-                                                                                    <th>Total</th>
+                                                                                    <th>Unit Price<span class="text-danger">*</span></th>
+                                                                                    <th>Total<span class="text-danger">*</span></th>
                                                                                     <th>Comments</th>
                                                                                     <th>UOM Code</th>                                                                                    
                                                                                     
@@ -383,7 +383,7 @@
                                                             
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <label for="ProductPrice"  class="form-label">Product Price</label>
+                                                                    <label for="ProductPrice" class="form-label">Product Price<span class="text-danger">*</span></label>
                                                                     <input readonly id="ProductPrice" class="form-control" type="number">
                                                                 </div>
                                                             </div>

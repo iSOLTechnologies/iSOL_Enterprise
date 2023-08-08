@@ -210,7 +210,8 @@
                                                                         <div class="col-md-5 d-flex">
                                                                             <label
                                                                                 class="mr-2 d-flex text-center pt-2 col-md-4">
-                                                                                Code </label>
+                                                                            Code <span class="text-danger">*</span>
+                                                                        </label>
                                                                             <select id="MySeries"
                                                                                 class="form-control form-control-sm col-md-3">
                                                                                         @foreach (iSOL_Enterprise.Models.Series.tbl_NNM1 i in ViewBag.MySeries)
@@ -231,7 +232,7 @@
                                                                             
                                                                         </div>
                                                                         <div class="col-md-5 d-flex">
-                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-5"> SAP Series </label>
+                                                                        <label class="mr-2 d-flex text-center pt-2 col-md-5"> SAP Series<span class="text-danger">*</span> </label>
                                                                             <select id="Series"
                                                                                 class="form-control form-control-sm col-md-3">
                                                                                         @foreach (iSOL_Enterprise.Models.Sale.tbl_series i in ViewBag.Series)
@@ -248,8 +249,8 @@
                                                                     <div class="form-group row justify-content-between">
 
                                                                         <div class="col-md-5 d-flex">
-                                                                            <label
-                                                                                class="mr-2 d-flex text-center pt-2 col-md-4">Name
+                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-4">
+                                                                            Name<span class="text-danger">*</span>
                                                                             </label>
                                                                             <input type="text" id="CardName"
                                                                                 class="col-md-8 form-control form-control-sm">
@@ -263,33 +264,22 @@
 
                                                                         <div class="col-md-5 d-flex">
                                                                             <label
-                                                                                class="mr-2 d-flex text-center pt-2 col-md-4">Foreign
-                                                                                Name </label>
+                                                                                class="mr-2 d-flex text-center pt-2 col-md-4">Foreign Name </label>
 
-                                                                            <div id="ErrorMsg"
-                                                                                class="error invalid-feedback">This
-                                                                                field is required.</div>
-                                                                                <input type="text" id="CardFName"
-                                                                                class="col-md-8 form-control form-control-sm NotReq">
-                                                                            <div id="ErrorMsg"
-                                                                                class="error invalid-feedback">This
-                                                                                field is required.</div>
+                                                                                <input type="text" id="CardFName"  class="col-md-8 form-control form-control-sm NotReq">
+                                                                            <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </div>
 
-                                                                        
                                                                     </div>
 
 
                                                                     <div class="form-group row justify-content-between">
 
                                                                         <div class="col-md-5 d-flex">
-                                                                            <label
-                                                                                class="mr-2 d-flex text-center pt-2 col-md-4"> Group </label>
+                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-4"> Group<span class="text-danger">*</span> </label>
                                                                             <select id="GroupCode" class="form-control form-control-sm col-md-8" asp-items="@ViewBag.Groups">                                                                                                                                                                
                                                                             </select>
-                                                                            <div id="ErrorMsg"
-                                                                                class="error invalid-feedback">This
-                                                                                field is required.</div>
+                                                                        <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                         </div>
 
                                                                     </div>
@@ -298,8 +288,7 @@
                                                                     <div class="form-group row justify-content-between">
 
                                                                         <div class="col-md-5 d-flex">
-                                                                            <label
-                                                                                class="mr-2 d-flex text-center pt-2 col-md-4">Currency</label>
+                                                                            <label class="mr-2 d-flex text-center pt-2 col-md-4">Currency<span class="text-danger">*</span></label>
                                                                                 <select id="DocCur" class="form-control form-control-sm "> </select>
                                                                             <div id="ErrorMsg"
                                                                                 class="error invalid-feedback">This
@@ -403,7 +392,7 @@
                                                                         </div>
                                                                         <div class="col-md-5 d-flex">
                                                                             <label class="mr-2 d-flex text-center pt-2 col-md-4">
-                                                                                Contact Person
+                                                                                Contact Person <span class="text-danger">*</span>
                                                                             </label>
                                                                             <input type="text" id="CntctPrsn" class="col-md-8 form-control form-control-sm">
 
@@ -449,7 +438,7 @@
 
                                                                         <div class="col-md-5 d-flex">
                                                                             <label class="mr-2 d-flex text-center pt-2 col-md-4">
-                                                                                Mobile Phone
+                                                                                Mobile Phone <span class="text-danger">*</span>
                                                                             </label>
                                                                             <input type="text" id="Cellular" class="col-md-8 form-control form-control-sm">
 
@@ -552,7 +541,7 @@
 
                                                                         <div class="col-md-5 d-flex">
                                                                             <label class="mr-2 d-flex text-center pt-2 col-md-4">
-                                                                                Shipping Type
+                                                                                Shipping Type <span class="text-danger">*</span>
                                                                             </label>
                                                                         <select id="ShipType" class="form-control form-control-sm col-md-8" asp-items="@ViewBag.ShipType">                                                                               
                                                                         </select>
@@ -565,7 +554,7 @@
                                                                         </div>
                                                                         <div class="col-md-5 d-flex">
                                                                             <label class="mr-2 d-flex text-center pt-2 col-md-4">
-                                                                                Sales Employee
+                                                                                Sales Employee <span class="text-danger">*</span>
                                                                             </label>
                                                                             <select id="SlpCode" class="form-control form-control-sm col-md-8" asp-items="@ViewBag.SalesEmployee">                                                                            
                                                                             </select>
@@ -682,7 +671,7 @@
 
                                                                         <div class="col-md-5 d-flex">
                                                                             <label class="mr-2 d-flex text-center pt-2 col-md-4">
-                                                                                Type Of Business
+                                                                                Type Of Business <span class="text-danger">*</span>
                                                                             </label>
                                                                             <select id="CmpPrivate" class="form-control form-control-sm col-md-8">
                                                                                 <option value="C"> Company</option>
@@ -797,13 +786,13 @@
                                                                         <table id="kt_repeater_1" style="overflow:auto">
                                                                             <thead class="ScrollThead">
                                                                                 <tr>
-                                                                                    <th>Contact ID</th> 
-                                                                                    <th>First Name</th> 
+                                                                                    <th>Contact ID<span class="text-danger">*</span></th> 
+                                                                                    <th>First Name<span class="text-danger">*</span></th> 
                                                                                     <th>Middle Name</th> 
                                                                                     <th>Last Name</th> 
                                                                                     <th>Title</th> 
                                                                                     <th>Position</th> 
-                                                                                    <th>Address</th> 
+                                                                                    <th>Address<span class="text-danger">*</span></th>
                                                                                     <th>Telephone 1</th> 
                                                                                     <th>Telephone 2</th> 
                                                                                     <th>Mobile Phone</th> 
@@ -902,7 +891,7 @@
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>     
                                                                                     <td>
-                                                                                        <input id="BirthDate" class="form-control form-control-sm" type="date">
+                                                                                        <input id="BirthDate" class="form-control form-control-sm NotReq" type="date">
                                                                                         <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                     </td>      
                                                                                     <td> 
@@ -976,8 +965,8 @@
                                                                             @*BillTO --Starts--*@                                                                            
                                                                         <table id="kt_repeater_2" style="overflow:auto">
                                                                             <thead class="ScrollThead">
-                                                                                <tr> 
-                                                                                    <th>Address Id</th>
+                                                                                <tr>
+                                                                                     <th>Address Id<span class="text-danger">*</span></th>
                                                                                     <th>Address Name 2</th>
                                                                                     <th>Address Name 3</th>
                                                                                     <th>Street / PO Box</th>
@@ -1081,7 +1070,7 @@
                                                                             <table id="kt_repeater_4" style="overflow:auto">
                                                                                 <thead class="ScrollThead">
                                                                                     <tr>
-                                                                                        <th>Address Id</th>
+                                                                                        <th>Address Id<span class="text-danger">*</span></th>
                                                                                         <th>Address Name 2</th>
                                                                                         <th>Address Name 3</th>
                                                                                         <th>Street / PO Box</th>
@@ -1181,7 +1170,7 @@
 
                                                                 <div class="tab-pane scrollbar mt-5" id="kt_tabs_PaymentTerms" role="tabpanel">
                                                                     <div class="form-group row col-md-6 mt-3">
-                                                                        <label for="staticEmail" class="col-sm-6 col-form-label">Payment Terms</label>
+                                                                        <label for="staticEmail" class="col-sm-6 col-form-label">Payment Terms<span class="text-danger">*</span></label>
                                                                         <div class="col-sm-6">
                                                                             <select class="form-control" id="GroupNum">
                                                                             </select>
@@ -1626,15 +1615,15 @@
 
                                                                                 <td>
                                                                                     <input readonly type="file" id="selectedFile" class="position-absolute d-none form-control form-control-sm">
-                                                                                    <input id="selectedFilePath" class="form-control form-control-sm">
+                                                                                    <input id="selectedFilePath" class="form-control form-control-sm NotReq">
                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <input readonly id="selectedFileName" class="form-control form-control-sm">
+                                                                                    <input readonly id="selectedFileName" class="form-control form-control-sm NotReq">
                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <input readonly id="selectedFileDate" type="date" class="form-control form-control-sm">
+                                                                                    <input readonly id="selectedFileDate" type="date" class="form-control form-control-sm NotReq">
                                                                                     <div id="ErrorMsg" class="error invalid-feedback">This field is required.</div>
                                                                                 </td>
                                                                                 <td>
@@ -1965,6 +1954,7 @@
     var VarEmlGrpCode = "";
     var VarStateCode = "";
     $(document).ready(function() {
+            DocModule = "B";
              GetCurrencydata();             
              GetCountrydata();
              GetEmailGroup("EmlGrpCode","Y"); 
@@ -2191,7 +2181,9 @@
                         isValid = true;
                         if(ValidateListData("ListParameters5 tr") )
                         {
-                            isValid = true;
+
+                            if($("#ship_Address").val() != "" && $("#ship_Address").val() != null)
+                                isValid = true;
                             //if(ValidateData("kt_tabs_PaymentTerms"))
                             //{
 
@@ -2206,6 +2198,7 @@
                             isValid = false;
                             $("#TabAddresses").trigger('click');
                             $("#BtnShipTo").trigger('click');
+                            $("#ship_Address").addClass("is-invalid");
 
                         }
                     }
