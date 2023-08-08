@@ -36,9 +36,9 @@
                                 <i class="ki ki-copy icon-sm"></i>Copy To
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnCopyTo" id="btnCopyToOptions" disabled>
-								<a class="dropdown-item" guid="1470000113" url="PurchaseOrder/PurchaseOrderMaster?DocId=">Purchase Order</a>                               
-                                
-                            </div>
+								<a class="dropdown-item" guid="1470000113" url="PurchaseOrder/PurchaseOrderMaster?Source=@Context.Request.Query["Source"]&DocId=">Purchase Order</a>
+
+							</div>
                         </div>
 						<button type="button" class="btn btn-primary font-weight-bolder" id="btnSaveData"> <i class="ki ki-check icon-sm"></i>Update </button> @*
 						<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>*@ @*

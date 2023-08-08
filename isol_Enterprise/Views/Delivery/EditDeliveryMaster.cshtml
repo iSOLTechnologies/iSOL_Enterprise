@@ -36,8 +36,8 @@ Layout = "~/Views/Shared/_Layout.cshtml";
                      <i class="ki ki-copy icon-sm"></i>Copy To
                      </button>
                      <div class="dropdown-menu" aria-labelledby="btnCopyTo" id="btnCopyToOptions" disabled>
-                        <a class="dropdown-item" guid="15" url="Return/ReturnMaster?DocId=">Return</a>
-                        <a class="dropdown-item" guid="15" url="ARInvoice/ARInvoiceMaster?DocId=">AR Invoice</a>
+                        <a class="dropdown-item" guid="15" url="Return/ReturnMaster?Source=@Context.Request.Query["Source"]&DocId=">Return</a>
+                                <a class="dropdown-item" guid="15" url="ARInvoice/ARInvoiceMaster?Source=@Context.Request.Query["Source"]&DocId=">AR Invoice</a>
                      </div>
                   </div>
                   <button type="button" class="btn btn-primary font-weight-bolder" disabled id="btnSaveData">

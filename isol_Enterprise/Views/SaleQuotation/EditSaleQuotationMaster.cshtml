@@ -1245,7 +1245,8 @@
 
             let base = $(this).attr("guid");
             let Docid = $("#my_id").val();
-            window.location.href = '/SaleOrder/SaleOrderMaster?DocId='+Docid+'&BaseType='+base;
+                let Source = "@Context.Request.Query["Source"]";
+                window.location.href = '/SaleOrder/SaleOrderMaster?Source=' + Source + '&DocId='+Docid+'&BaseType='+base;
         
 
     });

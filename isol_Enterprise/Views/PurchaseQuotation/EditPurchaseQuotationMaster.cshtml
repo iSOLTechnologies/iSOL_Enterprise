@@ -41,7 +41,7 @@
                                 <i class="ki ki-copy icon-sm"></i>Copy To
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnCopyTo" id="btnCopyToOptions" disabled>
-                                <a class="dropdown-item" guid="540000006" url="PurchaseOrder/PurchaseOrderMaster?DocId=">Purchase Order</a>
+                                <a class="dropdown-item" guid="540000006" url="PurchaseOrder/PurchaseOrderMaster?Source=@Context.Request.Query["Source"]&DocId=">Purchase Order</a>
                                 
                             </div>
                         </div>
