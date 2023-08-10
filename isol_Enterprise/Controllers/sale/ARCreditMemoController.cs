@@ -26,7 +26,7 @@ namespace iSOL_Enterprise.Controllers
             }
             SalesQuotationDal dal = new SalesQuotationDal();
 			AdministratorDal Adal = new AdministratorDal();
-			ViewBag.GetSeries = Adal.GetSeries(19);
+			ViewBag.GetSeries = Adal.GetSeries(14);
             if (DocId != "" && BaseType != 0)
             {
                 ViewBag.DocId = DocId;
@@ -53,7 +53,7 @@ namespace iSOL_Enterprise.Controllers
             CommonDal cdal = new CommonDal();
             DeliveryDal Ddal = new DeliveryDal();
             AdministratorDal Adal = new AdministratorDal();
-            ViewBag.GetSeries = Adal.GetSeries(19);
+            ViewBag.GetSeries = Adal.GetSeries(14);
             ViewBag.Warehouse = Ddal.GetWareHouseData();
             ViewBag.SalesEmployee = dal.GetSalesEmployee();
             ViewBag.Taxes = dal.GetVatGroupData("S");
